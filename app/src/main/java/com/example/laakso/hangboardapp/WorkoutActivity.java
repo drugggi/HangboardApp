@@ -1,0 +1,221 @@
+package com.example.laakso.hangboardapp;
+
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.os.SystemClock;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Chronometer;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.Scanner;
+
+public class WorkoutActivity extends AppCompatActivity {
+
+    Chronometer totalTimeChrono;
+    Chronometer lapseTimeChrono;
+    ProgressBar hangProgressBar;
+    enum workoutPart {ALKULEPO, WORKOUT, LEPO, PITKALEPO};
+    Button pauseBtn;
+    long pause_time;
+
+    String hold_and_grip;
+    int hang_laps = 6;
+    int routine_laps = 3;
+    workoutPart nowDoing = workoutPart.ALKULEPO;
+    String[] holdsgrips = new String[6];
+
+    long workout_starts_in = 30*1000;
+    long total_workout_time = 68*60*1000;
+    int s = -30;
+
+    // long number_of_hangs = 6*10;
+    // long rest_time_between_hangs = 150*1000;
+    // long rest_time_between_sets = 600*1000;
+
+    int[] time_controls;
+    TextView gradeTextView;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_workout);
+
+        hangProgressBar = (ProgressBar) findViewById(R.id.hangProgressBar);
+        pauseBtn = (Button) findViewById(R.id.pauseBtn);
+        pauseBtn.setText("pause");
+        gradeTextView = (TextView) findViewById(R.id.gradTextView);
+
+        // If Intent has extra information, lets get it
+        if (getIntent().hasExtra("com.example.laakso.hangboardapp.HANGLIST")) {
+           //  TextView gradeTextView = (TextView) findViewById(R.id.gradTextView);
+            hold_and_grip = getIntent().getExtras().getString("com.example.laakso.hangboardapp.HANGLIST");
+
+            Scanner in = new Scanner(hold_and_grip);
+
+            // Lets put hang instruction to String table that will be presented as hangboard program goes on
+            hang_laps = 5;
+            while (in.hasNextLine() && hang_laps > -1) {
+                holdsgrips[hang_laps] = in.nextLine();
+                hang_laps--;
+            }
+            hang_laps = 6;
+
+            // lets put firts instructions to the screen gradeTextView
+            gradeTextView.setText(holdsgrips[hang_laps - 1]);
+        }
+
+        // This Intent brings the time controls to the workout program
+        if (getIntent().hasExtra("com.example.laakso.hangboardapp.TEST")) {
+            time_controls = getIntent().getExtras().getIntArray("com.example.laakso.hangboardapp.TEST");
+
+            Toast.makeText(WorkoutActivity.this, "hangs: " +time_controls[0] + " laps: " + time_controls[1] + " total: " + time_controls[2], Toast.LENGTH_SHORT).show();
+        }
+
+        totalTimeChrono = (Chronometer) findViewById(R.id.totalTimeChrono);
+        totalTimeChrono.setBase(SystemClock.elapsedRealtime() + total_workout_time);
+
+  //      totalTimeChrono.setCountDown(Boolean.TRUE); // This crashes the phone MOTO G3gen 6.0 Marshmellow
+
+        totalTimeChrono.start();
+
+        lapseTimeChrono = (Chronometer) findViewById(R.id.lapseTimeChrono);
+        lapseTimeChrono.setBase(SystemClock.elapsedRealtime() + workout_starts_in);
+        lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
+        lapseTimeChrono.start();
+
+
+        // Lets stop or start chronometer on user input
+        pauseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               // Check if chronometer is active lets stop it and store pause time
+                if ( pauseBtn.getText().equals("pause") ) {
+                    // pause_time = lapseTimeChrono.getBase() - SystemClock.elapsedRealtime();
+                    lapseTimeChrono.stop();
+                    pauseBtn.setText("start");
+
+                }
+                // Chrono meter has been stopped, lets set the basetime when it was stopped
+                else {
+                    pauseBtn.setText("pause");
+                    // lapseTimeChrono.setBase(SystemClock.elapsedRealtime() + pause_time);
+                    lapseTimeChrono.start();
+                }
+
+
+            }
+        });
+
+        final MediaPlayer playSound = MediaPlayer.create(this,R.raw.tick);
+        final MediaPlayer playFinishSound = MediaPlayer.create(this,R.raw.finish_tick);
+
+        // Progress our program for every tick that lapseTimeChrono produces
+        lapseTimeChrono.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+            @Override
+            public void onChronometerTick(Chronometer chronometer) {
+                // long time = SystemClock.elapsedRealtime() - chronometer.getBase();
+                // int s = (int) (time /1000);
+                s++;
+                // String ss = "" + Math.abs(s);
+                lapseTimeChrono.setText("" + Math.abs(s) );
+
+
+                // Every lap we change the text that informs user in what hold to hang on 0-6
+                //if (hang_laps < 7 && hang_laps > 0) {
+                //    gradeTextView.setText(holdsgrips[hang_laps - 1]);
+                // }
+                // If one full hang round (10 seconds) has passed, lets reset the colors and bar
+
+
+
+
+                switch (nowDoing) {
+                    case ALKULEPO:
+                        if (s == -1) {nowDoing = workoutPart.WORKOUT;}
+
+                        break;
+                    case WORKOUT:
+                        if( s == 0 ) {lapseTimeChrono.setText("GO");}
+
+                        // If 59 seconds has passed, it is REST time
+                        if ( s == time_controls[0]-1 ) {
+                            nowDoing = workoutPart.LEPO;
+                            hangProgressBar.setProgress(0);
+                            hang_laps--;
+
+                            if (hang_laps == 0) {nowDoing = workoutPart.PITKALEPO; }
+                            break;
+                        }
+
+                        //If the first digit is less than seven its hanging time and lets indicate
+                        // that putting progressbar and ChronoTimer on color RED
+                        if ((s%10) < 7) {
+                            playSound.start();
+                            hangProgressBar.setProgress(s%10 * 10);
+                            hangProgressBar.setProgressTintList(ColorStateList.valueOf(Color.RED));
+                            lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.RED));
+                        }
+
+                        // If the first digit is 7 it is rest time for three seconds,
+                        else {
+                            if (s%10 == 7) {playFinishSound.start(); }
+                            hangProgressBar.setProgress(s%10 * 10);
+                            hangProgressBar.setProgressTintList(ColorStateList.valueOf(Color.GREEN));
+                            lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
+                        }
+
+                        break;
+                    case LEPO:
+
+                        if (s>20) {
+                            hangProgressBar.setProgress(0);
+                            lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
+                            s = -time_controls[1];
+                            gradeTextView.setText(holdsgrips[hang_laps - 1]);
+                        // lapseTimeChrono.stop();
+                            // set TimeChrono to start minus 10 seconds, 999 to prevent 10->8 seconds jump
+                        // lapseTimeChrono.setBase(SystemClock.elapsedRealtime() + time_controls[1]);
+                            // lapseTimeChrono.setText(ss);
+                        // lapseTimeChrono.start();
+                             }
+
+                        if (s == -1) {nowDoing = workoutPart.WORKOUT;}
+
+                        break;
+                    case PITKALEPO:
+                        if (s>20) {
+                            hang_laps = 6;
+                            hangProgressBar.setProgress(0);
+                            lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
+                            // lapseTimeChrono.setBase(SystemClock.elapsedRealtime() + time_controls[2]);
+                            s = -time_controls[2];
+                            gradeTextView.setText(holdsgrips[hang_laps - 1]);
+                        }
+
+                        if (routine_laps == 1) {
+                            lapseTimeChrono.stop();
+                            totalTimeChrono.stop();
+                        }
+
+                        if (s == -1) {nowDoing = workoutPart.WORKOUT;
+                            routine_laps--;}
+
+                        break;
+
+                }
+
+
+
+            }
+        });
+
+
+    }
+
+}
