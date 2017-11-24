@@ -26,6 +26,9 @@ public class WorkoutActivity extends AppCompatActivity {
     String hold_and_grip;
     int hang_laps = 6;
     int routine_laps = 3;
+    int time_on = 7;
+    int time_off = 3;
+    int time_total = time_on + time_off;
     workoutPart nowDoing = workoutPart.ALKULEPO;
     String[] holdsgrips = new String[6];
 
@@ -68,12 +71,15 @@ public class WorkoutActivity extends AppCompatActivity {
         // This Intent brings the time controls to the workout program
         if (getIntent().hasExtra("com.example.laakso.hangboardapp.TEST")) {
             time_controls = getIntent().getExtras().getIntArray("com.example.laakso.hangboardapp.TEST");
-            total_s = 10*time_controls[0] + 15*time_controls[1] + 2*time_controls[2] -s ;
+            total_s = time_total*time_controls[0] + 15*time_controls[1] + 2*time_controls[2] -s ;
             Toast.makeText(WorkoutActivity.this, "hangs: " + time_controls[0] + " rest_time: " +
                     time_controls[1] + " long_rest: " + time_controls[2] + "total_time: " + total_s, Toast.LENGTH_LONG).show();
 
-        }
+            //  TESTAUSTA VARTEN TIME_CONTROLS 0 SÄÄTÖÄ!!
+            time_controls[0] = time_controls[0] * time_total;
 
+        }
+        Toast.makeText(WorkoutActivity.this, "timeconrol0: " + time_controls[0],Toast.LENGTH_LONG).show();
         totalTimeChrono = (Chronometer) findViewById(R.id.totalTimeChrono);
         totalTimeChrono.setText(""+ Math.abs(total_s));
 
@@ -153,17 +159,17 @@ public class WorkoutActivity extends AppCompatActivity {
 
                         //If the first digit is less than seven its hanging time and lets indicate
                         // that putting progressbar and ChronoTimer on color RED
-                        if ((s%10) < 7) {
+                        if ((s%time_total) < time_on) {
                             playSound.start();
-                            hangProgressBar.setProgress(s%10 * 10);
+                            hangProgressBar.setProgress(( (s%time_total)*100) / time_total);
                             hangProgressBar.setProgressTintList(ColorStateList.valueOf(Color.RED));
                             lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.RED));
                         }
 
                         // If the first digit is 7 it is rest time for three seconds,
                         else {
-                            if (s%10 == 7) {playFinishSound.start(); }
-                            hangProgressBar.setProgress(s%10 * 10);
+                            if (s%time_total == time_on) {playFinishSound.start(); }
+                            hangProgressBar.setProgress(( (s%time_total)*100) / time_total);
                             hangProgressBar.setProgressTintList(ColorStateList.valueOf(Color.GREEN));
                             lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
                         }

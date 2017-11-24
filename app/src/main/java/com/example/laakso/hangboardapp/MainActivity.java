@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Toast.makeText(MainActivity.this, everyGrade.getGrade(3), Toast.LENGTH_SHORT).show();
 
-        time_controls = new int[] {60, 150, 600}; // 60s workout, 150s lepo, 600s pitkä lepo
+        time_controls = new int[] {6, 150, 600}; // 60s workout, 150s lepo, 600s pitkä lepo
         // time_controls = new long[] {6*10, 150*1000, 600*1000};
 
         // Lets use ArrayAdapter to list all the grades in to grades ListView
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
                     try {
                         EditText timeControlEditText = (EditText) findViewById(R.id.hangsEditText);
-                        time_controls[0] = 10 * Integer.parseInt(timeControlEditText.getText().toString());
+                        time_controls[0] =  Integer.parseInt(timeControlEditText.getText().toString());
                         timeControlEditText = (EditText) findViewById(R.id.restTimeEditText);
                         time_controls[1] = Integer.parseInt(timeControlEditText.getText().toString());
                         timeControlEditText = (EditText) findViewById(R.id.longRestEditText);
