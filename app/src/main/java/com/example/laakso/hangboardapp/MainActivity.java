@@ -101,25 +101,32 @@ public class MainActivity extends AppCompatActivity {
                 LinearLayout timeControlsLayout = (LinearLayout) findViewById(R.id.timeControlLayout);
                 ImageView hangboard = (ImageView) findViewById(R.id.hangBoardImageView);
 
-                // THIS NEED SOME IF STATEMENTS TO CHECK IF THE TIME CONTROLS ARE VALID !!!!
-                //  TRY () CATCH {} STATEMENTS PROBABLY
+                // Lets try to set new time parameters, if user has typed proper integers
                 if (timeControlBtn.getText().equals("Set Time Controls") ) {
 
-                    EditText timeControlEditText = (EditText) findViewById(R.id.hangsEditText);
-                    time_controls[0] = 10 * Integer.parseInt(timeControlEditText.getText().toString());
-                    if (time_controls[0] < 0 || time_controls[0] > 100) { time_controls[0] = 60; }
+                    try {
+                        EditText timeControlEditText = (EditText) findViewById(R.id.hangsEditText);
+                        time_controls[0] = 10 * Integer.parseInt(timeControlEditText.getText().toString());
+                        timeControlEditText = (EditText) findViewById(R.id.restTimeEditText);
+                        time_controls[1] = Integer.parseInt(timeControlEditText.getText().toString());
+                        timeControlEditText = (EditText) findViewById(R.id.longRestEditText);
+                        time_controls[2] = Integer.parseInt(timeControlEditText.getText().toString());
 
-                    timeControlEditText = (EditText) findViewById(R.id.restTimeEditText);
-                    time_controls[1] = Integer.parseInt(timeControlEditText.getText().toString());
-                    if (time_controls[1] < 10 || time_controls[1] > 500) { time_controls[1] = 150; }
+                        hangboard.setVisibility(View.VISIBLE);
+                        timeControlsLayout.setVisibility(View.INVISIBLE);
+                        timeControlBtn.setText("Time Controls");
+                    }
+                    catch(NumberFormatException e)  {
+                        Toast.makeText(MainActivity.this,"Fill all the inputs please",Toast.LENGTH_LONG).show();
+                        EditText timeControlEditText = (EditText) findViewById(R.id.hangsEditText);
+                        timeControlEditText.setText("6");
+                        timeControlEditText = (EditText) findViewById(R.id.restTimeEditText);
+                        timeControlEditText.setText("150");
+                        timeControlEditText = (EditText) findViewById(R.id.longRestEditText);
+                        timeControlEditText.setText("600");
+                    }
 
-                    timeControlEditText = (EditText) findViewById(R.id.longRestEditText);
-                    time_controls[2] = Integer.parseInt(timeControlEditText.getText().toString());
-                    if (time_controls[2] < 10 || time_controls[2] > 1000) { time_controls[2] = 600; }
 
-                    hangboard.setVisibility(View.VISIBLE);
-                    timeControlsLayout.setVisibility(View.INVISIBLE);
-                    timeControlBtn.setText("Time Controls");
                 }
 
                 // Time controls has been set, so lets bring back hangboard image again.
