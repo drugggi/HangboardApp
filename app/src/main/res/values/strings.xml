@@ -105,7 +105,7 @@
         <item>60</item>
         <item>150</item>
 
-        <item>0</item>
+        <item>1000</item>
         <item>10</item>
         <item>15</item>
 
@@ -117,7 +117,7 @@
         <item>10</item>
         <item>30</item>
 
-        <item>0</item>
+        <item>1000</item>
         <item>5</item>
         <item>10</item>
 
@@ -133,7 +133,7 @@
         <item>50</item>
         <item>200</item>
 
-        <item>0</item>
+        <item>1000</item>
         <item>30</item>
          <item>50</item>
     </integer-array>

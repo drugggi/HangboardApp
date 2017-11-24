@@ -22,7 +22,6 @@ public class WorkoutActivity extends AppCompatActivity {
     ProgressBar hangProgressBar;
     enum workoutPart {ALKULEPO, WORKOUT, LEPO, PITKALEPO};
     Button pauseBtn;
-    long pause_time;
 
     String hold_and_grip;
     int hang_laps = 6;
@@ -30,13 +29,9 @@ public class WorkoutActivity extends AppCompatActivity {
     workoutPart nowDoing = workoutPart.ALKULEPO;
     String[] holdsgrips = new String[6];
 
-    long workout_starts_in = 30*1000;
-    long total_workout_time = 68*60*1000;
+    int workout_starts_in = 30;
     int s = -30;
-
-    // long number_of_hangs = 6*10;
-    // long rest_time_between_hangs = 150*1000;
-    // long rest_time_between_sets = 600*1000;
+    int total_s = -800;
 
     int[] time_controls;
     TextView gradeTextView;
@@ -73,16 +68,18 @@ public class WorkoutActivity extends AppCompatActivity {
         // This Intent brings the time controls to the workout program
         if (getIntent().hasExtra("com.example.laakso.hangboardapp.TEST")) {
             time_controls = getIntent().getExtras().getIntArray("com.example.laakso.hangboardapp.TEST");
+            total_s = 10*time_controls[0] + 15*time_controls[1] + 2*time_controls[2] -s ;
+            Toast.makeText(WorkoutActivity.this, "hangs: " + time_controls[0] + " rest_time: " +
+                    time_controls[1] + " long_rest: " + time_controls[2] + "total_time: " + total_s, Toast.LENGTH_LONG).show();
 
-            Toast.makeText(WorkoutActivity.this, "hangs: " +time_controls[0] + " laps: " + time_controls[1] + " total: " + time_controls[2], Toast.LENGTH_SHORT).show();
         }
 
         totalTimeChrono = (Chronometer) findViewById(R.id.totalTimeChrono);
-        totalTimeChrono.setBase(SystemClock.elapsedRealtime() + total_workout_time);
+        totalTimeChrono.setText(""+ Math.abs(total_s));
 
   //      totalTimeChrono.setCountDown(Boolean.TRUE); // This crashes the phone MOTO G3gen 6.0 Marshmellow
 
-        totalTimeChrono.start();
+        // totalTimeChrono.start();
 
         lapseTimeChrono = (Chronometer) findViewById(R.id.lapseTimeChrono);
         lapseTimeChrono.setBase(SystemClock.elapsedRealtime() + workout_starts_in);
@@ -122,9 +119,10 @@ public class WorkoutActivity extends AppCompatActivity {
                 // long time = SystemClock.elapsedRealtime() - chronometer.getBase();
                 // int s = (int) (time /1000);
                 s++;
+                total_s--;
                 // String ss = "" + Math.abs(s);
                 lapseTimeChrono.setText("" + Math.abs(s) );
-
+                totalTimeChrono.setText("Time left: " + total_s);
 
                 // Every lap we change the text that informs user in what hold to hang on 0-6
                 //if (hang_laps < 7 && hang_laps > 0) {

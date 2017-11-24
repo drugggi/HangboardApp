@@ -99,7 +99,8 @@ public class Grips {
                 value = value + (all_hold_values[random_nro].GetHoldValue() + all_hold_values[random_nro_alt].GetHoldValue() )/2;
 
                 // then the grip
-                grips[position] = grips[position] + all_hold_values[random_nro].GetHoldText() + " Alternate v: "+ value + "\n";
+                grips[position] = grips[position] + all_hold_values[random_nro].GetHoldText() + " Alternate. H: "+
+                        (all_hold_values[random_nro].GetHoldValue() + all_hold_values[random_nro_alt].GetHoldValue() )/2 + "\n";
 
 
 
@@ -122,7 +123,8 @@ public class Grips {
                 grips[position] = grips[position] + "hold: " + all_hold_values[random_nro].GetHoldNumber() + " grip: ";
 
                 // then the grip
-                grips[position] = grips[position] + all_hold_values[random_nro].GetHoldText() + " v: "+ value + "\n";
+                grips[position] = grips[position] + all_hold_values[random_nro].GetHoldText() +
+                        " H: " + all_hold_values[random_nro].GetHoldValue() + "\n";
 
             }
             isAlternate = rn.nextBoolean();
@@ -131,7 +133,7 @@ public class Grips {
 
         //kaijutus = all_hold_values[j].GetHoldNumber() + " " + all_hold_values[j].GetHoldText()
         //        + " value: " + all_hold_values[j].GetHoldValue() +  " random nro: "+ random_nro;
-        return " hhee ";
+        return "Total Hardness H: " + value;
     }
 
     private int getHoldNumberWithValue(int min_value, int max_value, HoldValue.grip_type wanted_hold) {
