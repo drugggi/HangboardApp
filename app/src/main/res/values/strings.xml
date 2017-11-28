@@ -20,13 +20,13 @@
             hold: 8 grip: three front\n
             hold: 7 grip: two middle\n
             hold: 10 grip: four finger chisel\n
-            hold: 3 grip: four fingers\n</item>
+            hold: 3 grip: four fingers</item>
         <item>hold: 6 grip: four fingers full crimp\n
             hold: 3 grip: four fingers\n
             hold: 6 grip: four fingers full crimp\n
             hold: 5 grip: three front\n
             hold: 7 grip: two middle\n
-            hold: 10 grip: four finger chisel\n</item>
+            hold: 10 grip: four finger chisel</item>
         <item>hold: 6 grip: four finger crimp\n
             hold: 5 grip: three front\n
             hold: 10 grip: four finger chisel\n
@@ -44,37 +44,37 @@
             hold: 10 grip: four finger chisel\n
             hold: 5 grip: three front\n
             hold: 7 grip: two middle\n
-            hold: 10 grip: four finger chisel\n</item>
+            hold: 10 grip: four finger chisel</item>
         <item>hold: 2/3 grip: four finger alternate\n
             hold: 10 grip: four finger chisel\n
             hold: 5 grip: three front\n
             hold: 7/11 grip: two middle alternate\n
             hold: 6 grip: four finger crimp\n
-            hold: 7 grip: two front\n</item>
+            hold: 7 grip: two front</item>
         <item>hold: 2 grip: four finger \n
             hold: 10 grip: four finger chisel\n
             hold: 5/10 grip: three front alternate\n
             hold: 11 grip: two middle \n
             hold: 10 grip: four finger chisel\n
-            hold: 7 grip: two front\n</item>
+            hold: 7 grip: two front</item>
         <item>hold: 2 grip: four finger \n
             hold: 10 grip: four finger chisel\n
             hold: 10/12 grip: three front alternate\n
             hold: 11 grip: two middle \n
             hold: 10 grip: four finger chisel\n
-            hold: 7 grip: two back\n</item>
+            hold: 7 grip: two back</item>
         <item>hold: 2 grip: four finger \n
             hold: 4/10 four fingers alternate\n
             hold: 10/12 grip three front alternate\n
             hold: 11 grip: two middle \n
             hold: 4/10 four fingers fullcrimp alternate\n
-            hold: 7 grip: 2 back\n</item>
+            hold: 7 grip: 2 back</item>
         <item>hold: 2 grip: four finger \n
             hold: 4/10 four fingers halfcrimp alternate\n
             hold: 10/12 grip three front alternate\n
             hold: 11 grip: two middle \n
             hold: 4 grip: four fingers\n
-            hold: 7 grip: 2 back\n
+            hold: 7 grip: 2 back
         </item>
     </string-array>
 

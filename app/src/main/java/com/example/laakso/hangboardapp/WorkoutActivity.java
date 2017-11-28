@@ -1,5 +1,6 @@
 package com.example.laakso.hangboardapp;
 
+import android.content.pm.ActivityInfo;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.media.MediaPlayer;
@@ -43,6 +44,7 @@ public class WorkoutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         hangProgressBar = (ProgressBar) findViewById(R.id.hangProgressBar);
         pauseBtn = (Button) findViewById(R.id.pauseBtn);

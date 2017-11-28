@@ -44,28 +44,82 @@
                 android:id="@+id/hangBoardImageView"
                 android:layout_width="match_parent"
                 android:layout_height="110dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="0dp"
+                android:layout_weight="1"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/lauta1000" />
 
             <LinearLayout
-                android:id="@+id/timeControlLayout"
+                android:id="@+id/hangTimeControlLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="-45dp"
+                android:layout_marginTop="-80dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:visibility="invisible">
+
+                <EditText
+                    android:id="@+id/gripAmounEditText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="how many different grips in a lap preferably less than six"
+                    android:inputType="number"
+                    android:text="6 grips" />
+
+                <EditText
+                    android:id="@+id/hangAmountEditText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="number of total hangs in a set"
+                    android:inputType="number"
+                    android:text="6 hangs" />
+
+                <EditText
+                    android:id="@+id/timeONeditText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="In a single set how many seconds to hang"
+                    android:inputType="number"
+                    android:text="7 on" />
+
+                <EditText
+                    android:id="@+id/timeOFFeditText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="in a single set how many seconds to rest"
+                    android:inputType="number"
+                    android:text="3 off" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/restTimeControlLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:layout_weight="1"
                 android:orientation="horizontal"
                 android:paddingTop="0dp"
                 android:visibility="invisible">
 
                 <EditText
-                    android:id="@+id/hangsEditText"
+                    android:id="@+id/lapsAmountEditText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:hint="number of 10s laps"
-                    android:inputType="number" />
+                    android:hint="number of total laps"
+                    android:inputType="number"
+                    android:text="3 laps" />
 
                 <EditText
                     android:id="@+id/restTimeEditText"
@@ -73,8 +127,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:hint="rest time"
-                    android:inputType="number" />
+                    android:hint="rest time between different grips"
+                    android:inputType="number"
+                    android:text="150 rest time" />
 
                 <EditText
                     android:id="@+id/longRestEditText"
@@ -82,8 +137,10 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:hint="long rest time"
-                    android:inputType="number" />
+                    android:hint="long rest time between laps"
+                    android:inputType="number"
+                    android:text="600 long rest" />
+
             </LinearLayout>
 
             <TextView
@@ -94,7 +151,9 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="0dp"
-                android:text="holds and grip types used in given training program"
+                android:layout_weight="1"
+                android:paddingBottom="0dp"
+                android:text="Grips and holds in a give program"
                 android:textAlignment="center"
                 android:textSize="12sp"
                 android:visibility="visible"
@@ -106,9 +165,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:orientation="horizontal">
+                android:layout_marginEnd="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_weight="-1"
+                android:gravity="bottom|right"
+                android:orientation="horizontal"
+                android:paddingTop="0dp">
 
                 <Button
                     android:id="@+id/timeControlBtn"

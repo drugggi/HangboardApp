@@ -98,14 +98,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 // Pops the controls over the Hangboard image
-                LinearLayout timeControlsLayout = (LinearLayout) findViewById(R.id.timeControlLayout);
+                LinearLayout timeControlsLayout = (LinearLayout) findViewById(R.id.restTimeControlLayout);
                 ImageView hangboard = (ImageView) findViewById(R.id.hangBoardImageView);
 
                 // Lets try to set new time parameters, if user has typed proper integers
                 if (timeControlBtn.getText().equals("Set Time Controls") ) {
 
                     try {
-                        EditText timeControlEditText = (EditText) findViewById(R.id.hangsEditText);
+                        EditText timeControlEditText = (EditText) findViewById(R.id.lapsAmountEditText);
                         time_controls[0] =  Integer.parseInt(timeControlEditText.getText().toString());
                         timeControlEditText = (EditText) findViewById(R.id.restTimeEditText);
                         time_controls[1] = Integer.parseInt(timeControlEditText.getText().toString());
@@ -114,11 +114,21 @@ public class MainActivity extends AppCompatActivity {
 
                         hangboard.setVisibility(View.VISIBLE);
                         timeControlsLayout.setVisibility(View.INVISIBLE);
+                        timeControlsLayout = (LinearLayout) findViewById(R.id.hangTimeControlLayout);
+                        timeControlsLayout.setVisibility(View.INVISIBLE);
                         timeControlBtn.setText("Time Controls");
                     }
                     catch(NumberFormatException e)  {
                         Toast.makeText(MainActivity.this,"Fill all the inputs please",Toast.LENGTH_LONG).show();
-                        EditText timeControlEditText = (EditText) findViewById(R.id.hangsEditText);
+                        EditText timeControlEditText = (EditText) findViewById(R.id.gripAmounEditText);
+                        timeControlEditText.setText("6");
+                        timeControlEditText = (EditText) findViewById(R.id.hangAmountEditText);
+                        timeControlEditText.setText("6");
+                        timeControlEditText = (EditText) findViewById(R.id.timeONeditText);
+                        timeControlEditText.setText("7");
+                        timeControlEditText = (EditText) findViewById(R.id.timeOFFeditText);
+                        timeControlEditText.setText("3");
+                        timeControlEditText = (EditText) findViewById(R.id.lapsAmountEditText);
                         timeControlEditText.setText("6");
                         timeControlEditText = (EditText) findViewById(R.id.restTimeEditText);
                         timeControlEditText.setText("150");
@@ -131,6 +141,8 @@ public class MainActivity extends AppCompatActivity {
 
                 // Time controls has been set, so lets bring back hangboard image again.
                 else {
+                    timeControlsLayout.setVisibility(View.VISIBLE);
+                    timeControlsLayout = (LinearLayout) findViewById(R.id.hangTimeControlLayout);
                     timeControlsLayout.setVisibility(View.VISIBLE);
                     hangboard.setVisibility(View.INVISIBLE);
                     timeControlBtn.setText("Set Time Controls");
