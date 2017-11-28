@@ -39,10 +39,9 @@ public class MainActivity extends AppCompatActivity {
         everyGrade = new Grips(res);
         everyGrade.InitializeHolds(res);
 
-        // Toast.makeText(MainActivity.this, everyGrade.getGrade(3), Toast.LENGTH_SHORT).show();
+        // 6 sets, 6 rounds  of 7on 3 off, 6 laps 150s rests, 600s long rest
+        time_controls = new int[] {6, 6, 7 ,3 , 3, 150, 600};
 
-        time_controls = new int[] {6, 150, 600}; // 60s workout, 150s lepo, 600s pitkä lepo
-        // time_controls = new long[] {6*10, 150*1000, 600*1000};
 
         // Lets use ArrayAdapter to list all the grades in to grades ListView
         gradesListView = (ListView) findViewById(R.id.gradeListView);
@@ -105,12 +104,21 @@ public class MainActivity extends AppCompatActivity {
                 if (timeControlBtn.getText().equals("Set Time Controls") ) {
 
                     try {
-                        EditText timeControlEditText = (EditText) findViewById(R.id.lapsAmountEditText);
-                        time_controls[0] =  Integer.parseInt(timeControlEditText.getText().toString());
-                        timeControlEditText = (EditText) findViewById(R.id.restTimeEditText);
+                        EditText timeControlEditText = (EditText) findViewById(R.id.gripAmounEditText);
+                        time_controls[0] = Integer.parseInt(timeControlEditText.getText().toString());
+                        timeControlEditText = (EditText) findViewById(R.id.hangAmountEditText);
                         time_controls[1] = Integer.parseInt(timeControlEditText.getText().toString());
-                        timeControlEditText = (EditText) findViewById(R.id.longRestEditText);
+                        timeControlEditText = (EditText) findViewById(R.id.timeONeditText);
                         time_controls[2] = Integer.parseInt(timeControlEditText.getText().toString());
+                        timeControlEditText = (EditText) findViewById(R.id.timeOFFeditText);
+                        time_controls[3] = Integer.parseInt(timeControlEditText.getText().toString());
+
+                        timeControlEditText = (EditText) findViewById(R.id.lapsAmountEditText);
+                        time_controls[4] =  Integer.parseInt(timeControlEditText.getText().toString());
+                        timeControlEditText = (EditText) findViewById(R.id.restTimeEditText);
+                        time_controls[5] = Integer.parseInt(timeControlEditText.getText().toString());
+                        timeControlEditText = (EditText) findViewById(R.id.longRestEditText);
+                        time_controls[6] = Integer.parseInt(timeControlEditText.getText().toString());
 
                         hangboard.setVisibility(View.VISIBLE);
                         timeControlsLayout.setVisibility(View.INVISIBLE);
@@ -129,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                         timeControlEditText = (EditText) findViewById(R.id.timeOFFeditText);
                         timeControlEditText.setText("3");
                         timeControlEditText = (EditText) findViewById(R.id.lapsAmountEditText);
-                        timeControlEditText.setText("6");
+                        timeControlEditText.setText("3");
                         timeControlEditText = (EditText) findViewById(R.id.restTimeEditText);
                         timeControlEditText.setText("150");
                         timeControlEditText = (EditText) findViewById(R.id.longRestEditText);

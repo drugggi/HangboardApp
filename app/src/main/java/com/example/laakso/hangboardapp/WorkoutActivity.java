@@ -25,11 +25,14 @@ public class WorkoutActivity extends AppCompatActivity {
     Button pauseBtn;
 
     String hold_and_grip;
+    int grip_laps = 6;
     int hang_laps = 6;
     int routine_laps = 3;
     int time_on = 7;
     int time_off = 3;
     int time_total = time_on + time_off;
+    int rest = 150;
+    int long_rest = 600;
     workoutPart nowDoing = workoutPart.ALKULEPO;
     String[] holdsgrips = new String[6];
 
@@ -73,15 +76,27 @@ public class WorkoutActivity extends AppCompatActivity {
         // This Intent brings the time controls to the workout program
         if (getIntent().hasExtra("com.example.laakso.hangboardapp.TEST")) {
             time_controls = getIntent().getExtras().getIntArray("com.example.laakso.hangboardapp.TEST");
-            total_s = time_total*time_controls[0] + 15*time_controls[1] + 2*time_controls[2] -s ;
-            Toast.makeText(WorkoutActivity.this, "hangs: " + time_controls[0] + " rest_time: " +
-                    time_controls[1] + " long_rest: " + time_controls[2] + "total_time: " + total_s, Toast.LENGTH_LONG).show();
+            // total_s = time_total*time_controls[0] + 15*time_controls[1] + 2*time_controls[2] -s ;
 
+
+            grip_laps = time_controls[0];
+            time_on = time_controls[2];
+            time_off = time_controls[3];
+            time_total = time_on + time_off;
+            hang_laps = time_controls[1] * time_total;
+            routine_laps = time_controls[4];
+            rest = time_controls[5];
+            long_rest = time_controls[6];
+            // 6 sets, 6 rounds  of 7on 3 off, 6 laps 150s rests, 600s long rest
             //  TESTAUSTA VARTEN TIME_CONTROLS 0 SÄÄTÖÄ!!
-            time_controls[0] = time_controls[0] * time_total;
+            total_s = workout_starts_in + (hang_laps*grip_laps+(grip_laps - 1)*rest) * routine_laps  + (routine_laps - 1)*long_rest;
+
+            Toast.makeText(WorkoutActivity.this, "grip_laps: " + grip_laps + " time_on: " + time_on +
+                    " time off: " + time_off + " total_time: " + time_total + " hang_laps: " + hang_laps + " routine_laps: " + routine_laps +
+                    " rest: " + rest + " longrest: " + long_rest + " total_time: " + total_s, Toast.LENGTH_LONG).show();
 
         }
-        Toast.makeText(WorkoutActivity.this, "timeconrol0: " + time_controls[0],Toast.LENGTH_LONG).show();
+       // Toast.makeText(WorkoutActivity.this, "timeconrol0: " + time_controls[0],Toast.LENGTH_LONG).show();
         totalTimeChrono = (Chronometer) findViewById(R.id.totalTimeChrono);
         totalTimeChrono.setText(""+ Math.abs(total_s));
 
@@ -124,20 +139,12 @@ public class WorkoutActivity extends AppCompatActivity {
         lapseTimeChrono.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override
             public void onChronometerTick(Chronometer chronometer) {
-                // long time = SystemClock.elapsedRealtime() - chronometer.getBase();
-                // int s = (int) (time /1000);
+
                 s++;
                 total_s--;
                 // String ss = "" + Math.abs(s);
                 lapseTimeChrono.setText("" + Math.abs(s) );
                 totalTimeChrono.setText("Time left: " + total_s);
-
-                // Every lap we change the text that informs user in what hold to hang on 0-6
-                //if (hang_laps < 7 && hang_laps > 0) {
-                //    gradeTextView.setText(holdsgrips[hang_laps - 1]);
-                // }
-                // If one full hang round (10 seconds) has passed, lets reset the colors and bar
-
 
 
 
@@ -150,12 +157,12 @@ public class WorkoutActivity extends AppCompatActivity {
                         if( s == 0 ) {lapseTimeChrono.setText("GO");}
 
                         // If 59 seconds has passed, it is REST time
-                        if ( s == time_controls[0]-1 ) {
+                        if ( s == hang_laps-1 ) {
                             nowDoing = workoutPart.LEPO;
                             hangProgressBar.setProgress(0);
-                            hang_laps--;
+                            grip_laps--;
 
-                            if (hang_laps == 0) {nowDoing = workoutPart.PITKALEPO; }
+                            if (grip_laps == 0) {nowDoing = workoutPart.PITKALEPO; }
                             break;
                         }
 
@@ -179,29 +186,31 @@ public class WorkoutActivity extends AppCompatActivity {
                         break;
                     case LEPO:
 
-                        if (s>20) {
+                        if (s >= hang_laps) {
+                            Toast.makeText(WorkoutActivity.this, "grip_laps: " + grip_laps +
+                                     " hang_laps: " + hang_laps + " routine_laps: " + routine_laps +
+                                    " rest: " + rest + " s: " + s, Toast.LENGTH_LONG).show();
                             hangProgressBar.setProgress(0);
                             lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
-                            s = -time_controls[1];
-                            gradeTextView.setText(holdsgrips[hang_laps - 1]);
-                        // lapseTimeChrono.stop();
-                            // set TimeChrono to start minus 10 seconds, 999 to prevent 10->8 seconds jump
-                        // lapseTimeChrono.setBase(SystemClock.elapsedRealtime() + time_controls[1]);
-                            // lapseTimeChrono.setText(ss);
-                        // lapseTimeChrono.start();
+                            s = -rest;
+                            gradeTextView.setText(holdsgrips[grip_laps - 1]);
                              }
+
 
                         if (s == -1) {nowDoing = workoutPart.WORKOUT;}
 
                         break;
                     case PITKALEPO:
-                        if (s>20) {
-                            hang_laps = 6;
+                        if (s >= hang_laps) {
+                            Toast.makeText(WorkoutActivity.this, "grip_laps: " + grip_laps +
+                                    " hang_laps: " + hang_laps + " routine_laps: " + routine_laps +
+                                    " rest: " + rest + " s: " + s, Toast.LENGTH_LONG).show();
+                            grip_laps = time_controls[0];
                             hangProgressBar.setProgress(0);
                             lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
-                            // lapseTimeChrono.setBase(SystemClock.elapsedRealtime() + time_controls[2]);
-                            s = -time_controls[2];
-                            gradeTextView.setText(holdsgrips[hang_laps - 1]);
+
+                            s = -long_rest;
+                            gradeTextView.setText(holdsgrips[grip_laps - 1]);
                         }
 
                         if (routine_laps == 1) {
