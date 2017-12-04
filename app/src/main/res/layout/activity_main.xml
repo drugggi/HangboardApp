@@ -20,6 +20,18 @@
             android:layout_height="match_parent"
             android:layout_marginStart="4dp"
             android:layout_marginTop="8dp"
+            android:layout_weight="2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </ListView>
+
+        <ListView
+            android:id="@+id/holdsListView"
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
             android:layout_weight="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -30,8 +42,7 @@
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="2
-"
+            android:layout_weight="3"
             android:orientation="vertical"
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
@@ -142,25 +153,6 @@
                     android:text="600 long rest" />
 
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/gripsTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="0dp"
-                android:layout_weight="1"
-                android:paddingBottom="0dp"
-                android:text="Grips and holds in a give program"
-                android:textAlignment="center"
-                android:textSize="12sp"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/startWorkoutBtn"
-                app:layout_constraintStart_toEndOf="@+id/gradeListView"
-                app:layout_constraintTop_toBottomOf="@+id/hangBoardImageView" />
 
             <LinearLayout
                 android:layout_width="match_parent"

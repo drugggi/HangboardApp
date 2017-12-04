@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,8 +21,9 @@ public class MainActivity extends AppCompatActivity {
     Button timeControlBtn;
 
 
-    TextView gripsTextView;
+//    TextView gripsTextView;
     ListView gradesListView;
+    ListView holdsListView;
     int grade_descr_position;
     int[] time_controls;
 
@@ -48,15 +48,19 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<String> gradeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, everyGrade.getGrades());
         gradesListView.setAdapter(gradeAdapter);
 
-        gripsTextView = (TextView) findViewById(R.id.gripsTextView);
+        holdsListView = (ListView) findViewById(R.id.holdsListView);
+        final ArrayAdapter<String> holdsAdapter = new  ArrayAdapter<String>(this, R.layout.mytextview, everyGrade.setGrips(0));
+        holdsListView.setAdapter(holdsAdapter);
 
         // Every time a grade is selected from the list, it show the workout (holds and grips) that it has
         gradesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                    gripsTextView.setText(everyGrade.getGrip(position));
+                // ArrayAdapter<ArrayList<String>> testAdapter = new ArrayAdapter<ArrayList<String>>(MainActivity.this , android.R.layout.simple_list_item_1, everyGrade.getGripsList(grade_descr_position));
                     grade_descr_position = gradesListView.getPositionForView(view);
+                ArrayAdapter<String> holdsAdapter = new  ArrayAdapter<String>(MainActivity.this , R.layout.mytextview , everyGrade.setGrips(grade_descr_position));
+                holdsListView.setAdapter(holdsAdapter);
                    // Toast.makeText(MainActivity.this, ""+ gradesListView.getPositionForView(view), Toast.LENGTH_SHORT).show();
 
             }
@@ -84,7 +88,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 String kaijutus = everyGrade.randomizeGrips(grade_descr_position);
-                gripsTextView.setText(everyGrade.getGrip(grade_descr_position));
+                ArrayAdapter<String> holdsAdapter = new  ArrayAdapter<String>(MainActivity.this , R.layout.mytextview , everyGrade.getGrips());
+                holdsListView.setAdapter(holdsAdapter);
+                // gripsTextView.setText(everyGrade.getGrip(grade_descr_position));
                 Toast.makeText(MainActivity.this, kaijutus,Toast.LENGTH_LONG).show();
 
             }

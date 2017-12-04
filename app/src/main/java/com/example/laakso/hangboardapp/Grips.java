@@ -2,7 +2,10 @@ package com.example.laakso.hangboardapp;
 
 import android.content.res.Resources;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  * Created by Laakso on 16.11.2017.
@@ -12,19 +15,22 @@ public class Grips {
 
     private String[] grips;
     private String[] grades;
-    private String[] grip_types;
+    // private String[] grip_types;
     private HoldValue[] all_hold_values;
+    List<String> holdList;
 
     // Grips constructor takes resources so that it can read all the information neede constructing
     // workout and hangs and grips
     public Grips(Resources res) {
         grips = res.getStringArray(R.array.grips);
         grades = res.getStringArray(R.array.grades);
-        grip_types = res.getStringArray(R.array.grip_type);
+       // grip_types = res.getStringArray(R.array.grip_type);
+        holdList = new ArrayList<String>();
      //   all_hold_values = new HoldValue[12];
     }
 
     public String getGrip(int position) {
+
         return grips[position];
     }
 
@@ -33,8 +39,27 @@ public class Grips {
     }
 
     public String[] getGrips() {
-        return grips;
+        String[] holds = holdList.toArray(new String[holdList.size()]);
+        return holds;
+
     }
+
+    public String[] setGrips(int position) {
+
+        holdList.clear();
+        // List<String> holdList = new ArrayList<String>();
+        Scanner in = new Scanner(grips[position]);
+
+        // Lets put hang instruction to String table that will be presented as hangboard program goes on
+
+        while (in.hasNextLine() ) {
+            holdList.add( in.nextLine() );
+
+        }
+        String[] holds = holdList.toArray(new String[holdList.size()]);
+        return holds;
+    }
+
 
     public String[] getGrades() {
         return grades;
@@ -74,7 +99,7 @@ public class Grips {
         int i=0;
 
         // There is six different grips in a given workout so lets randomize all six of them
-        while (i <6) {
+        while (i < holdList.size() ) {
 
             if (isAlternate) {
 
@@ -102,6 +127,9 @@ public class Grips {
                 grips[position] = grips[position] + all_hold_values[random_nro].GetHoldText() + " Alternate. H: "+
                         (all_hold_values[random_nro].GetHoldValue() + all_hold_values[random_nro_alt].GetHoldValue() )/2 + "\n";
 
+                holdList.set(i, "Hold: " + all_hold_values[random_nro].GetHoldNumber() + "/" + all_hold_values[random_nro_alt].GetHoldNumber() + "\nGrip: " +
+                        all_hold_values[random_nro].GetHoldText() + " Alternate. H: "+
+                                (all_hold_values[random_nro].GetHoldValue() + all_hold_values[random_nro_alt].GetHoldValue() )/2);
 
 
                // kaijutus = kaijutus + " " + all_hold_values[random_nro].GetHoldValue() + "/" + all_hold_values[random_nro_alt].GetHoldValue();
@@ -125,6 +153,9 @@ public class Grips {
                 // then the grip
                 grips[position] = grips[position] + all_hold_values[random_nro].GetHoldText() +
                         " H: " + all_hold_values[random_nro].GetHoldValue() + "\n";
+
+                holdList.set(i, "Hold: " + all_hold_values[random_nro].GetHoldNumber() + "\nGrip: " + all_hold_values[random_nro].GetHoldText() +
+                        " H: " + all_hold_values[random_nro].GetHoldValue() );
 
             }
             isAlternate = rn.nextBoolean();
