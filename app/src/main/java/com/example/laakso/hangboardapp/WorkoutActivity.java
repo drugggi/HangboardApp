@@ -109,7 +109,6 @@ public class WorkoutActivity extends AppCompatActivity {
         lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
         lapseTimeChrono.start();
 
-
         // Lets stop or start chronometer on user input
         pauseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,9 +186,9 @@ public class WorkoutActivity extends AppCompatActivity {
                     case LEPO:
 
                         if (s >= hang_laps) {
-                            Toast.makeText(WorkoutActivity.this, "grip_laps: " + grip_laps +
+                          /*  Toast.makeText(WorkoutActivity.this, "grip_laps: " + grip_laps +
                                      " hang_laps: " + hang_laps + " routine_laps: " + routine_laps +
-                                    " rest: " + rest + " s: " + s, Toast.LENGTH_LONG).show();
+                                    " rest: " + rest + " s: " + s, Toast.LENGTH_LONG).show();*/
                             hangProgressBar.setProgress(0);
                             lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
                             s = -rest;
@@ -202,9 +201,10 @@ public class WorkoutActivity extends AppCompatActivity {
                         break;
                     case PITKALEPO:
                         if (s >= hang_laps) {
+                            /*
                             Toast.makeText(WorkoutActivity.this, "grip_laps: " + grip_laps +
                                     " hang_laps: " + hang_laps + " routine_laps: " + routine_laps +
-                                    " rest: " + rest + " s: " + s, Toast.LENGTH_LONG).show();
+                                    " rest: " + rest + " s: " + s, Toast.LENGTH_LONG).show();*/
                             grip_laps = time_controls[0];
                             hangProgressBar.setProgress(0);
                             lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
