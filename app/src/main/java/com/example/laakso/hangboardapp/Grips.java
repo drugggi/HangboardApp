@@ -13,13 +13,17 @@ import java.util.Scanner;
 
 public class Grips {
 
-    private String[] grips;
     private String[] grades;
     // private String[] grip_types;
+
+    // All possible grip types in a hangboard
     private HoldValue[] all_hold_values;
+
+    // Both has Hold nro and Grip type in a give grade
+    private String[] grips;
     List<String> holdList;
 
-    // Grips constructor takes resources so that it can read all the information neede constructing
+    // Grips constructor takes resources so that it can read all the information needed constructing
     // workout and hangs and grips
     public Grips(Resources res) {
         grips = res.getStringArray(R.array.grips);
@@ -29,21 +33,25 @@ public class Grips {
      //   all_hold_values = new HoldValue[12];
     }
 
+    // Gives long String with holds and grips, position == grade
     public String getGrip(int position) {
 
         return grips[position];
     }
 
+
     public String getGrade(int position) {
         return grades[position];
     }
 
+    // Just converts List of string into Array of Strings
     public String[] getGrips() {
         String[] holds = holdList.toArray(new String[holdList.size()]);
         return holds;
 
     }
 
+    // Sets holdList to match those info in String[] grips
     public String[] setGrips(int position) {
 
         holdList.clear();
@@ -85,16 +93,16 @@ public class Grips {
 
         // Each hold has value which represent how hard it is to hang. The harder the grade
         // the bigger values are needed so that holds are harder enough for the grade
-        if (grades[position].equals("5a")) {min_value =1; max_value = 10; }
-        else if (grades[position].equals("5b")) {min_value =1; max_value = 15; }
-        else if (grades[position].equals("5c")) {min_value =2; max_value = 20; }
-        else if (grades[position].equals("6a")) {min_value =5; max_value = 35; }
-        else if (grades[position].equals("6b")) {min_value =5; max_value = 50; }
-        else if (grades[position].equals("6c")) {min_value =5; max_value = 65; }
-        else if (grades[position].equals("7a")) {min_value =8; max_value = 80; }
-        else if (grades[position].equals("7b")) {min_value =10; max_value = 100; }
-        else if (grades[position].equals("7b+")) {min_value =10; max_value = 150; }
-        else if (grades[position].equals("7c")) {min_value =15; max_value = 200; }
+        if (grades[position].equals("5a")) {min_value =1; max_value = 3; }
+        else if (grades[position].equals("5b")) {min_value =2; max_value = 5; }
+        else if (grades[position].equals("5c")) {min_value =3; max_value = 7; }
+        else if (grades[position].equals("6a")) {min_value =4; max_value = 10; }
+        else if (grades[position].equals("6b")) {min_value =5; max_value = 15; }
+        else if (grades[position].equals("6c")) {min_value =7; max_value = 18; }
+        else if (grades[position].equals("7a")) {min_value =10; max_value = 25; }
+        else if (grades[position].equals("7b")) {min_value =14; max_value = 45; }
+        else if (grades[position].equals("7b+")) {min_value =16; max_value = 55; }
+        else if (grades[position].equals("7c")) {min_value =18; max_value = 120; }
         int value = 0;
         int i=0;
 
@@ -104,18 +112,18 @@ public class Grips {
             if (isAlternate) {
 
                 // Lets search for a holds that max hardness is half the remaining points for a give grade
-                random_nro = getHoldNumberWithValue(min_value, max_value / 2);
-                // And then search for a hold that could be slightly easier or harder than the first one
-                random_nro_alt = getHoldNumberWithValue(min_value/2 , max_value - (max_value/4), all_hold_values[random_nro].grip_style);
+                random_nro = getHoldNumberWithValue(min_value, max_value );
+                // And then search for a hold that could be slightly harder than the first one
+                random_nro_alt = getHoldNumberWithValue(min_value , max_value*4/3, all_hold_values[random_nro].grip_style);
 
                 // Holds should not be the same, it it is lets just find one hold ei jump to else statement
                 if (random_nro == random_nro_alt) { isAlternate = false; continue; }
 
                 // Lets calculate how much points we have left to the next iteration of holds
-                max_value = max_value - (all_hold_values[random_nro].GetHoldValue()+ all_hold_values[random_nro_alt].GetHoldValue() ) / 2;
+                //max_value = max_value - (all_hold_values[random_nro].GetHoldValue()+ all_hold_values[random_nro_alt].GetHoldValue() ) / 2;
 
                 // lets make sure that the hold value meets the bare minimun requirements given the grade
-                if (max_value < 2*min_value) {max_value = 2*min_value; }
+                //if (max_value < 2*min_value) {max_value = 2*min_value; }
 
                 // first is the hold
                 grips[position] = grips[position] + "hold: " + all_hold_values[random_nro].GetHoldNumber()
@@ -128,7 +136,7 @@ public class Grips {
                         (all_hold_values[random_nro].GetHoldValue() + all_hold_values[random_nro_alt].GetHoldValue() )/2 + "\n";
 
                 holdList.set(i, "Hold: " + all_hold_values[random_nro].GetHoldNumber() + "/" + all_hold_values[random_nro_alt].GetHoldNumber() + "\nGrip: " +
-                        all_hold_values[random_nro].GetHoldText() + " Alternate. H: "+
+                        all_hold_values[random_nro].GetHoldText() + " Alternate\n Hardness: "+
                                 (all_hold_values[random_nro].GetHoldValue() + all_hold_values[random_nro_alt].GetHoldValue() )/2);
 
 
@@ -138,11 +146,11 @@ public class Grips {
 
             else {
                 // Lets search for a hold that max hardness is half the remaining points for a give grade
-                random_nro = getHoldNumberWithValue(min_value, max_value/2);
-                max_value = max_value - all_hold_values[random_nro].GetHoldValue();
+                random_nro = getHoldNumberWithValue(min_value, max_value);
+                // max_value = max_value - all_hold_values[random_nro].GetHoldValue();
 
                 // lets make sure that the hold value meets the bare minimun requirements given the grade
-                if (max_value < 2*min_value) {max_value = 2*min_value; }
+                // if (max_value < 2*min_value) {max_value = 2*min_value; }
 
                 value = value + all_hold_values[random_nro].GetHoldValue();
                // kaijutus = kaijutus + " " + all_hold_values[random_nro].GetHoldValue();
@@ -155,7 +163,7 @@ public class Grips {
                         " H: " + all_hold_values[random_nro].GetHoldValue() + "\n";
 
                 holdList.set(i, "Hold: " + all_hold_values[random_nro].GetHoldNumber() + "\nGrip: " + all_hold_values[random_nro].GetHoldText() +
-                        " H: " + all_hold_values[random_nro].GetHoldValue() );
+                        "\nHardness: " + all_hold_values[random_nro].GetHoldValue() );
 
             }
             isAlternate = rn.nextBoolean();
@@ -167,6 +175,8 @@ public class Grips {
         return "Total Hardness H: " + value;
     }
 
+    // MUUTA TUPLAKIERROS HOLDVALUE.SIZE() JOTTA OTETYYPPEJÄ KÄYDÄÄN LÄPI SEN VERRAN MITÄ NIITÄ ON
+    // TALLENNETTU. EIKÄ VAKIO 36 MÄÄRÄ
     private int getHoldNumberWithValue(int min_value, int max_value, HoldValue.grip_type wanted_hold) {
 
         Random rng = new Random();
