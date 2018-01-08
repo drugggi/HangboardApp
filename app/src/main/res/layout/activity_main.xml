@@ -182,7 +182,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|right"
                     android:layout_weight="0"
-                    android:text="Randomize"
+                    android:text="Randomize ALL"
                     android:textAlignment="viewStart" />
 
                 <Button

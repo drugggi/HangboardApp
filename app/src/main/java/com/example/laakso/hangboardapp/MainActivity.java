@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     ListView gradesListView;
     ListView holdsListView;
     int grade_descr_position;
+    int hang_descr_position;
     int[] time_controls;
 
     Grips everyGrade;
@@ -60,7 +61,17 @@ public class MainActivity extends AppCompatActivity {
                 ArrayAdapter<String> holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
                         R.layout.mytextview , everyGrade.setGrips(grade_descr_position));
                 holdsListView.setAdapter(holdsAdapter);
+                randomizeBtn.setText("Randomize ALL");
+                hang_descr_position = 0;
 
+            }
+        });
+
+        holdsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                hang_descr_position = position+1;
+                randomizeBtn.setText("Randomize H:" + (hang_descr_position) );
             }
         });
 
@@ -72,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent workoutIntent = new Intent(getApplicationContext(), WorkoutActivity.class);
                 //How to pass information to another activity, workout hangs and time controls
                 // HANGLIST contains hang descritpions and TEST timecontrols
-                //workoutIntent.putExtra("com.example.laakso.hangboardapp.HANGLIST", everyGrade.getGrip(grade_descr_position));
 
                 workoutIntent.putStringArrayListExtra("com.example.laakso.hangboardapp.HANGLIST", everyGrade.GetGripList() );
                 workoutIntent.putExtra("com.example.laakso.hangboardapp.TIMECONTROLS",time_controls);
@@ -88,7 +98,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String kaijutus = everyGrade.randomizeGrips(grade_descr_position);
+                if ( hang_descr_position == 0 ) {
+                    everyGrade.randomizeGrips(grade_descr_position);
+                }
+                else {
+                    everyGrade.randomizeGrip(grade_descr_position,hang_descr_position-1);
+                }
+
                 ArrayAdapter<String> holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
                         R.layout.mytextview , everyGrade.getGrips());
                 holdsListView.setAdapter(holdsAdapter);

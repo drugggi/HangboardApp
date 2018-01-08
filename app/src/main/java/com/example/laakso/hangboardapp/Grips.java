@@ -65,6 +65,7 @@ public class Grips {
 
         while (in.hasNextLine() ) {
             holdList.add( in.nextLine() );
+            holdList.set(holdList.size()-1,holdList.get(holdList.size()-1).replace("grip","\ngrip") );
 
         }
         String[] holds = holdList.toArray(new String[holdList.size()]);
@@ -78,13 +79,13 @@ public class Grips {
 
     // THIS RANDOMIZER ACTUALLY WORKS QUITE DECENTLY
     // Method randomizeGrips randomizes holds and grips that are used in a workout
-    public String randomizeGrips(int position) {
+    public void randomizeGrips(int position) {
 
         // Random generator that is only used if we are using the same hold or alternating between holds
         Random rn = new Random();
         boolean isAlternate = rn.nextBoolean();
 
-        grips[position] = "";
+        // grips[position] = "";
 
         // these ints will be randomized and those represents holds in all_hold_values array
         int random_nro;
@@ -122,12 +123,7 @@ public class Grips {
                 // Holds should not be the same, if it is lets just find one hold ie. jump to else statement
                 if (random_nro == random_nro_alt) { isAlternate = false; continue; }
 
-                // Lets calculate how much points we have left to the next iteration of holds
-                //max_value = max_value - (all_hold_values[random_nro].GetHoldValue()+ all_hold_values[random_nro_alt].GetHoldValue() ) / 2;
-
-                // lets make sure that the hold value meets the bare minimun requirements given the grade
-                //if (max_value < 2*min_value) {max_value = 2*min_value; }
-
+/*
                 // first is the hold
                 grips[position] = grips[position] + "hold: " + all_hold_values[random_nro].GetHoldNumber()
                         + "/" + all_hold_values[random_nro_alt].GetHoldNumber() + " grip: ";
@@ -137,34 +133,29 @@ public class Grips {
                 // then the grip
                 grips[position] = grips[position] + all_hold_values[random_nro].GetHoldText() + " Alternate. H: "+
                         (all_hold_values[random_nro].GetHoldValue() + all_hold_values[random_nro_alt].GetHoldValue() )/2 + "\n";
+*/
 
                 holdList.set(i, "HOLD: " + all_hold_values[random_nro].GetHoldNumber() + "/" + all_hold_values[random_nro_alt].GetHoldNumber() + "\nGRIP: " +
                         all_hold_values[random_nro].GetHoldText() + " alternate\n Difficulty: "+
                                 (all_hold_values[random_nro].GetHoldValue() + all_hold_values[random_nro_alt].GetHoldValue() )/2);
 
 
-               // kaijutus = kaijutus + " " + all_hold_values[random_nro].GetHoldValue() + "/" + all_hold_values[random_nro_alt].GetHoldValue();
 
             }
 
             else {
                 // Lets search for a hold that max hardness is half the remaining points for a give grade
                 random_nro = getHoldNumberWithValue(min_value, max_value);
-                // max_value = max_value - all_hold_values[random_nro].GetHoldValue();
-
-                // lets make sure that the hold value meets the bare minimun requirements given the grade
-                // if (max_value < 2*min_value) {max_value = 2*min_value; }
 
                 value = value + all_hold_values[random_nro].GetHoldValue();
-               // kaijutus = kaijutus + " " + all_hold_values[random_nro].GetHoldValue();
-
+/*
                 // first is the hold
                 grips[position] = grips[position] + "hold: " + all_hold_values[random_nro].GetHoldNumber() + " grip: ";
 
                 // then the grip
                 grips[position] = grips[position] + all_hold_values[random_nro].GetHoldText() +
                         " H: " + all_hold_values[random_nro].GetHoldValue() + "\n";
-
+*/
                 holdList.set(i, "HOLD: " + all_hold_values[random_nro].GetHoldNumber() + "\nGRIP: " + all_hold_values[random_nro].GetHoldText() +
                         "\nDifficulty: " + all_hold_values[random_nro].GetHoldValue() );
 
@@ -175,8 +166,68 @@ public class Grips {
 
         //kaijutus = all_hold_values[j].GetHoldNumber() + " " + all_hold_values[j].GetHoldText()
         //        + " value: " + all_hold_values[j].GetHoldValue() +  " random nro: "+ random_nro;
-        return "Total Hardness H: " + value;
+        return;
     }
+
+    public void randomizeGrip(int position, int hold_nro) {
+
+        // Random generator that is only used if we are using the same hold or alternating between holds
+        Random rn = new Random();
+        boolean isAlternate = rn.nextBoolean();
+
+
+        // these ints will be randomized and those represents holds in all_hold_values array
+        int random_nro;
+        int random_nro_alt;
+
+        int min_value=1;
+        int max_value=3;
+
+        // Each hold has value which represent how hard it is to hang. The harder the grade
+        // the bigger values are needed so that holds are harder enough for the grade
+        if (grades[position].equals("5a")) {min_value =1; max_value = 3; }
+        else if (grades[position].equals("5b")) {min_value =2; max_value = 5; }
+        else if (grades[position].equals("5c")) {min_value =3; max_value = 7; }
+        else if (grades[position].equals("6a")) {min_value =4; max_value = 10; }
+        else if (grades[position].equals("6b")) {min_value =5; max_value = 15; }
+        else if (grades[position].equals("6c")) {min_value =7; max_value = 18; }
+        else if (grades[position].equals("7a")) {min_value =9; max_value = 25; }
+        else if (grades[position].equals("7b")) {min_value =14; max_value = 35; }
+        else if (grades[position].equals("7b+")) {min_value =16; max_value = 48; }
+        else if (grades[position].equals("7c")) {min_value =18; max_value = 120; }
+        int value = 0;
+
+        if (isAlternate) {
+
+                // Lets search for a holds that max hardness is half the remaining points for a give grade
+                random_nro = getHoldNumberWithValue(min_value, max_value );
+                // And then search for a hold that could be slightly harder than the first one
+                random_nro_alt = getHoldNumberWithValue(min_value , max_value*2, all_hold_values[random_nro].grip_style);
+
+                // Holds should not be the same, if it is lets make sure next if statement is true
+                if (random_nro == random_nro_alt) { isAlternate = false; }
+
+
+                holdList.set(hold_nro, "HOLD: " + all_hold_values[random_nro].GetHoldNumber() + "/" + all_hold_values[random_nro_alt].GetHoldNumber() + "\nGRIP: " +
+                        all_hold_values[random_nro].GetHoldText() + " alternate\n Difficulty: "+
+                        (all_hold_values[random_nro].GetHoldValue() + all_hold_values[random_nro_alt].GetHoldValue() )/2);
+
+            }
+
+        if ( !isAlternate ) {
+                // Lets search for a hold that max hardness is half the remaining points for a give grade
+                random_nro = getHoldNumberWithValue(min_value, max_value);
+
+                value = value + all_hold_values[random_nro].GetHoldValue();
+
+                holdList.set(hold_nro, "HOLD: " + all_hold_values[random_nro].GetHoldNumber() + "\nGRIP: " + all_hold_values[random_nro].GetHoldText() +
+                        "\nDifficulty: " + all_hold_values[random_nro].GetHoldValue() );
+
+            }
+
+        return;
+    }
+
 
     // MUUTA TUPLAKIERROS HOLDVALUE.SIZE() JOTTA OTETYYPPEJÄ KÄYDÄÄN LÄPI SEN VERRAN MITÄ NIITÄ ON
     // TALLENNETTU. EIKÄ VAKIO 36 MÄÄRÄ
