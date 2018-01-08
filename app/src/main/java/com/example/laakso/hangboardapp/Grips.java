@@ -3,7 +3,6 @@ package com.example.laakso.hangboardapp;
 import android.content.res.Resources;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -21,7 +20,7 @@ public class Grips {
 
     // Both has Hold nro and Grip type in a give grade
     private String[] grips;
-    List<String> holdList;
+    ArrayList<String> holdList;
 
     // Grips constructor takes resources so that it can read all the information needed constructing
     // workout and hangs and grips
@@ -37,6 +36,10 @@ public class Grips {
     public String getGrip(int position) {
 
         return grips[position];
+    }
+
+    public ArrayList<String> GetGripList() {
+        return holdList;
     }
 
 
@@ -74,7 +77,7 @@ public class Grips {
     }
 
     // THIS RANDOMIZER ACTUALLY WORKS QUITE DECENTLY
-    // Method randomizeGrips randomaizes holds and grips that are used in a workout
+    // Method randomizeGrips randomizes holds and grips that are used in a workout
     public String randomizeGrips(int position) {
 
         // Random generator that is only used if we are using the same hold or alternating between holds
@@ -99,14 +102,14 @@ public class Grips {
         else if (grades[position].equals("6a")) {min_value =4; max_value = 10; }
         else if (grades[position].equals("6b")) {min_value =5; max_value = 15; }
         else if (grades[position].equals("6c")) {min_value =7; max_value = 18; }
-        else if (grades[position].equals("7a")) {min_value =10; max_value = 25; }
-        else if (grades[position].equals("7b")) {min_value =14; max_value = 45; }
-        else if (grades[position].equals("7b+")) {min_value =16; max_value = 55; }
+        else if (grades[position].equals("7a")) {min_value =9; max_value = 25; }
+        else if (grades[position].equals("7b")) {min_value =14; max_value = 35; }
+        else if (grades[position].equals("7b+")) {min_value =16; max_value = 48; }
         else if (grades[position].equals("7c")) {min_value =18; max_value = 120; }
         int value = 0;
         int i=0;
 
-        // There is six different grips in a given workout so lets randomize all six of them
+        // There is holdList.size() different grips in a given workout so lets randomize all of them
         while (i < holdList.size() ) {
 
             if (isAlternate) {
@@ -114,9 +117,9 @@ public class Grips {
                 // Lets search for a holds that max hardness is half the remaining points for a give grade
                 random_nro = getHoldNumberWithValue(min_value, max_value );
                 // And then search for a hold that could be slightly harder than the first one
-                random_nro_alt = getHoldNumberWithValue(min_value , max_value*4/3, all_hold_values[random_nro].grip_style);
+                random_nro_alt = getHoldNumberWithValue(min_value , max_value*2, all_hold_values[random_nro].grip_style);
 
-                // Holds should not be the same, it it is lets just find one hold ei jump to else statement
+                // Holds should not be the same, if it is lets just find one hold ie. jump to else statement
                 if (random_nro == random_nro_alt) { isAlternate = false; continue; }
 
                 // Lets calculate how much points we have left to the next iteration of holds
@@ -135,8 +138,8 @@ public class Grips {
                 grips[position] = grips[position] + all_hold_values[random_nro].GetHoldText() + " Alternate. H: "+
                         (all_hold_values[random_nro].GetHoldValue() + all_hold_values[random_nro_alt].GetHoldValue() )/2 + "\n";
 
-                holdList.set(i, "Hold: " + all_hold_values[random_nro].GetHoldNumber() + "/" + all_hold_values[random_nro_alt].GetHoldNumber() + "\nGrip: " +
-                        all_hold_values[random_nro].GetHoldText() + " Alternate\n Hardness: "+
+                holdList.set(i, "HOLD: " + all_hold_values[random_nro].GetHoldNumber() + "/" + all_hold_values[random_nro_alt].GetHoldNumber() + "\nGRIP: " +
+                        all_hold_values[random_nro].GetHoldText() + " alternate\n Difficulty: "+
                                 (all_hold_values[random_nro].GetHoldValue() + all_hold_values[random_nro_alt].GetHoldValue() )/2);
 
 
@@ -162,8 +165,8 @@ public class Grips {
                 grips[position] = grips[position] + all_hold_values[random_nro].GetHoldText() +
                         " H: " + all_hold_values[random_nro].GetHoldValue() + "\n";
 
-                holdList.set(i, "Hold: " + all_hold_values[random_nro].GetHoldNumber() + "\nGrip: " + all_hold_values[random_nro].GetHoldText() +
-                        "\nHardness: " + all_hold_values[random_nro].GetHoldValue() );
+                holdList.set(i, "HOLD: " + all_hold_values[random_nro].GetHoldNumber() + "\nGRIP: " + all_hold_values[random_nro].GetHoldText() +
+                        "\nDifficulty: " + all_hold_values[random_nro].GetHoldValue() );
 
             }
             isAlternate = rn.nextBoolean();

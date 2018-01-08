@@ -7,7 +7,6 @@ package com.example.laakso.hangboardapp;
 public class HoldValue {
     private int hold_number;
     private int hold_value;
-    // private String[] grip_types;
     public enum grip_type {FOUR_FINGER, THREE_FRONT, THREE_BACK, TWO_FRONT, TWO_MIDDLE, TWO_BACK};
     grip_type grip_style;
 
