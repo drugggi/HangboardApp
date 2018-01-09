@@ -51,6 +51,16 @@
             tools:layout_editor_absoluteX="140dp"
             tools:layout_editor_absoluteY="0dp">
 
+            <android.support.v4.view.ViewPager
+                android:id="@+id/view_pager"
+                android:layout_width="wrap_content"
+                android:layout_height="250dp">
+
+            </android.support.v4.view.ViewPager>
+
+
+
+<!--
             <ImageView
                 android:id="@+id/hangBoardImageView"
                 android:layout_width="match_parent"
@@ -61,7 +71,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/lauta1000" />
-
+-->
             <LinearLayout
                 android:id="@+id/hangTimeControlLayout"
                 android:layout_width="wrap_content"

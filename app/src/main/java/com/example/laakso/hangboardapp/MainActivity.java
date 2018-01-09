@@ -3,13 +3,13 @@ package com.example.laakso.hangboardapp;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -20,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
     Button randomizeBtn;
     Button timeControlBtn;
 
+    ViewPager viewPager;
+    CustomSwipeAdapter adapter;
 
     ListView gradesListView;
     ListView holdsListView;
@@ -51,6 +53,11 @@ public class MainActivity extends AppCompatActivity {
         holdsListView = (ListView) findViewById(R.id.holdsListView);
         final ArrayAdapter<String> holdsAdapter = new  ArrayAdapter<String>(this, R.layout.mytextview, everyGrade.setGrips(0));
         holdsListView.setAdapter(holdsAdapter);
+
+
+        viewPager = (ViewPager)findViewById(R.id.view_pager);
+        adapter = new CustomSwipeAdapter(this);
+        viewPager.setAdapter(adapter);
 
         // Every time a grade is selected from the list, it shows the workout (holds and grips) that it has
         gradesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -122,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // Pops the controls over the Hangboard image
                 LinearLayout timeControlsLayout = (LinearLayout) findViewById(R.id.restTimeControlLayout);
-                ImageView hangboard = (ImageView) findViewById(R.id.hangBoardImageView);
+               // ImageView hangboard = (ImageView) findViewById(R.id.hangBoardImageView);
 
                 // Lets try to set new time parameters, if user has typed proper integers
                 if (timeControlBtn.getText().equals("Set Time Controls") ) {
@@ -144,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                         timeControlEditText = (EditText) findViewById(R.id.longRestEditText);
                         time_controls[6] = Integer.parseInt(timeControlEditText.getText().toString());
 
-                        hangboard.setVisibility(View.VISIBLE);
+                       // hangboard.setVisibility(View.VISIBLE);
                         timeControlsLayout.setVisibility(View.INVISIBLE);
                         timeControlsLayout = (LinearLayout) findViewById(R.id.hangTimeControlLayout);
                         timeControlsLayout.setVisibility(View.INVISIBLE);
@@ -176,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
                     timeControlsLayout.setVisibility(View.VISIBLE);
                     timeControlsLayout = (LinearLayout) findViewById(R.id.hangTimeControlLayout);
                     timeControlsLayout.setVisibility(View.VISIBLE);
-                    hangboard.setVisibility(View.INVISIBLE);
+                  //  hangboard.setVisibility(View.INVISIBLE);
                     timeControlBtn.setText("Set Time Controls");
                 }
 
