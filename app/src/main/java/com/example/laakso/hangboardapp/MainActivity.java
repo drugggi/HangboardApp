@@ -54,10 +54,27 @@ public class MainActivity extends AppCompatActivity {
         final ArrayAdapter<String> holdsAdapter = new  ArrayAdapter<String>(this, R.layout.mytextview, everyGrade.setGrips(0));
         holdsListView.setAdapter(holdsAdapter);
 
-
+        // Lets use CustomSwipeAdapter to show different hangboards in a swipeable fashion
         viewPager = (ViewPager)findViewById(R.id.view_pager);
         adapter = new CustomSwipeAdapter(this);
         viewPager.setAdapter(adapter);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+               // Toast.makeText(MainActivity.this,"Hangboard position: " + position,Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Toast.makeText(MainActivity.this,"Hangboard page Selected: " + position,Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                // Toast.makeText(MainActivity.this,"ScrollStateChanged ",Toast.LENGTH_SHORT ).show();
+            }
+        });
 
         // Every time a grade is selected from the list, it shows the workout (holds and grips) that it has
         gradesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

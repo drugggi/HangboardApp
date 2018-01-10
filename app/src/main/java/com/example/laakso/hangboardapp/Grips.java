@@ -13,29 +13,30 @@ import java.util.Scanner;
 public class Grips {
 
     private String[] grades;
-    // private String[] grip_types;
 
     // All possible grip types in a hangboard
     private HoldValue[] all_hold_values;
 
-    // Both has Hold nro and Grip type in a give grade
-    private String[] grips;
+    // starter_grips holds the information of all starting holds and grips of every grade
+    private String[] starter_grips;
+
+    // holdList represents the changeable holds that user will modify and are give to workoutactivity
     ArrayList<String> holdList;
 
     // Grips constructor takes resources so that it can read all the information needed constructing
     // workout and hangs and grips
     public Grips(Resources res) {
-        grips = res.getStringArray(R.array.grips);
+        starter_grips = res.getStringArray(R.array.beastmaker1000);
         grades = res.getStringArray(R.array.grades);
-       // grip_types = res.getStringArray(R.array.grip_type);
+
         holdList = new ArrayList<String>();
-     //   all_hold_values = new HoldValue[12];
+
     }
 
     // Gives long String with holds and grips, position == grade
     public String getGrip(int position) {
 
-        return grips[position];
+        return starter_grips[position];
     }
 
     public ArrayList<String> GetGripList() {
@@ -58,22 +59,38 @@ public class Grips {
     public String[] setGrips(int position) {
 
         holdList.clear();
-        // List<String> holdList = new ArrayList<String>();
-        Scanner in = new Scanner(grips[position]);
+         String[] holds;
 
-        // Lets put hang instruction to String table that will be presented as hangboard program goes on
 
-        while (in.hasNextLine() ) {
-            holdList.add( in.nextLine() );
-            holdList.set(holdList.size()-1,holdList.get(holdList.size()-1).replace("grip","\ngrip") );
 
-        }
-        String[] holds = holdList.toArray(new String[holdList.size()]);
+            if (position >= starter_grips.length) {
+                int i = 0;
+                while (i < 6) {
+                    holdList.add("No Example program available.\n Click Randomize ALL");
+                    ++i;
+                }
+                return holdList.toArray(new String[holdList.size()]);
+            }
+
+            Scanner in = new Scanner(starter_grips[position]);
+
+            // Lets put hang instruction to String table that will be presented as hangboard program goes on
+
+            while (in.hasNextLine()) {
+                holdList.add(in.nextLine());
+                holdList.set(holdList.size() - 1, holdList.get(holdList.size() - 1).replace("grip", "\ngrip"));
+
+            }
+            holds = holdList.toArray(new String[holdList.size()]);
+
+
+
         return holds;
     }
 
 
     public String[] getGrades() {
+
         return grades;
     }
 

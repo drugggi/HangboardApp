@@ -11,11 +11,13 @@ import android.widget.LinearLayout;
 /**
  * Created by Laakso on 9.1.2018.
  */
-
+// CustomSwipeAdapter Creates with the help of PagerAdapter swipeable view of different hangboards
 public class CustomSwipeAdapter extends PagerAdapter {
-    private int[] image_resources = {R.drawable.lauta1011, R.drawable.lauta1000, R.drawable.lauta2000};
+    private int[] image_resources = {R.drawable.lauta1011, R.drawable.lauta2002, R.drawable.trans};
     private Context ctx;
     private LayoutInflater layoutInflater;
+
+    public enum hangnoards {BM1000,BM2000, TRANS};
 
     public CustomSwipeAdapter(Context ctx) {
         this.ctx = ctx;
@@ -40,7 +42,6 @@ public class CustomSwipeAdapter extends PagerAdapter {
         imageView.setImageResource(image_resources[position]);
        // textView.setText("Image: :" + position);
         container.addView(item_view);
-
 
         return item_view;
     }
