@@ -17,7 +17,7 @@ public class CustomSwipeAdapter extends PagerAdapter {
     private Context ctx;
     private LayoutInflater layoutInflater;
 
-    public enum hangnoards {BM1000,BM2000, TRANS};
+    public enum hangboards {BM1000,BM2000, TRANS};
 
     public CustomSwipeAdapter(Context ctx) {
         this.ctx = ctx;

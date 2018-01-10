@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Grips class holds all the information about grades and holds and grips
-        Resources res = getResources();
+        final Resources res = getResources();
         everyGrade = new Grips(res);
         everyGrade.InitializeHolds(res);
 
@@ -65,9 +65,12 @@ public class MainActivity extends AppCompatActivity {
                // Toast.makeText(MainActivity.this,"Hangboard position: " + position,Toast.LENGTH_SHORT).show();
             }
 
+            // WHEN A NEW BOARD IS SWIPED GET NEW STARTING HOLDS AND GRIPS
+            // A LOT OF WORK TO DO STILL RANSOMIZE AND ALL
             @Override
             public void onPageSelected(int position) {
                 Toast.makeText(MainActivity.this,"Hangboard page Selected: " + position,Toast.LENGTH_SHORT).show();
+                everyGrade.NewBoard(res,CustomSwipeAdapter.hangboards.BM2000,position);
             }
 
             @Override

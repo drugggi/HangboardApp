@@ -32,7 +32,17 @@ public class Grips {
         holdList = new ArrayList<String>();
 
     }
+    public void NewBoard(Resources res,CustomSwipeAdapter.hangboards new_board , int position ) {
+        if (position == 0) {
+            starter_grips = res.getStringArray(R.array.beastmaker1000);
+        }
 
+        if (position == 1) {
+            starter_grips = res.getStringArray(R.array.beastmaker2000);
+        }
+        setGrips(0);
+
+    }
     // Gives long String with holds and grips, position == grade
     public String getGrip(int position) {
 
