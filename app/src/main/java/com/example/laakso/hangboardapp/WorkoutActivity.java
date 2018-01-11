@@ -20,6 +20,7 @@ public class WorkoutActivity extends AppCompatActivity {
     Chronometer totalTimeChrono;
     Chronometer lapseTimeChrono;
     ProgressBar hangProgressBar;
+    // ImageView kuva;
     enum workoutPart {ALKULEPO, WORKOUT, LEPO, PITKALEPO};
     Button pauseBtn;
 
@@ -47,6 +48,9 @@ public class WorkoutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+        // kuva = (ImageView) findViewById(R.id.imageView);
+        // kuva.setImageResource(R.drawable.lauta1011);
 
         hangProgressBar = (ProgressBar) findViewById(R.id.hangProgressBar);
         pauseBtn = (Button) findViewById(R.id.pauseBtn);

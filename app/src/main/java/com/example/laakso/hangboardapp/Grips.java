@@ -13,6 +13,7 @@ import java.util.Scanner;
 public class Grips {
 
     private String[] grades;
+    CustomSwipeAdapter.hangboard current_board;
 
     // All possible grip types in a hangboard
     private HoldValue[] all_hold_values;
@@ -28,17 +29,25 @@ public class Grips {
     public Grips(Resources res) {
         starter_grips = res.getStringArray(R.array.beastmaker1000);
         grades = res.getStringArray(R.array.grades);
+        current_board = CustomSwipeAdapter.hangboard.BM1000;
 
         holdList = new ArrayList<String>();
 
     }
-    public void NewBoard(Resources res,CustomSwipeAdapter.hangboards new_board , int position ) {
-        if (position == 0) {
+    public void NewBoard(Resources res,CustomSwipeAdapter.hangboard new_board) {
+        if (CustomSwipeAdapter.hangboard.BM1000 == new_board) {
+            current_board = CustomSwipeAdapter.hangboard.BM1000;
             starter_grips = res.getStringArray(R.array.beastmaker1000);
         }
 
-        if (position == 1) {
+        if (CustomSwipeAdapter.hangboard.BM2000 == new_board) {
+            current_board = CustomSwipeAdapter.hangboard.BM2000;
             starter_grips = res.getStringArray(R.array.beastmaker2000);
+        }
+
+        if (CustomSwipeAdapter.hangboard.TRANS == new_board) {
+            current_board = CustomSwipeAdapter.hangboard.TRANS;
+            starter_grips = res.getStringArray(R.array.trans);
         }
         setGrips(0);
 
@@ -71,8 +80,6 @@ public class Grips {
         holdList.clear();
          String[] holds;
 
-
-
             if (position >= starter_grips.length) {
                 int i = 0;
                 while (i < 6) {
@@ -93,14 +100,11 @@ public class Grips {
             }
             holds = holdList.toArray(new String[holdList.size()]);
 
-
-
         return holds;
     }
 
 
     public String[] getGrades() {
-
         return grades;
     }
 
@@ -119,21 +123,9 @@ public class Grips {
         int random_nro_alt;
         // String kaijutus="";
 
-        int min_value=1;
-        int max_value=3;
+        int min_value=getMinValue(grades[position]);
+        int max_value=getMaxValue(grades[position]);
 
-        // Each hold has value which represent how hard it is to hang. The harder the grade
-        // the bigger values are needed so that holds are harder enough for the grade
-        if (grades[position].equals("5a")) {min_value =1; max_value = 3; }
-        else if (grades[position].equals("5b")) {min_value =2; max_value = 5; }
-        else if (grades[position].equals("5c")) {min_value =3; max_value = 7; }
-        else if (grades[position].equals("6a")) {min_value =4; max_value = 10; }
-        else if (grades[position].equals("6b")) {min_value =5; max_value = 15; }
-        else if (grades[position].equals("6c")) {min_value =7; max_value = 18; }
-        else if (grades[position].equals("7a")) {min_value =9; max_value = 25; }
-        else if (grades[position].equals("7b")) {min_value =14; max_value = 35; }
-        else if (grades[position].equals("7b+")) {min_value =16; max_value = 48; }
-        else if (grades[position].equals("7c")) {min_value =18; max_value = 120; }
         int value = 0;
         int i=0;
 
@@ -150,23 +142,9 @@ public class Grips {
                 // Holds should not be the same, if it is lets just find one hold ie. jump to else statement
                 if (random_nro == random_nro_alt) { isAlternate = false; continue; }
 
-/*
-                // first is the hold
-                grips[position] = grips[position] + "hold: " + all_hold_values[random_nro].GetHoldNumber()
-                        + "/" + all_hold_values[random_nro_alt].GetHoldNumber() + " grip: ";
-
-                value = value + (all_hold_values[random_nro].GetHoldValue() + all_hold_values[random_nro_alt].GetHoldValue() )/2;
-
-                // then the grip
-                grips[position] = grips[position] + all_hold_values[random_nro].GetHoldText() + " Alternate. H: "+
-                        (all_hold_values[random_nro].GetHoldValue() + all_hold_values[random_nro_alt].GetHoldValue() )/2 + "\n";
-*/
-
                 holdList.set(i, "HOLD: " + all_hold_values[random_nro].GetHoldNumber() + "/" + all_hold_values[random_nro_alt].GetHoldNumber() + "\nGRIP: " +
                         all_hold_values[random_nro].GetHoldText() + " alternate\n Difficulty: "+
                                 (all_hold_values[random_nro].GetHoldValue() + all_hold_values[random_nro_alt].GetHoldValue() )/2);
-
-
 
             }
 
@@ -175,14 +153,7 @@ public class Grips {
                 random_nro = getHoldNumberWithValue(min_value, max_value);
 
                 value = value + all_hold_values[random_nro].GetHoldValue();
-/*
-                // first is the hold
-                grips[position] = grips[position] + "hold: " + all_hold_values[random_nro].GetHoldNumber() + " grip: ";
 
-                // then the grip
-                grips[position] = grips[position] + all_hold_values[random_nro].GetHoldText() +
-                        " H: " + all_hold_values[random_nro].GetHoldValue() + "\n";
-*/
                 holdList.set(i, "HOLD: " + all_hold_values[random_nro].GetHoldNumber() + "\nGRIP: " + all_hold_values[random_nro].GetHoldText() +
                         "\nDifficulty: " + all_hold_values[random_nro].GetHoldValue() );
 
@@ -191,10 +162,9 @@ public class Grips {
             ++i;
         }
 
-        //kaijutus = all_hold_values[j].GetHoldNumber() + " " + all_hold_values[j].GetHoldText()
-        //        + " value: " + all_hold_values[j].GetHoldValue() +  " random nro: "+ random_nro;
         return;
     }
+
 
     public void randomizeGrip(int position, int hold_nro) {
 
@@ -202,26 +172,14 @@ public class Grips {
         Random rn = new Random();
         boolean isAlternate = rn.nextBoolean();
 
-
         // these ints will be randomized and those represents holds in all_hold_values array
         int random_nro;
         int random_nro_alt;
 
-        int min_value=1;
-        int max_value=3;
+        // Min and max values of grades which the hold search is based on
+        int min_value=getMinValue(grades[position]);
+        int max_value=getMaxValue(grades[position]);
 
-        // Each hold has value which represent how hard it is to hang. The harder the grade
-        // the bigger values are needed so that holds are harder enough for the grade
-        if (grades[position].equals("5a")) {min_value =1; max_value = 3; }
-        else if (grades[position].equals("5b")) {min_value =2; max_value = 5; }
-        else if (grades[position].equals("5c")) {min_value =3; max_value = 7; }
-        else if (grades[position].equals("6a")) {min_value =4; max_value = 10; }
-        else if (grades[position].equals("6b")) {min_value =5; max_value = 15; }
-        else if (grades[position].equals("6c")) {min_value =7; max_value = 18; }
-        else if (grades[position].equals("7a")) {min_value =9; max_value = 25; }
-        else if (grades[position].equals("7b")) {min_value =14; max_value = 35; }
-        else if (grades[position].equals("7b+")) {min_value =16; max_value = 48; }
-        else if (grades[position].equals("7c")) {min_value =18; max_value = 120; }
         int value = 0;
 
         if (isAlternate) {
@@ -272,7 +230,7 @@ public class Grips {
             ++tuplakierros;
 
             if (search_point == all_hold_values.length) { search_point = 0; }
-            if (tuplakierros > 36) {return 0;}
+            if (tuplakierros > all_hold_values.length) {return 0;}
         }
         return search_point;
     }
@@ -282,40 +240,177 @@ public class Grips {
         int search_point = rng.nextInt(all_hold_values.length);
         int tuplakierros = 0;
 
+        // Search as long as hold is between wanted grade values and not a single hold
+        // Starting point is random and will set to 0 when all_hold_value array ends
         while ( all_hold_values[search_point].GetHoldValue() < min_value ||
                 all_hold_values[search_point].GetHoldValue() > max_value ||
-                all_hold_values[search_point].GetHoldNumber() == 9) {
+                all_hold_values[search_point].isSingleHold() ) {
 
             ++search_point;
             ++tuplakierros;
             if (search_point == all_hold_values.length) { search_point = 0; }
-            if (tuplakierros > 36) {return 0;}
+            if (tuplakierros > all_hold_values.length) {return 0;}
         }
         return search_point;
     }
 
     public void InitializeHolds(Resources res) {
-
         int position = 0;
-        int[] arvot = res.getIntArray(R.array.grip_values);
-        all_hold_values = new HoldValue[arvot.length];
+
+        if (current_board == CustomSwipeAdapter.hangboard.BM1000) {
+
+            int[] arvot = res.getIntArray(R.array.grip_values_bm1000);
+            all_hold_values = new HoldValue[arvot.length];
 
 
-        while ( position < arvot.length ) {
+            while (position < arvot.length) {
 
-            all_hold_values[position] = new HoldValue((position+3) /3 );
-            all_hold_values[position].SetHoldValue(arvot[position]);
-            if ( position%3 == 0 ) {all_hold_values[position].SetGripType(HoldValue.grip_type.FOUR_FINGER);}
-            if ( position%3 == 1 ) {all_hold_values[position].SetGripType(HoldValue.grip_type.THREE_FRONT);}
-            if ( position%3 == 2 ) {all_hold_values[position].SetGripType(HoldValue.grip_type.THREE_BACK);}
+                // This sets the hold number to match the picture hold number
+                // each hold number consist of three different hanging possibility
+                all_hold_values[position] = new HoldValue((position + 3) / 3);
+                all_hold_values[position].SetHoldValue(arvot[position]);
 
-            if (position == 18 || position == 30) {all_hold_values[position].SetGripType(HoldValue.grip_type.TWO_FRONT);}
-            if (position == 19 || position == 31) {all_hold_values[position].SetGripType(HoldValue.grip_type.TWO_MIDDLE);}
-            if (position == 20 || position == 32) {all_hold_values[position].SetGripType(HoldValue.grip_type.TWO_BACK);}
+                if (all_hold_values[position].getHoldNumber() == 9) {
+                    all_hold_values[position].setAsSingleHold(true);
+                }
 
-            ++position;
+                // These holds are slopers and crimps
+                if (position % 3 == 0) {
+                    all_hold_values[position].SetGripType(HoldValue.grip_type.FOUR_FINGER);
+                }
+                if (position % 3 == 1) {
+                    all_hold_values[position].SetGripType(HoldValue.grip_type.THREE_FRONT);
+                }
+                if (position % 3 == 2) {
+                    all_hold_values[position].SetGripType(HoldValue.grip_type.THREE_BACK);
+                }
+                // these hold are two finger pockets (7 and 11)
+                if (position == 18 || position == 30) {
+                    all_hold_values[position].SetGripType(HoldValue.grip_type.TWO_FRONT);
+                }
+                if (position == 19 || position == 31) {
+                    all_hold_values[position].SetGripType(HoldValue.grip_type.TWO_MIDDLE);
+                }
+                if (position == 20 || position == 32) {
+                    all_hold_values[position].SetGripType(HoldValue.grip_type.TWO_BACK);
+                }
+                ++position;
+            }
         }
 
+        if (current_board == CustomSwipeAdapter.hangboard.BM2000) {
+
+            int[] arvot = res.getIntArray(R.array.grip_values_bm2000);
+            all_hold_values = new HoldValue[arvot.length];
+
+
+            while (position < arvot.length) {
+
+                all_hold_values[position] = new HoldValue((position + 3) / 3);
+                all_hold_values[position].SetHoldValue(arvot[position]);
+
+                if (all_hold_values[position].getHoldNumber() == 4 || all_hold_values[position].getHoldNumber() == 5 ||
+                        all_hold_values[position].getHoldNumber() == 10 || all_hold_values[position].getHoldNumber() == 15) {
+                    all_hold_values[position].setAsSingleHold(true);
+                }
+
+                if (position % 3 == 0) {
+                    all_hold_values[position].SetGripType(HoldValue.grip_type.FOUR_FINGER);
+                }
+                if (position % 3 == 1) {
+                    all_hold_values[position].SetGripType(HoldValue.grip_type.THREE_FRONT);
+                }
+                if (position % 3 == 2) {
+                    all_hold_values[position].SetGripType(HoldValue.grip_type.THREE_BACK);
+                }
+                // these holds are monos (7 and 12)
+                if (position == 18 || position == 33) {
+                    all_hold_values[position].SetGripType(HoldValue.grip_type.INDEX_FINGER);
+                }
+                if (position == 19 || position == 34) {
+                    all_hold_values[position].SetGripType(HoldValue.grip_type.MIDDLE_FINGER);
+                }
+                if (position == 20 || position == 35) {
+                    all_hold_values[position].SetGripType(HoldValue.grip_type.RING_FINGER);
+                }
+
+                // these holds are two finger pockets (8, 9, 13, 14)
+                if (position == 21 || position == 24 || position == 36 || position == 39) {
+                    all_hold_values[position].SetGripType(HoldValue.grip_type.TWO_FRONT);
+                }
+                if (position == 22 || position == 25 || position == 37 || position == 40) {
+                    all_hold_values[position].SetGripType(HoldValue.grip_type.TWO_MIDDLE);
+                }
+                if (position == 23 || position == 26|| position == 38 || position == 41) {
+                    all_hold_values[position].SetGripType(HoldValue.grip_type.TWO_BACK);
+                }
+
+                ++position;
+            }
+        }
+
+        if (current_board == CustomSwipeAdapter.hangboard.TRANS) {
+
+            int[] arvot = res.getIntArray(R.array.grip_values_trans);
+            all_hold_values = new HoldValue[arvot.length];
+
+
+            while (position < arvot.length) {
+
+                all_hold_values[position] = new HoldValue((position + 3) / 3);
+                all_hold_values[position].SetHoldValue(arvot[position]);
+                if (position % 3 == 0) {
+                    all_hold_values[position].SetGripType(HoldValue.grip_type.FOUR_FINGER);
+                }
+                if (position % 3 == 1) {
+                    all_hold_values[position].SetGripType(HoldValue.grip_type.THREE_FRONT);
+                }
+                if (position % 3 == 2) {
+                    all_hold_values[position].SetGripType(HoldValue.grip_type.THREE_BACK);
+                }
+
+                if (position % 3 == 0 && position > 23) {
+                    all_hold_values[position].SetGripType(HoldValue.grip_type.TWO_FRONT);
+                }
+                if (position % 3 == 1 && position > 23) {
+                    all_hold_values[position].SetGripType(HoldValue.grip_type.TWO_MIDDLE);
+                }
+                if (position %3 == 2 && position > 23) {
+                    all_hold_values[position].SetGripType(HoldValue.grip_type.TWO_BACK);
+                }
+
+                ++position;
+            }
+        }
+
+    }
+    private static int getMinValue(String grade) {
+        if (grade.equals("5a")) {return 1;}
+        else if (grade.equals("5b")) {return 2;}
+        else if (grade.equals("5c")) {return 3;}
+        else if (grade.equals("6a")) {return 4;}
+        else if (grade.equals("6b")) {return 5;}
+        else if (grade.equals("6c")) {return 7;}
+        else if (grade.equals("7a")) {return 9;}
+        else if (grade.equals("7b")) {return 14;}
+        else if (grade.equals("7c")) {return 18;}
+        else if (grade.equals("8a")) {return 29;}
+        else if (grade.equals("8b")) {return 49;}
+        return 1;
+    }
+    private static int getMaxValue(String grade) {
+        if (grade.equals("5a")) {return 3;}
+        else if (grade.equals("5b")) {return 5;}
+        else if (grade.equals("5c")) {return 7;}
+        else if (grade.equals("6a")) {return 10;}
+        else if (grade.equals("6b")) {return 15;}
+        else if (grade.equals("6c")) {return 18;}
+        else if (grade.equals("7a")) {return 25;}
+        else if (grade.equals("7b")) {return 35;}
+        else if (grade.equals("7c")) {return 120;}
+        else if (grade.equals("8a")) {return 199;}
+        else if (grade.equals("8b")) {return 499;}
+        return 1;
     }
 
 }

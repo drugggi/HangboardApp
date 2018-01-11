@@ -6,16 +6,26 @@ package com.example.laakso.hangboardapp;
 
 // HoldValue contains the information that a single hang can hold
 public class HoldValue {
+    // Hold number corresponds with the number in hangboard picture
     private int hold_number;
+
+    // hold value tries to measure the difficulty to hang in each hold number with the different grip types
     private int hold_value;
+
+    // grip type describes the fingers used in hanging in a hold
     public enum grip_type {FOUR_FINGER, THREE_FRONT, THREE_BACK, TWO_FRONT, TWO_MIDDLE, TWO_BACK
         ,MIDDLE_FINGER, INDEX_FINGER, RING_FINGER, PINKY_FINGER};
     grip_type grip_style;
 
-    public HoldValue(int number) {
+    // Single holds dont have a pair with same measurements in the hangboard
+    boolean single_hold;
 
+    public HoldValue(int number) {
+        single_hold = false;
         hold_number = number;
     }
+
+
     public int GetHoldNumber() {
         return hold_number;
     }
@@ -24,16 +34,30 @@ public class HoldValue {
         grip_style = fingers;
     }
 
-    public void SetHoldNumber(int number) {
-        hold_number = number;
+
+    public int getHoldNumber() {
+
+        return hold_number;
     }
+
 
     public void SetHoldValue(int value) {
         hold_value = value;
     }
 
+
     public int GetHoldValue() {
         return hold_value;
+    }
+
+
+    public void setAsSingleHold(boolean isit) {
+        single_hold = isit;
+    }
+
+
+    public boolean isSingleHold() {
+        return single_hold;
     }
 
 

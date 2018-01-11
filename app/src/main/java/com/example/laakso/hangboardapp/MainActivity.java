@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
     Grips everyGrade;
 
+    ArrayAdapter<String> holdsAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,8 +53,9 @@ public class MainActivity extends AppCompatActivity {
         gradesListView.setAdapter(gradeAdapter);
 
         holdsListView = (ListView) findViewById(R.id.holdsListView);
-        final ArrayAdapter<String> holdsAdapter = new  ArrayAdapter<String>(this, R.layout.mytextview, everyGrade.setGrips(0));
+        holdsAdapter = new  ArrayAdapter<String>(this, R.layout.mytextview, everyGrade.setGrips(0));
         holdsListView.setAdapter(holdsAdapter);
+
 
         // Lets use CustomSwipeAdapter to show different hangboards in a swipeable fashion
         viewPager = (ViewPager)findViewById(R.id.view_pager);
@@ -70,7 +73,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 Toast.makeText(MainActivity.this,"Hangboard page Selected: " + position,Toast.LENGTH_SHORT).show();
-                everyGrade.NewBoard(res,CustomSwipeAdapter.hangboards.BM2000,position);
+                everyGrade.NewBoard(res,CustomSwipeAdapter.getHangBoard(position));
+                everyGrade.InitializeHolds(res);
+                holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
+                        R.layout.mytextview , everyGrade.setGrips(grade_descr_position));
+
+                holdsListView.setAdapter(holdsAdapter);
+                // holdsAdapter.clear();
+                // holdsAdapter.addAll(everyGrade.getGrips());
+
+                randomizeBtn.setText("Randomize ALL");
+                hang_descr_position = 0;
+
+
+
             }
 
             @Override
@@ -85,15 +101,19 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 grade_descr_position = gradesListView.getPositionForView(view);
-                ArrayAdapter<String> holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
+                holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
                         R.layout.mytextview , everyGrade.setGrips(grade_descr_position));
+
                 holdsListView.setAdapter(holdsAdapter);
+
                 randomizeBtn.setText("Randomize ALL");
                 hang_descr_position = 0;
+
 
             }
         });
 
+        // Everytime a hold is pressed on the holdsList, update to randomize only that hold.
         holdsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

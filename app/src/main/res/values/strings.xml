@@ -10,10 +10,8 @@
         <item>6c</item>
         <item>7a</item>
         <item>7b</item>
-        <item>7b+</item>
         <item>7c</item>
         <item>8a</item>
-        <item>8a+</item>
         <item>8b</item>
     </string-array>
 
@@ -126,32 +124,40 @@
             hold: 2 grip: four fingers\n
             hold: 9/13 grip: two middle alternate\n
             hold: 8 grip: two back</item>
-        <item>hold: 6 grip: four finger crimp\n
-            hold: 52 grip: three front\n
-            hold: 102 grip: four finger chisel\n
-            hold: 7 g2rip: two middle\n
-            hold: 3 gr2ip: four finger\n
-            hold: 10 grip: four finger chisel</item>
-        <item>hold: 2/32 grip: four finger alternate\n
-            hold: 5 grip2: three front\n
-            hold: 6 grip:2 four finger crimp\n
-            hold: 7 grip: 2two front\n
-             hold: 10 grip:2 four finger chisel\n
-            hold: 7 grip: tw2o middle</item>
+        <item>hold: 6/11 grip: four finger half crimp alternate\n
+            hold: 1/3 grip: four fingers alternate\n
+            hold: 4/11 grip: three front alternate\n
+            hold: 13 grip: two middle\n
+            hold: 8 grip: two back\n
+            hold: 9/13 grip: two front alternate</item>
+        <item>hold: 11/15 grip: four finger half crimp alternate\n
+            hold: 1/2 grip: four fingers alternate\n
+            hold: 4/11 grip: three front alternate\n
+            hold: 11 grip: four fingers half crimp\n
+            hold: 13 grip:2 two midlle\n
+            hold: 8 grip: two back</item>
+        <item>hold: 11 grip: four finger half crimp\n
+            hold: 1/2 grip: four fingers alternate\n
+            hold: 11 grip: three front\n
+            hold: 11 grip: four finger half crimp\n
+            hold: 13 grip: two middle\n
+            hold: 9 grip2: two back</item>
         <item>hold: 11 grip: 3back half crimp\n
             hold: 1 grip: four fingers \n
             hold: 4 grip: three front one arm alternate\n
             hold: 11 grip: three front half crimp\n
             hold: 2 grip: four fingers one arm alternate\n
             hold: 14grip: two middle</item>
-        <item>hold: 2 grip2: four finger \n
-            hold: 10 g21r2ip: four finger chisel\n
-            hold: 5/102 grip: three front alternate\n
-            hold: 11 2grip: two middle \n
-            hold: 10 gr2ip: four finger chisel\n
-            hold: 7 grip2: two front</item>
     </string-array>
 
+    <string-array name="trans">
+        <item>No Example program available. Click Randomize ALL\n
+            No Example program available. Click Randomize ALL\n
+            No Example program available. Click Randomize ALL\n
+            No Example program available. Click Randomize ALL\n
+            No Example program available. Click Randomize ALL\n
+            No Example program available. Click Randomize ALL</item>
+    </string-array>
 <!--
     <string-array name="grip_type">
         <item>four finger</item>
@@ -163,13 +169,13 @@
         <item>two back</item>
     </string-array>
 -->
-    <integer-array name="grip_values">
+    <integer-array name="grip_values_bm1000">
         <item>1</item>
-        <item>2</item>
+        <item>2</item>  <!--1 jug -->
         <item>3</item>
 
         <item>23</item>
-        <item>70</item>
+        <item>70</item>  <!--2 slopers angle 35-->
         <item>75</item>
 
         <item>3</item>
@@ -177,7 +183,7 @@
         <item>8</item>
 
         <item>18</item>
-        <item>50</item>
+        <item>50</item>  <!--4 crimp 10-12mm -->
         <item>60</item>
 
         <item>1000</item>
@@ -185,11 +191,11 @@
         <item>15</item>
 
         <item>2</item>
-        <item>5</item>
+        <item>5</item>  <!--6 crimp 40mm -->
         <item>8</item>
 
         <item>14</item>
-        <item>9</item>
+        <item>9</item>  <!--7 poket 45mm -->
         <item>40</item>
 
         <item>1000</item>
@@ -197,7 +203,7 @@
         <item>6</item>
 
         <item>2</item>
-        <item>4</item>
+        <item>4</item>  <!--9 middle crimp 48mm -->
         <item>7</item>
 
         <item>10</item>
@@ -205,13 +211,150 @@
         <item>20</item>
 
         <item>55</item>
-        <item>33</item>
+        <item>33</item> <!--11 two finger 20mm -->
         <item>100</item>
 
         <item>1000</item>
-        <item>17</item>
+        <item>17</item> <!--2 three finger 15mm -->
          <item>19</item>
     </integer-array>
+
+    <integer-array name="grip_values_bm2000">
+        <item>99</item>
+        <item>1000</item> <!--1 slopers -->
+        <item>1000</item>
+
+        <item>23</item>
+        <item>70</item>
+        <item>75</item>
+
+        <item>3</item>
+        <item>12</item> <!--1 slope angle 20-->
+        <item>8</item>
+
+        <item>1000</item>
+        <item>13</item>  <!--4. 3 finger 40mm -->
+        <item>15</item>
+
+        <item>1000</item>
+        <item>17</item>    <!--5. 3 finger 20mm -->
+        <item>19</item>
+
+        <item>2</item>
+        <item>5</item>        <!--6. crimp 33mm -->
+        <item>8</item>
+
+        <item>79</item>
+        <item>189</item>      <!--7. mono  50mm -->
+        <item>250</item>
+
+        <item>14</item>
+        <item>9</item>
+        <item>40</item>
+
+        <item>25</item>
+        <item>18</item>
+        <item>69</item>
+
+        <item>1</item>
+        <item>3</item>     <!--10. middle crimp 50mm -->
+        <item>4</item>
+
+        <item>10</item>
+        <item>22</item>      <!--11. crimp 15mm -->
+        <item>20</item>
+
+        <item>300</item>
+        <item>250</item>    <!--12. mono 25mm-->
+        <item>500</item>
+
+        <item>400</item>
+        <item>350</item>    <!--13.  -->
+        <item>700</item>
+
+        <item>500</item>
+        <item>450</item>    <!--14. -->
+        <item>800</item>
+
+        <item>6</item>
+        <item>15</item>    <!--15.  middle crimp 23mm-->
+        <item>12</item>
+    </integer-array>
+
+    <integer-array name="grip_values_trans">
+        <item>1</item>
+        <item>2</item> <!--1 jug -->
+        <item>3</item>
+
+        <item>2</item>
+        <item>4</item> <!--2. 18mm  -->
+        <item>6</item>
+
+        <item>3</item>
+        <item>7</item> <!--3 14mm-->
+        <item>9</item>
+
+        <item>5</item>
+        <item>11</item>  <!--4. 12mm -->
+        <item>13</item>
+
+        <item>8</item>
+        <item>23</item>    <!--5. 10mm -->
+        <item>26</item>
+
+        <item>14</item>
+        <item>25</item>        <!--6. 9mm -->
+        <item>35</item>
+
+        <item>29</item>
+        <item>189</item>      <!--7. 8m -->
+        <item>250</item>
+
+        <item>49</item>
+        <item>250</item>      <!--8. 7m -->
+        <item>350</item>
+
+        <item>99</item>
+        <item>300</item>     <!--9. 6m -->
+        <item>400</item>
+
+        <item>11</item>
+        <item>9</item> <!--1 two finger jug -->
+        <item>31</item>
+
+        <item>39</item>
+        <item>23</item> <!--2. two finger 18mm  -->
+        <item>49</item>
+
+        <item>76</item>
+        <item>39</item> <!--3 two finger 14mm-->
+        <item>89</item>
+
+        <item>89</item>
+        <item>69</item>  <!--4. two finger 12mm -->
+        <item>150</item>
+
+        <item>159</item>
+        <item>99</item>    <!--5. two finger 10mm -->
+        <item>299</item>
+
+        <item>250</item>
+        <item>149</item>        <!--6. two finger 9mm -->
+        <item>350</item>
+
+        <item>450</item>
+        <item>250</item>      <!--7.  two finger 8m -->
+        <item>650</item>
+
+        <item>1000</item>
+        <item>1000</item>      <!--8.  two finger 7m -->
+        <item>1000</item>
+
+        <item>1000</item>
+        <item>1000</item>     <!--9. two finger 6m -->
+        <item>1000</item>
+    </integer-array>
+
     <!--
         <integer-array name="grip_values1">
             <item>1</item>
