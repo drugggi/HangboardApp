@@ -10,7 +10,7 @@ import java.util.Scanner;
  * Created by Laakso on 16.11.2017.
  */
 
-public class Grips {
+public class HangBoard {
 
     private String[] grades;
     CustomSwipeAdapter.hangboard current_board;
@@ -26,7 +26,7 @@ public class Grips {
 
     // Grips constructor takes resources so that it can read all the information needed constructing
     // workout and hangs and grips
-    public Grips(Resources res) {
+    public HangBoard(Resources res) {
         starter_grips = res.getStringArray(R.array.beastmaker1000);
         grades = res.getStringArray(R.array.grades);
         current_board = CustomSwipeAdapter.hangboard.BM1000;

@@ -29,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
     int hang_descr_position;
     int[] time_controls;
 
-    Grips everyGrade;
+    HangBoard everyBoard;
+    TimeControls timeControls;
 
     ArrayAdapter<String> holdsAdapter;
 
@@ -38,22 +39,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Grips class holds all the information about grades and holds and grips
+        // HangBoard class holds all the information about grades and holds and grips
         final Resources res = getResources();
-        everyGrade = new Grips(res);
-        everyGrade.InitializeHolds(res);
+        everyBoard = new HangBoard(res);
+        everyBoard.InitializeHolds(res);
 
         // 6 sets, 6 rounds  of 7on 3 off, 6 laps 150s rests, 600s long rest
         time_controls = new int[] {6, 6, 7 ,3 , 3, 150, 600};
+        timeControls = new TimeControls();
 
+        int[] huh = timeControls.getTimeControlsIntArray();
+        timeControls.setTimeControls(huh);
+
+        Toast.makeText(MainActivity.this," " + timeControls.getHangLaps() + timeControls.getGripLaps() +
+        timeControls.getTimeON() + timeControls.getTimeOFF() + timeControls.getRoutineLaps() + timeControls.getRestTime() +
+                timeControls.getLongRestTime(), Toast.LENGTH_LONG).show();
 
         // Lets use ArrayAdapter to list all the grades in to grades ListView
         gradesListView = (ListView) findViewById(R.id.gradeListView);
-        ArrayAdapter<String> gradeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, everyGrade.getGrades());
+        ArrayAdapter<String> gradeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, everyBoard.getGrades());
         gradesListView.setAdapter(gradeAdapter);
 
         holdsListView = (ListView) findViewById(R.id.holdsListView);
-        holdsAdapter = new  ArrayAdapter<String>(this, R.layout.mytextview, everyGrade.setGrips(0));
+        holdsAdapter = new  ArrayAdapter<String>(this, R.layout.mytextview, everyBoard.setGrips(0));
         holdsListView.setAdapter(holdsAdapter);
 
 
@@ -73,19 +81,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 Toast.makeText(MainActivity.this,"Hangboard page Selected: " + position,Toast.LENGTH_SHORT).show();
-                everyGrade.NewBoard(res,CustomSwipeAdapter.getHangBoard(position));
-                everyGrade.InitializeHolds(res);
+                everyBoard.NewBoard(res,CustomSwipeAdapter.getHangBoard(position));
+                everyBoard.InitializeHolds(res);
                 holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
-                        R.layout.mytextview , everyGrade.setGrips(grade_descr_position));
+                        R.layout.mytextview , everyBoard.setGrips(grade_descr_position));
 
                 holdsListView.setAdapter(holdsAdapter);
                 // holdsAdapter.clear();
-                // holdsAdapter.addAll(everyGrade.getGrips());
+                // holdsAdapter.addAll(everyBoard.getGrips());
 
                 randomizeBtn.setText("Randomize ALL");
                 hang_descr_position = 0;
 
-
+                Toast.makeText(MainActivity.this," " + timeControls.getHangLaps() +" " +  timeControls.getGripLaps() +
+                        timeControls.getTimeON() + timeControls.getTimeOFF() + timeControls.getRoutineLaps() + timeControls.getRestTime() +
+                        timeControls.getLongRestTime(), Toast.LENGTH_LONG).show();
 
             }
 
@@ -102,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
                 grade_descr_position = gradesListView.getPositionForView(view);
                 holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
-                        R.layout.mytextview , everyGrade.setGrips(grade_descr_position));
+                        R.layout.mytextview , everyBoard.setGrips(grade_descr_position));
 
                 holdsListView.setAdapter(holdsAdapter);
 
@@ -131,8 +141,8 @@ public class MainActivity extends AppCompatActivity {
                 //How to pass information to another activity, workout hangs and time controls
                 // HANGLIST contains hang descritpions and TEST timecontrols
 
-                workoutIntent.putStringArrayListExtra("com.example.laakso.hangboardapp.HANGLIST", everyGrade.GetGripList() );
-                workoutIntent.putExtra("com.example.laakso.hangboardapp.TIMECONTROLS",time_controls);
+                workoutIntent.putStringArrayListExtra("com.example.laakso.hangboardapp.HANGLIST", everyBoard.GetGripList() );
+                workoutIntent.putExtra("com.example.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
                 startActivity(workoutIntent);
 
             }
@@ -146,16 +156,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if ( hang_descr_position == 0 ) {
-                    everyGrade.randomizeGrips(grade_descr_position);
+                    everyBoard.randomizeGrips(grade_descr_position);
                 }
                 else {
-                    everyGrade.randomizeGrip(grade_descr_position,hang_descr_position-1);
+                    everyBoard.randomizeGrip(grade_descr_position,hang_descr_position-1);
                 }
 
                 ArrayAdapter<String> holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
-                        R.layout.mytextview , everyGrade.getGrips());
+                        R.layout.mytextview , everyBoard.getGrips());
                 holdsListView.setAdapter(holdsAdapter);
-                // gripsTextView.setText(everyGrade.getGrip(grade_descr_position));
+                // gripsTextView.setText(everyBoard.getGrip(grade_descr_position));
                // Toast.makeText(MainActivity.this, kaijutus,Toast.LENGTH_LONG).show();
 
             }

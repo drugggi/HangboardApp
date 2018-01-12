@@ -24,7 +24,9 @@ public class WorkoutActivity extends AppCompatActivity {
     enum workoutPart {ALKULEPO, WORKOUT, LEPO, PITKALEPO};
     Button pauseBtn;
 
-    String hold_and_grip;
+    // String hold_and_grip;
+    TimeControls timeControls;
+    // SHOULD PROBABLY CREATE A DATA CLASS FOR THESE WORKOUT TIME CONTROLS
     int grip_laps = 6;
     int hang_laps = 6;
     int routine_laps = 3;
@@ -62,25 +64,6 @@ public class WorkoutActivity extends AppCompatActivity {
            workoutInfo = new ArrayList<String>();
            workoutInfo = getIntent().getStringArrayListExtra("com.example.laakso.hangboardapp.HANGLIST");
 
-            /*
-            //  TextView gradeTextView = (TextView) findViewById(R.id.gradTextView);
-            hold_and_grip = getIntent().getExtras().getString("com.example.laakso.hangboardapp.HANGLIST");
-
-            Scanner in = new Scanner(hold_and_grip);
-
-            // Lets put hang instruction to String table that will be presented as hangboard program goes on
-            hang_laps = 5;
-            while (in.hasNextLine() && hang_laps > -1) {
-                holdsgrips[hang_laps] = in.nextLine();
-                hang_laps--;
-            }
-            hang_laps = 6;
-
-            // lets put first instructions to the gradeTextView
-
-            gradeTextView.setText(holdsgrips[hang_laps - 1]);
-            */
-
             int i = 0;
             while (i < workoutInfo.size() ) {
                  workoutInfo.set(i, workoutInfo.get(i).replace("\n", " ") );
@@ -96,6 +79,8 @@ public class WorkoutActivity extends AppCompatActivity {
             time_controls = getIntent().getExtras().getIntArray("com.example.laakso.hangboardapp.TIMECONTROLS");
             // total_s = time_total*time_controls[0] + 15*time_controls[1] + 2*time_controls[2] -s ;
 
+            timeControls = new TimeControls();
+            timeControls.setTimeControls(time_controls);
 
             grip_laps = time_controls[0];
             // SECURITY CHECK, WILL MAKE SURE IN FUTURE TO NEVER HAPPEN
@@ -112,9 +97,8 @@ public class WorkoutActivity extends AppCompatActivity {
             //  TESTAUSTA VARTEN TIME_CONTROLS 0 SÄÄTÖÄ!!
             total_s = workout_starts_in + (hang_laps*grip_laps+(grip_laps - 1)*rest) * routine_laps  + (routine_laps - 1)*long_rest;
 
-           /* Toast.makeText(WorkoutActivity.this, "grip_laps: " + grip_laps + " time_on: " + time_on +
-                    " time off: " + time_off + " total_time: " + time_total + " hang_laps: " + hang_laps + " routine_laps: " + routine_laps +
-                    " rest: " + rest + " longrest: " + long_rest + " total_time: " + total_s, Toast.LENGTH_LONG).show();*/
+            grip_laps = timeControls.getGripLaps();
+            total_s = workout_starts_in + timeControls.getTotalTime();
 
         }
        // Toast.makeText(WorkoutActivity.this, "timeconrol0: " + time_controls[0],Toast.LENGTH_LONG).show();
@@ -188,7 +172,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
                         //If the first digit is less than seven its hanging time and lets indicate
                         // that putting progressbar and ChronoTimer on color RED
-                        if ((s%time_total) < time_on) {
+                        if ((s%time_total) < timeControls.getTimeON() ) {
                             playSound.start();
                             hangProgressBar.setProgress(( (s%time_total)*100) / time_total);
                             hangProgressBar.setProgressTintList(ColorStateList.valueOf(Color.RED));
@@ -197,7 +181,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
                         // If the first digit is 7 it is rest time for three seconds,
                         else {
-                            if (s%time_total == time_on) {playFinishSound.start(); }
+                            if (s%time_total == timeControls.getTimeON() ) {playFinishSound.start(); }
                             hangProgressBar.setProgress(( (s%time_total)*100) / time_total);
                             hangProgressBar.setProgressTintList(ColorStateList.valueOf(Color.GREEN));
                             lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
@@ -207,12 +191,11 @@ public class WorkoutActivity extends AppCompatActivity {
                     case LEPO:
 
                         if (s >= hang_laps) {
-                          /*  Toast.makeText(WorkoutActivity.this, "grip_laps: " + grip_laps +
-                                     " hang_laps: " + hang_laps + " routine_laps: " + routine_laps +
-                                    " rest: " + rest + " s: " + s, Toast.LENGTH_LONG).show();*/
+
+
                             hangProgressBar.setProgress(0);
                             lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
-                            s = -rest;
+                            s = -timeControls.getRestTime();
                             // gradeTextView.setText(holdsgrips[grip_laps - 1]);
                             gradeTextView.setText(workoutInfo.get(grip_laps - 1));
                              }
@@ -223,27 +206,25 @@ public class WorkoutActivity extends AppCompatActivity {
                         break;
                     case PITKALEPO:
                         if (s >= hang_laps) {
-                            /*
-                            Toast.makeText(WorkoutActivity.this, "grip_laps: " + grip_laps +
-                                    " hang_laps: " + hang_laps + " routine_laps: " + routine_laps +
-                                    " rest: " + rest + " s: " + s, Toast.LENGTH_LONG).show();*/
-                            grip_laps = time_controls[0];
+
+                            grip_laps = timeControls.getGripLaps();
                             hangProgressBar.setProgress(0);
                             lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
 
-                            s = -long_rest;
+                            s = timeControls.getLongRestTime();
 
                             //gradeTextView.setText(holdsgrips[grip_laps - 1]);
                             gradeTextView.setText(workoutInfo.get(grip_laps - 1));
                         }
 
-                        if (routine_laps == 1) {
+                        if (timeControls.getRoutineLaps() == 1) {
                             lapseTimeChrono.stop();
                             totalTimeChrono.stop();
                         }
 
                         if (s == -1) {nowDoing = workoutPart.WORKOUT;
-                            routine_laps--;}
+                            timeControls.setRoutineLaps(timeControls.getRoutineLaps() - 1);
+                        }
 
                         break;
 
