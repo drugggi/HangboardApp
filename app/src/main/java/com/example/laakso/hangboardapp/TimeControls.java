@@ -4,6 +4,7 @@ package com.example.laakso.hangboardapp;
  * Created by Laakso on 12.1.2018.
  */
 
+// Class TimeControls tries to hide a lot of time control parameters that are kinda confusing to follow
 public class TimeControls {
 
     private int grip_laps=6;
@@ -18,15 +19,15 @@ public class TimeControls {
 
 
     public void TimeControls() {
-        grip_laps = 6;
-        hang_laps = 6;
-        routine_laps = 3;
-        time_on = 7;
-        time_off = 3;
+        this.grip_laps = 6;
+        this.hang_laps = 6;
+        this.routine_laps = 3;
+        this.time_on = 7;
+        this.time_off = 3;
         /// time_total = time_on + time_off;
-        rest = 150;
-        long_rest = 600;
-        hang_laps_seconds = hang_laps * (time_on + time_off);
+        this.rest = 150;
+        this.long_rest = 600;
+        this.hang_laps_seconds = hang_laps * (time_on + time_off);
 
     }
 
@@ -93,6 +94,7 @@ public class TimeControls {
 
     public int getTotalTime() {
         // 0 represents workout starts in time
+        // total_s = workout_starts_in + (hang_laps*grip_laps+(grip_laps - 1)*rest) * routine_laps  + (routine_laps - 1)*long_rest;
         return 0 + (hang_laps_seconds*grip_laps+(grip_laps - 1)*rest) * routine_laps  + (routine_laps - 1)*long_rest;
     }
 
@@ -107,6 +109,7 @@ public class TimeControls {
         routine_laps = time_controls[4];
         rest = time_controls[5];
         long_rest = time_controls[6];
+        hang_laps_seconds = hang_laps*(time_on + time_off);
     }
 
     public int[] getTimeControlsIntArray() {

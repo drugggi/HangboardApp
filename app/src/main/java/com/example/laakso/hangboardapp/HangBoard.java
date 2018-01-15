@@ -52,6 +52,8 @@ public class HangBoard {
         setGrips(0);
 
     }
+
+
     // Gives long String with holds and grips, position == grade
     public String getGrip(int position) {
 
@@ -61,6 +63,7 @@ public class HangBoard {
     public ArrayList<String> GetGripList() {
         return holdList;
     }
+
 
 
     public String getGrade(int position) {
@@ -73,6 +76,7 @@ public class HangBoard {
         return holds;
 
     }
+
 
     // Sets holdList to match those info in String[] grips
     public String[] setGrips(int position) {
@@ -142,7 +146,7 @@ public class HangBoard {
                 // Holds should not be the same, if it is lets just find one hold ie. jump to else statement
                 if (random_nro == random_nro_alt) { isAlternate = false; continue; }
 
-                holdList.set(i, "HOLD: " + all_hold_values[random_nro].GetHoldNumber() + "/" + all_hold_values[random_nro_alt].GetHoldNumber() + "\nGRIP: " +
+                holdList.set(i, i + ". HOLD: " + all_hold_values[random_nro].GetHoldNumber() + "/" + all_hold_values[random_nro_alt].GetHoldNumber() + "\nGRIP: " +
                         all_hold_values[random_nro].GetHoldText() + " alternate\n Difficulty: "+
                                 (all_hold_values[random_nro].GetHoldValue() + all_hold_values[random_nro_alt].GetHoldValue() )/2);
 
@@ -154,7 +158,7 @@ public class HangBoard {
 
                 value = value + all_hold_values[random_nro].GetHoldValue();
 
-                holdList.set(i, "HOLD: " + all_hold_values[random_nro].GetHoldNumber() + "\nGRIP: " + all_hold_values[random_nro].GetHoldText() +
+                holdList.set(i, i + ". HOLD: " + all_hold_values[random_nro].GetHoldNumber() + "\nGRIP: " + all_hold_values[random_nro].GetHoldText() +
                         "\nDifficulty: " + all_hold_values[random_nro].GetHoldValue() );
 
             }
@@ -165,7 +169,7 @@ public class HangBoard {
         return;
     }
 
-
+    // RandomizeGrip method randomizes selected grip instead of all the grips
     public void randomizeGrip(int position, int hold_nro) {
 
         // Random generator that is only used if we are using the same hold or alternating between holds
@@ -192,8 +196,8 @@ public class HangBoard {
                 // Holds should not be the same, if it is lets make sure next if statement is true
                 if (random_nro == random_nro_alt) { isAlternate = false; }
 
-
-                holdList.set(hold_nro, "HOLD: " + all_hold_values[random_nro].GetHoldNumber() + "/" + all_hold_values[random_nro_alt].GetHoldNumber() + "\nGRIP: " +
+                holdList.set(hold_nro, hold_nro + ". HOLD: " + all_hold_values[random_nro].GetHoldNumber() + "/"
+                        + all_hold_values[random_nro_alt].GetHoldNumber() + "\nGRIP: " +
                         all_hold_values[random_nro].GetHoldText() + " alternate\n Difficulty: "+
                         (all_hold_values[random_nro].GetHoldValue() + all_hold_values[random_nro_alt].GetHoldValue() )/2);
 
@@ -205,12 +209,11 @@ public class HangBoard {
 
                 value = value + all_hold_values[random_nro].GetHoldValue();
 
-                holdList.set(hold_nro, "HOLD: " + all_hold_values[random_nro].GetHoldNumber() + "\nGRIP: " + all_hold_values[random_nro].GetHoldText() +
+                holdList.set(hold_nro, hold_nro +  ". HOLD: " + all_hold_values[random_nro].GetHoldNumber() +
+                        "\nGRIP: " + all_hold_values[random_nro].GetHoldText() +
                         "\nDifficulty: " + all_hold_values[random_nro].GetHoldValue() );
 
             }
-
-        return;
     }
 
 
@@ -254,6 +257,8 @@ public class HangBoard {
         return search_point;
     }
 
+    // InitializeHolds method collects from resources all the possible grip, holds and difficulty
+    // in a give hangboard that can be applied in a hangboard workout
     public void InitializeHolds(Resources res) {
         int position = 0;
 

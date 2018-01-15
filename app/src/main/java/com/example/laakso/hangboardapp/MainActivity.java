@@ -45,15 +45,15 @@ public class MainActivity extends AppCompatActivity {
         everyBoard.InitializeHolds(res);
 
         // 6 sets, 6 rounds  of 7on 3 off, 6 laps 150s rests, 600s long rest
-        time_controls = new int[] {6, 6, 7 ,3 , 3, 150, 600};
+
+        // time_controls = new int[] {6, 6, 7 ,3 , 3, 150, 600};
+        time_controls = new int[] {6, 6, 3 ,7 , 3, 150, 600};
         timeControls = new TimeControls();
+        timeControls.setTimeControls(new int[] {6, 6, 3 ,7 , 3, 150, 600});
 
-        int[] huh = timeControls.getTimeControlsIntArray();
-        timeControls.setTimeControls(huh);
-
-        Toast.makeText(MainActivity.this," " + timeControls.getHangLaps() + timeControls.getGripLaps() +
+        /*Toast.makeText(MainActivity.this," " + timeControls.getHangLaps() + timeControls.getGripLaps() +
         timeControls.getTimeON() + timeControls.getTimeOFF() + timeControls.getRoutineLaps() + timeControls.getRestTime() +
-                timeControls.getLongRestTime(), Toast.LENGTH_LONG).show();
+                timeControls.getLongRestTime(), Toast.LENGTH_LONG).show(); */
 
         // Lets use ArrayAdapter to list all the grades in to grades ListView
         gradesListView = (ListView) findViewById(R.id.gradeListView);
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
             // A LOT OF WORK TO DO STILL RANSOMIZE AND ALL
             @Override
             public void onPageSelected(int position) {
-                Toast.makeText(MainActivity.this,"Hangboard page Selected: " + position,Toast.LENGTH_SHORT).show();
+                // Toast.makeText(MainActivity.this,"Hangboard page Selected: " + position,Toast.LENGTH_SHORT).show();
                 everyBoard.NewBoard(res,CustomSwipeAdapter.getHangBoard(position));
                 everyBoard.InitializeHolds(res);
                 holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
@@ -93,9 +93,9 @@ public class MainActivity extends AppCompatActivity {
                 randomizeBtn.setText("Randomize ALL");
                 hang_descr_position = 0;
 
-                Toast.makeText(MainActivity.this," " + timeControls.getHangLaps() +" " +  timeControls.getGripLaps() +
-                        timeControls.getTimeON() + timeControls.getTimeOFF() + timeControls.getRoutineLaps() + timeControls.getRestTime() +
-                        timeControls.getLongRestTime(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(MainActivity.this," " + timeControls.getHangLaps() +" " +  timeControls.getGripLaps() +
+                  //      timeControls.getTimeON() + timeControls.getTimeOFF() + timeControls.getRoutineLaps() + timeControls.getRestTime() +
+                    //    timeControls.getLongRestTime(), Toast.LENGTH_LONG).show();
 
             }
 
@@ -140,7 +140,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent workoutIntent = new Intent(getApplicationContext(), WorkoutActivity.class);
                 //How to pass information to another activity, workout hangs and time controls
                 // HANGLIST contains hang descritpions and TEST timecontrols
-
                 workoutIntent.putStringArrayListExtra("com.example.laakso.hangboardapp.HANGLIST", everyBoard.GetGripList() );
                 workoutIntent.putExtra("com.example.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
                 startActivity(workoutIntent);
