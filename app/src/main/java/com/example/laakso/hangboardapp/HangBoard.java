@@ -59,6 +59,11 @@ public class HangBoard {
             current_board = CustomSwipeAdapter.hangboard.MOONHARD;
             starter_grips = res.getStringArray(R.array.no_start_program);
         }
+
+        if (CustomSwipeAdapter.hangboard.TENSION == new_board) {
+            current_board = CustomSwipeAdapter.hangboard.TENSION;
+            starter_grips = res.getStringArray(R.array.no_start_program);
+        }
         setGrips(0);
 
     }
@@ -199,9 +204,9 @@ public class HangBoard {
         if (isAlternate) {
 
                 // Lets search for a holds that max hardness is half the remaining points for a give grade
-                random_nro = getHoldNumberWithValue(min_value, max_value );
+                random_nro = getHoldNumberWithValue(min_value/2, max_value );
                 // And then search for a hold that could be slightly harder than the first one
-                random_nro_alt = getHoldNumberWithValue(min_value , max_value*2, all_hold_values[random_nro].grip_style);
+                random_nro_alt = getHoldNumberWithValue( min_value, max_value*2, all_hold_values[random_nro].grip_style);
 
                 // Holds should not be the same, if it is lets make sure next if statement is true
                 if (random_nro == random_nro_alt) { isAlternate = false; }
@@ -318,6 +323,21 @@ public class HangBoard {
             }
         }
 
+        else if (current_board == CustomSwipeAdapter.hangboard.TENSION ) {
+            int[] arvot = res.getIntArray(R.array.grip_values_tension);
+
+            all_hold_values = new HoldValue[arvot.length/3];
+
+            while (hold_pos/3 < all_hold_values.length) {
+                all_hold_values[hold_pos/3] = new HoldValue(arvot[hold_pos]);
+                hold_pos++;
+                all_hold_values[hold_pos/3].SetHoldValue(arvot[hold_pos]);
+                hold_pos++;
+                all_hold_values[hold_pos/3].SetGripTypeAndSingleHang(arvot[hold_pos]);
+                hold_pos++;
+            }
+        }
+
         else if (current_board == CustomSwipeAdapter.hangboard.ZLAG ) {
             int[] arvot = res.getIntArray(R.array.grip_values_zlag);
 
@@ -346,6 +366,17 @@ public class HangBoard {
                 all_hold_values[hold_pos/3].SetGripTypeAndSingleHang(arvot[hold_pos]);
                 hold_pos++;
             }
+        }
+
+        HoldValue temp;
+        int index;
+        Random random = new Random();
+        for (int i = all_hold_values.length - 1; i > 0; i--)
+        {
+            index = random.nextInt(i + 1);
+            temp = all_hold_values[index];
+            all_hold_values[index] = all_hold_values[i];
+            all_hold_values[i] = temp;
         }
 
     }

@@ -531,7 +531,7 @@
     </integer-array>
 
     <integer-array name="grip_values_trans">
-        <item>1</item>  <!-- 1 jug -->
+        <item>1</item>  <!-- holnro -->
         <item>1</item>  <!-- holdvlue -->
         <item>10</item> <!-- four -->
         <item>1</item>  <!--  -->
@@ -696,6 +696,56 @@
 
     </integer-array>
 
+    <integer-array name="grip_values_tension">
+
+        <!-- hld nro   hold value     griptype -->
+        <item>1</item> <item>1</item> <item>10</item>
+        <item>1</item> <item>2</item> <item>20</item>
+        <item>1</item> <item>3</item> <item>30</item>
+        <item>1</item> <item>17</item> <item>40</item>
+        <item>1</item> <item>14</item> <item>50</item>
+        <item>1</item> <item>25</item> <item>60</item>
+
+        <item>2</item> <item>4</item> <item>10</item>
+        <item>2</item> <item>8</item> <item>20</item>
+        <item>2</item> <item>10</item> <item>30</item>
+        <item>2</item> <item>25</item> <item>40</item>
+        <item>2</item> <item>18</item> <item>50</item>
+        <item>2</item> <item>35</item> <item>60</item>
+
+        <item>3</item> <item>2</item> <item>11</item>
+        <item>3</item> <item>4</item> <item>21</item>
+        <item>3</item> <item>6</item> <item>31</item>
+
+        <item>4</item> <item>7</item> <item>10</item>
+        <item>4</item> <item>13</item> <item>20</item>
+        <item>4</item> <item>15</item> <item>30</item>
+
+        <item>5</item> <item>11</item> <item>10</item>
+        <item>5</item> <item>17</item> <item>20</item>
+        <item>5</item> <item>21</item> <item>30</item>
+
+        <item>6</item> <item>2</item> <item>11</item>
+        <item>6</item> <item>5</item> <item>21</item>
+        <item>6</item> <item>7</item> <item>31</item>
+        <item>6</item> <item>21</item> <item>41</item>
+        <item>6</item> <item>17</item> <item>51</item>
+        <item>6</item> <item>35</item> <item>61</item>
+
+        <item>7</item> <item>15</item> <item>10</item>
+        <item>7</item> <item>35</item> <item>20</item>
+        <item>7</item> <item>45</item> <item>30</item>
+
+        <item>8</item> <item>25</item> <item>10</item>
+        <item>8</item> <item>75</item> <item>20</item>
+        <item>8</item> <item>95</item> <item>30</item>
+
+        <item>9</item> <item>13</item> <item>11</item>
+        <item>9</item> <item>30</item> <item>21</item>
+        <item>9</item> <item>40</item> <item>31</item>
+
+    </integer-array>
+
     <integer-array name="grip_values_zlag">
         <item>1</item>  <!-- 1 jug -->
         <item>1</item>  <!-- holdvlue -->
@@ -727,13 +777,13 @@
         <item>30</item> <!-- griptype and single hold -->
 
         <item>3</item>  <!-- hldnro -->
-        <item>11</item>  <!-- holdvlue -->
+        <item>4</item>  <!-- holdvlue -->
         <item>11</item> <!-- griptype and single hold -->
         <item>3</item>  <!-- hldnro -->
-        <item>25</item>  <!-- holdvlue -->
+        <item>8</item>  <!-- holdvlue -->
         <item>21</item> <!-- griptype and single hold -->
         <item>3</item>  <!-- hldnro -->
-        <item>30</item>  <!-- holdvlue -->
+        <item>9</item>  <!-- holdvlue -->
         <item>31</item> <!-- griptype and single hold -->
 
         <item>4</item>  <!-- hldnro -->
