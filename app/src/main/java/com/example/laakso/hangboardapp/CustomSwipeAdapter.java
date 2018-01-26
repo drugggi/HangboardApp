@@ -13,16 +13,22 @@ import android.widget.LinearLayout;
  */
 // CustomSwipeAdapter Creates with the help of PagerAdapter swipeable view of different hangboards
 public class CustomSwipeAdapter extends PagerAdapter {
-    private int[] image_resources = {R.drawable.lauta1011, R.drawable.lauta2002, R.drawable.trans};
+    private int[] image_resources = {R.drawable.lauta1011, R.drawable.lauta2002, R.drawable.trans,
+    R.drawable.tension, R.drawable.zlag, R.drawable.moonhard, R.drawable.mooneasy, R.drawable.meto};
     private Context ctx;
     private LayoutInflater layoutInflater;
 
-    public enum hangboard {BM1000,BM2000, TRANS};
+    public enum hangboard {BM1000,BM2000, TRANS, TENSION, ZLAG, MOONHARD, MOONEASY, METO};
 
     public static hangboard getHangBoard(int position) {
         if (position == 0) { return hangboard.BM1000; }
         if (position == 1) {return hangboard.BM2000; }
         if (position == 2) {return hangboard.TRANS; }
+        if (position == 3) {return hangboard.TENSION;}
+        if (position == 4) {return hangboard.ZLAG; }
+        if (position == 5) {return hangboard.MOONHARD; }
+        if (position == 6) {return hangboard.MOONEASY; }
+        if (position == 7) {return hangboard.METO; }
         return hangboard.BM1000;
     }
 

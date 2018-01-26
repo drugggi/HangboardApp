@@ -47,7 +47,17 @@ public class HangBoard {
 
         if (CustomSwipeAdapter.hangboard.TRANS == new_board) {
             current_board = CustomSwipeAdapter.hangboard.TRANS;
-            starter_grips = res.getStringArray(R.array.trans);
+            starter_grips = res.getStringArray(R.array.no_start_program);
+        }
+
+        if (CustomSwipeAdapter.hangboard.ZLAG == new_board) {
+            current_board = CustomSwipeAdapter.hangboard.ZLAG;
+            starter_grips = res.getStringArray(R.array.no_start_program);
+        }
+
+        if (CustomSwipeAdapter.hangboard.MOONHARD == new_board) {
+            current_board = CustomSwipeAdapter.hangboard.MOONHARD;
+            starter_grips = res.getStringArray(R.array.no_start_program);
         }
         setGrips(0);
 
@@ -257,9 +267,93 @@ public class HangBoard {
         return search_point;
     }
 
+
     // InitializeHolds method collects from resources all the possible grip, holds and difficulty
     // in a give hangboard that can be applied in a hangboard workout
     public void InitializeHolds(Resources res) {
+
+        int hold_pos = 0;
+        if (current_board == CustomSwipeAdapter.hangboard.BM1000) {
+            int[] arvot = res.getIntArray(R.array.grip_values_bm1000);
+
+            all_hold_values = new HoldValue[arvot.length/3];
+
+            while (hold_pos/3 < all_hold_values.length) {
+                all_hold_values[hold_pos/3] = new HoldValue(arvot[hold_pos]);
+                hold_pos++;
+                all_hold_values[hold_pos/3].SetHoldValue(arvot[hold_pos]);
+                hold_pos++;
+                all_hold_values[hold_pos/3].SetGripTypeAndSingleHang(arvot[hold_pos]);
+                hold_pos++;
+            }
+        }
+
+        else if (current_board == CustomSwipeAdapter.hangboard.BM2000 ) {
+            int[] arvot = res.getIntArray(R.array.grip_values_bm2000);
+
+            all_hold_values = new HoldValue[arvot.length/3];
+
+            while (hold_pos/3 < all_hold_values.length) {
+                all_hold_values[hold_pos/3] = new HoldValue(arvot[hold_pos]);
+                hold_pos++;
+                all_hold_values[hold_pos/3].SetHoldValue(arvot[hold_pos]);
+                hold_pos++;
+                all_hold_values[hold_pos/3].SetGripTypeAndSingleHang(arvot[hold_pos]);
+                hold_pos++;
+            }
+        }
+
+        else if (current_board == CustomSwipeAdapter.hangboard.TRANS ) {
+            int[] arvot = res.getIntArray(R.array.grip_values_trans);
+
+            all_hold_values = new HoldValue[arvot.length/3];
+
+            while (hold_pos/3 < all_hold_values.length) {
+                all_hold_values[hold_pos/3] = new HoldValue(arvot[hold_pos]);
+                hold_pos++;
+                all_hold_values[hold_pos/3].SetHoldValue(arvot[hold_pos]);
+                hold_pos++;
+                all_hold_values[hold_pos/3].SetGripTypeAndSingleHang(arvot[hold_pos]);
+                hold_pos++;
+            }
+        }
+
+        else if (current_board == CustomSwipeAdapter.hangboard.ZLAG ) {
+            int[] arvot = res.getIntArray(R.array.grip_values_zlag);
+
+            all_hold_values = new HoldValue[arvot.length/3];
+
+            while (hold_pos/3 < all_hold_values.length) {
+                all_hold_values[hold_pos/3] = new HoldValue(arvot[hold_pos]);
+                hold_pos++;
+                all_hold_values[hold_pos/3].SetHoldValue(arvot[hold_pos]);
+                hold_pos++;
+                all_hold_values[hold_pos/3].SetGripTypeAndSingleHang(arvot[hold_pos]);
+                hold_pos++;
+            }
+        }
+
+        else if (current_board == CustomSwipeAdapter.hangboard.MOONHARD ) {
+            int[] arvot = res.getIntArray(R.array.grip_values_moonhard);
+
+            all_hold_values = new HoldValue[arvot.length/3];
+
+            while (hold_pos/3 < all_hold_values.length) {
+                all_hold_values[hold_pos/3] = new HoldValue(arvot[hold_pos]);
+                hold_pos++;
+                all_hold_values[hold_pos/3].SetHoldValue(arvot[hold_pos]);
+                hold_pos++;
+                all_hold_values[hold_pos/3].SetGripTypeAndSingleHang(arvot[hold_pos]);
+                hold_pos++;
+            }
+        }
+
+    }
+
+    /*
+    // InitializeHolds method collects from resources all the possible grip, holds and difficulty
+    // in a give hangboard that can be applied in a hangboard workout
+    public void InitializeHolds2(Resources res) {
         int position = 0;
 
         if (current_board == CustomSwipeAdapter.hangboard.BM1000) {
@@ -389,6 +483,9 @@ public class HangBoard {
         }
 
     }
+
+    */
+
     private static int getMinValue(String grade) {
         if (grade.equals("5a")) {return 1;}
         else if (grade.equals("5b")) {return 2;}
@@ -413,8 +510,8 @@ public class HangBoard {
         else if (grade.equals("7a")) {return 25;}
         else if (grade.equals("7b")) {return 35;}
         else if (grade.equals("7c")) {return 120;}
-        else if (grade.equals("8a")) {return 199;}
-        else if (grade.equals("8b")) {return 499;}
+        else if (grade.equals("8a")) {return 200;}
+        else if (grade.equals("8b")) {return 500;}
         return 1;
     }
 

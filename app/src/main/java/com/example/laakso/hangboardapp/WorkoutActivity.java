@@ -61,7 +61,7 @@ public class WorkoutActivity extends AppCompatActivity {
         pauseBtn.setText("pause");
         gradeTextView = (TextView) findViewById(R.id.gradTextView);
 
-        // If Intent has extra information, lets get it HANGLIST should contain the hang and crip information
+        // If Intent has extra information, lets get it HANGLIST should contain the hang and grip information
         if (getIntent().hasExtra("com.example.laakso.hangboardapp.HANGLIST")) {
            workoutInfo = new ArrayList<String>();
            workoutInfo = getIntent().getStringArrayListExtra("com.example.laakso.hangboardapp.HANGLIST");

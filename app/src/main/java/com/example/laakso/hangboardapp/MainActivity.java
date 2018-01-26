@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         // time_controls = new int[] {6, 6, 7 ,3 , 3, 150, 600};
         time_controls = new int[] {6, 6, 3 ,7 , 3, 150, 600};
         timeControls = new TimeControls();
-        timeControls.setTimeControls(new int[] {6, 6, 3 ,7 , 3, 150, 600});
+        timeControls.setTimeControls(new int[] {6, 6, 3 ,7 , 3, 150, 360});
 
         /*Toast.makeText(MainActivity.this," " + timeControls.getHangLaps() + timeControls.getGripLaps() +
         timeControls.getTimeON() + timeControls.getTimeOFF() + timeControls.getRoutineLaps() + timeControls.getRestTime() +
