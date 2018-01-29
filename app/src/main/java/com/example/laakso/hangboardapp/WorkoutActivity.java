@@ -10,9 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -21,7 +21,7 @@ public class WorkoutActivity extends AppCompatActivity {
     Chronometer totalTimeChrono;
     Chronometer lapseTimeChrono;
     ProgressBar hangProgressBar;
-    // ImageView kuva;
+     ImageView boardimage;
     enum workoutPart {ALKULEPO, WORKOUT, LEPO, PITKALEPO};
     Button pauseBtn;
 
@@ -53,13 +53,17 @@ public class WorkoutActivity extends AppCompatActivity {
         final MediaPlayer playSound = MediaPlayer.create(this,R.raw.tick);
         final MediaPlayer playFinishSound = MediaPlayer.create(this,R.raw.finish_tick);
 
-        // kuva = (ImageView) findViewById(R.id.imageView);
-        // kuva.setImageResource(R.drawable.lauta1011);
+        boardimage = (ImageView) findViewById(R.id.boardImageView);
 
         hangProgressBar = (ProgressBar) findViewById(R.id.hangProgressBar);
         pauseBtn = (Button) findViewById(R.id.pauseBtn);
         pauseBtn.setText("pause");
         gradeTextView = (TextView) findViewById(R.id.gradTextView);
+
+        if (getIntent().hasExtra("com.example.laakso.hangboardapp.BOARDIMAGE")) {
+            int image_resource = getIntent().getIntExtra("com.example.laakso.hangboardapp.BOARDIMAGE", 0);
+            boardimage.setImageResource(image_resource);
+        }
 
         // If Intent has extra information, lets get it HANGLIST should contain the hang and grip information
         if (getIntent().hasExtra("com.example.laakso.hangboardapp.HANGLIST")) {
@@ -73,10 +77,11 @@ public class WorkoutActivity extends AppCompatActivity {
             }
 
             i = 0;
+            /*
             while (i < workoutInfo.size() ) {
                 Toast.makeText(WorkoutActivity.this,workoutInfo.get(i),Toast.LENGTH_LONG).show();
                 i++;
-            }
+            }*/
 
             gradeTextView.setText(workoutInfo.get(0));
         }

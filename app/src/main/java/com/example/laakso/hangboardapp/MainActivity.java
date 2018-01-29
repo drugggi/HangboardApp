@@ -142,8 +142,8 @@ public class MainActivity extends AppCompatActivity {
                 // HANGLIST contains hang descritpions and TEST timecontrols
                 workoutIntent.putStringArrayListExtra("com.example.laakso.hangboardapp.HANGLIST", everyBoard.GetGripList() );
                 workoutIntent.putExtra("com.example.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
+                workoutIntent.putExtra("com.example.laakso.hangboardapp.BOARDIMAGE",adapter.getImageResource(viewPager.getCurrentItem()));
                 startActivity(workoutIntent);
-
             }
         });
 

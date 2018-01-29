@@ -368,6 +368,8 @@ public class HangBoard {
             }
         }
 
+        // The positions must sadly be randomized so that GiveHoldWithValue method
+        // doesn't favor one hold above the other (next)
         HoldValue temp;
         int index;
         Random random = new Random();

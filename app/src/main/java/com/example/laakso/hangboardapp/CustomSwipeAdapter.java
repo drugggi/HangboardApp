@@ -32,6 +32,10 @@ public class CustomSwipeAdapter extends PagerAdapter {
         return hangboard.BM1000;
     }
 
+    public int getImageResource(int position) {
+        return image_resources[position];
+    }
+
     public CustomSwipeAdapter(Context ctx) {
         this.ctx = ctx;
     }

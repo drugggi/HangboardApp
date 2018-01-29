@@ -22,7 +22,7 @@
             android:paddingLeft="4dp">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/boardImageView"
                 android:layout_width="350dp"
                 android:layout_height="187dp"
                 app:layout_constraintStart_toStartOf="parent"
