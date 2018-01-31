@@ -59,11 +59,38 @@
             </android.support.v4.view.ViewPager>
 
 
-            <CheckBox
-                android:id="@+id/repeatersCheckBox"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Repeaters" />
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <CheckBox
+                        android:id="@+id/repeatersCheckBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Repeaters" />
+
+                    <TextView
+                        android:id="@+id/durationTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Duration: 60min"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <SeekBar
+                    android:id="@+id/durationSeekBar"
+                    style="@style/Widget.AppCompat.SeekBar.Discrete"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:max="4"
+                    android:progress="3" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

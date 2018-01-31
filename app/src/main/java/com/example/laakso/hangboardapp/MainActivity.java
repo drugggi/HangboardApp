@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -20,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
     Button randomizeBtn;
     Button timeControlBtn;
     CheckBox RepeatersBox;
+    TextView durationTextView;
+    SeekBar durationSeekBar;
 
     ViewPager viewPager;
     CustomSwipeAdapter adapter;
@@ -208,6 +212,26 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        durationTextView = (TextView) findViewById(R.id.durationTextView);
+        durationSeekBar = (SeekBar) findViewById(R.id.durationSeekBar);
+        durationSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                durationTextView.setText("Duration: " + (15+progress*15) +"min");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
 
     }
 }
