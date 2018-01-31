@@ -9,8 +9,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     Button startWorkout;
     Button randomizeBtn;
     Button timeControlBtn;
+    CheckBox RepeatersBox;
 
     ViewPager viewPager;
     CustomSwipeAdapter adapter;
@@ -128,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 hang_descr_position = position+1;
-                randomizeBtn.setText("Randomize H:" + (hang_descr_position) );
+                randomizeBtn.setText("Randomize Hold: " + (hang_descr_position) );
             }
         });
 
@@ -176,67 +177,34 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                // Pops the controls over the Hangboard image
-                LinearLayout timeControlsLayout = (LinearLayout) findViewById(R.id.restTimeControlLayout);
-               // ImageView hangboard = (ImageView) findViewById(R.id.hangBoardImageView);
-
-                // Lets try to set new time parameters, if user has typed proper integers
-                if (timeControlBtn.getText().equals("Set Time Controls") ) {
-
-                    try {
-                        EditText timeControlEditText = (EditText) findViewById(R.id.gripAmounEditText);
-                        time_controls[0] = Integer.parseInt(timeControlEditText.getText().toString());
-                        timeControlEditText = (EditText) findViewById(R.id.hangAmountEditText);
-                        time_controls[1] = Integer.parseInt(timeControlEditText.getText().toString());
-                        timeControlEditText = (EditText) findViewById(R.id.timeONeditText);
-                        time_controls[2] = Integer.parseInt(timeControlEditText.getText().toString());
-                        timeControlEditText = (EditText) findViewById(R.id.timeOFFeditText);
-                        time_controls[3] = Integer.parseInt(timeControlEditText.getText().toString());
-
-                        timeControlEditText = (EditText) findViewById(R.id.lapsAmountEditText);
-                        time_controls[4] =  Integer.parseInt(timeControlEditText.getText().toString());
-                        timeControlEditText = (EditText) findViewById(R.id.restTimeEditText);
-                        time_controls[5] = Integer.parseInt(timeControlEditText.getText().toString());
-                        timeControlEditText = (EditText) findViewById(R.id.longRestEditText);
-                        time_controls[6] = Integer.parseInt(timeControlEditText.getText().toString());
-
-                       // hangboard.setVisibility(View.VISIBLE);
-                        timeControlsLayout.setVisibility(View.INVISIBLE);
-                        timeControlsLayout = (LinearLayout) findViewById(R.id.hangTimeControlLayout);
-                        timeControlsLayout.setVisibility(View.INVISIBLE);
-                        timeControlBtn.setText("Time Controls");
-                    }
-                    catch(NumberFormatException e)  {
-                        Toast.makeText(MainActivity.this,"Fill all the inputs please",Toast.LENGTH_LONG).show();
-                        EditText timeControlEditText = (EditText) findViewById(R.id.gripAmounEditText);
-                        timeControlEditText.setText("6");
-                        timeControlEditText = (EditText) findViewById(R.id.hangAmountEditText);
-                        timeControlEditText.setText("6");
-                        timeControlEditText = (EditText) findViewById(R.id.timeONeditText);
-                        timeControlEditText.setText("7");
-                        timeControlEditText = (EditText) findViewById(R.id.timeOFFeditText);
-                        timeControlEditText.setText("3");
-                        timeControlEditText = (EditText) findViewById(R.id.lapsAmountEditText);
-                        timeControlEditText.setText("3");
-                        timeControlEditText = (EditText) findViewById(R.id.restTimeEditText);
-                        timeControlEditText.setText("150");
-                        timeControlEditText = (EditText) findViewById(R.id.longRestEditText);
-                        timeControlEditText.setText("600");
-                    }
+            Toast.makeText(MainActivity.this, " Make new activity with time controls etc", Toast.LENGTH_SHORT).show();
 
 
+            }
+        });
+
+        RepeatersBox = (CheckBox) findViewById(R.id.repeatersCheckBox);
+        RepeatersBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    timeControls.changeTimeToRepeaters();
+                    everyBoard.setGripAmount(timeControls.getGripLaps(),grade_descr_position);
+                    holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
+                            R.layout.mytextview , everyBoard.getGrips());
+
+                    holdsListView.setAdapter(holdsAdapter);
+
+                    Toast.makeText(MainActivity.this, "Repeaters."+ timeControls.getTotalTime(), Toast.LENGTH_SHORT).show();
+                } else {
+                    timeControls.changeTimeToSingleHangs();
+                    everyBoard.setGripAmount(timeControls.getGripLaps(),grade_descr_position);
+                    holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
+                            R.layout.mytextview , everyBoard.getGrips());
+
+                    holdsListView.setAdapter(holdsAdapter);
+                    Toast.makeText(MainActivity.this, "Single hangs", Toast.LENGTH_SHORT).show();
                 }
-
-                // Time controls has been set, so lets bring back hangboard image again.
-                else {
-                    timeControlsLayout.setVisibility(View.VISIBLE);
-                    timeControlsLayout = (LinearLayout) findViewById(R.id.hangTimeControlLayout);
-                    timeControlsLayout.setVisibility(View.VISIBLE);
-                  //  hangboard.setVisibility(View.INVISIBLE);
-                    timeControlBtn.setText("Set Time Controls");
-                }
-
-
             }
         });
 

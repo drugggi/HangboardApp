@@ -54,119 +54,16 @@
             <android.support.v4.view.ViewPager
                 android:id="@+id/view_pager"
                 android:layout_width="wrap_content"
-                android:layout_height="250dp">
+                android:layout_height="150dp">
 
             </android.support.v4.view.ViewPager>
 
 
-
-<!--
-            <ImageView
-                android:id="@+id/hangBoardImageView"
-                android:layout_width="match_parent"
-                android:layout_height="110dp"
-                android:layout_marginTop="0dp"
-                android:layout_weight="1"
-                android:visibility="visible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/lauta1000" />
--->
-            <LinearLayout
-                android:id="@+id/hangTimeControlLayout"
+            <CheckBox
+                android:id="@+id/repeatersCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="-80dp"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:visibility="invisible">
-
-                <EditText
-                    android:id="@+id/gripAmounEditText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:hint="how many different grips in a lap preferably less than six"
-                    android:inputType="number"
-                    android:text="6" />
-
-                <EditText
-                    android:id="@+id/hangAmountEditText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:hint="number of total hangs in a set"
-                    android:inputType="number"
-                    android:text="6" />
-
-                <EditText
-                    android:id="@+id/timeONeditText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:hint="In a single set how many seconds to hang"
-                    android:inputType="number"
-                    android:text="7"
-                    android:textColor="@android:color/holo_red_light" />
-
-                <EditText
-                    android:id="@+id/timeOFFeditText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:hint="in a single set how many seconds to rest"
-                    android:inputType="number"
-                    android:text="3"
-                    android:textColor="@android:color/holo_green_dark"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/restTimeControlLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:paddingTop="0dp"
-                android:visibility="invisible">
-
-                <EditText
-                    android:id="@+id/lapsAmountEditText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:hint="number of total laps"
-                    android:inputType="number"
-                    android:text="3" />
-
-                <EditText
-                    android:id="@+id/restTimeEditText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:hint="rest time between different grips"
-                    android:inputType="number"
-                    android:text="150"
-                    android:textColor="@android:color/holo_green_dark"/>
-
-                <EditText
-                    android:id="@+id/longRestEditText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:hint="long rest time between laps"
-                    android:inputType="number"
-                    android:text="600"
-                    android:textColor="@android:color/holo_green_dark"/>
-
-            </LinearLayout>
+                android:text="Repeaters" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -182,28 +79,25 @@
                     android:id="@+id/timeControlBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|right"
-                    android:layout_weight="0"
+                    android:layout_gravity="bottom|left"
+                    android:layout_weight="1"
                     android:text="Time Controls" />
 
                 <Button
                     android:id="@+id/randomizeBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|right"
-                    android:layout_weight="0"
-                    android:text="Randomize ALL"
-                    android:textAlignment="viewStart" />
+                    android:layout_gravity="bottom|left"
+                    android:layout_weight="1"
+                    android:text="Randomize ALL" />
 
                 <Button
                     android:id="@+id/startWorkoutBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|right"
-                    android:layout_weight="0"
-                    android:text="Start workout"
-                    tools:layout_editor_absoluteX="446dp"
-                    tools:layout_editor_absoluteY="209dp" />
+                    android:layout_weight="1"
+                    android:text="Start workout" />
 
             </LinearLayout>
 

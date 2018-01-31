@@ -31,7 +31,28 @@ public class TimeControls {
 
     }
 
+    public void changeTimeToSingleHangs() {
+        int total_time = getTotalTime();
+        grip_laps = total_time / 60;
+        hang_laps = 1;
+        hang_laps_seconds = 10;
+        routine_laps = 1;
+        time_on = 10;
+        time_off = 1;
+        rest = 50;
 
+    }
+
+    public void changeTimeToRepeaters() {
+        this.grip_laps = 6;
+        this.hang_laps = 6;
+        this.routine_laps = 3;
+        this.time_on = 7;
+        this.time_off = 3;
+        this.rest = 150;
+        this.long_rest = 600;
+        this.hang_laps_seconds = hang_laps * (time_on + time_off);
+    }
 
     public void setGripLaps(int grip_laps) {
         this.grip_laps = grip_laps;

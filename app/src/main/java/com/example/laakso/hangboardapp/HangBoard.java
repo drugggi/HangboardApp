@@ -127,9 +127,19 @@ public class HangBoard {
         return grades;
     }
 
+
+    public void setGripAmount(int amount, int grade_position) {
+        holdList.clear();
+        while (amount > 0) {
+            holdList.add("No Example program available.\n Click Randomize ALL");
+            --amount;
+        }
+        randomizeGrips(grade_position);
+    }
+
     // THIS RANDOMIZER ACTUALLY WORKS QUITE DECENTLY
     // Method randomizeGrips randomizes holds and grips that are used in a workout
-    public void randomizeGrips(int position) {
+    public void randomizeGrips(int grade_position) {
 
         // Random generator that is only used if we are using the same hold or alternating between holds
         Random rn = new Random();
@@ -140,10 +150,9 @@ public class HangBoard {
         // these ints will be randomized and those represents holds in all_hold_values array
         int random_nro;
         int random_nro_alt;
-        // String kaijutus="";
 
-        int min_value=getMinValue(grades[position]);
-        int max_value=getMaxValue(grades[position]);
+        int min_value=getMinValue(grades[grade_position]);
+        int max_value=getMaxValue(grades[grade_position]);
 
         int value = 0;
         int i=0;
@@ -185,7 +194,7 @@ public class HangBoard {
     }
 
     // RandomizeGrip method randomizes selected grip instead of all the grips
-    public void randomizeGrip(int position, int hold_nro) {
+    public void randomizeGrip(int grade_position, int hold_nro) {
 
         // Random generator that is only used if we are using the same hold or alternating between holds
         Random rn = new Random();
@@ -196,8 +205,8 @@ public class HangBoard {
         int random_nro_alt;
 
         // Min and max values of grades which the hold search is based on
-        int min_value=getMinValue(grades[position]);
-        int max_value=getMaxValue(grades[position]);
+        int min_value=getMinValue(grades[grade_position]);
+        int max_value=getMaxValue(grades[grade_position]);
 
         int value = 0;
 
