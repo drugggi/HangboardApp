@@ -248,7 +248,13 @@ public class HangBoard {
             ++tuplakierros;
 
             if (search_point == all_hold_values.length) { search_point = 0; }
-            if (tuplakierros > all_hold_values.length) {return 0;}
+            if (tuplakierros > all_hold_values.length) {
+                if (min_value < 1 && max_value > 1000) {
+                    return 0;
+                } else {
+                    return getHoldNumberWithValue(min_value / 2, max_value * 2, wanted_hold);
+                }
+            }
         }
         return search_point;
     }
@@ -267,7 +273,13 @@ public class HangBoard {
             ++search_point;
             ++tuplakierros;
             if (search_point == all_hold_values.length) { search_point = 0; }
-            if (tuplakierros > all_hold_values.length) {return 0;}
+            if (tuplakierros > all_hold_values.length) {
+                if (min_value < 1 && max_value > 1000) {
+                    return 0;
+                } else {
+                    return getHoldNumberWithValue(min_value / 2, max_value * 2);
+                }
+            }
         }
         return search_point;
     }
