@@ -184,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         RepeatersBox = (CheckBox) findViewById(R.id.repeatersCheckBox);
+        RepeatersBox.setChecked(true);
         RepeatersBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
