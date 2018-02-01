@@ -16,6 +16,7 @@ public class TimeControls {
     // private int time_total = time_on + time_off;
     private int rest = 150;
     private int long_rest = 600;
+    private boolean isRepeaters = true;
 
 
     public void TimeControls() {
@@ -31,7 +32,9 @@ public class TimeControls {
 
     }
 
+    // Not working very well
     public void changeTimeToSingleHangs() {
+        isRepeaters = false;
         int total_time = getTotalTime();
         grip_laps = total_time / 60;
         hang_laps = 1;
@@ -44,6 +47,7 @@ public class TimeControls {
     }
 
     public void changeTimeToRepeaters() {
+        isRepeaters = true;
         this.grip_laps = 6;
         this.hang_laps = 6;
         this.routine_laps = 3;
@@ -112,6 +116,25 @@ public class TimeControls {
     }
 
    // time_controls = new int[] {6, 6, 7 ,3 , 3, 150, 600};
+
+    public void setProgramBasedOnTime(int workout_time) {
+        if (workout_time < 25) {
+            setTimeControls(new int[] {5, 5, 7 ,3 , 2, 70, 180}); // 20min program
+        }
+        else if (workout_time < 40) {
+            setTimeControls(new int[] {6, 5, 7 ,3 , 2, 120, 240}); // 35min program
+        }
+        else if (workout_time < 55) {
+            setTimeControls(new int[] {5, 6, 7 ,3 , 3, 140, 300}); // 50min program
+        }
+        else if (workout_time < 70) {
+            setTimeControls(new int[] {6, 6, 7 ,3 , 3, 150, 360}); // default program
+        }
+        else {
+            setTimeControls(new int[] {7, 6, 7 ,3 , 3, 160, 420}); // 80min program
+        }
+    }
+
 
     public int getTotalTime() {
         // 0 represents workout starts in time

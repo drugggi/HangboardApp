@@ -52,9 +52,9 @@ public class MainActivity extends AppCompatActivity {
         // 6 sets, 6 rounds  of 7on 3 off, 6 laps 150s rests, 600s long rest
 
         // time_controls = new int[] {6, 6, 7 ,3 , 3, 150, 600};
-        time_controls = new int[] {6, 6, 3 ,7 , 3, 150, 600};
+       //time_controls = new int[] {6, 6, 3 ,7 , 3, 150, 600};
         timeControls = new TimeControls();
-        timeControls.setTimeControls(new int[] {6, 6, 3 ,7 , 3, 150, 360});
+        timeControls.setTimeControls(new int[] {6, 6, 7 ,3 , 3, 150, 360});
 
         /*Toast.makeText(MainActivity.this," " + timeControls.getHangLaps() + timeControls.getGripLaps() +
         timeControls.getTimeON() + timeControls.getTimeOFF() + timeControls.getRoutineLaps() + timeControls.getRestTime() +
@@ -187,8 +187,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        durationTextView = (TextView) findViewById(R.id.durationTextView);
+        durationSeekBar = (SeekBar) findViewById(R.id.durationSeekBar);
+
         RepeatersBox = (CheckBox) findViewById(R.id.repeatersCheckBox);
         RepeatersBox.setChecked(true);
+
         RepeatersBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -200,25 +204,36 @@ public class MainActivity extends AppCompatActivity {
 
                     holdsListView.setAdapter(holdsAdapter);
 
-                    Toast.makeText(MainActivity.this, "Repeaters."+ timeControls.getTotalTime(), Toast.LENGTH_SHORT).show();
+                    durationSeekBar.setProgress(3);
+
+
+                    // Toast.makeText(MainActivity.this, "Repeaters."+ timeControls.getTotalTime(), Toast.LENGTH_SHORT).show();
                 } else {
                     timeControls.changeTimeToSingleHangs();
                     everyBoard.setGripAmount(timeControls.getGripLaps(),grade_descr_position);
                     holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
                             R.layout.mytextview , everyBoard.getGrips());
 
+                    // durationSeekBar.setProgress(3);
+
                     holdsListView.setAdapter(holdsAdapter);
-                    Toast.makeText(MainActivity.this, "Single hangs", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(MainActivity.this, "Single hangs", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        durationTextView = (TextView) findViewById(R.id.durationTextView);
-        durationSeekBar = (SeekBar) findViewById(R.id.durationSeekBar);
+
         durationSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                durationTextView.setText("Duration: " + (15+progress*15) +"min");
+                durationTextView.setText("Duration: " + (20+progress*15) +"min");
+
+                timeControls.setProgramBasedOnTime(20+progress*15);
+
+                everyBoard.setGripAmount(timeControls.getGripLaps(),grade_descr_position);
+                holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
+                        R.layout.mytextview , everyBoard.getGrips());
+                holdsListView.setAdapter(holdsAdapter);
             }
 
             @Override
@@ -228,6 +243,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+
 
             }
         });
