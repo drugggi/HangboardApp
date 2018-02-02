@@ -23,6 +23,10 @@ public class HangBoard {
 
     // holdList represents the changeable holds that user will modify and are give to workoutactivity
     ArrayList<String> holdList;
+    ArrayList<HoldValue> valueList;
+
+    // Hold coordinates stores the information where hand pictures will be placed on a hangboard image
+    private int[] hold_coordinates;
 
     // Grips constructor takes resources so that it can read all the information needed constructing
     // workout and hangs and grips
@@ -30,10 +34,39 @@ public class HangBoard {
         starter_grips = res.getStringArray(R.array.beastmaker1000);
         grades = res.getStringArray(R.array.grades);
         current_board = CustomSwipeAdapter.hangboard.BM1000;
+        hold_coordinates = res.getIntArray(R.array.bm1000_coordinates);
 
         holdList = new ArrayList<String>();
+        valueList = new ArrayList<HoldValue>();
 
     }
+
+    public int getLeftFingerImage(int position) {
+        return valueList.get(position*2).getGripImage(true);
+    }
+    public int getRightFingerImage(int position) {
+        return valueList.get(position*2+1).getGripImage(false);
+    }
+
+    // Valuelist keeps track what holds and grips is currently used in a program
+    // even values has the left hand information and odd values  right hand information
+    public int getCoordLeftX(int position) {
+        int hold_number = valueList.get(position*2).getHoldNumber() - 1;
+        return hold_coordinates[hold_number*5+1];
+    }
+    public int getCoordLeftY(int position) {
+        int hold_number = valueList.get(position*2).getHoldNumber() - 1;
+        return hold_coordinates[hold_number*5+2];
+    }
+    public int getCoordRightX(int position) {
+        int hold_number = valueList.get(position*2+1).getHoldNumber() - 1;
+        return hold_coordinates[hold_number*5+3];
+    }
+    public int getCoordRightY(int position) {
+        int hold_number = valueList.get(position*2+1).getHoldNumber() - 1;
+        return hold_coordinates[hold_number*5+4];
+    }
+
     public void NewBoard(Resources res,CustomSwipeAdapter.hangboard new_board) {
         if (CustomSwipeAdapter.hangboard.BM1000 == new_board) {
             current_board = CustomSwipeAdapter.hangboard.BM1000;
@@ -140,7 +173,7 @@ public class HangBoard {
     // THIS RANDOMIZER ACTUALLY WORKS QUITE DECENTLY
     // Method randomizeGrips randomizes holds and grips that are used in a workout
     public void randomizeGrips(int grade_position) {
-
+        valueList.clear();
         // Random generator that is only used if we are using the same hold or alternating between holds
         Random rn = new Random();
         boolean isAlternate = rn.nextBoolean();
@@ -169,7 +202,8 @@ public class HangBoard {
 
                 // Holds should not be the same, if it is lets just find one hold ie. jump to else statement
                 if (random_nro == random_nro_alt) { isAlternate = false; continue; }
-
+                valueList.add(all_hold_values[random_nro]);
+                valueList.add(all_hold_values[random_nro_alt]);
                 holdList.set(i, i + ". HOLD: " + all_hold_values[random_nro].GetHoldNumber() + "/" + all_hold_values[random_nro_alt].GetHoldNumber() + "\nGRIP: " +
                         all_hold_values[random_nro].GetHoldText() + " alternate\n Difficulty: "+
                                 (all_hold_values[random_nro].GetHoldValue() + all_hold_values[random_nro_alt].GetHoldValue() )/2);
@@ -181,7 +215,8 @@ public class HangBoard {
                 random_nro = getHoldNumberWithValue(min_value, max_value);
 
                 value = value + all_hold_values[random_nro].GetHoldValue();
-
+                valueList.add(all_hold_values[random_nro]);
+                valueList.add(all_hold_values[random_nro]);
                 holdList.set(i, i + ". HOLD: " + all_hold_values[random_nro].GetHoldNumber() + "\nGRIP: " + all_hold_values[random_nro].GetHoldText() +
                         "\nDifficulty: " + all_hold_values[random_nro].GetHoldValue() );
 

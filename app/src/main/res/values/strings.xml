@@ -1,6 +1,24 @@
 <resources>
     <string name="app_name">Hangboard App</string>
 
+    <integer-array name="bm1000_coordinates">
+        <!--                        LEFT  HAND                          RIGHT   HAND      -->
+        <!--hold number     X coord         Y coord                 X coord        Y coord    -->
+        <item>1</item> <item>20</item> <item>45</item>       <item>840</item> <item>45</item>
+        <item>2</item> <item>210</item> <item>70</item>       <item>660</item> <item>70</item>
+        <item>3</item> <item>360</item> <item>45</item>       <item>510</item> <item>45</item>
+        <item>4</item> <item>20</item> <item>141</item>       <item>840</item> <item>141</item>
+        <item>5</item> <item>350</item> <item>141</item>       <item>550</item> <item>141</item>
+        <item>6</item> <item>10</item> <item>220</item>       <item>850</item> <item>220</item>
+        <item>7</item> <item>180</item> <item>220</item>       <item>700</item> <item>220</item>
+        <item>8</item> <item>210</item> <item>220</item>       <item>600</item> <item>220</item>
+        <item>9</item> <item>425</item> <item>220</item>       <item>425</item> <item>220</item>
+        <item>10</item> <item>100</item> <item>307</item>       <item>760</item> <item>307</item>
+        <item>11</item> <item>190</item> <item>307</item>       <item>650</item> <item>307</item>
+        <item>12</item> <item>250</item> <item>307</item>       <item>450</item> <item>307</item>
+
+    </integer-array>
+
     <string-array name="grades">
         <item>5a</item>
         <item>5b</item>
@@ -158,6 +176,8 @@
             No Example program available. Click Randomize ALL</item>
     </string-array>
 
+
+    
     <integer-array name="grip_values_bm1000">
         <item>1</item> <item>1</item> <item>10</item>
         <item>1</item> <item>2</item> <item>20</item>

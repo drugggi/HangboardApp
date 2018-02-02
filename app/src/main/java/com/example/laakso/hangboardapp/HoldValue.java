@@ -17,12 +17,36 @@ public class HoldValue {
         ,MIDDLE_FINGER, INDEX_FINGER, RING_FINGER, PINKY_FINGER};
     grip_type grip_style;
 
+    private int[] finger_images = {R.drawable.fourfingerleft, R.drawable.fourfingerright, R.drawable.threefrontleft
+    , R.drawable.fourfingerright, R.drawable.threebackleft, R.drawable.threebackright, R.drawable.twomiddleleft
+    , R.drawable.twomiddleright};
+
+    private int finger_image;
+
     // Single holds dont have a pair with same measurements in the hangboard
     boolean single_hold;
 
     public HoldValue(int number) {
         single_hold = false;
         hold_number = number;
+    }
+
+    public int getGripImage(boolean left_hand) {
+
+      if (left_hand) {
+          if (grip_style == grip_type.FOUR_FINGER) {return R.drawable.fourfingerleft;}
+          if (grip_style == grip_type.THREE_FRONT) {return R.drawable.threefrontleft;}
+          if (grip_style == grip_type.THREE_BACK) {return R.drawable.threebackleft;}
+          if (grip_style == grip_type.TWO_MIDDLE) {return R.drawable.twomiddleleft;}
+      }
+        else {
+          if (grip_style == grip_type.FOUR_FINGER) {return R.drawable.fourfingerright;}
+          if (grip_style == grip_type.THREE_FRONT) {return R.drawable.threefrontright;}
+          if (grip_style == grip_type.THREE_BACK) {return R.drawable.threebackright;}
+          if (grip_style == grip_type.TWO_MIDDLE) {return R.drawable.twomiddleright;}
+
+      }
+      return R.drawable.fourfingerright;
     }
 
     public void SetGripTypeAndSingleHang(int i_hold_both_info) {

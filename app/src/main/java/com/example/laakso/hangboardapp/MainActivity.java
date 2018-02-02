@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -24,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     CheckBox RepeatersBox;
     TextView durationTextView;
     SeekBar durationSeekBar;
+    ImageView leftFingerImage;
+    ImageView rightFingerImage;
 
     ViewPager viewPager;
     CustomSwipeAdapter adapter;
@@ -43,6 +46,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        leftFingerImage = (ImageView) findViewById(R.id.leftFingerImageView);
+        leftFingerImage.setImageResource(R.drawable.fourfingerleft);
+        rightFingerImage = (ImageView) findViewById(R.id.rightFingerImageView);
+        rightFingerImage.setImageResource(R.drawable.fourfingerright);
+
+        // fingerImage.setX(400);
+        //fingerImage.setY(60);
 
         // HangBoard class holds all the information about grades and holds and grips
         final Resources res = getResources();
@@ -126,7 +136,14 @@ public class MainActivity extends AppCompatActivity {
 
                 randomizeBtn.setText("Randomize ALL");
                 hang_descr_position = 0;
-
+/*
+                float x;
+                if (position % 2 != 0) {
+                x = fingerImage.getX() + position * 3; }
+                else { x = fingerImage.getX() - position * 3; }
+                fingerImage.setX(x+5);
+*/
+                // Toast.makeText(MainActivity.this,"X: "+ fingerImage.getX()+ " Y: " + fingerImage.getY(),Toast.LENGTH_SHORT ).show();
 
             }
         });
@@ -137,6 +154,31 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 hang_descr_position = position+1;
                 randomizeBtn.setText("Randomize Hold: " + (hang_descr_position) );
+
+                Toast.makeText(MainActivity.this,"Position: " + position,Toast.LENGTH_SHORT ).show();
+                leftFingerImage.setImageResource(everyBoard.getLeftFingerImage(position));
+                leftFingerImage.setX(everyBoard.getCoordLeftX(position));
+                leftFingerImage.setY(everyBoard.getCoordLeftY(position));
+
+                rightFingerImage.setImageResource(everyBoard.getRightFingerImage(position));
+                rightFingerImage.setX(everyBoard.getCoordRightX(position));
+                rightFingerImage.setY(everyBoard.getCoordRightY(position));
+/*
+                if (position == 0) { leftFingerImage.setX(20); leftFingerImage.setY(45); rightFingerImage.setX(840); rightFingerImage.setY(45); }
+                if (position == 1) { leftFingerImage.setX(210); leftFingerImage.setY(70); rightFingerImage.setX(660); rightFingerImage.setY(70); }
+                if (position == 2) { leftFingerImage.setX(360); leftFingerImage.setY(45); rightFingerImage.setX(510); rightFingerImage.setY(45); }
+                if (position == 3) { leftFingerImage.setX(20); leftFingerImage.setY(141); rightFingerImage.setX(840); rightFingerImage.setY(141); }
+                if (position == 4) { leftFingerImage.setX(10); leftFingerImage.setY(220); rightFingerImage.setX(850); rightFingerImage.setY(220); }
+                if (position == 5) { leftFingerImage.setX(100); leftFingerImage.setY(307); rightFingerImage.setX(760); rightFingerImage.setY(307); }
+
+                float y;
+                if (position % 2 != 0) {
+                y = fingerImage.getY() + position*3; }
+                else {y = fingerImage.getY() - position*3; }
+                fingerImage.setY(y+5);
+*/
+                // Toast.makeText(MainActivity.this,"X: "+ fingerImage.getX()+ " Y: " + fingerImage.getY(),Toast.LENGTH_SHORT ).show();
+
             }
         });
 
@@ -173,6 +215,7 @@ public class MainActivity extends AppCompatActivity {
                         R.layout.mytextview , everyBoard.getGrips());
                 holdsListView.setAdapter(holdsAdapter);
 
+
                 // gripsTextView.setText(everyBoard.getGrip(grade_descr_position));
                // Toast.makeText(MainActivity.this, kaijutus,Toast.LENGTH_LONG).show();
 
@@ -184,8 +227,8 @@ public class MainActivity extends AppCompatActivity {
         timeControlBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-            Toast.makeText(MainActivity.this, " Make new activity with time controls etc", Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(MainActivity.this,"X: "+ fingerImage.getX()+ " Y: " + fingerImage.getY(),Toast.LENGTH_LONG ).show();
+            // Toast.makeText(MainActivity.this, " Make new activity with time controls etc", Toast.LENGTH_SHORT).show();
 
 
             }
