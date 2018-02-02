@@ -67,8 +67,11 @@ public class MainActivity extends AppCompatActivity {
 
         holdsListView = (ListView) findViewById(R.id.holdsListView);
         holdsAdapter = new  ArrayAdapter<String>(this, R.layout.mytextview, everyBoard.setGrips(0));
+       // holdsListView.setCacheColorHint(Color.rgb(226, 11, 11));
+        //holdsListView.setBackgroundColor(Color.rgb(226, 11, 11));
+        //holdsListView.setDrawingCacheBackgroundColor(Color.rgb(226, 11, 11));
         holdsListView.setAdapter(holdsAdapter);
-
+        // TextView testi = (TextView) findViewById(R.id.textView);
 
         // Lets use CustomSwipeAdapter to show different hangboards in a swipeable fashion
         viewPager = (ViewPager)findViewById(R.id.view_pager);
@@ -169,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
                 ArrayAdapter<String> holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
                         R.layout.mytextview , everyBoard.getGrips());
                 holdsListView.setAdapter(holdsAdapter);
+
                 // gripsTextView.setText(everyBoard.getGrip(grade_descr_position));
                // Toast.makeText(MainActivity.this, kaijutus,Toast.LENGTH_LONG).show();
 

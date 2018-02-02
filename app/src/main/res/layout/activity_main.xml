@@ -73,6 +73,7 @@
                         android:id="@+id/repeatersCheckBox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:checked="true"
                         android:text="Repeaters" />
 
                     <TextView
@@ -88,6 +89,7 @@
                     style="@style/Widget.AppCompat.SeekBar.Discrete"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:backgroundTint="@color/colorAccent"
                     android:max="4"
                     android:progress="3" />
             </LinearLayout>
