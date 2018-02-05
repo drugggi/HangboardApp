@@ -2,6 +2,8 @@ package com.example.laakso.hangboardapp;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     ImageView leftFingerImage;
     ImageView rightFingerImage;
 
+    ImageView fingerImage;
+
     ViewPager viewPager;
     CustomSwipeAdapter adapter;
 
@@ -49,7 +53,10 @@ public class MainActivity extends AppCompatActivity {
         leftFingerImage = (ImageView) findViewById(R.id.leftFingerImageView);
         leftFingerImage.setImageResource(R.drawable.fourfingerleft);
         rightFingerImage = (ImageView) findViewById(R.id.rightFingerImageView);
-        rightFingerImage.setImageResource(R.drawable.fourfingerright);
+         rightFingerImage.setImageResource(R.drawable.fourfingerright);
+
+        fingerImage = (ImageView) findViewById(R.id.templateFingerImageView);
+         fingerImage.setImageResource(R.drawable.finger_template);
 
         // fingerImage.setX(400);
         //fingerImage.setY(60);
@@ -77,9 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
         holdsListView = (ListView) findViewById(R.id.holdsListView);
         holdsAdapter = new  ArrayAdapter<String>(this, R.layout.mytextview, everyBoard.setGrips(0));
-       // holdsListView.setCacheColorHint(Color.rgb(226, 11, 11));
-        //holdsListView.setBackgroundColor(Color.rgb(226, 11, 11));
-        //holdsListView.setDrawingCacheBackgroundColor(Color.rgb(226, 11, 11));
+
         holdsListView.setAdapter(holdsAdapter);
         // TextView testi = (TextView) findViewById(R.id.textView);
 
@@ -136,13 +141,13 @@ public class MainActivity extends AppCompatActivity {
 
                 randomizeBtn.setText("Randomize ALL");
                 hang_descr_position = 0;
-/*
+
                 float x;
                 if (position % 2 != 0) {
                 x = fingerImage.getX() + position * 3; }
                 else { x = fingerImage.getX() - position * 3; }
                 fingerImage.setX(x+5);
-*/
+
                 // Toast.makeText(MainActivity.this,"X: "+ fingerImage.getX()+ " Y: " + fingerImage.getY(),Toast.LENGTH_SHORT ).show();
 
             }
@@ -155,29 +160,48 @@ public class MainActivity extends AppCompatActivity {
                 hang_descr_position = position+1;
                 randomizeBtn.setText("Randomize Hold: " + (hang_descr_position) );
 
-                Toast.makeText(MainActivity.this,"Position: " + position,Toast.LENGTH_SHORT ).show();
+                ImageView imageView = (ImageView) findViewById(R.id.image_view);
+                Drawable drawable = imageView.getDrawable();
+                Rect imageBounds = drawable.getBounds();
+
+                Float multiplyer_w = imageBounds.width() / 832F;
+                Float multiplyer_h = imageBounds.height() / 241F;
+
+                //fingerImage.setX(everyBoard.getCoordLeftX(position) * multiplyer_w);
+                //fingerImage.setY(everyBoard.getCoordLeftY(position) * multiplyer_h);
+
+//                Toast.makeText(MainActivity.this,"multi Height: " + multiplyer_h + "multi Width: " + multiplyer_w,Toast.LENGTH_LONG ).show();
+/*
+                // imageBounds.height();
+
+                // Toast.makeText(MainActivity.this,"iBounds Height: " + imageBounds.height() + "iBounds Width: " + imageBounds.width(),Toast.LENGTH_LONG ).show();
+                Toast.makeText(MainActivity.this,"drawable Height: " + drawable.getIntrinsicHeight() + " drawable Width: " + drawable.getIntrinsicWidth(),Toast.LENGTH_LONG ).show();
+                */
                 leftFingerImage.setImageResource(everyBoard.getLeftFingerImage(position));
-                leftFingerImage.setX(everyBoard.getCoordLeftX(position));
-                leftFingerImage.setY(everyBoard.getCoordLeftY(position));
+                leftFingerImage.setX(everyBoard.getCoordLeftX(position)* multiplyer_w);
+                leftFingerImage.setY(everyBoard.getCoordLeftY(position)* multiplyer_h);
 
                 rightFingerImage.setImageResource(everyBoard.getRightFingerImage(position));
-                rightFingerImage.setX(everyBoard.getCoordRightX(position));
-                rightFingerImage.setY(everyBoard.getCoordRightY(position));
-/*
+                rightFingerImage.setX(everyBoard.getCoordRightX(position)*multiplyer_w);
+                rightFingerImage.setY(everyBoard.getCoordRightY(position)*multiplyer_h);
+
+
+  /*
                 if (position == 0) { leftFingerImage.setX(20); leftFingerImage.setY(45); rightFingerImage.setX(840); rightFingerImage.setY(45); }
                 if (position == 1) { leftFingerImage.setX(210); leftFingerImage.setY(70); rightFingerImage.setX(660); rightFingerImage.setY(70); }
                 if (position == 2) { leftFingerImage.setX(360); leftFingerImage.setY(45); rightFingerImage.setX(510); rightFingerImage.setY(45); }
                 if (position == 3) { leftFingerImage.setX(20); leftFingerImage.setY(141); rightFingerImage.setX(840); rightFingerImage.setY(141); }
                 if (position == 4) { leftFingerImage.setX(10); leftFingerImage.setY(220); rightFingerImage.setX(850); rightFingerImage.setY(220); }
                 if (position == 5) { leftFingerImage.setX(100); leftFingerImage.setY(307); rightFingerImage.setX(760); rightFingerImage.setY(307); }
-
+*/
                 float y;
                 if (position % 2 != 0) {
                 y = fingerImage.getY() + position*3; }
                 else {y = fingerImage.getY() - position*3; }
                 fingerImage.setY(y+5);
-*/
-                // Toast.makeText(MainActivity.this,"X: "+ fingerImage.getX()+ " Y: " + fingerImage.getY(),Toast.LENGTH_SHORT ).show();
+
+
+               //  Toast.makeText(MainActivity.this,"X: "+ fingerImage.getX()+ " Y: " + fingerImage.getY(),Toast.LENGTH_SHORT ).show();
 
             }
         });
@@ -227,7 +251,9 @@ public class MainActivity extends AppCompatActivity {
         timeControlBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              //  Toast.makeText(MainActivity.this,"X: "+ fingerImage.getX()+ " Y: " + fingerImage.getY(),Toast.LENGTH_LONG ).show();
+              // fingerImage.
+                // Toast.makeText(MainActivity.this,"X: "+ fingerImage.getWidth()+ " Y: " + fingerImage.getHeight(),Toast.LENGTH_LONG ).show();
+                Toast.makeText(MainActivity.this,"X/3: "+ fingerImage.getX()/3+ " Y/3: " + fingerImage.getY()/3 ,Toast.LENGTH_LONG ).show();
             // Toast.makeText(MainActivity.this, " Make new activity with time controls etc", Toast.LENGTH_SHORT).show();
 
 

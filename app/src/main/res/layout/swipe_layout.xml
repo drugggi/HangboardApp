@@ -7,6 +7,5 @@
     <ImageView
         android:id="@+id/image_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/beast1000" />
+        android:layout_height="wrap_content" />
 </LinearLayout>

@@ -16,7 +16,7 @@
 
         <ListView
             android:id="@+id/gradeListView"
-            android:layout_width="207dp"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_marginStart="4dp"
             android:layout_marginTop="0dp"
@@ -28,7 +28,7 @@
 
         <ListView
             android:id="@+id/holdsListView"
-            android:layout_width="240dp"
+            android:layout_width="150dp"
             android:layout_height="match_parent"
             android:layout_marginStart="4dp"
             android:layout_marginTop="0dp"
@@ -40,8 +40,8 @@
 
         <LinearLayout
             android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
             android:layout_weight="3"
             android:orientation="vertical"
             android:paddingLeft="4dp"
@@ -51,13 +51,15 @@
             tools:layout_editor_absoluteX="140dp"
             tools:layout_editor_absoluteY="0dp">
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="350dp"
+                android:layout_height="150dp">
+
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/view_pager"
-                    android:layout_width="wrap_content"
+                    android:layout_width="350dp"
                     android:layout_height="150dp">
 
 
@@ -67,13 +69,21 @@
                     android:id="@+id/leftFingerImageView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:alpha="0.8" />
+                    android:alpha="0.9" />
+
                 <ImageView
                     android:id="@+id/rightFingerImageView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:alpha="0.8" />
-            </FrameLayout>
+                    android:alpha="0.9" />
+
+                <ImageView
+                    android:id="@+id/templateFingerImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.9" />
+
+            </RelativeLayout>
 
 
             <LinearLayout

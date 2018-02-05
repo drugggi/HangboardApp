@@ -15,7 +15,7 @@ public class TimeControls {
     private int time_off= 3;
     // private int time_total = time_on + time_off;
     private int rest = 150;
-    private int long_rest = 600;
+    private int long_rest = 360;
     private boolean isRepeaters = true;
 
 
@@ -27,7 +27,7 @@ public class TimeControls {
         this.time_off = 3;
         /// time_total = time_on + time_off;
         this.rest = 150;
-        this.long_rest = 600;
+        this.long_rest = 360;
         this.hang_laps_seconds = hang_laps * (time_on + time_off);
 
     }
@@ -54,7 +54,7 @@ public class TimeControls {
         this.time_on = 7;
         this.time_off = 3;
         this.rest = 150;
-        this.long_rest = 600;
+        this.long_rest = 360;
         this.hang_laps_seconds = hang_laps * (time_on + time_off);
     }
 

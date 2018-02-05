@@ -13,6 +13,7 @@ import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -94,6 +95,7 @@ public class WorkoutActivity extends AppCompatActivity {
             timeControls = new TimeControls();
             timeControls.setTimeControls(time_controls);
 
+            Toast.makeText(WorkoutActivity.this,"WI size "+ workoutInfo.size() + " griplaps " + timeControls.getGripLaps(),Toast.LENGTH_LONG).show();
             // grip_laps = time_controls[0];
             // SECURITY CHECK, WILL MAKE SURE IN FUTURE TO NEVER HAPPEN
             if (timeControls.getGripLaps() > workoutInfo.size() ) { timeControls.setGripLaps(workoutInfo.size() ); }
@@ -143,7 +145,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
 
 
-        current_lap = 1;
+        current_lap = 0;
         // Progress our program for every tick that lapseTimeChrono produces
         lapseTimeChrono.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override
@@ -198,7 +200,7 @@ public class WorkoutActivity extends AppCompatActivity {
                             hangProgressBar.setProgress(0);
                             lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
                             s = -timeControls.getRestTime();
-                            gradeTextView.setText(workoutInfo.get(current_lap - 1));
+                            gradeTextView.setText(workoutInfo.get(current_lap));
                              }
 
 
@@ -208,12 +210,12 @@ public class WorkoutActivity extends AppCompatActivity {
                     case PITKALEPO:
                         // This if statmenet will be called once becouse s is positive and will be negative
                         if (s >= timeControls.getHangLapsSeconds()) {
-                            current_lap = 1;
+                            current_lap = 0;
                             hangProgressBar.setProgress(0);
                             lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
 
                             s = -timeControls.getLongRestTime();
-                            gradeTextView.setText(workoutInfo.get(current_lap - 1));
+                            gradeTextView.setText(workoutInfo.get(current_lap));
                         }
 
                         if (timeControls.getRoutineLaps() == 1) {

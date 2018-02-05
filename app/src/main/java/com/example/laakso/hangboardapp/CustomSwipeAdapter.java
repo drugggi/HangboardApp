@@ -55,6 +55,7 @@ public class CustomSwipeAdapter extends PagerAdapter {
         layoutInflater = (LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View item_view = layoutInflater.inflate(R.layout.swipe_layout,container,false);
         ImageView imageView = (ImageView)item_view.findViewById(R.id.image_view);
+
        // TextView textView = (TextView)item_view.findViewById(R.id.image_count);
         imageView.setImageResource(image_resources[position]);
        // textView.setText("Image: :" + position);
