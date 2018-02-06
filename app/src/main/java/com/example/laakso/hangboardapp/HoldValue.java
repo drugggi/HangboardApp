@@ -14,12 +14,14 @@ public class HoldValue {
 
     // grip type describes the fingers used in hanging in a hold
     public enum grip_type {FOUR_FINGER, THREE_FRONT, THREE_BACK, TWO_FRONT, TWO_MIDDLE, TWO_BACK
-        ,MIDDLE_FINGER, INDEX_FINGER, RING_FINGER, PINKY_FINGER};
+        , INDEX_FINGER,MIDDLE_FINGER, RING_FINGER, PINKY_FINGER};
     grip_type grip_style;
 
     private int[] finger_images = {R.drawable.fourfingerleft, R.drawable.fourfingerright, R.drawable.threefrontleft
-    , R.drawable.fourfingerright, R.drawable.threebackleft, R.drawable.threebackright, R.drawable.twomiddleleft
-    , R.drawable.twomiddleright};
+    , R.drawable.fourfingerright, R.drawable.threebackleft, R.drawable.threebackright, R.drawable.twofrontleft
+            ,R.drawable.twofrontright, R.drawable.twomiddleleft , R.drawable.twomiddleright, R.drawable.twobackleft,
+            R.drawable.twobackright, R.drawable.indexleft, R.drawable.indexright, R.drawable.middleleft,
+    R.drawable.middleright, R.drawable.ringleft, R.drawable.ringright, R.drawable. pinkyleft, R.drawable.pinkyright};
 
     private int finger_image;
 
@@ -35,15 +37,28 @@ public class HoldValue {
 
       if (left_hand) {
           if (grip_style == grip_type.FOUR_FINGER) {return R.drawable.fourfingerleft;}
-          if (grip_style == grip_type.THREE_FRONT) {return R.drawable.threefrontleft;}
-          if (grip_style == grip_type.THREE_BACK) {return R.drawable.threebackleft;}
-          if (grip_style == grip_type.TWO_MIDDLE) {return R.drawable.twomiddleleft;}
+          else if (grip_style == grip_type.THREE_FRONT) {return R.drawable.threefrontleft;}
+          else if (grip_style == grip_type.THREE_BACK) {return R.drawable.threebackleft;}
+          else if (grip_style == grip_type.TWO_FRONT) {return R.drawable.twofrontleft;}
+          else if (grip_style == grip_type.TWO_MIDDLE) {return R.drawable.twomiddleleft;}
+          else if (grip_style == grip_type.TWO_BACK) {return R.drawable.twobackleft;}
+          else if (grip_style == grip_type.INDEX_FINGER) {return R.drawable.indexleft;}
+          else if (grip_style == grip_type.MIDDLE_FINGER) {return R.drawable.middleleft;}
+          else if (grip_style == grip_type.RING_FINGER) {return R.drawable.ringleft;}
+          else if (grip_style == grip_type.PINKY_FINGER) {return R.drawable.pinkyleft;}
+
       }
         else {
           if (grip_style == grip_type.FOUR_FINGER) {return R.drawable.fourfingerright;}
-          if (grip_style == grip_type.THREE_FRONT) {return R.drawable.threefrontright;}
-          if (grip_style == grip_type.THREE_BACK) {return R.drawable.threebackright;}
-          if (grip_style == grip_type.TWO_MIDDLE) {return R.drawable.twomiddleright;}
+          else if (grip_style == grip_type.THREE_FRONT) {return R.drawable.threefrontright;}
+          else if (grip_style == grip_type.THREE_BACK) {return R.drawable.threebackright;}
+          else if (grip_style == grip_type.TWO_FRONT) {return R.drawable.twofrontright;}
+          else if (grip_style == grip_type.TWO_MIDDLE) {return R.drawable.twomiddleright;}
+          else if (grip_style == grip_type.TWO_BACK) {return R.drawable.twobackright;}
+          else if (grip_style == grip_type.INDEX_FINGER) {return R.drawable.indexright;}
+          else if (grip_style == grip_type.MIDDLE_FINGER) {return R.drawable.middleright;}
+          else if (grip_style == grip_type.RING_FINGER) {return R.drawable.ringright;}
+          else if (grip_style == grip_type.PINKY_FINGER) {return R.drawable.pinkyright;}
 
       }
       return R.drawable.fourfingerright;

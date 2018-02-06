@@ -2,8 +2,6 @@ package com.example.laakso.hangboardapp;
 
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -57,14 +55,14 @@ public class MainActivity extends AppCompatActivity {
 
         fingerImage = (ImageView) findViewById(R.id.templateFingerImageView);
          fingerImage.setImageResource(R.drawable.finger_template);
+        //fingerImage.setVisibility(View.INVISIBLE);
 
-        // fingerImage.setX(400);
-        //fingerImage.setY(60);
 
         // HangBoard class holds all the information about grades and holds and grips
         final Resources res = getResources();
         everyBoard = new HangBoard(res);
         everyBoard.InitializeHolds(res);
+       everyBoard.setGripAmount(6,0);
 
         // 6 sets, 6 rounds  of 7on 3 off, 6 laps 150s rests, 600s long rest
 
@@ -104,6 +102,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 // Toast.makeText(MainActivity.this,"Hangboard page Selected: " + position,Toast.LENGTH_SHORT).show();
+
+                rightFingerImage.setVisibility(View.INVISIBLE);
+                leftFingerImage.setVisibility(View.INVISIBLE);
+
                 everyBoard.NewBoard(res,CustomSwipeAdapter.getHangBoard(position));
                 everyBoard.InitializeHolds(res);
                 holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
@@ -133,6 +135,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                rightFingerImage.setVisibility(View.INVISIBLE);
+                leftFingerImage.setVisibility(View.INVISIBLE);
+
                 grade_descr_position = gradesListView.getPositionForView(view);
                 holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
                         R.layout.mytextview , everyBoard.setGrips(grade_descr_position));
@@ -160,12 +165,19 @@ public class MainActivity extends AppCompatActivity {
                 hang_descr_position = position+1;
                 randomizeBtn.setText("Randomize Hold: " + (hang_descr_position) );
 
-                ImageView imageView = (ImageView) findViewById(R.id.image_view);
-                Drawable drawable = imageView.getDrawable();
-                Rect imageBounds = drawable.getBounds();
+                rightFingerImage.setVisibility(View.VISIBLE);
+                leftFingerImage.setVisibility(View.VISIBLE);
 
-                Float multiplyer_w = imageBounds.width() / 832F;
-                Float multiplyer_h = imageBounds.height() / 241F;
+                ImageView imageView = (ImageView) findViewById(R.id.image_view);
+//                ImageView risti = (ImageView) findViewById(R.id.ristiImageView);
+
+//                Drawable drawable = imageView.getDrawable();
+  //              Rect imageBounds = drawable.getBounds();
+
+                Float multiplyer_w = imageView.getWidth() / 350F;
+                Float multiplyer_h = imageView.getHeight() / 150F;
+
+                // Toast.makeText(MainActivity.this,"risti Height: " + imageView.getHeight() + " risti Width: " + imageView.getWidth(),Toast.LENGTH_LONG ).show();
 
                 //fingerImage.setX(everyBoard.getCoordLeftX(position) * multiplyer_w);
                 //fingerImage.setY(everyBoard.getCoordLeftY(position) * multiplyer_h);
@@ -181,11 +193,13 @@ public class MainActivity extends AppCompatActivity {
                 leftFingerImage.setX(everyBoard.getCoordLeftX(position)* multiplyer_w);
                 leftFingerImage.setY(everyBoard.getCoordLeftY(position)* multiplyer_h);
 
+
+
                 rightFingerImage.setImageResource(everyBoard.getRightFingerImage(position));
                 rightFingerImage.setX(everyBoard.getCoordRightX(position)*multiplyer_w);
                 rightFingerImage.setY(everyBoard.getCoordRightY(position)*multiplyer_h);
 
-
+                // Toast.makeText(MainActivity.this,multiplyer_w + " rX: "+ everyBoard.getCoordRightX(position)+" "+ multiplyer_h+ " rY: " + everyBoard.getCoordRightY(position),Toast.LENGTH_SHORT ).show();
   /*
                 if (position == 0) { leftFingerImage.setX(20); leftFingerImage.setY(45); rightFingerImage.setX(840); rightFingerImage.setY(45); }
                 if (position == 1) { leftFingerImage.setX(210); leftFingerImage.setY(70); rightFingerImage.setX(660); rightFingerImage.setY(70); }
@@ -253,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
               // fingerImage.
                 // Toast.makeText(MainActivity.this,"X: "+ fingerImage.getWidth()+ " Y: " + fingerImage.getHeight(),Toast.LENGTH_LONG ).show();
-                Toast.makeText(MainActivity.this,"X/3: "+ fingerImage.getX()/3+ " Y/3: " + fingerImage.getY()/3 ,Toast.LENGTH_LONG ).show();
+                Toast.makeText(MainActivity.this,"X/1.5: "+ fingerImage.getX()/1.5+ " Y/1.5: " + fingerImage.getY()/1.5 ,Toast.LENGTH_LONG ).show();
             // Toast.makeText(MainActivity.this, " Make new activity with time controls etc", Toast.LENGTH_SHORT).show();
 
 

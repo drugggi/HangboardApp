@@ -71,31 +71,37 @@ public class HangBoard {
         if (CustomSwipeAdapter.hangboard.BM1000 == new_board) {
             current_board = CustomSwipeAdapter.hangboard.BM1000;
             starter_grips = res.getStringArray(R.array.beastmaker1000);
+            hold_coordinates = res.getIntArray(R.array.bm1000_coordinates);
         }
 
-        if (CustomSwipeAdapter.hangboard.BM2000 == new_board) {
+        else if (CustomSwipeAdapter.hangboard.BM2000 == new_board) {
             current_board = CustomSwipeAdapter.hangboard.BM2000;
             starter_grips = res.getStringArray(R.array.beastmaker2000);
+            hold_coordinates = res.getIntArray(R.array.bm2000_coordinates);
         }
 
-        if (CustomSwipeAdapter.hangboard.TRANS == new_board) {
+        else if (CustomSwipeAdapter.hangboard.TRANS == new_board) {
             current_board = CustomSwipeAdapter.hangboard.TRANS;
             starter_grips = res.getStringArray(R.array.no_start_program);
+            hold_coordinates = res.getIntArray(R.array.trans_coordinates);
         }
 
-        if (CustomSwipeAdapter.hangboard.ZLAG == new_board) {
+        else if (CustomSwipeAdapter.hangboard.ZLAG == new_board) {
             current_board = CustomSwipeAdapter.hangboard.ZLAG;
             starter_grips = res.getStringArray(R.array.no_start_program);
+            hold_coordinates = res.getIntArray(R.array.zlag_coordinates);
         }
 
-        if (CustomSwipeAdapter.hangboard.MOONHARD == new_board) {
+        else if (CustomSwipeAdapter.hangboard.MOONHARD == new_board) {
             current_board = CustomSwipeAdapter.hangboard.MOONHARD;
             starter_grips = res.getStringArray(R.array.no_start_program);
+            hold_coordinates = res.getIntArray(R.array.moonhard_coordinates);
         }
 
-        if (CustomSwipeAdapter.hangboard.TENSION == new_board) {
+        else if (CustomSwipeAdapter.hangboard.TENSION == new_board) {
             current_board = CustomSwipeAdapter.hangboard.TENSION;
             starter_grips = res.getStringArray(R.array.no_start_program);
+            hold_coordinates = res.getIntArray(R.array.tension_coordinates);
         }
         setGrips(0);
 
@@ -255,6 +261,9 @@ public class HangBoard {
                 // Holds should not be the same, if it is lets make sure next if statement is true
                 if (random_nro == random_nro_alt) { isAlternate = false; }
 
+            valueList.set(hold_nro*2, all_hold_values[random_nro]);
+            valueList.set(hold_nro*2 + 1,all_hold_values[random_nro_alt]);
+
                 holdList.set(hold_nro, hold_nro + ". HOLD: " + all_hold_values[random_nro].GetHoldNumber() + "/"
                         + all_hold_values[random_nro_alt].GetHoldNumber() + "\nGRIP: " +
                         all_hold_values[random_nro].GetHoldText() + " alternate\n Difficulty: "+
@@ -267,6 +276,9 @@ public class HangBoard {
                 random_nro = getHoldNumberWithValue(min_value, max_value);
 
                 value = value + all_hold_values[random_nro].GetHoldValue();
+
+            valueList.set(hold_nro*2, all_hold_values[random_nro]);
+            valueList.set(hold_nro*2 + 1,all_hold_values[random_nro]);
 
                 holdList.set(hold_nro, hold_nro +  ". HOLD: " + all_hold_values[random_nro].GetHoldNumber() +
                         "\nGRIP: " + all_hold_values[random_nro].GetHoldText() +
