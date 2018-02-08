@@ -67,6 +67,10 @@ public class HangBoard {
         return hold_coordinates[hold_number*5+4];
     }
 
+    public int[] getCoordinates() {
+        return hold_coordinates;
+    }
+
     public void NewBoard(Resources res,CustomSwipeAdapter.hangboard new_board) {
         if (CustomSwipeAdapter.hangboard.BM1000 == new_board) {
             current_board = CustomSwipeAdapter.hangboard.BM1000;

@@ -44,9 +44,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:orientation="vertical"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:paddingTop="4dp"
             android:visibility="visible"
             tools:layout_editor_absoluteX="140dp"
             tools:layout_editor_absoluteY="0dp">

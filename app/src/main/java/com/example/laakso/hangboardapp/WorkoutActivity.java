@@ -23,6 +23,8 @@ public class WorkoutActivity extends AppCompatActivity {
     Chronometer lapseTimeChrono;
     ProgressBar hangProgressBar;
      ImageView boardimage;
+     ImageView leftHandImage;
+     ImageView rightHandImage;
     enum workoutPart {ALKULEPO, WORKOUT, LEPO, PITKALEPO};
     Button pauseBtn;
 
@@ -45,6 +47,9 @@ public class WorkoutActivity extends AppCompatActivity {
     ArrayList<String> workoutInfo;
     TextView gradeTextView;
 
+    int i;
+    int hold_coordinates[];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,11 +60,28 @@ public class WorkoutActivity extends AppCompatActivity {
         final MediaPlayer playFinishSound = MediaPlayer.create(this,R.raw.finish_tick);
 
         boardimage = (ImageView) findViewById(R.id.boardImageView);
+        leftHandImage = (ImageView) findViewById(R.id.leftHandImageView);
+        rightHandImage = (ImageView) findViewById(R.id.rightHandImageView);
+
+        leftHandImage.setImageResource(R.drawable.threebackleft);
+        rightHandImage.setImageResource(R.drawable.twomiddleright);
+
+       // leftHandImage.setX(143* 3* 1.22F);
+       // leftHandImage.setY(76* 3* 1.11F);
+
+//        rightHandImage.setX(143 * 3* 1.22F);
+  //      rightHandImage.setY(76 * 3* 1.11F);
+       //         <item>10</item> <item>143</item> <item>76</item>       <item>143</item> <item>76</item>
+// <item>8</item> <item>88</item> <item>73</item>       <item>195</item> <item>73</item>
 
         hangProgressBar = (ProgressBar) findViewById(R.id.hangProgressBar);
         pauseBtn = (Button) findViewById(R.id.pauseBtn);
         pauseBtn.setText("pause");
         gradeTextView = (TextView) findViewById(R.id.gradTextView);
+
+        if (getIntent().hasExtra("com.example.laakso.hangboardapp.COORDINATES")) {
+            hold_coordinates = getIntent().getExtras().getIntArray("com.example.laakso.hangboardapp.COORDINATES");
+        }
 
         if (getIntent().hasExtra("com.example.laakso.hangboardapp.BOARDIMAGE")) {
             int image_resource = getIntent().getIntExtra("com.example.laakso.hangboardapp.BOARDIMAGE", 0);
@@ -95,7 +117,7 @@ public class WorkoutActivity extends AppCompatActivity {
             timeControls = new TimeControls();
             timeControls.setTimeControls(time_controls);
 
-            Toast.makeText(WorkoutActivity.this,"WI size "+ workoutInfo.size() + " griplaps " + timeControls.getGripLaps(),Toast.LENGTH_LONG).show();
+            // Toast.makeText(WorkoutActivity.this,"WI size "+ workoutInfo.size() + " griplaps " + timeControls.getGripLaps(),Toast.LENGTH_LONG).show();
             // grip_laps = time_controls[0];
             // SECURITY CHECK, WILL MAKE SURE IN FUTURE TO NEVER HAPPEN
             if (timeControls.getGripLaps() > workoutInfo.size() ) { timeControls.setGripLaps(workoutInfo.size() ); }
@@ -125,19 +147,47 @@ public class WorkoutActivity extends AppCompatActivity {
         lapseTimeChrono.start();
 
         // Lets stop or start chronometer on user input
+        i = 0;
         pauseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                // Check if chronometer is active lets stop it and store pause time
+                Float multiplyer_w = boardimage.getWidth() / 350F;
+                Float multiplyer_h = boardimage.getHeight() / 150F;
+                 if (i < hold_coordinates.length/ 5 ) {
+                    leftHandImage.setX((hold_coordinates[i*5+1]+3) * multiplyer_w);
+                    leftHandImage.setY(hold_coordinates[i*5+2] * multiplyer_h);
+                    rightHandImage.setX((hold_coordinates[i*5+3]+3) * multiplyer_w);
+                    rightHandImage.setY(hold_coordinates[i*5+4] * multiplyer_h);
+                    i++;
+                }
+                else {
+                    i=0;
+                }
+
+
                 if ( pauseBtn.getText().equals("pause") ) {
                     lapseTimeChrono.stop();
                     pauseBtn.setText("start");
+
+                    //leftHandImage.setX(leftHandImage.getX()+ 5);
+                    //leftHandImage.setY(leftHandImage.getY()+ 2);
+
+                    gradeTextView.setText("MULTIPLAER W: "+ multiplyer_w+ " H: " + multiplyer_h);
+                    // Toast.makeText(WorkoutActivity.this,"LEFT X: "+ leftHandImage.getX()+ " Y: " + leftHandImage.getY(),Toast.LENGTH_LONG ).show();
 
                 }
                 // Chrono meter has been stopped, lets set the basetime when it was stopped
                 else {
                     pauseBtn.setText("pause");
                     lapseTimeChrono.start();
+
+                    //rightHandImage.setX(rightHandImage.getX()+ 5);
+                    //rightHandImage.setY(rightHandImage.getY()+ 3);
+
+                    gradeTextView.setText("RIGHT HAND X: "+ rightHandImage.getX()+ " Y: " + rightHandImage.getY());
+                    Toast.makeText(WorkoutActivity.this,"length X: "+ hold_coordinates.length + " Y: " + rightHandImage.getY(),Toast.LENGTH_LONG ).show();
+
                 }
 
             }

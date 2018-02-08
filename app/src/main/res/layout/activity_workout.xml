@@ -19,18 +19,34 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0"
-            android:orientation="vertical"
-            android:paddingLeft="0dp">
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/boardImageView"
-                android:layout_width="400dp"
-                android:layout_height="171dp"
-                android:layout_marginRight="0dp"
-                android:paddingRight="0dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/lauta1011" />
+            <RelativeLayout
+                android:layout_width="420dp"
+                android:layout_height="180dp">
+
+                <ImageView
+                    android:id="@+id/boardImageView"
+                    android:layout_width="420dp"
+                    android:layout_height="180dp"
+                    android:layout_marginRight="0dp"
+                    android:paddingRight="0dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/lauta1011" />
+
+                <ImageView
+                    android:id="@+id/leftHandImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/fourfingerleft" />
+
+                <ImageView
+                    android:id="@+id/rightHandImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/fourfingerright" />
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/gradTextView"
