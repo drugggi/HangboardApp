@@ -5,7 +5,7 @@ package com.example.laakso.hangboardapp;
  */
 
 // HoldValue contains the information that a single hang can hold
-public class HoldValue {
+public class HoldValue implements Comparable<HoldValue> {
     // Hold number corresponds with the number in hangboard picture
     private int hold_number;
 
@@ -31,6 +31,10 @@ public class HoldValue {
     public HoldValue(int number) {
         single_hold = false;
         hold_number = number;
+    }
+
+    public int compareTo(HoldValue compareHoldValue) {
+        return this.hold_value - compareHoldValue.hold_value;
     }
 
     public int getGripImage(boolean left_hand) {

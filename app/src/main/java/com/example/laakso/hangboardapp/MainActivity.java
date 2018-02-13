@@ -138,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
                 rightFingerImage.setVisibility(View.INVISIBLE);
                 leftFingerImage.setVisibility(View.INVISIBLE);
 
+
                 grade_descr_position = gradesListView.getPositionForView(view);
                 holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
                         R.layout.mytextview , everyBoard.setGrips(grade_descr_position));
@@ -314,11 +315,23 @@ public class MainActivity extends AppCompatActivity {
         durationSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                durationTextView.setText("Duration: " + (20+progress*15) +"min");
+                if (progress == 4) {
+                    durationTextView.setText("TEST progression");
 
-                timeControls.setProgramBasedOnTime(20+progress*15);
+                    timeControls.setProgramBasedOnTime(20 + progress * 15);
+                    timeControls.setGripLaps(everyBoard.getHoldListSize() );
+                    everyBoard.sortHoldByDifficulty();
+                    // everyBoard.setGripAmount(timeControls.getGripLaps(),grade_descr_position);
 
-                everyBoard.setGripAmount(timeControls.getGripLaps(),grade_descr_position);
+                }
+                else {
+                    durationTextView.setText("Duration: " + (20 + progress * 15) + "min");
+                    timeControls.setProgramBasedOnTime(20 + progress * 15);
+                    everyBoard.setGripAmount(timeControls.getGripLaps(),grade_descr_position);
+
+                }
+
+
                 holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
                         R.layout.mytextview , everyBoard.getGrips());
                 holdsListView.setAdapter(holdsAdapter);

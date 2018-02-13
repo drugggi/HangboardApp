@@ -131,7 +131,7 @@ public class TimeControls {
             setTimeControls(new int[] {6, 6, 7 ,3 , 3, 150, 360}); // default program
         }
         else {
-            setTimeControls(new int[] {7, 6, 7 ,3 , 3, 160, 420}); // 80min program
+            setTimeControls(new int[] {15, 6, 7 ,3 , 1, 150, 150}); // TEST grade program
         }
     }
 

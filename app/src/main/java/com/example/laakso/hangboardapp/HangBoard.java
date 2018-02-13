@@ -3,6 +3,7 @@ package com.example.laakso.hangboardapp;
 import android.content.res.Resources;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -165,6 +166,31 @@ public class HangBoard {
         return holds;
     }
 
+    public int getHoldListSize() {
+        return all_hold_values.length;
+    }
+
+    public void sortHoldByDifficulty() {
+
+        Arrays.sort(all_hold_values);
+
+        holdList.clear();
+        valueList.clear();
+
+        int i = 0;
+
+        while (i < all_hold_values.length ) {
+            if ( all_hold_values[i].isSingleHold() ) {i++; continue; }
+
+            valueList.add(all_hold_values[i]);
+            valueList.add(all_hold_values[i]);
+
+            holdList.add(i + ". HOLD: " + all_hold_values[i].GetHoldNumber() +
+                    "\nGRIP: " + all_hold_values[i].GetHoldText() +
+                    "\nDifficulty: " + all_hold_values[i].GetHoldValue());
+            i++;
+        }
+    }
 
     public String[] getGrades() {
         return grades;
@@ -178,6 +204,21 @@ public class HangBoard {
             --amount;
         }
         randomizeGrips(grade_position);
+
+    }
+
+    public void setGripsFromStart() {
+        int i = 0;
+        valueList.clear();
+
+        while (i < holdList.size()) {
+            valueList.add(all_hold_values[i]);
+            i++;
+
+            holdList.set(i, i + ". HOLD: " + all_hold_values[i].GetHoldNumber() +
+                "\nGRIP: " + all_hold_values[i].GetHoldText() +
+                "\nDifficulty: " + all_hold_values[i].GetHoldValue());
+        }
     }
 
     // THIS RANDOMIZER ACTUALLY WORKS QUITE DECENTLY
