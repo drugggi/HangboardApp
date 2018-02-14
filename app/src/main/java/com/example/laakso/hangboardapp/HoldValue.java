@@ -9,6 +9,13 @@ public class HoldValue implements Comparable<HoldValue> {
     // Hold number corresponds with the number in hangboard picture
     private int hold_number;
 
+    // hold coordinates are based on hold number, left or right hand and currently used hangboard.
+    private int lefthand_coord_x;
+    private int lefthand_coord_y;
+    private int righthand_coord_x;
+    private int righthand_coord_y;
+
+
     // hold value tries to measure the difficulty to hang in each hold number with the different grip types
     private int hold_value;
 
@@ -31,10 +38,33 @@ public class HoldValue implements Comparable<HoldValue> {
     public HoldValue(int number) {
         single_hold = false;
         hold_number = number;
+
     }
 
     public int compareTo(HoldValue compareHoldValue) {
         return this.hold_value - compareHoldValue.hold_value;
+    }
+
+    public int getLeftCoordX() {
+        return lefthand_coord_x;
+    }
+    public int getLeftCoordY() {
+        return lefthand_coord_y;
+    }
+    public int getRightCoordX() {
+        return righthand_coord_x;
+    }
+    public int getRightCoordY() {
+        return righthand_coord_y;
+    }
+
+    public void setHoldCoordinates(int[] coordinates) {
+
+        lefthand_coord_x = coordinates[(hold_number-1)*5+1];
+        lefthand_coord_y = coordinates[(hold_number-1)*5+2];
+        righthand_coord_x = coordinates[(hold_number-1)*5+3];
+        righthand_coord_y = coordinates[(hold_number-1)*5+4];
+
     }
 
     public int getGripImage(boolean left_hand) {

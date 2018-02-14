@@ -52,20 +52,20 @@ public class HangBoard {
     // Valuelist keeps track what holds and grips is currently used in a program
     // even values has the left hand information and odd values  right hand information
     public int getCoordLeftX(int position) {
-        int hold_number = valueList.get(position*2).getHoldNumber() - 1;
-        return hold_coordinates[hold_number*5+1];
+        return valueList.get(position*2).getLeftCoordX();
+
     }
     public int getCoordLeftY(int position) {
-        int hold_number = valueList.get(position*2).getHoldNumber() - 1;
-        return hold_coordinates[hold_number*5+2];
+        return valueList.get(position*2).getLeftCoordY();
+
     }
     public int getCoordRightX(int position) {
-        int hold_number = valueList.get(position*2+1).getHoldNumber() - 1;
-        return hold_coordinates[hold_number*5+3];
+        return valueList.get(position*2+1).getRightCoordX();
+
     }
     public int getCoordRightY(int position) {
-        int hold_number = valueList.get(position*2+1).getHoldNumber() - 1;
-        return hold_coordinates[hold_number*5+4];
+        return valueList.get(position*2+1).getRightCoordY();
+
     }
 
     public int[] getCoordinates() {
@@ -399,6 +399,7 @@ public class HangBoard {
             while (hold_pos/3 < all_hold_values.length) {
                 all_hold_values[hold_pos/3] = new HoldValue(arvot[hold_pos]);
                 hold_pos++;
+                all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.bm1000_coordinates));
                 all_hold_values[hold_pos/3].SetHoldValue(arvot[hold_pos]);
                 hold_pos++;
                 all_hold_values[hold_pos/3].SetGripTypeAndSingleHang(arvot[hold_pos]);
@@ -414,6 +415,7 @@ public class HangBoard {
             while (hold_pos/3 < all_hold_values.length) {
                 all_hold_values[hold_pos/3] = new HoldValue(arvot[hold_pos]);
                 hold_pos++;
+                all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.bm2000_coordinates));
                 all_hold_values[hold_pos/3].SetHoldValue(arvot[hold_pos]);
                 hold_pos++;
                 all_hold_values[hold_pos/3].SetGripTypeAndSingleHang(arvot[hold_pos]);
@@ -429,6 +431,7 @@ public class HangBoard {
             while (hold_pos/3 < all_hold_values.length) {
                 all_hold_values[hold_pos/3] = new HoldValue(arvot[hold_pos]);
                 hold_pos++;
+                all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.trans_coordinates));
                 all_hold_values[hold_pos/3].SetHoldValue(arvot[hold_pos]);
                 hold_pos++;
                 all_hold_values[hold_pos/3].SetGripTypeAndSingleHang(arvot[hold_pos]);
@@ -444,6 +447,7 @@ public class HangBoard {
             while (hold_pos/3 < all_hold_values.length) {
                 all_hold_values[hold_pos/3] = new HoldValue(arvot[hold_pos]);
                 hold_pos++;
+                all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.tension_coordinates));
                 all_hold_values[hold_pos/3].SetHoldValue(arvot[hold_pos]);
                 hold_pos++;
                 all_hold_values[hold_pos/3].SetGripTypeAndSingleHang(arvot[hold_pos]);
@@ -459,6 +463,7 @@ public class HangBoard {
             while (hold_pos/3 < all_hold_values.length) {
                 all_hold_values[hold_pos/3] = new HoldValue(arvot[hold_pos]);
                 hold_pos++;
+                all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.zlag_coordinates));
                 all_hold_values[hold_pos/3].SetHoldValue(arvot[hold_pos]);
                 hold_pos++;
                 all_hold_values[hold_pos/3].SetGripTypeAndSingleHang(arvot[hold_pos]);
@@ -474,6 +479,7 @@ public class HangBoard {
             while (hold_pos/3 < all_hold_values.length) {
                 all_hold_values[hold_pos/3] = new HoldValue(arvot[hold_pos]);
                 hold_pos++;
+                all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.moonhard_coordinates));
                 all_hold_values[hold_pos/3].SetHoldValue(arvot[hold_pos]);
                 hold_pos++;
                 all_hold_values[hold_pos/3].SetGripTypeAndSingleHang(arvot[hold_pos]);

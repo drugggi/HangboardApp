@@ -135,6 +135,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                if (durationSeekBar.getProgress() == 4) {
+                    Toast.makeText(MainActivity.this, "There is no grades in \"TEST progression\" program", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 rightFingerImage.setVisibility(View.INVISIBLE);
                 leftFingerImage.setVisibility(View.INVISIBLE);
 
@@ -308,6 +313,7 @@ public class MainActivity extends AppCompatActivity {
                     holdsListView.setAdapter(holdsAdapter);
                     // Toast.makeText(MainActivity.this, "Single hangs", Toast.LENGTH_SHORT).show();
                 }
+                Toast.makeText(MainActivity.this, timeControls.getTimeControlsAsString(),Toast.LENGTH_LONG).show();
             }
         });
 
@@ -335,6 +341,7 @@ public class MainActivity extends AppCompatActivity {
                 holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
                         R.layout.mytextview , everyBoard.getGrips());
                 holdsListView.setAdapter(holdsAdapter);
+                Toast.makeText(MainActivity.this, timeControls.getTimeControlsAsString(),Toast.LENGTH_LONG).show();
             }
 
             @Override

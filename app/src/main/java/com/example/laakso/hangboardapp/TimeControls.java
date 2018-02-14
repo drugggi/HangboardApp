@@ -22,9 +22,10 @@ public class TimeControls {
     public void TimeControls() {
         this.grip_laps = 6;
         this.hang_laps = 6;
-        this.routine_laps = 3;
+
         this.time_on = 7;
         this.time_off = 3;
+        this.routine_laps = 3;
         /// time_total = time_on + time_off;
         this.rest = 150;
         this.long_rest = 360;
@@ -50,9 +51,9 @@ public class TimeControls {
         isRepeaters = true;
         this.grip_laps = 6;
         this.hang_laps = 6;
-        this.routine_laps = 3;
         this.time_on = 7;
         this.time_off = 3;
+        this.routine_laps = 3;
         this.rest = 150;
         this.long_rest = 360;
         this.hang_laps_seconds = hang_laps * (time_on + time_off);
@@ -135,6 +136,10 @@ public class TimeControls {
         }
     }
 
+    public String getTimeControlsAsString() {
+        return "Grip laps: " + grip_laps + " Hang laps: " + hang_laps + " Time on/off: " + time_on + "/"
+                + time_off + " Laps/sets: " + routine_laps + " longrest/rest: " + long_rest + "/" + rest;
+    }
 
     public int getTotalTime() {
         // 0 represents workout starts in time
