@@ -42,6 +42,10 @@ public class HangBoard {
 
     }
 
+    public ArrayList<HoldValue> getCurrentHoldList() {
+        return valueList;
+    }
+
     public int getLeftFingerImage(int position) {
         return valueList.get(position*2).getGripImage(true);
     }
@@ -185,9 +189,9 @@ public class HangBoard {
             valueList.add(all_hold_values[i]);
             valueList.add(all_hold_values[i]);
 
-            holdList.add(i + ". HOLD: " + all_hold_values[i].GetHoldNumber() +
-                    "\nGRIP: " + all_hold_values[i].GetHoldText() +
-                    "\nDifficulty: " + all_hold_values[i].GetHoldValue());
+            holdList.add(i + ". HOLD: " + all_hold_values[i].getHoldNumber() +
+                    "\nGRIP: " + all_hold_values[i].getHoldText() +
+                    "\nDifficulty: " + all_hold_values[i].getHoldValue());
             i++;
         }
     }
@@ -215,9 +219,9 @@ public class HangBoard {
             valueList.add(all_hold_values[i]);
             i++;
 
-            holdList.set(i, i + ". HOLD: " + all_hold_values[i].GetHoldNumber() +
-                "\nGRIP: " + all_hold_values[i].GetHoldText() +
-                "\nDifficulty: " + all_hold_values[i].GetHoldValue());
+            holdList.set(i, i + ". HOLD: " + all_hold_values[i].getHoldNumber() +
+                "\nGRIP: " + all_hold_values[i].getHoldText() +
+                "\nDifficulty: " + all_hold_values[i].getHoldValue());
         }
     }
 
@@ -255,9 +259,9 @@ public class HangBoard {
                 if (random_nro == random_nro_alt) { isAlternate = false; continue; }
                 valueList.add(all_hold_values[random_nro]);
                 valueList.add(all_hold_values[random_nro_alt]);
-                holdList.set(i, i + ". HOLD: " + all_hold_values[random_nro].GetHoldNumber() + "/" + all_hold_values[random_nro_alt].GetHoldNumber() + "\nGRIP: " +
-                        all_hold_values[random_nro].GetHoldText() + " alternate\n Difficulty: "+
-                                (all_hold_values[random_nro].GetHoldValue() + all_hold_values[random_nro_alt].GetHoldValue() )/2);
+                holdList.set(i, i + ". HOLD: " + all_hold_values[random_nro].getHoldNumber() + "/" + all_hold_values[random_nro_alt].getHoldNumber() + "\nGRIP: " +
+                        all_hold_values[random_nro].getHoldText() + " alternate\n Difficulty: "+
+                                (all_hold_values[random_nro].getHoldValue() + all_hold_values[random_nro_alt].getHoldValue() )/2);
 
             }
 
@@ -265,11 +269,11 @@ public class HangBoard {
                 // Lets search for a hold that max hardness is half the remaining points for a give grade
                 random_nro = getHoldNumberWithValue(min_value, max_value);
 
-                value = value + all_hold_values[random_nro].GetHoldValue();
+                value = value + all_hold_values[random_nro].getHoldValue();
                 valueList.add(all_hold_values[random_nro]);
                 valueList.add(all_hold_values[random_nro]);
-                holdList.set(i, i + ". HOLD: " + all_hold_values[random_nro].GetHoldNumber() + "\nGRIP: " + all_hold_values[random_nro].GetHoldText() +
-                        "\nDifficulty: " + all_hold_values[random_nro].GetHoldValue() );
+                holdList.set(i, i + ". HOLD: " + all_hold_values[random_nro].getHoldNumber() + "\nGRIP: " + all_hold_values[random_nro].getHoldText() +
+                        "\nDifficulty: " + all_hold_values[random_nro].getHoldValue() );
 
             }
             isAlternate = rn.nextBoolean();
@@ -309,10 +313,10 @@ public class HangBoard {
             valueList.set(hold_nro*2, all_hold_values[random_nro]);
             valueList.set(hold_nro*2 + 1,all_hold_values[random_nro_alt]);
 
-                holdList.set(hold_nro, hold_nro + ". HOLD: " + all_hold_values[random_nro].GetHoldNumber() + "/"
-                        + all_hold_values[random_nro_alt].GetHoldNumber() + "\nGRIP: " +
-                        all_hold_values[random_nro].GetHoldText() + " alternate\n Difficulty: "+
-                        (all_hold_values[random_nro].GetHoldValue() + all_hold_values[random_nro_alt].GetHoldValue() )/2);
+                holdList.set(hold_nro, hold_nro + ". HOLD: " + all_hold_values[random_nro].getHoldNumber() + "/"
+                        + all_hold_values[random_nro_alt].getHoldNumber() + "\nGRIP: " +
+                        all_hold_values[random_nro].getHoldText() + " alternate\n Difficulty: "+
+                        (all_hold_values[random_nro].getHoldValue() + all_hold_values[random_nro_alt].getHoldValue() )/2);
 
             }
 
@@ -320,14 +324,14 @@ public class HangBoard {
                 // Lets search for a hold that max hardness is half the remaining points for a give grade
                 random_nro = getHoldNumberWithValue(min_value, max_value);
 
-                value = value + all_hold_values[random_nro].GetHoldValue();
+                value = value + all_hold_values[random_nro].getHoldValue();
 
             valueList.set(hold_nro*2, all_hold_values[random_nro]);
             valueList.set(hold_nro*2 + 1,all_hold_values[random_nro]);
 
-                holdList.set(hold_nro, hold_nro +  ". HOLD: " + all_hold_values[random_nro].GetHoldNumber() +
-                        "\nGRIP: " + all_hold_values[random_nro].GetHoldText() +
-                        "\nDifficulty: " + all_hold_values[random_nro].GetHoldValue() );
+                holdList.set(hold_nro, hold_nro +  ". HOLD: " + all_hold_values[random_nro].getHoldNumber() +
+                        "\nGRIP: " + all_hold_values[random_nro].getHoldText() +
+                        "\nDifficulty: " + all_hold_values[random_nro].getHoldValue() );
 
             }
     }
@@ -341,8 +345,8 @@ public class HangBoard {
         int search_point = rng.nextInt(all_hold_values.length);
         int tuplakierros = 0;
 
-        while ( all_hold_values[search_point].GetHoldValue() < min_value ||
-                all_hold_values[search_point].GetHoldValue() > max_value ||
+        while ( all_hold_values[search_point].getHoldValue() < min_value ||
+                all_hold_values[search_point].getHoldValue() > max_value ||
                 all_hold_values[search_point].grip_style != wanted_hold) {
 
             ++search_point;
@@ -367,8 +371,8 @@ public class HangBoard {
 
         // Search as long as hold is between wanted grade values and not a single hold
         // Starting point is random and will set to 0 when all_hold_value array ends
-        while ( all_hold_values[search_point].GetHoldValue() < min_value ||
-                all_hold_values[search_point].GetHoldValue() > max_value ||
+        while ( all_hold_values[search_point].getHoldValue() < min_value ||
+                all_hold_values[search_point].getHoldValue() > max_value ||
                 all_hold_values[search_point].isSingleHold() ) {
 
             ++search_point;
@@ -400,9 +404,9 @@ public class HangBoard {
                 all_hold_values[hold_pos/3] = new HoldValue(arvot[hold_pos]);
                 hold_pos++;
                 all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.bm1000_coordinates));
-                all_hold_values[hold_pos/3].SetHoldValue(arvot[hold_pos]);
+                all_hold_values[hold_pos/3].setHoldValue(arvot[hold_pos]);
                 hold_pos++;
-                all_hold_values[hold_pos/3].SetGripTypeAndSingleHang(arvot[hold_pos]);
+                all_hold_values[hold_pos/3].setGripTypeAndSingleHang(arvot[hold_pos]);
                 hold_pos++;
             }
         }
@@ -416,9 +420,9 @@ public class HangBoard {
                 all_hold_values[hold_pos/3] = new HoldValue(arvot[hold_pos]);
                 hold_pos++;
                 all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.bm2000_coordinates));
-                all_hold_values[hold_pos/3].SetHoldValue(arvot[hold_pos]);
+                all_hold_values[hold_pos/3].setHoldValue(arvot[hold_pos]);
                 hold_pos++;
-                all_hold_values[hold_pos/3].SetGripTypeAndSingleHang(arvot[hold_pos]);
+                all_hold_values[hold_pos/3].setGripTypeAndSingleHang(arvot[hold_pos]);
                 hold_pos++;
             }
         }
@@ -432,9 +436,9 @@ public class HangBoard {
                 all_hold_values[hold_pos/3] = new HoldValue(arvot[hold_pos]);
                 hold_pos++;
                 all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.trans_coordinates));
-                all_hold_values[hold_pos/3].SetHoldValue(arvot[hold_pos]);
+                all_hold_values[hold_pos/3].setHoldValue(arvot[hold_pos]);
                 hold_pos++;
-                all_hold_values[hold_pos/3].SetGripTypeAndSingleHang(arvot[hold_pos]);
+                all_hold_values[hold_pos/3].setGripTypeAndSingleHang(arvot[hold_pos]);
                 hold_pos++;
             }
         }
@@ -448,9 +452,9 @@ public class HangBoard {
                 all_hold_values[hold_pos/3] = new HoldValue(arvot[hold_pos]);
                 hold_pos++;
                 all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.tension_coordinates));
-                all_hold_values[hold_pos/3].SetHoldValue(arvot[hold_pos]);
+                all_hold_values[hold_pos/3].setHoldValue(arvot[hold_pos]);
                 hold_pos++;
-                all_hold_values[hold_pos/3].SetGripTypeAndSingleHang(arvot[hold_pos]);
+                all_hold_values[hold_pos/3].setGripTypeAndSingleHang(arvot[hold_pos]);
                 hold_pos++;
             }
         }
@@ -464,9 +468,9 @@ public class HangBoard {
                 all_hold_values[hold_pos/3] = new HoldValue(arvot[hold_pos]);
                 hold_pos++;
                 all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.zlag_coordinates));
-                all_hold_values[hold_pos/3].SetHoldValue(arvot[hold_pos]);
+                all_hold_values[hold_pos/3].setHoldValue(arvot[hold_pos]);
                 hold_pos++;
-                all_hold_values[hold_pos/3].SetGripTypeAndSingleHang(arvot[hold_pos]);
+                all_hold_values[hold_pos/3].setGripTypeAndSingleHang(arvot[hold_pos]);
                 hold_pos++;
             }
         }
@@ -480,9 +484,9 @@ public class HangBoard {
                 all_hold_values[hold_pos/3] = new HoldValue(arvot[hold_pos]);
                 hold_pos++;
                 all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.moonhard_coordinates));
-                all_hold_values[hold_pos/3].SetHoldValue(arvot[hold_pos]);
+                all_hold_values[hold_pos/3].setHoldValue(arvot[hold_pos]);
                 hold_pos++;
-                all_hold_values[hold_pos/3].SetGripTypeAndSingleHang(arvot[hold_pos]);
+                all_hold_values[hold_pos/3].setGripTypeAndSingleHang(arvot[hold_pos]);
                 hold_pos++;
             }
         }

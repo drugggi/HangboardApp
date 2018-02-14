@@ -17,6 +17,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     Button startWorkout;
@@ -226,6 +228,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
         // Attempts to launch an activity within our own app
         startWorkout = (Button) findViewById(R.id.startWorkoutBtn);
         startWorkout.setOnClickListener(new View.OnClickListener() {
@@ -238,6 +242,17 @@ public class MainActivity extends AppCompatActivity {
                 workoutIntent.putExtra("com.example.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
                 workoutIntent.putExtra("com.example.laakso.hangboardapp.BOARDIMAGE",adapter.getImageResource(viewPager.getCurrentItem()));
                 workoutIntent.putExtra("com.example.laakso.hangboardapp.COORDINATES", everyBoard.getCoordinates());
+
+                //ArrayList<HoldValue> currentHangList = new ArrayList<HoldValue>();
+                ArrayList<HoldValue> currentHoldList = everyBoard.getCurrentHoldList();
+                workoutIntent.putParcelableArrayListExtra("com.example.laakso.hangboardapp.HOLDVALUES", currentHoldList);
+/*
+                HoldValue testiValue = new HoldValue(1);
+                testiValue.setHoldValue(15);
+                testiValue.setHoldCoordinates(res.getIntArray(R.array.bm1000_coordinates) );
+                testiValue.setGripTypeAndSingleHang(61);
+
+                 workoutIntent.putExtra("com.example.laakso.hangboardapp.HOLDVALUE",testiValue);*/
                 startActivity(workoutIntent);
             }
         });

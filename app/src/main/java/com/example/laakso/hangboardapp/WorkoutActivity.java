@@ -45,6 +45,7 @@ public class WorkoutActivity extends AppCompatActivity {
     int s = -30;
     int total_s = -800;
     ArrayList<String> workoutInfo;
+    ArrayList<HoldValue> workoutInfoTest;
     TextView gradeTextView;
 
     int i;
@@ -78,6 +79,11 @@ public class WorkoutActivity extends AppCompatActivity {
         pauseBtn = (Button) findViewById(R.id.pauseBtn);
         pauseBtn.setText("pause");
         gradeTextView = (TextView) findViewById(R.id.gradTextView);
+
+        if (getIntent().hasExtra("com.example.laakso.hangboardapp.HOLDVALUES")) {
+             workoutInfoTest = getIntent().getExtras().getParcelableArrayList("com.example.laakso.hangboardapp.HOLDVALUES");
+              Toast.makeText(WorkoutActivity.this," hohosize " + workoutInfoTest.size(), Toast.LENGTH_LONG).show();
+        }
 
         if (getIntent().hasExtra("com.example.laakso.hangboardapp.COORDINATES")) {
             hold_coordinates = getIntent().getExtras().getIntArray("com.example.laakso.hangboardapp.COORDINATES");
@@ -154,7 +160,7 @@ public class WorkoutActivity extends AppCompatActivity {
                // Check if chronometer is active lets stop it and store pause time
                 Float multiplyer_w = boardimage.getWidth() / 350F;
                 Float multiplyer_h = boardimage.getHeight() / 150F;
-                 if (i < hold_coordinates.length/ 5 ) {
+                /* if (i < hold_coordinates.length/ 5 ) {
                     leftHandImage.setX((hold_coordinates[i*5+1]+3) * multiplyer_w);
                     leftHandImage.setY(hold_coordinates[i*5+2] * multiplyer_h);
                     rightHandImage.setX((hold_coordinates[i*5+3]+3) * multiplyer_w);
@@ -164,8 +170,14 @@ public class WorkoutActivity extends AppCompatActivity {
                 else {
                     i=0;
                 }
+*/
 
-
+                if ( i+1 < workoutInfoTest.size() ) {
+                    i++;
+                }
+                else {
+                    i=0;
+                }
                 if ( pauseBtn.getText().equals("pause") ) {
                     lapseTimeChrono.stop();
                     pauseBtn.setText("start");
@@ -173,8 +185,11 @@ public class WorkoutActivity extends AppCompatActivity {
                     //leftHandImage.setX(leftHandImage.getX()+ 5);
                     //leftHandImage.setY(leftHandImage.getY()+ 2);
 
-                    gradeTextView.setText("MULTIPLAER W: "+ multiplyer_w+ " H: " + multiplyer_h);
-                    // Toast.makeText(WorkoutActivity.this,"LEFT X: "+ leftHandImage.getX()+ " Y: " + leftHandImage.getY(),Toast.LENGTH_LONG ).show();
+                    leftHandImage.setX(workoutInfoTest.get(i).getLeftCoordX()*multiplyer_w);
+                    leftHandImage.setY(workoutInfoTest.get(i).getLeftCoordY()*multiplyer_h);
+                    gradeTextView.setText("LEFTHANDINFO hldnro"+ workoutInfoTest.get(i).getHoldNumber()+ " difficulty: " +workoutInfoTest.get(i).getHoldValue() + " hand: "
+                    +workoutInfoTest.get(i).getHoldText());
+                    // Toast.makeText(WorkoutActivity.this,"LEFT X: "+ workoutInfoTest.get(i).getLeftCoordX() + " Y: " + workoutInfoTest.get(i).getLeftCoordY(),Toast.LENGTH_LONG ).show();
 
                 }
                 // Chrono meter has been stopped, lets set the basetime when it was stopped
@@ -185,8 +200,12 @@ public class WorkoutActivity extends AppCompatActivity {
                     //rightHandImage.setX(rightHandImage.getX()+ 5);
                     //rightHandImage.setY(rightHandImage.getY()+ 3);
 
-                    gradeTextView.setText("RIGHT HAND X: "+ rightHandImage.getX()+ " Y: " + rightHandImage.getY());
-                    Toast.makeText(WorkoutActivity.this,"length X: "+ hold_coordinates.length + " Y: " + rightHandImage.getY(),Toast.LENGTH_LONG ).show();
+                    rightHandImage.setX(workoutInfoTest.get(i).getRightCoordX()*multiplyer_w);
+                    rightHandImage.setY(workoutInfoTest.get(i).getRightCoordY()*multiplyer_h);
+
+                     gradeTextView.setText("RIGHTHANDINFO hldnro"+ workoutInfoTest.get(i).getHoldNumber()+ " difficulty: " +workoutInfoTest.get(i).getHoldValue()+ " hand: "
+                             +workoutInfoTest.get(i).getHoldText());
+                   // Toast.makeText(WorkoutActivity.this,"length X: "+ workoutInfoTest.get(i).getRightCoordX() + " Y: " + workoutInfoTest.get(i).getRightCoordY(),Toast.LENGTH_LONG ).show();
 
                 }
 

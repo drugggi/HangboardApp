@@ -1,13 +1,19 @@
 package com.example.laakso.hangboardapp;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Laakso on 20.11.2017.
  */
 
 // HoldValue contains the information that a single hang can hold
-public class HoldValue implements Comparable<HoldValue> {
+public class HoldValue implements Comparable<HoldValue>, Parcelable {
     // Hold number corresponds with the number in hangboard picture
     private int hold_number;
+
+    // hold value tries to measure the difficulty to hang in each hold number with the different grip types
+    private int hold_value;
 
     // hold coordinates are based on hold number, left or right hand and currently used hangboard.
     private int lefthand_coord_x;
@@ -15,9 +21,6 @@ public class HoldValue implements Comparable<HoldValue> {
     private int righthand_coord_x;
     private int righthand_coord_y;
 
-
-    // hold value tries to measure the difficulty to hang in each hold number with the different grip types
-    private int hold_value;
 
     // grip type describes the fingers used in hanging in a hold
     public enum grip_type {FOUR_FINGER, THREE_FRONT, THREE_BACK, TWO_FRONT, TWO_MIDDLE, TWO_BACK
@@ -30,7 +33,6 @@ public class HoldValue implements Comparable<HoldValue> {
             R.drawable.twobackright, R.drawable.indexleft, R.drawable.indexright, R.drawable.middleleft,
     R.drawable.middleright, R.drawable.ringleft, R.drawable.ringright, R.drawable. pinkyleft, R.drawable.pinkyright};
 
-    private int finger_image;
 
     // Single holds dont have a pair with same measurements in the hangboard
     boolean single_hold;
@@ -38,8 +40,49 @@ public class HoldValue implements Comparable<HoldValue> {
     public HoldValue(int number) {
         single_hold = false;
         hold_number = number;
+    }
+    private HoldValue(Parcel in) {
+        hold_number = in.readInt();
+        hold_value = in.readInt();
+        lefthand_coord_x = in.readInt();
+        lefthand_coord_y = in.readInt();
+        righthand_coord_x = in.readInt();
+        righthand_coord_y = in.readInt();
+        boolean[] booleanArr = new boolean[1];
+        in.readBooleanArray(booleanArr);
+        single_hold = booleanArr[0];
+        grip_style = grip_type.values()[in.readInt()];
+        // single_hold = in.readBooleanArray();
 
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(hold_number);
+        dest.writeInt(hold_value);
+        dest.writeInt(lefthand_coord_x);
+        dest.writeInt(lefthand_coord_y);
+        dest.writeInt(righthand_coord_x);
+        dest.writeInt(righthand_coord_y);
+        dest.writeBooleanArray(new boolean[] {single_hold});
+        dest.writeInt(grip_style.ordinal());
+
+    }
+
+    public static final Parcelable.Creator<HoldValue> CREATOR = new Parcelable.Creator<HoldValue>() {
+        public HoldValue createFromParcel(Parcel in) {
+            return new HoldValue(in);
+        }
+
+        public HoldValue[] newArray(int size) {
+            return new HoldValue[size];
+        }
+    };
 
     public int compareTo(HoldValue compareHoldValue) {
         return this.hold_value - compareHoldValue.hold_value;
@@ -54,12 +97,9 @@ public class HoldValue implements Comparable<HoldValue> {
     public int getRightCoordX() {
         return righthand_coord_x;
     }
-    public int getRightCoordY() {
-        return righthand_coord_y;
-    }
+    public int getRightCoordY() {return righthand_coord_y;}
 
     public void setHoldCoordinates(int[] coordinates) {
-
         lefthand_coord_x = coordinates[(hold_number-1)*5+1];
         lefthand_coord_y = coordinates[(hold_number-1)*5+2];
         righthand_coord_x = coordinates[(hold_number-1)*5+3];
@@ -98,7 +138,7 @@ public class HoldValue implements Comparable<HoldValue> {
       return R.drawable.fourfingerright;
     }
 
-    public void SetGripTypeAndSingleHang(int i_hold_both_info) {
+    public void setGripTypeAndSingleHang(int i_hold_both_info) {
         if (i_hold_both_info % 10 == 1) {single_hold = true; }
 
         i_hold_both_info = i_hold_both_info / 10;
@@ -119,7 +159,7 @@ public class HoldValue implements Comparable<HoldValue> {
         else  {grip_style = grip_type.FOUR_FINGER; }
 
     }
-    public int GetHoldNumber() {
+    public int getHoldNumber() {
         return hold_number;
     }
 
@@ -128,18 +168,12 @@ public class HoldValue implements Comparable<HoldValue> {
     }
 
 
-    public int getHoldNumber() {
-
-        return hold_number;
-    }
-
-
-    public void SetHoldValue(int value) {
+    public void setHoldValue(int value) {
         hold_value = value;
     }
 
 
-    public int GetHoldValue() {
+    public int getHoldValue() {
         return hold_value;
     }
 
@@ -155,7 +189,7 @@ public class HoldValue implements Comparable<HoldValue> {
 
 
     // Returns the text that represents the grip type
-    public String GetHoldText() {
+    public String getHoldText() {
         if (grip_style == grip_type.FOUR_FINGER) { return "four fingers";}
         if (grip_style == grip_type.THREE_FRONT) { return "three front";}
         if (grip_style == grip_type.THREE_BACK) { return "three back";}
