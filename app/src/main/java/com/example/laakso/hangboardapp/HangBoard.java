@@ -170,8 +170,8 @@ public class HangBoard {
         return holds;
     }
 
-    public int getHoldListSize() {
-        return all_hold_values.length;
+    public int getCurrentHoldListSize() {
+        return valueList.size();
     }
 
     public void sortHoldByDifficulty() {
@@ -184,6 +184,7 @@ public class HangBoard {
         int i = 0;
 
         while (i < all_hold_values.length ) {
+            // Skip the holds that are just one of in hangboard
             if ( all_hold_values[i].isSingleHold() ) {i++; continue; }
 
             valueList.add(all_hold_values[i]);
@@ -207,6 +208,18 @@ public class HangBoard {
             holdList.add("No Example program available.\n Click Randomize ALL");
             --amount;
         }
+        // Lets randomize the holds in all_hold_values
+        HoldValue temp;
+        int index;
+        Random random = new Random();
+        for (int i = all_hold_values.length - 1; i > 0; i--)
+        {
+            index = random.nextInt(i + 1);
+            temp = all_hold_values[index];
+            all_hold_values[index] = all_hold_values[i];
+            all_hold_values[i] = temp;
+        }
+
         randomizeGrips(grade_position);
 
     }

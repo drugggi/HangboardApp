@@ -38,14 +38,12 @@
                 <ImageView
                     android:id="@+id/leftHandImageView"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/fourfingerleft" />
+                    android:layout_height="wrap_content" />
 
                 <ImageView
                     android:id="@+id/rightHandImageView"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/fourfingerright" />
+                    android:layout_height="wrap_content" />
             </RelativeLayout>
 
             <TextView

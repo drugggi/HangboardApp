@@ -61,19 +61,7 @@ public class WorkoutActivity extends AppCompatActivity {
         final MediaPlayer playFinishSound = MediaPlayer.create(this,R.raw.finish_tick);
 
         boardimage = (ImageView) findViewById(R.id.boardImageView);
-        leftHandImage = (ImageView) findViewById(R.id.leftHandImageView);
-        rightHandImage = (ImageView) findViewById(R.id.rightHandImageView);
 
-        leftHandImage.setImageResource(R.drawable.threebackleft);
-        rightHandImage.setImageResource(R.drawable.twomiddleright);
-
-       // leftHandImage.setX(143* 3* 1.22F);
-       // leftHandImage.setY(76* 3* 1.11F);
-
-//        rightHandImage.setX(143 * 3* 1.22F);
-  //      rightHandImage.setY(76 * 3* 1.11F);
-       //         <item>10</item> <item>143</item> <item>76</item>       <item>143</item> <item>76</item>
-// <item>8</item> <item>88</item> <item>73</item>       <item>195</item> <item>73</item>
 
         hangProgressBar = (ProgressBar) findViewById(R.id.hangProgressBar);
         pauseBtn = (Button) findViewById(R.id.pauseBtn);
@@ -82,7 +70,6 @@ public class WorkoutActivity extends AppCompatActivity {
 
         if (getIntent().hasExtra("com.example.laakso.hangboardapp.HOLDVALUES")) {
              workoutInfoTest = getIntent().getExtras().getParcelableArrayList("com.example.laakso.hangboardapp.HOLDVALUES");
-              Toast.makeText(WorkoutActivity.this," hohosize " + workoutInfoTest.size(), Toast.LENGTH_LONG).show();
         }
 
         if (getIntent().hasExtra("com.example.laakso.hangboardapp.COORDINATES")) {
@@ -92,6 +79,7 @@ public class WorkoutActivity extends AppCompatActivity {
         if (getIntent().hasExtra("com.example.laakso.hangboardapp.BOARDIMAGE")) {
             int image_resource = getIntent().getIntExtra("com.example.laakso.hangboardapp.BOARDIMAGE", 0);
             boardimage.setImageResource(image_resource);
+
         }
 
         // If Intent has extra information, lets get it HANGLIST should contain the hang and grip information
@@ -122,11 +110,16 @@ public class WorkoutActivity extends AppCompatActivity {
 
             timeControls = new TimeControls();
             timeControls.setTimeControls(time_controls);
+            // timeControls.setTimeControls(new int[] {6, 2, 5 ,3 , 1, 15, 150});
 
             // Toast.makeText(WorkoutActivity.this,"WI size "+ workoutInfo.size() + " griplaps " + timeControls.getGripLaps(),Toast.LENGTH_LONG).show();
             // grip_laps = time_controls[0];
             // SECURITY CHECK, WILL MAKE SURE IN FUTURE TO NEVER HAPPEN
-            if (timeControls.getGripLaps() > workoutInfo.size() ) { timeControls.setGripLaps(workoutInfo.size() ); }
+            //if (timeControls.getGripLaps() > workoutInfo.size() ) { timeControls.setGripLaps(workoutInfo.size() ); }
+            if (timeControls.getGripLaps()*2 != workoutInfoTest.size()) {
+                Toast.makeText(WorkoutActivity.this,timeControls.getGripLaps() + " ERROR!! Gripslaps and workoutInfoTEst sizes doesn't match " + workoutInfoTest.size(), Toast.LENGTH_LONG).show();
+                timeControls.setGripLaps(workoutInfoTest.size()/2);
+            }
 /*
             time_on = time_controls[2];
             time_off = time_controls[3];
@@ -153,7 +146,7 @@ public class WorkoutActivity extends AppCompatActivity {
         lapseTimeChrono.start();
 
         // Lets stop or start chronometer on user input
-        i = 0;
+        i = -1;
         pauseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -170,14 +163,14 @@ public class WorkoutActivity extends AppCompatActivity {
                 else {
                     i=0;
                 }
-*/
+
 
                 if ( i+1 < workoutInfoTest.size() ) {
                     i++;
                 }
                 else {
                     i=0;
-                }
+                }*/
                 if ( pauseBtn.getText().equals("pause") ) {
                     lapseTimeChrono.stop();
                     pauseBtn.setText("start");
@@ -185,10 +178,10 @@ public class WorkoutActivity extends AppCompatActivity {
                     //leftHandImage.setX(leftHandImage.getX()+ 5);
                     //leftHandImage.setY(leftHandImage.getY()+ 2);
 
-                    leftHandImage.setX(workoutInfoTest.get(i).getLeftCoordX()*multiplyer_w);
-                    leftHandImage.setY(workoutInfoTest.get(i).getLeftCoordY()*multiplyer_h);
-                    gradeTextView.setText("LEFTHANDINFO hldnro"+ workoutInfoTest.get(i).getHoldNumber()+ " difficulty: " +workoutInfoTest.get(i).getHoldValue() + " hand: "
-                    +workoutInfoTest.get(i).getHoldText());
+                    //leftHandImage.setX(workoutInfoTest.get(i).getLeftCoordX()*multiplyer_w);
+                    //leftHandImage.setY(workoutInfoTest.get(i).getLeftCoordY()*multiplyer_h);
+                    //gradeTextView.setText("LEFTHANDINFO hldnro"+ workoutInfoTest.get(i).getHoldNumber()+ " difficulty: " +workoutInfoTest.get(i).getHoldValue() + " hand: "
+                    //+workoutInfoTest.get(i).getHoldText());
                     // Toast.makeText(WorkoutActivity.this,"LEFT X: "+ workoutInfoTest.get(i).getLeftCoordX() + " Y: " + workoutInfoTest.get(i).getLeftCoordY(),Toast.LENGTH_LONG ).show();
 
                 }
@@ -200,11 +193,11 @@ public class WorkoutActivity extends AppCompatActivity {
                     //rightHandImage.setX(rightHandImage.getX()+ 5);
                     //rightHandImage.setY(rightHandImage.getY()+ 3);
 
-                    rightHandImage.setX(workoutInfoTest.get(i).getRightCoordX()*multiplyer_w);
-                    rightHandImage.setY(workoutInfoTest.get(i).getRightCoordY()*multiplyer_h);
+                    //rightHandImage.setX(workoutInfoTest.get(i).getRightCoordX()*multiplyer_w);
+                    //rightHandImage.setY(workoutInfoTest.get(i).getRightCoordY()*multiplyer_h);
 
-                     gradeTextView.setText("RIGHTHANDINFO hldnro"+ workoutInfoTest.get(i).getHoldNumber()+ " difficulty: " +workoutInfoTest.get(i).getHoldValue()+ " hand: "
-                             +workoutInfoTest.get(i).getHoldText());
+//                     gradeTextView.setText("RIGHTHANDINFO hldnro"+ workoutInfoTest.get(i).getHoldNumber()+ " difficulty: " +workoutInfoTest.get(i).getHoldValue()+ " hand: "
+  //                           +workoutInfoTest.get(i).getHoldText());
                    // Toast.makeText(WorkoutActivity.this,"length X: "+ workoutInfoTest.get(i).getRightCoordX() + " Y: " + workoutInfoTest.get(i).getRightCoordY(),Toast.LENGTH_LONG ).show();
 
                 }
@@ -212,9 +205,8 @@ public class WorkoutActivity extends AppCompatActivity {
             }
         });
 
-
-
         current_lap = 0;
+
         // Progress our program for every tick that lapseTimeChrono produces
         lapseTimeChrono.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override
@@ -228,6 +220,14 @@ public class WorkoutActivity extends AppCompatActivity {
 
                 switch (nowDoing) {
                     case ALKULEPO:
+                        if ( s == -25) {
+                            leftHandImage = (ImageView) findViewById(R.id.leftHandImageView);
+                            rightHandImage = (ImageView) findViewById(R.id.rightHandImageView);
+                            leftHandImage.setImageResource(R.drawable.threebackleft);
+                            rightHandImage.setImageResource(R.drawable.twomiddleright);
+
+                            updateGripDisplay();
+                        }
                         if (s == -1) {nowDoing = workoutPart.WORKOUT;}
 
                         break;
@@ -264,12 +264,22 @@ public class WorkoutActivity extends AppCompatActivity {
                         break;
                     case LEPO:
 
-                        // This if statmenet will be called once becouse s is positive and will be negative
+                        // This if statmenet will be called only once because s is positive and will be negative thereafter
                         if (s >= timeControls.getHangLapsSeconds()) {
                             hangProgressBar.setProgress(0);
                             lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
                             s = -timeControls.getRestTime();
-                            gradeTextView.setText(workoutInfo.get(current_lap));
+                            // gradeTextView.setText(workoutInfo.get(current_lap));
+                            updateGripDisplay();
+/*
+                            leftHandImage.setImageResource(workoutInfoTest.get(current_lap*2 ).getGripImage(true));
+                            rightHandImage.setImageResource(workoutInfoTest.get(current_lap*2 + 1).getGripImage(false));
+                            leftHandImage.setX(workoutInfoTest.get(current_lap*2 ).getLeftCoordX()*multiplier_w);
+                            leftHandImage.setY(workoutInfoTest.get(current_lap*2).getLeftCoordY()*multiplier_h);
+                            rightHandImage.setX(workoutInfoTest.get(current_lap*2 + 1).getRightCoordX()*multiplier_w);
+                            rightHandImage.setY(workoutInfoTest.get(current_lap*2 + 1).getRightCoordY()*multiplier_h);
+                            gradeTextView.setText("HOLD: "+ workoutInfoTest.get(current_lap*2).getHoldNumber()+ "/" + workoutInfoTest.get(current_lap*2 + 1).getHoldNumber()
+                                    + " Grip: "+workoutInfoTest.get(current_lap*2).getHoldText() + " difficulty: " + workoutInfoTest.get(current_lap*2).getHoldValue());*/
                              }
 
 
@@ -284,7 +294,7 @@ public class WorkoutActivity extends AppCompatActivity {
                             lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
 
                             s = -timeControls.getLongRestTime();
-                            gradeTextView.setText(workoutInfo.get(current_lap));
+                            // gradeTextView.setText(workoutInfo.get(current_lap));
                         }
 
                         if (timeControls.getRoutineLaps() == 1) {
@@ -306,6 +316,28 @@ public class WorkoutActivity extends AppCompatActivity {
         });
 
 
+    }
+    private void updateGripDisplay() {
+
+        Float multiplier_w = boardimage.getWidth() / 350F;
+        Float multiplier_h = boardimage.getHeight() / 150F;
+        // Toast.makeText(WorkoutActivity.this,"length X: "+ multiplier_w+ " Y: " + multiplier_h,Toast.LENGTH_LONG ).show();
+
+        leftHandImage.setImageResource(workoutInfoTest.get(current_lap*2 ).getGripImage(true));
+        rightHandImage.setImageResource(workoutInfoTest.get(current_lap*2 + 1).getGripImage(false));
+
+        leftHandImage.setX(workoutInfoTest.get(current_lap*2 ).getLeftCoordX()*multiplier_w + 10);
+        leftHandImage.setY(workoutInfoTest.get(current_lap*2).getLeftCoordY()*multiplier_h);
+        rightHandImage.setX(workoutInfoTest.get(current_lap*2 + 1).getRightCoordX()*multiplier_w + 10);
+        rightHandImage.setY(workoutInfoTest.get(current_lap*2 + 1).getRightCoordY()*multiplier_h);
+        if (workoutInfoTest.get(current_lap*2).getHoldNumber() == workoutInfoTest.get(current_lap*2 + 1).getHoldNumber()) {
+            gradeTextView.setText("HOLD: " + workoutInfoTest.get(current_lap * 2).getHoldNumber() +
+                    " GRIP: " + workoutInfoTest.get(current_lap * 2).getHoldText() + " difficulty: " + workoutInfoTest.get(current_lap * 2).getHoldValue());
+        }
+        else {
+            gradeTextView.setText("HOLD: " + workoutInfoTest.get(current_lap * 2).getHoldNumber() + "/" + workoutInfoTest.get(current_lap * 2 + 1).getHoldNumber()
+                    + " Alternate GRIP: " + workoutInfoTest.get(current_lap * 2).getHoldText() + " difficulty: " + workoutInfoTest.get(current_lap * 2).getHoldValue());
+        }
     }
 
 }

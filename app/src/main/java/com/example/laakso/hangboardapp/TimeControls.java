@@ -6,6 +6,8 @@ package com.example.laakso.hangboardapp;
 
 // Class TimeControls tries to hide a lot of time control parameters that are kinda confusing to follow
 public class TimeControls {
+    // In future I will refactor TimeControls class to keep track with current lap
+    private int current_lap=0;
 
     private int grip_laps=6;
     private int hang_laps=6;
@@ -125,6 +127,7 @@ public class TimeControls {
         else if (workout_time < 40) {
             setTimeControls(new int[] {6, 5, 7 ,3 , 2, 120, 240}); // 35min program
         }
+        // THIS IS NOT WORKING CURRENTLY
         else if (workout_time < 55) {
             setTimeControls(new int[] {5, 6, 7 ,3 , 3, 140, 300}); // 50min program
         }

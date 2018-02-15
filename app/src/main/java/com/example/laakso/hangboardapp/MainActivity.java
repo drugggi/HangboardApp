@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         fingerImage = (ImageView) findViewById(R.id.templateFingerImageView);
          fingerImage.setImageResource(R.drawable.finger_template);
-        //fingerImage.setVisibility(View.INVISIBLE);
+        fingerImage.setVisibility(View.INVISIBLE);
 
 
         // HangBoard class holds all the information about grades and holds and grips
@@ -116,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
                 holdsListView.setAdapter(holdsAdapter);
                 // holdsAdapter.clear();
                 // holdsAdapter.addAll(everyBoard.getGrips());
+                durationSeekBar.setProgress(3);
 
                 randomizeBtn.setText("Randomize ALL");
                 hang_descr_position = 0;
@@ -340,12 +341,16 @@ public class MainActivity extends AppCompatActivity {
                     durationTextView.setText("TEST progression");
 
                     timeControls.setProgramBasedOnTime(20 + progress * 15);
-                    timeControls.setGripLaps(everyBoard.getHoldListSize() );
+
+
+
                     everyBoard.sortHoldByDifficulty();
+                    timeControls.setGripLaps(everyBoard.getCurrentHoldListSize()/2 );
                     // everyBoard.setGripAmount(timeControls.getGripLaps(),grade_descr_position);
 
                 }
                 else {
+                    //NOT WORKING WITH 50MIN WORKOUT
                     durationTextView.setText("Duration: " + (20 + progress * 15) + "min");
                     timeControls.setProgramBasedOnTime(20 + progress * 15);
                     everyBoard.setGripAmount(timeControls.getGripLaps(),grade_descr_position);
