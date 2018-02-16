@@ -112,6 +112,21 @@ public class HangBoard {
             starter_grips = res.getStringArray(R.array.no_start_program);
             hold_coordinates = res.getIntArray(R.array.tension_coordinates);
         }
+        else if (CustomSwipeAdapter.hangboard.MOONEASY == new_board) {
+            current_board = CustomSwipeAdapter.hangboard.MOONEASY;
+            starter_grips = res.getStringArray(R.array.no_start_program);
+            hold_coordinates = res.getIntArray(R.array.mooneasy_coordinates);
+        }
+        else if (CustomSwipeAdapter.hangboard.METO == new_board) {
+            current_board = CustomSwipeAdapter.hangboard.METO;
+            starter_grips = res.getStringArray(R.array.no_start_program);
+            hold_coordinates = res.getIntArray(R.array.meto_coordinates);
+        }
+        else if (CustomSwipeAdapter.hangboard.ROCKPRODIGY == new_board) {
+            current_board = CustomSwipeAdapter.hangboard.ROCKPRODIGY;
+            starter_grips = res.getStringArray(R.array.no_start_program);
+            hold_coordinates = res.getIntArray(R.array.rockprodigy_coordinates);
+        }
         setGrips(0);
 
     }
@@ -488,15 +503,46 @@ public class HangBoard {
             }
         }
 
-        else if (current_board == CustomSwipeAdapter.hangboard.MOONHARD ) {
-            int[] arvot = res.getIntArray(R.array.grip_values_moonhard);
+        else if (current_board == CustomSwipeAdapter.hangboard.MOONEASY ) {
+            int[] arvot = res.getIntArray(R.array.grip_values_mooneasy);
 
             all_hold_values = new HoldValue[arvot.length/3];
 
             while (hold_pos/3 < all_hold_values.length) {
                 all_hold_values[hold_pos/3] = new HoldValue(arvot[hold_pos]);
                 hold_pos++;
-                all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.moonhard_coordinates));
+                all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.mooneasy_coordinates));
+                all_hold_values[hold_pos/3].setHoldValue(arvot[hold_pos]);
+                hold_pos++;
+                all_hold_values[hold_pos/3].setGripTypeAndSingleHang(arvot[hold_pos]);
+                hold_pos++;
+            }
+        }
+        else if (current_board == CustomSwipeAdapter.hangboard.METO ) {
+            int[] arvot = res.getIntArray(R.array.grip_values_meto);
+
+            all_hold_values = new HoldValue[arvot.length/3];
+
+            while (hold_pos/3 < all_hold_values.length) {
+                all_hold_values[hold_pos/3] = new HoldValue(arvot[hold_pos]);
+                hold_pos++;
+                all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.meto_coordinates));
+                all_hold_values[hold_pos/3].setHoldValue(arvot[hold_pos]);
+                hold_pos++;
+                all_hold_values[hold_pos/3].setGripTypeAndSingleHang(arvot[hold_pos]);
+                hold_pos++;
+            }
+        }
+
+        else if (current_board == CustomSwipeAdapter.hangboard.ROCKPRODIGY ) {
+            int[] arvot = res.getIntArray(R.array.grip_values_rockprodigy);
+
+            all_hold_values = new HoldValue[arvot.length/3];
+
+            while (hold_pos/3 < all_hold_values.length) {
+                all_hold_values[hold_pos/3] = new HoldValue(arvot[hold_pos]);
+                hold_pos++;
+                all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.rockprodigy_coordinates));
                 all_hold_values[hold_pos/3].setHoldValue(arvot[hold_pos]);
                 hold_pos++;
                 all_hold_values[hold_pos/3].setGripTypeAndSingleHang(arvot[hold_pos]);

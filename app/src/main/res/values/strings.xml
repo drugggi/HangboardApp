@@ -89,7 +89,6 @@
         <item>14</item> <item>85</item> <item>93</item>       <item>199</item> <item>93</item>
         <item>15</item> <item>143</item> <item>93</item>       <item>143</item> <item>93</item>
 
-
     </integer-array>
 
     <integer-array name="moonhard_coordinates">
@@ -103,7 +102,62 @@
         <item>6</item> <item>9</item> <item>89</item>       <item>275</item> <item>89</item>
         <item>7</item> <item>73</item> <item>80</item>       <item>210</item> <item>80</item>
         <item>8</item> <item>140</item> <item>89</item>       <item>140</item> <item>89</item>
+    </integer-array>
 
+
+    <integer-array name="mooneasy_coordinates">
+        <!--                        LEFT  HAND                          RIGHT   HAND      -->
+        <!--hold number     X coord         Y coord                 X coord        Y coord    -->
+        <item>1</item> <item>11</item> <item>29</item>       <item>270</item> <item>29</item>
+        <item>2</item> <item>70</item> <item>40</item>       <item>104</item> <item>81</item>
+        <item>3</item> <item>120</item> <item>28</item>       <item>165</item> <item>28</item>
+        <item>4</item> <item>11</item> <item>58</item>       <item>270</item> <item>58</item>
+        <item>5</item> <item>11</item> <item>79</item>       <item>270</item> <item>79</item>
+        <item>6</item> <item>70</item> <item>74</item>       <item>206</item> <item>74</item>
+        <item>7</item> <item>118</item> <item>86</item>       <item>160</item> <item>86</item>
+
+    </integer-array>
+
+    <integer-array name="meto_coordinates">
+        <!--                        LEFT  HAND                          RIGHT   HAND      -->
+        <!--hold number     X coord         Y coord                 X coord        Y coord    -->
+        <item>1</item> <item>-11</item> <item>30</item>       <item>294</item> <item>30</item>
+        <item>2</item> <item>38</item> <item>30</item>       <item>240</item> <item>30</item>
+        <item>3</item> <item>94</item> <item>15</item>       <item>184</item> <item>15</item>
+        <item>4</item> <item>-10</item> <item>60</item>       <item>294</item> <item>60</item>
+        <item>5</item> <item>7</item> <item>75</item>       <item>273</item> <item>75</item>
+        <item>6</item> <item>51</item> <item>67</item>       <item>227</item> <item>67</item>
+        <item>7</item> <item>89</item> <item>60</item>       <item>188</item> <item>60</item>
+        <item>8</item> <item>20</item> <item>93</item>       <item>264</item> <item>93</item>
+        <item>9</item> <item>66</item> <item>86</item>       <item>223</item> <item>86</item>
+        <item>10</item> <item>100</item> <item>81</item>       <item>184</item> <item>81</item>
+        <item>11</item> <item>41</item> <item>110</item>       <item>238</item> <item>110</item>
+        <item>12</item> <item>80</item> <item>107</item>       <item>199</item> <item>107</item>
+        <item>13</item> <item>110</item> <item>107</item>       <item>175</item> <item>107</item>
+        <item>14</item> <item>142</item> <item>3</item>       <item>142</item> <item>3</item>
+        <item>15</item> <item>142</item> <item>37</item>       <item>142</item> <item>37</item>
+        <item>16</item> <item>142</item> <item>61</item>       <item>142</item> <item>61</item>
+        <item>17</item> <item>142</item> <item>85</item>       <item>142</item> <item>85</item>
+        <item>18</item> <item>142</item> <item>108</item>       <item>142</item> <item>108</item>
+
+    </integer-array>
+
+    <integer-array name="rockprodigy_coordinates">
+        <!--                        LEFT  HAND                          RIGHT   HAND      -->
+        <!--hold number     X coord         Y coord                 X coord        Y coord    -->
+        <item>1</item> <item>-8</item> <item>13</item>       <item>284</item> <item>13</item>
+        <item>2</item> <item>52</item> <item>3</item>       <item>226</item> <item>3</item>
+        <item>3</item> <item>109</item> <item>0</item>       <item>170</item> <item>0</item>
+        <item>4</item> <item>57</item> <item>42</item>       <item>222</item> <item>42</item>
+        <item>5</item> <item>107</item> <item>38</item>       <item>172</item> <item>38</item>
+        <item>6</item> <item>57</item> <item>61</item>       <item>222</item> <item>61</item>
+        <item>7</item> <item>107</item> <item>56</item>       <item>172</item> <item>56</item>
+        <item>8</item> <item>57</item> <item>79</item>       <item>225</item> <item>79</item>
+        <item>9</item> <item>109</item> <item>75</item>       <item>170</item> <item>75</item>
+        <item>10</item> <item>55</item> <item>101</item>       <item>224</item> <item>101</item>
+        <item>11</item> <item>98</item> <item>101</item>       <item>182</item> <item>101</item>
+        <item>12</item> <item>65</item> <item>123</item>       <item>217</item> <item>123</item>
+        <item>13</item> <item>98</item> <item>123</item>       <item>182</item> <item>123</item>
 
 
     </integer-array>
@@ -701,6 +755,108 @@
         <item>8</item>  <item>70</item>  <item>41</item> <!-- four -->
         <item>8</item>  <item>55</item>   <item>51</item> <!-- three front -->
         <item>8</item> <item>150</item>  <item>61</item> <!-- three back -->
+
+    </integer-array>
+    <integer-array name="grip_values_mooneasy">
+        <item>1</item> <item>5</item>   <item>10</item> <!-- four -->
+        <item>1</item>  <item>15</item>   <item>20</item> <!-- three front -->
+        <item>1</item>   <item>17</item>  <item>30</item> <!-- three back -->
+        <item>1</item>   <item>80</item>  <item>40</item> <!-- three back -->
+        <item>1</item>   <item>68</item>  <item>50</item> <!-- three back -->
+        <item>1</item>   <item>134</item>  <item>60</item> <!-- three back -->
+
+        <item>2</item>   <item>45</item>  <item>10</item> <!-- three back -->
+
+        <item>3</item>  <item>9</item>   <item>10</item> <!-- four -->
+        <item>3</item>   <item>20</item>   <item>20</item> <!-- three front -->
+        <item>3</item>   <item>23</item>   <item>30</item> <!-- three back -->
+
+        <item>4</item>   <item>12</item>  <item>10</item> <!-- four -->
+        <item>4</item>  <item>25</item>  <item>20</item> <!-- three front -->
+        <item>4</item>   <item>29</item>  <item>30</item> <!-- three back -->
+        <item>4</item>   <item>123</item>  <item>40</item> <!-- three back -->
+        <item>4</item>   <item>113</item>  <item>50</item> <!-- three back -->
+
+        <item>5</item>  <item>70</item>  <item>10</item> <!-- four fingers -->
+        <item>5</item> <item>200</item>  <item>20</item> <!-- four fingers -->
+        <item>5</item> <item>250</item>  <item>30</item> <!-- four fingers -->
+
+        <item>6</item> <item>19</item>  <item>10</item> <!-- four -->
+        <item>6</item> <item>75</item>  <item>20</item> <!-- three front -->
+        <item>6</item>  <item>80</item>  <item>30</item> <!-- three back -->
+
+
+        <item>7</item>   <item>113</item>  <item>40</item> <!-- two front -->
+        <item>7</item>   <item>98</item>  <item>50</item> <!-- two middle -->
+
+    </integer-array>
+
+    <integer-array name="grip_values_meto">
+        <item>1</item> <item>1</item>   <item>10</item> <!-- four -->
+        <item>1</item> <item>2</item>   <item>20</item> <!-- four -->
+        <item>1</item> <item>3</item>   <item>30</item> <!-- four -->
+
+        <item>2</item> <item>1</item>   <item>10</item> <!-- four -->
+
+        <item>3</item> <item>1</item>   <item>10</item> <!-- four -->
+
+        <item>4</item> <item>1</item>   <item>20</item> <!-- four -->
+
+        <item>5</item> <item>1</item>   <item>10</item> <!-- four -->
+
+        <item>6</item> <item>1</item>   <item>10</item> <!-- four -->
+
+        <item>7</item> <item>1</item>   <item>10</item> <!-- four -->
+
+        <item>8</item> <item>1</item>   <item>20</item> <!-- four -->
+
+        <item>9</item> <item>1</item>   <item>20</item> <!-- four -->
+
+        <item>10</item> <item>1</item>   <item>20</item> <!-- four -->
+
+        <item>11</item> <item>1</item>   <item>20</item> <!-- four -->
+
+        <item>12</item> <item>1</item>   <item>50</item> <!-- four -->
+        <item>13</item> <item>1</item>   <item>50</item> <!-- four -->
+
+        <item>14</item> <item>1</item>   <item>11</item> <!-- four -->
+        <item>14</item> <item>2</item>   <item>21</item> <!-- four -->
+        <item>14</item> <item>3</item>   <item>31</item> <!-- four -->
+
+        <item>15</item> <item>1</item>   <item>21</item> <!-- four -->
+        <item>15</item> <item>1</item>   <item>31</item> <!-- four -->
+
+        <item>16</item> <item>1</item>   <item>51</item> <!-- four -->
+        <item>17</item> <item>1</item>   <item>51</item> <!-- four -->
+        <item>18</item> <item>1</item>   <item>51</item> <!-- four -->
+
+
+    </integer-array>
+
+    <integer-array name="grip_values_rockprodigy">
+
+        <item>2</item> <item>1</item>   <item>10</item> <!-- four -->
+
+        <item>3</item> <item>1</item>   <item>10</item> <!-- four -->
+
+        <item>4</item> <item>1</item>   <item>10</item> <!-- four -->
+
+        <item>5</item> <item>1</item>   <item>10</item> <!-- four -->
+
+        <item>6</item> <item>1</item>   <item>10</item> <!-- four -->
+
+        <item>7</item> <item>1</item>   <item>10</item> <!-- four -->
+
+        <item>8</item> <item>1</item>   <item>10</item> <!-- four -->
+
+        <item>9</item> <item>1</item>   <item>20</item> <!-- four -->
+
+        <item>10</item> <item>1</item>   <item>20</item> <!-- four -->
+
+        <item>11</item> <item>1</item>   <item>50</item> <!-- four -->
+
+        <item>12</item> <item>1</item>   <item>50</item> <!-- four -->
+        <item>13</item> <item>1</item>   <item>50</item> <!-- four -->
 
     </integer-array>
 

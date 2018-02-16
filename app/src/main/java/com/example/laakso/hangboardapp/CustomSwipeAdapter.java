@@ -14,22 +14,28 @@ import android.widget.LinearLayout;
 // CustomSwipeAdapter Creates with the help of PagerAdapter swipeable view of different hangboards
 public class CustomSwipeAdapter extends PagerAdapter {
     private int[] image_resources = {R.drawable.lauta1011, R.drawable.lauta2002, R.drawable.trans,
-    R.drawable.tension, R.drawable.zlag, R.drawable.moonhard, R.drawable.mooneasy, R.drawable.meto};
+    R.drawable.tension, R.drawable.zlag, R.drawable.moonhard, R.drawable.mooneasy, R.drawable.meto,
+    R.drawable.rockprodigy, R.drawable.problemsolver, R.drawable.meto_contact, R.drawable.meto_wood};
     private Context ctx;
     private LayoutInflater layoutInflater;
 
-    public enum hangboard {BM1000,BM2000, TRANS, TENSION, ZLAG, MOONHARD, MOONEASY, METO};
+    public enum hangboard {BM1000,BM2000, TRANS, TENSION, ZLAG, MOONHARD, MOONEASY, METO,
+        ROCKPRODIGY, PROBLEMSOLVER,METO_CONTACT, METO_WOOD};
 
     public static hangboard getHangBoard(int position) {
         if (position == 0) { return hangboard.BM1000; }
-        if (position == 1) {return hangboard.BM2000; }
-        if (position == 2) {return hangboard.TRANS; }
-        if (position == 3) {return hangboard.TENSION;}
-        if (position == 4) {return hangboard.ZLAG; }
-        if (position == 5) {return hangboard.MOONHARD; }
-        if (position == 6) {return hangboard.MOONEASY; }
-        if (position == 7) {return hangboard.METO; }
-        return hangboard.BM1000;
+        else if (position == 1) {return hangboard.BM2000; }
+        else if (position == 2) {return hangboard.TRANS; }
+        else if (position == 3) {return hangboard.TENSION;}
+        else if (position == 4) {return hangboard.ZLAG; }
+        else if (position == 5) {return hangboard.MOONHARD; }
+        else if (position == 6) {return hangboard.MOONEASY; }
+        else if (position == 7) {return hangboard.METO; }
+        else if (position == 8) {return hangboard.ROCKPRODIGY; }
+        else if (position == 9) {return hangboard.PROBLEMSOLVER; }
+        else if (position == 10) {return hangboard.METO_CONTACT; }
+        else if (position == 11) {return hangboard.METO_WOOD; }
+        else {return hangboard.BM1000; }
     }
 
     public int getImageResource(int position) {

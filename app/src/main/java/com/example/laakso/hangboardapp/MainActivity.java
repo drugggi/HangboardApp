@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         fingerImage = (ImageView) findViewById(R.id.templateFingerImageView);
          fingerImage.setImageResource(R.drawable.finger_template);
-        fingerImage.setVisibility(View.INVISIBLE);
+        // fingerImage.setVisibility(View.INVISIBLE);
 
 
         // HangBoard class holds all the information about grades and holds and grips
