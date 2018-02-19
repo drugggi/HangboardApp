@@ -17,14 +17,14 @@ public class HangBoard {
     CustomSwipeAdapter.hangboard current_board;
 
     // All possible grip types in a hangboard
-    private HoldValue[] all_hold_values;
+    private Hold[] all_hold_values;
 
     // starter_grips holds the information of all starting holds and grips of every grade
     private String[] starter_grips;
 
     // holdList represents the changeable holds that user will modify and are give to workoutactivity
     ArrayList<String> holdList;
-    ArrayList<HoldValue> valueList;
+    ArrayList<Hold> valueList;
 
     // Hold coordinates stores the information where hand pictures will be placed on a hangboard image
     private int[] hold_coordinates;
@@ -38,11 +38,11 @@ public class HangBoard {
         hold_coordinates = res.getIntArray(R.array.bm1000_coordinates);
 
         holdList = new ArrayList<String>();
-        valueList = new ArrayList<HoldValue>();
+        valueList = new ArrayList<Hold>();
 
     }
 
-    public ArrayList<HoldValue> getCurrentHoldList() {
+    public ArrayList<Hold> getCurrentHoldList() {
         return valueList;
     }
 
@@ -224,7 +224,7 @@ public class HangBoard {
             --amount;
         }
         // Lets randomize the holds in all_hold_values
-        HoldValue temp;
+        Hold temp;
         int index;
         Random random = new Random();
         for (int i = all_hold_values.length - 1; i > 0; i--)
@@ -365,9 +365,9 @@ public class HangBoard {
     }
 
 
-    // MUUTA TUPLAKIERROS HOLDVALUE.SIZE() JOTTA OTETYYPPEJÄ KÄYDÄÄN LÄPI SEN VERRAN MITÄ NIITÄ ON
+    // MUUTA TUPLAKIERROS Hold.SIZE() JOTTA OTETYYPPEJÄ KÄYDÄÄN LÄPI SEN VERRAN MITÄ NIITÄ ON
     // TALLENNETTU. EIKÄ VAKIO 36 MÄÄRÄ
-    private int getHoldNumberWithValue(int min_value, int max_value, HoldValue.grip_type wanted_hold) {
+    private int getHoldNumberWithValue(int min_value, int max_value, Hold.grip_type wanted_hold) {
 
         Random rng = new Random();
         int search_point = rng.nextInt(all_hold_values.length);
@@ -426,10 +426,10 @@ public class HangBoard {
         if (current_board == CustomSwipeAdapter.hangboard.BM1000) {
             int[] arvot = res.getIntArray(R.array.grip_values_bm1000);
 
-            all_hold_values = new HoldValue[arvot.length/3];
+            all_hold_values = new Hold[arvot.length/3];
 
             while (hold_pos/3 < all_hold_values.length) {
-                all_hold_values[hold_pos/3] = new HoldValue(arvot[hold_pos]);
+                all_hold_values[hold_pos/3] = new Hold(arvot[hold_pos]);
                 hold_pos++;
                 all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.bm1000_coordinates));
                 all_hold_values[hold_pos/3].setHoldValue(arvot[hold_pos]);
@@ -442,10 +442,10 @@ public class HangBoard {
         else if (current_board == CustomSwipeAdapter.hangboard.BM2000 ) {
             int[] arvot = res.getIntArray(R.array.grip_values_bm2000);
 
-            all_hold_values = new HoldValue[arvot.length/3];
+            all_hold_values = new Hold[arvot.length/3];
 
             while (hold_pos/3 < all_hold_values.length) {
-                all_hold_values[hold_pos/3] = new HoldValue(arvot[hold_pos]);
+                all_hold_values[hold_pos/3] = new Hold(arvot[hold_pos]);
                 hold_pos++;
                 all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.bm2000_coordinates));
                 all_hold_values[hold_pos/3].setHoldValue(arvot[hold_pos]);
@@ -458,10 +458,10 @@ public class HangBoard {
         else if (current_board == CustomSwipeAdapter.hangboard.TRANS ) {
             int[] arvot = res.getIntArray(R.array.grip_values_trans);
 
-            all_hold_values = new HoldValue[arvot.length/3];
+            all_hold_values = new Hold[arvot.length/3];
 
             while (hold_pos/3 < all_hold_values.length) {
-                all_hold_values[hold_pos/3] = new HoldValue(arvot[hold_pos]);
+                all_hold_values[hold_pos/3] = new Hold(arvot[hold_pos]);
                 hold_pos++;
                 all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.trans_coordinates));
                 all_hold_values[hold_pos/3].setHoldValue(arvot[hold_pos]);
@@ -474,10 +474,10 @@ public class HangBoard {
         else if (current_board == CustomSwipeAdapter.hangboard.TENSION ) {
             int[] arvot = res.getIntArray(R.array.grip_values_tension);
 
-            all_hold_values = new HoldValue[arvot.length/3];
+            all_hold_values = new Hold[arvot.length/3];
 
             while (hold_pos/3 < all_hold_values.length) {
-                all_hold_values[hold_pos/3] = new HoldValue(arvot[hold_pos]);
+                all_hold_values[hold_pos/3] = new Hold(arvot[hold_pos]);
                 hold_pos++;
                 all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.tension_coordinates));
                 all_hold_values[hold_pos/3].setHoldValue(arvot[hold_pos]);
@@ -490,10 +490,10 @@ public class HangBoard {
         else if (current_board == CustomSwipeAdapter.hangboard.ZLAG ) {
             int[] arvot = res.getIntArray(R.array.grip_values_zlag);
 
-            all_hold_values = new HoldValue[arvot.length/3];
+            all_hold_values = new Hold[arvot.length/3];
 
             while (hold_pos/3 < all_hold_values.length) {
-                all_hold_values[hold_pos/3] = new HoldValue(arvot[hold_pos]);
+                all_hold_values[hold_pos/3] = new Hold(arvot[hold_pos]);
                 hold_pos++;
                 all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.zlag_coordinates));
                 all_hold_values[hold_pos/3].setHoldValue(arvot[hold_pos]);
@@ -506,10 +506,10 @@ public class HangBoard {
         else if (current_board == CustomSwipeAdapter.hangboard.MOONEASY ) {
             int[] arvot = res.getIntArray(R.array.grip_values_mooneasy);
 
-            all_hold_values = new HoldValue[arvot.length/3];
+            all_hold_values = new Hold[arvot.length/3];
 
             while (hold_pos/3 < all_hold_values.length) {
-                all_hold_values[hold_pos/3] = new HoldValue(arvot[hold_pos]);
+                all_hold_values[hold_pos/3] = new Hold(arvot[hold_pos]);
                 hold_pos++;
                 all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.mooneasy_coordinates));
                 all_hold_values[hold_pos/3].setHoldValue(arvot[hold_pos]);
@@ -521,10 +521,10 @@ public class HangBoard {
         else if (current_board == CustomSwipeAdapter.hangboard.METO ) {
             int[] arvot = res.getIntArray(R.array.grip_values_meto);
 
-            all_hold_values = new HoldValue[arvot.length/3];
+            all_hold_values = new Hold[arvot.length/3];
 
             while (hold_pos/3 < all_hold_values.length) {
-                all_hold_values[hold_pos/3] = new HoldValue(arvot[hold_pos]);
+                all_hold_values[hold_pos/3] = new Hold(arvot[hold_pos]);
                 hold_pos++;
                 all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.meto_coordinates));
                 all_hold_values[hold_pos/3].setHoldValue(arvot[hold_pos]);
@@ -537,10 +537,10 @@ public class HangBoard {
         else if (current_board == CustomSwipeAdapter.hangboard.ROCKPRODIGY ) {
             int[] arvot = res.getIntArray(R.array.grip_values_rockprodigy);
 
-            all_hold_values = new HoldValue[arvot.length/3];
+            all_hold_values = new Hold[arvot.length/3];
 
             while (hold_pos/3 < all_hold_values.length) {
-                all_hold_values[hold_pos/3] = new HoldValue(arvot[hold_pos]);
+                all_hold_values[hold_pos/3] = new Hold(arvot[hold_pos]);
                 hold_pos++;
                 all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.rockprodigy_coordinates));
                 all_hold_values[hold_pos/3].setHoldValue(arvot[hold_pos]);
@@ -552,7 +552,7 @@ public class HangBoard {
 
         // The positions must sadly be randomized so that GiveHoldWithValue method
         // doesn't favor one hold above the other (next)
-        HoldValue temp;
+        Hold temp;
         int index;
         Random random = new Random();
         for (int i = all_hold_values.length - 1; i > 0; i--)

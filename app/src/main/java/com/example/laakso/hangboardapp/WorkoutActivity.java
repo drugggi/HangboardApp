@@ -45,7 +45,7 @@ public class WorkoutActivity extends AppCompatActivity {
     int s = -30;
     int total_s = -800;
     ArrayList<String> workoutInfo;
-    ArrayList<HoldValue> workoutInfoTest;
+    ArrayList<Hold> workoutInfoTest;
     TextView gradeTextView;
 
     int i;
@@ -68,8 +68,8 @@ public class WorkoutActivity extends AppCompatActivity {
         pauseBtn.setText("pause");
         gradeTextView = (TextView) findViewById(R.id.gradTextView);
 
-        if (getIntent().hasExtra("com.example.laakso.hangboardapp.HOLDVALUES")) {
-             workoutInfoTest = getIntent().getExtras().getParcelableArrayList("com.example.laakso.hangboardapp.HOLDVALUES");
+        if (getIntent().hasExtra("com.example.laakso.hangboardapp.HOLDS")) {
+             workoutInfoTest = getIntent().getExtras().getParcelableArrayList("com.example.laakso.hangboardapp.HOLDS");
         }
 
         if (getIntent().hasExtra("com.example.laakso.hangboardapp.COORDINATES")) {

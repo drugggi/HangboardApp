@@ -245,8 +245,8 @@ public class MainActivity extends AppCompatActivity {
                 workoutIntent.putExtra("com.example.laakso.hangboardapp.COORDINATES", everyBoard.getCoordinates());
 
                 //ArrayList<HoldValue> currentHangList = new ArrayList<HoldValue>();
-                ArrayList<HoldValue> currentHoldList = everyBoard.getCurrentHoldList();
-                workoutIntent.putParcelableArrayListExtra("com.example.laakso.hangboardapp.HOLDVALUES", currentHoldList);
+                ArrayList<Hold> currentHoldList = everyBoard.getCurrentHoldList();
+                workoutIntent.putParcelableArrayListExtra("com.example.laakso.hangboardapp.HOLDS", currentHoldList);
 /*
                 HoldValue testiValue = new HoldValue(1);
                 testiValue.setHoldValue(15);

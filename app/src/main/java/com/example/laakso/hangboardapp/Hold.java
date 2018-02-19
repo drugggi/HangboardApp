@@ -7,8 +7,8 @@ import android.os.Parcelable;
  * Created by Laakso on 20.11.2017.
  */
 
-// HoldValue contains the information that a single hang can hold
-public class HoldValue implements Comparable<HoldValue>, Parcelable {
+// Hold contains the information that a single hang can hold
+public class Hold implements Comparable<Hold>, Parcelable {
     // Hold number corresponds with the number in hangboard picture
     private int hold_number;
 
@@ -37,11 +37,11 @@ public class HoldValue implements Comparable<HoldValue>, Parcelable {
     // Single holds dont have a pair with same measurements in the hangboard
     boolean single_hold;
 
-    public HoldValue(int number) {
+    public Hold(int number) {
         single_hold = false;
         hold_number = number;
     }
-    private HoldValue(Parcel in) {
+    private Hold(Parcel in) {
         hold_number = in.readInt();
         hold_value = in.readInt();
         lefthand_coord_x = in.readInt();
@@ -74,18 +74,18 @@ public class HoldValue implements Comparable<HoldValue>, Parcelable {
 
     }
 
-    public static final Parcelable.Creator<HoldValue> CREATOR = new Parcelable.Creator<HoldValue>() {
-        public HoldValue createFromParcel(Parcel in) {
-            return new HoldValue(in);
+    public static final Parcelable.Creator<Hold> CREATOR = new Parcelable.Creator<Hold>() {
+        public Hold createFromParcel(Parcel in) {
+            return new Hold(in);
         }
 
-        public HoldValue[] newArray(int size) {
-            return new HoldValue[size];
+        public Hold[] newArray(int size) {
+            return new Hold[size];
         }
     };
 
-    public int compareTo(HoldValue compareHoldValue) {
-        return this.hold_value - compareHoldValue.hold_value;
+    public int compareTo(Hold compareHold) {
+        return this.hold_value - compareHold.hold_value;
     }
 
     public int getLeftCoordX() {
