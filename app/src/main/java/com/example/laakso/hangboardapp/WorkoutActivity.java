@@ -5,7 +5,6 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -21,7 +20,9 @@ public class WorkoutActivity extends AppCompatActivity {
 
     Chronometer totalTimeChrono;
     Chronometer lapseTimeChrono;
+
     ProgressBar hangProgressBar;
+
      ImageView boardimage;
      ImageView leftHandImage;
      ImageView rightHandImage;
@@ -30,26 +31,19 @@ public class WorkoutActivity extends AppCompatActivity {
 
     TimeControls timeControls;
     int current_lap;
-    // SHOULD PROBABLY CREATE A DATA CLASS FOR THESE WORKOUT TIME CONTROLS
-    /* int grip_laps = 6;
-    int hang_laps = 6;
-    int routine_laps = 3;
-    int time_on = 7;
-    int time_off = 3;
-    int time_total = time_on + time_off;
-    int rest = 150;
-    int long_rest = 600;*/
     workoutPart nowDoing = workoutPart.ALKULEPO;
 
-    int workout_starts_in = 30;
+    // int workout_starts_in = 30;
+    // s and total_s are the shown seconds on screen
+    // if s < 0 it is rest time
     int s = -30;
-    int total_s = -800;
-    ArrayList<String> workoutInfo;
+    // total_s is the total workout_time and will count down to zero
+    int total_s = 0;
     ArrayList<Hold> workoutInfoTest;
     TextView gradeTextView;
 
     int i;
-    int hold_coordinates[];
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,91 +51,50 @@ public class WorkoutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_workout);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
+        // Sound files that will be played when to hang and when to stop hanging
         final MediaPlayer playSound = MediaPlayer.create(this,R.raw.tick);
         final MediaPlayer playFinishSound = MediaPlayer.create(this,R.raw.finish_tick);
 
         boardimage = (ImageView) findViewById(R.id.boardImageView);
-
-
         hangProgressBar = (ProgressBar) findViewById(R.id.hangProgressBar);
         pauseBtn = (Button) findViewById(R.id.pauseBtn);
         pauseBtn.setText("pause");
         gradeTextView = (TextView) findViewById(R.id.gradTextView);
 
+        // Holds that will be used in this workout program
         if (getIntent().hasExtra("com.example.laakso.hangboardapp.HOLDS")) {
              workoutInfoTest = getIntent().getExtras().getParcelableArrayList("com.example.laakso.hangboardapp.HOLDS");
         }
 
-        if (getIntent().hasExtra("com.example.laakso.hangboardapp.COORDINATES")) {
-            hold_coordinates = getIntent().getExtras().getIntArray("com.example.laakso.hangboardapp.COORDINATES");
-        }
-
+        // Hangboard image that user has selected
         if (getIntent().hasExtra("com.example.laakso.hangboardapp.BOARDIMAGE")) {
             int image_resource = getIntent().getIntExtra("com.example.laakso.hangboardapp.BOARDIMAGE", 0);
             boardimage.setImageResource(image_resource);
 
         }
 
-        // If Intent has extra information, lets get it HANGLIST should contain the hang and grip information
-        if (getIntent().hasExtra("com.example.laakso.hangboardapp.HANGLIST")) {
-           workoutInfo = new ArrayList<String>();
-           workoutInfo = getIntent().getStringArrayListExtra("com.example.laakso.hangboardapp.HANGLIST");
-
-            int i = 0;
-            while (i < workoutInfo.size() ) {
-                 workoutInfo.set(i, workoutInfo.get(i).replace("\n", " ") );
-                 ++i;
-            }
-
-            i = 0;
-            /*
-            while (i < workoutInfo.size() ) {
-                Toast.makeText(WorkoutActivity.this,workoutInfo.get(i),Toast.LENGTH_LONG).show();
-                i++;
-            }*/
-
-            gradeTextView.setText(workoutInfo.get(0));
-        }
-
         // This Intent brings the time controls to the workout program
         if (getIntent().hasExtra("com.example.laakso.hangboardapp.TIMECONTROLS")) {
             int[] time_controls = getIntent().getExtras().getIntArray("com.example.laakso.hangboardapp.TIMECONTROLS");
-            // total_s = time_total*time_controls[0] + 15*time_controls[1] + 2*time_controls[2] -s ;
+
 
             timeControls = new TimeControls();
             timeControls.setTimeControls(time_controls);
-            // timeControls.setTimeControls(new int[] {6, 2, 5 ,3 , 1, 15, 150});
+            // timeControls.setTimeControls(new int[] {6, 2, 5 ,3 , 1, 15, 150});  // IF YOU WANT TO CONTROL TIMECONTROLS FOR TESTIT PURPOSES
 
-            // Toast.makeText(WorkoutActivity.this,"WI size "+ workoutInfo.size() + " griplaps " + timeControls.getGripLaps(),Toast.LENGTH_LONG).show();
-            // grip_laps = time_controls[0];
             // SECURITY CHECK, WILL MAKE SURE IN FUTURE TO NEVER HAPPEN
-            //if (timeControls.getGripLaps() > workoutInfo.size() ) { timeControls.setGripLaps(workoutInfo.size() ); }
             if (timeControls.getGripLaps()*2 != workoutInfoTest.size()) {
                 Toast.makeText(WorkoutActivity.this,timeControls.getGripLaps() + " ERROR!! Gripslaps and workoutInfoTEst sizes doesn't match " + workoutInfoTest.size(), Toast.LENGTH_LONG).show();
                 timeControls.setGripLaps(workoutInfoTest.size()/2);
             }
-/*
-            time_on = time_controls[2];
-            time_off = time_controls[3];
-            time_total = time_on + time_off;
-            hang_laps = time_controls[1] * time_total;
-            routine_laps = time_controls[4];
-            rest = time_controls[5];
-            long_rest = time_controls[6];*/
-            // 6 sets, 6 rounds  of 7on 3 off, 6 laps 150s rests, 600s long rest
-            //  TESTAUSTA VARTEN TIME_CONTROLS 0 SÄÄTÖÄ!!
-            // total_s = workout_starts_in + (hang_laps*grip_laps+(grip_laps - 1)*rest) * routine_laps  + (routine_laps - 1)*long_rest;
 
-//            grip_laps = timeControls.getGripLaps();
-            total_s = workout_starts_in + timeControls.getTotalTime();
+            total_s = -s + timeControls.getTotalTime();
 
         }
-       // Toast.makeText(WorkoutActivity.this, "timeconrol0: " + time_controls[0],Toast.LENGTH_LONG).show();
+
         totalTimeChrono = (Chronometer) findViewById(R.id.totalTimeChrono);
-        totalTimeChrono.setText(""+ Math.abs(total_s));
 
         lapseTimeChrono = (Chronometer) findViewById(R.id.lapseTimeChrono);
-        lapseTimeChrono.setBase(SystemClock.elapsedRealtime() + workout_starts_in);
         lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
         lapseTimeChrono.start();
 
@@ -150,56 +103,15 @@ public class WorkoutActivity extends AppCompatActivity {
         pauseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // Check if chronometer is active lets stop it and store pause time
-                Float multiplyer_w = boardimage.getWidth() / 350F;
-                Float multiplyer_h = boardimage.getHeight() / 150F;
-                /* if (i < hold_coordinates.length/ 5 ) {
-                    leftHandImage.setX((hold_coordinates[i*5+1]+3) * multiplyer_w);
-                    leftHandImage.setY(hold_coordinates[i*5+2] * multiplyer_h);
-                    rightHandImage.setX((hold_coordinates[i*5+3]+3) * multiplyer_w);
-                    rightHandImage.setY(hold_coordinates[i*5+4] * multiplyer_h);
-                    i++;
-                }
-                else {
-                    i=0;
-                }
 
-
-                if ( i+1 < workoutInfoTest.size() ) {
-                    i++;
-                }
-                else {
-                    i=0;
-                }*/
                 if ( pauseBtn.getText().equals("pause") ) {
                     lapseTimeChrono.stop();
                     pauseBtn.setText("start");
-
-                    //leftHandImage.setX(leftHandImage.getX()+ 5);
-                    //leftHandImage.setY(leftHandImage.getY()+ 2);
-
-                    //leftHandImage.setX(workoutInfoTest.get(i).getLeftCoordX()*multiplyer_w);
-                    //leftHandImage.setY(workoutInfoTest.get(i).getLeftCoordY()*multiplyer_h);
-                    //gradeTextView.setText("LEFTHANDINFO hldnro"+ workoutInfoTest.get(i).getHoldNumber()+ " difficulty: " +workoutInfoTest.get(i).getHoldValue() + " hand: "
-                    //+workoutInfoTest.get(i).getHoldText());
-                    // Toast.makeText(WorkoutActivity.this,"LEFT X: "+ workoutInfoTest.get(i).getLeftCoordX() + " Y: " + workoutInfoTest.get(i).getLeftCoordY(),Toast.LENGTH_LONG ).show();
-
                 }
-                // Chrono meter has been stopped, lets set the basetime when it was stopped
+
                 else {
                     pauseBtn.setText("pause");
                     lapseTimeChrono.start();
-
-                    //rightHandImage.setX(rightHandImage.getX()+ 5);
-                    //rightHandImage.setY(rightHandImage.getY()+ 3);
-
-                    //rightHandImage.setX(workoutInfoTest.get(i).getRightCoordX()*multiplyer_w);
-                    //rightHandImage.setY(workoutInfoTest.get(i).getRightCoordY()*multiplyer_h);
-
-//                     gradeTextView.setText("RIGHTHANDINFO hldnro"+ workoutInfoTest.get(i).getHoldNumber()+ " difficulty: " +workoutInfoTest.get(i).getHoldValue()+ " hand: "
-  //                           +workoutInfoTest.get(i).getHoldText());
-                   // Toast.makeText(WorkoutActivity.this,"length X: "+ workoutInfoTest.get(i).getRightCoordX() + " Y: " + workoutInfoTest.get(i).getRightCoordY(),Toast.LENGTH_LONG ).show();
-
                 }
 
             }
@@ -216,10 +128,10 @@ public class WorkoutActivity extends AppCompatActivity {
                 lapseTimeChrono.setText("" + Math.abs(s) );
                 totalTimeChrono.setText("Time left: " + total_s);
 
-
-
                 switch (nowDoing) {
                     case ALKULEPO:
+
+                        // At 25s mark lets show the next hang instructions
                         if ( s == -25) {
                             leftHandImage = (ImageView) findViewById(R.id.leftHandImageView);
                             rightHandImage = (ImageView) findViewById(R.id.rightHandImageView);
@@ -271,15 +183,7 @@ public class WorkoutActivity extends AppCompatActivity {
                             s = -timeControls.getRestTime();
                             // gradeTextView.setText(workoutInfo.get(current_lap));
                             updateGripDisplay();
-/*
-                            leftHandImage.setImageResource(workoutInfoTest.get(current_lap*2 ).getGripImage(true));
-                            rightHandImage.setImageResource(workoutInfoTest.get(current_lap*2 + 1).getGripImage(false));
-                            leftHandImage.setX(workoutInfoTest.get(current_lap*2 ).getLeftCoordX()*multiplier_w);
-                            leftHandImage.setY(workoutInfoTest.get(current_lap*2).getLeftCoordY()*multiplier_h);
-                            rightHandImage.setX(workoutInfoTest.get(current_lap*2 + 1).getRightCoordX()*multiplier_w);
-                            rightHandImage.setY(workoutInfoTest.get(current_lap*2 + 1).getRightCoordY()*multiplier_h);
-                            gradeTextView.setText("HOLD: "+ workoutInfoTest.get(current_lap*2).getHoldNumber()+ "/" + workoutInfoTest.get(current_lap*2 + 1).getHoldNumber()
-                                    + " Grip: "+workoutInfoTest.get(current_lap*2).getHoldText() + " difficulty: " + workoutInfoTest.get(current_lap*2).getHoldValue());*/
+
                              }
 
 
@@ -326,18 +230,17 @@ public class WorkoutActivity extends AppCompatActivity {
         leftHandImage.setImageResource(workoutInfoTest.get(current_lap*2 ).getGripImage(true));
         rightHandImage.setImageResource(workoutInfoTest.get(current_lap*2 + 1).getGripImage(false));
 
+        // Lets get the coordinates for the next hand images
         leftHandImage.setX(workoutInfoTest.get(current_lap*2 ).getLeftCoordX()*multiplier_w + 10);
         leftHandImage.setY(workoutInfoTest.get(current_lap*2).getLeftCoordY()*multiplier_h);
         rightHandImage.setX(workoutInfoTest.get(current_lap*2 + 1).getRightCoordX()*multiplier_w + 10);
         rightHandImage.setY(workoutInfoTest.get(current_lap*2 + 1).getRightCoordY()*multiplier_h);
-        if (workoutInfoTest.get(current_lap*2).getHoldNumber() == workoutInfoTest.get(current_lap*2 + 1).getHoldNumber()) {
-            gradeTextView.setText("HOLD: " + workoutInfoTest.get(current_lap * 2).getHoldNumber() +
-                    " GRIP: " + workoutInfoTest.get(current_lap * 2).getHoldText() + " difficulty: " + workoutInfoTest.get(current_lap * 2).getHoldValue());
-        }
-        else {
-            gradeTextView.setText("HOLD: " + workoutInfoTest.get(current_lap * 2).getHoldNumber() + "/" + workoutInfoTest.get(current_lap * 2 + 1).getHoldNumber()
-                    + " Alternate GRIP: " + workoutInfoTest.get(current_lap * 2).getHoldText() + " difficulty: " + workoutInfoTest.get(current_lap * 2).getHoldValue());
-        }
+
+        // Lets get the correct descrption to next hold and grip
+        String texti = (current_lap+1) + ". " + workoutInfoTest.get(2*current_lap).getHoldInfo(workoutInfoTest.get(2*current_lap+1));
+        texti = texti.replaceAll("\n"," ");
+        gradeTextView.setText(texti);
+
     }
 
 }

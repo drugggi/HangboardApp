@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         // HangBoard class holds all the information about grades and holds and grips
         final Resources res = getResources();
         everyBoard = new HangBoard(res);
-        everyBoard.InitializeHolds(res);
+        everyBoard.InitializeHolds(res, CustomSwipeAdapter.hangboard.BM1000);
         everyBoard.setGripAmount(6,0);
 
         //Default hangboard program (65min)
@@ -96,9 +96,9 @@ public class MainActivity extends AppCompatActivity {
                 leftFingerImage.setVisibility(View.INVISIBLE);
 
                 // Lets change the HangBoard for every swipe
-                everyBoard.NewBoard(res,CustomSwipeAdapter.getHangBoard(position));
+                // everyBoard.NewBoard(res,CustomSwipeAdapter.getHangBoard(position));
                 // Every HangBoard has different unique holds
-                everyBoard.InitializeHolds(res);
+                everyBoard.InitializeHolds(res, CustomSwipeAdapter.getHangBoard(position));
                 holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
                         R.layout.mytextview , everyBoard.setGrips(grade_descr_position));
                 holdsListView.setAdapter(holdsAdapter);
@@ -189,8 +189,8 @@ public class MainActivity extends AppCompatActivity {
                 Intent workoutIntent = new Intent(getApplicationContext(), WorkoutActivity.class);
 
                 // DELETE THESE TWO
-                workoutIntent.putStringArrayListExtra("com.example.laakso.hangboardapp.HANGLIST", everyBoard.GetGripList() );
-                workoutIntent.putExtra("com.example.laakso.hangboardapp.COORDINATES", everyBoard.getCoordinates());
+                //workoutIntent.putStringArrayListExtra("com.example.laakso.hangboardapp.HANGLIST", everyBoard.GetGripList() );
+                //workoutIntent.putExtra("com.example.laakso.hangboardapp.COORDINATES", everyBoard.getCoordinates());
 
                 // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
                 workoutIntent.putExtra("com.example.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );

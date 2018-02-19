@@ -5,7 +5,6 @@ import android.content.res.Resources;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
-import java.util.Scanner;
 
 /**
  * Created by Laakso on 16.11.2017.
@@ -19,25 +18,17 @@ public class HangBoard {
     // All possible grip types in a hangboard
     private Hold[] all_hold_values;
 
-    // starter_grips holds the information of all starting holds and grips of every grade
-    private String[] starter_grips;
-
-    // holdList represents the changeable holds that user will modify and are give to workoutactivity
-    ArrayList<String> holdList;
+    // valueList represents the holds that are in a current workout shown in holdsListView
+    // These will be sent to WorkoutActivity. Even values has the left hand information and odd values  right hand information
     ArrayList<Hold> valueList;
-
-    // Hold coordinates stores the information where hand pictures will be placed on a hangboard image
-    private int[] hold_coordinates;
 
     // Grips constructor takes resources so that it can read all the information needed constructing
     // workout and hangs and grips
     public HangBoard(Resources res) {
-        starter_grips = res.getStringArray(R.array.beastmaker1000);
+        // starter_grips = res.getStringArray(R.array.beastmaker1000);
         grades = res.getStringArray(R.array.grades);
         current_board = CustomSwipeAdapter.hangboard.BM1000;
-        hold_coordinates = res.getIntArray(R.array.bm1000_coordinates);
 
-        holdList = new ArrayList<String>();
         valueList = new ArrayList<Hold>();
 
     }
@@ -46,6 +37,7 @@ public class HangBoard {
         return valueList;
     }
 
+    // Coordinates getters for hand image positioning
     public int getLeftFingerImage(int position) {
         return valueList.get(position*2).getGripImage(true);
     }
@@ -53,8 +45,6 @@ public class HangBoard {
         return valueList.get(position*2+1).getGripImage(false);
     }
 
-    // Valuelist keeps track what holds and grips is currently used in a program
-    // even values has the left hand information and odd values  right hand information
     public int getCoordLeftX(int position) {
         return valueList.get(position*2).getLeftCoordX();
 
@@ -72,117 +62,29 @@ public class HangBoard {
 
     }
 
-    public int[] getCoordinates() {
-        return hold_coordinates;
-    }
-
-    public void NewBoard(Resources res,CustomSwipeAdapter.hangboard new_board) {
-        if (CustomSwipeAdapter.hangboard.BM1000 == new_board) {
-            current_board = CustomSwipeAdapter.hangboard.BM1000;
-            starter_grips = res.getStringArray(R.array.beastmaker1000);
-            hold_coordinates = res.getIntArray(R.array.bm1000_coordinates);
-        }
-
-        else if (CustomSwipeAdapter.hangboard.BM2000 == new_board) {
-            current_board = CustomSwipeAdapter.hangboard.BM2000;
-            starter_grips = res.getStringArray(R.array.beastmaker2000);
-            hold_coordinates = res.getIntArray(R.array.bm2000_coordinates);
-        }
-
-        else if (CustomSwipeAdapter.hangboard.TRANS == new_board) {
-            current_board = CustomSwipeAdapter.hangboard.TRANS;
-            starter_grips = res.getStringArray(R.array.no_start_program);
-            hold_coordinates = res.getIntArray(R.array.trans_coordinates);
-        }
-
-        else if (CustomSwipeAdapter.hangboard.ZLAG == new_board) {
-            current_board = CustomSwipeAdapter.hangboard.ZLAG;
-            starter_grips = res.getStringArray(R.array.no_start_program);
-            hold_coordinates = res.getIntArray(R.array.zlag_coordinates);
-        }
-
-        else if (CustomSwipeAdapter.hangboard.MOONHARD == new_board) {
-            current_board = CustomSwipeAdapter.hangboard.MOONHARD;
-            starter_grips = res.getStringArray(R.array.no_start_program);
-            hold_coordinates = res.getIntArray(R.array.moonhard_coordinates);
-        }
-
-        else if (CustomSwipeAdapter.hangboard.TENSION == new_board) {
-            current_board = CustomSwipeAdapter.hangboard.TENSION;
-            starter_grips = res.getStringArray(R.array.no_start_program);
-            hold_coordinates = res.getIntArray(R.array.tension_coordinates);
-        }
-        else if (CustomSwipeAdapter.hangboard.MOONEASY == new_board) {
-            current_board = CustomSwipeAdapter.hangboard.MOONEASY;
-            starter_grips = res.getStringArray(R.array.no_start_program);
-            hold_coordinates = res.getIntArray(R.array.mooneasy_coordinates);
-        }
-        else if (CustomSwipeAdapter.hangboard.METO == new_board) {
-            current_board = CustomSwipeAdapter.hangboard.METO;
-            starter_grips = res.getStringArray(R.array.no_start_program);
-            hold_coordinates = res.getIntArray(R.array.meto_coordinates);
-        }
-        else if (CustomSwipeAdapter.hangboard.ROCKPRODIGY == new_board) {
-            current_board = CustomSwipeAdapter.hangboard.ROCKPRODIGY;
-            starter_grips = res.getStringArray(R.array.no_start_program);
-            hold_coordinates = res.getIntArray(R.array.rockprodigy_coordinates);
-        }
-        setGrips(0);
-
-    }
-
-
-    // Gives long String with holds and grips, position == grade
-    public String getGrip(int position) {
-
-        return starter_grips[position];
-    }
-
-    public ArrayList<String> GetGripList() {
-        return holdList;
-    }
-
-
 
     public String getGrade(int position) {
         return grades[position];
     }
 
-    // Just converts List of string into Array of Strings
+    // Just converts valueLists' Hold descriptions into Array of Strings
     public String[] getGrips() {
-        String[] holds = holdList.toArray(new String[holdList.size()]);
-        return holds;
+        ArrayList<String> testList = new ArrayList<String>();
 
+        for (int i = 0; i < valueList.size()/2; i++) {
+                testList.add((i+1) + ". " + valueList.get(2*i).getHoldInfo( valueList.get(2*i+1) ) );
+
+        }
+        String[] holds = testList.toArray(new String[testList.size()]);
+        return holds;
     }
 
 
     // Sets holdList to match those info in String[] grips
     public String[] setGrips(int position) {
+        randomizeGrips(position);
+        return getGrips();
 
-        holdList.clear();
-         String[] holds;
-
-            if (position >= starter_grips.length) {
-                int i = 0;
-                while (i < 6) {
-                    holdList.add("No Example program available.\n Click Randomize ALL");
-                    ++i;
-                }
-                return holdList.toArray(new String[holdList.size()]);
-            }
-
-            Scanner in = new Scanner(starter_grips[position]);
-
-            // Lets put hang instruction to String table that will be presented as hangboard program goes on
-
-            while (in.hasNextLine()) {
-                holdList.add(in.nextLine());
-                holdList.set(holdList.size() - 1, holdList.get(holdList.size() - 1).replace("grip", "\ngrip"));
-
-            }
-            holds = holdList.toArray(new String[holdList.size()]);
-
-        return holds;
     }
 
     public int getCurrentHoldListSize() {
@@ -190,39 +92,41 @@ public class HangBoard {
     }
 
     public void sortHoldByDifficulty() {
-
         Arrays.sort(all_hold_values);
 
-        holdList.clear();
         valueList.clear();
 
         int i = 0;
 
         while (i < all_hold_values.length ) {
             // Skip the holds that are just one of in hangboard
-            if ( all_hold_values[i].isSingleHold() ) {i++; continue; }
+            if (all_hold_values[i].isSingleHold()) {
+                i++;
+                continue;
+            }
 
             valueList.add(all_hold_values[i]);
             valueList.add(all_hold_values[i]);
 
-            holdList.add(i + ". HOLD: " + all_hold_values[i].getHoldNumber() +
-                    "\nGRIP: " + all_hold_values[i].getHoldText() +
-                    "\nDifficulty: " + all_hold_values[i].getHoldValue());
             i++;
         }
+
     }
 
     public String[] getGrades() {
         return grades;
     }
 
-
+    // Sets the valueList to given amount and randomizes those holds
     public void setGripAmount(int amount, int grade_position) {
-        holdList.clear();
+        valueList.clear();
+
         while (amount > 0) {
-            holdList.add("No Example program available.\n Click Randomize ALL");
+            valueList.add(new Hold(1));
+            valueList.add(new Hold(1));
             --amount;
         }
+
         // Lets randomize the holds in all_hold_values
         Hold temp;
         int index;
@@ -239,23 +143,11 @@ public class HangBoard {
 
     }
 
-    public void setGripsFromStart() {
-        int i = 0;
-        valueList.clear();
-
-        while (i < holdList.size()) {
-            valueList.add(all_hold_values[i]);
-            i++;
-
-            holdList.set(i, i + ". HOLD: " + all_hold_values[i].getHoldNumber() +
-                "\nGRIP: " + all_hold_values[i].getHoldText() +
-                "\nDifficulty: " + all_hold_values[i].getHoldValue());
-        }
-    }
-
-    // THIS RANDOMIZER ACTUALLY WORKS QUITE DECENTLY
     // Method randomizeGrips randomizes holds and grips that are used in a workout
     public void randomizeGrips(int grade_position) {
+        int poista_tama = valueList.size()/2;
+        if (poista_tama == 0) {poista_tama = 6; }
+
         valueList.clear();
         // Random generator that is only used if we are using the same hold or alternating between holds
         Random rn = new Random();
@@ -274,7 +166,7 @@ public class HangBoard {
         int i=0;
 
         // There is holdList.size() different grips in a given workout so lets randomize all of them
-        while (i < holdList.size() ) {
+        while (i < poista_tama ) {
 
             if (isAlternate) {
 
@@ -287,9 +179,9 @@ public class HangBoard {
                 if (random_nro == random_nro_alt) { isAlternate = false; continue; }
                 valueList.add(all_hold_values[random_nro]);
                 valueList.add(all_hold_values[random_nro_alt]);
-                holdList.set(i, i + ". HOLD: " + all_hold_values[random_nro].getHoldNumber() + "/" + all_hold_values[random_nro_alt].getHoldNumber() + "\nGRIP: " +
+                /*holdList.set(i, i + ". HOLD: " + all_hold_values[random_nro].getHoldNumber() + "/" + all_hold_values[random_nro_alt].getHoldNumber() + "\nGRIP: " +
                         all_hold_values[random_nro].getHoldText() + " alternate\n Difficulty: "+
-                                (all_hold_values[random_nro].getHoldValue() + all_hold_values[random_nro_alt].getHoldValue() )/2);
+                                (all_hold_values[random_nro].getHoldValue() + all_hold_values[random_nro_alt].getHoldValue() )/2);*/
 
             }
 
@@ -300,8 +192,9 @@ public class HangBoard {
                 value = value + all_hold_values[random_nro].getHoldValue();
                 valueList.add(all_hold_values[random_nro]);
                 valueList.add(all_hold_values[random_nro]);
+                /*
                 holdList.set(i, i + ". HOLD: " + all_hold_values[random_nro].getHoldNumber() + "\nGRIP: " + all_hold_values[random_nro].getHoldText() +
-                        "\nDifficulty: " + all_hold_values[random_nro].getHoldValue() );
+                        "\nDifficulty: " + all_hold_values[random_nro].getHoldValue() );*/
 
             }
             isAlternate = rn.nextBoolean();
@@ -340,11 +233,11 @@ public class HangBoard {
 
             valueList.set(hold_nro*2, all_hold_values[random_nro]);
             valueList.set(hold_nro*2 + 1,all_hold_values[random_nro_alt]);
-
+/*
                 holdList.set(hold_nro, hold_nro + ". HOLD: " + all_hold_values[random_nro].getHoldNumber() + "/"
                         + all_hold_values[random_nro_alt].getHoldNumber() + "\nGRIP: " +
                         all_hold_values[random_nro].getHoldText() + " alternate\n Difficulty: "+
-                        (all_hold_values[random_nro].getHoldValue() + all_hold_values[random_nro_alt].getHoldValue() )/2);
+                        (all_hold_values[random_nro].getHoldValue() + all_hold_values[random_nro_alt].getHoldValue() )/2);*/
 
             }
 
@@ -357,16 +250,13 @@ public class HangBoard {
             valueList.set(hold_nro*2, all_hold_values[random_nro]);
             valueList.set(hold_nro*2 + 1,all_hold_values[random_nro]);
 
-                holdList.set(hold_nro, hold_nro +  ". HOLD: " + all_hold_values[random_nro].getHoldNumber() +
-                        "\nGRIP: " + all_hold_values[random_nro].getHoldText() +
-                        "\nDifficulty: " + all_hold_values[random_nro].getHoldValue() );
+
 
             }
     }
 
-
-    // MUUTA TUPLAKIERROS Hold.SIZE() JOTTA OTETYYPPEJÄ KÄYDÄÄN LÄPI SEN VERRAN MITÄ NIITÄ ON
-    // TALLENNETTU. EIKÄ VAKIO 36 MÄÄRÄ
+    // getHoldNumberWithValue searches hold types with given difficulty range and wanted grip type
+    // and returns first that if finds. I none is found, it increases the search range and calls itself
     private int getHoldNumberWithValue(int min_value, int max_value, Hold.grip_type wanted_hold) {
 
         Random rng = new Random();
@@ -420,7 +310,8 @@ public class HangBoard {
 
     // InitializeHolds method collects from resources all the possible grip, holds and difficulty
     // in a give hangboard that can be applied in a hangboard workout
-    public void InitializeHolds(Resources res) {
+    public void InitializeHolds(Resources res, CustomSwipeAdapter.hangboard new_board) {
+        current_board = new_board;
 
         int hold_pos = 0;
         if (current_board == CustomSwipeAdapter.hangboard.BM1000) {
@@ -550,7 +441,7 @@ public class HangBoard {
             }
         }
 
-        // The positions must sadly be randomized so that GiveHoldWithValue method
+        // The positions must be randomized so that GiveHoldWithValue method
         // doesn't favor one hold above the other (next)
         Hold temp;
         int index;
@@ -562,145 +453,12 @@ public class HangBoard {
             all_hold_values[index] = all_hold_values[i];
             all_hold_values[i] = temp;
         }
+        setGrips(0);
 
     }
 
-    /*
-    // InitializeHolds method collects from resources all the possible grip, holds and difficulty
-    // in a give hangboard that can be applied in a hangboard workout
-    public void InitializeHolds2(Resources res) {
-        int position = 0;
-
-        if (current_board == CustomSwipeAdapter.hangboard.BM1000) {
-
-            int[] arvot = res.getIntArray(R.array.grip_values_bm1000);
-            all_hold_values = new HoldValue[arvot.length];
-
-
-            while (position < arvot.length) {
-
-                // This sets the hold number to match the picture hold number
-                // each hold number consist of three different hanging possibility
-                all_hold_values[position] = new HoldValue((position + 3) / 3);
-                all_hold_values[position].SetHoldValue(arvot[position]);
-
-                if (all_hold_values[position].getHoldNumber() == 9) {
-                    all_hold_values[position].setAsSingleHold(true);
-                }
-
-                // These holds are slopers and crimps
-                if (position % 3 == 0) {
-                    all_hold_values[position].SetGripType(HoldValue.grip_type.FOUR_FINGER);
-                }
-                if (position % 3 == 1) {
-                    all_hold_values[position].SetGripType(HoldValue.grip_type.THREE_FRONT);
-                }
-                if (position % 3 == 2) {
-                    all_hold_values[position].SetGripType(HoldValue.grip_type.THREE_BACK);
-                }
-                // these hold are two finger pockets (7 and 11)
-                if (position == 18 || position == 30) {
-                    all_hold_values[position].SetGripType(HoldValue.grip_type.TWO_FRONT);
-                }
-                if (position == 19 || position == 31) {
-                    all_hold_values[position].SetGripType(HoldValue.grip_type.TWO_MIDDLE);
-                }
-                if (position == 20 || position == 32) {
-                    all_hold_values[position].SetGripType(HoldValue.grip_type.TWO_BACK);
-                }
-                ++position;
-            }
-        }
-
-        if (current_board == CustomSwipeAdapter.hangboard.BM2000) {
-
-            int[] arvot = res.getIntArray(R.array.grip_values_bm2000);
-            all_hold_values = new HoldValue[arvot.length];
-
-
-            while (position < arvot.length) {
-
-                all_hold_values[position] = new HoldValue((position + 3) / 3);
-                all_hold_values[position].SetHoldValue(arvot[position]);
-
-                if (all_hold_values[position].getHoldNumber() == 4 || all_hold_values[position].getHoldNumber() == 5 ||
-                        all_hold_values[position].getHoldNumber() == 10 || all_hold_values[position].getHoldNumber() == 15) {
-                    all_hold_values[position].setAsSingleHold(true);
-                }
-
-                if (position % 3 == 0) {
-                    all_hold_values[position].SetGripType(HoldValue.grip_type.FOUR_FINGER);
-                }
-                if (position % 3 == 1) {
-                    all_hold_values[position].SetGripType(HoldValue.grip_type.THREE_FRONT);
-                }
-                if (position % 3 == 2) {
-                    all_hold_values[position].SetGripType(HoldValue.grip_type.THREE_BACK);
-                }
-                // these holds are monos (7 and 12)
-                if (position == 18 || position == 33) {
-                    all_hold_values[position].SetGripType(HoldValue.grip_type.INDEX_FINGER);
-                }
-                if (position == 19 || position == 34) {
-                    all_hold_values[position].SetGripType(HoldValue.grip_type.MIDDLE_FINGER);
-                }
-                if (position == 20 || position == 35) {
-                    all_hold_values[position].SetGripType(HoldValue.grip_type.RING_FINGER);
-                }
-
-                // these holds are two finger pockets (8, 9, 13, 14)
-                if (position == 21 || position == 24 || position == 36 || position == 39) {
-                    all_hold_values[position].SetGripType(HoldValue.grip_type.TWO_FRONT);
-                }
-                if (position == 22 || position == 25 || position == 37 || position == 40) {
-                    all_hold_values[position].SetGripType(HoldValue.grip_type.TWO_MIDDLE);
-                }
-                if (position == 23 || position == 26|| position == 38 || position == 41) {
-                    all_hold_values[position].SetGripType(HoldValue.grip_type.TWO_BACK);
-                }
-
-                ++position;
-            }
-        }
-
-        if (current_board == CustomSwipeAdapter.hangboard.TRANS) {
-
-            int[] arvot = res.getIntArray(R.array.grip_values_trans);
-            all_hold_values = new HoldValue[arvot.length];
-
-
-            while (position < arvot.length) {
-
-                all_hold_values[position] = new HoldValue((position + 3) / 3);
-                all_hold_values[position].SetHoldValue(arvot[position]);
-                if (position % 3 == 0) {
-                    all_hold_values[position].SetGripType(HoldValue.grip_type.FOUR_FINGER);
-                }
-                if (position % 3 == 1) {
-                    all_hold_values[position].SetGripType(HoldValue.grip_type.THREE_FRONT);
-                }
-                if (position % 3 == 2) {
-                    all_hold_values[position].SetGripType(HoldValue.grip_type.THREE_BACK);
-                }
-
-                if (position % 3 == 0 && position > 23) {
-                    all_hold_values[position].SetGripType(HoldValue.grip_type.TWO_FRONT);
-                }
-                if (position % 3 == 1 && position > 23) {
-                    all_hold_values[position].SetGripType(HoldValue.grip_type.TWO_MIDDLE);
-                }
-                if (position %3 == 2 && position > 23) {
-                    all_hold_values[position].SetGripType(HoldValue.grip_type.TWO_BACK);
-                }
-
-                ++position;
-            }
-        }
-
-    }
-
-    */
-
+    // Arbitary grade values, what hold_values to search in a give grade
+    // For example Grade 6c consist of hold that are betweent 7 and 18 in difficulty
     private static int getMinValue(String grade) {
         if (grade.equals("5a")) {return 1;}
         else if (grade.equals("5b")) {return 2;}

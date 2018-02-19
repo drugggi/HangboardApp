@@ -103,6 +103,16 @@ public class Hold implements Comparable<Hold>, Parcelable {
 
     }
 
+    public String getHoldInfo(Hold rightHandHold) {
+        if (hold_number == rightHandHold.getHoldNumber()) {
+            return "HOLD: " + hold_number + "\nGRIP: " + getHoldText() + "\nDifficulty: " + hold_value;
+        }
+        else {
+            return "HOLD: " + hold_number + "/" + rightHandHold.getHoldNumber() + "\nGRIP: " + getHoldText()
+                    + " Alternate\nDifficulty: " + hold_value; }
+        }
+
+
     // Returns the image that corresponds the grip_type
     public int getGripImage(boolean left_hand) {
 
