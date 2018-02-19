@@ -162,6 +162,23 @@
 
     </integer-array>
 
+    <integer-array name="problemsolver_coordinates">
+        <!--                        LEFT  HAND                          RIGHT   HAND      -->
+        <!--hold number     X coord         Y coord                 X coord        Y coord    -->
+        <item>1</item> <item>36</item> <item>1</item>       <item>239</item> <item>1</item>
+        <item>2</item> <item>36</item> <item>45</item>       <item>239</item> <item>45</item>
+        <item>3</item> <item>13</item> <item>79</item>       <item>267</item> <item>79</item>
+        <item>4</item> <item>53</item> <item>79</item>       <item>224</item> <item>79</item>
+        <item>5</item> <item>101</item> <item>79</item>       <item>176</item> <item>79</item>
+        <item>6</item> <item>141</item> <item>79</item>       <item>141</item> <item>79</item>
+        <item>7</item> <item>14</item> <item>111</item>       <item>267</item> <item>111</item>
+        <item>8</item> <item>53</item> <item>111</item>       <item>224</item> <item>111</item>
+        <item>9</item> <item>101</item> <item>111</item>       <item>176</item> <item>111</item>
+        <item>10</item> <item>141</item> <item>111</item>       <item>141</item> <item>111</item>
+
+
+    </integer-array>
+
     <string-array name="grades">
         <item>5a</item>
         <item>5b</item>
@@ -857,6 +874,51 @@
 
         <item>12</item> <item>1</item>   <item>50</item> <!-- four -->
         <item>13</item> <item>1</item>   <item>50</item> <!-- four -->
+
+    </integer-array>
+
+    <integer-array name="grip_values_problemsolver">
+
+        <item>1</item> <item>1</item>   <item>10</item> <!-- four -->
+        <item>1</item> <item>2</item>   <item>20</item> <!-- four -->
+        <item>1</item> <item>2</item>   <item>30</item> <!-- four -->
+
+        <item>2</item> <item>10</item>   <item>10</item> <!-- four -->
+        <item>2</item> <item>12</item>   <item>20</item> <!-- four -->
+        <item>2</item> <item>13</item>   <item>30</item> <!-- four -->
+
+        <item>3</item> <item>19</item>   <item>10</item> <!-- four -->
+        <item>3</item> <item>21</item>   <item>20</item> <!-- four -->
+        <item>3</item> <item>23</item>   <item>30</item> <!-- four -->
+
+        <item>4</item> <item>29</item>   <item>10</item> <!-- four -->
+        <item>4</item> <item>35</item>   <item>20</item> <!-- four -->
+        <item>4</item> <item>38</item>   <item>30</item> <!-- four -->
+
+        <item>5</item> <item>15</item>   <item>10</item> <!-- four -->
+        <item>5</item> <item>16</item>   <item>20</item> <!-- four -->
+        <item>5</item> <item>18</item>   <item>30</item> <!-- four -->
+
+        <item>6</item> <item>17</item>   <item>11</item> <!-- four -->
+        <item>6</item> <item>17</item>   <item>21</item> <!-- four -->
+        <item>6</item> <item>17</item>   <item>31</item> <!-- four -->
+
+        <item>7</item> <item>21</item>   <item>10</item> <!-- four -->
+        <item>7</item> <item>23</item>   <item>20</item> <!-- four -->
+        <item>7</item> <item>27</item>   <item>30</item> <!-- four -->
+
+        <item>8</item> <item>21</item>   <item>10</item> <!-- four -->
+        <item>8</item> <item>29</item>   <item>20</item> <!-- four -->
+        <item>8</item> <item>31</item>   <item>30</item> <!-- four -->
+
+        <item>9</item> <item>16</item>   <item>10</item> <!-- four -->
+        <item>9</item> <item>19</item>   <item>20</item> <!-- four -->
+        <item>9</item> <item>21</item>   <item>30</item> <!-- four -->
+
+        <item>10</item> <item>11</item>   <item>11</item> <!-- four -->
+        <item>10</item> <item>14</item>   <item>21</item> <!-- four -->
+        <item>10</item> <item>15</item>   <item>31</item> <!-- four -->
+
 
     </integer-array>
 
