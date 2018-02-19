@@ -251,24 +251,27 @@ public class MainActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     timeControls.changeTimeToRepeaters();
-                    everyBoard.setGripAmount(timeControls.getGripLaps(),grade_descr_position);
-                    holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
-                            R.layout.mytextview , everyBoard.getGrips());
-                    holdsListView.setAdapter(holdsAdapter);
-
-                    durationSeekBar.setProgress(3);
 
                 } else {
                     timeControls.changeTimeToSingleHangs();
-                    everyBoard.setGripAmount(timeControls.getGripLaps(),grade_descr_position);
-                    holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
-                            R.layout.mytextview , everyBoard.getGrips());
 
-
-                    holdsListView.setAdapter(holdsAdapter);
-                    // Toast.makeText(MainActivity.this, "Single hangs", Toast.LENGTH_SHORT).show();
                 }
-                Toast.makeText(MainActivity.this, timeControls.getTimeControlsAsString(),Toast.LENGTH_LONG).show();
+                timeControls.setProgramBasedOnTime(20 + durationSeekBar.getProgress() * 15);
+
+                // If the progressBar is "TEST progress" we must sort the holds
+                if (durationSeekBar.getProgress() == 4) {
+                    everyBoard.sortHoldByDifficulty();
+                    timeControls.setGripLaps((everyBoard.getCurrentHoldListSize()/2));
+                }
+                else {
+                    everyBoard.setGripAmount(timeControls.getGripLaps(),grade_descr_position);
+                }
+
+
+                holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
+                        R.layout.mytextview , everyBoard.getGrips());
+                holdsListView.setAdapter(holdsAdapter);
+
             }
         });
 
@@ -276,31 +279,30 @@ public class MainActivity extends AppCompatActivity {
         durationSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                // In "TEST progression" case we must sort the holds by their difficulty
                 if (progress == 4) {
+                    gradesListView.setVisibility(View.INVISIBLE);
+
                     durationTextView.setText("TEST progression");
-
                     timeControls.setProgramBasedOnTime(20 + progress * 15);
-
-
 
                     everyBoard.sortHoldByDifficulty();
                     timeControls.setGripLaps(everyBoard.getCurrentHoldListSize()/2 );
-                    // everyBoard.setGripAmount(timeControls.getGripLaps(),grade_descr_position);
-
                 }
                 else {
-                    //NOT WORKING WITH 50MIN WORKOUT
+                    gradesListView.setVisibility(View.VISIBLE);
+
                     durationTextView.setText("Duration: " + (20 + progress * 15) + "min");
                     timeControls.setProgramBasedOnTime(20 + progress * 15);
+
                     everyBoard.setGripAmount(timeControls.getGripLaps(),grade_descr_position);
 
                 }
 
-
                 holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
                         R.layout.mytextview , everyBoard.getGrips());
                 holdsListView.setAdapter(holdsAdapter);
-               // Toast.makeText(MainActivity.this, timeControls.getTimeControlsAsString(),Toast.LENGTH_LONG).show();
             }
 
             @Override
