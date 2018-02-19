@@ -27,13 +27,6 @@ public class Hold implements Comparable<Hold>, Parcelable {
         , INDEX_FINGER,MIDDLE_FINGER, RING_FINGER, PINKY_FINGER};
     grip_type grip_style;
 
-    private int[] finger_images = {R.drawable.fourfingerleft, R.drawable.fourfingerright, R.drawable.threefrontleft
-    , R.drawable.fourfingerright, R.drawable.threebackleft, R.drawable.threebackright, R.drawable.twofrontleft
-            ,R.drawable.twofrontright, R.drawable.twomiddleleft , R.drawable.twomiddleright, R.drawable.twobackleft,
-            R.drawable.twobackright, R.drawable.indexleft, R.drawable.indexright, R.drawable.middleleft,
-    R.drawable.middleright, R.drawable.ringleft, R.drawable.ringright, R.drawable. pinkyleft, R.drawable.pinkyright};
-
-
     // Single holds dont have a pair with same measurements in the hangboard
     boolean single_hold;
 
@@ -41,6 +34,7 @@ public class Hold implements Comparable<Hold>, Parcelable {
         single_hold = false;
         hold_number = number;
     }
+    // Holds are sent as extra to WorkoutIntent so Parcel them
     private Hold(Parcel in) {
         hold_number = in.readInt();
         hold_value = in.readInt();
@@ -84,6 +78,8 @@ public class Hold implements Comparable<Hold>, Parcelable {
         }
     };
 
+    // Hold Class implements comparable so that holds can be sorted by their value ie. how
+    // difficult it is to hang in a give hold with given grip_type
     public int compareTo(Hold compareHold) {
         return this.hold_value - compareHold.hold_value;
     }
@@ -107,6 +103,7 @@ public class Hold implements Comparable<Hold>, Parcelable {
 
     }
 
+    // Returns the image that corresponds the grip_type
     public int getGripImage(boolean left_hand) {
 
       if (left_hand) {
@@ -138,6 +135,7 @@ public class Hold implements Comparable<Hold>, Parcelable {
       return R.drawable.fourfingerright;
     }
 
+    // XY, X is the grip type and Y is 1 if it is single hold and 0 if not
     public void setGripTypeAndSingleHang(int i_hold_both_info) {
         if (i_hold_both_info % 10 == 1) {single_hold = true; }
 
