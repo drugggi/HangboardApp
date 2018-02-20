@@ -1,8 +1,10 @@
 package com.example.laakso.hangboardapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -16,8 +18,6 @@ import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     TimeControls timeControls;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -191,12 +191,11 @@ public class MainActivity extends AppCompatActivity {
                 // DELETE THESE TWO
                 //workoutIntent.putStringArrayListExtra("com.example.laakso.hangboardapp.HANGLIST", everyBoard.GetGripList() );
                 //workoutIntent.putExtra("com.example.laakso.hangboardapp.COORDINATES", everyBoard.getCoordinates());
-
+                // ArrayList<Hold> currentHoldList = everyBoard.getCurrentHoldList();
                 // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
                 workoutIntent.putExtra("com.example.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
                 workoutIntent.putExtra("com.example.laakso.hangboardapp.BOARDIMAGE",adapter.getImageResource(viewPager.getCurrentItem()));
-                ArrayList<Hold> currentHoldList = everyBoard.getCurrentHoldList();
-                workoutIntent.putParcelableArrayListExtra("com.example.laakso.hangboardapp.HOLDS", currentHoldList);
+                workoutIntent.putParcelableArrayListExtra("com.example.laakso.hangboardapp.HOLDS", everyBoard.getCurrentHoldList());
 
                 startActivity(workoutIntent);
             }
@@ -232,12 +231,19 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
               // fingerImage.
                 // Toast.makeText(MainActivity.this,"X: "+ fingerImage.getWidth()+ " Y: " + fingerImage.getHeight(),Toast.LENGTH_LONG ).show();
-                Toast.makeText(MainActivity.this,"X/1.5: "+ fingerImage.getX()/1.5+ " Y/1.5: " + fingerImage.getY()/1.5 ,Toast.LENGTH_LONG ).show();
-            // Toast.makeText(MainActivity.this, " Make new activity with time controls etc", Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(MainActivity.this,"X/1.5: "+ fingerImage.getX()/1.5+ " Y/1.5: " + fingerImage.getY()/1.5 ,Toast.LENGTH_LONG ).show();
+            // Toast.makeText(MainActivity.this, " Make new activity with time controls etc", Toast.LENGTH_SHORT).show()
+                Intent settingsIntent = new Intent(getApplicationContext(),SettingsActivity.class);
+                settingsIntent.putExtra("com.example.laakso.hangboardapp.TIMECONTROLS", timeControls.getTimeControlsIntArray() );
+
+                // setResult(Activity.RESULT_OK,settingsIntent);
+                startActivityForResult(settingsIntent,1);
 
 
             }
         });
+
+
 
         durationTextView = (TextView) findViewById(R.id.durationTextView);
         durationSeekBar = (SeekBar) findViewById(R.id.durationSeekBar);
@@ -318,5 +324,28 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        //Toast.makeText(MainActivity.this, "There is no grades in \"TEST progression\" program", Toast.LENGTH_LONG).show();
+        if (resultCode == Activity.RESULT_OK) {
+            //int i = data.getIntExtra("com.example.laakso.hangboardapp.SETTINGS",0);
+            int[] i = data.getIntArrayExtra("com.example.laakso.hangboardapp.SETTINGS");
+            timeControls.setTimeControls(i);
+            Toast.makeText(MainActivity.this, timeControls.getTimeControlsAsString() , Toast.LENGTH_LONG).show();
+        }
+        else {
+            Toast.makeText(MainActivity.this, "TNO OK", Toast.LENGTH_LONG).show();
+        }
+        /*
+        if(resultCode == RESULT_OK){
+            if(requestCode == REQUEST_CODE && data !=null) {
+                String strMessage = data.getStringExtra("keyName");
+                Log.i(TAG, "onActivityResult: message >>" + strMessage);
+            }
+        }*/
     }
 }

@@ -77,7 +77,6 @@ public class WorkoutActivity extends AppCompatActivity {
         if (getIntent().hasExtra("com.example.laakso.hangboardapp.TIMECONTROLS")) {
             int[] time_controls = getIntent().getExtras().getIntArray("com.example.laakso.hangboardapp.TIMECONTROLS");
 
-
             timeControls = new TimeControls();
             timeControls.setTimeControls(time_controls);
             // timeControls.setTimeControls(new int[] {6, 2, 5 ,3 , 1, 15, 150});  // IF YOU WANT TO CONTROL TIMECONTROLS FOR TESTIT PURPOSES
