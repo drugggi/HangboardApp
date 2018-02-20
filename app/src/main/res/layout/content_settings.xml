@@ -11,25 +11,97 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/testButton"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:layout_weight="2"
+            android:orientation="vertical">
 
-        <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:text="@string/large_text" />
 
-        <Button
-            android:id="@+id/finishButton"
-            android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="morjes infoo kehiin" />
+
+            <Button
+                android:id="@+id/testButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Button" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Finish Button" />
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/gripLapsEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Grip laps"
+                android:inputType="numberSigned" />
+
+            <EditText
+                android:id="@+id/hangLapsEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Hang laps"
+                android:inputType="numberSigned" />
+
+            <EditText
+                android:id="@+id/timeONEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Time on"
+                android:inputType="numberSigned" />
+
+            <EditText
+                android:id="@+id/timeOFFEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Time off"
+                android:inputType="numberSigned" />
+            <EditText
+                android:id="@+id/setsEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="sets"
+                android:inputType="numberSigned" />
+
+            <EditText
+                android:id="@+id/restEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="rest"
+                android:inputType="numberSigned" />
+            <EditText
+                android:id="@+id/longRestEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="long rest time"
+                android:inputType="numberSigned" />
+
+            <EditText
+                android:id="@+id/testEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberSigned" />
+
+            <Button
+                android:id="@+id/finishButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Finish Button" />
+        </LinearLayout>
+
 
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

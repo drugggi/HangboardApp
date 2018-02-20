@@ -34,6 +34,9 @@ public class TimeControls {
         this.hang_laps_seconds = hang_laps * (time_on + time_off);
 
     }
+    public boolean isRepeaters() {
+        return isRepeaters;
+    }
 
     // Not working very well
     public void changeTimeToSingleHangs() {
@@ -68,20 +71,21 @@ public class TimeControls {
         return grip_laps;
     }
 
+    // PITÄÄ VARMAAN MUUTTAA MYÖS HANGLAPS SECONDSIT JOS MUUTTAA TÄTÄ
     public void setHangLaps(int hang_laps) {
         this.hang_laps = hang_laps;
     }
     public int getHangLaps() {
         return hang_laps;
     }
-
+    // PITÄÄ VARMAAN MUUTTAA MYÖS HANGLAPS SECONDSIT JOS MUUTTAA TÄTÄ
     public void setTimeON(int time_on) {
         this.time_on = time_on;
     }
     public int getTimeON() {
         return time_on;
     }
-
+    // PITÄÄ VARMAAN MUUTTAA MYÖS HANGLAPS SECONDSIT JOS MUUTTAA TÄTÄ
     public void setTimeOFF(int time_off) {
         this.time_off = time_off;
     }

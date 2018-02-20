@@ -336,16 +336,12 @@ public class MainActivity extends AppCompatActivity {
             int[] i = data.getIntArrayExtra("com.example.laakso.hangboardapp.SETTINGS");
             timeControls.setTimeControls(i);
             Toast.makeText(MainActivity.this, timeControls.getTimeControlsAsString() , Toast.LENGTH_LONG).show();
+            everyBoard.setGripAmount(timeControls.getGripLaps(),grade_descr_position);
         }
         else {
             Toast.makeText(MainActivity.this, "TNO OK", Toast.LENGTH_LONG).show();
         }
-        /*
-        if(resultCode == RESULT_OK){
-            if(requestCode == REQUEST_CODE && data !=null) {
-                String strMessage = data.getStringExtra("keyName");
-                Log.i(TAG, "onActivityResult: message >>" + strMessage);
-            }
-        }*/
+
+
     }
 }

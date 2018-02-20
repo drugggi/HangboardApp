@@ -61,6 +61,9 @@ public class WorkoutActivity extends AppCompatActivity {
         pauseBtn.setText("pause");
         gradeTextView = (TextView) findViewById(R.id.gradTextView);
 
+        leftHandImage = (ImageView) findViewById(R.id.leftHandImageView);
+        rightHandImage = (ImageView) findViewById(R.id.rightHandImageView);
+
         // Holds that will be used in this workout program
         if (getIntent().hasExtra("com.example.laakso.hangboardapp.HOLDS")) {
              workoutInfoTest = getIntent().getExtras().getParcelableArrayList("com.example.laakso.hangboardapp.HOLDS");
@@ -79,7 +82,8 @@ public class WorkoutActivity extends AppCompatActivity {
 
             timeControls = new TimeControls();
             timeControls.setTimeControls(time_controls);
-            // timeControls.setTimeControls(new int[] {6, 2, 5 ,3 , 1, 15, 150});  // IF YOU WANT TO CONTROL TIMECONTROLS FOR TESTIT PURPOSES
+            //s= -5;
+            // timeControls.setTimeControls(new int[] {6, 1, 10 ,0 , 1, 15, 150});  // IF YOU WANT TO CONTROL TIMECONTROLS FOR TESTIT PURPOSES
 
             // SECURITY CHECK, WILL MAKE SURE IN FUTURE TO NEVER HAPPEN
             if (timeControls.getGripLaps()*2 != workoutInfoTest.size()) {
@@ -132,8 +136,6 @@ public class WorkoutActivity extends AppCompatActivity {
 
                         // At 25s mark lets show the next hang instructions
                         if ( s == -25) {
-                            leftHandImage = (ImageView) findViewById(R.id.leftHandImageView);
-                            rightHandImage = (ImageView) findViewById(R.id.rightHandImageView);
                             leftHandImage.setImageResource(R.drawable.threebackleft);
                             rightHandImage.setImageResource(R.drawable.twomiddleright);
 
@@ -146,10 +148,12 @@ public class WorkoutActivity extends AppCompatActivity {
                         if( s == 0 ) {lapseTimeChrono.setText("GO");}
 
                         // If seconds in a hang lap (59s) has passed, it is REST time
-                        if ( s == timeControls.getHangLapsSeconds() - 1 ) {
+                        if ( s == timeControls.getHangLapsSeconds() ) {
                             nowDoing = workoutPart.LEPO;
+                             if (timeControls.getTimeOFF() == 0 ) { playFinishSound.start(); }
                             hangProgressBar.setProgress(0);
                             current_lap++;
+                            s--;
 
                             if (current_lap == timeControls.getGripLaps()) {nowDoing = workoutPart.PITKALEPO; }
                             break;
@@ -166,6 +170,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
                         // If the first digit is 7 it is rest time for three seconds,
                         else {
+                            // Toast.makeText(WorkoutActivity.this,s + "onandoff: " +timeControls.getTimeONandOFF()+ " timeon: "+ timeControls.getTimeON(),Toast.LENGTH_LONG).show();
                             if (s%timeControls.getTimeONandOFF() == timeControls.getTimeON() ) {playFinishSound.start(); }
                             hangProgressBar.setProgress(( (s%timeControls.getTimeONandOFF())*100) / timeControls.getTimeONandOFF());
                             hangProgressBar.setProgressTintList(ColorStateList.valueOf(Color.GREEN));
