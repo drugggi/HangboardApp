@@ -67,8 +67,16 @@ public class SettingsActivity extends AppCompatActivity {
         gripLapsEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                timeControls.setGripLaps(Integer.parseInt(gripLapsEditText.getText().toString()));
-                Toast.makeText(SettingsActivity.this,"hehe: nyt muutettiin grips: " + timeControls.getGripLaps()  ,Toast.LENGTH_LONG).show();
+                try {
+                    int i = Integer.parseInt(gripLapsEditText.getText().toString());
+                    if ( i > 0 && i <= 100 ) { timeControls.setGripLaps(i); }
+                    else { gripLapsEditText.setText("" + timeControls.getGripLaps() ); }
+                   // Toast.makeText(SettingsActivity.this,"hehe: nyt muutettiin grips: " + timeControls.getGripLaps()  ,Toast.LENGTH_LONG).show();
+                } catch (NumberFormatException nfe)
+                {
+                    gripLapsEditText.setText("" + timeControls.getGripLaps());
+                    //Toast.makeText(SettingsActivity.this,"numformatexception: " + nfe  ,Toast.LENGTH_LONG).show();
+                }
                 return false;
             }
         });
@@ -76,8 +84,17 @@ public class SettingsActivity extends AppCompatActivity {
         hangLapsEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                timeControls.setHangLaps(Integer.parseInt(hangLapsEditText.getText().toString()));
-                Toast.makeText(SettingsActivity.this,"hehe: nyt muutettiin hangs: " + timeControls.getHangLaps()  ,Toast.LENGTH_LONG).show();
+
+                try {
+                    int i = Integer.parseInt(hangLapsEditText.getText().toString());
+                    if ( i > 0 && i <= 20 ) { timeControls.setHangLaps(i); }
+                    else { hangLapsEditText.setText("" + timeControls.getHangLaps() ); }
+
+                } catch (NumberFormatException nfe)
+                {
+                    hangLapsEditText.setText("" + timeControls.getHangLaps());
+                    Toast.makeText(SettingsActivity.this,"numformatexception: " + nfe  ,Toast.LENGTH_SHORT).show();
+                }
                 return false;
             }
         });
@@ -85,8 +102,16 @@ public class SettingsActivity extends AppCompatActivity {
         timeONEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                timeControls.setTimeON(Integer.parseInt(timeONEditText.getText().toString()));
-                Toast.makeText(SettingsActivity.this,"hehe: nyt muutettiin timeon: " + timeControls.getTimeON()  ,Toast.LENGTH_LONG).show();
+                try {
+                    int i = Integer.parseInt(timeONEditText.getText().toString());
+                    if ( i > 0 && i <= 60 ) { timeControls.setTimeON(i); }
+                    else { timeONEditText.setText("" + timeControls.getTimeON() ); }
+
+                } catch (NumberFormatException nfe)
+                {
+                    timeONEditText.setText("" + timeControls.getTimeON());
+                    Toast.makeText(SettingsActivity.this,"numformatexception: " + nfe  ,Toast.LENGTH_SHORT).show();
+                }
                 return false;
             }
         });
@@ -94,8 +119,16 @@ public class SettingsActivity extends AppCompatActivity {
         timeOFFEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                timeControls.setTimeOFF(Integer.parseInt(timeOFFEditText.getText().toString()));
-                Toast.makeText(SettingsActivity.this,"hehe: nyt muutettiin timeoff: " + timeControls.getTimeOFF()  ,Toast.LENGTH_LONG).show();
+                try {
+                    int i = Integer.parseInt(timeOFFEditText.getText().toString());
+                    if ( i > 0 && i <= 200 ) { timeControls.setTimeOFF(i); }
+                    else { timeOFFEditText.setText("" + timeControls.getTimeOFF() ); }
+
+                } catch (NumberFormatException nfe)
+                {
+                    timeOFFEditText.setText("" + timeControls.getTimeOFF());
+                    Toast.makeText(SettingsActivity.this,"numformatexception: " + nfe  ,Toast.LENGTH_SHORT).show();
+                }
                 return false;
             }
         });
@@ -103,8 +136,16 @@ public class SettingsActivity extends AppCompatActivity {
         setsEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                timeControls.setRoutineLaps(Integer.parseInt(setsEditText.getText().toString()));
-                Toast.makeText(SettingsActivity.this,"hehe: nyt muutettiin sets: " + timeControls.getRoutineLaps()  ,Toast.LENGTH_LONG).show();
+                try {
+                    int i = Integer.parseInt(setsEditText.getText().toString());
+                    if ( i > 0 && i <= 50 ) { timeControls.setRoutineLaps(i); }
+                    else { setsEditText.setText("" + timeControls.getRoutineLaps() ); }
+
+                } catch (NumberFormatException nfe)
+                {
+                    setsEditText.setText("" + timeControls.getRoutineLaps());
+                    Toast.makeText(SettingsActivity.this,"numformatexception: " + nfe  ,Toast.LENGTH_SHORT).show();
+                }
                 return false;
             }
         });
@@ -112,18 +153,32 @@ public class SettingsActivity extends AppCompatActivity {
         restEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                timeControls.setRestTime(Integer.parseInt(restEditText.getText().toString()));
-                Toast.makeText(SettingsActivity.this,"hehe: nyt muutettiin rest: " + timeControls.getRestTime()  ,Toast.LENGTH_LONG).show();
+                try {
+                    int i = Integer.parseInt(restEditText.getText().toString());
+                    if ( i > 0 && i <= 500 ) { timeControls.setRestTime(i); }
+                    else { restEditText.setText("" + timeControls.getRestTime() ); }
 
+                } catch (NumberFormatException nfe)
+                {
+                    restEditText.setText("" + timeControls.getRestTime());
+                    Toast.makeText(SettingsActivity.this,"numformatexception: " + nfe  ,Toast.LENGTH_SHORT).show();
+                }
                 return false;
             }
         });
         longRestEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                timeControls.setLongRestTime(Integer.parseInt(longRestEditText.getText().toString()));
-                Toast.makeText(SettingsActivity.this,"hehe: nyt muutettiin long rest: " + timeControls.getLongRestTime()  ,Toast.LENGTH_LONG).show();
+                try {
+                    int i = Integer.parseInt(longRestEditText.getText().toString());
+                    if ( i > 0 && i <= 1000 ) { timeControls.setLongRestTime(i); }
+                    else { longRestEditText.setText("" + timeControls.getLongRestTime() ); }
 
+                } catch (NumberFormatException nfe)
+                {
+                    longRestEditText.setText("" + timeControls.getLongRestTime());
+                    Toast.makeText(SettingsActivity.this,"numformatexception: " + nfe  ,Toast.LENGTH_SHORT).show();
+                }
                 return false;
             }
         });

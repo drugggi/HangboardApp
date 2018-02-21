@@ -74,6 +74,7 @@ public class TimeControls {
     // PITÄÄ VARMAAN MUUTTAA MYÖS HANGLAPS SECONDSIT JOS MUUTTAA TÄTÄ
     public void setHangLaps(int hang_laps) {
         this.hang_laps = hang_laps;
+        hang_laps_seconds = hang_laps * (time_on + time_off);
     }
     public int getHangLaps() {
         return hang_laps;
@@ -81,6 +82,7 @@ public class TimeControls {
     // PITÄÄ VARMAAN MUUTTAA MYÖS HANGLAPS SECONDSIT JOS MUUTTAA TÄTÄ
     public void setTimeON(int time_on) {
         this.time_on = time_on;
+        hang_laps_seconds = hang_laps * (time_on + time_off);
     }
     public int getTimeON() {
         return time_on;
@@ -88,6 +90,7 @@ public class TimeControls {
     // PITÄÄ VARMAAN MUUTTAA MYÖS HANGLAPS SECONDSIT JOS MUUTTAA TÄTÄ
     public void setTimeOFF(int time_off) {
         this.time_off = time_off;
+        hang_laps_seconds = hang_laps * (time_on + time_off);
     }
     public int getTimeOFF() {
         return time_off;

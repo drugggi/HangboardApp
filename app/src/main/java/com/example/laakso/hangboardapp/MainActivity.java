@@ -243,8 +243,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
         durationTextView = (TextView) findViewById(R.id.durationTextView);
         durationSeekBar = (SeekBar) findViewById(R.id.durationSeekBar);
 
