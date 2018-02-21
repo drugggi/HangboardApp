@@ -121,7 +121,7 @@ public class SettingsActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 try {
                     int i = Integer.parseInt(timeOFFEditText.getText().toString());
-                    if ( i > 0 && i <= 200 ) { timeControls.setTimeOFF(i); }
+                    if ( i >= 0 && i <= 200 ) { timeControls.setTimeOFF(i); }
                     else { timeOFFEditText.setText("" + timeControls.getTimeOFF() ); }
 
                 } catch (NumberFormatException nfe)
