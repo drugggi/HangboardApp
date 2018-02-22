@@ -231,13 +231,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
               // fingerImage.
                 // Toast.makeText(MainActivity.this,"X: "+ fingerImage.getWidth()+ " Y: " + fingerImage.getHeight(),Toast.LENGTH_LONG ).show();
-              //  Toast.makeText(MainActivity.this,"X/1.5: "+ fingerImage.getX()/1.5+ " Y/1.5: " + fingerImage.getY()/1.5 ,Toast.LENGTH_LONG ).show();
+                Toast.makeText(MainActivity.this,"X/1.5: "+ fingerImage.getX()/1.5+ " Y/1.5: " + fingerImage.getY()/1.5 ,Toast.LENGTH_LONG ).show();
             // Toast.makeText(MainActivity.this, " Make new activity with time controls etc", Toast.LENGTH_SHORT).show()
-                Intent settingsIntent = new Intent(getApplicationContext(),SettingsActivity.class);
-                settingsIntent.putExtra("com.example.laakso.hangboardapp.TIMECONTROLS", timeControls.getTimeControlsIntArray() );
+                //Intent settingsIntent = new Intent(getApplicationContext(),SettingsActivity.class);
+                //settingsIntent.putExtra("com.example.laakso.hangboardapp.TIMECONTROLS", timeControls.getTimeControlsIntArray() );
 
                 // setResult(Activity.RESULT_OK,settingsIntent);
-                startActivityForResult(settingsIntent,1);
+               // startActivityForResult(settingsIntent,1);
 
 
             }

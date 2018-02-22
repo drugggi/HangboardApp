@@ -472,6 +472,38 @@ public class HangBoard {
             }
         }
 
+        else if (current_board == CustomSwipeAdapter.hangboard.METO_CONTACT ) {
+            int[] arvot = res.getIntArray(R.array.grip_values_meto_contact);
+
+            all_hold_values = new Hold[arvot.length/3];
+
+            while (hold_pos/3 < all_hold_values.length) {
+                all_hold_values[hold_pos/3] = new Hold(arvot[hold_pos]);
+                hold_pos++;
+                all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.meto_contact_coordinates));
+                all_hold_values[hold_pos/3].setHoldValue(arvot[hold_pos]);
+                hold_pos++;
+                all_hold_values[hold_pos/3].setGripTypeAndSingleHang(arvot[hold_pos]);
+                hold_pos++;
+            }
+        }
+
+        else if (current_board == CustomSwipeAdapter.hangboard.METO_WOOD ) {
+            int[] arvot = res.getIntArray(R.array.grip_values_meto_wood);
+
+            all_hold_values = new Hold[arvot.length/3];
+
+            while (hold_pos/3 < all_hold_values.length) {
+                all_hold_values[hold_pos/3] = new Hold(arvot[hold_pos]);
+                hold_pos++;
+                all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.meto_wood_coordinates));
+                all_hold_values[hold_pos/3].setHoldValue(arvot[hold_pos]);
+                hold_pos++;
+                all_hold_values[hold_pos/3].setGripTypeAndSingleHang(arvot[hold_pos]);
+                hold_pos++;
+            }
+        }
+
         // The positions must be randomized so that GiveHoldWithValue method
         // doesn't favor one hold above the other (next)
         Hold temp;
