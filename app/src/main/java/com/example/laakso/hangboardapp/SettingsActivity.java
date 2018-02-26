@@ -11,6 +11,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,13 @@ public class SettingsActivity extends AppCompatActivity {
     EditText setsEditText;
     EditText restEditText;
     EditText longRestEditText;
+    SeekBar gripSeekBar;
+    SeekBar hangSeekBar;
+    SeekBar timeONSeekBar;
+    SeekBar timeOFFSeekBar;
+    SeekBar setsSeekBar;
+    SeekBar restSeekBar;
+    SeekBar longRestSeekBar;
 
 
     @Override
@@ -47,6 +55,14 @@ public class SettingsActivity extends AppCompatActivity {
         restEditText = (EditText) findViewById(R.id.restEditText);
         longRestEditText = (EditText) findViewById(R.id.longRestEditText);
 
+        gripSeekBar = (SeekBar) findViewById(R.id.gripSeekBar);
+        hangSeekBar = (SeekBar) findViewById(R.id.hangSeekBar);
+        timeONSeekBar = (SeekBar) findViewById(R.id.timeONSeekBar);
+        timeOFFSeekBar = (SeekBar) findViewById(R.id.timeOFFSeekBar);
+        setsSeekBar = (SeekBar) findViewById(R.id.setsSeekBar);
+        restSeekBar = (SeekBar) findViewById(R.id.restSeekBar);
+        longRestSeekBar = (SeekBar) findViewById(R.id.longRestSeekBar);
+
         if (getIntent().hasExtra("com.example.laakso.hangboardapp.TIMECONTROLS")) {
             int[] time_controls = getIntent().getExtras().getIntArray("com.example.laakso.hangboardapp.TIMECONTROLS");
 
@@ -63,6 +79,130 @@ public class SettingsActivity extends AppCompatActivity {
              longRestEditText.setText("" + timeControls.getLongRestTime());
              //gripLapsEditText.set
         }
+
+        gripSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                gripLapsEditText.setText("" + (progress+1));
+                timeControls.setGripLaps(progress+1);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        hangSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                hangLapsEditText.setText("" + (progress+1));
+                timeControls.setHangLaps(progress+1);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        timeONSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                timeONEditText.setText("" + (progress+1));
+                timeControls.setTimeON(progress+1);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        timeOFFSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                timeOFFEditText.setText("" + (progress));
+                timeControls.setTimeOFF(progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        setsSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                setsEditText.setText("" + (progress+1));
+                timeControls.setRoutineLaps(progress+1);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        restSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                restEditText.setText("" + (progress+1)*10);
+                timeControls.setRestTime((progress+1)*10);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        longRestSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                longRestEditText.setText("" + (progress+1)*60);
+                timeControls.setLongRestTime((progress+1)*60);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
 
         gripLapsEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
