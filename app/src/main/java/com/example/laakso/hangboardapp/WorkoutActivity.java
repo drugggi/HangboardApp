@@ -200,7 +200,7 @@ public class WorkoutActivity extends AppCompatActivity {
                             current_lap = 0;
                             hangProgressBar.setProgress(0);
                             lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
-
+                            updateGripDisplay();
                             s = -timeControls.getLongRestTime();
                             // gradeTextView.setText(workoutInfo.get(current_lap));
                         }

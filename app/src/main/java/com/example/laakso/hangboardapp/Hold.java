@@ -109,7 +109,7 @@ public class Hold implements Comparable<Hold>, Parcelable {
         }
         else {
             return "HOLD: " + hold_number + "/" + rightHandHold.getHoldNumber() + "\nGRIP: " + getHoldText()
-                    + " Alternate\nDifficulty: " + hold_value; }
+                    + " Alternate\nDifficulty: " + (hold_value + rightHandHold.getHoldValue())/2; }
         }
 
 
