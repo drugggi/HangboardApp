@@ -210,6 +210,10 @@ public class MainActivity extends AppCompatActivity {
 
                 if ( hang_descr_position == 0 ) {
                     everyBoard.randomizeGrips(grade_descr_position);
+
+                    if (repeatersBox.isChecked() == false) {
+                        everyBoard.setHoldsForSingleHangs();
+                    }
                 }
                 else {
                     everyBoard.randomizeGrip(grade_descr_position,hang_descr_position-1);

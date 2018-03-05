@@ -171,7 +171,13 @@ public class WorkoutActivity extends AppCompatActivity {
                         // If the first digit is 7 it is rest time for three seconds,
                         else {
                             // Toast.makeText(WorkoutActivity.this,s + "onandoff: " +timeControls.getTimeONandOFF()+ " timeon: "+ timeControls.getTimeON(),Toast.LENGTH_LONG).show();
-                            if (s%timeControls.getTimeONandOFF() == timeControls.getTimeON() ) {playFinishSound.start(); }
+                            if (s%timeControls.getTimeONandOFF() == timeControls.getTimeON() ) {
+                                playFinishSound.start();
+                                Hold tempHold = workoutInfoTest.get(current_lap*2);
+                                workoutInfoTest.set(current_lap*2, workoutInfoTest.get(current_lap*2+1));
+                                workoutInfoTest.set(current_lap*2+1,tempHold);
+                                updateGripDisplay();
+                            }
                             hangProgressBar.setProgress(( (s%timeControls.getTimeONandOFF())*100) / timeControls.getTimeONandOFF());
                             hangProgressBar.setProgressTintList(ColorStateList.valueOf(Color.GREEN));
                             lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));

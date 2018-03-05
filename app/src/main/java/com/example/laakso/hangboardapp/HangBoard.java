@@ -143,6 +143,9 @@ public class HangBoard {
 
     }
 
+    // setHoldsForSingleHangs method makes sure that if one hang contains different holds for left
+    // and right hand, then the next hang will be the opposite. In Repeaters this is not necessary
+    // because the hands alternates repeatedly in a single hang
     public void setHoldsForSingleHangs() {
         int i = 0;
         while ( i < valueList.size() - 2 ) {
