@@ -143,6 +143,19 @@ public class HangBoard {
 
     }
 
+    public void setHoldsForSingleHangs() {
+        int i = 0;
+        while ( i < valueList.size() - 2 ) {
+            if (valueList.get(i).getHoldNumber() != valueList.get(i+1).getHoldNumber() ) {
+                valueList.set(i+2, valueList.get(i+1));
+                valueList.set(i+3, valueList.get(i));
+                i = i + 4;
+            }
+            else {
+                i = i + 2; }
+        }
+    }
+
     // Method randomizeGrips randomizes holds and grips that are used in a workout
     public void randomizeGrips(int grade_position) {
         int poista_tama = valueList.size()/2;
@@ -308,8 +321,9 @@ public class HangBoard {
     }
 
 
-    // InitializeHolds method collects from resources all the possible grip, holds and difficulty
-    // in a give hangboard that can be applied in a hangboard workout
+    // InitializeHolds method collects from resources all the possible grip types, hold numbers
+    // and difficulties that a Hangboard can have. Those will be stored in all_hold_values
+    // and they are randomized so that when a hold is picked it will be random.
     public void InitializeHolds(Resources res, CustomSwipeAdapter.hangboard new_board) {
         current_board = new_board;
 

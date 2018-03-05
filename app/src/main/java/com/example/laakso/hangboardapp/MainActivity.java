@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     Button randomizeBtn;
     Button timeControlBtn;
 
-    CheckBox RepeatersBox;
+    CheckBox repeatersBox;
     TextView durationTextView;
     SeekBar durationSeekBar;
 
@@ -248,11 +248,11 @@ public class MainActivity extends AppCompatActivity {
         durationTextView = (TextView) findViewById(R.id.durationTextView);
         durationSeekBar = (SeekBar) findViewById(R.id.durationSeekBar);
 
-        RepeatersBox = (CheckBox) findViewById(R.id.repeatersCheckBox);
-        RepeatersBox.setChecked(true);
+        repeatersBox = (CheckBox) findViewById(R.id.repeatersCheckBox);
+        repeatersBox.setChecked(true);
 
         // There are two main types of hang programs called repeaters or single hangs
-        RepeatersBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        repeatersBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -273,6 +273,9 @@ public class MainActivity extends AppCompatActivity {
                     everyBoard.setGripAmount(timeControls.getGripLaps(),grade_descr_position);
                 }
 
+                if (!isChecked) {
+                    everyBoard.setHoldsForSingleHangs();
+                }
 
                 holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
                         R.layout.mytextview , everyBoard.getGrips());
@@ -303,6 +306,10 @@ public class MainActivity extends AppCompatActivity {
                     timeControls.setProgramBasedOnTime(20 + progress * 15);
 
                     everyBoard.setGripAmount(timeControls.getGripLaps(),grade_descr_position);
+
+                    if (repeatersBox.isChecked() == false) {
+                        everyBoard.setHoldsForSingleHangs();
+                    }
 
                 }
 
