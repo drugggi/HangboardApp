@@ -44,7 +44,6 @@ public class SettingsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        testButton = (Button) findViewById(R.id.testButton);
         finishButton = (Button) findViewById(R.id.finishButton);
 
         gripLapsEditText = (EditText) findViewById(R.id.gripLapsEditText);
@@ -323,13 +322,6 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        testButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                timeControls.setTimeON(timeControls.getTimeON()+1);
-                Toast.makeText(SettingsActivity.this,"hehe: " + timeControls.getTimeON(),Toast.LENGTH_LONG).show();
-            }
-        });
 
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
