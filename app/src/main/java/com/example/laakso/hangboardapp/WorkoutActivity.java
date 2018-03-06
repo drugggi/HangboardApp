@@ -51,7 +51,7 @@ public class WorkoutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_workout);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        // Sound files that will be played when to hang and when to stop hanging
+        // Sound files that will be played for every second that user hangs, and at the end finish sound
         final MediaPlayer playSound = MediaPlayer.create(this,R.raw.tick);
         final MediaPlayer playFinishSound = MediaPlayer.create(this,R.raw.finish_tick);
 
@@ -129,7 +129,7 @@ public class WorkoutActivity extends AppCompatActivity {
                 s++;
                 total_s--;
                 lapseTimeChrono.setText("" + Math.abs(s) );
-                totalTimeChrono.setText("Time left: " + total_s);
+                totalTimeChrono.setText( total_s + "s left");
 
                 switch (nowDoing) {
                     case ALKULEPO:

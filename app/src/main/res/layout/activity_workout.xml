@@ -10,13 +10,17 @@
     tools:context="com.example.laakso.hangboardapp.WorkoutActivity">
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0"
             android:orientation="vertical">
@@ -33,7 +37,7 @@
                     android:paddingRight="0dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/lauta1011" />
+                    app:srcCompat="@drawable/rockprodigy" />
 
                 <ImageView
                     android:id="@+id/leftHandImageView"
@@ -46,32 +50,42 @@
                     android:layout_height="wrap_content" />
             </RelativeLayout>
 
-            <TextView
-                android:id="@+id/gradTextView"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-20dp"
-                android:text="TextView"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                android:textSize="25dp" />
+                android:layout_height="match_parent"
+                android:layout_marginTop="-15dp">
 
-            <ProgressBar
-                android:id="@+id/hangProgressBar"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="59dp"
-                android:indeterminate="false"
-                android:paddingLeft="5dp"
-                android:scaleY="10"
-                android:visibility="visible" />
+                <TextView
+                    android:id="@+id/gradTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="0dp"
+                    android:text="TextView"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="25dp" />
+
+                <ProgressBar
+                    android:id="@+id/hangProgressBar"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:indeterminate="false"
+                    android:paddingBottom="3dp"
+                    android:paddingLeft="5dp"
+                    android:scaleY="15"
+                    android:visibility="visible" />
+            </RelativeLayout>
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="268dp"
+            android:layout_width="183dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="0dp"
+            android:layout_marginLeft="-50dp"
+            android:layout_marginRight="40dp"
             android:layout_weight="0"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
@@ -79,38 +93,46 @@
 
             <Chronometer
                 android:id="@+id/totalTimeChrono"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="viewStart"
-                android:textSize="25dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Chronometer
-                android:id="@+id/lapseTimeChrono"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="30dp"
-                android:textAlignment="viewStart"
-                android:textColor="@android:color/holo_red_dark"
-                android:textSize="110dp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/hangProgressBar"
-                app:layout_constraintEnd_toEndOf="parent" />
-
-            <Button
-                android:id="@+id/pauseBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left|center_horizontal"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:text="pause"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/hangProgressBar" />
+                android:layout_gravity="center"
+                android:gravity="right"
+                android:textAlignment="center"
+                android:textSize="20sp" />
+
         </LinearLayout>
     </LinearLayout>
+
+    <Button
+        android:id="@+id/pauseBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:elevation="0dp"
+        android:text="pause"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/hangProgressBar" />
+
+    <Chronometer
+        android:id="@+id/lapseTimeChrono"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal|center"
+        android:layout_weight="0"
+        android:autoText="false"
+        android:gravity="center_vertical|center_horizontal"
+        android:paddingBottom="0dp"
+        android:paddingTop="0dp"
+        android:text="100"
+        android:textAlignment="center"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="150dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/pauseBtn"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
