@@ -71,7 +71,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Lets use ArrayAdapter to list all the grades in to grades ListView
         gradesListView = (ListView) findViewById(R.id.gradeListView);
-        ArrayAdapter<String> gradeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, everyBoard.getGrades());
+
+        ArrayAdapter<String> gradeAdapter = new ArrayAdapter<String>(this, R.layout.gradetextview, everyBoard.getGrades());
         gradesListView.setAdapter(gradeAdapter);
 
         // HOLDSADAPTER IS ALLREADY USING R.LAYOUT.MYTESTVIEW. CONSIDER MAKING IT MUCH MORE SWEETER FOR EXAMPLE HOLD AND GRIPS LEFT AND DIFFICULTY RIGHT
