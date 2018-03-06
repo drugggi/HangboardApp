@@ -223,6 +223,7 @@ public class HangBoard {
     // RandomizeGrip method randomizes selected grip instead of all the grips
     public void randomizeGrip(int grade_position, int hold_nro) {
 
+
         // Random generator that is only used if we are using the same hold or alternating between holds
         Random rn = new Random();
         boolean isAlternate = rn.nextBoolean();

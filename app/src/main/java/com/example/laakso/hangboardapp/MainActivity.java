@@ -353,7 +353,11 @@ public class MainActivity extends AppCompatActivity {
         else {
             Toast.makeText(MainActivity.this, "TNO OK", Toast.LENGTH_LONG).show();
         }
-
+        hang_descr_position = 0;
+        everyBoard.setGripAmount(timeControls.getGripLaps(),grade_descr_position);
+        holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
+                R.layout.mytextview , everyBoard.getGrips());
+        holdsListView.setAdapter(holdsAdapter);
 
     }
 }
