@@ -3,6 +3,7 @@ package com.example.laakso.hangboardapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         // Lets use ArrayAdapter to list all the grades in to grades ListView
         gradesListView = (ListView) findViewById(R.id.gradeListView);
 
-        ArrayAdapter<String> gradeAdapter = new ArrayAdapter<String>(this, R.layout.gradetextview, everyBoard.getGrades());
+        final ArrayAdapter<String> gradeAdapter = new ArrayAdapter<String>(this, R.layout.gradetextview, everyBoard.getGrades());
         gradesListView.setAdapter(gradeAdapter);
 
         // HOLDSADAPTER IS ALLREADY USING R.LAYOUT.MYTESTVIEW. CONSIDER MAKING IT MUCH MORE SWEETER FOR EXAMPLE HOLD AND GRIPS LEFT AND DIFFICULTY RIGHT
@@ -114,8 +115,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Every time a grade is selected from the list, it shows the workout (holds and grips)
-        // that it has except in Test progression program
+        // Every time a grade is selected from the grade list, HangBoard generates holds and grips
+        // to the program based on grade difficulty
         gradesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -124,6 +125,12 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "There is no grades in \"TEST progression\" program", Toast.LENGTH_LONG).show();
                     return;
                 }
+
+                Drawable selectColor = gradesListView.getSelector();
+                selectColor.setAlpha(90+position*15);
+                //Toast.makeText(MainActivity.this, position + " There's your alpha: "+ selectColor.getAlpha(), Toast.LENGTH_LONG).show();
+                gradesListView.setSelector(selectColor);
+
                 rightFingerImage.setVisibility(View.INVISIBLE);
                 leftFingerImage.setVisibility(View.INVISIBLE);
 
@@ -135,6 +142,8 @@ public class MainActivity extends AppCompatActivity {
 
                 randomizeBtn.setText("Randomize ALL");
                 hang_descr_position = 0;
+
+
 
                 // THIS IS ONLY FOR TESTING HAND IMAGES POSITION PURPOSES
                 float x;
@@ -152,7 +161,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 hang_descr_position = position+1;
-                randomizeBtn.setText("Randomize Hold: " + (hang_descr_position) );
+                randomizeBtn.setText("Randomize " + (hang_descr_position) +". hang" );
+
+                // holdsListView.setCacheColorHint(android.R.color.holo_blue_dark);
 
                 rightFingerImage.setVisibility(View.VISIBLE);
                 leftFingerImage.setVisibility(View.VISIBLE);
@@ -218,6 +229,19 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else {
                     everyBoard.randomizeGrip(grade_descr_position,hang_descr_position-1);
+
+                    ImageView imageView = (ImageView) findViewById(R.id.image_view);
+                    int position = hang_descr_position - 1;
+                    Float multiplyer_w = imageView.getWidth() / 350F;
+                    Float multiplyer_h = imageView.getHeight() / 150F;
+
+                    leftFingerImage.setImageResource(everyBoard.getLeftFingerImage(position));
+                    leftFingerImage.setX(everyBoard.getCoordLeftX(position)* multiplyer_w);
+                    leftFingerImage.setY(everyBoard.getCoordLeftY(position)* multiplyer_h);
+
+                    rightFingerImage.setImageResource(everyBoard.getRightFingerImage(position));
+                    rightFingerImage.setX(everyBoard.getCoordRightX(position)*multiplyer_w);
+                    rightFingerImage.setY(everyBoard.getCoordRightY(position)*multiplyer_h);
                 }
 
                 ArrayAdapter<String> holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
@@ -347,7 +371,7 @@ public class MainActivity extends AppCompatActivity {
             //int i = data.getIntExtra("com.example.laakso.hangboardapp.SETTINGS",0);
             int[] i = data.getIntArrayExtra("com.example.laakso.hangboardapp.SETTINGS");
             timeControls.setTimeControls(i);
-            Toast.makeText(MainActivity.this, timeControls.getTimeControlsAsString() , Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "Time Control Settings saved", Toast.LENGTH_LONG).show();
             everyBoard.setGripAmount(timeControls.getGripLaps(),grade_descr_position);
         }
         else {

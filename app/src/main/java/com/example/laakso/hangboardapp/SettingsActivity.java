@@ -331,7 +331,6 @@ public class SettingsActivity extends AppCompatActivity {
                 resultIntent.putExtra("com.example.laakso.hangboardapp.SETTINGS", timeControls.getTimeControlsIntArray());
                 setResult(Activity.RESULT_OK, resultIntent);
 
-
                 finish();
             }
         });
