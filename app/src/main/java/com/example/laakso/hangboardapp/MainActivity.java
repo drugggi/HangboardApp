@@ -370,18 +370,28 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode == Activity.RESULT_OK) {
             //int i = data.getIntExtra("com.example.laakso.hangboardapp.SETTINGS",0);
             int[] i = data.getIntArrayExtra("com.example.laakso.hangboardapp.SETTINGS");
-            timeControls.setTimeControls(i);
+
+            // If Grip laps amount has been changed we have to randomize new grips, otherwise lets
+            // keep the old grips that user has maybe liked
+            if (i[0] != timeControls.getGripLaps() ) {
+                timeControls.setTimeControls(i);
+                everyBoard.setGripAmount(timeControls.getGripLaps(),grade_descr_position);
+                holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
+                        R.layout.mytextview , everyBoard.getGrips());
+                holdsListView.setAdapter(holdsAdapter);
+                hang_descr_position = 0;
+            }
+            else {
+                timeControls.setTimeControls(i);
+            }
+
             Toast.makeText(MainActivity.this, "Time Control Settings saved", Toast.LENGTH_LONG).show();
-            everyBoard.setGripAmount(timeControls.getGripLaps(),grade_descr_position);
+
         }
         else {
-            Toast.makeText(MainActivity.this, "TNO OK", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "No Changes Saved", Toast.LENGTH_LONG).show();
         }
-        hang_descr_position = 0;
-        everyBoard.setGripAmount(timeControls.getGripLaps(),grade_descr_position);
-        holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
-                R.layout.mytextview , everyBoard.getGrips());
-        holdsListView.setAdapter(holdsAdapter);
+
 
     }
 }

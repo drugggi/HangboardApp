@@ -108,6 +108,7 @@ app:layout_scrollFlags="scroll|exitUntilCollapsed"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:fontFamily="sans-serif"
+                        android:gravity="center_vertical"
                         android:text="@string/matriisi"
                         android:textColor="@color/ceramic" />
 

@@ -63,7 +63,7 @@ public class TimeControls {
         }
         matrix = "1. SET: " + grips;
         for (int i=2; i <= routine_laps; i++) {
-            matrix = matrix + " long rest( " + long_rest + "s )\n";
+            matrix = matrix + "  LONG REST( " + long_rest + "s )\n";
             matrix = matrix + i + ". SET: " + grips;
         }
         return matrix;
