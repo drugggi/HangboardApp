@@ -3,8 +3,6 @@ package com.example.laakso.hangboardapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
@@ -28,6 +26,12 @@ public class SettingsActivity extends AppCompatActivity {
     EditText setsEditText;
     EditText restEditText;
     EditText longRestEditText;
+
+    TextView mHangsTextView;
+    TextView mTimeONTextView;
+    TextView mTimeOFFTextView;
+    TextView matrixTextView;
+
     SeekBar gripSeekBar;
     SeekBar hangSeekBar;
     SeekBar timeONSeekBar;
@@ -37,12 +41,21 @@ public class SettingsActivity extends AppCompatActivity {
     SeekBar longRestSeekBar;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        String[] valiaika = {"jees","moid","keijo","jen"};
+
+        mHangsTextView = (TextView) findViewById(R.id.mHangsTextView);
+        mTimeONTextView = (TextView) findViewById(R.id.mTimeONTextView);
+        mTimeOFFTextView = (TextView) findViewById(R.id.mTimeOFFTextView);
+        matrixTextView = (TextView) findViewById(R.id.matrixTextView);
+
 
         finishButton = (Button) findViewById(R.id.finishButton);
 
@@ -79,11 +92,19 @@ public class SettingsActivity extends AppCompatActivity {
              //gripLapsEditText.set
         }
 
+
+        matrixTextView.setText(timeControls.getGripMatrix());
+        mHangsTextView.setText("" + timeControls.getHangLaps());
+        mTimeONTextView.setText(timeControls.getTimeON()+"on");
+        mTimeOFFTextView.setText(timeControls.getTimeOFF()+"off");
+
         gripSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 gripLapsEditText.setText("" + (progress+1));
                 timeControls.setGripLaps(progress+1);
+                matrixTextView.setText(timeControls.getGripMatrix());
+
             }
 
             @Override
@@ -102,6 +123,8 @@ public class SettingsActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 hangLapsEditText.setText("" + (progress+1));
                 timeControls.setHangLaps(progress+1);
+                mHangsTextView.setText("" + (progress+1) );
+               // if (progress == 0) {mHangsTextView.setText(""); }
             }
 
             @Override
@@ -120,6 +143,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 timeONEditText.setText("" + (progress+1));
                 timeControls.setTimeON(progress+1);
+                mTimeONTextView.setText(progress+1 + "on");
             }
 
             @Override
@@ -138,6 +162,8 @@ public class SettingsActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 timeOFFEditText.setText("" + (progress));
                 timeControls.setTimeOFF(progress);
+                mTimeOFFTextView.setText(progress + "off");
+                if (progress == 0) { mTimeOFFTextView.setText(""); }
             }
 
             @Override
@@ -155,6 +181,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 setsEditText.setText("" + (progress+1));
                 timeControls.setRoutineLaps(progress+1);
+                matrixTextView.setText(timeControls.getGripMatrix());
             }
 
             @Override
@@ -189,6 +216,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 longRestEditText.setText("" + (progress+1)*60);
                 timeControls.setLongRestTime((progress+1)*60);
+                matrixTextView.setText(timeControls.getGripMatrix());
             }
 
             @Override
@@ -334,7 +362,7 @@ public class SettingsActivity extends AppCompatActivity {
                 finish();
             }
         });
-
+/*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -342,6 +370,6 @@ public class SettingsActivity extends AppCompatActivity {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
     }
 }

@@ -52,6 +52,23 @@ public class TimeControls {
 
     }
 
+    // getGripMatrix method generates a readable String which represents the hang program and
+    // includes grips, rest and long rest
+    public String getGripMatrix() {
+        String matrix;
+        String grips ="[grip 1]";
+        for (int i=2; i <= grip_laps; i++) {
+            grips = grips + " rest ";
+            grips = grips + "[grip " + i + "]";
+        }
+        matrix = "1. SET: " + grips;
+        for (int i=2; i <= routine_laps; i++) {
+            matrix = matrix + " long rest( " + long_rest + "s )\n";
+            matrix = matrix + i + ". SET: " + grips;
+        }
+        return matrix;
+    }
+
     public void changeTimeToRepeaters() {
         isRepeaters = true;
         this.grip_laps = 6;

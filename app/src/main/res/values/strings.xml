@@ -2072,6 +2072,13 @@
 </integer-array>
 
 
+<string name="matriisi">
+    "[grip 1] rest [grip 2] rest [grip 3] rest [grip 4]
+    long rest
+    [grip 1] rest [grip 2] rest [grip 3] rest [grip 4]
+    long rest
+     [grip 1] rest [grip 2] rest [grip 3] rest [grip 4][grip 1] rest [grip 2] rest [grip 3] rest [grip 4][grip 1] rest [grip 2] rest [grip 3] rest [grip 4][grip 1] rest [grip 2] rest [grip 3] rest [grip 4]"
+</string>
 
     <integer-array name="grip_values_trans_vanha">
         <item>1</item>

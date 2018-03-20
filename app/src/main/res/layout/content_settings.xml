@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#CDCDC0"
+    android:background="@color/ceramic"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.laakso.hangboardapp.SettingsActivity"
     tools:showIn="@layout/activity_settings">
@@ -67,7 +67,7 @@
                     android:layout_weight="0"
                     android:max="10"
                     android:progress="5"
-                    android:progressTint="#DDBC95" />
+                    android:progressTint="@color/slate" />
             </LinearLayout>
 
 
