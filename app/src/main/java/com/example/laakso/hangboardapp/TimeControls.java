@@ -37,6 +37,9 @@ public class TimeControls {
     public boolean isRepeaters() {
         return isRepeaters;
     }
+    public void setToRepeaters(boolean setTo) {
+        isRepeaters = setTo;
+    }
 
     // Not working very well
     public void changeTimeToSingleHangs() {
@@ -61,11 +64,12 @@ public class TimeControls {
             grips = grips + " rest ";
             grips = grips + "[grip " + i + "]";
         }
-        matrix = "1. SET: " + grips;
+        matrix = "1. SET:  " + grips;
         for (int i=2; i <= routine_laps; i++) {
             matrix = matrix + "  LONG REST( " + long_rest + "s )\n";
-            matrix = matrix + i + ". SET: " + grips;
+            matrix = matrix + i + ". SET:  " + grips;
         }
+        matrix = matrix + "  workout ends";
         return matrix;
     }
 

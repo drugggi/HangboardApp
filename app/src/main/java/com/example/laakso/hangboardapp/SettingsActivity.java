@@ -8,16 +8,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class SettingsActivity extends AppCompatActivity {
 
-
+    Switch repeaterSwitch;
     TimeControls timeControls;
-    Button testButton;
+
     Button finishButton;
     EditText gripLapsEditText;
     EditText hangLapsEditText;
@@ -40,7 +42,7 @@ public class SettingsActivity extends AppCompatActivity {
     SeekBar restSeekBar;
     SeekBar longRestSeekBar;
 
-
+    int gripMultiplier;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,16 +51,23 @@ public class SettingsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        String[] valiaika = {"jees","moid","keijo","jen"};
+        gripMultiplier = 1;
 
+        // These TextViews are the visual reprseentation of the hangboard program, which hopefully
+        // makes user understand time controls better
         mHangsTextView = (TextView) findViewById(R.id.mHangsTextView);
         mTimeONTextView = (TextView) findViewById(R.id.mTimeONTextView);
         mTimeOFFTextView = (TextView) findViewById(R.id.mTimeOFFTextView);
         matrixTextView = (TextView) findViewById(R.id.matrixTextView);
 
+        repeaterSwitch = (Switch) findViewById(R.id.repeaterSwitch);
 
         finishButton = (Button) findViewById(R.id.finishButton);
 
+
+        repeaterSwitch = (Switch) findViewById(R.id.repeaterSwitch);
+
+        // All the editable time control widgets
         gripLapsEditText = (EditText) findViewById(R.id.gripLapsEditText);
         hangLapsEditText = (EditText) findViewById(R.id.hangLapsEditText);
         timeONEditText = (EditText) findViewById(R.id.timeONEditText);
@@ -92,17 +101,67 @@ public class SettingsActivity extends AppCompatActivity {
              //gripLapsEditText.set
         }
 
+        if (timeControls.getHangLaps() != 1) {
+
+            repeaterSwitch.setChecked(true);
+            Toast.makeText(SettingsActivity.this,"isrepeaters true " + timeControls.getTimeON(),Toast.LENGTH_LONG).show();
+        }
+        else {
+            gripMultiplier = 6;
+            timeControls.setToRepeaters(false);
+            Toast.makeText(SettingsActivity.this,"isrepeaters false" + timeControls.getTimeON(),Toast.LENGTH_LONG).show();
+            repeaterSwitch.setChecked(false);
+
+            // timeOFFLinearLayout.setVisibility(0);
+
+        }
+
+
 
         matrixTextView.setText(timeControls.getGripMatrix());
         mHangsTextView.setText("" + timeControls.getHangLaps());
         mTimeONTextView.setText(timeControls.getTimeON()+"on");
         mTimeOFFTextView.setText(timeControls.getTimeOFF()+"off");
 
+        repeaterSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    repeaterSwitch.setText("Repeaters set to: TRUE");
+                    timeControls.setToRepeaters(true);
+                    gripMultiplier = 1;
+                    hangLapsEditText.setVisibility(View.VISIBLE);
+                    hangSeekBar.setEnabled(true);
+                    timeOFFEditText.setVisibility(View.VISIBLE);
+                    timeOFFSeekBar.setEnabled(true);
+                    Toast.makeText(SettingsActivity.this,"Repeaters are set to TRUE" ,Toast.LENGTH_LONG).show();
+                }
+                else {
+                    repeaterSwitch.setText("Repeaters set to: FALSE");
+                    timeControls.setToRepeaters(false);
+                    hangSeekBar.setProgress(0);
+                    timeControls.setHangLaps(1);
+                    timeControls.setTimeOFF(0);
+                    timeOFFSeekBar.setProgress(0);
+                    gripMultiplier = 6;
+
+                    updateProgramDisplay();
+
+                    hangLapsEditText.setVisibility(View.INVISIBLE);
+                    hangSeekBar.setEnabled(false);
+                    timeOFFEditText.setVisibility(View.INVISIBLE);
+                    timeOFFSeekBar.setEnabled(false);
+                    Toast.makeText(SettingsActivity.this,"Repeaters are set to FALSE" ,Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
+
         gripSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                gripLapsEditText.setText("" + (progress+1));
-                timeControls.setGripLaps(progress+1);
+                gripLapsEditText.setText("" + (progress+1)*gripMultiplier);
+                timeControls.setGripLaps((progress+1)*gripMultiplier);
                 matrixTextView.setText(timeControls.getGripMatrix());
 
             }
@@ -252,6 +311,8 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
+                // if (repeaterSwitch.isChecked()) {return false;}
+
                 try {
                     int i = Integer.parseInt(hangLapsEditText.getText().toString());
                     if ( i > 0 && i <= 20 ) { timeControls.setHangLaps(i); }
@@ -372,4 +433,12 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });*/
     }
+
+    private void updateProgramDisplay() {
+        mHangsTextView.setText("" + timeControls.getHangLaps());
+        mTimeONTextView.setText( timeControls.getTimeON()+"on");
+        mTimeOFFTextView.setText(timeControls.getTimeOFF()+"off");
+        matrixTextView.setText(timeControls.getGripMatrix());
+    }
+
 }

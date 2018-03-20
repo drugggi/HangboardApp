@@ -20,13 +20,13 @@
             android:orientation="horizontal">
 
             <Switch
-                android:id="@+id/Repeaters"
+                android:id="@+id/repeaterSwitch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:paddingLeft="50dp"
                 android:paddingRight="50dp"
-                android:text="Switch" />
+                android:text="Repeaters" />
 
         </LinearLayout>
 
@@ -74,6 +74,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/hangLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -160,6 +161,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/timeOFFLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
