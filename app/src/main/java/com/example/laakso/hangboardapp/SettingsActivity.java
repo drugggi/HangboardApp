@@ -18,6 +18,8 @@ import android.widget.Toast;
 public class SettingsActivity extends AppCompatActivity {
 
     Switch repeaterSwitch;
+    Switch timeInfoSwitch;
+
     TimeControls timeControls;
 
     Button finishButton;
@@ -61,6 +63,7 @@ public class SettingsActivity extends AppCompatActivity {
         matrixTextView = (TextView) findViewById(R.id.matrixTextView);
 
         repeaterSwitch = (Switch) findViewById(R.id.repeaterSwitch);
+        timeInfoSwitch = (Switch) findViewById(R.id.showTimeSwitch);
 
         finishButton = (Button) findViewById(R.id.finishButton);
 
@@ -104,13 +107,23 @@ public class SettingsActivity extends AppCompatActivity {
         if (timeControls.getHangLaps() != 1) {
 
             repeaterSwitch.setChecked(true);
-            Toast.makeText(SettingsActivity.this,"isrepeaters true " + timeControls.getTimeON(),Toast.LENGTH_LONG).show();
+            Toast.makeText(SettingsActivity.this,"isrepeaters true " ,Toast.LENGTH_LONG).show();
         }
         else {
             gripMultiplier = 6;
             timeControls.setToRepeaters(false);
-            Toast.makeText(SettingsActivity.this,"isrepeaters false" + timeControls.getTimeON(),Toast.LENGTH_LONG).show();
+
+            hangSeekBar.setProgress(0);
+            timeControls.setHangLaps(1);
+            timeControls.setTimeOFF(0);
+            timeOFFSeekBar.setProgress(0);
+            Toast.makeText(SettingsActivity.this,"isrepeaters false" ,Toast.LENGTH_LONG).show();
+            repeaterSwitch.setText("Repeaters are: OFF");
             repeaterSwitch.setChecked(false);
+            hangLapsEditText.setVisibility(View.INVISIBLE);
+            hangSeekBar.setEnabled(false);
+            timeOFFEditText.setVisibility(View.INVISIBLE);
+            timeOFFSeekBar.setEnabled(false);
 
             // timeOFFLinearLayout.setVisibility(0);
 
@@ -118,7 +131,7 @@ public class SettingsActivity extends AppCompatActivity {
 
 
 
-        matrixTextView.setText(timeControls.getGripMatrix());
+        matrixTextView.setText(timeControls.getGripMatrix(timeInfoSwitch.isChecked()));
         mHangsTextView.setText("" + timeControls.getHangLaps());
         mTimeONTextView.setText(timeControls.getTimeON()+"on");
         mTimeOFFTextView.setText(timeControls.getTimeOFF()+"off");
@@ -127,17 +140,17 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    repeaterSwitch.setText("Repeaters set to: TRUE");
+                    repeaterSwitch.setText("Repeaters are: ON");
                     timeControls.setToRepeaters(true);
                     gripMultiplier = 1;
                     hangLapsEditText.setVisibility(View.VISIBLE);
                     hangSeekBar.setEnabled(true);
                     timeOFFEditText.setVisibility(View.VISIBLE);
                     timeOFFSeekBar.setEnabled(true);
-                    Toast.makeText(SettingsActivity.this,"Repeaters are set to TRUE" ,Toast.LENGTH_LONG).show();
+                    Toast.makeText(SettingsActivity.this,"Repeaters are: ON" ,Toast.LENGTH_LONG).show();
                 }
                 else {
-                    repeaterSwitch.setText("Repeaters set to: FALSE");
+                    repeaterSwitch.setText("Repeaters are: OFF");
                     timeControls.setToRepeaters(false);
                     hangSeekBar.setProgress(0);
                     timeControls.setHangLaps(1);
@@ -151,9 +164,16 @@ public class SettingsActivity extends AppCompatActivity {
                     hangSeekBar.setEnabled(false);
                     timeOFFEditText.setVisibility(View.INVISIBLE);
                     timeOFFSeekBar.setEnabled(false);
-                    Toast.makeText(SettingsActivity.this,"Repeaters are set to FALSE" ,Toast.LENGTH_LONG).show();
+                    Toast.makeText(SettingsActivity.this,"Repeaters are: OFF" ,Toast.LENGTH_LONG).show();
                 }
 
+            }
+        });
+
+        timeInfoSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                updateProgramDisplay();
             }
         });
 
@@ -162,7 +182,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 gripLapsEditText.setText("" + (progress+1)*gripMultiplier);
                 timeControls.setGripLaps((progress+1)*gripMultiplier);
-                matrixTextView.setText(timeControls.getGripMatrix());
+                matrixTextView.setText(timeControls.getGripMatrix(timeInfoSwitch.isChecked()));
 
             }
 
@@ -240,7 +260,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 setsEditText.setText("" + (progress+1));
                 timeControls.setRoutineLaps(progress+1);
-                matrixTextView.setText(timeControls.getGripMatrix());
+                matrixTextView.setText(timeControls.getGripMatrix(timeInfoSwitch.isChecked()));
             }
 
             @Override
@@ -275,7 +295,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 longRestEditText.setText("" + (progress+1)*60);
                 timeControls.setLongRestTime((progress+1)*60);
-                matrixTextView.setText(timeControls.getGripMatrix());
+                matrixTextView.setText(timeControls.getGripMatrix(timeInfoSwitch.isChecked()));
             }
 
             @Override
@@ -438,7 +458,7 @@ public class SettingsActivity extends AppCompatActivity {
         mHangsTextView.setText("" + timeControls.getHangLaps());
         mTimeONTextView.setText( timeControls.getTimeON()+"on");
         mTimeOFFTextView.setText(timeControls.getTimeOFF()+"off");
-        matrixTextView.setText(timeControls.getGripMatrix());
+        matrixTextView.setText(timeControls.getGripMatrix(timeInfoSwitch.isChecked()));
     }
 
 }

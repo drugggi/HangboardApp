@@ -17,16 +17,25 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <Switch
                 android:id="@+id/repeaterSwitch"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:paddingLeft="50dp"
                 android:paddingRight="50dp"
-                android:text="Repeaters" />
+                android:text="Repeaters are: ON" />
+
+            <Switch
+                android:id="@+id/showTimeSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
+                android:text="Show time info in workout matrix" />
 
         </LinearLayout>
 
@@ -56,7 +65,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
-                    android:text="Amount of different grips in a program" />
+                    android:text="Amount of different grips in a Set" />
 
                 <SeekBar
                     android:id="@+id/gripSeekBar"
@@ -232,7 +241,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
-                    android:text="Amount of times to do the whole set" />
+                    android:text="Amount of times the whole set is repeated" />
 
                 <SeekBar
                     android:id="@+id/setsSeekBar"
@@ -275,7 +284,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
-                    android:text="Rest time between different grip types" />
+                    android:text="Rest time between different Grips" />
 
                 <SeekBar
                     android:id="@+id/restSeekBar"
@@ -317,7 +326,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
-                    android:text="Long rest time between whole sets" />
+                    android:text="Long rest time between Sets" />
 
                 <SeekBar
                     android:id="@+id/longRestSeekBar"

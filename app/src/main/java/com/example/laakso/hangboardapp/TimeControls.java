@@ -57,19 +57,41 @@ public class TimeControls {
 
     // getGripMatrix method generates a readable String which represents the hang program and
     // includes grips, rest and long rest
-    public String getGripMatrix() {
+    public String getGripMatrix(boolean showTimeInfo) {
         String matrix;
+        if (showTimeInfo) {
+            String grip_time= "[ "+ hang_laps_seconds+"s ]";
+            String grips = "[ "+ hang_laps_seconds+"s ]";
+            for (int i=2; i<=grip_laps; i++) {
+                grips = grips + " " + rest + "s ";
+                grips = grips + "[ "+ hang_laps_seconds+"s ]";
+            }
+            matrix = "1. SET:  " + grips;
+            for (int i=2; i<=routine_laps; i++) {
+                matrix = matrix + "  LONG REST( " + long_rest + "s )\n";
+                matrix = matrix + i + ". SET:  " + grips;
+            }
+            matrix = matrix + "  workout ends\n";
+            matrix = matrix + "Time under tension: " + routine_laps*grip_laps*hang_laps*time_on + "s ";
+            int workout_time = hang_laps_seconds*grip_laps + (grip_laps-1)*rest+(routine_laps-1)*long_rest;
+            matrix = matrix + " Workout time: " + workout_time + "s ";
+
+        }
+
+        else {
         String grips ="[grip 1]";
         for (int i=2; i <= grip_laps; i++) {
             grips = grips + " rest ";
             grips = grips + "[grip " + i + "]";
         }
+
         matrix = "1. SET:  " + grips;
         for (int i=2; i <= routine_laps; i++) {
             matrix = matrix + "  LONG REST( " + long_rest + "s )\n";
             matrix = matrix + i + ". SET:  " + grips;
         }
         matrix = matrix + "  workout ends";
+        }
         return matrix;
     }
 
