@@ -31,6 +31,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
     TimeControls timeControls;
     int current_lap;
+    int current_set;
     workoutPart nowDoing = workoutPart.ALKULEPO;
 
     // int workout_starts_in = 30;
@@ -121,6 +122,7 @@ public class WorkoutActivity extends AppCompatActivity {
         });
 
         current_lap = 0;
+        current_set = 1;
 
         // Progress our program for every tick that lapseTimeChrono produces
         lapseTimeChrono.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
@@ -129,7 +131,7 @@ public class WorkoutActivity extends AppCompatActivity {
                 s++;
                 total_s--;
                 lapseTimeChrono.setText("" + Math.abs(s) );
-                totalTimeChrono.setText( total_s + "s left");
+                totalTimeChrono.setText( total_s + "s left\n"+ current_set + ". set ("+ (current_lap+1) + "/" + timeControls.getGripLaps()+") ");
 
                 switch (nowDoing) {
                     case ALKULEPO:
@@ -203,6 +205,7 @@ public class WorkoutActivity extends AppCompatActivity {
                     case PITKALEPO:
                         // This if statmenet will be called once becouse s is positive and will be negative
                         if (s >= timeControls.getHangLapsSeconds()) {
+                            current_set++;
                             current_lap = 0;
                             hangProgressBar.setProgress(0);
                             lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
@@ -247,8 +250,8 @@ public class WorkoutActivity extends AppCompatActivity {
         rightHandImage.setY(workoutInfoTest.get(current_lap*2 + 1).getRightCoordY()*multiplier_h);
 
         // Lets get the correct descrption to next hold and grip
-        String texti = (current_lap+1) + ". " + workoutInfoTest.get(2*current_lap).getHoldInfo(workoutInfoTest.get(2*current_lap+1));
-        texti = texti.replaceAll("\n"," ");
+        String texti =workoutInfoTest.get(2*current_lap).getHoldInfo(workoutInfoTest.get(2*current_lap+1));
+        texti = texti.replaceAll("\n",", ");
         gradeTextView.setText(texti);
 
     }

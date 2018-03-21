@@ -385,11 +385,17 @@ public class MainActivity extends AppCompatActivity {
                 timeControls.setTimeControls(i);
             }
 
-            Toast.makeText(MainActivity.this, "Time Control Settings saved", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "Settings saved, pre made time controls disabled ", Toast.LENGTH_LONG).show();
+            repeatersBox.setVisibility(View.INVISIBLE);
+            durationSeekBar.setVisibility(View.INVISIBLE);
+            durationTextView.setText("Custom Time Controls");
 
         }
         else {
-            Toast.makeText(MainActivity.this, "No Changes Saved", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "Pre made time controls enabled", Toast.LENGTH_LONG).show();
+            repeatersBox.setVisibility(View.VISIBLE);
+            durationSeekBar.setVisibility(View.VISIBLE);
+            durationTextView.setText("Duration: "+ timeControls.getTotalTime() + "min");
         }
 
 

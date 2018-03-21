@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/darker_gray"
     tools:context="com.example.laakso.hangboardapp.MainActivity"
+    android:orientation="horizontal"
     tools:layout_editor_absoluteY="81dp">
 
 

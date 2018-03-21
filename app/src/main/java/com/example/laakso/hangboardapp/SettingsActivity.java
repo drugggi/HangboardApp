@@ -105,25 +105,32 @@ public class SettingsActivity extends AppCompatActivity {
              restEditText.setText("" + timeControls.getRestTime());
              longRestEditText.setText("" + timeControls.getLongRestTime());
              //gripLapsEditText.set
+
+            gripSeekBar.setProgress(timeControls.getGripLaps()-1);
+            hangSeekBar.setProgress(timeControls.getHangLaps()-1);
+            timeONSeekBar.setProgress(timeControls.getTimeON()-1);
+            timeOFFSeekBar.setProgress(timeControls.getTimeOFF());
+            setsSeekBar.setProgress(timeControls.getRoutineLaps()-1);
+            restSeekBar.setProgress(timeControls.getRestTime()/10);
+            longRestSeekBar.setProgress(timeControls.getLongRestTime()/60);
         }
 
         // If hang laps are anything but 1, then workoutprogram is set to repeaters
         if (timeControls.getHangLaps() != 1) {
             repeaterSwitch.setText("Repeaters are: ON");
             repeaterSwitch.setChecked(true);
-            Toast.makeText(SettingsActivity.this,"isrepeaters true " ,Toast.LENGTH_LONG).show();
         }
         // If hang laps is set to 1, then workout program is single hangs, and we set off settings
         // that are only used in repeaters mode
         else {
             gripMultiplier = 6;
+            gripSeekBar.setProgress((timeControls.getGripLaps()-1)/gripMultiplier);
             timeControls.setToRepeaters(false);
 
             hangSeekBar.setProgress(0);
             timeControls.setHangLaps(1);
             timeControls.setTimeOFF(0);
             timeOFFSeekBar.setProgress(0);
-            Toast.makeText(SettingsActivity.this,"isrepeaters false" ,Toast.LENGTH_LONG).show();
             repeaterSwitch.setText("Repeaters are: OFF");
             repeaterSwitch.setChecked(false);
             hangLapsEditText.setVisibility(View.INVISIBLE);
@@ -153,7 +160,7 @@ public class SettingsActivity extends AppCompatActivity {
                     hangSeekBar.setEnabled(true);
                     timeOFFEditText.setVisibility(View.VISIBLE);
                     timeOFFSeekBar.setEnabled(true);
-                    Toast.makeText(SettingsActivity.this,"Repeaters are: ON" ,Toast.LENGTH_LONG).show();
+                   // Toast.makeText(SettingsActivity.this,"Repeaters are: ON" ,Toast.LENGTH_LONG).show();
                 }
                 else {
                     repeaterSwitch.setText("Repeaters are: OFF");
@@ -170,7 +177,7 @@ public class SettingsActivity extends AppCompatActivity {
                     hangSeekBar.setEnabled(false);
                     timeOFFEditText.setVisibility(View.INVISIBLE);
                     timeOFFSeekBar.setEnabled(false);
-                    Toast.makeText(SettingsActivity.this,"Repeaters are: OFF" ,Toast.LENGTH_LONG).show();
+                   // Toast.makeText(SettingsActivity.this,"Repeaters are: OFF" ,Toast.LENGTH_LONG).show();
                 }
 
             }

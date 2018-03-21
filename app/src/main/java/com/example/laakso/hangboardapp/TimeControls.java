@@ -72,9 +72,8 @@ public class TimeControls {
                 matrix = matrix + i + ". SET:  " + grips;
             }
             matrix = matrix + "  workout ends\n";
-            matrix = matrix + "Time under tension: " + routine_laps*grip_laps*hang_laps*time_on + "s ";
-            int workout_time = hang_laps_seconds*grip_laps + (grip_laps-1)*rest+(routine_laps-1)*long_rest;
-            matrix = matrix + " Workout time: " + workout_time + "s ";
+            matrix = matrix + "Time under tension: " + getTimeUnderTension() + "s ";
+            matrix = matrix + " Workout time: " + getTotalTime() + "s ";
 
         }
 
@@ -93,6 +92,10 @@ public class TimeControls {
         matrix = matrix + "  workout ends";
         }
         return matrix;
+    }
+
+    public int getTimeUnderTension() {
+        return routine_laps*grip_laps*hang_laps*time_on;
     }
 
     public void changeTimeToRepeaters() {
