@@ -188,17 +188,17 @@ public class TimeControls {
         }
         else {
             if (workout_time < 25) {
-                setTimeControls(new int[]{20, 1, 10, 1, 1, 50, 50}); // 20min program
+                setTimeControls(new int[]{20, 1, 10, 0, 1, 50, 50}); // 20min program
             } else if (workout_time < 40) {
-                setTimeControls(new int[]{35, 1, 10, 1, 1, 50, 50}); // 35min program
+                setTimeControls(new int[]{35, 1, 10, 0, 1, 50, 50}); // 35min program
             }
             // THIS IS NOT WORKING CURRENTLY or may it is who knows
             else if (workout_time < 55) {
-                setTimeControls(new int[]{50, 1, 10, 1, 1, 50, 50}); // 50min program
+                setTimeControls(new int[]{50, 1, 10, 0, 1, 50, 50}); // 50min program
             } else if (workout_time < 70) {
-                setTimeControls(new int[]{65, 1, 10, 1, 1, 50, 50}); // default program
+                setTimeControls(new int[]{65, 1, 10, 0, 1, 50, 50}); // default program
             } else {
-                setTimeControls(new int[]{15, 1, 10, 1, 1, 50, 50}); // TEST grade program
+                setTimeControls(new int[]{15, 1, 10, 0, 1, 50, 50}); // TEST grade program
             }
 
         }

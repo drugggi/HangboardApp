@@ -53,6 +53,8 @@ public class SettingsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // There are a lot more grips in single hangs program than repeaters, gripMultiplier
+        // is used so that the grip progressbar is useful in both programs
         gripMultiplier = 1;
 
         // These TextViews are the visual reprseentation of the hangboard program, which hopefully
@@ -87,6 +89,7 @@ public class SettingsActivity extends AppCompatActivity {
         restSeekBar = (SeekBar) findViewById(R.id.restSeekBar);
         longRestSeekBar = (SeekBar) findViewById(R.id.longRestSeekBar);
 
+        // Lets get the time controls array from intent, so that the user can change them
         if (getIntent().hasExtra("com.example.laakso.hangboardapp.TIMECONTROLS")) {
             int[] time_controls = getIntent().getExtras().getIntArray("com.example.laakso.hangboardapp.TIMECONTROLS");
 
@@ -104,11 +107,14 @@ public class SettingsActivity extends AppCompatActivity {
              //gripLapsEditText.set
         }
 
+        // If hang laps are anything but 1, then workoutprogram is set to repeaters
         if (timeControls.getHangLaps() != 1) {
-
+            repeaterSwitch.setText("Repeaters are: ON");
             repeaterSwitch.setChecked(true);
             Toast.makeText(SettingsActivity.this,"isrepeaters true " ,Toast.LENGTH_LONG).show();
         }
+        // If hang laps is set to 1, then workout program is single hangs, and we set off settings
+        // that are only used in repeaters mode
         else {
             gripMultiplier = 6;
             timeControls.setToRepeaters(false);
@@ -130,7 +136,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
 
-
+        // TextViews that tries to visualize the current workout
         matrixTextView.setText(timeControls.getGripMatrix(timeInfoSwitch.isChecked()));
         mHangsTextView.setText("" + timeControls.getHangLaps());
         mTimeONTextView.setText(timeControls.getTimeON()+"on");
@@ -170,6 +176,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        // When switched, just update the visual display
         timeInfoSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -177,13 +184,14 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+
         gripSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 gripLapsEditText.setText("" + (progress+1)*gripMultiplier);
                 timeControls.setGripLaps((progress+1)*gripMultiplier);
-                matrixTextView.setText(timeControls.getGripMatrix(timeInfoSwitch.isChecked()));
-
+                //matrixTextView.setText(timeControls.getGripMatrix(timeInfoSwitch.isChecked()));
+                updateProgramDisplay();
             }
 
             @Override
@@ -202,7 +210,8 @@ public class SettingsActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 hangLapsEditText.setText("" + (progress+1));
                 timeControls.setHangLaps(progress+1);
-                mHangsTextView.setText("" + (progress+1) );
+                // mHangsTextView.setText("" + (progress+1) );
+                updateProgramDisplay();
                // if (progress == 0) {mHangsTextView.setText(""); }
             }
 
@@ -222,7 +231,8 @@ public class SettingsActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 timeONEditText.setText("" + (progress+1));
                 timeControls.setTimeON(progress+1);
-                mTimeONTextView.setText(progress+1 + "on");
+                // mTimeONTextView.setText(progress+1 + "on");
+                updateProgramDisplay();
             }
 
             @Override
@@ -241,8 +251,9 @@ public class SettingsActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 timeOFFEditText.setText("" + (progress));
                 timeControls.setTimeOFF(progress);
-                mTimeOFFTextView.setText(progress + "off");
-                if (progress == 0) { mTimeOFFTextView.setText(""); }
+                //mTimeOFFTextView.setText(progress + "off");
+                // if (progress == 0) { mTimeOFFTextView.setText(""); }
+                updateProgramDisplay();
             }
 
             @Override
@@ -260,7 +271,8 @@ public class SettingsActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 setsEditText.setText("" + (progress+1));
                 timeControls.setRoutineLaps(progress+1);
-                matrixTextView.setText(timeControls.getGripMatrix(timeInfoSwitch.isChecked()));
+                //matrixTextView.setText(timeControls.getGripMatrix(timeInfoSwitch.isChecked()));
+                updateProgramDisplay();
             }
 
             @Override
@@ -278,6 +290,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 restEditText.setText("" + (progress+1)*10);
                 timeControls.setRestTime((progress+1)*10);
+                updateProgramDisplay();
             }
 
             @Override
@@ -295,7 +308,8 @@ public class SettingsActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 longRestEditText.setText("" + (progress+1)*60);
                 timeControls.setLongRestTime((progress+1)*60);
-                matrixTextView.setText(timeControls.getGripMatrix(timeInfoSwitch.isChecked()));
+               // matrixTextView.setText(timeControls.getGripMatrix(timeInfoSwitch.isChecked()));
+                updateProgramDisplay();
             }
 
             @Override
@@ -315,7 +329,17 @@ public class SettingsActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 try {
                     int i = Integer.parseInt(gripLapsEditText.getText().toString());
-                    if ( i > 0 && i <= 100 ) { timeControls.setGripLaps(i); }
+
+                    if ( i > 0 && i <= 100 ) {
+                        timeControls.setGripLaps(i);
+                        if (repeaterSwitch.isChecked() ) {
+                            gripSeekBar.setProgress(i - 1);
+                        }
+                        else {
+                            gripSeekBar.setProgress((i-1)/gripMultiplier);
+                        }
+                        updateProgramDisplay();
+                    }
                     else { gripLapsEditText.setText("" + timeControls.getGripLaps() ); }
                    // Toast.makeText(SettingsActivity.this,"hehe: nyt muutettiin grips: " + timeControls.getGripLaps()  ,Toast.LENGTH_LONG).show();
                 } catch (NumberFormatException nfe)
@@ -335,7 +359,11 @@ public class SettingsActivity extends AppCompatActivity {
 
                 try {
                     int i = Integer.parseInt(hangLapsEditText.getText().toString());
-                    if ( i > 0 && i <= 20 ) { timeControls.setHangLaps(i); }
+                    if ( i > 0 && i <= 20 ) {
+                        timeControls.setHangLaps(i);
+                        hangSeekBar.setProgress(i-1);
+                        updateProgramDisplay();
+                    }
                     else { hangLapsEditText.setText("" + timeControls.getHangLaps() ); }
 
                 } catch (NumberFormatException nfe)
@@ -352,7 +380,12 @@ public class SettingsActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 try {
                     int i = Integer.parseInt(timeONEditText.getText().toString());
-                    if ( i > 0 && i <= 60 ) { timeControls.setTimeON(i); }
+                    if ( i > 0 && i <= 60 ) {
+                        timeControls.setTimeON(i);
+                        timeONSeekBar.setProgress(i-1);
+                        updateProgramDisplay();
+
+                    }
                     else { timeONEditText.setText("" + timeControls.getTimeON() ); }
 
                 } catch (NumberFormatException nfe)
@@ -369,7 +402,11 @@ public class SettingsActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 try {
                     int i = Integer.parseInt(timeOFFEditText.getText().toString());
-                    if ( i >= 0 && i <= 200 ) { timeControls.setTimeOFF(i); }
+                    if ( i >= 0 && i <= 200 ) {
+                        timeControls.setTimeOFF(i);
+                        timeOFFSeekBar.setProgress(i);
+                        updateProgramDisplay();
+                    }
                     else { timeOFFEditText.setText("" + timeControls.getTimeOFF() ); }
 
                 } catch (NumberFormatException nfe)
@@ -386,7 +423,11 @@ public class SettingsActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 try {
                     int i = Integer.parseInt(setsEditText.getText().toString());
-                    if ( i > 0 && i <= 50 ) { timeControls.setRoutineLaps(i); }
+                    if ( i > 0 && i <= 50 ) {
+                        timeControls.setRoutineLaps(i);
+                        setsSeekBar.setProgress(i-1);
+                        updateProgramDisplay();
+                    }
                     else { setsEditText.setText("" + timeControls.getRoutineLaps() ); }
 
                 } catch (NumberFormatException nfe)
@@ -403,7 +444,11 @@ public class SettingsActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 try {
                     int i = Integer.parseInt(restEditText.getText().toString());
-                    if ( i > 0 && i <= 500 ) { timeControls.setRestTime(i); }
+                    if ( i > 0 && i <= 500 ) {
+                        timeControls.setRestTime(i);
+                        restSeekBar.setProgress((i-1)/10);
+                        updateProgramDisplay();
+                    }
                     else { restEditText.setText("" + timeControls.getRestTime() ); }
 
                 } catch (NumberFormatException nfe)
@@ -419,7 +464,12 @@ public class SettingsActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 try {
                     int i = Integer.parseInt(longRestEditText.getText().toString());
-                    if ( i > 0 && i <= 1000 ) { timeControls.setLongRestTime(i); }
+                    if ( i > 0 && i <= 1000 ) {
+                        timeControls.setLongRestTime(i);
+                        longRestSeekBar.setProgress((i-1)/60);
+                        updateProgramDisplay();
+
+                    }
                     else { longRestEditText.setText("" + timeControls.getLongRestTime() ); }
 
                 } catch (NumberFormatException nfe)
