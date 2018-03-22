@@ -91,6 +91,79 @@ public class HangBoard {
         return valueList.size();
     }
 
+    public int getMaxHoldNumber() {
+        int max = 0;
+        for (int i=0; i < all_hold_values.length; i++) {
+            if (all_hold_values[i].getHoldNumber() > max) {
+                max = all_hold_values[i].getHoldNumber();
+            }
+        }
+        return max;
+    }
+
+    public void addCustomHold(int info, int position) {
+        int max = getMaxHoldNumber();
+        Hold customHold;
+
+
+        if (info < 2*max) {
+            int holdnumber = (info+2)/2;
+            customHold = new Hold(holdnumber);
+
+            int i = 0;
+            while (i < all_hold_values.length) {
+                if (all_hold_values[i].getHoldNumber() == holdnumber) {break; }
+                i++;
+            }
+            customHold.setLeftCoordX(all_hold_values[i].getLeftCoordX());
+            customHold.setLeftCoordY(all_hold_values[i].getLeftCoordY());
+            customHold.setRightCoordX(all_hold_values[i].getRightCoordX());
+            customHold.setRightCoordY(all_hold_values[i].getRightCoordY());
+
+            int[] coordinates = {valueList.get(position*2).getLeftCoordX(), valueList.get(position*2).getLeftCoordY(),
+                    valueList.get(position*2+1).getRightCoordX(), valueList.get(position*2+1).getRightCoordY()};
+
+            //Left hand
+            if (info % 2 == 0) {
+
+                customHold.setGripStyle(valueList.get(position*2).getGripStyle());
+                valueList.set(position*2, customHold);
+            }
+            // right hand
+            else {
+                customHold.setGripStyle(valueList.get(position*2+1).getGripStyle());
+                valueList.set(position*2+1, customHold);
+
+            }
+
+        }
+        else {
+            info = info - 2*max;
+
+            customHold = new Hold(valueList.get(position*2).getHoldNumber());
+            customHold.setLeftCoordX(valueList.get(position*2).getLeftCoordX());
+            customHold.setLeftCoordY(valueList.get(position*2).getLeftCoordY());
+            customHold.setRightCoordX(valueList.get(position*2).getRightCoordX());
+            customHold.setRightCoordY(valueList.get(position*2).getRightCoordY());
+            customHold.setGripTypeAndSingleHang((info+1)*10);
+
+                valueList.set(position*2,customHold);
+
+            customHold = new Hold(valueList.get(position*2+1).getHoldNumber());
+            customHold.setLeftCoordX(valueList.get(position*2+1).getLeftCoordX());
+            customHold.setLeftCoordY(valueList.get(position*2+1).getLeftCoordY());
+            customHold.setRightCoordX(valueList.get(position*2+1).getRightCoordX());
+            customHold.setRightCoordY(valueList.get(position*2+1).getRightCoordY());
+            customHold.setGripTypeAndSingleHang((info+1)*10);
+
+                 valueList.set(position*2+1,customHold);
+
+
+        }
+
+
+    }
+
     public void sortHoldByDifficulty() {
         Arrays.sort(all_hold_values);
 
@@ -169,7 +242,6 @@ public class HangBoard {
         Random rn = new Random();
         boolean isAlternate = rn.nextBoolean();
 
-        // grips[position] = "";
 
         // these ints will be randomized and those represents holds in all_hold_values array
         int random_nro;
@@ -181,7 +253,6 @@ public class HangBoard {
         int value = 0;
         int i=0;
 
-        // There is holdList.size() different grips in a given workout so lets randomize all of them
         while (i < poista_tama ) {
 
             if (isAlternate) {
@@ -195,9 +266,6 @@ public class HangBoard {
                 if (random_nro == random_nro_alt) { isAlternate = false; continue; }
                 valueList.add(all_hold_values[random_nro]);
                 valueList.add(all_hold_values[random_nro_alt]);
-                /*holdList.set(i, i + ". HOLD: " + all_hold_values[random_nro].getHoldNumber() + "/" + all_hold_values[random_nro_alt].getHoldNumber() + "\nGRIP: " +
-                        all_hold_values[random_nro].getHoldText() + " alternate\n Difficulty: "+
-                                (all_hold_values[random_nro].getHoldValue() + all_hold_values[random_nro_alt].getHoldValue() )/2);*/
 
             }
 
@@ -208,9 +276,6 @@ public class HangBoard {
                 value = value + all_hold_values[random_nro].getHoldValue();
                 valueList.add(all_hold_values[random_nro]);
                 valueList.add(all_hold_values[random_nro]);
-                /*
-                holdList.set(i, i + ". HOLD: " + all_hold_values[random_nro].getHoldNumber() + "\nGRIP: " + all_hold_values[random_nro].getHoldText() +
-                        "\nDifficulty: " + all_hold_values[random_nro].getHoldValue() );*/
 
             }
             isAlternate = rn.nextBoolean();
@@ -250,11 +315,6 @@ public class HangBoard {
 
             valueList.set(hold_nro*2, all_hold_values[random_nro]);
             valueList.set(hold_nro*2 + 1,all_hold_values[random_nro_alt]);
-/*
-                holdList.set(hold_nro, hold_nro + ". HOLD: " + all_hold_values[random_nro].getHoldNumber() + "/"
-                        + all_hold_values[random_nro_alt].getHoldNumber() + "\nGRIP: " +
-                        all_hold_values[random_nro].getHoldText() + " alternate\n Difficulty: "+
-                        (all_hold_values[random_nro].getHoldValue() + all_hold_values[random_nro_alt].getHoldValue() )/2);*/
 
             }
 
@@ -324,6 +384,7 @@ public class HangBoard {
         return search_point;
     }
 
+    // REFACTOR INITAILIZEHOLDS METHOD!!!
 
     // InitializeHolds method collects from resources all the possible grip types, hold numbers
     // and difficulties that a Hangboard can have. Those will be stored in all_hold_values

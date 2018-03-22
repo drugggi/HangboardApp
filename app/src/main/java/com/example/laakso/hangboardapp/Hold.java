@@ -24,7 +24,7 @@ public class Hold implements Comparable<Hold>, Parcelable {
 
     // grip type describes the fingers used in hanging in a hold
     public enum grip_type {FOUR_FINGER, THREE_FRONT, THREE_BACK, TWO_FRONT, TWO_MIDDLE, TWO_BACK
-        , INDEX_FINGER,MIDDLE_FINGER, RING_FINGER, PINKY_FINGER};
+        , INDEX_FINGER,MIDDLE_FINGER, RING_FINGER, LITTLE_FINGER};
     grip_type grip_style;
 
     // Single holds dont have a pair with same measurements in the hangboard
@@ -95,6 +95,17 @@ public class Hold implements Comparable<Hold>, Parcelable {
     }
     public int getRightCoordY() {return righthand_coord_y;}
 
+    public void setLeftCoordX(int lcx) {
+        lefthand_coord_x=lcx;
+    }
+    public void setLeftCoordY(int lcy) {
+        lefthand_coord_y=lcy;
+    }
+    public void setRightCoordX(int rcx) {
+        righthand_coord_x=rcx;
+    }
+    public void setRightCoordY(int rcy) {righthand_coord_y=rcy;}
+
     public void setHoldCoordinates(int[] coordinates) {
         lefthand_coord_x = coordinates[(hold_number-1)*5+1];
         lefthand_coord_y = coordinates[(hold_number-1)*5+2];
@@ -104,13 +115,23 @@ public class Hold implements Comparable<Hold>, Parcelable {
     }
 
     public String getHoldInfo(Hold rightHandHold) {
+        String hold_value_text;
+
         if (hold_number == rightHandHold.getHoldNumber()) {
-            return "HOLD: " + hold_number + "\nGRIP: " + getHoldText() + "\nDifficulty: " + hold_value;
+            if ( hold_value == 0) { hold_value_text = "Custom"; }
+            else { hold_value_text = "" +hold_value; }
+
+            return "HOLD: " + hold_number + "\nGRIP: " + getHoldText() + "\nDifficulty: " + hold_value_text;
         }
+
         else {
+            if ( hold_value == 0 || rightHandHold.getHoldValue() == 0) { hold_value_text = "Custom"; }
+            else { hold_value_text = "" + (hold_value + rightHandHold.getHoldValue())/2; }
+
             return "HOLD: " + hold_number + "/" + rightHandHold.getHoldNumber() + "\nGRIP: " + getHoldText()
-                    + " Alternate\nDifficulty: " + (hold_value + rightHandHold.getHoldValue())/2; }
+                    + " Alternate\nDifficulty: " + hold_value_text;
         }
+    }
 
 
     // Returns the image that corresponds the grip_type
@@ -126,7 +147,7 @@ public class Hold implements Comparable<Hold>, Parcelable {
           else if (grip_style == grip_type.INDEX_FINGER) {return R.drawable.indexleft;}
           else if (grip_style == grip_type.MIDDLE_FINGER) {return R.drawable.middleleft;}
           else if (grip_style == grip_type.RING_FINGER) {return R.drawable.ringleft;}
-          else if (grip_style == grip_type.PINKY_FINGER) {return R.drawable.pinkyleft;}
+          else if (grip_style == grip_type.LITTLE_FINGER) {return R.drawable.pinkyleft;}
 
       }
         else {
@@ -139,7 +160,7 @@ public class Hold implements Comparable<Hold>, Parcelable {
           else if (grip_style == grip_type.INDEX_FINGER) {return R.drawable.indexright;}
           else if (grip_style == grip_type.MIDDLE_FINGER) {return R.drawable.middleright;}
           else if (grip_style == grip_type.RING_FINGER) {return R.drawable.ringright;}
-          else if (grip_style == grip_type.PINKY_FINGER) {return R.drawable.pinkyright;}
+          else if (grip_style == grip_type.LITTLE_FINGER) {return R.drawable.pinkyright;}
 
       }
       return R.drawable.fourfingerright;
@@ -162,7 +183,7 @@ public class Hold implements Comparable<Hold>, Parcelable {
         else if ( i_hold_both_info == 7) {grip_style = grip_type.INDEX_FINGER; }
         else if ( i_hold_both_info == 8) {grip_style = grip_type.MIDDLE_FINGER; }
         else if ( i_hold_both_info == 9) {grip_style = grip_type.RING_FINGER; }
-        else if ( i_hold_both_info == 10) {grip_style = grip_type.PINKY_FINGER; }
+        else if ( i_hold_both_info == 10) {grip_style = grip_type.LITTLE_FINGER; }
 
         else  {grip_style = grip_type.FOUR_FINGER; }
 
@@ -195,6 +216,14 @@ public class Hold implements Comparable<Hold>, Parcelable {
         return single_hold;
     }
 
+    public void setGripStyle(grip_type newgrip) {
+        grip_style = newgrip;
+    }
+
+    public grip_type getGripStyle() {
+        return grip_style;
+    }
+
 
     // Returns the text that represents the grip type
     public String getHoldText() {
@@ -207,7 +236,7 @@ public class Hold implements Comparable<Hold>, Parcelable {
         if (grip_style == grip_type.MIDDLE_FINGER) { return "middle finger";}
         if (grip_style == grip_type.INDEX_FINGER) { return "index finger";}
         if (grip_style == grip_type.RING_FINGER) { return "ring finger";}
-        if (grip_style == grip_type.PINKY_FINGER) { return "pinky finger";}
+        if (grip_style == grip_type.LITTLE_FINGER) { return "little finger";}
         return "";
     }
 

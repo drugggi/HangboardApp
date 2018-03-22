@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -25,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     ListView gradesListView;
     ListView holdsListView;
     ArrayAdapter<String> holdsAdapter;
+
+    // Maybe get rid of these in the future
     int grade_descr_position;
     int hang_descr_position;
 
@@ -80,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
         holdsListView = (ListView) findViewById(R.id.holdsListView);
         holdsAdapter = new  ArrayAdapter<String>(this, R.layout.mytextview, everyBoard.setGrips(0));
         holdsListView.setAdapter(holdsAdapter);
+        registerForContextMenu(holdsListView);
+
 
         // Lets use CustomSwipeAdapter to show different hangboards in a swipeable fashion
         viewPager = (ViewPager)findViewById(R.id.view_pager);
@@ -153,6 +160,47 @@ public class MainActivity extends AppCompatActivity {
                 fingerImage.setX(x+5);*/
 
             }
+        });
+
+        // MenuListener for user to create custom holds to the holdsList
+        holdsListView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+            @Override
+            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+
+               // Toast.makeText(MainActivity.this, " CONTEXT MNEU", Toast.LENGTH_SHORT).show();
+                if (v.getId()==R.id.holdsListView) {
+                    AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+                    menu.setHeaderTitle("Select to change hold or grip");
+
+                    int max = everyBoard.getMaxHoldNumber();
+
+                    int i = 0;
+                    int j = 1;
+
+                    // Lets add every hold that hangboard has to the menu
+                    while (i < 2*max) {
+                        menu.add(Menu.NONE, i, i, "HOLD: " + j + " left hand");
+                        i++;
+                        menu.add(Menu.NONE, i, i, "HOLD: " + j + " right hand");
+                        j++;
+                        i++;
+                    }
+
+                    // Lets add different grip types to the menu
+                    String[] menuItems = getResources().getStringArray(R.array.grip_types);
+                    j=0;
+                    while ( j < menuItems.length) {
+                        menu.add(Menu.NONE,i,i,"GRIP: " + menuItems[j]);
+                        i++;
+                        j++;
+                    }
+
+
+                }
+
+            }
+
+
         });
 
 
@@ -359,6 +407,61 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        // return super.onContextItemSelected(item);
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+
+        everyBoard.addCustomHold(item.getItemId(),info.position);
+        int menuItemIndex = item.getItemId();
+
+
+        holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
+                R.layout.mytextview , everyBoard.getGrips());
+        holdsListView.setAdapter(holdsAdapter);
+
+        ImageView imageView = (ImageView) findViewById(R.id.image_view);
+        int position = hang_descr_position - 1;
+        Float multiplyer_w = imageView.getWidth() / 350F;
+        Float multiplyer_h = imageView.getHeight() / 150F;
+
+        leftFingerImage.setImageResource(everyBoard.getLeftFingerImage(position));
+        leftFingerImage.setX(everyBoard.getCoordLeftX(position)* multiplyer_w);
+        leftFingerImage.setY(everyBoard.getCoordLeftY(position)* multiplyer_h);
+
+        rightFingerImage.setImageResource(everyBoard.getRightFingerImage(position));
+        rightFingerImage.setX(everyBoard.getCoordRightX(position)*multiplyer_w);
+        rightFingerImage.setY(everyBoard.getCoordRightY(position)*multiplyer_h);
+
+        /*
+        int max = everyBoard.getMaxHoldNumber();
+
+        int menuItemIndex = item.getItemId();
+
+        if (menuItemIndex < 2*max) {
+            int holdnumber = (menuItemIndex+1)/2;
+            Hold customHold = new Hold(holdnumber);
+        }
+        else {
+
+        }*/
+//        String[] menuItems = getResources().getStringArray(R.array.menu);
+      //  String menuItemName = menuItems[menuItemIndex];
+
+
+
+        // Toast.makeText(MainActivity.this," menuitemindex eli mitä valikosta valittiin: " + menuItemIndex + " info pos eli mikä indexi holdlistinfossa 0-5: " +info.position, Toast.LENGTH_SHORT).show();
+
+
+       //onCreateContextMenu(MainActivity.this,this,);
+        // String listItemName = Countries[info.position];
+
+        //TextView text = (TextView)findViewById(R.id.footer);
+        //text.setText(String.format("Selected %s for item %s", menuItemName, listItemName));
+        return true;
 
     }
 

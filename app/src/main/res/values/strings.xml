@@ -2072,87 +2072,20 @@
 </integer-array>
 
 
-<string name="matriisi">
-    "[grip 1] rest [grip 2] rest [grip 3] rest [grip 4]
-    long rest
-    [grip 1] rest [grip 2] rest [grip 3] rest [grip 4]
-    long rest
-     [grip 1] rest [grip 2] rest [grip 3] rest [grip 4][grip 1] rest [grip 2] rest [grip 3] rest [grip 4][grip 1] rest [grip 2] rest [grip 3] rest [grip 4][grip 1] rest [grip 2] rest [grip 3] rest [grip 4]"
-</string>
 
-    <integer-array name="grip_values_trans_vanha">
-        <item>1</item>
-        <item>2</item> <!--1 jug -->
-        <item>3</item>
+    <string-array name="grip_types">
+        <item>four fingers</item>
+        <item>three front</item>
+        <item>three back</item>
+        <item>two front</item>
+        <item>two middle</item>
+        <item>two back</item>
+        <item>index finger</item>
+        <item>middle finger</item>
+        <item>ring finger</item>
+        <item>little finger</item>
+    </string-array>
 
-        <item>2</item>
-        <item>4</item> <!--2. 18mm  -->
-        <item>6</item>
-
-        <item>3</item>
-        <item>7</item> <!--3 14mm-->
-        <item>9</item>
-
-        <item>5</item>
-        <item>11</item>  <!--4. 12mm -->
-        <item>13</item>
-
-        <item>8</item>
-        <item>23</item>    <!--5. 10mm -->
-        <item>26</item>
-
-        <item>14</item>
-        <item>25</item>        <!--6. 9mm -->
-        <item>35</item>
-
-        <item>29</item>
-        <item>189</item>      <!--7. 8m -->
-        <item>250</item>
-
-        <item>49</item>
-        <item>250</item>      <!--8. 7m -->
-        <item>350</item>
-
-        <item>99</item>
-        <item>300</item>     <!--9. 6m -->
-        <item>400</item>
-
-        <item>11</item>
-        <item>9</item> <!--1 two finger jug -->
-        <item>31</item>
-
-        <item>39</item>
-        <item>23</item> <!--2. two finger 18mm  -->
-        <item>49</item>
-
-        <item>76</item>
-        <item>39</item> <!--3 two finger 14mm-->
-        <item>89</item>
-
-        <item>89</item>
-        <item>69</item>  <!--4. two finger 12mm -->
-        <item>150</item>
-
-        <item>159</item>
-        <item>99</item>    <!--5. two finger 10mm -->
-        <item>299</item>
-
-        <item>250</item>
-        <item>149</item>        <!--6. two finger 9mm -->
-        <item>350</item>
-
-        <item>450</item>
-        <item>250</item>      <!--7.  two finger 8m -->
-        <item>650</item>
-
-        <item>1000</item>
-        <item>1000</item>      <!--8.  two finger 7m -->
-        <item>1000</item>
-
-        <item>1000</item>
-        <item>1000</item>     <!--9. two finger 6m -->
-        <item>1000</item>
-    </integer-array>
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
