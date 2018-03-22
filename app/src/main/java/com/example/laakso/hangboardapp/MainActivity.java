@@ -415,26 +415,29 @@ public class MainActivity extends AppCompatActivity {
         // return super.onContextItemSelected(item);
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
 
-        everyBoard.addCustomHold(item.getItemId(),info.position);
-        int menuItemIndex = item.getItemId();
+        int menuItemIndex = info.position;
 
+        everyBoard.addCustomHold(item.getItemId(),info.position);
 
         holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
                 R.layout.mytextview , everyBoard.getGrips());
         holdsListView.setAdapter(holdsAdapter);
 
+
         ImageView imageView = (ImageView) findViewById(R.id.image_view);
-        int position = hang_descr_position - 1;
+
         Float multiplyer_w = imageView.getWidth() / 350F;
         Float multiplyer_h = imageView.getHeight() / 150F;
 
-        leftFingerImage.setImageResource(everyBoard.getLeftFingerImage(position));
-        leftFingerImage.setX(everyBoard.getCoordLeftX(position)* multiplyer_w);
-        leftFingerImage.setY(everyBoard.getCoordLeftY(position)* multiplyer_h);
 
-        rightFingerImage.setImageResource(everyBoard.getRightFingerImage(position));
-        rightFingerImage.setX(everyBoard.getCoordRightX(position)*multiplyer_w);
-        rightFingerImage.setY(everyBoard.getCoordRightY(position)*multiplyer_h);
+
+        leftFingerImage.setImageResource(everyBoard.getLeftFingerImage(menuItemIndex));
+        leftFingerImage.setX(everyBoard.getCoordLeftX(menuItemIndex)* multiplyer_w);
+        leftFingerImage.setY(everyBoard.getCoordLeftY(menuItemIndex)* multiplyer_h);
+
+        rightFingerImage.setImageResource(everyBoard.getRightFingerImage(menuItemIndex));
+        rightFingerImage.setX(everyBoard.getCoordRightX(menuItemIndex)*multiplyer_w);
+        rightFingerImage.setY(everyBoard.getCoordRightY(menuItemIndex)*multiplyer_h);
 
         /*
         int max = everyBoard.getMaxHoldNumber();
