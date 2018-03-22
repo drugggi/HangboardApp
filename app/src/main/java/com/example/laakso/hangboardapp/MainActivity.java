@@ -146,14 +146,15 @@ public class MainActivity extends AppCompatActivity {
 
 
                 // THIS IS ONLY FOR TESTING HAND IMAGES POSITION PURPOSES
-                float x;
+                /*float x;
                 if (position % 2 != 0) {
                 x = fingerImage.getX() + position * 3; }
                 else { x = fingerImage.getX() - position * 3; }
-                fingerImage.setX(x+5);
+                fingerImage.setX(x+5);*/
 
             }
         });
+
 
         // Every time a hold is pressed on the holdsList, update to randomize button only
         // to randomize that hold. And everyBoard to show that Hold's picture
@@ -183,11 +184,11 @@ public class MainActivity extends AppCompatActivity {
 
 
                 // THIS IS ONLY FOR TESTING HAND IMAGES POSITION PURPOSES
-                float y;
+               /* float y;
                 if (position % 2 != 0) {
                 y = fingerImage.getY() + position*3; }
                 else {y = fingerImage.getY() - position*3; }
-                fingerImage.setY(y+5);
+                fingerImage.setY(y+5);*/
 
             }
         });
@@ -252,7 +253,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // THIS WILL IN FUTURE LAUNCH SETTINGS ACTIVITY THAT HAS ALL THE SETTINGS NEEDED
         // timeControlBtn lets the user control the time controls that are running in the workout
         timeControlBtn = (Button) findViewById(R.id.timeControlBtn);
         timeControlBtn.setOnClickListener(new View.OnClickListener() {
@@ -388,14 +388,14 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "Settings saved, pre made time controls disabled ", Toast.LENGTH_LONG).show();
             repeatersBox.setVisibility(View.INVISIBLE);
             durationSeekBar.setVisibility(View.INVISIBLE);
-            durationTextView.setText("Custom Time Controls");
+            durationTextView.setText("Duration: " + timeControls.getTotalTime()/60 + "min");
 
         }
         else {
-            Toast.makeText(MainActivity.this, "Pre made time controls enabled", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "Settings not saved, pre made time controls enabled", Toast.LENGTH_LONG).show();
             repeatersBox.setVisibility(View.VISIBLE);
             durationSeekBar.setVisibility(View.VISIBLE);
-            durationTextView.setText("Duration: "+ timeControls.getTotalTime() + "min");
+            durationTextView.setText("Duration: "+ timeControls.getTotalTime()/60 + "min");
         }
 
 

@@ -160,6 +160,9 @@ public class SettingsActivity extends AppCompatActivity {
                     hangSeekBar.setEnabled(true);
                     timeOFFEditText.setVisibility(View.VISIBLE);
                     timeOFFSeekBar.setEnabled(true);
+                    timeOFFSeekBar.setProgress(3);
+                    timeOFFEditText.setText("" + 3);
+                    timeControls.setTimeOFF(3);
                    // Toast.makeText(SettingsActivity.this,"Repeaters are: ON" ,Toast.LENGTH_LONG).show();
                 }
                 else {
