@@ -38,7 +38,7 @@ public class CustomSwipeAdapter extends PagerAdapter {
         else if (position == 11) {return hangboard.METO_WOOD; }
         else {return hangboard.BM1000; }
     }
-    
+
 
     public int getImageResource(int position) {
         return image_resources[position];

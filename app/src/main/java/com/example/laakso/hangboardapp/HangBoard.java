@@ -116,27 +116,7 @@ public class HangBoard {
         if (info < 2*max) {
             int holdnumber = (info+2)/2;
             customHold = new Hold(holdnumber);
-            //customHold.setHoldCoordinates(hold_coordinates);
-
-            int i = 0;
-            while (i < all_hold_values.length) {
-                if (all_hold_values[i].getHoldNumber() == holdnumber) {break; }
-                i++;
-            }
-
-            // REFACTORING NEEDED!
-            // There is a possibility that (for example pinch holds) hold number is not found.
-            // Lets set i to a safe value. coordinates must searched in a better way in future
-            if (i == all_hold_values.length) { i = 0; }
-            customHold.setLeftCoordX(all_hold_values[i].getLeftCoordX());
-            customHold.setLeftCoordY(all_hold_values[i].getLeftCoordY());
-            customHold.setRightCoordX(all_hold_values[i].getRightCoordX());
-            customHold.setRightCoordY(all_hold_values[i].getRightCoordY());
-
-            //int[] coordinates = {valueList.get(position*2).getLeftCoordX(), valueList.get(position*2).getLeftCoordY(),
-              //      valueList.get(position*2+1).getRightCoordX(), valueList.get(position*2+1).getRightCoordY()};
-
-
+            customHold.setHoldCoordinates(hold_coordinates);
 
             //Left hand
             if (info % 2 == 0) {
@@ -156,26 +136,17 @@ public class HangBoard {
             info = info - 2*max;
 
             customHold = new Hold(valueList.get(position*2).getHoldNumber());
-            customHold.setLeftCoordX(valueList.get(position*2).getLeftCoordX());
-            customHold.setLeftCoordY(valueList.get(position*2).getLeftCoordY());
-            customHold.setRightCoordX(valueList.get(position*2).getRightCoordX());
-            customHold.setRightCoordY(valueList.get(position*2).getRightCoordY());
+            customHold.setHoldCoordinates(hold_coordinates);
             customHold.setGripTypeAndSingleHang((info+1)*10);
 
-                valueList.set(position*2,customHold);
+            valueList.set(position*2,customHold);
 
             customHold = new Hold(valueList.get(position*2+1).getHoldNumber());
-            customHold.setLeftCoordX(valueList.get(position*2+1).getLeftCoordX());
-            customHold.setLeftCoordY(valueList.get(position*2+1).getLeftCoordY());
-            customHold.setRightCoordX(valueList.get(position*2+1).getRightCoordX());
-            customHold.setRightCoordY(valueList.get(position*2+1).getRightCoordY());
+            customHold.setHoldCoordinates(hold_coordinates);
             customHold.setGripTypeAndSingleHang((info+1)*10);
 
-                 valueList.set(position*2+1,customHold);
-
-
+            valueList.set(position*2+1,customHold);
         }
-
 
     }
 
@@ -699,7 +670,7 @@ public class HangBoard {
 
     }
 
-    // Arbitary grade values, what hold_values to search in a give grade
+    // Arbitrary grade values, what hold_values to search in a give grade
     // For example Grade 6c consist of hold that are betweent 7 and 18 in difficulty
     private static int getMinValue(String grade) {
         if (grade.equals("5a")) {return 1;}
