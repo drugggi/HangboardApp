@@ -14,7 +14,7 @@ public class HangBoard {
 
     private String[] grades;
     CustomSwipeAdapter.hangboard current_board;
-    int[] hold_coordinates;
+    private int[] hold_coordinates;
 
     // All possible grip types in a hangboard
     private Hold[] all_hold_values;
