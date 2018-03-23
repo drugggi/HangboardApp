@@ -513,71 +513,19 @@
     <integer-array name="rockprodigy_coordinates">
         <!--                        LEFT  HAND                          RIGHT   HAND      -->
         <!--hold number     X coord         Y coord                 X coord        Y coord    -->
-        <item>1</item>
-        <item>-8</item>
-        <item>13</item>
-        <item>284</item>
-        <item>13</item>
-        <item>2</item>
-        <item>52</item>
-        <item>3</item>
-        <item>226</item>
-        <item>3</item>
-        <item>3</item>
-        <item>109</item>
-        <item>0</item>
-        <item>170</item>
-        <item>0</item>
-        <item>4</item>
-        <item>57</item>
-        <item>42</item>
-        <item>222</item>
-        <item>42</item>
-        <item>5</item>
-        <item>107</item>
-        <item>38</item>
-        <item>172</item>
-        <item>38</item>
-        <item>6</item>
-        <item>57</item>
-        <item>61</item>
-        <item>222</item>
-        <item>61</item>
-        <item>7</item>
-        <item>107</item>
-        <item>56</item>
-        <item>172</item>
-        <item>56</item>
-        <item>8</item>
-        <item>57</item>
-        <item>79</item>
-        <item>225</item>
-        <item>79</item>
-        <item>9</item>
-        <item>109</item>
-        <item>75</item>
-        <item>170</item>
-        <item>75</item>
-        <item>10</item>
-        <item>55</item>
-        <item>101</item>
-        <item>224</item>
-        <item>101</item>
-        <item>11</item>
-        <item>98</item>
-        <item>101</item>
-        <item>182</item>
-        <item>101</item>
-        <item>12</item>
-        <item>65</item>
-        <item>123</item>
-        <item>217</item>
-        <item>123</item>
-        <item>13</item>
-        <item>98</item>
-        <item>123</item>
-        <item>182</item>
-        <item>123</item>
+        <item>1</item><item>-8</item><item>13</item><item>284</item><item>13</item>
+        <item>2</item><item>52</item><item>3</item><item>226</item><item>3</item>
+        <item>3</item><item>109</item><item>0</item><item>170</item><item>0</item>
+        <item>4</item><item>57</item><item>42</item>        <item>222</item>        <item>42</item>
+        <item>5</item>        <item>107</item>        <item>38</item>        <item>172</item>        <item>38</item>
+        <item>6</item>        <item>57</item>        <item>61</item>        <item>222</item>        <item>61</item>
+        <item>7</item>        <item>107</item>        <item>56</item>        <item>172</item>        <item>56</item>
+        <item>8</item>        <item>57</item>        <item>79</item>        <item>225</item>        <item>79</item>
+        <item>9</item>        <item>109</item>        <item>75</item>        <item>170</item>        <item>75</item>
+        <item>10</item>        <item>55</item>        <item>101</item>        <item>224</item>        <item>101</item>
+        <item>11</item>        <item>98</item>        <item>101</item>        <item>182</item>        <item>101</item>
+        <item>12</item>        <item>65</item>        <item>123</item>        <item>217</item>        <item>123</item>
+        <item>13</item>        <item>98</item>        <item>123</item>        <item>182</item>        <item>123</item>
 
 
     </integer-array>
@@ -952,56 +900,6 @@
     </integer-array>
 
 
-    <integer-array name="grip_values_bm1000_vanha">
-        <item>1</item>
-        <item>2</item>  <!--1 jug -->
-        <item>3</item>
-
-        <item>23</item>
-        <item>70</item>  <!--2 slopers angle 35-->
-        <item>75</item>
-
-        <item>3</item>
-        <item>12</item>
-        <item>8</item>
-
-        <item>18</item>
-        <item>50</item>  <!--4 crimp 10-12mm -->
-        <item>60</item>
-
-        <item>1000</item>
-        <item>13</item>
-        <item>15</item>
-
-        <item>2</item>
-        <item>5</item>  <!--6 crimp 40mm -->
-        <item>8</item>
-
-        <item>14</item>
-        <item>9</item>  <!--7 poket 45mm -->
-        <item>40</item>
-
-        <item>1000</item>
-        <item>4</item>
-        <item>6</item>
-
-        <item>2</item>
-        <item>4</item>  <!--9 middle crimp 48mm -->
-        <item>7</item>
-
-        <item>10</item>
-        <item>22</item>
-        <item>20</item>
-
-        <item>55</item>
-        <item>33</item> <!--11 two finger 20mm -->
-        <item>100</item>
-
-        <item>1000</item>
-        <item>17</item> <!--2 three finger 15mm -->
-        <item>19</item>
-    </integer-array>
-
     <integer-array name="grip_values_bm2000">
         <item>1</item>
         <item>100</item>
@@ -1146,68 +1044,6 @@
 
     </integer-array>
 
-
-    <integer-array name="grip_values_bm2000_vanha">
-        <item>99</item>
-        <item>1000</item> <!--1 slopers -->
-        <item>1000</item>
-
-        <item>23</item>
-        <item>70</item>
-        <item>75</item>
-
-        <item>3</item>
-        <item>12</item> <!--1 slope angle 20-->
-        <item>8</item>
-
-        <item>1000</item>
-        <item>13</item>  <!--4. 3 finger 40mm -->
-        <item>15</item>
-
-        <item>1000</item>
-        <item>17</item>    <!--5. 3 finger 20mm -->
-        <item>19</item>
-
-        <item>2</item>
-        <item>5</item>        <!--6. crimp 33mm -->
-        <item>8</item>
-
-        <item>79</item>
-        <item>189</item>      <!--7. mono  50mm -->
-        <item>250</item>
-
-        <item>14</item>
-        <item>9</item>
-        <item>40</item>
-
-        <item>25</item>
-        <item>18</item>
-        <item>69</item>
-
-        <item>1</item>
-        <item>3</item>     <!--10. middle crimp 50mm -->
-        <item>4</item>
-
-        <item>10</item>
-        <item>22</item>      <!--11. crimp 15mm -->
-        <item>20</item>
-
-        <item>300</item>
-        <item>250</item>    <!--12. mono 25mm-->
-        <item>500</item>
-
-        <item>400</item>
-        <item>350</item>    <!--13.  -->
-        <item>700</item>
-
-        <item>500</item>
-        <item>450</item>    <!--14. -->
-        <item>800</item>
-
-        <item>6</item>
-        <item>15</item>    <!--15.  middle crimp 23mm-->
-        <item>12</item>
-    </integer-array>
 
     <integer-array name="grip_values_trans">
         <item>1</item>

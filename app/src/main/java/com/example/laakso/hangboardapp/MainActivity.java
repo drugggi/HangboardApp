@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         // HangBoard class holds all the information about grades and holds and grips
         final Resources res = getResources();
         everyBoard = new HangBoard(res);
-        everyBoard.InitializeHolds(res, CustomSwipeAdapter.hangboard.BM1000);
+        everyBoard.initializeHolds(res, CustomSwipeAdapter.hangboard.BM1000);
         everyBoard.setGripAmount(6,0);
 
         //Default hangboard program (65min)
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 // Lets change the HangBoard for every swipe
                 // everyBoard.NewBoard(res,CustomSwipeAdapter.getHangBoard(position));
                 // Every HangBoard has different unique holds
-                everyBoard.InitializeHolds(res, CustomSwipeAdapter.getHangBoard(position));
+                everyBoard.initializeHolds(res, CustomSwipeAdapter.getHangBoard(position));
                 holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
                         R.layout.mytextview , everyBoard.setGrips(grade_descr_position));
                 holdsListView.setAdapter(holdsAdapter);
@@ -417,6 +417,8 @@ public class MainActivity extends AppCompatActivity {
 
         int menuItemIndex = info.position;
 
+        // with item.getItemId() we can extract the data which hand hold or grip type was selected
+        // not very elegant way at all
         everyBoard.addCustomHold(item.getItemId(),info.position);
 
         holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
@@ -428,8 +430,6 @@ public class MainActivity extends AppCompatActivity {
 
         Float multiplyer_w = imageView.getWidth() / 350F;
         Float multiplyer_h = imageView.getHeight() / 150F;
-
-
 
         leftFingerImage.setImageResource(everyBoard.getLeftFingerImage(menuItemIndex));
         leftFingerImage.setX(everyBoard.getCoordLeftX(menuItemIndex)* multiplyer_w);

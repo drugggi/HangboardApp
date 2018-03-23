@@ -14,6 +14,7 @@ public class HangBoard {
 
     private String[] grades;
     CustomSwipeAdapter.hangboard current_board;
+    int[] hold_coordinates;
 
     // All possible grip types in a hangboard
     private Hold[] all_hold_values;
@@ -101,27 +102,41 @@ public class HangBoard {
         return max;
     }
 
+    // NEEDS MAJOR REFACTORING
+    // addCustomHold method manipulates Hold information at selected position. If info is more than twice
+    // the size of maximun hold number at a given hangboard, then the user selected different grip type.
+    // We also have to do dirty copying
     public void addCustomHold(int info, int position) {
         int max = getMaxHoldNumber();
         Hold customHold;
 
+        //int[] coordinates = jes.getCoordinates(current_board);
 
+        // User selected a different hold number for hand
         if (info < 2*max) {
             int holdnumber = (info+2)/2;
             customHold = new Hold(holdnumber);
+            //customHold.setHoldCoordinates(hold_coordinates);
 
             int i = 0;
             while (i < all_hold_values.length) {
                 if (all_hold_values[i].getHoldNumber() == holdnumber) {break; }
                 i++;
             }
+
+            // REFACTORING NEEDED!
+            // There is a possibility that (for example pinch holds) hold number is not found.
+            // Lets set i to a safe value. coordinates must searched in a better way in future
+            if (i == all_hold_values.length) { i = 0; }
             customHold.setLeftCoordX(all_hold_values[i].getLeftCoordX());
             customHold.setLeftCoordY(all_hold_values[i].getLeftCoordY());
             customHold.setRightCoordX(all_hold_values[i].getRightCoordX());
             customHold.setRightCoordY(all_hold_values[i].getRightCoordY());
 
-            int[] coordinates = {valueList.get(position*2).getLeftCoordX(), valueList.get(position*2).getLeftCoordY(),
-                    valueList.get(position*2+1).getRightCoordX(), valueList.get(position*2+1).getRightCoordY()};
+            //int[] coordinates = {valueList.get(position*2).getLeftCoordX(), valueList.get(position*2).getLeftCoordY(),
+              //      valueList.get(position*2+1).getRightCoordX(), valueList.get(position*2+1).getRightCoordY()};
+
+
 
             //Left hand
             if (info % 2 == 0) {
@@ -383,29 +398,114 @@ public class HangBoard {
         }
         return search_point;
     }
+    // initializeHolds method collects from resources all the possible grip types, hold numbers,
+    // coordinates and difficulties that a Hangboard can have. Those will be stored in all_hold_values
+    // and they are randomized so that when a hold is picked it will be random.
+    public void initializeHolds(Resources res, CustomSwipeAdapter.hangboard new_board) {
+        current_board = new_board;
+        int[] hold_values = res.getIntArray(R.array.grip_values_bm1000);
+        
+        switch (new_board) {
+            case BM1000:
+                hold_values = res.getIntArray(R.array.grip_values_bm1000);
+                hold_coordinates = res.getIntArray(R.array.bm1000_coordinates);
+                break;
+            case BM2000:
+                hold_values = res.getIntArray(R.array.grip_values_bm2000);
+                hold_coordinates = res.getIntArray(R.array.bm2000_coordinates);
+                break;
+            case TRANS:
+                hold_values = res.getIntArray(R.array.grip_values_trans);
+                hold_coordinates = res.getIntArray(R.array.trans_coordinates);
+                break;
+            case TENSION:
+                hold_values = res.getIntArray(R.array.grip_values_tension);
+                hold_coordinates = res.getIntArray(R.array.tension_coordinates);
+                break;
+            case ZLAG:
+                hold_values = res.getIntArray(R.array.grip_values_zlag);
+                hold_coordinates = res.getIntArray(R.array.zlag_coordinates);
+                break;
+            case MOONHARD:
+                hold_values = res.getIntArray(R.array.grip_values_moonhard);
+                hold_coordinates = res.getIntArray(R.array.moonhard_coordinates);
+                break;
+            case MOONEASY:
+                hold_values = res.getIntArray(R.array.grip_values_mooneasy);
+                hold_coordinates = res.getIntArray(R.array.mooneasy_coordinates);
+                break;
+            case METO:
+                hold_values = res.getIntArray(R.array.grip_values_meto);
+                hold_coordinates = res.getIntArray(R.array.meto_coordinates);
+                break;
+            case ROCKPRODIGY:
+                hold_values = res.getIntArray(R.array.grip_values_rockprodigy);
+                hold_coordinates = res.getIntArray(R.array.rockprodigy_coordinates);
+                break;
+            case PROBLEMSOLVER:
+                hold_values = res.getIntArray(R.array.grip_values_problemsolver);
+                hold_coordinates = res.getIntArray(R.array.problemsolver_coordinates);
+                break;
+            case METO_CONTACT:
+                hold_values = res.getIntArray(R.array.grip_values_meto_contact);
+                hold_coordinates = res.getIntArray(R.array.meto_contact_coordinates);
+                break;
+            case METO_WOOD:
+                hold_values = res.getIntArray(R.array.grip_values_meto_wood);
+                hold_coordinates = res.getIntArray(R.array.meto_wood_coordinates);
+                break;
+        }
 
-    // REFACTOR INITAILIZEHOLDS METHOD!!!
+        // Lets put all the possible holds that hangboard can have into all_hold_values
+        int hold_position = 0;
+        all_hold_values = new Hold[hold_values.length/3];
+
+        while (hold_position/3 < all_hold_values.length) {
+            all_hold_values[hold_position/3] = new Hold(hold_values[hold_position]);
+            hold_position++;
+            all_hold_values[hold_position/3].setHoldCoordinates(hold_coordinates);
+            all_hold_values[hold_position/3].setHoldValue(hold_values[hold_position]);
+            hold_position++;
+            all_hold_values[hold_position/3].setGripTypeAndSingleHang(hold_values[hold_position]);
+            hold_position++;
+        }
+        // The positions must be randomized so that GiveHoldWithValue method
+        // doesn't favor one hold above the other (next)
+        Hold temp;
+        int index;
+        Random random = new Random();
+        for (int i = all_hold_values.length - 1; i > 0; i--)
+        {
+            index = random.nextInt(i + 1);
+            temp = all_hold_values[index];
+            all_hold_values[index] = all_hold_values[i];
+            all_hold_values[i] = temp;
+        }
+        setGrips(0);
+    }
+    
+    
 
     // InitializeHolds method collects from resources all the possible grip types, hold numbers
     // and difficulties that a Hangboard can have. Those will be stored in all_hold_values
     // and they are randomized so that when a hold is picked it will be random.
-    public void InitializeHolds(Resources res, CustomSwipeAdapter.hangboard new_board) {
+    public void OLDInitializeHolds(Resources res, CustomSwipeAdapter.hangboard new_board) {
         current_board = new_board;
 
-        int hold_pos = 0;
+        int hold_position = 0;
         if (current_board == CustomSwipeAdapter.hangboard.BM1000) {
             int[] arvot = res.getIntArray(R.array.grip_values_bm1000);
 
             all_hold_values = new Hold[arvot.length/3];
 
-            while (hold_pos/3 < all_hold_values.length) {
-                all_hold_values[hold_pos/3] = new Hold(arvot[hold_pos]);
-                hold_pos++;
-                all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.bm1000_coordinates));
-                all_hold_values[hold_pos/3].setHoldValue(arvot[hold_pos]);
-                hold_pos++;
-                all_hold_values[hold_pos/3].setGripTypeAndSingleHang(arvot[hold_pos]);
-                hold_pos++;
+            while (hold_position/3 < all_hold_values.length) {
+                all_hold_values[hold_position/3] = new Hold(arvot[hold_position]);
+                hold_position++;
+                all_hold_values[hold_position/3].setHoldCoordinates(res.getIntArray(R.array.bm1000_coordinates));
+                all_hold_values[hold_position/3].setHoldValue(arvot[hold_position]);
+                hold_position++;
+                all_hold_values[hold_position/3].setGripTypeAndSingleHang(arvot[hold_position]);
+                hold_position++;
             }
         }
 
@@ -414,14 +514,14 @@ public class HangBoard {
 
             all_hold_values = new Hold[arvot.length/3];
 
-            while (hold_pos/3 < all_hold_values.length) {
-                all_hold_values[hold_pos/3] = new Hold(arvot[hold_pos]);
-                hold_pos++;
-                all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.bm2000_coordinates));
-                all_hold_values[hold_pos/3].setHoldValue(arvot[hold_pos]);
-                hold_pos++;
-                all_hold_values[hold_pos/3].setGripTypeAndSingleHang(arvot[hold_pos]);
-                hold_pos++;
+            while (hold_position/3 < all_hold_values.length) {
+                all_hold_values[hold_position/3] = new Hold(arvot[hold_position]);
+                hold_position++;
+                all_hold_values[hold_position/3].setHoldCoordinates(res.getIntArray(R.array.bm2000_coordinates));
+                all_hold_values[hold_position/3].setHoldValue(arvot[hold_position]);
+                hold_position++;
+                all_hold_values[hold_position/3].setGripTypeAndSingleHang(arvot[hold_position]);
+                hold_position++;
             }
         }
 
@@ -430,14 +530,14 @@ public class HangBoard {
 
             all_hold_values = new Hold[arvot.length/3];
 
-            while (hold_pos/3 < all_hold_values.length) {
-                all_hold_values[hold_pos/3] = new Hold(arvot[hold_pos]);
-                hold_pos++;
-                all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.trans_coordinates));
-                all_hold_values[hold_pos/3].setHoldValue(arvot[hold_pos]);
-                hold_pos++;
-                all_hold_values[hold_pos/3].setGripTypeAndSingleHang(arvot[hold_pos]);
-                hold_pos++;
+            while (hold_position/3 < all_hold_values.length) {
+                all_hold_values[hold_position/3] = new Hold(arvot[hold_position]);
+                hold_position++;
+                all_hold_values[hold_position/3].setHoldCoordinates(res.getIntArray(R.array.trans_coordinates));
+                all_hold_values[hold_position/3].setHoldValue(arvot[hold_position]);
+                hold_position++;
+                all_hold_values[hold_position/3].setGripTypeAndSingleHang(arvot[hold_position]);
+                hold_position++;
             }
         }
 
@@ -446,14 +546,14 @@ public class HangBoard {
 
             all_hold_values = new Hold[arvot.length/3];
 
-            while (hold_pos/3 < all_hold_values.length) {
-                all_hold_values[hold_pos/3] = new Hold(arvot[hold_pos]);
-                hold_pos++;
-                all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.tension_coordinates));
-                all_hold_values[hold_pos/3].setHoldValue(arvot[hold_pos]);
-                hold_pos++;
-                all_hold_values[hold_pos/3].setGripTypeAndSingleHang(arvot[hold_pos]);
-                hold_pos++;
+            while (hold_position/3 < all_hold_values.length) {
+                all_hold_values[hold_position/3] = new Hold(arvot[hold_position]);
+                hold_position++;
+                all_hold_values[hold_position/3].setHoldCoordinates(res.getIntArray(R.array.tension_coordinates));
+                all_hold_values[hold_position/3].setHoldValue(arvot[hold_position]);
+                hold_position++;
+                all_hold_values[hold_position/3].setGripTypeAndSingleHang(arvot[hold_position]);
+                hold_position++;
             }
         }
 
@@ -462,14 +562,14 @@ public class HangBoard {
 
             all_hold_values = new Hold[arvot.length/3];
 
-            while (hold_pos/3 < all_hold_values.length) {
-                all_hold_values[hold_pos/3] = new Hold(arvot[hold_pos]);
-                hold_pos++;
-                all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.zlag_coordinates));
-                all_hold_values[hold_pos/3].setHoldValue(arvot[hold_pos]);
-                hold_pos++;
-                all_hold_values[hold_pos/3].setGripTypeAndSingleHang(arvot[hold_pos]);
-                hold_pos++;
+            while (hold_position/3 < all_hold_values.length) {
+                all_hold_values[hold_position/3] = new Hold(arvot[hold_position]);
+                hold_position++;
+                all_hold_values[hold_position/3].setHoldCoordinates(res.getIntArray(R.array.zlag_coordinates));
+                all_hold_values[hold_position/3].setHoldValue(arvot[hold_position]);
+                hold_position++;
+                all_hold_values[hold_position/3].setGripTypeAndSingleHang(arvot[hold_position]);
+                hold_position++;
             }
         }
 
@@ -478,14 +578,14 @@ public class HangBoard {
 
             all_hold_values = new Hold[arvot.length/3];
 
-            while (hold_pos/3 < all_hold_values.length) {
-                all_hold_values[hold_pos/3] = new Hold(arvot[hold_pos]);
-                hold_pos++;
-                all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.moonhard_coordinates));
-                all_hold_values[hold_pos/3].setHoldValue(arvot[hold_pos]);
-                hold_pos++;
-                all_hold_values[hold_pos/3].setGripTypeAndSingleHang(arvot[hold_pos]);
-                hold_pos++;
+            while (hold_position/3 < all_hold_values.length) {
+                all_hold_values[hold_position/3] = new Hold(arvot[hold_position]);
+                hold_position++;
+                all_hold_values[hold_position/3].setHoldCoordinates(res.getIntArray(R.array.moonhard_coordinates));
+                all_hold_values[hold_position/3].setHoldValue(arvot[hold_position]);
+                hold_position++;
+                all_hold_values[hold_position/3].setGripTypeAndSingleHang(arvot[hold_position]);
+                hold_position++;
             }
         }
 
@@ -494,14 +594,14 @@ public class HangBoard {
 
             all_hold_values = new Hold[arvot.length/3];
 
-            while (hold_pos/3 < all_hold_values.length) {
-                all_hold_values[hold_pos/3] = new Hold(arvot[hold_pos]);
-                hold_pos++;
-                all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.mooneasy_coordinates));
-                all_hold_values[hold_pos/3].setHoldValue(arvot[hold_pos]);
-                hold_pos++;
-                all_hold_values[hold_pos/3].setGripTypeAndSingleHang(arvot[hold_pos]);
-                hold_pos++;
+            while (hold_position/3 < all_hold_values.length) {
+                all_hold_values[hold_position/3] = new Hold(arvot[hold_position]);
+                hold_position++;
+                all_hold_values[hold_position/3].setHoldCoordinates(res.getIntArray(R.array.mooneasy_coordinates));
+                all_hold_values[hold_position/3].setHoldValue(arvot[hold_position]);
+                hold_position++;
+                all_hold_values[hold_position/3].setGripTypeAndSingleHang(arvot[hold_position]);
+                hold_position++;
             }
         }
         else if (current_board == CustomSwipeAdapter.hangboard.METO ) {
@@ -509,14 +609,14 @@ public class HangBoard {
 
             all_hold_values = new Hold[arvot.length/3];
 
-            while (hold_pos/3 < all_hold_values.length) {
-                all_hold_values[hold_pos/3] = new Hold(arvot[hold_pos]);
-                hold_pos++;
-                all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.meto_coordinates));
-                all_hold_values[hold_pos/3].setHoldValue(arvot[hold_pos]);
-                hold_pos++;
-                all_hold_values[hold_pos/3].setGripTypeAndSingleHang(arvot[hold_pos]);
-                hold_pos++;
+            while (hold_position/3 < all_hold_values.length) {
+                all_hold_values[hold_position/3] = new Hold(arvot[hold_position]);
+                hold_position++;
+                all_hold_values[hold_position/3].setHoldCoordinates(res.getIntArray(R.array.meto_coordinates));
+                all_hold_values[hold_position/3].setHoldValue(arvot[hold_position]);
+                hold_position++;
+                all_hold_values[hold_position/3].setGripTypeAndSingleHang(arvot[hold_position]);
+                hold_position++;
             }
         }
 
@@ -525,14 +625,14 @@ public class HangBoard {
 
             all_hold_values = new Hold[arvot.length/3];
 
-            while (hold_pos/3 < all_hold_values.length) {
-                all_hold_values[hold_pos/3] = new Hold(arvot[hold_pos]);
-                hold_pos++;
-                all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.rockprodigy_coordinates));
-                all_hold_values[hold_pos/3].setHoldValue(arvot[hold_pos]);
-                hold_pos++;
-                all_hold_values[hold_pos/3].setGripTypeAndSingleHang(arvot[hold_pos]);
-                hold_pos++;
+            while (hold_position/3 < all_hold_values.length) {
+                all_hold_values[hold_position/3] = new Hold(arvot[hold_position]);
+                hold_position++;
+                all_hold_values[hold_position/3].setHoldCoordinates(res.getIntArray(R.array.rockprodigy_coordinates));
+                all_hold_values[hold_position/3].setHoldValue(arvot[hold_position]);
+                hold_position++;
+                all_hold_values[hold_position/3].setGripTypeAndSingleHang(arvot[hold_position]);
+                hold_position++;
             }
         }
         else if (current_board == CustomSwipeAdapter.hangboard.PROBLEMSOLVER ) {
@@ -540,14 +640,14 @@ public class HangBoard {
 
             all_hold_values = new Hold[arvot.length/3];
 
-            while (hold_pos/3 < all_hold_values.length) {
-                all_hold_values[hold_pos/3] = new Hold(arvot[hold_pos]);
-                hold_pos++;
-                all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.problemsolver_coordinates));
-                all_hold_values[hold_pos/3].setHoldValue(arvot[hold_pos]);
-                hold_pos++;
-                all_hold_values[hold_pos/3].setGripTypeAndSingleHang(arvot[hold_pos]);
-                hold_pos++;
+            while (hold_position/3 < all_hold_values.length) {
+                all_hold_values[hold_position/3] = new Hold(arvot[hold_position]);
+                hold_position++;
+                all_hold_values[hold_position/3].setHoldCoordinates(res.getIntArray(R.array.problemsolver_coordinates));
+                all_hold_values[hold_position/3].setHoldValue(arvot[hold_position]);
+                hold_position++;
+                all_hold_values[hold_position/3].setGripTypeAndSingleHang(arvot[hold_position]);
+                hold_position++;
             }
         }
 
@@ -556,14 +656,14 @@ public class HangBoard {
 
             all_hold_values = new Hold[arvot.length/3];
 
-            while (hold_pos/3 < all_hold_values.length) {
-                all_hold_values[hold_pos/3] = new Hold(arvot[hold_pos]);
-                hold_pos++;
-                all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.meto_contact_coordinates));
-                all_hold_values[hold_pos/3].setHoldValue(arvot[hold_pos]);
-                hold_pos++;
-                all_hold_values[hold_pos/3].setGripTypeAndSingleHang(arvot[hold_pos]);
-                hold_pos++;
+            while (hold_position/3 < all_hold_values.length) {
+                all_hold_values[hold_position/3] = new Hold(arvot[hold_position]);
+                hold_position++;
+                all_hold_values[hold_position/3].setHoldCoordinates(res.getIntArray(R.array.meto_contact_coordinates));
+                all_hold_values[hold_position/3].setHoldValue(arvot[hold_position]);
+                hold_position++;
+                all_hold_values[hold_position/3].setGripTypeAndSingleHang(arvot[hold_position]);
+                hold_position++;
             }
         }
 
@@ -572,14 +672,14 @@ public class HangBoard {
 
             all_hold_values = new Hold[arvot.length/3];
 
-            while (hold_pos/3 < all_hold_values.length) {
-                all_hold_values[hold_pos/3] = new Hold(arvot[hold_pos]);
-                hold_pos++;
-                all_hold_values[hold_pos/3].setHoldCoordinates(res.getIntArray(R.array.meto_wood_coordinates));
-                all_hold_values[hold_pos/3].setHoldValue(arvot[hold_pos]);
-                hold_pos++;
-                all_hold_values[hold_pos/3].setGripTypeAndSingleHang(arvot[hold_pos]);
-                hold_pos++;
+            while (hold_position/3 < all_hold_values.length) {
+                all_hold_values[hold_position/3] = new Hold(arvot[hold_position]);
+                hold_position++;
+                all_hold_values[hold_position/3].setHoldCoordinates(res.getIntArray(R.array.meto_wood_coordinates));
+                all_hold_values[hold_position/3].setHoldValue(arvot[hold_position]);
+                hold_position++;
+                all_hold_values[hold_position/3].setGripTypeAndSingleHang(arvot[hold_position]);
+                hold_position++;
             }
         }
 

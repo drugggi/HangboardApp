@@ -18,6 +18,7 @@ public class CustomSwipeAdapter extends PagerAdapter {
     R.drawable.rockprodigy, R.drawable.problemsolver, R.drawable.meto_contact, R.drawable.meto_wood};
     private Context ctx;
     private LayoutInflater layoutInflater;
+    int[] coordinates;
 
     public enum hangboard {BM1000,BM2000, TRANS, TENSION, ZLAG, MOONHARD, MOONEASY, METO,
         ROCKPRODIGY, PROBLEMSOLVER,METO_CONTACT, METO_WOOD};
@@ -37,6 +38,7 @@ public class CustomSwipeAdapter extends PagerAdapter {
         else if (position == 11) {return hangboard.METO_WOOD; }
         else {return hangboard.BM1000; }
     }
+    
 
     public int getImageResource(int position) {
         return image_resources[position];
