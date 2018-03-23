@@ -103,6 +103,8 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 rightFingerImage.setVisibility(View.INVISIBLE);
                 leftFingerImage.setVisibility(View.INVISIBLE);
+                durationSeekBar.setVisibility(View.VISIBLE);
+                repeatersBox.setVisibility(View.VISIBLE);
 
                 // Lets change the HangBoard for every swipe
                 // everyBoard.NewBoard(res,CustomSwipeAdapter.getHangBoard(position));
@@ -129,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 if (durationSeekBar.getProgress() == 4) {
-                    Toast.makeText(MainActivity.this, "There is no grades in \"TEST progression\" program", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, "There is no grades in \"progression TEST\" program", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -370,7 +372,7 @@ public class MainActivity extends AppCompatActivity {
                 if (progress == 4) {
                     gradesListView.setVisibility(View.INVISIBLE);
 
-                    durationTextView.setText("TEST progression");
+                    durationTextView.setText("progression TEST");
                     timeControls.setProgramBasedOnTime(20 + progress * 15);
 
                     everyBoard.sortHoldByDifficulty();

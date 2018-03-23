@@ -62,8 +62,6 @@
         <item>102</item>
 
     </integer-array>
-
-
     <integer-array name="bm2000_coordinates">
         <!--                        LEFT  HAND                          RIGHT   HAND      -->
         <!--hold number     X coord         Y coord                 X coord        Y coord    -->
@@ -144,7 +142,6 @@
         <item>102</item>
 
     </integer-array>
-
     <integer-array name="trans_coordinates">
         <!--                        LEFT  HAND                          RIGHT   HAND      -->
         <!--hold number     X coord         Y coord                 X coord        Y coord    -->
@@ -245,7 +242,6 @@
         <item>102</item>
 
     </integer-array>
-
     <integer-array name="zlag_coordinates">
         <!--                        LEFT  HAND                          RIGHT   HAND      -->
         <!--hold number     X coord         Y coord                 X coord        Y coord    -->
@@ -326,7 +322,6 @@
         <item>93</item>
 
     </integer-array>
-
     <integer-array name="moonhard_coordinates">
         <!--                        LEFT  HAND                          RIGHT   HAND      -->
         <!--hold number     X coord         Y coord                 X coord        Y coord    -->
@@ -371,49 +366,18 @@
         <item>140</item>
         <item>89</item>
     </integer-array>
-
-
     <integer-array name="mooneasy_coordinates">
         <!--                        LEFT  HAND                          RIGHT   HAND      -->
         <!--hold number     X coord         Y coord                 X coord        Y coord    -->
-        <item>1</item>
-        <item>11</item>
-        <item>29</item>
-        <item>270</item>
-        <item>29</item>
-        <item>2</item>
-        <item>70</item>
-        <item>40</item>
-        <item>104</item>
-        <item>81</item>
-        <item>3</item>
-        <item>120</item>
-        <item>28</item>
-        <item>165</item>
-        <item>28</item>
-        <item>4</item>
-        <item>11</item>
-        <item>58</item>
-        <item>270</item>
-        <item>58</item>
-        <item>5</item>
-        <item>11</item>
-        <item>79</item>
-        <item>270</item>
-        <item>79</item>
-        <item>6</item>
-        <item>70</item>
-        <item>74</item>
-        <item>206</item>
-        <item>74</item>
-        <item>7</item>
-        <item>118</item>
-        <item>86</item>
-        <item>160</item>
-        <item>86</item>
+        <item>1</item><item>11</item><item>29</item><item>270</item><item>29</item>
+        <item>2</item><item>70</item><item>40</item><item>206</item><item>40</item>
+        <item>3</item><item>120</item><item>28</item><item>165</item><item>28</item>
+        <item>4</item><item>11</item><item>58</item><item>270</item><item>58</item>
+        <item>5</item><item>11</item><item>79</item><item>270</item><item>79</item>
+        <item>6</item><item>70</item><item>74</item><item>206</item><item>74</item>
+        <item>7</item><item>118</item><item>86</item><item>160</item><item>86</item>
 
     </integer-array>
-
     <integer-array name="meto_coordinates">
         <!--                        LEFT  HAND                          RIGHT   HAND      -->
         <!--hold number     X coord         Y coord                 X coord        Y coord    -->
@@ -509,7 +473,6 @@
         <item>108</item>
 
     </integer-array>
-
     <integer-array name="rockprodigy_coordinates">
         <!--                        LEFT  HAND                          RIGHT   HAND      -->
         <!--hold number     X coord         Y coord                 X coord        Y coord    -->
@@ -529,7 +492,6 @@
 
 
     </integer-array>
-
     <integer-array name="problemsolver_coordinates">
         <!--                        LEFT  HAND                          RIGHT   HAND      -->
         <!--hold number     X coord         Y coord                 X coord        Y coord    -->
@@ -586,7 +548,6 @@
 
 
     </integer-array>
-
     <integer-array name="meto_contact_coordinates">
         <!--                        LEFT  HAND                          RIGHT   HAND      -->
         <!--hold number     X coord         Y coord                 X coord        Y coord    -->
@@ -611,7 +572,6 @@
         <item>19</item> <item>116</item> <item>103</item>           <item>167</item> <item>103</item>
 
     </integer-array>
-
     <integer-array name="meto_wood_coordinates">
         <!--                        LEFT  HAND                          RIGHT   HAND      -->
         <!--hold number     X coord         Y coord                 X coord        Y coord    -->
@@ -901,19 +861,11 @@
 
 
     <integer-array name="grip_values_bm2000">
-        <item>1</item>
-        <item>100</item>
-        <item>10</item> <!-- griptype: four fingers-->
+        <item>1</item><item>100</item><item>10</item> <!-- griptype: four fingers-->
 
-        <item>2</item>
-        <item>23</item>
-        <item>10</item> <!-- griptype and single hold -->
-        <item>2</item>
-        <item>70</item>
-        <item>20</item> <!-- griptype and single hold -->
-        <item>2</item>
-        <item>75</item>
-        <item>30</item> <!-- griptype and single hold -->
+        <item>2</item><item>23</item><item>10</item> <!-- griptype and single hold -->
+        <item>2</item><item>70</item><item>20</item> <!-- griptype and single hold -->
+        <item>2</item><item>75</item><item>30</item> <!-- griptype and single hold -->
 
         <item>3</item>
         <item>3</item>
@@ -949,18 +901,10 @@
         <item>11</item>
         <item>30</item> <!-- griptype and single hold -->
 
-        <item>7</item>
-        <item>169</item>
-        <item>70</item> <!-- index finger -->
-        <item>7</item>
-        <item>69</item>
-        <item>80</item> <!-- middlre finger -->
-        <item>7</item>
-        <item>250</item>
-        <item>90</item> <!-- ring finger -->
-        <item>7</item>
-        <item>499</item>
-        <item>100</item> <!-- pinky -->
+        <item>7</item><item>139</item><item>70</item> <!-- index finger -->
+        <item>7</item><item>69</item><item>80</item> <!-- middlre finger -->
+        <item>7</item><item>150</item><item>90</item> <!-- ring finger -->
+        <item>7</item><item>195</item><item>100</item> <!-- pinky -->
 
         <item>8</item>
         <item>14</item>
@@ -1002,15 +946,10 @@
         <item>25</item>
         <item>30</item> <!-- griptype and single hold -->
 
-        <item>12</item>
-        <item>300</item>
-        <item>70</item> <!-- index finger -->
-        <item>12</item>
-        <item>250</item>
-        <item>80</item> <!-- middlre finger -->
-        <item>12</item>
-        <item>500</item>
-        <item>90</item> <!-- ring finger -->
+        <item>12</item><item>170</item><item>70</item> <!-- index finger -->
+        <item>12</item><item>125</item><item>80</item> <!-- middlre finger -->
+        <item>12</item><item>350</item><item>90</item> <!-- ring finger -->
+        <item>12</item><item>450</item><item>100</item>
 
         <item>13</item>
         <item>400</item>
@@ -1056,10 +995,10 @@
         <item>2</item>
         <item>30</item> <!-- three back -->
         <item>1</item>
-        <item>11</item>
+        <item>13</item>
         <item>40</item> <!-- two front -->
         <item>1</item>
-        <item>9</item>
+        <item>11</item>
         <item>50</item> <!-- two middle -->
         <item>1</item>
         <item>31</item>
@@ -1546,82 +1485,39 @@
 
     </integer-array>
     <integer-array name="grip_values_mooneasy">
-        <item>1</item>
-        <item>5</item>
-        <item>10</item> <!-- four -->
-        <item>1</item>
-        <item>15</item>
-        <item>20</item> <!-- three front -->
-        <item>1</item>
-        <item>17</item>
-        <item>30</item> <!-- three back -->
-        <item>1</item>
-        <item>80</item>
-        <item>40</item> <!-- three back -->
-        <item>1</item>
-        <item>68</item>
-        <item>50</item> <!-- three back -->
-        <item>1</item>
-        <item>134</item>
-        <item>60</item> <!-- three back -->
+        <item>1</item><item>2</item><item>10</item> <!-- four -->
+        <item>1</item><item>3</item><item>20</item> <!-- three front -->
+        <item>1</item><item>4</item><item>30</item> <!-- three back -->
+        <item>1</item><item>30</item><item>40</item>
+        <item>1</item><item>25</item><item>50</item>
+        <item>1</item><item>46</item><item>60</item>
 
-        <item>2</item>
-        <item>45</item>
-        <item>10</item> <!-- three back -->
+        <item>2</item><item>7</item><item>10</item> <!-- three back -->
+        <item>2</item><item>9</item><item>20</item> <!-- three back -->
+        <item>2</item><item>11</item><item>30</item> <!-- three back -->
 
-        <item>3</item>
-        <item>9</item>
-        <item>10</item> <!-- four -->
-        <item>3</item>
-        <item>20</item>
-        <item>20</item> <!-- three front -->
-        <item>3</item>
-        <item>23</item>
-        <item>30</item> <!-- three back -->
+        <item>3</item><item>3</item><item>10</item> <!-- four -->
+        <item>3</item><item>5</item><item>20</item> <!-- three front -->
+        <item>3</item><item>6</item><item>30</item> <!-- three back -->
 
-        <item>4</item>
-        <item>12</item>
-        <item>10</item> <!-- four -->
-        <item>4</item>
-        <item>25</item>
-        <item>20</item> <!-- three front -->
-        <item>4</item>
-        <item>29</item>
-        <item>30</item> <!-- three back -->
-        <item>4</item>
-        <item>123</item>
-        <item>40</item> <!-- three back -->
-        <item>4</item>
-        <item>113</item>
-        <item>50</item> <!-- three back -->
+        <item>4</item><item>8</item><item>10</item> <!-- four -->
+        <item>4</item><item>11</item><item>20</item> <!-- three front -->
+        <item>4</item><item>13</item><item>30</item> <!-- three back -->
+        <item>4</item><item>45</item><item>40</item> <!-- three back -->
+        <item>4</item><item>35</item><item>50</item> <!-- three back -->
+        <item>4</item><item>66</item><item>60</item>
 
-        <item>5</item>
-        <item>70</item>
-        <item>10</item> <!-- four fingers -->
-        <item>5</item>
-        <item>200</item>
-        <item>20</item> <!-- four fingers -->
-        <item>5</item>
-        <item>250</item>
-        <item>30</item> <!-- four fingers -->
+        <item>5</item><item>10</item><item>10</item> <!-- four fingers -->
+        <item>5</item><item>13</item><item>20</item> <!-- four fingers -->
+        <item>5</item><item>15</item><item>30</item> <!-- four fingers -->
 
-        <item>6</item>
-        <item>19</item>
-        <item>10</item> <!-- four -->
-        <item>6</item>
-        <item>75</item>
-        <item>20</item> <!-- three front -->
-        <item>6</item>
-        <item>80</item>
-        <item>30</item> <!-- three back -->
+        <item>6</item><item>15</item><item>10</item> <!-- four -->
+        <item>6</item><item>17</item><item>20</item> <!-- three front -->
+        <item>6</item><item>19</item><item>30</item> <!-- three back -->
 
-
-        <item>7</item>
-        <item>113</item>
-        <item>40</item> <!-- two front -->
-        <item>7</item>
-        <item>98</item>
-        <item>50</item> <!-- two middle -->
+        <item>7</item><item>29</item><item>40</item> <!-- two front -->
+        <item>7</item><item>18</item> <item>50</item> <!-- two middle -->
+        <item>7</item><item>48</item> <item>60</item>
 
     </integer-array>
 
