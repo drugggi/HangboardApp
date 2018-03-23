@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                 holdsListView.setAdapter(holdsAdapter);
                 durationSeekBar.setProgress(3);
 
-                randomizeBtn.setText("Randomize ALL");
+                randomizeBtn.setText("New "+ everyBoard.getGrade(grade_descr_position)+ " Workout");
                 hang_descr_position = 0;
             }
 
@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                // This is useless now that gradeslistview visibility is set to invisible
                 if (durationSeekBar.getProgress() == 4) {
                     Toast.makeText(MainActivity.this, "There is no grades in \"progression TEST\" program", Toast.LENGTH_LONG).show();
                     return;
@@ -144,12 +145,12 @@ public class MainActivity extends AppCompatActivity {
                 leftFingerImage.setVisibility(View.INVISIBLE);
 
                 grade_descr_position = gradesListView.getPositionForView(view);
-
+/*
                 holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
                         R.layout.mytextview , everyBoard.setGrips(grade_descr_position));
-                holdsListView.setAdapter(holdsAdapter);
+                holdsListView.setAdapter(holdsAdapter); */
 
-                randomizeBtn.setText("Randomize ALL");
+                randomizeBtn.setText("New "+ everyBoard.getGrade(grade_descr_position)+ " Workout");
                 hang_descr_position = 0;
 
 
@@ -181,9 +182,9 @@ public class MainActivity extends AppCompatActivity {
 
                     // Lets add every hold that hangboard has to the menu
                     while (i < 2*max) {
-                        menu.add(Menu.NONE, i, i, "HOLD: " + j + " left hand");
+                        menu.add(Menu.NONE, i, i, "HOLD: " + j + " for left hand");
                         i++;
-                        menu.add(Menu.NONE, i, i, "HOLD: " + j + " right hand");
+                        menu.add(Menu.NONE, i, i, "HOLD: " + j + " for right hand");
                         j++;
                         i++;
                     }
@@ -212,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 hang_descr_position = position+1;
-                randomizeBtn.setText("Randomize " + (hang_descr_position) +". hang" );
+                randomizeBtn.setText(hang_descr_position + ". New "+ everyBoard.getGrade(grade_descr_position) + " Hang" );
 
                 // holdsListView.setCacheColorHint(android.R.color.holo_blue_dark);
 

@@ -673,31 +673,31 @@ public class HangBoard {
     // Arbitrary grade values, what hold_values to search in a give grade
     // For example Grade 6c consist of hold that are betweent 7 and 18 in difficulty
     private static int getMinValue(String grade) {
-        if (grade.equals("5a")) {return 1;}
-        else if (grade.equals("5b")) {return 2;}
-        else if (grade.equals("5c")) {return 3;}
-        else if (grade.equals("6a")) {return 4;}
-        else if (grade.equals("6b")) {return 5;}
-        else if (grade.equals("6c")) {return 7;}
-        else if (grade.equals("7a")) {return 9;}
-        else if (grade.equals("7b")) {return 14;}
-        else if (grade.equals("7c")) {return 18;}
-        else if (grade.equals("8a")) {return 29;}
-        else if (grade.equals("8b")) {return 49;}
+        if (grade.equals("5A")) {return 1;}
+        else if (grade.equals("5B")) {return 2;}
+        else if (grade.equals("5C")) {return 3;}
+        else if (grade.equals("6A")) {return 4;}
+        else if (grade.equals("6B")) {return 5;}
+        else if (grade.equals("6C")) {return 7;}
+        else if (grade.equals("7A")) {return 9;}
+        else if (grade.equals("7B")) {return 14;}
+        else if (grade.equals("7C")) {return 18;}
+        else if (grade.equals("8A")) {return 29;}
+        else if (grade.equals("8B")) {return 49;}
         return 1;
     }
     private static int getMaxValue(String grade) {
-        if (grade.equals("5a")) {return 3;}
-        else if (grade.equals("5b")) {return 5;}
-        else if (grade.equals("5c")) {return 7;}
-        else if (grade.equals("6a")) {return 10;}
-        else if (grade.equals("6b")) {return 15;}
-        else if (grade.equals("6c")) {return 18;}
-        else if (grade.equals("7a")) {return 25;}
-        else if (grade.equals("7b")) {return 35;}
-        else if (grade.equals("7c")) {return 120;}
-        else if (grade.equals("8a")) {return 200;}
-        else if (grade.equals("8b")) {return 500;}
+        if (grade.equals("5A")) {return 3;}
+        else if (grade.equals("5B")) {return 5;}
+        else if (grade.equals("5C")) {return 7;}
+        else if (grade.equals("6A")) {return 10;}
+        else if (grade.equals("6B")) {return 15;}
+        else if (grade.equals("6C")) {return 18;}
+        else if (grade.equals("7A")) {return 25;}
+        else if (grade.equals("7B")) {return 35;}
+        else if (grade.equals("7C")) {return 120;}
+        else if (grade.equals("8A")) {return 200;}
+        else if (grade.equals("8B")) {return 500;}
         return 1;
     }
 
