@@ -588,152 +588,6 @@
 
     </integer-array>
 
-    <string-array name="grades">
-        <item>5A</item>
-        <item>5B</item>
-        <item>5C</item>
-        <item>6A</item>
-        <item>6B</item>
-        <item>6C</item>
-        <item>7A</item>
-        <item>7B</item>
-        <item>7C</item>
-        <item>8A</item>
-        <item>8B</item>
-    </string-array>
-
-
-    <string-array name="beastmaker1000">
-        <item>hold: 1 grip: four fingers\n
-            hold: 4 grip: four fingers\n
-            hold: 8 grip: three front\n
-            hold: 7 grip: two middle\n
-            hold: 10 grip: four finger chisel\n
-            hold: 3 grip: four fingers</item>
-        <item>hold: 6 grip: four fingers full crimp\n
-            hold: 3 grip: four fingers\n
-            hold: 6 grip: four fingers full crimp\n
-            hold: 5 grip: three front\n
-            hold: 7 grip: two middle\n
-            hold: 10 grip: four finger chisel</item>
-        <item>hold: 6 grip: four finger crimp\n
-            hold: 5 grip: three front\n
-            hold: 10 grip: four finger chisel\n
-            hold: 7 grip: two middle\n
-            hold: 3 grip: four finger\n
-            hold: 10 grip: four finger chisel</item>
-        <item>hold: 2/3 grip: four finger alternate\n
-            hold: 5 grip: three front\n
-            hold: 6 grip: four finger crimp\n
-            hold: 7 grip: two front\n
-             hold: 10 grip: four finger chisel\n
-            hold: 7 grip: two middle</item>
-        <item>hold: 10 grip: four finger chisel\n
-            hold: 2/3 grip: four finger alternate\n
-            hold: 10 grip: four finger chisel\n
-            hold: 5 grip: three front\n
-            hold: 7 grip: two middle\n
-            hold: 10 grip: four finger chisel</item>
-        <item>hold: 2/3 grip: four finger alternate\n
-            hold: 10 grip: four finger chisel\n
-            hold: 5 grip: three front\n
-            hold: 7/11 grip: two middle alternate\n
-            hold: 6 grip: four finger crimp\n
-            hold: 7 grip: two front</item>
-        <item>hold: 2 grip: four finger \n
-            hold: 10 grip: four finger chisel\n
-            hold: 5/10 grip: three front alternate\n
-            hold: 11 grip: two middle \n
-            hold: 10 grip: four finger chisel\n
-            hold: 7 grip: two front</item>
-        <item>hold: 2 grip: four finger \n
-            hold: 10 grip: four finger chisel\n
-            hold: 10/12 grip: three front alternate\n
-            hold: 11 grip: two middle \n
-            hold: 10 grip: four finger chisel\n
-            hold: 7 grip: two back</item>
-        <item>hold: 2 grip: four finger \n
-            hold: 4/10 four fingers alternate\n
-            hold: 10/12 grip three front alternate\n
-            hold: 11 grip: two middle \n
-            hold: 4/10 four fingers fullcrimp alternate\n
-            hold: 7 grip: 2 back</item>
-        <item>hold: 2 grip: four finger \n
-            hold: 4/10 four fingers halfcrimp alternate\n
-            hold: 10/12 grip three front alternate\n
-            hold: 11 grip: two middle \n
-            hold: 4 grip: four fingers\n
-            hold: 7 grip: 2 back
-        </item>
-    </string-array>
-    <string-array name="beastmaker2000">
-        <item>No Example program available. Click Randomize ALL\n
-            No Example program available. Click Randomize ALL\n
-            No Example program available. Click Randomize ALL\n
-            No Example program available. Click Randomize ALL\n
-            No Example program available. Click Randomize ALL\n
-            No Example program available. Click Randomize ALL</item>
-        <item>No Example program available. Click Randomize ALL\n
-            No Example program available. Click Randomize ALL\n
-            No Example program available. Click Randomize ALL\n
-            No Example program available. Click Randomize ALL\n
-            No Example program available. Click Randomize ALL\n
-            No Example program available. Click Randomize ALL</item>
-        <item>No Example program available. Click Randomize ALL\n
-            No Example program available. Click Randomize ALL\n
-            No Example program available. Click Randomize ALL\n
-            No Example program available. Click Randomize ALL\n
-            No Example program available. Click Randomize ALL\n
-            No Example program available. Click Randomize ALL</item>
-        <item>No Example program available. Click Randomize ALL\n
-            No Example program available. Click Randomize ALL\n
-            No Example program available. Click Randomize ALL\n
-            No Example program available. Click Randomize ALL\n
-            No Example program available. Click Randomize ALL\n
-            No Example program available. Click Randomize ALL</item>
-        <item>No Example program available. Click Randomize ALL\n
-            No Example program available. Click Randomize ALL\n
-            No Example program available. Click Randomize ALL\n
-            No Example program available. Click Randomize ALL\n
-            No Example program available. Click Randomize ALL\n
-            No Example program available. Click Randomize ALL</item>
-        <item>hold: 6 grip: four fingers\n
-            hold: 2/3 grip: four fingers alternate\n
-            hold: 6 grip: three front\n
-            hold: 2 grip: four fingers\n
-            hold: 9 grip: two middle\n
-            hold: 9 grip: two middle</item>
-        <item>hold: 6 grip: four fingers half crimp\n
-            hold: 2 grip: four fingers\n
-            hold: 5/6 grip: three front alternate\n
-            hold: 2 grip: four fingers\n
-            hold: 9/13 grip: two middle alternate\n
-            hold: 8 grip: two back</item>
-        <item>hold: 6/11 grip: four finger half crimp alternate\n
-            hold: 1/3 grip: four fingers alternate\n
-            hold: 4/11 grip: three front alternate\n
-            hold: 13 grip: two middle\n
-            hold: 8 grip: two back\n
-            hold: 9/13 grip: two front alternate</item>
-        <item>hold: 11/15 grip: four finger half crimp alternate\n
-            hold: 1/2 grip: four fingers alternate\n
-            hold: 4/11 grip: three front alternate\n
-            hold: 11 grip: four fingers half crimp\n
-            hold: 13 grip:2 two midlle\n
-            hold: 8 grip: two back</item>
-        <item>hold: 11 grip: four finger half crimp\n
-            hold: 1/2 grip: four fingers alternate\n
-            hold: 11 grip: three front\n
-            hold: 11 grip: four finger half crimp\n
-            hold: 13 grip: two middle\n
-            hold: 9 grip2: two back</item>
-        <item>hold: 11 grip: 3back half crimp\n
-            hold: 1 grip: four fingers \n
-            hold: 4 grip: three front one arm alternate\n
-            hold: 11 grip: three front half crimp\n
-            hold: 2 grip: four fingers one arm alternate\n
-            hold: 14grip: two middle</item>
-    </string-array>
     <integer-array name="grip_values_bm1000">
         <item>1</item>
         <item>1</item>
@@ -1339,7 +1193,6 @@
         <item>15</item><item>35</item><item>21</item> <!-- griptype and single hold -->
         <item>15</item><item>45</item><item>31</item> <!-- griptype and single hold -->
     </integer-array>
-
     <integer-array name="grip_values_moonhard">
         <item>1</item>
         <item>5</item>
@@ -1474,7 +1327,6 @@
         <item>7</item><item>48</item> <item>60</item>
 
     </integer-array>
-
     <integer-array name="grip_values_meto">
         <item>1</item><item>1</item><item>10</item> <!-- four -->
         <item>1</item><item>2</item><item>20</item> <!-- four -->
@@ -1542,7 +1394,6 @@
 
 
     </integer-array>
-
     <integer-array name="grip_values_rockprodigy">
 
         <item>2</item><item>4</item><item>10</item> <!-- four -->
@@ -1596,7 +1447,6 @@
         <item>13</item><item>105</item><item>60</item> <!-- four -->
 
     </integer-array>
-
     <integer-array name="grip_values_problemsolver">
 
         <item>1</item><item>1</item><item>10</item> <!-- four -->
@@ -1646,7 +1496,6 @@
         <item>10</item><item>30</item><item>31</item> <!-- four -->
 
     </integer-array>
-
     <integer-array name="grip_values_meto_contact">
         <item>1</item>     <item>1</item>       <item>10</item>
         <item>1</item>     <item>2</item>       <item>20</item>
@@ -1714,8 +1563,7 @@
         <item>19</item>     <item>17</item>       <item>30</item>
 
     </integer-array>
-
-<integer-array name="grip_values_meto_wood">
+    <integer-array name="grip_values_meto_wood">
     <item>1</item>     <item>1</item>       <item>10</item>
     <item>1</item>     <item>2</item>       <item>20</item>
     <item>1</item>     <item>2</item>       <item>30</item>
@@ -1757,6 +1605,151 @@
 
 </integer-array>
 
+    <string-array name="grades">
+        <item>5A</item>
+        <item>5B</item>
+        <item>5C</item>
+        <item>6A</item>
+        <item>6B</item>
+        <item>6C</item>
+        <item>7A</item>
+        <item>7B</item>
+        <item>7C</item>
+        <item>8A</item>
+        <item>8B</item>
+    </string-array>
+
+    <string-array name="beastmaker1000">
+        <item>hold: 1 grip: four fingers\n
+            hold: 4 grip: four fingers\n
+            hold: 8 grip: three front\n
+            hold: 7 grip: two middle\n
+            hold: 10 grip: four finger chisel\n
+            hold: 3 grip: four fingers</item>
+        <item>hold: 6 grip: four fingers full crimp\n
+            hold: 3 grip: four fingers\n
+            hold: 6 grip: four fingers full crimp\n
+            hold: 5 grip: three front\n
+            hold: 7 grip: two middle\n
+            hold: 10 grip: four finger chisel</item>
+        <item>hold: 6 grip: four finger crimp\n
+            hold: 5 grip: three front\n
+            hold: 10 grip: four finger chisel\n
+            hold: 7 grip: two middle\n
+            hold: 3 grip: four finger\n
+            hold: 10 grip: four finger chisel</item>
+        <item>hold: 2/3 grip: four finger alternate\n
+            hold: 5 grip: three front\n
+            hold: 6 grip: four finger crimp\n
+            hold: 7 grip: two front\n
+             hold: 10 grip: four finger chisel\n
+            hold: 7 grip: two middle</item>
+        <item>hold: 10 grip: four finger chisel\n
+            hold: 2/3 grip: four finger alternate\n
+            hold: 10 grip: four finger chisel\n
+            hold: 5 grip: three front\n
+            hold: 7 grip: two middle\n
+            hold: 10 grip: four finger chisel</item>
+        <item>hold: 2/3 grip: four finger alternate\n
+            hold: 10 grip: four finger chisel\n
+            hold: 5 grip: three front\n
+            hold: 7/11 grip: two middle alternate\n
+            hold: 6 grip: four finger crimp\n
+            hold: 7 grip: two front</item>
+        <item>hold: 2 grip: four finger \n
+            hold: 10 grip: four finger chisel\n
+            hold: 5/10 grip: three front alternate\n
+            hold: 11 grip: two middle \n
+            hold: 10 grip: four finger chisel\n
+            hold: 7 grip: two front</item>
+        <item>hold: 2 grip: four finger \n
+            hold: 10 grip: four finger chisel\n
+            hold: 10/12 grip: three front alternate\n
+            hold: 11 grip: two middle \n
+            hold: 10 grip: four finger chisel\n
+            hold: 7 grip: two back</item>
+        <item>hold: 2 grip: four finger \n
+            hold: 4/10 four fingers alternate\n
+            hold: 10/12 grip three front alternate\n
+            hold: 11 grip: two middle \n
+            hold: 4/10 four fingers fullcrimp alternate\n
+            hold: 7 grip: 2 back</item>
+        <item>hold: 2 grip: four finger \n
+            hold: 4/10 four fingers halfcrimp alternate\n
+            hold: 10/12 grip three front alternate\n
+            hold: 11 grip: two middle \n
+            hold: 4 grip: four fingers\n
+            hold: 7 grip: 2 back
+        </item>
+    </string-array>
+    <string-array name="beastmaker2000">
+        <item>No Example program available. Click Randomize ALL\n
+            No Example program available. Click Randomize ALL\n
+            No Example program available. Click Randomize ALL\n
+            No Example program available. Click Randomize ALL\n
+            No Example program available. Click Randomize ALL\n
+            No Example program available. Click Randomize ALL</item>
+        <item>No Example program available. Click Randomize ALL\n
+            No Example program available. Click Randomize ALL\n
+            No Example program available. Click Randomize ALL\n
+            No Example program available. Click Randomize ALL\n
+            No Example program available. Click Randomize ALL\n
+            No Example program available. Click Randomize ALL</item>
+        <item>No Example program available. Click Randomize ALL\n
+            No Example program available. Click Randomize ALL\n
+            No Example program available. Click Randomize ALL\n
+            No Example program available. Click Randomize ALL\n
+            No Example program available. Click Randomize ALL\n
+            No Example program available. Click Randomize ALL</item>
+        <item>No Example program available. Click Randomize ALL\n
+            No Example program available. Click Randomize ALL\n
+            No Example program available. Click Randomize ALL\n
+            No Example program available. Click Randomize ALL\n
+            No Example program available. Click Randomize ALL\n
+            No Example program available. Click Randomize ALL</item>
+        <item>No Example program available. Click Randomize ALL\n
+            No Example program available. Click Randomize ALL\n
+            No Example program available. Click Randomize ALL\n
+            No Example program available. Click Randomize ALL\n
+            No Example program available. Click Randomize ALL\n
+            No Example program available. Click Randomize ALL</item>
+        <item>hold: 6 grip: four fingers\n
+            hold: 2/3 grip: four fingers alternate\n
+            hold: 6 grip: three front\n
+            hold: 2 grip: four fingers\n
+            hold: 9 grip: two middle\n
+            hold: 9 grip: two middle</item>
+        <item>hold: 6 grip: four fingers half crimp\n
+            hold: 2 grip: four fingers\n
+            hold: 5/6 grip: three front alternate\n
+            hold: 2 grip: four fingers\n
+            hold: 9/13 grip: two middle alternate\n
+            hold: 8 grip: two back</item>
+        <item>hold: 6/11 grip: four finger half crimp alternate\n
+            hold: 1/3 grip: four fingers alternate\n
+            hold: 4/11 grip: three front alternate\n
+            hold: 13 grip: two middle\n
+            hold: 8 grip: two back\n
+            hold: 9/13 grip: two front alternate</item>
+        <item>hold: 11/15 grip: four finger half crimp alternate\n
+            hold: 1/2 grip: four fingers alternate\n
+            hold: 4/11 grip: three front alternate\n
+            hold: 11 grip: four fingers half crimp\n
+            hold: 13 grip:2 two midlle\n
+            hold: 8 grip: two back</item>
+        <item>hold: 11 grip: four finger half crimp\n
+            hold: 1/2 grip: four fingers alternate\n
+            hold: 11 grip: three front\n
+            hold: 11 grip: four finger half crimp\n
+            hold: 13 grip: two middle\n
+            hold: 9 grip2: two back</item>
+        <item>hold: 11 grip: 3back half crimp\n
+            hold: 1 grip: four fingers \n
+            hold: 4 grip: three front one arm alternate\n
+            hold: 11 grip: three front half crimp\n
+            hold: 2 grip: four fingers one arm alternate\n
+            hold: 14grip: two middle</item>
+    </string-array>
 
 
     <string-array name="grip_types">
