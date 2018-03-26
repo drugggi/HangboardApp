@@ -666,7 +666,6 @@
             hold: 7 grip: 2 back
         </item>
     </string-array>
-
     <string-array name="beastmaker2000">
         <item>No Example program available. Click Randomize ALL\n
             No Example program available. Click Randomize ALL\n
@@ -735,17 +734,6 @@
             hold: 2 grip: four fingers one arm alternate\n
             hold: 14grip: two middle</item>
     </string-array>
-
-    <string-array name="no_start_program">
-        <item>No Example program available. Click Randomize ALL\n
-            No Example program available. Click Randomize ALL\n
-            No Example program available. Click Randomize ALL\n
-            No Example program available. Click Randomize ALL\n
-            No Example program available. Click Randomize ALL\n
-            No Example program available. Click Randomize ALL</item>
-    </string-array>
-
-
     <integer-array name="grip_values_bm1000">
         <item>1</item>
         <item>1</item>
@@ -858,8 +846,6 @@
         <item>19</item>
         <item>30</item> <!-- three back -->
     </integer-array>
-
-
     <integer-array name="grip_values_bm2000">
         <item>1</item><item>100</item><item>10</item> <!-- griptype: four fingers-->
 
@@ -982,8 +968,6 @@
         <item>31</item> <!-- griptype and single hold -->
 
     </integer-array>
-
-
     <integer-array name="grip_values_trans">
         <item>1</item>
         <item>1</item>
@@ -1149,7 +1133,6 @@
 
 
     </integer-array>
-
     <integer-array name="grip_values_tension">
 
         <!-- hld nro   hold value     griptype -->
@@ -1271,7 +1254,6 @@
         <item>31</item>
 
     </integer-array>
-
     <integer-array name="grip_values_zlag">
         <item>1</item><item>1</item><item>10</item>
         <item>1</item><item>2</item><item>20</item> <!-- three front -->
@@ -1280,25 +1262,13 @@
         <item>1</item><item>14</item><item>50</item> <!-- two middle -->
         <item>1</item><item>35</item><item>60</item> <!-- two back -->
 
-        <item>2</item>
-        <item>13</item>
-        <item>10</item> <!-- griptype and single hold -->
-        <item>2</item>
-        <item>30</item>
-        <item>20</item> <!-- griptype and single hold -->
-        <item>2</item>
-        <item>35</item>
-        <item>30</item> <!-- griptype and single hold -->
+        <item>2</item><item>13</item><item>10</item> <!-- griptype and single hold -->
+        <item>2</item><item>30</item><item>20</item> <!-- griptype and single hold -->
+        <item>2</item><item>35</item><item>30</item> <!-- griptype and single hold -->
 
-        <item>3</item>
-        <item>4</item>
-        <item>11</item> <!-- griptype and single hold -->
-        <item>3</item>
-        <item>8</item>
-        <item>21</item> <!-- griptype and single hold -->
-        <item>3</item>
-        <item>9</item>
-        <item>31</item> <!-- griptype and single hold -->
+        <item>3</item><item>4</item><item>11</item> <!-- griptype and single hold -->
+        <item>3</item><item>8</item><item>21</item> <!-- griptype and single hold -->
+        <item>3</item><item>9</item><item>31</item> <!-- griptype and single hold -->
 
         <item>4</item><item>4</item><item>10</item> <!-- griptype and single hold -->
         <item>4</item><item>9</item><item>20</item> <!-- griptype and single hold -->
@@ -1307,36 +1277,20 @@
         <item>5</item><item>23</item><item>20</item> <!-- griptype and single hold -->
         <item>5</item><item>26</item><item>30</item> <!-- griptype and single hold -->
 
-        <item>6</item>
-        <item>3</item>
-        <item>11</item> <!-- griptype and single hold -->
-        <item>6</item>
-        <item>6</item>
-        <item>21</item> <!-- griptype and single hold -->
-        <item>6</item>
-        <item>8</item>
-        <item>31</item> <!-- griptype and single hold -->
+        <item>6</item><item>3</item><item>11</item> <!-- griptype and single hold -->
+        <item>6</item><item>6</item><item>21</item> <!-- griptype and single hold -->
+        <item>6</item><item>8</item><item>31</item> <!-- griptype and single hold -->
 
-        <item>7</item><item>11</item><item>10</item> <!-- griptype and single hold -->
-        <item>7</item><item>15</item><item>20</item> <!-- griptype and single hold -->
-        <item>7</item><item>17</item><item>30</item> <!-- griptype and single hold -->
+        <item>7</item><item>10</item><item>10</item> <!-- griptype and single hold -->
+        <item>7</item><item>14</item><item>20</item> <!-- griptype and single hold -->
+        <item>7</item><item>16</item><item>30</item> <!-- griptype and single hold -->
 
-        <item>8</item>
-        <item>350</item>
-        <item>70</item> <!-- griptype and single hold -->
-        <item>8</item>
-        <item>300</item>
-        <item>80</item> <!-- griptype and single hold -->
-        <item>8</item>
-        <item>450</item>
-        <item>90</item> <!-- griptype and single hold -->
+        <item>8</item><item>350</item><item>70</item> <!-- griptype and single hold -->
+        <item>8</item><item>300</item><item>80</item> <!-- griptype and single hold -->
+        <item>8</item><item>450</item><item>90</item> <!-- griptype and single hold -->
 
-        <item>9</item>
-        <item>50</item>
-        <item>40</item> <!-- griptype and single hold -->
-        <item>9</item>
-        <item>45</item>
-        <item>50</item> <!-- griptype and single hold -->
+        <item>9</item><item>50</item><item>40</item> <!-- griptype and single hold -->
+        <item>9</item><item>45</item><item>50</item> <!-- griptype and single hold -->
         <item>9</item>
         <item>90</item>
         <item>60</item> <!-- griptype and single hold -->
@@ -1492,9 +1446,9 @@
         <item>1</item><item>25</item><item>50</item>
         <item>1</item><item>46</item><item>60</item>
 
-        <item>2</item><item>7</item><item>10</item> <!-- three back -->
-        <item>2</item><item>9</item><item>20</item> <!-- three back -->
-        <item>2</item><item>11</item><item>30</item> <!-- three back -->
+        <item>2</item><item>15</item><item>10</item> <!-- three back -->
+        <item>2</item><item>19</item><item>20</item> <!-- three back -->
+        <item>2</item><item>211</item><item>30</item> <!-- three back -->
 
         <item>3</item><item>3</item><item>10</item> <!-- four -->
         <item>3</item><item>5</item><item>20</item> <!-- three front -->
@@ -1507,9 +1461,9 @@
         <item>4</item><item>35</item><item>50</item> <!-- three back -->
         <item>4</item><item>66</item><item>60</item>
 
-        <item>5</item><item>10</item><item>10</item> <!-- four fingers -->
-        <item>5</item><item>13</item><item>20</item> <!-- four fingers -->
-        <item>5</item><item>15</item><item>30</item> <!-- four fingers -->
+        <item>5</item><item>13</item><item>10</item> <!-- four fingers -->
+        <item>5</item><item>16</item><item>20</item> <!-- four fingers -->
+        <item>5</item><item>18</item><item>30</item> <!-- four fingers -->
 
         <item>6</item><item>15</item><item>10</item> <!-- four -->
         <item>6</item><item>17</item><item>20</item> <!-- three front -->

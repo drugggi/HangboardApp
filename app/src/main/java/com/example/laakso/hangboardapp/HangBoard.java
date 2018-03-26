@@ -460,6 +460,7 @@ public class HangBoard {
     // InitializeHolds method collects from resources all the possible grip types, hold numbers
     // and difficulties that a Hangboard can have. Those will be stored in all_hold_values
     // and they are randomized so that when a hold is picked it will be random.
+    /*
     public void OLDInitializeHolds(Resources res, CustomSwipeAdapter.hangboard new_board) {
         current_board = new_board;
 
@@ -669,6 +670,7 @@ public class HangBoard {
         setGrips(0);
 
     }
+*/
 
     // Arbitrary grade values, what hold_values to search in a give grade
     // For example Grade 6c consist of hold that are betweent 7 and 18 in difficulty
