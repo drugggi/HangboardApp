@@ -258,6 +258,7 @@ public class HangBoard {
         // these ints will be randomized and those represents holds in all_hold_values array
         int random_nro;
         int random_nro_alt;
+        int temp_hold_value;
 
         int min_value=getMinValue(grades[grade_position]);
         int max_value=getMaxValue(grades[grade_position]);
@@ -270,12 +271,25 @@ public class HangBoard {
             if (isAlternate) {
 
                 // Lets search for a holds that max hardness is half the remaining points for a give grade
-                random_nro = getHoldNumberWithValue(min_value, max_value );
+                random_nro = getHoldNumberWithValue(min_value/2, (max_value*3)/2 );
+
+                temp_hold_value = all_hold_values[random_nro].getHoldValue();
+
+                min_value = 2*min_value-temp_hold_value;
+                if (min_value < 1 ) { min_value = 1; }
+                max_value = 2*max_value-temp_hold_value;
+                if (max_value < 2 ) { max_value = 2; }
+
                 // And then search for a hold that could be slightly harder than the first one
-                random_nro_alt = getHoldNumberWithValue(min_value , max_value*2, all_hold_values[random_nro].grip_style);
+                random_nro_alt = getHoldNumberWithValue(min_value , max_value, all_hold_values[random_nro].grip_style);
+
+                min_value=getMinValue(grades[grade_position]);
+                max_value=getMaxValue(grades[grade_position]);
 
                 // Holds should not be the same, if it is lets just find one hold ie. jump to else statement
-                if (random_nro == random_nro_alt) { isAlternate = false; continue; }
+                if (random_nro == random_nro_alt) {
+                    isAlternate = false;
+                    continue; }
                 valueList.add(all_hold_values[random_nro]);
                 valueList.add(all_hold_values[random_nro_alt]);
 
@@ -308,6 +322,7 @@ public class HangBoard {
         // these ints will be randomized and those represents holds in all_hold_values array
         int random_nro;
         int random_nro_alt;
+        int temp_hold_value;
 
         // Min and max values of grades which the hold search is based on
         int min_value=getMinValue(grades[grade_position]);
@@ -318,9 +333,13 @@ public class HangBoard {
         if (isAlternate) {
 
                 // Lets search for a holds that max hardness is half the remaining points for a give grade
-                random_nro = getHoldNumberWithValue(min_value/2, max_value );
+                random_nro = getHoldNumberWithValue(min_value/2, (max_value*3)/2 );
+                temp_hold_value = all_hold_values[random_nro].getHoldValue();
+
+                min_value = 2*min_value-temp_hold_value;
+                max_value = 2*max_value-temp_hold_value;
                 // And then search for a hold that could be slightly harder than the first one
-                random_nro_alt = getHoldNumberWithValue( min_value, max_value*2, all_hold_values[random_nro].grip_style);
+                random_nro_alt = getHoldNumberWithValue( min_value, max_value, all_hold_values[random_nro].grip_style);
 
                 // Holds should not be the same, if it is lets make sure next if statement is true
                 if (random_nro == random_nro_alt) { isAlternate = false; }
@@ -715,7 +734,7 @@ public class HangBoard {
         return 1;
     }
     private static int getMaxValue(String grade) {
-        if (grade.equals("5A")) {return 3;}
+        if (grade.equals("5A")) {return 2;}
         else if (grade.equals("5B")) {return 5;}
         else if (grade.equals("5C")) {return 7;}
         else if (grade.equals("6A")) {return 10;}
