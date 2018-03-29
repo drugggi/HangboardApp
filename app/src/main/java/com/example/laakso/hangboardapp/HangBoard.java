@@ -102,6 +102,21 @@ public class HangBoard {
         return max;
     }
 
+    public Hold createCustomHold(int holdnumber, Hold.grip_type grip_style) {
+        Hold customHold = new Hold(holdnumber);
+        customHold.setGripStyle(grip_style);
+
+        for (int i = 0; i < all_hold_values.length; i++) {
+            if (all_hold_values[i].isEqual(customHold)) {
+                return  all_hold_values[i];
+            }
+        }
+        customHold.setHoldCoordinates(hold_coordinates);
+        return customHold;
+
+
+    }
+
     // NEEDS MAJOR REFACTORING
     // addCustomHold method manipulates Hold information at selected position. If info is more than twice
     // the size of maximun hold number at a given hangboard, then the user selected different grip type.
@@ -115,36 +130,47 @@ public class HangBoard {
         // User selected a different hold number for hand
         if (info < 2*max) {
             int holdnumber = (info+2)/2;
-            customHold = new Hold(holdnumber);
-            customHold.setHoldCoordinates(hold_coordinates);
+            // customHold = new Hold(holdnumber);
+            // customHold.setHoldCoordinates(hold_coordinates);
+            //customHold.setGripStyle(valueList.get(position*2).getGripStyle());
+            //customHold = searchForHold(int holdnumber, )
+
+            customHold = createCustomHold(holdnumber,valueList.get(position*2).getGripStyle());
 
             //Left hand
             if (info % 2 == 0) {
 
-                customHold.setGripStyle(valueList.get(position*2).getGripStyle());
+                //customHold.setGripStyle(valueList.get(position*2).getGripStyle());
                 valueList.set(position*2, customHold);
             }
             // right hand
             else {
-                customHold.setGripStyle(valueList.get(position*2+1).getGripStyle());
+                // customHold.setGripStyle(valueList.get(position*2+1).getGripStyle());
                 valueList.set(position*2+1, customHold);
 
             }
 
         }
         else {
-            info = info - 2*max;
+            info = info - 2*max+1;
 
-            customHold = new Hold(valueList.get(position*2).getHoldNumber());
-            customHold.setHoldCoordinates(hold_coordinates);
-            customHold.setGripTypeAndSingleHang((info+1)*10);
+//            customHold = new Hold(valueList.get(position*2).getHoldNumber());
+  //          customHold.setHoldCoordinates(hold_coordinates);
+    //        customHold.setGripTypeAndSingleHang((info+1)*10);
+          //   Hold.grip_type  jees = new Hold.grip_type(info);
+            Hold.grip_type newgriptype = Hold.forInt(info);
+
+           // customHold = createCustomHold(valueList.get(position*2).getHoldNumber(), valueList.get(position*2).getGripType(info+1));
+            customHold = createCustomHold(valueList.get(position*2).getHoldNumber(), newgriptype);
 
             valueList.set(position*2,customHold);
 
-            customHold = new Hold(valueList.get(position*2+1).getHoldNumber());
-            customHold.setHoldCoordinates(hold_coordinates);
-            customHold.setGripTypeAndSingleHang((info+1)*10);
+            //customHold = new Hold(valueList.get(position*2+1).getHoldNumber());
+            //customHold.setHoldCoordinates(hold_coordinates);
+            //customHold.setGripTypeAndSingleHang((info+1)*10);
 
+            //customHold = createCustomHold(valueList.get(position*2+1).getHoldNumber(), valueList.get(position*2).getGripType(info+1));
+            customHold = createCustomHold(valueList.get(position*2+1).getHoldNumber(), newgriptype);
             valueList.set(position*2+1,customHold);
         }
 

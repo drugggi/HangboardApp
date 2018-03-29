@@ -23,12 +23,38 @@ public class Hold implements Comparable<Hold>, Parcelable {
 
 
     // grip type describes the fingers used in hanging in a hold
-    public enum grip_type {FOUR_FINGER, THREE_FRONT, THREE_BACK, TWO_FRONT, TWO_MIDDLE, TWO_BACK
+    public static enum grip_type {FOUR_FINGER, THREE_FRONT, THREE_BACK, TWO_FRONT, TWO_MIDDLE, TWO_BACK
         , INDEX_FINGER,MIDDLE_FINGER, RING_FINGER, LITTLE_FINGER};
     grip_type grip_style;
+    public static grip_type forInt(int id) {
+        return grip_type.values()[id-1];
+    }
 
     // Single holds dont have a pair with same measurements in the hangboard
     boolean single_hold;
+
+    public boolean isEqual(Hold compareHold) {
+        if (this.hold_number == compareHold.getHoldNumber() && this.grip_style == compareHold.getGripStyle()) {
+            return true;
+        }
+        else {return false;}
+    }
+
+    // UGLYUGLYUGLY replaced this method with grip_type forInt. DELETE this please
+    /*
+    public grip_type getGripType(int gripinfo) {
+        if (gripinfo == 1) { return grip_type.FOUR_FINGER; }
+        else if (gripinfo == 2) {return grip_type.THREE_FRONT; }
+        else if (gripinfo == 3) {return grip_type.THREE_BACK; }
+        else if (gripinfo == 4) {return grip_type.TWO_FRONT; }
+        else if (gripinfo == 5) {return grip_type.TWO_MIDDLE; }
+        else if (gripinfo == 6) {return grip_type.TWO_BACK; }
+        else if (gripinfo == 7) {return grip_type.INDEX_FINGER; }
+        else if (gripinfo == 8) {return grip_type.MIDDLE_FINGER; }
+        else if (gripinfo == 9) {return grip_type.RING_FINGER; }
+        else if (gripinfo == 10) {return grip_type.LITTLE_FINGER; }
+        else {return grip_type.FOUR_FINGER; }
+    }*/
 
     public Hold(int number) {
         single_hold = false;
