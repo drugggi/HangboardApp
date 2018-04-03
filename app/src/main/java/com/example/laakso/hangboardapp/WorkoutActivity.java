@@ -3,6 +3,7 @@ package com.example.laakso.hangboardapp;
 import android.content.pm.ActivityInfo;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -55,6 +56,7 @@ public class WorkoutActivity extends AppCompatActivity {
         // Sound files that will be played for every second that user hangs, and at the end finish sound
         final MediaPlayer playSound = MediaPlayer.create(this,R.raw.tick);
         final MediaPlayer playFinishSound = MediaPlayer.create(this,R.raw.finish_tick);
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         boardimage = (ImageView) findViewById(R.id.boardImageView);
         hangProgressBar = (ProgressBar) findViewById(R.id.hangProgressBar);
