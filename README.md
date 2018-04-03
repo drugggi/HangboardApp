@@ -15,6 +15,8 @@ Time controls can be fully controlled in Time Controls menu if one so desires. H
 
 ![time controls](https://drugggi.github.io/Settings_menu.jpg)
 
+![custom_hold](https://drugggi.github.io/Customhold.jpg)
+
 When the Workout starts, holds and grips are visually represented with pictures and in text form. Timer is presented with countdown clock, progress bar and sound effects.
 
-![time controls](https://drugggi.github.io/Workout_screen.jpg)
+![Workout_screen](https://drugggi.github.io/Workout_screen.jpg)
