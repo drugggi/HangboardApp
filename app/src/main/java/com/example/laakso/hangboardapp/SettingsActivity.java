@@ -350,12 +350,15 @@ public class SettingsActivity extends AppCompatActivity {
                         }
                         updateProgramDisplay();
                     }
-                    else { gripLapsEditText.setText("" + timeControls.getGripLaps() ); }
+                    else {
+                        gripLapsEditText.setText("" + timeControls.getGripLaps() );
+                        Toast.makeText(SettingsActivity.this,"Number out of bounds, changes reverted",Toast.LENGTH_SHORT).show();
+                    }
                    // Toast.makeText(SettingsActivity.this,"hehe: nyt muutettiin grips: " + timeControls.getGripLaps()  ,Toast.LENGTH_LONG).show();
                 } catch (NumberFormatException nfe)
                 {
                     gripLapsEditText.setText("" + timeControls.getGripLaps());
-                    //Toast.makeText(SettingsActivity.this,"numformatexception: " + nfe  ,Toast.LENGTH_LONG).show();
+                    Toast.makeText(SettingsActivity.this,"Illegal number, changes reverted: " + nfe  ,Toast.LENGTH_LONG).show();
                 }
                 return false;
             }
@@ -374,12 +377,13 @@ public class SettingsActivity extends AppCompatActivity {
                         hangSeekBar.setProgress(i-1);
                         updateProgramDisplay();
                     }
-                    else { hangLapsEditText.setText("" + timeControls.getHangLaps() ); }
+                    else { hangLapsEditText.setText("" + timeControls.getHangLaps() );
+                        Toast.makeText(SettingsActivity.this,"Number out of bounds, changes reverted",Toast.LENGTH_SHORT).show();}
 
                 } catch (NumberFormatException nfe)
                 {
                     hangLapsEditText.setText("" + timeControls.getHangLaps());
-                    Toast.makeText(SettingsActivity.this,"numformatexception: " + nfe  ,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SettingsActivity.this,"Illegal number, changes reverted: " + nfe  ,Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
@@ -396,12 +400,13 @@ public class SettingsActivity extends AppCompatActivity {
                         updateProgramDisplay();
 
                     }
-                    else { timeONEditText.setText("" + timeControls.getTimeON() ); }
+                    else { timeONEditText.setText("" + timeControls.getTimeON() );
+                        Toast.makeText(SettingsActivity.this,"Number out of bounds, changes reverted",Toast.LENGTH_SHORT).show();}
 
                 } catch (NumberFormatException nfe)
                 {
                     timeONEditText.setText("" + timeControls.getTimeON());
-                    Toast.makeText(SettingsActivity.this,"numformatexception: " + nfe  ,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SettingsActivity.this,"Illegal number, changes reverted: " + nfe  ,Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
@@ -417,12 +422,13 @@ public class SettingsActivity extends AppCompatActivity {
                         timeOFFSeekBar.setProgress(i);
                         updateProgramDisplay();
                     }
-                    else { timeOFFEditText.setText("" + timeControls.getTimeOFF() ); }
+                    else { timeOFFEditText.setText("" + timeControls.getTimeOFF() );
+                        Toast.makeText(SettingsActivity.this,"Number out of bounds, changes reverted",Toast.LENGTH_SHORT).show();}
 
                 } catch (NumberFormatException nfe)
                 {
                     timeOFFEditText.setText("" + timeControls.getTimeOFF());
-                    Toast.makeText(SettingsActivity.this,"numformatexception: " + nfe  ,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SettingsActivity.this,"Illegal number, changes reverted: " + nfe  ,Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
@@ -438,12 +444,13 @@ public class SettingsActivity extends AppCompatActivity {
                         setsSeekBar.setProgress(i-1);
                         updateProgramDisplay();
                     }
-                    else { setsEditText.setText("" + timeControls.getRoutineLaps() ); }
+                    else { setsEditText.setText("" + timeControls.getRoutineLaps() );
+                        Toast.makeText(SettingsActivity.this,"Number out of bounds, changes reverted",Toast.LENGTH_SHORT).show();}
 
                 } catch (NumberFormatException nfe)
                 {
                     setsEditText.setText("" + timeControls.getRoutineLaps());
-                    Toast.makeText(SettingsActivity.this,"numformatexception: " + nfe  ,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SettingsActivity.this,"Illegal number, changes reverted: " + nfe  ,Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
@@ -459,12 +466,13 @@ public class SettingsActivity extends AppCompatActivity {
                         restSeekBar.setProgress((i-1)/10);
                         updateProgramDisplay();
                     }
-                    else { restEditText.setText("" + timeControls.getRestTime() ); }
+                    else { restEditText.setText("" + timeControls.getRestTime() );
+                        Toast.makeText(SettingsActivity.this,"Number out of bounds, changes reverted",Toast.LENGTH_SHORT).show();}
 
                 } catch (NumberFormatException nfe)
                 {
                     restEditText.setText("" + timeControls.getRestTime());
-                    Toast.makeText(SettingsActivity.this,"numformatexception: " + nfe  ,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SettingsActivity.this,"Illegal number, changes reverted: " + nfe  ,Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
@@ -480,12 +488,13 @@ public class SettingsActivity extends AppCompatActivity {
                         updateProgramDisplay();
 
                     }
-                    else { longRestEditText.setText("" + timeControls.getLongRestTime() ); }
+                    else { longRestEditText.setText("" + timeControls.getLongRestTime() );
+                        Toast.makeText(SettingsActivity.this,"Number out of bounds, changes reverted",Toast.LENGTH_SHORT).show();}
 
                 } catch (NumberFormatException nfe)
                 {
                     longRestEditText.setText("" + timeControls.getLongRestTime());
-                    Toast.makeText(SettingsActivity.this,"numformatexception: " + nfe  ,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SettingsActivity.this,"Illegal number, changes reverted: " + nfe  ,Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }

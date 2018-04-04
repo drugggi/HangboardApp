@@ -268,6 +268,8 @@ public class HangBoard {
 
         while (i < poista_tama ) {
 
+            // Log.e("searchold: ", "GRIP POSITION: " + i);
+
             if (isAlternate) {
 
                 // Lets search for a holds that max hardness is half the remaining points for a give grade
@@ -367,6 +369,8 @@ public class HangBoard {
     // and returns first that if finds. I none is found, it increases the search range and calls itself
     private int getHoldNumberWithValue(int min_value, int max_value, Hold.grip_type wanted_hold) {
 
+       //Log.e("searchhold" , "wanted: " + wanted_hold + " min: " + min_value + " max: " + max_value);
+
         Random rng = new Random();
         int search_point = rng.nextInt(all_hold_values.length);
         int tuplakierros = 0;
@@ -387,10 +391,14 @@ public class HangBoard {
                 }
             }
         }
+        //Log.e("found", " hold_nro: " + all_hold_values[search_point].getHoldNumber()+" value: " + all_hold_values[search_point].getHoldValue());
         return search_point;
     }
 
     private int getHoldNumberWithValue(int min_value, int max_value) {
+
+       // Log.e("searchhold" ,  "min: " + min_value + " max: " + max_value);
+
         Random rng = new Random();
         int search_point = rng.nextInt(all_hold_values.length);
         int tuplakierros = 0;
@@ -412,6 +420,7 @@ public class HangBoard {
                 }
             }
         }
+       // Log.e("found", " value_found: " + all_hold_values[search_point].getHoldValue());
         return search_point;
     }
     // initializeHolds method collects from resources all the possible grip types, hold numbers,

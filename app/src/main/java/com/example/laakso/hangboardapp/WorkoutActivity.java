@@ -8,6 +8,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageView;
@@ -50,6 +51,8 @@ public class WorkoutActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_workout);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
@@ -133,7 +136,7 @@ public class WorkoutActivity extends AppCompatActivity {
                 s++;
                 total_s--;
                 lapseTimeChrono.setText("" + Math.abs(s) );
-                totalTimeChrono.setText( total_s + "s left\n"+ current_set + ". set ("+ (current_lap+1) + "/" + timeControls.getGripLaps()+") ");
+                totalTimeChrono.setText( total_s + "s left\n  "+ current_set + ". set ("+ (current_lap+1) + "/" + timeControls.getGripLaps()+") ");
 
                 switch (nowDoing) {
                     case ALKULEPO:

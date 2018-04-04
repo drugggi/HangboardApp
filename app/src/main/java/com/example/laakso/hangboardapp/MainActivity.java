@@ -2,6 +2,7 @@ package com.example.laakso.hangboardapp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
     ImageView leftFingerImage;
     ImageView rightFingerImage;
-    ImageView fingerImage;
+    //ImageView fingerImage;
 
     ViewPager viewPager;
     CustomSwipeAdapter adapter;
@@ -55,15 +56,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         // HandImages that show the type of grip used in a hold, usually what fingers are used
         leftFingerImage = (ImageView) findViewById(R.id.leftFingerImageView);
         rightFingerImage = (ImageView) findViewById(R.id.rightFingerImageView);
 
+        /*
         fingerImage = (ImageView) findViewById(R.id.templateFingerImageView);
         fingerImage.setImageResource(R.drawable.finger_template);
         fingerImage.setVisibility(View.INVISIBLE); // TESTING PURPOSES
-
+*/
 
         // HangBoard class holds all the information about grades and holds and grips
         final Resources res = getResources();

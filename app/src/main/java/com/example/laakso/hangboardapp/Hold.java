@@ -40,21 +40,6 @@ public class Hold implements Comparable<Hold>, Parcelable {
         else {return false;}
     }
 
-    // UGLYUGLYUGLY replaced this method with grip_type forInt. DELETE this please
-    /*
-    public grip_type getGripType(int gripinfo) {
-        if (gripinfo == 1) { return grip_type.FOUR_FINGER; }
-        else if (gripinfo == 2) {return grip_type.THREE_FRONT; }
-        else if (gripinfo == 3) {return grip_type.THREE_BACK; }
-        else if (gripinfo == 4) {return grip_type.TWO_FRONT; }
-        else if (gripinfo == 5) {return grip_type.TWO_MIDDLE; }
-        else if (gripinfo == 6) {return grip_type.TWO_BACK; }
-        else if (gripinfo == 7) {return grip_type.INDEX_FINGER; }
-        else if (gripinfo == 8) {return grip_type.MIDDLE_FINGER; }
-        else if (gripinfo == 9) {return grip_type.RING_FINGER; }
-        else if (gripinfo == 10) {return grip_type.LITTLE_FINGER; }
-        else {return grip_type.FOUR_FINGER; }
-    }*/
 
     public Hold(int number) {
         single_hold = false;
