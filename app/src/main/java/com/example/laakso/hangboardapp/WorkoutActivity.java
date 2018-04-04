@@ -115,7 +115,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
                 if ( pauseBtn.getText().equals("pause") ) {
                     lapseTimeChrono.stop();
-                    pauseBtn.setText("start");
+                    pauseBtn.setText("resume");
                 }
 
                 else {

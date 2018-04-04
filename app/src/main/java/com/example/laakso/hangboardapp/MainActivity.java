@@ -235,8 +235,7 @@ public class MainActivity extends AppCompatActivity {
                 rightFingerImage.setImageResource(everyBoard.getRightFingerImage(position));
                 rightFingerImage.setX(everyBoard.getCoordRightX(position)*multiplyer_w);
                 rightFingerImage.setY(everyBoard.getCoordRightY(position)*multiplyer_h);
-
-
+                
                 // THIS IS ONLY FOR TESTING HAND IMAGES POSITION PURPOSES
                /* float y;
                 if (position % 2 != 0) {
@@ -303,7 +302,6 @@ public class MainActivity extends AppCompatActivity {
                         R.layout.mytextview , everyBoard.getGrips());
                 holdsListView.setAdapter(holdsAdapter);
 
-
             }
         });
 
@@ -364,6 +362,9 @@ public class MainActivity extends AppCompatActivity {
                         R.layout.mytextview , everyBoard.getGrips());
                 holdsListView.setAdapter(holdsAdapter);
 
+                rightFingerImage.setVisibility(View.INVISIBLE);
+                leftFingerImage.setVisibility(View.INVISIBLE);
+
             }
         });
 
@@ -396,9 +397,13 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
+                rightFingerImage.setVisibility(View.INVISIBLE);
+                leftFingerImage.setVisibility(View.INVISIBLE);
+
                 holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
                         R.layout.mytextview , everyBoard.getGrips());
                 holdsListView.setAdapter(holdsAdapter);
+
             }
 
             @Override
