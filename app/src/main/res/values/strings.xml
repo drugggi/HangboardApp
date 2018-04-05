@@ -587,6 +587,22 @@
         <item>10</item> <item>97</item> <item>100</item>           <item>186</item> <item>100</item>
 
     </integer-array>
+    <integer-array name="drcc_coordinates">
+        <!--                        LEFT  HAND                          RIGHT   HAND      -->
+        <!--hold number     X coord         Y coord                 X coord        Y coord    -->
+        <item>1</item> <item>20</item> <item>13</item>           <item>257</item> <item>13</item>
+        <item>2</item> <item>70</item> <item>8</item>           <item>206</item> <item>8</item>
+        <item>3</item> <item>117</item> <item>13</item>           <item>159</item> <item>13</item>
+        <item>4</item> <item>22</item> <item>48</item>           <item>255</item> <item>48</item>
+        <item>5</item> <item>72</item> <item>37</item>           <item>204</item> <item>37</item>
+        <item>6</item> <item>118</item> <item>45</item>           <item>158</item> <item>45</item>
+        <item>7</item> <item>-18</item> <item>79</item>           <item>291</item> <item>79</item>
+        <item>8</item> <item>26</item> <item>79</item>           <item>251</item> <item>79</item>
+        <item>9</item> <item>72</item> <item>66</item>           <item>204</item> <item>66</item>
+        <item>10</item> <item>112</item> <item>80</item>           <item>164</item> <item>80</item>
+
+    </integer-array>
+
 
     <integer-array name="grip_values_bm1000">
         <item>1</item>
@@ -1292,39 +1308,42 @@
 
     </integer-array>
     <integer-array name="grip_values_mooneasy">
-        <item>1</item><item>2</item><item>10</item> <!-- four -->
-        <item>1</item><item>3</item><item>20</item> <!-- three front -->
-        <item>1</item><item>4</item><item>30</item> <!-- three back -->
+        <item>1</item><item>1</item><item>10</item> <!-- four -->
+        <item>1</item><item>2</item><item>20</item> <!-- three front -->
+        <item>1</item><item>3</item><item>30</item> <!-- three back -->
         <item>1</item><item>30</item><item>40</item>
         <item>1</item><item>25</item><item>50</item>
         <item>1</item><item>46</item><item>60</item>
 
-        <item>2</item><item>15</item><item>10</item> <!-- three back -->
-        <item>2</item><item>19</item><item>20</item> <!-- three back -->
-        <item>2</item><item>211</item><item>30</item> <!-- three back -->
+        <item>2</item><item>8</item><item>10</item> <!-- three back -->
+        <item>2</item><item>15</item><item>20</item> <!-- three back -->
+        <item>2</item><item>17</item><item>30</item> <!-- three back -->
 
         <item>3</item><item>3</item><item>10</item> <!-- four -->
-        <item>3</item><item>5</item><item>20</item> <!-- three front -->
-        <item>3</item><item>6</item><item>30</item> <!-- three back -->
+        <item>3</item><item>12</item><item>20</item> <!-- three front -->
+        <item>3</item><item>14</item><item>30</item> <!-- three back -->
 
-        <item>4</item><item>8</item><item>10</item> <!-- four -->
-        <item>4</item><item>11</item><item>20</item> <!-- three front -->
-        <item>4</item><item>13</item><item>30</item> <!-- three back -->
-        <item>4</item><item>45</item><item>40</item> <!-- three back -->
-        <item>4</item><item>35</item><item>50</item> <!-- three back -->
-        <item>4</item><item>66</item><item>60</item>
+        <item>4</item><item>2</item><item>10</item> <!-- four -->
+        <item>4</item><item>3</item><item>20</item> <!-- three front -->
+        <item>4</item><item>4</item><item>30</item> <!-- three back -->
+        <item>4</item><item>19</item><item>40</item> <!-- three back -->
+        <item>4</item><item>14</item><item>50</item> <!-- three back -->
+        <item>4</item><item>42</item><item>60</item>
 
-        <item>5</item><item>13</item><item>10</item> <!-- four fingers -->
-        <item>5</item><item>16</item><item>20</item> <!-- four fingers -->
-        <item>5</item><item>18</item><item>30</item> <!-- four fingers -->
+        <item>5</item><item>10</item><item>10</item> <!-- four fingers -->
+        <item>5</item><item>19</item><item>20</item> <!-- four fingers -->
+        <item>5</item><item>21</item><item>30</item> <!-- four fingers -->
 
-        <item>6</item><item>15</item><item>10</item> <!-- four -->
-        <item>6</item><item>17</item><item>20</item> <!-- three front -->
-        <item>6</item><item>19</item><item>30</item> <!-- three back -->
+        <item>6</item><item>3</item><item>10</item> <!-- four -->
+        <item>6</item><item>4</item><item>20</item> <!-- three front -->
+        <item>6</item><item>5</item><item>30</item> <!-- three back -->
+        <item>6</item><item>21</item><item>40</item> <!-- two front -->
+        <item>6</item><item>15</item> <item>50</item> <!-- two middle -->
+        <item>6</item><item>48</item> <item>60</item>
 
-        <item>7</item><item>29</item><item>40</item> <!-- two front -->
-        <item>7</item><item>18</item> <item>50</item> <!-- two middle -->
-        <item>7</item><item>48</item> <item>60</item>
+        <item>7</item><item>17</item><item>40</item> <!-- two front -->
+        <item>7</item><item>12</item> <item>50</item> <!-- two middle -->
+        <item>7</item><item>37</item> <item>60</item>
 
     </integer-array>
     <integer-array name="grip_values_meto">
@@ -1604,6 +1623,54 @@
     <item>10</item>     <item>29</item>       <item>30</item>
 
 </integer-array>
+    <integer-array name="grip_values_drcc">
+        <item>1</item>     <item>1</item>       <item>10</item>
+        <item>1</item>     <item>2</item>       <item>20</item>
+        <item>1</item>     <item>2</item>       <item>30</item>
+        <item>1</item>     <item>25</item>       <item>40</item>
+        <item>1</item>     <item>15</item>       <item>50</item>
+        <item>1</item>     <item>49</item>       <item>60</item>
+
+        <item>2</item>     <item>2</item>       <item>10</item>
+        <item>2</item>     <item>3</item>       <item>20</item>
+        <item>2</item>     <item>4</item>       <item>30</item>
+
+        <item>3</item>     <item>3</item>       <item>10</item>
+        <item>3</item>     <item>11</item>       <item>20</item>
+        <item>3</item>     <item>13</item>       <item>30</item>
+
+        <item>4</item>     <item>2</item>       <item>10</item>
+        <item>4</item>     <item>3</item>       <item>20</item>
+        <item>4</item>     <item>3</item>       <item>30</item>
+        <item>4</item>     <item>29</item>       <item>40</item>
+        <item>4</item>     <item>19</item>       <item>50</item>
+        <item>4</item>     <item>69</item>       <item>60</item>
+
+        <item>5</item>     <item>8</item>       <item>10</item>
+        <item>5</item>     <item>13</item>       <item>20</item>
+        <item>5</item>     <item>15</item>       <item>30</item>
+        <item>5</item>     <item>45</item>       <item>40</item>
+        <item>5</item>     <item>25</item>       <item>50</item>
+        <item>5</item>     <item>79</item>       <item>60</item>
+
+        <item>6</item>     <item>21</item>       <item>10</item>
+        <item>6</item>     <item>45</item>       <item>20</item>
+        <item>6</item>     <item>55</item>       <item>30</item>
+
+        <item>8</item>     <item>13</item>       <item>10</item>
+        <item>8</item>     <item>19</item>       <item>20</item>
+        <item>8</item>     <item>23</item>       <item>30</item>
+
+        <item>9</item>     <item>20</item>       <item>10</item>
+        <item>9</item>     <item>50</item>       <item>20</item>
+        <item>9</item>     <item>60</item>       <item>30</item>
+
+        <item>10</item>     <item>18</item>       <item>10</item>
+        <item>10</item>     <item>45</item>       <item>20</item>
+        <item>10</item>     <item>55</item>       <item>30</item>
+
+    </integer-array>
+
 
     <string-array name="grades">
         <item>5A</item>

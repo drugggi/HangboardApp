@@ -15,13 +15,14 @@ import android.widget.LinearLayout;
 public class CustomSwipeAdapter extends PagerAdapter {
     private int[] image_resources = {R.drawable.lauta1011, R.drawable.lauta2002, R.drawable.trans,
     R.drawable.tension, R.drawable.zlag, R.drawable.moonhard, R.drawable.mooneasy, R.drawable.meto,
-    R.drawable.rockprodigy, R.drawable.problemsolver, R.drawable.meto_contact, R.drawable.meto_wood};
+    R.drawable.rockprodigy, R.drawable.problemsolver, R.drawable.meto_contact, R.drawable.meto_wood,
+    R.drawable.drcc};
     private Context ctx;
     private LayoutInflater layoutInflater;
     // int[] coordinates;
 
     public enum hangboard {BM1000,BM2000, TRANS, TENSION, ZLAG, MOONHARD, MOONEASY, METO,
-        ROCKPRODIGY, PROBLEMSOLVER,METO_CONTACT, METO_WOOD};
+        ROCKPRODIGY, PROBLEMSOLVER,METO_CONTACT, METO_WOOD, DRCC};
 
     public static hangboard getHangBoard(int position) {
         if (position == 0) { return hangboard.BM1000; }
@@ -36,6 +37,7 @@ public class CustomSwipeAdapter extends PagerAdapter {
         else if (position == 9) {return hangboard.PROBLEMSOLVER; }
         else if (position == 10) {return hangboard.METO_CONTACT; }
         else if (position == 11) {return hangboard.METO_WOOD; }
+        else if (position == 12) {return hangboard.DRCC; }
         else {return hangboard.BM1000; }
     }
 

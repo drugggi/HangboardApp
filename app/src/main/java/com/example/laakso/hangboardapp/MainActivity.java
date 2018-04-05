@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
     ImageView leftFingerImage;
     ImageView rightFingerImage;
-    //ImageView fingerImage;
+   // ImageView fingerImage;
 
     ViewPager viewPager;
     CustomSwipeAdapter adapter;
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         leftFingerImage = (ImageView) findViewById(R.id.leftFingerImageView);
         rightFingerImage = (ImageView) findViewById(R.id.rightFingerImageView);
 
-        /*
+/*
         fingerImage = (ImageView) findViewById(R.id.templateFingerImageView);
         fingerImage.setImageResource(R.drawable.finger_template);
         fingerImage.setVisibility(View.INVISIBLE); // TESTING PURPOSES
@@ -157,13 +157,13 @@ public class MainActivity extends AppCompatActivity {
                 hang_descr_position = 0;
 
 
-
+/*
                 // THIS IS ONLY FOR TESTING HAND IMAGES POSITION PURPOSES
-                /*float x;
+                float x;
                 if (position % 2 != 0) {
                 x = fingerImage.getX() + position * 3; }
                 else { x = fingerImage.getX() - position * 3; }
-                fingerImage.setX(x+5);*/
+                fingerImage.setX(x+5); */
 
             }
         });
@@ -235,9 +235,9 @@ public class MainActivity extends AppCompatActivity {
                 rightFingerImage.setImageResource(everyBoard.getRightFingerImage(position));
                 rightFingerImage.setX(everyBoard.getCoordRightX(position)*multiplyer_w);
                 rightFingerImage.setY(everyBoard.getCoordRightY(position)*multiplyer_h);
-                
+                /*
                 // THIS IS ONLY FOR TESTING HAND IMAGES POSITION PURPOSES
-               /* float y;
+               float y;
                 if (position % 2 != 0) {
                 y = fingerImage.getY() + position*3; }
                 else {y = fingerImage.getY() - position*3; }
@@ -310,11 +310,11 @@ public class MainActivity extends AppCompatActivity {
         timeControlBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                // Toast.makeText(MainActivity.this,"X: "+ fingerImage.getWidth()+ " Y: " + fingerImage.getHeight(),Toast.LENGTH_LONG ).show();
-                //Toast.makeText(MainActivity.this,"X/1.5: "+ fingerImage.getX()/1.5+ " Y/1.5: " + fingerImage.getY()/1.5 ,Toast.LENGTH_LONG ).show();
-            // Toast.makeText(MainActivity.this, " Make new activity with time controls etc", Toast.LENGTH_SHORT).show()
-
+/*
+                Toast.makeText(MainActivity.this,"X: "+ fingerImage.getWidth()+ " Y: " + fingerImage.getHeight(),Toast.LENGTH_LONG ).show();
+                Toast.makeText(MainActivity.this,"X/1.5: "+ fingerImage.getX()/1.5+ " Y/1.5: " + fingerImage.getY()/1.5 ,Toast.LENGTH_LONG ).show();
+            Toast.makeText(MainActivity.this, " CHECK WHICH PHONE USES 1.5 FACTOR, TEST WITH MODE S PHONE", Toast.LENGTH_SHORT).show()
+*/
                 Intent settingsIntent = new Intent(getApplicationContext(),SettingsActivity.class);
 
                 settingsIntent.putExtra("com.example.laakso.hangboardapp.TIMECONTROLS", timeControls.getTimeControlsIntArray() );
