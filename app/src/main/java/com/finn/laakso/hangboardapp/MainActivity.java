@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     HangBoard everyBoard;
     TimeControls timeControls;
 
+    private static final int REQUEST_TIME_CONTROLS = 0;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -320,7 +322,7 @@ public class MainActivity extends AppCompatActivity {
                 settingsIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS", timeControls.getTimeControlsIntArray() );
 
                 setResult(Activity.RESULT_OK,settingsIntent);
-               startActivityForResult(settingsIntent,1);
+               startActivityForResult(settingsIntent,REQUEST_TIME_CONTROLS);
 
 
             }
@@ -483,37 +485,35 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        //Toast.makeText(MainActivity.this, "There is no grades in \"TEST progression\" program", Toast.LENGTH_LONG).show();
-        if (resultCode == Activity.RESULT_OK) {
-            //int i = data.getIntExtra("com.finn.laakso.hangboardapp.SETTINGS",0);
-            int[] i = data.getIntArrayExtra("com.finn.laakso.hangboardapp.SETTINGS");
+            //Toast.makeText(MainActivity.this, "There is no grades in \"TEST progression\" program", Toast.LENGTH_LONG).show();
+            if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_TIME_CONTROLS) {
+                //int i = data.getIntExtra("com.finn.laakso.hangboardapp.SETTINGS",0);
+                int[] i = data.getIntArrayExtra("com.finn.laakso.hangboardapp.SETTINGS");
 
-            // If Grip laps amount has been changed we have to randomize new grips, otherwise lets
-            // keep the old grips that user has maybe liked
-            if (i[0] != timeControls.getGripLaps() ) {
-                timeControls.setTimeControls(i);
-                everyBoard.setGripAmount(timeControls.getGripLaps(),grade_descr_position);
-                holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
-                        R.layout.mytextview , everyBoard.getGrips());
-                holdsListView.setAdapter(holdsAdapter);
-                hang_descr_position = 0;
+                // If Grip laps amount has been changed we have to randomize new grips, otherwise lets
+                // keep the old grips that user has maybe liked
+                if (i[0] != timeControls.getGripLaps()) {
+                    timeControls.setTimeControls(i);
+                    everyBoard.setGripAmount(timeControls.getGripLaps(), grade_descr_position);
+                    holdsAdapter = new ArrayAdapter<String>(MainActivity.this,
+                            R.layout.mytextview, everyBoard.getGrips());
+                    holdsListView.setAdapter(holdsAdapter);
+                    hang_descr_position = 0;
+                } else {
+                    timeControls.setTimeControls(i);
+                }
+
+                Toast.makeText(MainActivity.this, "Settings saved, pre made time controls disabled ", Toast.LENGTH_LONG).show();
+                repeatersBox.setVisibility(View.INVISIBLE);
+                durationSeekBar.setVisibility(View.INVISIBLE);
+                durationTextView.setText("Duration: " + timeControls.getTotalTime() / 60 + "min");
+
+            } else {
+                Toast.makeText(MainActivity.this, "Settings not saved, pre made time controls enabled", Toast.LENGTH_LONG).show();
+                repeatersBox.setVisibility(View.VISIBLE);
+                durationSeekBar.setVisibility(View.VISIBLE);
+                durationTextView.setText("Duration: " + timeControls.getTotalTime() / 60 + "min");
             }
-            else {
-                timeControls.setTimeControls(i);
-            }
-
-            Toast.makeText(MainActivity.this, "Settings saved, pre made time controls disabled ", Toast.LENGTH_LONG).show();
-            repeatersBox.setVisibility(View.INVISIBLE);
-            durationSeekBar.setVisibility(View.INVISIBLE);
-            durationTextView.setText("Duration: " + timeControls.getTotalTime()/60 + "min");
-
-        }
-        else {
-            Toast.makeText(MainActivity.this, "Settings not saved, pre made time controls enabled", Toast.LENGTH_LONG).show();
-            repeatersBox.setVisibility(View.VISIBLE);
-            durationSeekBar.setVisibility(View.VISIBLE);
-            durationTextView.setText("Duration: "+ timeControls.getTotalTime()/60 + "min");
-        }
 
 
     }

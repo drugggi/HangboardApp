@@ -1,7 +1,10 @@
 package com.finn.laakso.hangboardapp;
 
+import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -25,6 +28,8 @@ public class WorkoutActivity extends AppCompatActivity {
 
     ProgressBar hangProgressBar;
 
+    PinchZoomImageView pinchZoomBoardImage;
+
      ImageView boardimage;
      ImageView leftHandImage;
      ImageView rightHandImage;
@@ -47,7 +52,9 @@ public class WorkoutActivity extends AppCompatActivity {
 
     int i;
 
+    private int mActivePointerId;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +68,13 @@ public class WorkoutActivity extends AppCompatActivity {
         final MediaPlayer playFinishSound = MediaPlayer.create(this,R.raw.finish_tick);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
+        Resources res = getResources();
+
         boardimage = (ImageView) findViewById(R.id.boardImageView);
+        boardimage.setVisibility(View.VISIBLE);
+        pinchZoomBoardImage = (PinchZoomImageView) findViewById(R.id.pinchZoomImageView);
+        // pinchZoomBoardImage.setImageResource(R.drawable.drcc);
+
         hangProgressBar = (ProgressBar) findViewById(R.id.hangProgressBar);
         pauseBtn = (Button) findViewById(R.id.pauseBtn);
         pauseBtn.setText("pause");
@@ -69,6 +82,18 @@ public class WorkoutActivity extends AppCompatActivity {
 
         leftHandImage = (ImageView) findViewById(R.id.leftHandImageView);
         rightHandImage = (ImageView) findViewById(R.id.rightHandImageView);
+
+
+        boardimage.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast.makeText(WorkoutActivity.this,"ON LONG TOUCH LISTENER",Toast.LENGTH_LONG).show();
+                pinchZoomBoardImage.setVisibility(View.VISIBLE);
+                return true;
+            }
+        });
+
+
 
         // Holds that will be used in this workout program
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.HOLDS")) {
@@ -79,8 +104,13 @@ public class WorkoutActivity extends AppCompatActivity {
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.BOARDIMAGE")) {
             int image_resource = getIntent().getIntExtra("com.finn.laakso.hangboardapp.BOARDIMAGE", 0);
             boardimage.setImageResource(image_resource);
+            pinchZoomBoardImage.setImageBitmap(BitmapFactory.decodeResource(getResources(),image_resource));
+            pinchZoomBoardImage.setVisibility(View.INVISIBLE);
+            // pinchZoomBoardImage.setImage(res,image_resource);
 
         }
+
+
 
         // This Intent brings the time controls to the workout program
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.TIMECONTROLS")) {
@@ -237,8 +267,8 @@ public class WorkoutActivity extends AppCompatActivity {
             }
         });
 
-
     }
+
     private void updateGripDisplay() {
 
         Float multiplier_w = boardimage.getWidth() / 350F;
@@ -260,5 +290,22 @@ public class WorkoutActivity extends AppCompatActivity {
         gradeTextView.setText(texti);
 
     }
+/*
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
 
+        View decorView = getWindow().getDecorView();
+        if (hasFocus) {
+            decorView.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+
+            );
+        }
+    }
+    */
 }
