@@ -1,4 +1,4 @@
-package com.example.laakso.hangboardapp;
+package com.finn.laakso.hangboardapp;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -90,8 +90,8 @@ public class SettingsActivity extends AppCompatActivity {
         longRestSeekBar = (SeekBar) findViewById(R.id.longRestSeekBar);
 
         // Lets get the time controls array from intent, so that the user can change them
-        if (getIntent().hasExtra("com.example.laakso.hangboardapp.TIMECONTROLS")) {
-            int[] time_controls = getIntent().getExtras().getIntArray("com.example.laakso.hangboardapp.TIMECONTROLS");
+        if (getIntent().hasExtra("com.finn.laakso.hangboardapp.TIMECONTROLS")) {
+            int[] time_controls = getIntent().getExtras().getIntArray("com.finn.laakso.hangboardapp.TIMECONTROLS");
 
             timeControls = new TimeControls();
             // timeControls.setTimeControls(time_controls);
@@ -505,8 +505,8 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent resultIntent = new Intent();
-                // resultIntent.putExtra("com.example.laakso.hangboardapp.SETTINGS", 62);
-                resultIntent.putExtra("com.example.laakso.hangboardapp.SETTINGS", timeControls.getTimeControlsIntArray());
+                // resultIntent.putExtra("com.finn.laakso.hangboardapp.SETTINGS", 62);
+                resultIntent.putExtra("com.finn.laakso.hangboardapp.SETTINGS", timeControls.getTimeControlsIntArray());
                 setResult(Activity.RESULT_OK, resultIntent);
 
                 finish();

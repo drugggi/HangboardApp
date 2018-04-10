@@ -1,4 +1,4 @@
-package com.example.laakso.hangboardapp;
+package com.finn.laakso.hangboardapp;
 
 import android.content.pm.ActivityInfo;
 import android.content.res.ColorStateList;
@@ -71,20 +71,20 @@ public class WorkoutActivity extends AppCompatActivity {
         rightHandImage = (ImageView) findViewById(R.id.rightHandImageView);
 
         // Holds that will be used in this workout program
-        if (getIntent().hasExtra("com.example.laakso.hangboardapp.HOLDS")) {
-             workoutInfoTest = getIntent().getExtras().getParcelableArrayList("com.example.laakso.hangboardapp.HOLDS");
+        if (getIntent().hasExtra("com.finn.laakso.hangboardapp.HOLDS")) {
+             workoutInfoTest = getIntent().getExtras().getParcelableArrayList("com.finn.laakso.hangboardapp.HOLDS");
         }
 
         // Hangboard image that user has selected
-        if (getIntent().hasExtra("com.example.laakso.hangboardapp.BOARDIMAGE")) {
-            int image_resource = getIntent().getIntExtra("com.example.laakso.hangboardapp.BOARDIMAGE", 0);
+        if (getIntent().hasExtra("com.finn.laakso.hangboardapp.BOARDIMAGE")) {
+            int image_resource = getIntent().getIntExtra("com.finn.laakso.hangboardapp.BOARDIMAGE", 0);
             boardimage.setImageResource(image_resource);
 
         }
 
         // This Intent brings the time controls to the workout program
-        if (getIntent().hasExtra("com.example.laakso.hangboardapp.TIMECONTROLS")) {
-            int[] time_controls = getIntent().getExtras().getIntArray("com.example.laakso.hangboardapp.TIMECONTROLS");
+        if (getIntent().hasExtra("com.finn.laakso.hangboardapp.TIMECONTROLS")) {
+            int[] time_controls = getIntent().getExtras().getIntArray("com.finn.laakso.hangboardapp.TIMECONTROLS");
 
             timeControls = new TimeControls();
             timeControls.setTimeControls(time_controls);

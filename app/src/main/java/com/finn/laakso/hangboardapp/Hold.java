@@ -1,4 +1,4 @@
-package com.example.laakso.hangboardapp;
+package com.finn.laakso.hangboardapp;
 
 import android.os.Parcel;
 import android.os.Parcelable;

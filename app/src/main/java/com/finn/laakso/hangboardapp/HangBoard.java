@@ -1,4 +1,4 @@
-package com.example.laakso.hangboardapp;
+package com.finn.laakso.hangboardapp;
 
 import android.content.res.Resources;
 
@@ -515,7 +515,7 @@ public class HangBoard {
 
 
     // Arbitrary grade values, what hold_values to search in a give grade
-    // For example Grade 6c consist of hold that are betweent 7 and 18 in difficulty
+    // For finn Grade 6c consist of hold that are betweent 7 and 18 in difficulty
     private static int getMinValue(String grade) {
         if (grade.equals("5A")) {return 1;}
         else if (grade.equals("5B")) {return 2;}

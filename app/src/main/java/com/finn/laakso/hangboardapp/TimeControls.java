@@ -1,4 +1,4 @@
-package com.example.laakso.hangboardapp;
+package com.finn.laakso.hangboardapp;
 
 /**
  * Created by Laakso on 12.1.2018.

@@ -1,4 +1,4 @@
-package com.example.laakso.hangboardapp;
+package com.finn.laakso.hangboardapp;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -255,13 +255,13 @@ public class MainActivity extends AppCompatActivity {
                 Intent workoutIntent = new Intent(getApplicationContext(), WorkoutActivity.class);
 
                 // DELETE THESE TWO
-                //workoutIntent.putStringArrayListExtra("com.example.laakso.hangboardapp.HANGLIST", everyBoard.GetGripList() );
-                //workoutIntent.putExtra("com.example.laakso.hangboardapp.COORDINATES", everyBoard.getCoordinates());
+                //workoutIntent.putStringArrayListExtra("com.finn.laakso.hangboardapp.HANGLIST", everyBoard.GetGripList() );
+                //workoutIntent.putExtra("com.finn.laakso.hangboardapp.COORDINATES", everyBoard.getCoordinates());
                 // ArrayList<Hold> currentHoldList = everyBoard.getCurrentHoldList();
                 // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
-                workoutIntent.putExtra("com.example.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
-                workoutIntent.putExtra("com.example.laakso.hangboardapp.BOARDIMAGE",adapter.getImageResource(viewPager.getCurrentItem()));
-                workoutIntent.putParcelableArrayListExtra("com.example.laakso.hangboardapp.HOLDS", everyBoard.getCurrentHoldList());
+                workoutIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
+                workoutIntent.putExtra("com.finn.laakso.hangboardapp.BOARDIMAGE",adapter.getImageResource(viewPager.getCurrentItem()));
+                workoutIntent.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", everyBoard.getCurrentHoldList());
 
                 startActivity(workoutIntent);
             }
@@ -305,7 +305,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // timeControlBtn lets the user control the time controls that are running in the workout
+        // timeControlBtn starts settings activity where user can control mainly time control settings
         timeControlBtn = (Button) findViewById(R.id.timeControlBtn);
         timeControlBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -317,7 +317,7 @@ public class MainActivity extends AppCompatActivity {
 */
                 Intent settingsIntent = new Intent(getApplicationContext(),SettingsActivity.class);
 
-                settingsIntent.putExtra("com.example.laakso.hangboardapp.TIMECONTROLS", timeControls.getTimeControlsIntArray() );
+                settingsIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS", timeControls.getTimeControlsIntArray() );
 
                 setResult(Activity.RESULT_OK,settingsIntent);
                startActivityForResult(settingsIntent,1);
@@ -485,8 +485,8 @@ public class MainActivity extends AppCompatActivity {
 
         //Toast.makeText(MainActivity.this, "There is no grades in \"TEST progression\" program", Toast.LENGTH_LONG).show();
         if (resultCode == Activity.RESULT_OK) {
-            //int i = data.getIntExtra("com.example.laakso.hangboardapp.SETTINGS",0);
-            int[] i = data.getIntArrayExtra("com.example.laakso.hangboardapp.SETTINGS");
+            //int i = data.getIntExtra("com.finn.laakso.hangboardapp.SETTINGS",0);
+            int[] i = data.getIntArrayExtra("com.finn.laakso.hangboardapp.SETTINGS");
 
             // If Grip laps amount has been changed we have to randomize new grips, otherwise lets
             // keep the old grips that user has maybe liked
