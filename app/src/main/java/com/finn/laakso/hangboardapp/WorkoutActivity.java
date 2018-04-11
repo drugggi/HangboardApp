@@ -71,7 +71,7 @@ public class WorkoutActivity extends AppCompatActivity {
         Resources res = getResources();
 
         boardimage = (ImageView) findViewById(R.id.boardImageView);
-        boardimage.setVisibility(View.VISIBLE);
+        boardimage.setVisibility(View.INVISIBLE);
         pinchZoomBoardImage = (PinchZoomImageView) findViewById(R.id.pinchZoomImageView);
         // pinchZoomBoardImage.setImageResource(R.drawable.drcc);
 
@@ -83,16 +83,16 @@ public class WorkoutActivity extends AppCompatActivity {
         leftHandImage = (ImageView) findViewById(R.id.leftHandImageView);
         rightHandImage = (ImageView) findViewById(R.id.rightHandImageView);
 
-
+/*
         boardimage.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 Toast.makeText(WorkoutActivity.this,"ON LONG TOUCH LISTENER",Toast.LENGTH_LONG).show();
-                pinchZoomBoardImage.setVisibility(View.VISIBLE);
+               pinchZoomBoardImage.setVisibility(View.VISIBLE);
                 return true;
             }
         });
-
+*/
 
 
         // Holds that will be used in this workout program
@@ -105,7 +105,7 @@ public class WorkoutActivity extends AppCompatActivity {
             int image_resource = getIntent().getIntExtra("com.finn.laakso.hangboardapp.BOARDIMAGE", 0);
             boardimage.setImageResource(image_resource);
             pinchZoomBoardImage.setImageBitmap(BitmapFactory.decodeResource(getResources(),image_resource));
-            pinchZoomBoardImage.setVisibility(View.INVISIBLE);
+            pinchZoomBoardImage.setVisibility(View.VISIBLE);
             // pinchZoomBoardImage.setImage(res,image_resource);
 
         }
@@ -306,6 +306,6 @@ public class WorkoutActivity extends AppCompatActivity {
 
             );
         }
-    }
-    */
+    }*/
+
 }
