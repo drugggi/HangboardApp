@@ -44,7 +44,16 @@ public class PinchZoomImageView extends ImageView {
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
         public boolean onScale(ScaleGestureDetector detector) {
-            mScaleFactor *= detector.getScaleFactor();
+           // Log.e("MSCALEFACTOR", "mSF:" + mScaleFactor);
+           // mScaleFactor = mScaleFactor* (float) Math.sqrt((double) detector.getScaleFactor() );
+            if (detector.getScaleFactor() > 1) {
+                mScaleFactor = mScaleFactor + 0.004f;
+            }
+            else {
+                mScaleFactor = mScaleFactor - 0.004f;
+            }
+          //  Log.e("SCALEFACTOR: " , "DETECTOR: " + detector.getScaleFactor());
+           // Log.e("SCALEFACTOR: " , "DETECTOR NEW: " + (float) Math.sqrt((double) detector.getScaleFactor()));
             mScaleFactor = Math.max(mMinZoom, Math.min(mMaxZoom,mScaleFactor));
             //invalidate();
             //requestLayout();
@@ -93,7 +102,7 @@ public class PinchZoomImageView extends ImageView {
             case MotionEvent.ACTION_MOVE:
                 mTranslateX = event.getX() - mStartX;
                 mTranslateY = event.getY() - mStartY;
-                Log.e("ACTIONMOVE", "MOIVEX: " +event.getX());
+                //Log.e("ACTIONMOVE", "MOIVEX: " +event.getX());
                 //Log.e("ACTIONMOVE", "MOIVEY: " +event.getX());
                 break;
             case MotionEvent.ACTION_POINTER_DOWN:
@@ -120,7 +129,7 @@ public class PinchZoomImageView extends ImageView {
         canvas.save();
         canvas.scale(mScaleFactor,mScaleFactor);
        // canvas.scale(mScaleFactor,mScaleFactor,mScaleGestureDetector.getFocusX(),mScaleGestureDetector.getFocusY());
-        /* if ((mTranslateX * -1) < 0) {
+      /*   if ((mTranslateX * -1) < 0) {
             mTranslateX = 0;
         } else if ((mTranslateX *-1) > mImageWidth * mScaleFactor - getWidth()) {
             mTranslateX = (mImageWidth * mScaleFactor- getWidth()) * -1;
@@ -130,6 +139,18 @@ public class PinchZoomImageView extends ImageView {
         } else if ((mTranslateY *-1) > mImageHeight * mScaleFactor - getHeight()) {
             mTranslateY = (mImageHeight * mScaleFactor- getHeight()) * -1;
         }*/
+
+        if ((mTranslateX ) < -50) {
+            mTranslateX = -50;}
+        if ((mTranslateY ) < -50) {
+            mTranslateY = -50; }
+/*
+      Log.e("TRANSLATE:","mTX: "+ mTranslateX);
+        Log.e("TRANSLATE:","mTY: "+ mTranslateY);
+        Log.e("IMAGE:" , "imagewidht: "+mImageWidth);
+        Log.e("IMAGE:","imageheight: "+mImageHeight);
+*/
+
         canvas.translate(mTranslateX/mScaleFactor, mTranslateY/mScaleFactor);
         canvas.drawBitmap(mBitmap,0,0,null);
         canvas.restore();
@@ -147,7 +168,7 @@ public class PinchZoomImageView extends ImageView {
         Log.e("DISPLAYMETRICS", "getDM WIDHTPIXELS: " + displayMetrics.widthPixels);
         mImageWidth = displayMetrics.widthPixels;
         mImageHeight = Math.round(mImageWidth * aspectRatio);
-        mBitmap = Bitmap.createScaledBitmap(bitmap,mImageWidth/2, mImageHeight/2,false);
+        mBitmap = Bitmap.createScaledBitmap(bitmap,mImageWidth, mImageHeight,false);
         invalidate();
         requestLayout();
     }
