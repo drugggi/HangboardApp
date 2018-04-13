@@ -5,9 +5,7 @@
         <!--                        LEFT  HAND                          RIGHT   HAND      -->
         <!--hold number     X coord         Y coord                 X coord        Y coord    -->
         <item>1</item> <item>12</item> <item>15</item> <item>279</item> <item>15</item>
-        <item>2</item>
-        <item>67</item>
-        <item>32</item>
+        <item>2</item><item>67</item><item>32</item>
         <item>214</item>
         <item>32</item>
         <item>3</item>

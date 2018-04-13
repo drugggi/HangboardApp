@@ -10,6 +10,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -270,20 +271,69 @@ public class WorkoutActivity extends AppCompatActivity {
     }
 
     private void updateGripDisplay() {
-
+/*
         Float multiplier_w = boardimage.getWidth() / 350F;
-        Float multiplier_h = boardimage.getHeight() / 150F;
+        Float multiplier_h = boardimage.getHeight() / 150F;*/
         // Toast.makeText(WorkoutActivity.this,"length X: "+ multiplier_w+ " Y: " + multiplier_h,Toast.LENGTH_LONG ).show();
+/*
+        Float multiplier_w = pinchZoomBoardImage.getImageWidth() / 338F;
+        Float multiplier_h = pinchZoomBoardImage.getImageHeight() / 105F;
+
+        Toast.makeText(WorkoutActivity.this,"length X: "+ multiplier_w+ " Y: " + multiplier_h,Toast.LENGTH_LONG ).show();
+
+        Log.e("LEFT HAND","X: " +workoutInfoTest.get(current_lap*2 ).getLeftCoordX());
+        Log.e("LEFT HAND" , "Y: "+ workoutInfoTest.get(current_lap*2).getLeftCoordY());
+
+        Log.e("RIGHT HAND","X: " +workoutInfoTest.get(current_lap*2+1 ).getRightCoordX());
+        Log.e("RIGHT HAND" , "Y: "+ workoutInfoTest.get(current_lap*2+1).getRightCoordY());
+
+        Log.e("BOARD", "START X: " + pinchZoomBoardImage.getImageX());
+        Log.e("BOARD", "START Y: " + pinchZoomBoardImage.getImageY());
+        Log.e("BOARD", "WIDTH: " + pinchZoomBoardImage.getImageWidth());
+        Log.e("BOARD", "HEIGHT: " + pinchZoomBoardImage.getImageHeight());
+
+
+*/
+
+
+        Float scaleFactor = pinchZoomBoardImage.getScaleFactor();
+
+        // 0.5912f comes from scaling nexus 5 width to 1050, different phones different values
+        float scaleto1050 = 1050f/pinchZoomBoardImage.getWidth();
+        scaleFactor = scaleFactor  / scaleto1050;
+
+        Float multiplier_w = 3f*scaleFactor;
+        Float multiplier_h = 3f*scaleFactor;
+
+        Float imagewidth = pinchZoomBoardImage.getImageWidth();
+        Float imageheight = pinchZoomBoardImage.getImageHeight();
+
+        Float offsetY = (0.4286f*imagewidth - imageheight)/2;
+
+       // Log.e("SCREEN"," WIDTH/HEIGHT:   " +pinchZoomBoardImage.getWidth()+" / "+pinchZoomBoardImage.getHeight());
+
+        Log.e("HANGBOARD IMAGE","image WIDTH/HEIGHT:   " +pinchZoomBoardImage.getImageWidth()+" / "+pinchZoomBoardImage.getImageHeight());
+        Log.e("OFFSET","ofset y:   " +offsetY);
+
+        Log.e("LEFT HAND" , "X and Y: "+ workoutInfoTest.get(current_lap*2 ).getLeftCoordX() + " / " + workoutInfoTest.get(current_lap*2 ).getLeftCoordY());
+        Log.e("RIGHT HAND" , "X and Y: "+ workoutInfoTest.get(current_lap*2+1 ).getRightCoordX() + " / " + workoutInfoTest.get(current_lap*2+1 ).getRightCoordY());
 
         leftHandImage.setImageResource(workoutInfoTest.get(current_lap*2 ).getGripImage(true));
         rightHandImage.setImageResource(workoutInfoTest.get(current_lap*2 + 1).getGripImage(false));
 
+        // WHY THIS NEEDs 30 TO ADD NOBODY KNOWS
+        leftHandImage.setX(pinchZoomBoardImage.getImageX() + workoutInfoTest.get(current_lap*2 ).getLeftCoordX()*multiplier_w+30);
+        leftHandImage.setY(pinchZoomBoardImage.getImageY()+ workoutInfoTest.get(current_lap*2).getLeftCoordY()*multiplier_h-offsetY);
+        rightHandImage.setX(pinchZoomBoardImage.getImageX() + workoutInfoTest.get(current_lap*2 + 1).getRightCoordX()*multiplier_w+30);
+        rightHandImage.setY(pinchZoomBoardImage.getImageY() + workoutInfoTest.get(current_lap*2 + 1).getRightCoordY()*multiplier_h-offsetY);
+
         // Lets get the coordinates for the next hand images
+        /*
         leftHandImage.setX(workoutInfoTest.get(current_lap*2 ).getLeftCoordX()*multiplier_w + 10);
         leftHandImage.setY(workoutInfoTest.get(current_lap*2).getLeftCoordY()*multiplier_h);
         rightHandImage.setX(workoutInfoTest.get(current_lap*2 + 1).getRightCoordX()*multiplier_w + 10);
         rightHandImage.setY(workoutInfoTest.get(current_lap*2 + 1).getRightCoordY()*multiplier_h);
-
+*/
         // Lets get the correct descrption to next hold and grip
         String texti =workoutInfoTest.get(2*current_lap).getHoldInfo(workoutInfoTest.get(2*current_lap+1));
         texti = texti.replaceAll("\n",", ");

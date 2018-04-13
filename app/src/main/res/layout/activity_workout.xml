@@ -29,6 +29,16 @@
         android:visibility="visible"
         app:srcCompat="@drawable/beast1000" />
 
+    <ImageView
+        android:id="@+id/leftHandImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/rightHandImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -50,17 +60,6 @@
                 android:layout_height="180dp">
 
 
-
-
-                <ImageView
-                    android:id="@+id/leftHandImageView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <ImageView
-                    android:id="@+id/rightHandImageView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
             </RelativeLayout>
 
             <RelativeLayout

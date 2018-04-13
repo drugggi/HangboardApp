@@ -26,7 +26,7 @@ public class PinchZoomImageView extends ImageView {
 
     private final static float mMinZoom = 0.5f;
     private final static float mMaxZoom = 1.2f;
-    private float mScaleFactor = 0.8f;
+    private float mScaleFactor = .8f;
     private ScaleGestureDetector mScaleGestureDetector;
 
     private final static int NONE = 0;
@@ -40,6 +40,8 @@ public class PinchZoomImageView extends ImageView {
     private float mTranslateY = 0;
     private float mPreviousTranslateX = 0;
     private float mPreviousTranslateY = 0;
+
+
 
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
@@ -164,6 +166,25 @@ public class PinchZoomImageView extends ImageView {
         canvas.drawBitmap(mBitmap,0,0,null);
         canvas.restore();
 
+    }
+
+    public float getScaleFactor() {
+        return mScaleFactor;
+    }
+
+    public float getImageWidth() {
+        return  mImageWidth * mScaleFactor;
+    }
+
+    public float getImageHeight() {
+        return mImageHeight * mScaleFactor;
+    }
+
+    public float getImageX() {
+        return mTranslateX;
+    }
+    public float getImageY() {
+        return  mTranslateY;
     }
 
 

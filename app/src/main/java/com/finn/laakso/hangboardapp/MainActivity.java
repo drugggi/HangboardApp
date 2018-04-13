@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -237,6 +238,12 @@ public class MainActivity extends AppCompatActivity {
                 rightFingerImage.setImageResource(everyBoard.getRightFingerImage(position));
                 rightFingerImage.setX(everyBoard.getCoordRightX(position)*multiplyer_w);
                 rightFingerImage.setY(everyBoard.getCoordRightY(position)*multiplyer_h);
+
+                Log.e("HANGBOARD IMAGE","image WIDTH/HEIGHT:   " +imageView.getWidth()+" / "+imageView.getHeight());
+
+                Log.e("LEFT HAND" , "X and Y: "+ everyBoard.getCoordLeftX(position)+ " / " + everyBoard.getCoordLeftY(position));
+                Log.e("RIGHT HAND" , "X and Y: "+ everyBoard.getCoordRightX(position)+ " / " + everyBoard.getCoordRightY(position));
+
                 /*
                 // THIS IS ONLY FOR TESTING HAND IMAGES POSITION PURPOSES
                float y;
@@ -443,6 +450,7 @@ public class MainActivity extends AppCompatActivity {
 
         Float multiplyer_w = imageView.getWidth() / 350F;
         Float multiplyer_h = imageView.getHeight() / 150F;
+
 
         leftFingerImage.setImageResource(everyBoard.getLeftFingerImage(menuItemIndex));
         leftFingerImage.setX(everyBoard.getCoordLeftX(menuItemIndex)* multiplyer_w);
