@@ -142,14 +142,23 @@ public class PinchZoomImageView extends ImageView {
 
         if ((mTranslateX ) < -50) {
             mTranslateX = -50;}
+            else if  (mTranslateX+mImageWidth*mScaleFactor > getWidth() + 50) {
+            mTranslateX = getWidth() + 50-mImageWidth*mScaleFactor;
+        }
         if ((mTranslateY ) < -50) {
             mTranslateY = -50; }
-/*
+            else if (mTranslateY + mImageHeight*mScaleFactor > getHeight()+ 50) {
+            mTranslateY = getHeight() + 50-mImageHeight*mScaleFactor;
+        }
+
+
       Log.e("TRANSLATE:","mTX: "+ mTranslateX);
         Log.e("TRANSLATE:","mTY: "+ mTranslateY);
-        Log.e("IMAGE:" , "imagewidht: "+mImageWidth);
-        Log.e("IMAGE:","imageheight: "+mImageHeight);
-*/
+        Log.e("IMAGE:" , "imagewidht*scale: "+mImageWidth*mScaleFactor);
+        Log.e("IMAGE:","imageheight*sclae: "+mImageHeight*mScaleFactor);
+        Log.e("PHONE:" , "widht: "+getWidth());
+        Log.e("PHONE:","height: "+getHeight());
+
 
         canvas.translate(mTranslateX/mScaleFactor, mTranslateY/mScaleFactor);
         canvas.drawBitmap(mBitmap,0,0,null);
