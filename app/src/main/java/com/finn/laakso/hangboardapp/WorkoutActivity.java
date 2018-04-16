@@ -167,7 +167,7 @@ public class WorkoutActivity extends AppCompatActivity {
                 s++;
                 total_s--;
                 lapseTimeChrono.setText("" + Math.abs(s) );
-                totalTimeChrono.setText( total_s + "s left\n  "+ current_set + ". set ("+ (current_lap+1) + "/" + timeControls.getGripLaps()+") ");
+                totalTimeChrono.setText( total_s/60 + "min left\n  "+ current_set + ". set ("+ (current_lap+1) + "/" + timeControls.getGripLaps()+") ");
 
                 switch (nowDoing) {
                     case ALKULEPO:

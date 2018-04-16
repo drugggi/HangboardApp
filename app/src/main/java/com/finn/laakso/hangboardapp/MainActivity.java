@@ -395,8 +395,8 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     gradesListView.setVisibility(View.VISIBLE);
 
-                    durationTextView.setText("Duration: " + (20 + progress * 15) + "min");
                     timeControls.setProgramBasedOnTime(20 + progress * 15);
+                    durationTextView.setText("Duration: " + timeControls.getTotalTime()/60 + "min");
 
                     everyBoard.setGripAmount(timeControls.getGripLaps(),grade_descr_position);
 
