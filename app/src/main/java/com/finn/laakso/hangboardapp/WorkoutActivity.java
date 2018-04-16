@@ -302,6 +302,10 @@ public class WorkoutActivity extends AppCompatActivity {
         // 0.5912f comes from scaling nexus 5 width to 1050, different phones different values
         float scaleto1050 = 1050f/pinchZoomBoardImage.getWidth();
 
+        // offsetX is very bad way to re calculate coordinates in workoutactivity from mainactivity coordinates
+        Float offsetX = -60+100*scaleFactor;
+        offsetX = offsetX/scaleto1050;
+
         Log.e("SCALE","ScaleFactor/ scalto1050: " +scaleFactor + " / "+ scaleto1050);
         scaleFactor = scaleFactor  / scaleto1050;
         Log.e("SCALE","NEW SCALEFACTOR: " +scaleFactor);
@@ -315,12 +319,13 @@ public class WorkoutActivity extends AppCompatActivity {
 
         Float offsetY = (0.4286f*imagewidth - imageheight)/2;
 
-        Float offsetX = 105f*scaleFactor -120f;
+
+
 
        // Log.e("SCREEN"," WIDTH/HEIGHT:   " +pinchZoomBoardImage.getWidth()+" / "+pinchZoomBoardImage.getHeight());
 
         Log.e("HANGBOARD IMAGE","image WIDTH/HEIGHT:   " +pinchZoomBoardImage.getImageWidth()+" / "+pinchZoomBoardImage.getImageHeight());
-        Log.e("OFFSET","ofset x/y:   " +offsetX+ " / " + offsetY);
+        Log.e("OFFSET","offset x/y:   " +offsetX+ " / " + offsetY);
 
         Log.e("LEFT HAND" , "X and Y: "+ workoutInfoTest.get(current_lap*2 ).getLeftCoordX() + " / " + workoutInfoTest.get(current_lap*2 ).getLeftCoordY());
         Log.e("RIGHT HAND" , "X and Y: "+ workoutInfoTest.get(current_lap*2+1 ).getRightCoordX() + " / " + workoutInfoTest.get(current_lap*2+1 ).getRightCoordY());
@@ -329,7 +334,7 @@ public class WorkoutActivity extends AppCompatActivity {
         rightHandImage.setImageResource(workoutInfoTest.get(current_lap*2 + 1).getGripImage(false));
 
         // WHY THIS NEEDs 30 TO ADD NOBODY KNOWS
-        leftHandImage.setX(pinchZoomBoardImage.getImageX() + workoutInfoTest.get(current_lap*2 ).getLeftCoordX()*multiplier_w+scaleFactor*+offsetX);
+        leftHandImage.setX(pinchZoomBoardImage.getImageX() + workoutInfoTest.get(current_lap*2 ).getLeftCoordX()*multiplier_w+scaleFactor+offsetX);
         leftHandImage.setY(pinchZoomBoardImage.getImageY()+ workoutInfoTest.get(current_lap*2).getLeftCoordY()*multiplier_h-offsetY);
         rightHandImage.setX(pinchZoomBoardImage.getImageX() + workoutInfoTest.get(current_lap*2 + 1).getRightCoordX()*multiplier_w+offsetX);
         rightHandImage.setY(pinchZoomBoardImage.getImageY() + workoutInfoTest.get(current_lap*2 + 1).getRightCoordY()*multiplier_h-offsetY);
