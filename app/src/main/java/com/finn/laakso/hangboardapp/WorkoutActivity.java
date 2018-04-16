@@ -323,6 +323,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
 
        // Log.e("SCREEN"," WIDTH/HEIGHT:   " +pinchZoomBoardImage.getWidth()+" / "+pinchZoomBoardImage.getHeight());
+/*
 
         Log.e("HANGBOARD IMAGE","image WIDTH/HEIGHT:   " +pinchZoomBoardImage.getImageWidth()+" / "+pinchZoomBoardImage.getImageHeight());
         Log.e("OFFSET","offset x/y:   " +offsetX+ " / " + offsetY);
@@ -330,11 +331,22 @@ public class WorkoutActivity extends AppCompatActivity {
         Log.e("LEFT HAND" , "X and Y: "+ workoutInfoTest.get(current_lap*2 ).getLeftCoordX() + " / " + workoutInfoTest.get(current_lap*2 ).getLeftCoordY());
         Log.e("RIGHT HAND" , "X and Y: "+ workoutInfoTest.get(current_lap*2+1 ).getRightCoordX() + " / " + workoutInfoTest.get(current_lap*2+1 ).getRightCoordY());
 
+
+*/
+
+// MAKE SURE THIS TEST IS USELESS IN THE FUTURE! this method is called when the current lap is not reduced
+        if (workoutInfoTest.size() >= current_lap ) {current_lap = 0; }
+        Log.e("CURRENT LAP" , "size and current_lap: "+ workoutInfoTest.size() + " / " + current_lap);
+
+
+
         leftHandImage.setImageResource(workoutInfoTest.get(current_lap*2 ).getGripImage(true));
         rightHandImage.setImageResource(workoutInfoTest.get(current_lap*2 + 1).getGripImage(false));
 
-        // WHY THIS NEEDs 30 TO ADD NOBODY KNOWS
-        leftHandImage.setX(pinchZoomBoardImage.getImageX() + workoutInfoTest.get(current_lap*2 ).getLeftCoordX()*multiplier_w+scaleFactor+offsetX);
+        // MAYBE TRY TO PUT OFFSETX BEFOR MULTIPLIER LIKE THIS: (workoutInfoTest.get(current_lap*2 ).getLeftCoordX()+offsetX) * MULTIPLIER_W
+
+
+        leftHandImage.setX(pinchZoomBoardImage.getImageX() + workoutInfoTest.get(current_lap*2 ).getLeftCoordX()*multiplier_w+offsetX);
         leftHandImage.setY(pinchZoomBoardImage.getImageY()+ workoutInfoTest.get(current_lap*2).getLeftCoordY()*multiplier_h-offsetY);
         rightHandImage.setX(pinchZoomBoardImage.getImageX() + workoutInfoTest.get(current_lap*2 + 1).getRightCoordX()*multiplier_w+offsetX);
         rightHandImage.setY(pinchZoomBoardImage.getImageY() + workoutInfoTest.get(current_lap*2 + 1).getRightCoordY()*multiplier_h-offsetY);

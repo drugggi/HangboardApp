@@ -26,7 +26,7 @@ public class PinchZoomImageView extends ImageView {
 
     private final static float mMinZoom = 0.5f;
     private final static float mMaxZoom = 1.2f;
-    private float mScaleFactor = .5f;
+    private float mScaleFactor = .8f;
     private ScaleGestureDetector mScaleGestureDetector;
 
     private final static int NONE = 0;
