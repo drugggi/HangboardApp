@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class WorkoutActivity extends AppCompatActivity {
 
-    Chronometer totalTimeChrono;
+    // Chronometer totalTimeChrono;
     Chronometer lapseTimeChrono;
 
     ProgressBar hangProgressBar;
@@ -45,7 +45,7 @@ public class WorkoutActivity extends AppCompatActivity {
     // int workout_starts_in = 30;
     // s and total_s are the shown seconds on screen
     // if s < 0 it is rest time
-    int s = -6;
+    int s = -30;
     // total_s is the total workout_time and will count down to zero
     int total_s = 0;
     ArrayList<Hold> workoutInfoTest;
@@ -138,7 +138,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
         }
 
-        totalTimeChrono = (Chronometer) findViewById(R.id.totalTimeChrono);
+        //totalTimeChrono = (Chronometer) findViewById(R.id.totalTimeChrono);
 
         lapseTimeChrono = (Chronometer) findViewById(R.id.lapseTimeChrono);
         lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
@@ -275,7 +275,7 @@ public class WorkoutActivity extends AppCompatActivity {
                         restProgressBar.setProgress((s+timeControls.getLongRestTime())*100 / timeControls.getLongRestTime() );
                         if (timeControls.getRoutineLaps() == 1) {
                             lapseTimeChrono.stop();
-                            totalTimeChrono.stop();
+                           // totalTimeChrono.stop();
                         }
 
                         if (s == -1) {nowDoing = workoutPart.WORKOUT;
