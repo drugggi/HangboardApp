@@ -37,7 +37,7 @@ public class PinchZoomImageView extends ImageView {
     private float mStartX = 0;
     private float mStartY = 0;
     private float mTranslateX = 0;
-    private float mTranslateY = 0;
+    private float mTranslateY = 50;
     private float mPreviousTranslateX = 0;
     private float mPreviousTranslateY = 0;
 
