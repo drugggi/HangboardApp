@@ -28,6 +28,7 @@ public class WorkoutActivity extends AppCompatActivity {
     Chronometer lapseTimeChrono;
 
     ProgressBar hangProgressBar;
+    ProgressBar restProgressBar;
 
     PinchZoomImageView pinchZoomBoardImage;
 
@@ -45,7 +46,7 @@ public class WorkoutActivity extends AppCompatActivity {
     // int workout_starts_in = 30;
     // s and total_s are the shown seconds on screen
     // if s < 0 it is rest time
-    int s = -30;
+    int s = -6;
     // total_s is the total workout_time and will count down to zero
     int total_s = 0;
     ArrayList<Hold> workoutInfoTest;
@@ -77,6 +78,10 @@ public class WorkoutActivity extends AppCompatActivity {
         // pinchZoomBoardImage.setImageResource(R.drawable.drcc);
 
         hangProgressBar = (ProgressBar) findViewById(R.id.hangProgressBar);
+        hangProgressBar.setProgressTintList(ColorStateList.valueOf(Color.RED));
+        restProgressBar = (ProgressBar) findViewById(R.id.restProgressBar);
+        restProgressBar.setProgressTintList(ColorStateList.valueOf(Color.GREEN));
+
         pauseBtn = (Button) findViewById(R.id.pauseBtn);
         pauseBtn.setText("pause");
         gradeTextView = (TextView) findViewById(R.id.gradTextView);
@@ -184,13 +189,17 @@ public class WorkoutActivity extends AppCompatActivity {
 
                         break;
                     case WORKOUT:
-                        if( s == 0 ) {lapseTimeChrono.setText("GO");}
+                        if( s == 0 ) {
+                            lapseTimeChrono.setText("GO");
+                            restProgressBar.setProgress(0);
+                        }
 
                         // If seconds in a hang lap (59s) has passed, it is REST time
                         if ( s == timeControls.getHangLapsSeconds() ) {
                             nowDoing = workoutPart.LEPO;
                              if (timeControls.getTimeOFF() == 0 ) { playFinishSound.start(); }
                             hangProgressBar.setProgress(0);
+                             restProgressBar.setProgress(0);
                             current_lap++;
                             s--;
 
@@ -201,9 +210,12 @@ public class WorkoutActivity extends AppCompatActivity {
                         //If the first digit is less than seven its hanging time and lets indicate
                         // that putting progressbar and ChronoTimer on color RED
                         if ( s%timeControls.getTimeONandOFF()  < timeControls.getTimeON() ) {
+                            restProgressBar.setProgress(0);
                             playSound.start();
-                            hangProgressBar.setProgress(( (s%timeControls.getTimeONandOFF())*100) / timeControls.getTimeONandOFF());
+                            //hangProgressBar.setProgress(( (s%timeControls.getTimeONandOFF())*100) / timeControls.getTimeONandOFF());
                             hangProgressBar.setProgressTintList(ColorStateList.valueOf(Color.RED));
+                           // hangProgressBar.setProgress(( ((s%timeControls.getTimeONandOFF()) %timeControls.getTimeON())*100) / timeControls.getTimeON());
+                            hangProgressBar.setProgress( (s%timeControls.getTimeONandOFF()) * 100 / timeControls.getTimeON());
                             lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.RED));
                         }
 
@@ -217,8 +229,14 @@ public class WorkoutActivity extends AppCompatActivity {
                                 workoutInfoTest.set(current_lap*2+1,tempHold);
                                 updateGripDisplay();
                             }
-                            hangProgressBar.setProgress(( (s%timeControls.getTimeONandOFF())*100) / timeControls.getTimeONandOFF());
-                            hangProgressBar.setProgressTintList(ColorStateList.valueOf(Color.GREEN));
+                            // hangProgressBar.setProgress(( (s%timeControls.getTimeONandOFF())*100) / timeControls.getTimeONandOFF());
+                             hangProgressBar.setProgressTintList(ColorStateList.valueOf(Color.GREEN));
+                            hangProgressBar.setProgress(100);
+                            Log.e("S% timeonandoff"," "+s%timeControls.getTimeONandOFF());
+                            Log.e("kokoroska"," "+ (((s%timeControls.getTimeONandOFF()))/timeControls.getTimeOFF() * 100) / timeControls.getTimeOFF() ) ;
+
+                            //restProgressBar.setProgress(( (((s%timeControls.getTimeONandOFF()))/timeControls.getTimeOFF() )* 100) / timeControls.getTimeOFF());
+                            restProgressBar.setProgress( ((s%timeControls.getTimeONandOFF())-timeControls.getTimeON())*100 / timeControls.getTimeOFF() );
                             lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
                         }
 
@@ -228,13 +246,14 @@ public class WorkoutActivity extends AppCompatActivity {
                         // This if statmenet will be called only once because s is positive and will be negative thereafter
                         if (s >= timeControls.getHangLapsSeconds()) {
                             hangProgressBar.setProgress(0);
+                            restProgressBar.setProgress(0);
                             lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
                             s = -timeControls.getRestTime();
                             // gradeTextView.setText(workoutInfo.get(current_lap));
                             updateGripDisplay();
 
                              }
-
+                        restProgressBar.setProgress((s+timeControls.getRestTime())*100 / timeControls.getRestTime() );
 
                         if (s == -1) {nowDoing = workoutPart.WORKOUT;}
 
@@ -245,12 +264,13 @@ public class WorkoutActivity extends AppCompatActivity {
                             current_set++;
                             current_lap = 0;
                             hangProgressBar.setProgress(0);
+                            restProgressBar.setProgress(0);
                             lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
                             updateGripDisplay();
                             s = -timeControls.getLongRestTime();
                             // gradeTextView.setText(workoutInfo.get(current_lap));
                         }
-
+                        restProgressBar.setProgress((s+timeControls.getLongRestTime())*100 / timeControls.getLongRestTime() );
                         if (timeControls.getRoutineLaps() == 1) {
                             lapseTimeChrono.stop();
                             totalTimeChrono.stop();
@@ -306,9 +326,9 @@ public class WorkoutActivity extends AppCompatActivity {
         Float offsetX = -60+100*scaleFactor;
         offsetX = offsetX/scaleto1050;
 
-        Log.e("SCALE","ScaleFactor/ scalto1050: " +scaleFactor + " / "+ scaleto1050);
+       // Log.e("SCALE","ScaleFactor/ scalto1050: " +scaleFactor + " / "+ scaleto1050);
         scaleFactor = scaleFactor  / scaleto1050;
-        Log.e("SCALE","NEW SCALEFACTOR: " +scaleFactor);
+       // Log.e("SCALE","NEW SCALEFACTOR: " +scaleFactor);
         Float multiplier_w = 3f*scaleFactor;
         Float multiplier_h = 3f*scaleFactor;
 
@@ -335,9 +355,8 @@ public class WorkoutActivity extends AppCompatActivity {
 */
 
 // MAKE SURE THIS TEST IS USELESS IN THE FUTURE! this method is called when the current lap is not reduced
-        if (workoutInfoTest.size() >= current_lap ) {current_lap = 0; }
         Log.e("CURRENT LAP" , "size and current_lap: "+ workoutInfoTest.size() + " / " + current_lap);
-
+        if ( current_lap >= workoutInfoTest.size()-1) {current_lap = 0; }
 
 
         leftHandImage.setImageResource(workoutInfoTest.get(current_lap*2 ).getGripImage(true));
