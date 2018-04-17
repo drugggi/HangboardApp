@@ -22,6 +22,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/rockprodigy" />
 
+    <TextView
+        android:id="@+id/infoTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:layout_marginTop="4dp"
+        android:text="xxmin left\n 1. set(1/6)"
+        android:textColor="@android:color/black"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.finn.laakso.hangboardapp.PinchZoomImageView
         android:id="@+id/pinchZoomImageView"
         android:layout_width="match_parent"
@@ -43,6 +55,7 @@
         android:contentDescription="right hand  image" />
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:baselineAligned="false"
@@ -129,7 +142,8 @@
             android:layout_gravity="center"
             android:gravity="right"
             android:textAlignment="center"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:visibility="invisible" />
 
     </LinearLayout>
 
@@ -137,18 +151,19 @@
         android:id="@+id/lapseTimeChrono"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|center_horizontal|center"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="-20dp"
+        android:layout_marginEnd="8dp"
         android:layout_weight="0"
         android:autoText="false"
-        android:gravity="center_vertical|center_horizontal"
-        android:paddingBottom="0dp"
+        android:gravity="bottom|end"
         android:paddingTop="0dp"
         android:text="100"
-        android:textAlignment="center"
+        android:textAlignment="textEnd"
         android:textColor="@android:color/holo_red_dark"
         android:textSize="150sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/pauseBtn"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

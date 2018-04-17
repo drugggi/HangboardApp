@@ -10,7 +10,6 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -51,6 +50,7 @@ public class WorkoutActivity extends AppCompatActivity {
     int total_s = 0;
     ArrayList<Hold> workoutInfoTest;
     TextView gradeTextView;
+    TextView infoTextView;
 
     int i;
 
@@ -85,6 +85,7 @@ public class WorkoutActivity extends AppCompatActivity {
         pauseBtn = (Button) findViewById(R.id.pauseBtn);
         pauseBtn.setText("pause");
         gradeTextView = (TextView) findViewById(R.id.gradTextView);
+        infoTextView = (TextView) findViewById(R.id.infoTextView);
 
         leftHandImage = (ImageView) findViewById(R.id.leftHandImageView);
         rightHandImage = (ImageView) findViewById(R.id.rightHandImageView);
@@ -172,7 +173,8 @@ public class WorkoutActivity extends AppCompatActivity {
                 s++;
                 total_s--;
                 lapseTimeChrono.setText("" + Math.abs(s) );
-                totalTimeChrono.setText( total_s/60 + "min left\n  "+ current_set + ". set ("+ (current_lap+1) + "/" + timeControls.getGripLaps()+") ");
+                infoTextView.setText(total_s/60 + "min left\n"+ current_set + ". set ("+ (current_lap+1) + "/" + timeControls.getGripLaps()+") ");
+                //totalTimeChrono.setText( total_s/60 + "min left\n  "+ current_set + ". set ("+ (current_lap+1) + "/" + timeControls.getGripLaps()+") ");
                 updateGripDisplay();
 
                 switch (nowDoing) {
@@ -232,8 +234,8 @@ public class WorkoutActivity extends AppCompatActivity {
                             // hangProgressBar.setProgress(( (s%timeControls.getTimeONandOFF())*100) / timeControls.getTimeONandOFF());
                              hangProgressBar.setProgressTintList(ColorStateList.valueOf(Color.GREEN));
                             hangProgressBar.setProgress(100);
-                            Log.e("S% timeonandoff"," "+s%timeControls.getTimeONandOFF());
-                            Log.e("kokoroska"," "+ (((s%timeControls.getTimeONandOFF()))/timeControls.getTimeOFF() * 100) / timeControls.getTimeOFF() ) ;
+                            //Log.e("S% timeonandoff"," "+s%timeControls.getTimeONandOFF());
+                           // Log.e("kokoroska"," "+ (((s%timeControls.getTimeONandOFF()))/timeControls.getTimeOFF() * 100) / timeControls.getTimeOFF() ) ;
 
                             //restProgressBar.setProgress(( (((s%timeControls.getTimeONandOFF()))/timeControls.getTimeOFF() )* 100) / timeControls.getTimeOFF());
                             restProgressBar.setProgress( ((s%timeControls.getTimeONandOFF())-timeControls.getTimeON())*100 / timeControls.getTimeOFF() );
@@ -355,8 +357,8 @@ public class WorkoutActivity extends AppCompatActivity {
 */
 
 // MAKE SURE THIS TEST IS USELESS IN THE FUTURE! this method is called when the current lap is not reduced
-        Log.e("CURRENT LAP" , "size and current_lap: "+ workoutInfoTest.size() + " / " + current_lap);
-        if ( current_lap >= workoutInfoTest.size()-1) {current_lap = 0; }
+       // Log.e("CURRENT LAP" , "size and current_lap: "+ workoutInfoTest.size() + " / " + current_lap);
+        if ( current_lap*2 >= workoutInfoTest.size()-1) {current_lap = 0; }
 
 
         leftHandImage.setImageResource(workoutInfoTest.get(current_lap*2 ).getGripImage(true));
