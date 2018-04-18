@@ -4,7 +4,7 @@ package com.finn.laakso.hangboardapp;
  * Created by Laakso on 12.1.2018.
  */
 
-// Class TimeControls tries to hide a lot of time control parameters that are kinda confusing to follow
+// Class TimeControls tries to hide a lot of time control parameters that are confusing to follow
 public class TimeControls {
     // In future I will refactor TimeControls class to keep track with current lap
     private int current_lap=0;
@@ -41,31 +41,28 @@ public class TimeControls {
         isRepeaters = setTo;
     }
 
-    // Not working very well
+    // Not working very well setToRepeaters is good enough
     public void changeTimeToSingleHangs() {
         isRepeaters = false;
-        /*int total_time = getTotalTime();
-        grip_laps = total_time / 60;
-        hang_laps = 1;
-        hang_laps_seconds = 10;
-        routine_laps = 1;
-        time_on = 10;
-        time_off = 1;
-        rest = 50;*/
-
     }
 
     // getGripMatrix method generates a readable String which represents the hang program and
     // includes grips, rest and long rest
+    // Refactor using StingBuilder in the future for good practice
     public String getGripMatrix(boolean showTimeInfo) {
         String matrix;
+
+        // if showTimeInfo is true lets print grips and rests in seconds
         if (showTimeInfo) {
             String grip_time= "[ "+ hang_laps_seconds+"s ]";
             String grips = "[ "+ hang_laps_seconds+"s ]";
+
+            // Lets generate a single set string
             for (int i=2; i<=grip_laps; i++) {
                 grips = grips + " " + rest + "s ";
                 grips = grips + "[ "+ hang_laps_seconds+"s ]";
             }
+            // no paste that single set string as many times as there are sets
             matrix = "1. SET:  " + grips;
             for (int i=2; i<=routine_laps; i++) {
                 matrix = matrix + "  LONG REST( " + long_rest + "s )\n";
@@ -76,7 +73,7 @@ public class TimeControls {
             matrix = matrix + " Workout time: " + getTotalTime() + "s ";
 
         }
-
+        // if showTimeInfo is false lets print grip 1, rest, grip 2, rest etc...
         else {
         String grips ="[grip 1]";
         for (int i=2; i <= grip_laps; i++) {
@@ -94,6 +91,7 @@ public class TimeControls {
         return matrix;
     }
 
+    // Time under thesion is the time that user actually hangs on those grips
     public int getTimeUnderTension() {
         return routine_laps*grip_laps*hang_laps*time_on;
     }
@@ -171,8 +169,8 @@ public class TimeControls {
         return hang_laps*(time_on + time_off);
     }
 
-   // time_controls = new int[] {6, 6, 7 ,3 , 3, 150, 600};
 
+    // Pre made workoutprograms, hopefully in future these will be replaced by community standards
     public void setProgramBasedOnTime(int workout_time) {
         if (isRepeaters) {
             if (workout_time < 25) {
@@ -189,15 +187,15 @@ public class TimeControls {
         }
         else {
             if (workout_time < 25) {
-                setTimeControls(new int[]{12, 1, 10, 0, 2, 50, 40}); // 20min program
+                setTimeControls(new int[]{12, 1, 10, 0, 2, 40, 90}); // 20min program
             } else if (workout_time < 40) {
-                setTimeControls(new int[]{19, 1, 10, 0, 2, 50, 45}); // 35min program
+                setTimeControls(new int[]{19, 1, 10, 0, 2, 45, 120}); // 35min program
             }
             // THIS IS NOT WORKING CURRENTLY or may it is who knows
             else if (workout_time < 55) {
-                setTimeControls(new int[]{17, 1, 10, 0, 3, 50, 50}); // 50min program
+                setTimeControls(new int[]{16, 1, 10, 0, 3, 50, 120}); // 50min program
             } else if (workout_time < 70) {
-                setTimeControls(new int[]{22, 1, 10, 0, 3, 50, 50}); // default program
+                setTimeControls(new int[]{21, 1, 10, 0, 3, 50, 150}); // default program
             } else {
                 setTimeControls(new int[]{15, 1, 10, 0, 1, 50, 50}); // TEST grade program
             }

@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -93,6 +92,11 @@ public class MainActivity extends AppCompatActivity {
         holdsListView.setAdapter(holdsAdapter);
         registerForContextMenu(holdsListView);
 
+        durationTextView = (TextView) findViewById(R.id.durationTextView);
+        durationSeekBar = (SeekBar) findViewById(R.id.durationSeekBar);
+
+        repeatersBox = (CheckBox) findViewById(R.id.repeatersCheckBox);
+        repeatersBox.setChecked(true);
 
         // Lets use CustomSwipeAdapter to show different hangboards in a swipeable fashion
         viewPager = (ViewPager)findViewById(R.id.view_pager);
@@ -142,19 +146,15 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
+                // The harder the grade the darker the color
                 Drawable selectColor = gradesListView.getSelector();
                 selectColor.setAlpha(90+position*15);
-                //Toast.makeText(MainActivity.this, position + " There's your alpha: "+ selectColor.getAlpha(), Toast.LENGTH_LONG).show();
                 gradesListView.setSelector(selectColor);
 
                 rightFingerImage.setVisibility(View.INVISIBLE);
                 leftFingerImage.setVisibility(View.INVISIBLE);
 
                 grade_descr_position = gradesListView.getPositionForView(view);
-/*
-                holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
-                        R.layout.mytextview , everyBoard.setGrips(grade_descr_position));
-                holdsListView.setAdapter(holdsAdapter); */
 
                 randomizeBtn.setText("New "+ everyBoard.getGrade(grade_descr_position)+ " Workout");
                 hang_descr_position = 0;
@@ -176,13 +176,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
 
-               // Toast.makeText(MainActivity.this, " CONTEXT MNEU", Toast.LENGTH_SHORT).show();
                 if (v.getId()==R.id.holdsListView) {
                     AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
                     menu.setHeaderTitle("Select to change hold or grip");
 
+                    // We have to know how many holds there are in current hangboard
                     int max = everyBoard.getMaxHoldNumber();
-
                     int i = 0;
                     int j = 1;
 
@@ -221,12 +220,10 @@ public class MainActivity extends AppCompatActivity {
                 hang_descr_position = position+1;
                 randomizeBtn.setText(hang_descr_position + ". New "+ everyBoard.getGrade(grade_descr_position) + " Hang" );
 
-                // holdsListView.setCacheColorHint(android.R.color.holo_blue_dark);
-
                 rightFingerImage.setVisibility(View.VISIBLE);
                 leftFingerImage.setVisibility(View.VISIBLE);
-
                 ImageView imageView = (ImageView) findViewById(R.id.image_view);
+
                 // Hopefully this multiplier works in every android device
                 Float multiplyer_w = imageView.getWidth() / 350F;
                 Float multiplyer_h = imageView.getHeight() / 150F;
@@ -239,10 +236,9 @@ public class MainActivity extends AppCompatActivity {
                 rightFingerImage.setX(everyBoard.getCoordRightX(position)*multiplyer_w);
                 rightFingerImage.setY(everyBoard.getCoordRightY(position)*multiplyer_h);
 
-                Log.e("HANGBOARD IMAGE","image WIDTH/HEIGHT:   " +imageView.getWidth()+" / "+imageView.getHeight());
-
-                Log.e("LEFT HAND" , "X and Y: "+ everyBoard.getCoordLeftX(position)+ " / " + everyBoard.getCoordLeftY(position));
-                Log.e("RIGHT HAND" , "X and Y: "+ everyBoard.getCoordRightX(position)+ " / " + everyBoard.getCoordRightY(position));
+               // Log.e("HANGBOARD IMAGE","image WIDTH/HEIGHT:   " +imageView.getWidth()+" / "+imageView.getHeight());
+              ///  Log.e("LEFT HAND" , "X and Y: "+ everyBoard.getCoordLeftX(position)+ " / " + everyBoard.getCoordLeftY(position));
+              //  Log.e("RIGHT HAND" , "X and Y: "+ everyBoard.getCoordRightX(position)+ " / " + everyBoard.getCoordRightY(position));
 
                 /*
                 // THIS IS ONLY FOR TESTING HAND IMAGES POSITION PURPOSES
@@ -255,7 +251,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         // Attempts to launch an activity within our own app
         startWorkout = (Button) findViewById(R.id.startWorkoutBtn);
         startWorkout.setOnClickListener(new View.OnClickListener() {
@@ -263,10 +258,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent workoutIntent = new Intent(getApplicationContext(), WorkoutActivity.class);
 
-                // DELETE THESE TWO
-                //workoutIntent.putStringArrayListExtra("com.finn.laakso.hangboardapp.HANGLIST", everyBoard.GetGripList() );
-                //workoutIntent.putExtra("com.finn.laakso.hangboardapp.COORDINATES", everyBoard.getCoordinates());
-                // ArrayList<Hold> currentHoldList = everyBoard.getCurrentHoldList();
                 // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
                 workoutIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
                 workoutIntent.putExtra("com.finn.laakso.hangboardapp.BOARDIMAGE",adapter.getImageResource(viewPager.getCurrentItem()));
@@ -276,13 +267,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         // RandomizeButton listener that randomizes hold or holds that user wants
         randomizeBtn = (Button) findViewById(R.id.randomizeBtn);
         randomizeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                // when 0 grip is not selected and we can randomize all grips
                 if ( hang_descr_position == 0 ) {
                     everyBoard.randomizeGrips(grade_descr_position);
 
@@ -290,6 +281,7 @@ public class MainActivity extends AppCompatActivity {
                         everyBoard.setHoldsForSingleHangs();
                     }
                 }
+                // randomize a single grip
                 else {
                     everyBoard.randomizeGrip(grade_descr_position,hang_descr_position-1);
 
@@ -319,27 +311,15 @@ public class MainActivity extends AppCompatActivity {
         timeControlBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-/*
-                Toast.makeText(MainActivity.this,"X: "+ fingerImage.getWidth()+ " Y: " + fingerImage.getHeight(),Toast.LENGTH_LONG ).show();
-                Toast.makeText(MainActivity.this,"X/1.5: "+ fingerImage.getX()/1.5+ " Y/1.5: " + fingerImage.getY()/1.5 ,Toast.LENGTH_LONG ).show();
-            Toast.makeText(MainActivity.this, " CHECK WHICH PHONE USES 1.5 FACTOR, TEST WITH MODE S PHONE", Toast.LENGTH_SHORT).show()
-*/
-                Intent settingsIntent = new Intent(getApplicationContext(),SettingsActivity.class);
 
+                Intent settingsIntent = new Intent(getApplicationContext(),SettingsActivity.class);
                 settingsIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS", timeControls.getTimeControlsIntArray() );
 
                 setResult(Activity.RESULT_OK,settingsIntent);
-               startActivityForResult(settingsIntent,REQUEST_TIME_CONTROLS);
-
+                startActivityForResult(settingsIntent,REQUEST_TIME_CONTROLS);
 
             }
         });
-
-        durationTextView = (TextView) findViewById(R.id.durationTextView);
-        durationSeekBar = (SeekBar) findViewById(R.id.durationSeekBar);
-
-        repeatersBox = (CheckBox) findViewById(R.id.repeatersCheckBox);
-        repeatersBox.setChecked(true);
 
         // There are two main types of hang programs called repeaters or single hangs
         repeatersBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -447,10 +427,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         ImageView imageView = (ImageView) findViewById(R.id.image_view);
-
         Float multiplyer_w = imageView.getWidth() / 350F;
         Float multiplyer_h = imageView.getHeight() / 150F;
-
 
         leftFingerImage.setImageResource(everyBoard.getLeftFingerImage(menuItemIndex));
         leftFingerImage.setX(everyBoard.getCoordLeftX(menuItemIndex)* multiplyer_w);
@@ -460,40 +438,15 @@ public class MainActivity extends AppCompatActivity {
         rightFingerImage.setX(everyBoard.getCoordRightX(menuItemIndex)*multiplyer_w);
         rightFingerImage.setY(everyBoard.getCoordRightY(menuItemIndex)*multiplyer_h);
 
-        /*
-        int max = everyBoard.getMaxHoldNumber();
-
-        int menuItemIndex = item.getItemId();
-
-        if (menuItemIndex < 2*max) {
-            int holdnumber = (menuItemIndex+1)/2;
-            Hold customHold = new Hold(holdnumber);
-        }
-        else {
-
-        }*/
-//        String[] menuItems = getResources().getStringArray(R.array.menu);
-      //  String menuItemName = menuItems[menuItemIndex];
-
-
-
-        // Toast.makeText(MainActivity.this," menuitemindex eli mitä valikosta valittiin: " + menuItemIndex + " info pos eli mikä indexi holdlistinfossa 0-5: " +info.position, Toast.LENGTH_SHORT).show();
-
-
-       //onCreateContextMenu(MainActivity.this,this,);
-        // String listItemName = Countries[info.position];
-
-        //TextView text = (TextView)findViewById(R.id.footer);
-        //text.setText(String.format("Selected %s for item %s", menuItemName, listItemName));
         return true;
 
     }
 
+    // Lets get the time controls settings back to main activity.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-            //Toast.makeText(MainActivity.this, "There is no grades in \"TEST progression\" program", Toast.LENGTH_LONG).show();
             if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_TIME_CONTROLS) {
                 //int i = data.getIntExtra("com.finn.laakso.hangboardapp.SETTINGS",0);
                 int[] i = data.getIntArrayExtra("com.finn.laakso.hangboardapp.SETTINGS");
@@ -511,12 +464,14 @@ public class MainActivity extends AppCompatActivity {
                     timeControls.setTimeControls(i);
                 }
 
+                //Disable the slider and check box, so that those are accidentally changed
                 Toast.makeText(MainActivity.this, "Settings saved, pre made time controls disabled ", Toast.LENGTH_LONG).show();
                 repeatersBox.setVisibility(View.INVISIBLE);
                 durationSeekBar.setVisibility(View.INVISIBLE);
                 durationTextView.setText("Duration: " + timeControls.getTotalTime() / 60 + "min");
 
-            } else {
+            } // Enabling them when settings are not saved, in future must be made more intuitive.
+            else {
                 Toast.makeText(MainActivity.this, "Settings not saved, pre made time controls enabled", Toast.LENGTH_LONG).show();
                 repeatersBox.setVisibility(View.VISIBLE);
                 durationSeekBar.setVisibility(View.VISIBLE);

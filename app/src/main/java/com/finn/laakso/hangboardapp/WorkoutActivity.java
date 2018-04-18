@@ -36,9 +36,9 @@ public class WorkoutActivity extends AppCompatActivity {
 
     PinchZoomImageView pinchZoomBoardImage;
 
-     ImageView boardimage;
-     ImageView leftHandImage;
-     ImageView rightHandImage;
+    ImageView boardimage;
+    ImageView leftHandImage;
+    ImageView rightHandImage;
     enum workoutPart {ALKULEPO, WORKOUT, LEPO, PITKALEPO};
     Button pauseBtn;
 
@@ -47,12 +47,14 @@ public class WorkoutActivity extends AppCompatActivity {
     int current_set;
     workoutPart nowDoing = workoutPart.ALKULEPO;
 
-    // int workout_starts_in = 30;
-    // s and total_s are the shown seconds on screen
-    // if s < 0 it is rest time
+
+    // workout starts in 30 seconds
     int s = -30;
+
     // total_s is the total workout_time and will count down to zero
     int total_s = 0;
+
+    // Change the name, this keeps track on grips used at the time
     ArrayList<Hold> workoutInfoTest;
     TextView gradeTextView;
     TextView infoTextView;
@@ -80,7 +82,6 @@ public class WorkoutActivity extends AppCompatActivity {
         boardimage = (ImageView) findViewById(R.id.boardImageView);
         boardimage.setVisibility(View.INVISIBLE);
         pinchZoomBoardImage = (PinchZoomImageView) findViewById(R.id.pinchZoomImageView);
-        // pinchZoomBoardImage.setImageResource(R.drawable.drcc);
 
         hangProgressBar = (ProgressBar) findViewById(R.id.hangProgressBar);
         hangProgressBar.setProgressTintList(ColorStateList.valueOf(Color.RED));
@@ -95,18 +96,6 @@ public class WorkoutActivity extends AppCompatActivity {
         leftHandImage = (ImageView) findViewById(R.id.leftHandImageView);
         rightHandImage = (ImageView) findViewById(R.id.rightHandImageView);
 
-/*
-        boardimage.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Toast.makeText(WorkoutActivity.this,"ON LONG TOUCH LISTENER",Toast.LENGTH_LONG).show();
-               pinchZoomBoardImage.setVisibility(View.VISIBLE);
-                return true;
-            }
-        });
-*/
-
-
         // Holds that will be used in this workout program
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.HOLDS")) {
              workoutInfoTest = getIntent().getExtras().getParcelableArrayList("com.finn.laakso.hangboardapp.HOLDS");
@@ -118,11 +107,7 @@ public class WorkoutActivity extends AppCompatActivity {
             boardimage.setImageResource(image_resource);
             pinchZoomBoardImage.setImageBitmap(BitmapFactory.decodeResource(getResources(),image_resource));
             pinchZoomBoardImage.setVisibility(View.VISIBLE);
-            // pinchZoomBoardImage.setImage(res,image_resource);
-
         }
-
-
 
         // This Intent brings the time controls to the workout program
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.TIMECONTROLS")) {
@@ -131,7 +116,7 @@ public class WorkoutActivity extends AppCompatActivity {
             timeControls = new TimeControls();
             timeControls.setTimeControls(time_controls);
             //s= -5;
-            // timeControls.setTimeControls(new int[] {6, 1, 10 ,0 , 1, 15, 150});  // IF YOU WANT TO CONTROL TIMECONTROLS FOR TESTIT PURPOSES
+            // timeControls.setTimeControls(new int[] {6, 1, 10 ,0 , 1, 15, 150});  // IF YOU WANT TO CONTROL TIMECONTROLS FOR TESTING PURPOSES
 
             // SECURITY CHECK, WILL MAKE SURE IN FUTURE TO NEVER HAPPEN
             if (timeControls.getGripLaps()*2 != workoutInfoTest.size()) {
@@ -143,22 +128,10 @@ public class WorkoutActivity extends AppCompatActivity {
 
         }
 
-        //totalTimeChrono = (Chronometer) findViewById(R.id.totalTimeChrono);
 
         lapseTimeChrono = (Chronometer) findViewById(R.id.lapseTimeChrono);
         lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
         lapseTimeChrono.start();
-/*
-        lapseTimeChrono.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Toast.makeText(WorkoutActivity.this,"ON LONG TOUCH LISTENER",Toast.LENGTH_LONG).show();
-                lapseTimeChrono.setTextSize(55f);
-                return true;
-            }
-        });*/
-
-
 
         // Context Menu Listener so user can change the timer text size
         lapseTimeChrono.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
@@ -169,7 +142,7 @@ public class WorkoutActivity extends AppCompatActivity {
                     AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
                     menu.setHeaderTitle("Select new size");
 
-
+                    // Options to change the size of lapseTimeChrono
                     menu.add(Menu.NONE,1,1,"GROW: 1.5x");
                     menu.add(Menu.NONE,2,2,"GROW: 1.25x");
                     menu.add(Menu.NONE,3,3,"GROW: 1.1x");
@@ -213,7 +186,6 @@ public class WorkoutActivity extends AppCompatActivity {
                 total_s--;
                 lapseTimeChrono.setText("" + Math.abs(s) );
                 infoTextView.setText(total_s/60 + "min left\n"+ current_set + ". set ("+ (current_lap+1) + "/" + timeControls.getGripLaps()+") ");
-                //totalTimeChrono.setText( total_s/60 + "min left\n  "+ current_set + ". set ("+ (current_lap+1) + "/" + timeControls.getGripLaps()+") ");
                 updateGripDisplay();
 
                 switch (nowDoing) {
@@ -262,7 +234,6 @@ public class WorkoutActivity extends AppCompatActivity {
 
                         // If the first digit is 7 it is rest time for three seconds,
                         else {
-                            // Toast.makeText(WorkoutActivity.this,s + "onandoff: " +timeControls.getTimeONandOFF()+ " timeon: "+ timeControls.getTimeON(),Toast.LENGTH_LONG).show();
                             if (s%timeControls.getTimeONandOFF() == timeControls.getTimeON() ) {
                                 playFinishSound.start();
                                 Hold tempHold = workoutInfoTest.get(current_lap*2);
@@ -270,13 +241,9 @@ public class WorkoutActivity extends AppCompatActivity {
                                 workoutInfoTest.set(current_lap*2+1,tempHold);
                                 updateGripDisplay();
                             }
-                            // hangProgressBar.setProgress(( (s%timeControls.getTimeONandOFF())*100) / timeControls.getTimeONandOFF());
                              hangProgressBar.setProgressTintList(ColorStateList.valueOf(Color.GREEN));
                             hangProgressBar.setProgress(100);
-                            //Log.e("S% timeonandoff"," "+s%timeControls.getTimeONandOFF());
-                           // Log.e("kokoroska"," "+ (((s%timeControls.getTimeONandOFF()))/timeControls.getTimeOFF() * 100) / timeControls.getTimeOFF() ) ;
 
-                            //restProgressBar.setProgress(( (((s%timeControls.getTimeONandOFF()))/timeControls.getTimeOFF() )* 100) / timeControls.getTimeOFF());
                             restProgressBar.setProgress( ((s%timeControls.getTimeONandOFF())-timeControls.getTimeON())*100 / timeControls.getTimeOFF() );
                             lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
                         }
@@ -284,13 +251,12 @@ public class WorkoutActivity extends AppCompatActivity {
                         break;
                     case LEPO:
 
-                        // This if statmenet will be called only once because s is positive and will be negative thereafter
+                        // This if statement will be called only once because s is positive and will be negative thereafter
                         if (s >= timeControls.getHangLapsSeconds()) {
                             hangProgressBar.setProgress(0);
                             restProgressBar.setProgress(0);
                             lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
                             s = -timeControls.getRestTime();
-                            // gradeTextView.setText(workoutInfo.get(current_lap));
                             updateGripDisplay();
 
                              }
@@ -309,12 +275,12 @@ public class WorkoutActivity extends AppCompatActivity {
                             lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
                             updateGripDisplay();
                             s = -timeControls.getLongRestTime();
-                            // gradeTextView.setText(workoutInfo.get(current_lap));
+
                         }
                         restProgressBar.setProgress((s+timeControls.getLongRestTime())*100 / timeControls.getLongRestTime() );
                         if (timeControls.getRoutineLaps() == 1) {
                             lapseTimeChrono.stop();
-                           // totalTimeChrono.stop();
+
                         }
 
                         if (s == -1) {nowDoing = workoutPart.WORKOUT;
@@ -331,6 +297,8 @@ public class WorkoutActivity extends AppCompatActivity {
         });
 
     }
+
+    // Lets change the lapseTimeChrono size base on what user chose.
     @Override
     public boolean onContextItemSelected(MenuItem item) {
 
@@ -339,8 +307,6 @@ public class WorkoutActivity extends AppCompatActivity {
         DisplayMetrics metrics;
         metrics = getApplicationContext().getResources().getDisplayMetrics();
         float chronoTextSize = lapseTimeChrono.getTextSize()/metrics.density;
-        // lapseTimeChrono.setTextSize(Textsize+1);
-
 
         if (clicked_position == 1) {
             lapseTimeChrono.setTextSize(chronoTextSize*1.5f);
@@ -355,8 +321,8 @@ public class WorkoutActivity extends AppCompatActivity {
         } else  {
             lapseTimeChrono.setTextSize(chronoTextSize*0.5f);
         }
-       //  Toast.makeText(WorkoutActivity.this,"clicked_pos: " + clicked_position + " newtextsize: " + lapseTimeChrono.getTextSize(),Toast.LENGTH_SHORT ).show();
 
+        // Lets not allow user to make ridiculously small or big text size.
         if (lapseTimeChrono.getTextSize() > 1500f || lapseTimeChrono.getTextSize() < 100f) {
             Toast.makeText(WorkoutActivity.this,"Inappropriate text size",Toast.LENGTH_SHORT ).show();
             lapseTimeChrono.setTextSize(155f);
@@ -367,30 +333,6 @@ public class WorkoutActivity extends AppCompatActivity {
     }
 
     private void updateGripDisplay() {
-/*
-        Float multiplier_w = boardimage.getWidth() / 350F;
-        Float multiplier_h = boardimage.getHeight() / 150F;*/
-        // Toast.makeText(WorkoutActivity.this,"length X: "+ multiplier_w+ " Y: " + multiplier_h,Toast.LENGTH_LONG ).show();
-/*
-        Float multiplier_w = pinchZoomBoardImage.getImageWidth() / 338F;
-        Float multiplier_h = pinchZoomBoardImage.getImageHeight() / 105F;
-
-        Toast.makeText(WorkoutActivity.this,"length X: "+ multiplier_w+ " Y: " + multiplier_h,Toast.LENGTH_LONG ).show();
-
-        Log.e("LEFT HAND","X: " +workoutInfoTest.get(current_lap*2 ).getLeftCoordX());
-        Log.e("LEFT HAND" , "Y: "+ workoutInfoTest.get(current_lap*2).getLeftCoordY());
-
-        Log.e("RIGHT HAND","X: " +workoutInfoTest.get(current_lap*2+1 ).getRightCoordX());
-        Log.e("RIGHT HAND" , "Y: "+ workoutInfoTest.get(current_lap*2+1).getRightCoordY());
-
-        Log.e("BOARD", "START X: " + pinchZoomBoardImage.getImageX());
-        Log.e("BOARD", "START Y: " + pinchZoomBoardImage.getImageY());
-        Log.e("BOARD", "WIDTH: " + pinchZoomBoardImage.getImageWidth());
-        Log.e("BOARD", "HEIGHT: " + pinchZoomBoardImage.getImageHeight());
-
-
-*/
-
 
         Float scaleFactor = pinchZoomBoardImage.getScaleFactor();
 
@@ -406,8 +348,6 @@ public class WorkoutActivity extends AppCompatActivity {
        // Log.e("SCALE","NEW SCALEFACTOR: " +scaleFactor);
         Float multiplier_w = 3f*scaleFactor;
         Float multiplier_h = 3f*scaleFactor;
-
-
 
         Float imagewidth = pinchZoomBoardImage.getImageWidth();
         Float imageheight = pinchZoomBoardImage.getImageHeight();
@@ -433,7 +373,6 @@ public class WorkoutActivity extends AppCompatActivity {
        // Log.e("CURRENT LAP" , "size and current_lap: "+ workoutInfoTest.size() + " / " + current_lap);
         if ( current_lap*2 >= workoutInfoTest.size()-1) {current_lap = 0; }
 
-
         leftHandImage.setImageResource(workoutInfoTest.get(current_lap*2 ).getGripImage(true));
         rightHandImage.setImageResource(workoutInfoTest.get(current_lap*2 + 1).getGripImage(false));
 
@@ -444,14 +383,8 @@ public class WorkoutActivity extends AppCompatActivity {
         rightHandImage.setX(pinchZoomBoardImage.getImageX() + workoutInfoTest.get(current_lap*2 + 1).getRightCoordX()*multiplier_w+offsetX);
         rightHandImage.setY(pinchZoomBoardImage.getImageY() + workoutInfoTest.get(current_lap*2 + 1).getRightCoordY()*multiplier_h-offsetY);
 
-        // Lets get the coordinates for the next hand images
-        /*
-        leftHandImage.setX(workoutInfoTest.get(current_lap*2 ).getLeftCoordX()*multiplier_w + 10);
-        leftHandImage.setY(workoutInfoTest.get(current_lap*2).getLeftCoordY()*multiplier_h);
-        rightHandImage.setX(workoutInfoTest.get(current_lap*2 + 1).getRightCoordX()*multiplier_w + 10);
-        rightHandImage.setY(workoutInfoTest.get(current_lap*2 + 1).getRightCoordY()*multiplier_h);
-*/
-        // Lets get the correct descrption to next hold and grip
+
+        // Lets get the correct description to next hold and grip
         String texti =workoutInfoTest.get(2*current_lap).getHoldInfo(workoutInfoTest.get(2*current_lap+1));
         texti = texti.replaceAll("\n",", ");
         gradeTextView.setText(texti);
