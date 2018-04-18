@@ -10,8 +10,13 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageView;
@@ -143,6 +148,40 @@ public class WorkoutActivity extends AppCompatActivity {
         lapseTimeChrono = (Chronometer) findViewById(R.id.lapseTimeChrono);
         lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
         lapseTimeChrono.start();
+/*
+        lapseTimeChrono.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast.makeText(WorkoutActivity.this,"ON LONG TOUCH LISTENER",Toast.LENGTH_LONG).show();
+                lapseTimeChrono.setTextSize(55f);
+                return true;
+            }
+        });*/
+
+
+
+        // Context Menu Listener so user can change the timer text size
+        lapseTimeChrono.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+            @Override
+            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+
+                if (v.getId()==R.id.lapseTimeChrono) {
+                    AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+                    menu.setHeaderTitle("Select new size");
+
+
+                    menu.add(Menu.NONE,1,1,"GROW: 1.5x");
+                    menu.add(Menu.NONE,2,2,"GROW: 1.25x");
+                    menu.add(Menu.NONE,3,3,"GROW: 1.1x");
+                    menu.add(Menu.NONE,4,4,"SHRINK: 0.9x");
+                    menu.add(Menu.NONE,5,5,"SHRINK: 0.75x");
+                    menu.add(Menu.NONE,6,6,"SHRINK: 0.5x");
+
+                }
+
+
+            }
+        });
 
         // Lets stop or start chronometer on user input
         i = -1;
@@ -290,6 +329,40 @@ public class WorkoutActivity extends AppCompatActivity {
 
             }
         });
+
+    }
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        int clicked_position = item.getItemId();
+
+        DisplayMetrics metrics;
+        metrics = getApplicationContext().getResources().getDisplayMetrics();
+        float chronoTextSize = lapseTimeChrono.getTextSize()/metrics.density;
+        // lapseTimeChrono.setTextSize(Textsize+1);
+
+
+        if (clicked_position == 1) {
+            lapseTimeChrono.setTextSize(chronoTextSize*1.5f);
+        } else if (clicked_position == 2) {
+            lapseTimeChrono.setTextSize(chronoTextSize*1.25f);
+        } else if (clicked_position == 3) {
+            lapseTimeChrono.setTextSize(chronoTextSize*1.1f);
+        } else if (clicked_position == 4) {
+            lapseTimeChrono.setTextSize(chronoTextSize*0.9f);
+        } else if (clicked_position == 5) {
+            lapseTimeChrono.setTextSize(chronoTextSize*0.75f);
+        } else  {
+            lapseTimeChrono.setTextSize(chronoTextSize*0.5f);
+        }
+       //  Toast.makeText(WorkoutActivity.this,"clicked_pos: " + clicked_position + " newtextsize: " + lapseTimeChrono.getTextSize(),Toast.LENGTH_SHORT ).show();
+
+        if (lapseTimeChrono.getTextSize() > 1500f || lapseTimeChrono.getTextSize() < 100f) {
+            Toast.makeText(WorkoutActivity.this,"Inappropriate text size",Toast.LENGTH_SHORT ).show();
+            lapseTimeChrono.setTextSize(155f);
+        }
+
+        return true;
 
     }
 
