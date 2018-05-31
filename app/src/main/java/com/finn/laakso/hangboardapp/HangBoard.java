@@ -214,6 +214,13 @@ public class HangBoard {
 
     // Sets the valueList to given amount and randomizes those holds
     public void setGripAmount(int amount, int grade_position) {
+
+        // No need to change if the size is the same than wanthed size (amount)
+        // Log.d("amount, value",amount + ":" +valueList.size() );
+        if (amount*2 == valueList.size() ) {
+            return;
+        }
+
         valueList.clear();
 
         while (amount > 0) {

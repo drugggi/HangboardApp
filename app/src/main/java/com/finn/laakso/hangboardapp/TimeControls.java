@@ -191,7 +191,7 @@ public class TimeControls {
             } else if (workout_time < 40) {
                 setTimeControls(new int[]{19, 1, 10, 0, 2, 45, 120}); // 35min program
             }
-            // THIS IS NOT WORKING CURRENTLY or may it is who knows
+            // THIS IS NOT WORKING CURRENTLY or maybe it is who knows
             else if (workout_time < 55) {
                 setTimeControls(new int[]{16, 1, 10, 0, 3, 50, 120}); // 50min program
             } else if (workout_time < 70) {

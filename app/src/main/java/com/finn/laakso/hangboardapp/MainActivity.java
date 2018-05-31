@@ -53,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
     HangBoard everyBoard;
     TimeControls timeControls;
 
+    int progressbarposition;
+
     private static final int REQUEST_TIME_CONTROLS = 0;
 
     @Override
@@ -60,14 +62,17 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         outState.putInt("grade_desc_pos",grade_descr_position);
         outState.putParcelableArrayList("hangboardapp.HOLDS", everyBoard.getCurrentHoldList());
-       // Toast.makeText(MainActivity.this, "grade descr pos: " + grade_descr_position , Toast.LENGTH_LONG).show();
+        outState.putInt("progbar", durationSeekBar.getProgress());
+        Toast.makeText(MainActivity.this, "progbar saveinsatnce: " + durationSeekBar.getProgress(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         grade_descr_position = savedInstanceState.getInt("grade_desc_pos");
-       // Toast.makeText(MainActivity.this, "grade descr pos: " + grade_descr_position , Toast.LENGTH_LONG).show();
+        progressbarposition =savedInstanceState.getInt("progbar");
+        durationSeekBar.setProgress(progressbarposition);
+       // Toast.makeText(MainActivity.this, "progbar restores: " + progressbarposition , Toast.LENGTH_LONG).show();
     }
 
 
@@ -96,6 +101,9 @@ public class MainActivity extends AppCompatActivity {
        // everyBoard.setGripAmount(6,0);
         if (savedInstanceState != null) {
             grade_descr_position = savedInstanceState.getInt("grade_desc_pos");
+           // progressbarposition =savedInstanceState.getInt("progbar");
+           //durationSeekBar.setProgress(progressbarposition);
+            //            durationSeekBar.setProgress(savedInstanceState.getInt("progbar"));
         }
 
         //Default hangboard program (65min)
@@ -117,13 +125,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
         holdsAdapter = new  ArrayAdapter<String>(this, R.layout.mytextview, everyBoard.getGrips());
-         Toast.makeText(MainActivity.this, "grade descr pos: " + grade_descr_position , Toast.LENGTH_LONG).show();
+        // Toast.makeText(MainActivity.this, "grade descr pos: " + grade_descr_position , Toast.LENGTH_LONG).show();
 
         holdsListView.setAdapter(holdsAdapter);
         registerForContextMenu(holdsListView);
 
         durationTextView = (TextView) findViewById(R.id.durationTextView);
         durationSeekBar = (SeekBar) findViewById(R.id.durationSeekBar);
+
+        if (savedInstanceState != null) {
+            durationSeekBar.setProgress(savedInstanceState.getInt("progbar"));
+        }
 
         repeatersBox = (CheckBox) findViewById(R.id.repeatersCheckBox);
         repeatersBox.setChecked(true);
@@ -368,6 +380,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 timeControls.setProgramBasedOnTime(20 + durationSeekBar.getProgress() * 15);
 
+                Toast.makeText(MainActivity.this, "onprogresschaged durationSeekBar.getProgress():  " + durationSeekBar.getProgress(), Toast.LENGTH_LONG).show();
+
                 // If the progressBar is "TEST progress" we must sort the holds
                 if (durationSeekBar.getProgress() == 4) {
                     everyBoard.sortHoldByDifficulty();
@@ -412,7 +426,10 @@ public class MainActivity extends AppCompatActivity {
                     timeControls.setProgramBasedOnTime(20 + progress * 15);
                     durationTextView.setText("Duration: " + timeControls.getTotalTime()/60 + "min");
 
+                    // Toast.makeText(MainActivity.this, "onprogresschaged tultiin else  ", Toast.LENGTH_LONG).show();
+
                     everyBoard.setGripAmount(timeControls.getGripLaps(),grade_descr_position);
+
 
                     if (repeatersBox.isChecked() == false) {
                         everyBoard.setHoldsForSingleHangs();
