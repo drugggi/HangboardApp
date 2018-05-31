@@ -119,6 +119,15 @@ public class PinchZoomImageView extends ImageView {
         return true;
     }
 
+    public void setScale(float scaleFactor) {
+        this.mScaleFactor = scaleFactor;
+        //ondraw();
+    }
+
+    public void setTranslateY(float translateY) {
+        this.mTranslateY = translateY;
+    }
+
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);

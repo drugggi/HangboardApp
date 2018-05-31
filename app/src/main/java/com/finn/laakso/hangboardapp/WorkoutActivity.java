@@ -1,8 +1,8 @@
 package com.finn.laakso.hangboardapp;
 
 import android.annotation.SuppressLint;
-import android.content.pm.ActivityInfo;
 import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -70,7 +70,7 @@ public class WorkoutActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_workout);
-        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        // this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         // Sound files that will be played for every second that user hangs, and at the end finish sound
         final MediaPlayer playSound = MediaPlayer.create(this,R.raw.tick);
@@ -128,6 +128,11 @@ public class WorkoutActivity extends AppCompatActivity {
 
         }
 
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ) {
+            pinchZoomBoardImage.setScale(1f);
+            pinchZoomBoardImage.setTranslateY(100f);
+
+        }
 
         lapseTimeChrono = (Chronometer) findViewById(R.id.lapseTimeChrono);
         lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));

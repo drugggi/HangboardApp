@@ -19,8 +19,8 @@
         android:paddingRight="0dp"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/rockprodigy" />
+        app:srcCompat="@drawable/rockprodigy"
+        tools:layout_editor_absoluteY="63dp" />
 
     <TextView
         android:id="@+id/infoTextView"
@@ -40,7 +40,8 @@
         android:layout_height="match_parent"
         android:contentDescription="hangboard image"
         android:visibility="visible"
-        app:srcCompat="@drawable/beast1000" />
+        app:srcCompat="@drawable/beast1000"
+     />
 
     <ImageView
         android:id="@+id/leftHandImageView"
@@ -127,20 +128,21 @@
                 android:scaleY="30"
                 android:visibility="visible" />
 
-            <Button
-                android:id="@+id/pauseBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_weight="0"
-                android:elevation="0dp"
-                android:text="pause"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
         </LinearLayout>
+
+        <Button
+            android:id="@+id/pauseBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="0"
+            android:elevation="0dp"
+            android:text="pause"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
 
     </LinearLayout>
