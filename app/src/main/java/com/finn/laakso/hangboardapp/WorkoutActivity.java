@@ -179,6 +179,7 @@ public class WorkoutActivity extends AppCompatActivity {
         current_set = 1;
 
         // Progress our program for every tick that lapseTimeChrono produces
+
         lapseTimeChrono.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override
             public void onChronometerTick(Chronometer chronometer) {

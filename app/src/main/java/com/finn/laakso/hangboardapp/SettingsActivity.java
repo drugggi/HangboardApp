@@ -23,6 +23,8 @@ public class SettingsActivity extends AppCompatActivity {
     TimeControls timeControls;
 
     Button finishButton;
+    Button cancelButton;
+
     EditText gripLapsEditText;
     EditText hangLapsEditText;
     EditText timeONEditText;
@@ -57,7 +59,7 @@ public class SettingsActivity extends AppCompatActivity {
         // is used so that the grip progressbar is useful in both programs
         gripMultiplier = 1;
 
-        // These TextViews are the visual reprseentation of the hangboard program, which hopefully
+        // These TextViews are the visual representation of the hangboard program, which hopefully
         // makes user understand time controls better
         mHangsTextView = (TextView) findViewById(R.id.mHangsTextView);
         mTimeONTextView = (TextView) findViewById(R.id.mTimeONTextView);
@@ -68,9 +70,7 @@ public class SettingsActivity extends AppCompatActivity {
         timeInfoSwitch = (Switch) findViewById(R.id.showTimeSwitch);
 
         finishButton = (Button) findViewById(R.id.finishButton);
-
-
-        repeaterSwitch = (Switch) findViewById(R.id.repeaterSwitch);
+        cancelButton = (Button) findViewById(R.id.cancelButton);
 
         // All the editable time control widgets
         gripLapsEditText = (EditText) findViewById(R.id.gripLapsEditText);
@@ -512,6 +512,14 @@ public class SettingsActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
 /*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

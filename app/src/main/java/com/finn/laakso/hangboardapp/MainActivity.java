@@ -2,7 +2,6 @@ package com.finn.laakso.hangboardapp;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -23,6 +22,8 @@ import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,10 +56,28 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_TIME_CONTROLS = 0;
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("grade_desc_pos",grade_descr_position);
+        outState.putParcelableArrayList("hangboardapp.HOLDS", everyBoard.getCurrentHoldList());
+       // Toast.makeText(MainActivity.this, "grade descr pos: " + grade_descr_position , Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        grade_descr_position = savedInstanceState.getInt("grade_desc_pos");
+       // Toast.makeText(MainActivity.this, "grade descr pos: " + grade_descr_position , Toast.LENGTH_LONG).show();
+    }
+
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        // this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+
 
         // HandImages that show the type of grip used in a hold, usually what fingers are used
         leftFingerImage = (ImageView) findViewById(R.id.leftFingerImageView);
@@ -74,7 +93,10 @@ public class MainActivity extends AppCompatActivity {
         final Resources res = getResources();
         everyBoard = new HangBoard(res);
         everyBoard.initializeHolds(res, CustomSwipeAdapter.hangboard.BM1000);
-        everyBoard.setGripAmount(6,0);
+       // everyBoard.setGripAmount(6,0);
+        if (savedInstanceState != null) {
+            grade_descr_position = savedInstanceState.getInt("grade_desc_pos");
+        }
 
         //Default hangboard program (65min)
         timeControls = new TimeControls();
@@ -88,7 +110,15 @@ public class MainActivity extends AppCompatActivity {
 
         // HOLDSADAPTER IS ALLREADY USING R.LAYOUT.MYTESTVIEW. CONSIDER MAKING IT MUCH MORE SWEETER FOR EXAMPLE HOLD AND GRIPS LEFT AND DIFFICULTY RIGHT
         holdsListView = (ListView) findViewById(R.id.holdsListView);
-        holdsAdapter = new  ArrayAdapter<String>(this, R.layout.mytextview, everyBoard.setGrips(0));
+
+        if (savedInstanceState != null) {
+            ArrayList<Hold> test = savedInstanceState.getParcelableArrayList("hangboardapp.HOLDS");
+            everyBoard.setGrips(test);
+        }
+
+        holdsAdapter = new  ArrayAdapter<String>(this, R.layout.mytextview, everyBoard.getGrips());
+         Toast.makeText(MainActivity.this, "grade descr pos: " + grade_descr_position , Toast.LENGTH_LONG).show();
+
         holdsListView.setAdapter(holdsAdapter);
         registerForContextMenu(holdsListView);
 
@@ -102,6 +132,10 @@ public class MainActivity extends AppCompatActivity {
         viewPager = (ViewPager)findViewById(R.id.view_pager);
         adapter = new CustomSwipeAdapter(this);
         viewPager.setAdapter(adapter);
+
+        //Toast.makeText(MainActivity.this, "viewPager.getCurrentItem(): " , Toast.LENGTH_LONG).show();
+
+
 
         // ViewPager for showing and swiping different HangBoards.
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

@@ -68,6 +68,8 @@ public class HangBoard {
         return grades[position];
     }
 
+
+
     // Just converts valueLists' Hold descriptions into Array of Strings
     public String[] getGrips() {
         ArrayList<String> testList = new ArrayList<String>();
@@ -80,6 +82,14 @@ public class HangBoard {
         return holds;
     }
 
+    // WHAT TEHESE TWO SETGRIPS DO?!?!??!?! EXPLAIN!!!!
+    public void setGrips(ArrayList<Hold> newList) {
+        if (newList.size() != 0) {
+            valueList = newList;
+
+        }
+
+    }
 
     // Sets holdList to match those info in String[] grips
     public String[] setGrips(int position) {
