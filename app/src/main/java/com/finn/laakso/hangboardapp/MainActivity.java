@@ -62,16 +62,19 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         outState.putInt("grade_desc_pos",grade_descr_position);
         outState.putParcelableArrayList("hangboardapp.HOLDS", everyBoard.getCurrentHoldList());
-        outState.putInt("progbar", durationSeekBar.getProgress());
-        Toast.makeText(MainActivity.this, "progbar saveinsatnce: " + durationSeekBar.getProgress(), Toast.LENGTH_SHORT).show();
+        outState.putInt("durationseekbarprogression", durationSeekBar.getProgress());
+        outState.putInt("durationseekbarvisibility", durationSeekBar.getVisibility());
+        outState.putInt("repeatersboxvisibility",repeatersBox.getVisibility());
+        outState.putIntArray("timecontrolsintarray", timeControls.getTimeControlsIntArray());
+      //  Toast.makeText(MainActivity.this, "progbar saveinsatnce: " + durationSeekBar.getProgress(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         grade_descr_position = savedInstanceState.getInt("grade_desc_pos");
-        progressbarposition =savedInstanceState.getInt("progbar");
-        durationSeekBar.setProgress(progressbarposition);
+       // progressbarposition =savedInstanceState.getInt("progbar");
+        // durationSeekBar.setProgress(progressbarposition);
        // Toast.makeText(MainActivity.this, "progbar restores: " + progressbarposition , Toast.LENGTH_LONG).show();
     }
 
@@ -110,6 +113,10 @@ public class MainActivity extends AppCompatActivity {
         timeControls = new TimeControls();
         timeControls.setTimeControls(new int[] {6, 6, 7 ,3 , 3, 150, 360});
 
+        if (savedInstanceState != null) {
+            timeControls.setTimeControls(savedInstanceState.getIntArray("timecontrolsintarray"));
+        }
+
         // Lets use ArrayAdapter to list all the grades in to grades ListView
         gradesListView = (ListView) findViewById(R.id.gradeListView);
 
@@ -131,14 +138,20 @@ public class MainActivity extends AppCompatActivity {
         registerForContextMenu(holdsListView);
 
         durationTextView = (TextView) findViewById(R.id.durationTextView);
+        durationTextView.setText("Duration: " + timeControls.getTotalTime()/60 + "min");
+
         durationSeekBar = (SeekBar) findViewById(R.id.durationSeekBar);
 
-        if (savedInstanceState != null) {
-            durationSeekBar.setProgress(savedInstanceState.getInt("progbar"));
-        }
-
         repeatersBox = (CheckBox) findViewById(R.id.repeatersCheckBox);
-        repeatersBox.setChecked(true);
+        if (savedInstanceState != null) {
+            durationSeekBar.setProgress(savedInstanceState.getInt("durationseekbarprogression"));
+            // Toast.makeText(MainActivity.this, "Page selected " + savedInstanceState.getInt("durationseekbarprogression"), Toast.LENGTH_LONG).show();
+            durationSeekBar.setVisibility(savedInstanceState.getInt("durationseekbarvisibility"));
+            repeatersBox.setVisibility(savedInstanceState.getInt("repeatersboxvisibility"));
+        }
+        else {
+            repeatersBox.setChecked(true);
+        }
 
         // Lets use CustomSwipeAdapter to show different hangboards in a swipeable fashion
         viewPager = (ViewPager)findViewById(R.id.view_pager);
@@ -162,6 +175,8 @@ public class MainActivity extends AppCompatActivity {
                 durationSeekBar.setVisibility(View.VISIBLE);
                 repeatersBox.setVisibility(View.VISIBLE);
 
+
+                Toast.makeText(MainActivity.this, "Page selected", Toast.LENGTH_LONG).show();
                 // Lets change the HangBoard for every swipe
                 // everyBoard.NewBoard(res,CustomSwipeAdapter.getHangBoard(position));
                 // Every HangBoard has different unique holds
@@ -177,6 +192,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
+                Toast.makeText(MainActivity.this, "Page State changed", Toast.LENGTH_SHORT).show();
+
+
+
+                
             }
         });
 
