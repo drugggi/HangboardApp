@@ -55,7 +55,7 @@ public class WorkoutActivity extends AppCompatActivity {
     int total_s = 0;
 
     // Change the name, this keeps track on grips used at the time
-    ArrayList<Hold> workoutInfoTest;
+    ArrayList<Hold> workoutHolds;
     TextView gradeTextView;
     TextView infoTextView;
 
@@ -66,7 +66,7 @@ public class WorkoutActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList("hangboardholds", workoutInfoTest);
+        outState.putParcelableArrayList("hangboardholds", workoutHolds);
         outState.putIntArray("timecontrolsintarray", timeControls.getTimeControlsIntArray());
         outState.putInt("workoutseconds",s);
         outState.putInt("currentlap", current_lap);
@@ -120,7 +120,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
         // Holds that will be used in this workout program
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.HOLDS")) {
-             workoutInfoTest = getIntent().getExtras().getParcelableArrayList("com.finn.laakso.hangboardapp.HOLDS");
+             workoutHolds = getIntent().getExtras().getParcelableArrayList("com.finn.laakso.hangboardapp.HOLDS");
         }
 
         // Hangboard image that user has selected
@@ -142,9 +142,9 @@ public class WorkoutActivity extends AppCompatActivity {
             // timeControls.setTimeControls(new int[] {6, 1, 10 ,0 , 1, 15, 150});  // IF YOU WANT TO CONTROL TIMECONTROLS FOR TESTING PURPOSES
 
             // SECURITY CHECK, WILL MAKE SURE IN FUTURE TO NEVER HAPPEN
-            if (timeControls.getGripLaps()*2 != workoutInfoTest.size()) {
-                Toast.makeText(WorkoutActivity.this,timeControls.getGripLaps() + " ERROR!! Gripslaps and workoutInfoTest sizes doesn't match " + workoutInfoTest.size(), Toast.LENGTH_LONG).show();
-                timeControls.setGripLaps(workoutInfoTest.size()/2);
+            if (timeControls.getGripLaps()*2 != workoutHolds.size()) {
+                Toast.makeText(WorkoutActivity.this,timeControls.getGripLaps() + " ERROR!! Gripslaps and workoutHolds sizes doesn't match " + workoutHolds.size(), Toast.LENGTH_LONG).show();
+                timeControls.setGripLaps(workoutHolds.size()/2);
             }
 
             total_s = -s + timeControls.getTotalTime();
@@ -161,11 +161,10 @@ public class WorkoutActivity extends AppCompatActivity {
         lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
         lapseTimeChrono.start();
 
-        //outState.putParcelableArrayList("hangboardholds", workoutInfoTest);
-        //outState.putIntArray("timecontrolsintarray", timeControls.getTimeControlsIntArray());
+
 
         if (savedInstanceState != null) {
-            workoutInfoTest = savedInstanceState.getParcelableArrayList("hangboardholds");
+            workoutHolds = savedInstanceState.getParcelableArrayList("hangboardholds");
             timeControls.setTimeControls(savedInstanceState.getIntArray("timecontrolsintarray"));
             nowDoing = (workoutPart) savedInstanceState.get("workoutpart");
             s = savedInstanceState.getInt("workoutseconds");
@@ -279,9 +278,9 @@ public class WorkoutActivity extends AppCompatActivity {
                         else {
                             if (s%timeControls.getTimeONandOFF() == timeControls.getTimeON() ) {
                                 playFinishSound.start();
-                                Hold tempHold = workoutInfoTest.get(current_lap*2);
-                                workoutInfoTest.set(current_lap*2, workoutInfoTest.get(current_lap*2+1));
-                                workoutInfoTest.set(current_lap*2+1,tempHold);
+                                Hold tempHold = workoutHolds.get(current_lap*2);
+                                workoutHolds.set(current_lap*2, workoutHolds.get(current_lap*2+1));
+                                workoutHolds.set(current_lap*2+1,tempHold);
                                 updateGripDisplay();
                             }
                              hangProgressBar.setProgressTintList(ColorStateList.valueOf(Color.GREEN));
@@ -375,6 +374,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
     }
 
+    // updateGripDisplay updates the board image and finger images for every chrono tick
     private void updateGripDisplay() {
 
         Float scaleFactor = pinchZoomBoardImage.getScaleFactor();
@@ -386,9 +386,7 @@ public class WorkoutActivity extends AppCompatActivity {
         Float offsetX = -60+100*scaleFactor;
         offsetX = offsetX/scaleto1050;
 
-       // Log.e("SCALE","ScaleFactor/ scalto1050: " +scaleFactor + " / "+ scaleto1050);
         scaleFactor = scaleFactor  / scaleto1050;
-       // Log.e("SCALE","NEW SCALEFACTOR: " +scaleFactor);
         Float multiplier_w = 3f*scaleFactor;
         Float multiplier_h = 3f*scaleFactor;
 
@@ -397,62 +395,43 @@ public class WorkoutActivity extends AppCompatActivity {
 
         Float offsetY = (0.4286f*imagewidth - imageheight)/2;
 
+        // OffsetY and offsetX are just arbitary values to correct hold coordinates that are stored badly
+        // Hopefully in future better way is achieved somehow
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ) {
-            //Log.e("OFFSET","offset x/y:   " +offsetX+ " / " + offsetY);
             offsetX = offsetX - 20f;
 
         }
-
-
-       // Log.e("SCREEN"," WIDTH/HEIGHT:   " +pinchZoomBoardImage.getWidth()+" / "+pinchZoomBoardImage.getHeight());
-/*
+// Log.e("SCREEN"," WIDTH/HEIGHT:   " +pinchZoomBoardImage.getWidth()+" / "+pinchZoomBoardImage.getHeight());
+        /*
 
         Log.e("HANGBOARD IMAGE","image WIDTH/HEIGHT:   " +pinchZoomBoardImage.getImageWidth()+" / "+pinchZoomBoardImage.getImageHeight());
         Log.e("OFFSET","offset x/y:   " +offsetX+ " / " + offsetY);
 
         Log.e("LEFT HAND" , "X and Y: "+ workoutInfoTest.get(current_lap*2 ).getLeftCoordX() + " / " + workoutInfoTest.get(current_lap*2 ).getLeftCoordY());
-        Log.e("RIGHT HAND" , "X and Y: "+ workoutInfoTest.get(current_lap*2+1 ).getRightCoordX() + " / " + workoutInfoTest.get(current_lap*2+1 ).getRightCoordY());
+        Log.e("RIGHT HAND" , "X and Y: "+ workoutInfoTest.get(current_lap*2+1 ).getRightCoordX() + " / " + workoutInfoTest.get(current_lap*2+1 ).getRightCoordY());*/
 
 
-*/
+    // MAKE SURE THIS TEST IS USELESS IN THE FUTURE! this method is called when the current lap is not reduced
+       // Log.e("CURRENT LAP" , "size and current_lap: "+ workoutHolds.size() + " / " + current_lap);
+        if ( current_lap*2 >= workoutHolds.size()-1) {current_lap = 0; }
 
-// MAKE SURE THIS TEST IS USELESS IN THE FUTURE! this method is called when the current lap is not reduced
-       // Log.e("CURRENT LAP" , "size and current_lap: "+ workoutInfoTest.size() + " / " + current_lap);
-        if ( current_lap*2 >= workoutInfoTest.size()-1) {current_lap = 0; }
+        leftHandImage.setImageResource(workoutHolds.get(current_lap*2 ).getGripImage(true));
+        rightHandImage.setImageResource(workoutHolds.get(current_lap*2 + 1).getGripImage(false));
 
-        leftHandImage.setImageResource(workoutInfoTest.get(current_lap*2 ).getGripImage(true));
-        rightHandImage.setImageResource(workoutInfoTest.get(current_lap*2 + 1).getGripImage(false));
+        // MAYBE TRY TO PUT OFFSETX BEFOR MULTIPLIER LIKE THIS: (workoutHolds.get(current_lap*2 ).getLeftCoordX()+offsetX) * MULTIPLIER_W
 
-        // MAYBE TRY TO PUT OFFSETX BEFOR MULTIPLIER LIKE THIS: (workoutInfoTest.get(current_lap*2 ).getLeftCoordX()+offsetX) * MULTIPLIER_W
-
-        leftHandImage.setX(pinchZoomBoardImage.getImageX() + workoutInfoTest.get(current_lap*2 ).getLeftCoordX()*multiplier_w+offsetX);
-        leftHandImage.setY(pinchZoomBoardImage.getImageY()+ workoutInfoTest.get(current_lap*2).getLeftCoordY()*multiplier_h-offsetY);
-        rightHandImage.setX(pinchZoomBoardImage.getImageX() + workoutInfoTest.get(current_lap*2 + 1).getRightCoordX()*multiplier_w+offsetX);
-        rightHandImage.setY(pinchZoomBoardImage.getImageY() + workoutInfoTest.get(current_lap*2 + 1).getRightCoordY()*multiplier_h-offsetY);
+        leftHandImage.setX(pinchZoomBoardImage.getImageX() + workoutHolds.get(current_lap*2 ).getLeftCoordX()*multiplier_w+offsetX);
+        leftHandImage.setY(pinchZoomBoardImage.getImageY()+ workoutHolds.get(current_lap*2).getLeftCoordY()*multiplier_h-offsetY);
+        rightHandImage.setX(pinchZoomBoardImage.getImageX() + workoutHolds.get(current_lap*2 + 1).getRightCoordX()*multiplier_w+offsetX);
+        rightHandImage.setY(pinchZoomBoardImage.getImageY() + workoutHolds.get(current_lap*2 + 1).getRightCoordY()*multiplier_h-offsetY);
 
 
         // Lets get the correct description to next hold and grip
-        String texti =workoutInfoTest.get(2*current_lap).getHoldInfo(workoutInfoTest.get(2*current_lap+1));
+        String texti =workoutHolds.get(2*current_lap).getHoldInfo(workoutHolds.get(2*current_lap+1));
         texti = texti.replaceAll("\n",", ");
         gradeTextView.setText(texti);
 
     }
-/*
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
 
-        View decorView = getWindow().getDecorView();
-        if (hasFocus) {
-            decorView.setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-
-            );
-        }
-    }*/
 
 }
