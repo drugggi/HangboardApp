@@ -63,6 +63,25 @@ public class WorkoutActivity extends AppCompatActivity {
 
     private int mActivePointerId;
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("hangboardholds", workoutInfoTest);
+        outState.putIntArray("timecontrolsintarray", timeControls.getTimeControlsIntArray());
+        outState.putInt("workoutseconds",s);
+        outState.putInt("currentlap", current_lap);
+        outState.putInt("currentset", current_set);
+//        grip_style = grip_type.values()[in.readInt()];
+
+        outState.putInt("totalworkouttime",total_s);
+        outState.putSerializable("workoutpart",nowDoing);
+       // outState.putInt("workoutpart",workoutPart.values()[nowDoing]);
+        //outState.putString("workoutpartstring",nowDoing.toString() );
+        // outState.putInt("workoutpart",workoutPart.valueOf(nowDoing));
+
+        //  Toast.makeText(MainActivity.this, "progbar saveinsatnce: " + durationSeekBar.getProgress(), Toast.LENGTH_SHORT).show();
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +97,9 @@ public class WorkoutActivity extends AppCompatActivity {
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         Resources res = getResources();
+
+        current_lap = 0;
+        current_set = 1;
 
         boardimage = (ImageView) findViewById(R.id.boardImageView);
         boardimage.setVisibility(View.INVISIBLE);
@@ -115,12 +137,13 @@ public class WorkoutActivity extends AppCompatActivity {
 
             timeControls = new TimeControls();
             timeControls.setTimeControls(time_controls);
+           // Toast.makeText(WorkoutActivity.this,"Mentiin timecontrols intenttiin", Toast.LENGTH_LONG).show();
             //s= -5;
             // timeControls.setTimeControls(new int[] {6, 1, 10 ,0 , 1, 15, 150});  // IF YOU WANT TO CONTROL TIMECONTROLS FOR TESTING PURPOSES
 
             // SECURITY CHECK, WILL MAKE SURE IN FUTURE TO NEVER HAPPEN
             if (timeControls.getGripLaps()*2 != workoutInfoTest.size()) {
-                Toast.makeText(WorkoutActivity.this,timeControls.getGripLaps() + " ERROR!! Gripslaps and workoutInfoTEst sizes doesn't match " + workoutInfoTest.size(), Toast.LENGTH_LONG).show();
+                Toast.makeText(WorkoutActivity.this,timeControls.getGripLaps() + " ERROR!! Gripslaps and workoutInfoTest sizes doesn't match " + workoutInfoTest.size(), Toast.LENGTH_LONG).show();
                 timeControls.setGripLaps(workoutInfoTest.size()/2);
             }
 
@@ -137,6 +160,21 @@ public class WorkoutActivity extends AppCompatActivity {
         lapseTimeChrono = (Chronometer) findViewById(R.id.lapseTimeChrono);
         lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
         lapseTimeChrono.start();
+
+        //outState.putParcelableArrayList("hangboardholds", workoutInfoTest);
+        //outState.putIntArray("timecontrolsintarray", timeControls.getTimeControlsIntArray());
+
+        if (savedInstanceState != null) {
+            workoutInfoTest = savedInstanceState.getParcelableArrayList("hangboardholds");
+            timeControls.setTimeControls(savedInstanceState.getIntArray("timecontrolsintarray"));
+            nowDoing = (workoutPart) savedInstanceState.get("workoutpart");
+            s = savedInstanceState.getInt("workoutseconds");
+            total_s = savedInstanceState.getInt("totalworkouttime");
+            current_lap = savedInstanceState.getInt("currentlap");
+            current_set = savedInstanceState.getInt("currentset");
+
+
+        }
 
         // Context Menu Listener so user can change the timer text size
         lapseTimeChrono.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
@@ -180,8 +218,7 @@ public class WorkoutActivity extends AppCompatActivity {
             }
         });
 
-        current_lap = 0;
-        current_set = 1;
+
 
         // Progress our program for every tick that lapseTimeChrono produces
 
@@ -360,7 +397,11 @@ public class WorkoutActivity extends AppCompatActivity {
 
         Float offsetY = (0.4286f*imagewidth - imageheight)/2;
 
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ) {
+            //Log.e("OFFSET","offset x/y:   " +offsetX+ " / " + offsetY);
+            offsetX = offsetX - 20f;
 
+        }
 
 
        // Log.e("SCREEN"," WIDTH/HEIGHT:   " +pinchZoomBoardImage.getWidth()+" / "+pinchZoomBoardImage.getHeight());

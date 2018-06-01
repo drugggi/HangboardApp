@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
                     repeatersBox.setVisibility(View.VISIBLE);
 
 
-                    Toast.makeText(MainActivity.this, "NEW Page selected: " + hangboard_descr_position, Toast.LENGTH_LONG).show();
+                   // Toast.makeText(MainActivity.this, "NEW Page selected: " + hangboard_descr_position, Toast.LENGTH_LONG).show();
                     // Lets change the HangBoard for every swipe
                     // everyBoard.NewBoard(res,CustomSwipeAdapter.getHangBoard(position));
                     // Every HangBoard has different unique holds
@@ -414,7 +414,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 timeControls.setProgramBasedOnTime(20 + durationSeekBar.getProgress() * 15);
 
-                Toast.makeText(MainActivity.this, "onprogresschaged durationSeekBar.getProgress():  " + durationSeekBar.getProgress(), Toast.LENGTH_LONG).show();
+                // Toast.makeText(MainActivity.this, "onprogresschaged durationSeekBar.getProgress():  " + durationSeekBar.getProgress(), Toast.LENGTH_LONG).show();
 
                 // If the progressBar is "TEST progress" we must sort the holds
                 if (durationSeekBar.getProgress() == 4) {
