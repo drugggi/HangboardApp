@@ -3,7 +3,6 @@ package com.finn.laakso.hangboardapp;
 import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.AudioManager;
@@ -66,20 +65,14 @@ public class WorkoutActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList("hangboardholds", workoutHolds);
-        outState.putIntArray("timecontrolsintarray", timeControls.getTimeControlsIntArray());
-        outState.putInt("workoutseconds",s);
-        outState.putInt("currentlap", current_lap);
-        outState.putInt("currentset", current_set);
-//        grip_style = grip_type.values()[in.readInt()];
+        outState.putParcelableArrayList("workoutactivity_hangboardholds", workoutHolds);
+        outState.putIntArray("workoutactivity_timecontrolsintarray", timeControls.getTimeControlsIntArray());
+        outState.putInt("workoutactivity_workoutseconds",s);
+        outState.putInt("workoutactivity_currentlap", current_lap);
+        outState.putInt("workoutactivity_currentset", current_set);
+        outState.putInt("workoutactivity_totalworkouttime",total_s);
+        outState.putSerializable("workoutactivity_workoutpart",nowDoing);
 
-        outState.putInt("totalworkouttime",total_s);
-        outState.putSerializable("workoutpart",nowDoing);
-       // outState.putInt("workoutpart",workoutPart.values()[nowDoing]);
-        //outState.putString("workoutpartstring",nowDoing.toString() );
-        // outState.putInt("workoutpart",workoutPart.valueOf(nowDoing));
-
-        //  Toast.makeText(MainActivity.this, "progbar saveinsatnce: " + durationSeekBar.getProgress(), Toast.LENGTH_SHORT).show();
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -95,9 +88,7 @@ public class WorkoutActivity extends AppCompatActivity {
         final MediaPlayer playSound = MediaPlayer.create(this,R.raw.tick);
         final MediaPlayer playFinishSound = MediaPlayer.create(this,R.raw.finish_tick);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
-
-        Resources res = getResources();
-
+        
         current_lap = 0;
         current_set = 1;
 
@@ -137,20 +128,17 @@ public class WorkoutActivity extends AppCompatActivity {
 
             timeControls = new TimeControls();
             timeControls.setTimeControls(time_controls);
-           // Toast.makeText(WorkoutActivity.this,"Mentiin timecontrols intenttiin", Toast.LENGTH_LONG).show();
-            //s= -5;
-            // timeControls.setTimeControls(new int[] {6, 1, 10 ,0 , 1, 15, 150});  // IF YOU WANT TO CONTROL TIMECONTROLS FOR TESTING PURPOSES
 
             // SECURITY CHECK, WILL MAKE SURE IN FUTURE TO NEVER HAPPEN
             if (timeControls.getGripLaps()*2 != workoutHolds.size()) {
                 Toast.makeText(WorkoutActivity.this,timeControls.getGripLaps() + " ERROR!! Gripslaps and workoutHolds sizes doesn't match " + workoutHolds.size(), Toast.LENGTH_LONG).show();
                 timeControls.setGripLaps(workoutHolds.size()/2);
             }
-
             total_s = -s + timeControls.getTotalTime();
 
         }
 
+        // If phone is in portrait position Board image can take the whole width of the phone
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ) {
             pinchZoomBoardImage.setScale(1f);
             pinchZoomBoardImage.setTranslateY(100f);
@@ -159,21 +147,27 @@ public class WorkoutActivity extends AppCompatActivity {
 
         lapseTimeChrono = (Chronometer) findViewById(R.id.lapseTimeChrono);
         lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
-        lapseTimeChrono.start();
 
-
-
+        // If phone orientation has changed, lets bring the state back from savedInstanceState
         if (savedInstanceState != null) {
-            workoutHolds = savedInstanceState.getParcelableArrayList("hangboardholds");
-            timeControls.setTimeControls(savedInstanceState.getIntArray("timecontrolsintarray"));
-            nowDoing = (workoutPart) savedInstanceState.get("workoutpart");
-            s = savedInstanceState.getInt("workoutseconds");
-            total_s = savedInstanceState.getInt("totalworkouttime");
-            current_lap = savedInstanceState.getInt("currentlap");
-            current_set = savedInstanceState.getInt("currentset");
+            workoutHolds = savedInstanceState.getParcelableArrayList("workoutactivity_hangboardholds");
+            timeControls.setTimeControls(savedInstanceState.getIntArray("workoutactivity_timecontrolsintarray"));
+            nowDoing = (workoutPart) savedInstanceState.get("workoutactivity_workoutpart");
+            s = savedInstanceState.getInt("workoutactivity_workoutseconds");
+            total_s = savedInstanceState.getInt("workoutactivity_totalworkouttime");
+            current_lap = savedInstanceState.getInt("workoutactivity_currentlap");
+            current_set = savedInstanceState.getInt("workoutactivity_currentset");
 
+            lapseTimeChrono.stop();
+            pauseBtn.setText("resume");
 
         }
+        else {
+            lapseTimeChrono.start();
+        }
+
+        // Set the text becouse if the phone orientation has changed it would display "00:00" instead
+        lapseTimeChrono.setText("" + Math.abs(s) );
 
         // Context Menu Listener so user can change the timer text size
         lapseTimeChrono.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
@@ -193,7 +187,6 @@ public class WorkoutActivity extends AppCompatActivity {
                     menu.add(Menu.NONE,6,6,"SHRINK: 0.5x");
 
                 }
-
 
             }
         });

@@ -48,6 +48,8 @@ public class PinchZoomImageView extends ImageView {
         public boolean onScale(ScaleGestureDetector detector) {
            // Log.e("MSCALEFACTOR", "mSF:" + mScaleFactor);
            // mScaleFactor = mScaleFactor* (float) Math.sqrt((double) detector.getScaleFactor() );
+
+            // When the user is panning the image, we make it just slightly bigger and bigger
             if (detector.getScaleFactor() > 1) {
                 mScaleFactor = mScaleFactor + 0.004f;
             }
@@ -201,10 +203,10 @@ public class PinchZoomImageView extends ImageView {
         // mBitmap = imageBtimap;
         Bitmap bitmap = imageBitmap;
         float aspectRatio = (float) bitmap.getHeight() / (float) bitmap.getWidth();
-        Log.e("BITMAP", "X: " + bitmap.getWidth());
-        Log.e("BITMAP", "Y: " + bitmap.getHeight());
+       // Log.e("BITMAP", "X: " + bitmap.getWidth());
+        //Log.e("BITMAP", "Y: " + bitmap.getHeight());
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        Log.e("DISPLAYMETRICS", "getDM WIDHTPIXELS: " + displayMetrics.widthPixels);
+        //Log.e("DISPLAYMETRICS", "getDM WIDHTPIXELS: " + displayMetrics.widthPixels);
         mImageWidth = displayMetrics.widthPixels;
         mImageHeight = Math.round(mImageWidth * aspectRatio);
         mBitmap = Bitmap.createScaledBitmap(bitmap,mImageWidth, mImageHeight,false);
