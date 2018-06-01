@@ -213,8 +213,6 @@ public class MainActivity extends AppCompatActivity {
 
                 randomizeBtn.setText("New "+ everyBoard.getGrade(grade_descr_position)+ " Workout");
                 hang_descr_position = 0;
-
-
 /*
                 // THIS IS ONLY FOR TESTING HAND IMAGES POSITION PURPOSES
                 float x;
