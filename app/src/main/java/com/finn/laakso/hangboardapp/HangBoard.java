@@ -135,57 +135,38 @@ public class HangBoard {
         int max = getMaxHoldNumber();
         Hold customHold;
 
-        //int[] coordinates = jes.getCoordinates(current_board);
-
         // User selected a different hold number for hand
         if (info < 2*max) {
             int holdnumber = (info+2)/2;
-            // customHold = new Hold(holdnumber);
-            // customHold.setHoldCoordinates(hold_coordinates);
-            //customHold.setGripStyle(valueList.get(position*2).getGripStyle());
-            //customHold = searchForHold(int holdnumber, )
 
             customHold = createCustomHold(holdnumber,valueList.get(position*2).getGripStyle());
 
             //Left hand
             if (info % 2 == 0) {
-
-                //customHold.setGripStyle(valueList.get(position*2).getGripStyle());
                 valueList.set(position*2, customHold);
             }
             // right hand
             else {
-                // customHold.setGripStyle(valueList.get(position*2+1).getGripStyle());
                 valueList.set(position*2+1, customHold);
-
             }
 
         }
+        // User selected different grip type, lets chan
         else {
             info = info - 2*max+1;
-
-//            customHold = new Hold(valueList.get(position*2).getHoldNumber());
-  //          customHold.setHoldCoordinates(hold_coordinates);
-    //        customHold.setGripTypeAndSingleHang((info+1)*10);
-          //   Hold.grip_type  jees = new Hold.grip_type(info);
             Hold.grip_type newgriptype = Hold.forInt(info);
 
-           // customHold = createCustomHold(valueList.get(position*2).getHoldNumber(), valueList.get(position*2).getGripType(info+1));
+            // Lets change it for both left (even value) and right (odd value) hand
             customHold = createCustomHold(valueList.get(position*2).getHoldNumber(), newgriptype);
-
             valueList.set(position*2,customHold);
 
-            //customHold = new Hold(valueList.get(position*2+1).getHoldNumber());
-            //customHold.setHoldCoordinates(hold_coordinates);
-            //customHold.setGripTypeAndSingleHang((info+1)*10);
-
-            //customHold = createCustomHold(valueList.get(position*2+1).getHoldNumber(), valueList.get(position*2).getGripType(info+1));
             customHold = createCustomHold(valueList.get(position*2+1).getHoldNumber(), newgriptype);
             valueList.set(position*2+1,customHold);
         }
 
     }
 
+    // This is useful when user wants to go from easiest hold to hardest progressively.
     public void sortHoldByDifficulty() {
         Arrays.sort(all_hold_values);
 

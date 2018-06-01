@@ -46,21 +46,20 @@ public class WorkoutActivity extends AppCompatActivity {
     int current_set;
     workoutPart nowDoing = workoutPart.ALKULEPO;
 
-
     // workout starts in 30 seconds
-    int s = -30;
+    int s;
 
     // total_s is the total workout_time and will count down to zero
-    int total_s = 0;
+    int total_s;
 
     // Change the name, this keeps track on grips used at the time
     ArrayList<Hold> workoutHolds;
     TextView gradeTextView;
     TextView infoTextView;
 
-    int i;
+   // int i;
 
-    private int mActivePointerId;
+    // private int mActivePointerId;
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -72,6 +71,7 @@ public class WorkoutActivity extends AppCompatActivity {
         outState.putInt("workoutactivity_currentset", current_set);
         outState.putInt("workoutactivity_totalworkouttime",total_s);
         outState.putSerializable("workoutactivity_workoutpart",nowDoing);
+        outState.putString("workoutactivity_gripinfo", gradeTextView.getText().toString());
 
     }
 
@@ -82,13 +82,14 @@ public class WorkoutActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_workout);
-        // this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         // Sound files that will be played for every second that user hangs, and at the end finish sound
         final MediaPlayer playSound = MediaPlayer.create(this,R.raw.tick);
         final MediaPlayer playFinishSound = MediaPlayer.create(this,R.raw.finish_tick);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
-        
+
+        s = -30;
+        total_s = 0;
         current_lap = 0;
         current_set = 1;
 
@@ -108,6 +109,9 @@ public class WorkoutActivity extends AppCompatActivity {
 
         leftHandImage = (ImageView) findViewById(R.id.leftHandImageView);
         rightHandImage = (ImageView) findViewById(R.id.rightHandImageView);
+
+        lapseTimeChrono = (Chronometer) findViewById(R.id.lapseTimeChrono);
+        lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
 
         // Holds that will be used in this workout program
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.HOLDS")) {
@@ -145,9 +149,6 @@ public class WorkoutActivity extends AppCompatActivity {
 
         }
 
-        lapseTimeChrono = (Chronometer) findViewById(R.id.lapseTimeChrono);
-        lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
-
         // If phone orientation has changed, lets bring the state back from savedInstanceState
         if (savedInstanceState != null) {
             workoutHolds = savedInstanceState.getParcelableArrayList("workoutactivity_hangboardholds");
@@ -157,6 +158,7 @@ public class WorkoutActivity extends AppCompatActivity {
             total_s = savedInstanceState.getInt("workoutactivity_totalworkouttime");
             current_lap = savedInstanceState.getInt("workoutactivity_currentlap");
             current_set = savedInstanceState.getInt("workoutactivity_currentset");
+            gradeTextView.setText(savedInstanceState.getString("workoutactivity_gripinfo"));
 
             lapseTimeChrono.stop();
             pauseBtn.setText("resume");
@@ -192,7 +194,7 @@ public class WorkoutActivity extends AppCompatActivity {
         });
 
         // Lets stop or start chronometer on user input
-        i = -1;
+        // i = -1;
         pauseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

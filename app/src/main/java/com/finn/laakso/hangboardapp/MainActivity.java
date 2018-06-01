@@ -61,35 +61,30 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("grade_desc_pos",grade_descr_position);
-        outState.putParcelableArrayList("hangboardapp.HOLDS", everyBoard.getCurrentHoldList());
-        outState.putInt("durationseekbarprogression", durationSeekBar.getProgress());
-        outState.putInt("durationseekbarvisibility", durationSeekBar.getVisibility());
-        outState.putInt("repeatersboxvisibility",repeatersBox.getVisibility());
-        outState.putIntArray("timecontrolsintarray", timeControls.getTimeControlsIntArray());
-        outState.putInt("hangboardposition",hangboard_descr_position);
-      //  Toast.makeText(MainActivity.this, "progbar saveinsatnce: " + durationSeekBar.getProgress(), Toast.LENGTH_SHORT).show();
+        outState.putInt("mainactivity_grade_desc_pos",grade_descr_position);
+        outState.putParcelableArrayList("mainactivity_hangboardholds", everyBoard.getCurrentHoldList());
+        outState.putInt("mainactivity_durationseekbarprogression", durationSeekBar.getProgress());
+        outState.putInt("mainactivity_durationseekbarvisibility", durationSeekBar.getVisibility());
+        outState.putInt("mainactivity_repeatersboxvisibility",repeatersBox.getVisibility());
+        outState.putIntArray("mainactivity_timecontrolsintarray", timeControls.getTimeControlsIntArray());
+        outState.putInt("mainactivity_hangboardposition",hangboard_descr_position);
     }
-
+/*
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        grade_descr_position = savedInstanceState.getInt("grade_desc_pos");
+        grade_descr_position = savedInstanceState.getInt("mainactivity_grade_desc_pos");
        // progressbarposition =savedInstanceState.getInt("progbar");
         // durationSeekBar.setProgress(progressbarposition);
        // Toast.makeText(MainActivity.this, "progbar restores: " + progressbarposition , Toast.LENGTH_LONG).show();
     }
-
+*/
 
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-
-
-        // HandImages that show the type of grip used in a hold, usually what fingers are used
         leftFingerImage = (ImageView) findViewById(R.id.leftFingerImageView);
         rightFingerImage = (ImageView) findViewById(R.id.rightFingerImageView);
 
@@ -98,15 +93,9 @@ public class MainActivity extends AppCompatActivity {
         fingerImage.setImageResource(R.drawable.finger_template);
         fingerImage.setVisibility(View.INVISIBLE); // TESTING PURPOSES
 */
-
-
-       // everyBoard.setGripAmount(6,0);
         if (savedInstanceState != null) {
-            grade_descr_position = savedInstanceState.getInt("grade_desc_pos");
-            hangboard_descr_position = savedInstanceState.getInt("hangboardposition");
-           // progressbarposition =savedInstanceState.getInt("progbar");
-           //durationSeekBar.setProgress(progressbarposition);
-            //            durationSeekBar.setProgress(savedInstanceState.getInt("progbar"));
+            grade_descr_position = savedInstanceState.getInt("mainactivity_grade_desc_pos");
+            hangboard_descr_position = savedInstanceState.getInt("mainactivity_hangboardposition");
         }
 
         // HangBoard class holds all the information about grades and holds and grips
@@ -115,17 +104,17 @@ public class MainActivity extends AppCompatActivity {
 
         everyBoard.initializeHolds(res, CustomSwipeAdapter.getHangBoard(hangboard_descr_position));
 
-        //Default hangboard program (65min)
         timeControls = new TimeControls();
-        timeControls.setTimeControls(new int[] {6, 6, 7 ,3 , 3, 150, 360});
-
         if (savedInstanceState != null) {
-            timeControls.setTimeControls(savedInstanceState.getIntArray("timecontrolsintarray"));
+            timeControls.setTimeControls(savedInstanceState.getIntArray("mainactivity_timecontrolsintarray"));
+        }
+        else {
+            //Default hangboard program (65min)
+            timeControls.setTimeControls(new int[] {6, 6, 7 ,3 , 3, 150, 360});
         }
 
         // Lets use ArrayAdapter to list all the grades in to grades ListView
         gradesListView = (ListView) findViewById(R.id.gradeListView);
-
         final ArrayAdapter<String> gradeAdapter = new ArrayAdapter<String>(this, R.layout.gradetextview, everyBoard.getGrades());
         gradesListView.setAdapter(gradeAdapter);
 
@@ -133,8 +122,8 @@ public class MainActivity extends AppCompatActivity {
         holdsListView = (ListView) findViewById(R.id.holdsListView);
 
         if (savedInstanceState != null) {
-            ArrayList<Hold> test = savedInstanceState.getParcelableArrayList("hangboardapp.HOLDS");
-            everyBoard.setGrips(test);
+            ArrayList<Hold> holds = savedInstanceState.getParcelableArrayList("mainactivity_hangboardholds");
+            everyBoard.setGrips(holds);
         }
 
         holdsAdapter = new  ArrayAdapter<String>(this, R.layout.mytextview, everyBoard.getGrips());
@@ -150,31 +139,26 @@ public class MainActivity extends AppCompatActivity {
 
         repeatersBox = (CheckBox) findViewById(R.id.repeatersCheckBox);
         if (savedInstanceState != null) {
-            durationSeekBar.setProgress(savedInstanceState.getInt("durationseekbarprogression"));
+            durationSeekBar.setProgress(savedInstanceState.getInt("mainactivity_durationseekbarprogression"));
             // Toast.makeText(MainActivity.this, "Page selected " + savedInstanceState.getInt("durationseekbarprogression"), Toast.LENGTH_LONG).show();
-            durationSeekBar.setVisibility(savedInstanceState.getInt("durationseekbarvisibility"));
-            repeatersBox.setVisibility(savedInstanceState.getInt("repeatersboxvisibility"));
+            durationSeekBar.setVisibility(savedInstanceState.getInt("mainactivity_durationseekbarvisibility"));
+            repeatersBox.setVisibility(savedInstanceState.getInt("mainactivity_repeatersboxvisibility"));
         }
         else {
             repeatersBox.setChecked(true);
         }
 
         // Lets use CustomSwipeAdapter to show different hangboards in a swipeable fashion
-
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         adapter = new CustomSwipeAdapter(this);
         viewPager.setAdapter(adapter);
-
-        //Toast.makeText(MainActivity.this, "viewPager.getCurrentItem(): " , Toast.LENGTH_LONG).show();
-
-
 
         // ViewPager for showing and swiping different HangBoards.
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-              //  Toast.makeText(MainActivity.this, "Page scrolled", Toast.LENGTH_SHORT).show();
-            }
+
+              }
 
             @Override
             public void onPageSelected(int position) {
@@ -188,11 +172,6 @@ public class MainActivity extends AppCompatActivity {
                     durationSeekBar.setVisibility(View.VISIBLE);
                     repeatersBox.setVisibility(View.VISIBLE);
 
-
-                   // Toast.makeText(MainActivity.this, "NEW Page selected: " + hangboard_descr_position, Toast.LENGTH_LONG).show();
-                    // Lets change the HangBoard for every swipe
-                    // everyBoard.NewBoard(res,CustomSwipeAdapter.getHangBoard(position));
-                    // Every HangBoard has different unique holds
                     everyBoard.initializeHolds(res, CustomSwipeAdapter.getHangBoard(hangboard_descr_position));
                     holdsAdapter = new ArrayAdapter<String>(MainActivity.this,
                             R.layout.mytextview, everyBoard.setGrips(grade_descr_position));
@@ -206,8 +185,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                // Toast.makeText(MainActivity.this, "Page scroll State changed (satate) " + state, Toast.LENGTH_SHORT).show();
-
 
             }
         });
