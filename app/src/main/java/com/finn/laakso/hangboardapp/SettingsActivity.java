@@ -2,7 +2,9 @@ package com.finn.laakso.hangboardapp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
@@ -24,6 +26,9 @@ public class SettingsActivity extends AppCompatActivity {
 
     Button finishButton;
     Button cancelButton;
+    Button savePreferencesButton;
+    Button loadPreferencesButton;
+
 
     EditText gripLapsEditText;
     EditText hangLapsEditText;
@@ -71,6 +76,8 @@ public class SettingsActivity extends AppCompatActivity {
 
         finishButton = (Button) findViewById(R.id.finishButton);
         cancelButton = (Button) findViewById(R.id.cancelButton);
+        savePreferencesButton = (Button) findViewById(R.id.saveButton);
+        loadPreferencesButton = (Button) findViewById(R.id.loadButton);
 
         // All the editable time control widgets
         gripLapsEditText = (EditText) findViewById(R.id.gripLapsEditText);
@@ -96,58 +103,65 @@ public class SettingsActivity extends AppCompatActivity {
             timeControls = new TimeControls();
             // timeControls.setTimeControls(time_controls);
             timeControls.setTimeControls(time_controls);
-            // Toast.makeText(SettingsActivity.this,"hehe: " + timeControls.getTimeON(),Toast.LENGTH_LONG).show();
-             gripLapsEditText.setText("" + timeControls.getGripLaps());
-             hangLapsEditText.setText("" + timeControls.getHangLaps());
-             timeONEditText.setText(""+ timeControls.getTimeON());
-             timeOFFEditText.setText("" + timeControls.getTimeOFF());
-             setsEditText.setText("" + timeControls.getRoutineLaps());
-             restEditText.setText("" + timeControls.getRestTime());
-             longRestEditText.setText("" + timeControls.getLongRestTime());
-             //gripLapsEditText.set
-
-            gripSeekBar.setProgress(timeControls.getGripLaps()-1);
-            hangSeekBar.setProgress(timeControls.getHangLaps()-1);
-            timeONSeekBar.setProgress(timeControls.getTimeON()-1);
-            timeOFFSeekBar.setProgress(timeControls.getTimeOFF());
-            setsSeekBar.setProgress(timeControls.getRoutineLaps()-1);
-            restSeekBar.setProgress(timeControls.getRestTime()/10);
-            longRestSeekBar.setProgress(timeControls.getLongRestTime()/60);
-        }
-
-        // If hang laps are anything but 1, then workoutprogram is set to repeaters
-        if (timeControls.getHangLaps() != 1) {
-            repeaterSwitch.setText("Repeaters are: ON");
-            repeaterSwitch.setChecked(true);
-        }
-        // If hang laps is set to 1, then workout program is single hangs, and we set off settings
-        // that are only used in repeaters mode
-        else {
-            gripMultiplier = 6;
-            gripSeekBar.setProgress((timeControls.getGripLaps()-1)/gripMultiplier);
-            timeControls.setToRepeaters(false);
-
-            hangSeekBar.setProgress(0);
-            timeControls.setHangLaps(1);
-            timeControls.setTimeOFF(0);
-            timeOFFSeekBar.setProgress(0);
-            repeaterSwitch.setText("Repeaters are: OFF");
-            repeaterSwitch.setChecked(false);
-            hangLapsEditText.setVisibility(View.INVISIBLE);
-            hangSeekBar.setEnabled(false);
-            timeOFFEditText.setVisibility(View.INVISIBLE);
-            timeOFFSeekBar.setEnabled(false);
-
-            // timeOFFLinearLayout.setVisibility(0);
 
         }
 
+        // puts settings edite text and progressbars into right positions
+        updateTimeControlsDisplay();
 
-        // TextViews that tries to visualize the current workout
-        matrixTextView.setText(timeControls.getGripMatrix(timeInfoSwitch.isChecked()));
-        mHangsTextView.setText("" + timeControls.getHangLaps());
-        mTimeONTextView.setText(timeControls.getTimeON()+"on");
-        mTimeOFFTextView.setText(timeControls.getTimeOFF()+"off");
+        // put Workout information matrix up to date
+        updateProgramDisplay();
+
+        savePreferencesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String statusString = "Preferences Loaded!";
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(v.getContext());
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("savePreferences", statusString);
+
+                editor.putBoolean("isRepeaters",repeaterSwitch.isSelected());
+                editor.putInt("grips",Integer.parseInt(gripLapsEditText.getText().toString()));
+                editor.putInt("repetitions", Integer.parseInt(hangLapsEditText.getText().toString()));
+
+                editor.putInt("timeON",Integer.parseInt(timeONEditText.getText().toString()));
+                editor.putInt("timeOFF", Integer.parseInt(timeOFFEditText.getText().toString()));
+                editor.putInt("sets",Integer.parseInt(setsEditText.getText().toString()));
+
+                editor.putInt("restTime",Integer.parseInt(restEditText.getText().toString()));
+                editor.putInt("longRestTime", Integer.parseInt(longRestEditText.getText().toString()));
+
+                editor.commit();
+                Toast.makeText(v.getContext(),"Preferences Saved",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        loadPreferencesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(v.getContext());
+                String statusString = prefs.getString("savePreferences","No preferences saved yet");
+
+                boolean isRepeaters = prefs.getBoolean("isRepeaters", true);
+
+                int grips = prefs.getInt("grips",150);
+                int reps = prefs.getInt("repetitions",150);
+                int timeON = prefs.getInt("timeON",150);
+                int timeOFF = prefs.getInt("timeOFF",150);
+                int sets = prefs.getInt("sets",150);
+
+                int rest = prefs.getInt("restTime",150);
+                int longRest =  prefs.getInt("longRestTime",360);
+
+                timeControls.setTimeControls(new int[]{grips, reps, timeON, timeOFF, sets, rest, longRest});
+                timeControls.setToRepeaters(isRepeaters);
+
+                updateTimeControlsDisplay();
+                updateProgramDisplay();
+
+                Toast.makeText(v.getContext(),statusString,Toast.LENGTH_LONG).show();
+            }
+        });
 
         repeaterSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -529,6 +543,55 @@ public class SettingsActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });*/
+    }
+
+    private void updateTimeControlsDisplay() {
+
+        gripLapsEditText.setText("" + timeControls.getGripLaps());
+        hangLapsEditText.setText("" + timeControls.getHangLaps());
+        timeONEditText.setText(""+ timeControls.getTimeON());
+        timeOFFEditText.setText("" + timeControls.getTimeOFF());
+        setsEditText.setText("" + timeControls.getRoutineLaps());
+        restEditText.setText("" + timeControls.getRestTime());
+        longRestEditText.setText("" + timeControls.getLongRestTime());
+        //gripLapsEditText.set
+
+        gripSeekBar.setProgress(timeControls.getGripLaps()-1);
+        hangSeekBar.setProgress(timeControls.getHangLaps()-1);
+        timeONSeekBar.setProgress(timeControls.getTimeON()-1);
+        timeOFFSeekBar.setProgress(timeControls.getTimeOFF());
+        setsSeekBar.setProgress(timeControls.getRoutineLaps()-1);
+        restSeekBar.setProgress(timeControls.getRestTime()/10);
+        longRestSeekBar.setProgress(timeControls.getLongRestTime()/60);
+
+
+    // If hang laps are anything but 1, then workoutprogram is set to repeaters
+        if (timeControls.getHangLaps() != 1) {
+        repeaterSwitch.setText("Repeaters are: ON");
+        repeaterSwitch.setChecked(true);
+    }
+    // If hang laps is set to 1, then workout program is single hangs, and we set off settings
+    // that are only used in repeaters mode
+        else {
+        gripMultiplier = 6;
+        gripSeekBar.setProgress((timeControls.getGripLaps()-1)/gripMultiplier);
+        timeControls.setToRepeaters(false);
+
+        hangSeekBar.setProgress(0);
+        timeControls.setHangLaps(1);
+        timeControls.setTimeOFF(0);
+        timeOFFSeekBar.setProgress(0);
+        repeaterSwitch.setText("Repeaters are: OFF");
+        repeaterSwitch.setChecked(false);
+        hangLapsEditText.setVisibility(View.INVISIBLE);
+        hangSeekBar.setEnabled(false);
+        timeOFFEditText.setVisibility(View.INVISIBLE);
+        timeOFFSeekBar.setEnabled(false);
+
+        // timeOFFLinearLayout.setVisibility(0);
+
+    }
+
     }
 
     private void updateProgramDisplay() {

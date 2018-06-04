@@ -359,7 +359,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:elevation="12dp"
-                    android:text="Save Settings" />
+                    android:text="Apply" />
 
                 <Button
                     android:id="@+id/cancelButton"
@@ -367,6 +367,20 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Cancel" />
+
+                <Button
+                    android:id="@+id/saveButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Save Preferences" />
+
+                <Button
+                    android:id="@+id/loadButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="load Preferences" />
             </LinearLayout>
 
         </LinearLayout>

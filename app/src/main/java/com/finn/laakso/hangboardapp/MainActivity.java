@@ -525,14 +525,14 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 //Disable the slider and check box, so that those are accidentally changed
-                Toast.makeText(MainActivity.this, "Settings saved, pre made time controls disabled ", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Settings applied, pre made time controls disabled ", Toast.LENGTH_LONG).show();
                 repeatersBox.setVisibility(View.INVISIBLE);
                 durationSeekBar.setVisibility(View.INVISIBLE);
                 durationTextView.setText("Duration: " + timeControls.getTotalTime() / 60 + "min");
 
             } // Enabling them when settings are not saved, in future must be made more intuitive.
             else {
-                Toast.makeText(MainActivity.this, "Settings not saved, pre made time controls enabled", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Settings not applied, pre made time controls enabled", Toast.LENGTH_LONG).show();
                 repeatersBox.setVisibility(View.VISIBLE);
                 durationSeekBar.setVisibility(View.VISIBLE);
                 durationTextView.setText("Duration: " + timeControls.getTotalTime() / 60 + "min");

@@ -135,7 +135,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
             // SECURITY CHECK, WILL MAKE SURE IN FUTURE TO NEVER HAPPEN
             if (timeControls.getGripLaps()*2 != workoutHolds.size()) {
-                Toast.makeText(WorkoutActivity.this,timeControls.getGripLaps() + " ERROR!! Gripslaps and workoutHolds sizes doesn't match " + workoutHolds.size(), Toast.LENGTH_LONG).show();
+                Toast.makeText(WorkoutActivity.this,timeControls.getGripLaps() + " ERROR!! Griplaps and workoutHolds sizes doesn't match " + workoutHolds.size(), Toast.LENGTH_LONG).show();
                 timeControls.setGripLaps(workoutHolds.size()/2);
             }
             total_s = -s + timeControls.getTotalTime();
@@ -145,7 +145,8 @@ public class WorkoutActivity extends AppCompatActivity {
         // If phone is in portrait position Board image can take the whole width of the phone
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ) {
             pinchZoomBoardImage.setScale(1f);
-            pinchZoomBoardImage.setTranslateY(100f);
+            pinchZoomBoardImage.setTranslateY(300f);
+            Toast.makeText(this,"Paused",Toast.LENGTH_SHORT).show();
 
         }
 
