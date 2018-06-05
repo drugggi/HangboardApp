@@ -167,6 +167,13 @@
                     android:layout_weight="1"
                     android:text="Start workout" />
 
+                <Button
+                    android:id="@+id/statsButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Statistics" />
+
             </LinearLayout>
 
 
