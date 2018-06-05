@@ -146,7 +146,6 @@ public class WorkoutActivity extends AppCompatActivity {
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ) {
             pinchZoomBoardImage.setScale(1f);
             pinchZoomBoardImage.setTranslateY(300f);
-            Toast.makeText(this,"Paused",Toast.LENGTH_SHORT).show();
 
         }
 
@@ -163,6 +162,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
             lapseTimeChrono.stop();
             pauseBtn.setText("resume");
+            Toast.makeText(this,"Paused",Toast.LENGTH_SHORT).show();
 
         }
         else {

@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
    // ImageView fingerImage;
 
     ViewPager viewPager;
-    CustomSwipeAdapter adapter;
+    CustomSwipeAdapter swipeAdapter;
 
     HangBoard everyBoard;
     TimeControls timeControls;
@@ -150,9 +150,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Lets use CustomSwipeAdapter to show different hangboards in a swipeable fashion
         viewPager = (ViewPager) findViewById(R.id.view_pager);
-        adapter = new CustomSwipeAdapter(this);
-        viewPager.setAdapter(adapter);
+        swipeAdapter = new CustomSwipeAdapter(this);
+        viewPager.setAdapter(swipeAdapter);
 
+        viewPager.setCurrentItem(1);
         // ViewPager for showing and swiping different HangBoards.
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -294,7 +295,7 @@ public class MainActivity extends AppCompatActivity {
               //  Log.e("RIGHT HAND" , "X and Y: "+ everyBoard.getCoordRightX(position)+ " / " + everyBoard.getCoordRightY(position));
 
                 /*
-                // THIS IS ONLY FOR TESTING HAND IMAGES POSITION PURPOSES
+                // THIS IS ONLY FOR TESTING HAND IMAGES POSITION
                float y;
                 if (position % 2 != 0) {
                 y = fingerImage.getY() + position*3; }
@@ -313,7 +314,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
                 workoutIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
-                workoutIntent.putExtra("com.finn.laakso.hangboardapp.BOARDIMAGE",adapter.getImageResource(viewPager.getCurrentItem()));
+                workoutIntent.putExtra("com.finn.laakso.hangboardapp.BOARDIMAGE",swipeAdapter.getImageResource(viewPager.getCurrentItem()));
                 workoutIntent.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", everyBoard.getCurrentHoldList());
 
                 startActivity(workoutIntent);
@@ -508,7 +509,6 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
             if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_TIME_CONTROLS) {
-                //int i = data.getIntExtra("com.finn.laakso.hangboardapp.SETTINGS",0);
                 int[] i = data.getIntArrayExtra("com.finn.laakso.hangboardapp.SETTINGS");
 
                 // If Grip laps amount has been changed we have to randomize new grips, otherwise lets
@@ -525,14 +525,14 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 //Disable the slider and check box, so that those are accidentally changed
-                Toast.makeText(MainActivity.this, "Settings applied, pre made time controls disabled ", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Settings applied, pre made time controls disabled ", Toast.LENGTH_SHORT).show();
                 repeatersBox.setVisibility(View.INVISIBLE);
                 durationSeekBar.setVisibility(View.INVISIBLE);
                 durationTextView.setText("Duration: " + timeControls.getTotalTime() / 60 + "min");
 
             } // Enabling them when settings are not saved, in future must be made more intuitive.
             else {
-                Toast.makeText(MainActivity.this, "Settings not applied, pre made time controls enabled", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Settings not applied, pre made time controls enabled", Toast.LENGTH_SHORT).show();
                 repeatersBox.setVisibility(View.VISIBLE);
                 durationSeekBar.setVisibility(View.VISIBLE);
                 durationTextView.setText("Duration: " + timeControls.getTotalTime() / 60 + "min");
