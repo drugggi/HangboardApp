@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     Button startWorkout;
     Button randomizeBtn;
     Button timeControlBtn;
+    Button testStatistics;
 
     CheckBox repeatersBox;
     TextView durationTextView;
@@ -187,6 +188,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageScrollStateChanged(int state) {
 
+            }
+        });
+
+        testStatistics = (Button) findViewById(R.id.statsButton);
+        testStatistics.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent statsIntent = new Intent(getApplicationContext(), WorkoutStatistics.class);
+
+                // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
+                statsIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
+                statsIntent.putExtra("com.finn.laakso.hangboardapp.BOARDIMAGE",swipeAdapter.getImageResource(viewPager.getCurrentItem()));
+                statsIntent.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", everyBoard.getCurrentHoldList());
+
+                startActivity(statsIntent);
             }
         });
 
