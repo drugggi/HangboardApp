@@ -154,7 +154,6 @@ public class MainActivity extends AppCompatActivity {
         swipeAdapter = new CustomSwipeAdapter(this);
         viewPager.setAdapter(swipeAdapter);
 
-        viewPager.setCurrentItem(1);
         // ViewPager for showing and swiping different HangBoards.
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

@@ -17,9 +17,10 @@ import java.util.Random;
 public class WorkoutStatistics extends AppCompatActivity {
 
     TextView workoutInfoTextView;
+    TextView holdInfoTextView;
 
     ListView workoutHistoryListView;
-    ArrayList<Hold> workoutHolds;
+    ArrayList<ArrayList<Hold>> arrayList_workoutHolds;
     ArrayList<TimeControls> timeControls;
     ArrayList<String> dates;
     Random rng;
@@ -31,6 +32,7 @@ public class WorkoutStatistics extends AppCompatActivity {
         setContentView(R.layout.activity_workout_statistics);
         rng = new Random();
         workoutInfoTextView = (TextView) findViewById(R.id.workoutInfoTextView);
+        holdInfoTextView = (TextView) findViewById(R.id.holdInfoTextView);
 /*
         HangBoard testBoard = new HangBoard(getResources());
 
@@ -67,39 +69,65 @@ public class WorkoutStatistics extends AppCompatActivity {
        // Log.d("before tc","tc next");
         timeControls = new ArrayList<TimeControls>();
         dates = new ArrayList<String>();
+        arrayList_workoutHolds = new ArrayList<ArrayList<Hold>>();
        // Log.d("after tc","tc was");
         for (int i = 0; i <50;i++ ) {
             timeControls.add(getRandomTimeControls());
             dates.add(getRandomDate());
+            arrayList_workoutHolds.add(getRandomWorkoutHolds(timeControls.get(i).getGripLaps()));
         }
 
 
         Date c = Calendar.getInstance().getTime();
-        //Toast.makeText(this,"date: " + c,Toast.LENGTH_LONG).show();
+        Toast.makeText(this,"arraylist sizee: " + arrayList_workoutHolds.size(),Toast.LENGTH_SHORT).show();
 
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
         String formattedDate = df.format(c);
 
-        Toast.makeText(this, formattedDate,Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "arraylist 1 item size" +arrayList_workoutHolds.get(0).size(),Toast.LENGTH_LONG).show();
 
         //String[] dates = {formattedDate,"tuesday","wednesday"};
         // String[] hangboards = {"bm100","bm2000","zlag"};
         // String[] difficulty = {"hard","easy","etc"};
 
-        final WorkoutHistoryAdapter workoutAdapter = new WorkoutHistoryAdapter(this,dates, timeControls);
+        final WorkoutHistoryAdapter workoutAdapter = new WorkoutHistoryAdapter(this,dates, timeControls,arrayList_workoutHolds);
         workoutHistoryListView = (ListView) findViewById(R.id.workoutHistoryListView);
         workoutHistoryListView.setAdapter(workoutAdapter);
 
         workoutHistoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                // Get Selected items workoutmatrix
                 workoutInfoTextView.setText(workoutAdapter.getSelectedTimeControls(position).getGripMatrix(true));
+                String holdinfo = workoutAdapter.getSelectedHoldInfo(position);
+                holdInfoTextView.setText(holdinfo);
 
 
             }
         });
 
 
+    }
+
+    private ArrayList<Hold> getRandomWorkoutHolds(int number_of_holds) {
+
+        ArrayList<Hold> newHolds = new ArrayList<Hold>();
+        for (int i = 0;i < number_of_holds; i++) {
+            newHolds.add(getNewRandomHold());      // left hand
+            newHolds.add(getNewRandomHold()); // right hand
+
+        }
+        return newHolds;
+    }
+
+    private Hold getNewRandomHold() {
+        Hold newHold = new Hold(rng.nextInt(20)+1);
+        newHold.setHoldValue(rng.nextInt(100)+1);
+        int i_hold_bot_info = (rng.nextInt(8)+1)*10;
+        i_hold_bot_info = i_hold_bot_info + rng.nextInt(1);
+        newHold.setGripTypeAndSingleHang(i_hold_bot_info);
+        return newHold;
     }
 
     private TimeControls getRandomTimeControls() {

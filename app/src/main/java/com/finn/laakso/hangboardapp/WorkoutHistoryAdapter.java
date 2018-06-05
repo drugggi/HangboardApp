@@ -18,13 +18,15 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
     LayoutInflater mInflator;
     ArrayList<TimeControls> timeControls;
     ArrayList<String> dates;
-    ArrayList<ArrayList<Hold>> ArrayListOfHolds;
+    ArrayList<ArrayList<Hold>> arrayListOfHolds;
 
 
-    public WorkoutHistoryAdapter(Context c,ArrayList<String> dates, ArrayList<TimeControls> tc) {
+    public WorkoutHistoryAdapter(Context c,ArrayList<String> dates, ArrayList<TimeControls> tc,
+                                 ArrayList<ArrayList<Hold>> arrayOfHolds) {
 
+        this.arrayListOfHolds = arrayOfHolds;
         this.dates = dates;
-        timeControls = tc;
+        this.timeControls = tc;
 
         mInflator = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -44,6 +46,16 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
         return timeControls.get(position);
     }
 
+    public String getSelectedHoldInfo(int position) {
+
+        String all_holdText = "SIZE: " + arrayListOfHolds.get(position).size() + "\n ";
+        for (int i = 0; i < arrayListOfHolds.get(position).size() ; i++) {
+
+            all_holdText = all_holdText + arrayListOfHolds.get(position).get(i).getHoldText() + " Hold NRO: " + arrayListOfHolds.get(position).get(i).getHoldNumber() + " DIFF: " +  arrayListOfHolds.get(position).get(i).getHoldValue() + "\n";
+        }
+        return all_holdText;
+    }
+
     @Override
     public long getItemId(int position) {
         return position;
@@ -57,8 +69,8 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
         TextView workoutTextView = (TextView) v.findViewById(R.id.difficultyTextView);
 
         String board="HANGBOARD\n" + dates.get(position);
-        String hold=" time: " + timeControls.get(position).getTotalTime();
-        String grade="DIFFICULTY" + timeControls.get(position).getLongRestTime();
+        String hold=" Grip Laps: " + timeControls.get(position).getGripLaps();
+        String grade="Hold array size" + arrayListOfHolds.get(position).size();
 
         boardTextView.setText(board);
         holdsTextView.setText(hold);
