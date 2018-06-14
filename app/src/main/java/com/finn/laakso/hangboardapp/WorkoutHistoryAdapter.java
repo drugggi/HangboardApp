@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Laakso on 5.6.2018.
@@ -20,6 +22,8 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
     ArrayList<String> dates;
     ArrayList<ArrayList<Hold>> arrayListOfHolds;
 
+    MyDBHandler db;
+
 
     public WorkoutHistoryAdapter(Context c,ArrayList<String> dates, ArrayList<TimeControls> tc,
                                  ArrayList<ArrayList<Hold>> arrayOfHolds) {
@@ -28,13 +32,17 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
         this.dates = dates;
         this.timeControls = tc;
 
+        this.db = new MyDBHandler(c,null,null,1);
+
         mInflator = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
     }
 
     @Override
     public int getCount() {
-        return timeControls.size();
+
+        return db.lookUpWorkoutCount();
+        //return timeControls.size();
     }
 
     @Override
@@ -68,9 +76,12 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
         TextView holdsTextView = (TextView) v.findViewById(R.id.hangboardTextView);
         TextView workoutTextView = (TextView) v.findViewById(R.id.difficultyTextView);
 
-        String board="RANDOM BOARDS\n" + dates.get(position);
-        String hold=" Grip Laps: " + timeControls.get(position).getGripLaps();
-        String grade="Hold array size" + arrayListOfHolds.get(position).size();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+        Date resultdate = new Date(db.lookUpDate(position));
+
+        String board="SQL BOARDS\n" + sdf.format(resultdate);
+        String hold=" Grip Laps: " + db.lookUpTimeControls(position).getGripLaps();
+        String grade="TUT: " + db.lookUpTimeControls(position).getTimeUnderTension();
 
         boardTextView.setText(board);
         holdsTextView.setText(hold);

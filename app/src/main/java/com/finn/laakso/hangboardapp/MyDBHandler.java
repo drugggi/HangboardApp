@@ -71,7 +71,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     }
 
-    public void addHangboardWorkout(int date, String hangboardName, TimeControls timeControls, ArrayList<Hold> workoutHolds) {
+    public void addHangboardWorkout(long date, String hangboardName, TimeControls timeControls, ArrayList<Hold> workoutHolds) {
 
         StringBuilder holdNumbers= new StringBuilder();
         StringBuilder gripTypes = new StringBuilder();
@@ -112,16 +112,27 @@ public class MyDBHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public int lookUpDate(int position) {
+    public int lookUpWorkoutCount() {
+
+        String countQuery = "SELECT  * FROM " + TABLE_WORKOUTS;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
+
+    }
+
+    public long lookUpDate(int position) {
         String query = "SELECT * FROM " + TABLE_WORKOUTS + " WHERE " + COLUMN_ID + " =  \"" + position + "\"";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
-        int date= 0;
+        long date= 0;
 
         if (cursor.moveToFirst()) {
             cursor.moveToFirst();
-            date = Integer.parseInt(cursor.getString(1));
+            date = Long.parseLong(cursor.getString(1));
         }
         db.close();
         return date;

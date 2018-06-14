@@ -8,7 +8,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 
 public class WorkoutStatistics extends AppCompatActivity {
@@ -68,8 +70,12 @@ public class WorkoutStatistics extends AppCompatActivity {
                 timeControls.setGripLaps(workoutHolds.size()/2);
             }
         }
-
-        dbHandler.addHangboardWorkout(112233,"test board", timeControls, workoutHolds);
+        long time = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+        Date resultdate = new Date(time);
+        //Log.e("long time: "," " + time);
+        //Log.e("result date", sdf.format(resultdate));
+        dbHandler.addHangboardWorkout(time,"test board", timeControls, workoutHolds);
 
        // Log.d("before tc","tc next");
         allTimeControls = new ArrayList<TimeControls>();
@@ -82,19 +88,20 @@ public class WorkoutStatistics extends AppCompatActivity {
             arrayList_workoutHolds.add(getRandomWorkoutHolds(allTimeControls.get(i).getGripLaps()));
         }
 
+
 /*
-        Date c = Calendar.getInstance().getTime();
+        java.sql.Date c = Calendar.getInstance().getTime();
         Toast.makeText(this,"arraylist sizee: " + arrayList_workoutHolds.size(),Toast.LENGTH_SHORT).show();
 
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
         String formattedDate = df.format(c);
 
         Toast.makeText(this, "arraylist 1 item size" +arrayList_workoutHolds.get(0).size(),Toast.LENGTH_LONG).show();
-*/
+
         //String[] dates = {formattedDate,"tuesday","wednesday"};
         // String[] hangboards = {"bm100","bm2000","zlag"};
         // String[] difficulty = {"hard","easy","etc"};
-
+*/
         final WorkoutHistoryAdapter workoutAdapter = new WorkoutHistoryAdapter(this,dates, allTimeControls,arrayList_workoutHolds);
 
         workoutHistoryListView = (ListView) findViewById(R.id.workoutHistoryListView);
@@ -121,7 +128,7 @@ public class WorkoutStatistics extends AppCompatActivity {
 
                 String text = "";
                 for (int i = 0 ; i < test.size() ; i++) {
-                    
+
                     text = text + test.get(i).getHoldNumber() +test.get(i).getHoldText() +test.get(i).getHoldValue() + "\n";
                     /*
                     Log.e("hld nro: " , ": " + test.get(i).getHoldNumber());
