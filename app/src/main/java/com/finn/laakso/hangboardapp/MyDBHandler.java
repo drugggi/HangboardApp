@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 /**
  * Created by Laakso on 14.6.2018.
  */
@@ -17,7 +19,21 @@ public class MyDBHandler extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "hangboardWorkout.db";
     public static final String TABLE_WORKOUTS = "workouts";
     public static final String COLUMN_ID = "_id";
+    public static final String COLUMN_DATE = "date";
     public static final String COLUMN_HANGBOARD = "hangboardname";
+
+    public static final String COLUMN_HOLDNUMBERS = "holdnumbers";
+    public static final String COLUMN_GRIPTYPES = "griptypes";
+    public static final String COLUMN_DIFFICULTIES = "difficulties";
+
+    public static final String COLUMN_GRIPLAPS = "griplaps";
+    public static final String COLUMN_HANGLAPS = "hanglaps";
+    public static final String COLUMN_TIMEON = "timeon";
+    public static final String COLUMN_TIMEOFF = "timeoff";
+    public static final String COLUMN_SETS = "sets";
+    public static final String COLUMN_REST = "rest";
+    public static final String COLUMN_LONGREST = "longrest";
+
     public static final String COLUMN_TUT = "timeunertension";
 
     public MyDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -29,8 +45,20 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_PRODUCTS_TABEL = "CREATE TABLE " + TABLE_WORKOUTS + "("
                 + COLUMN_ID + " INTEGER PRIMARY KEY,"
+                + COLUMN_DATE + " INTEGER,"
                 + COLUMN_HANGBOARD + " TEXT,"
-                + COLUMN_TUT + " INTEGER" + ")";
+                + COLUMN_HOLDNUMBERS + " TEXT,"
+                + COLUMN_GRIPTYPES + " TEXT,"
+                + COLUMN_DIFFICULTIES + " TEXT,"
+
+                + COLUMN_GRIPLAPS + " INTEGER,"
+                + COLUMN_HANGLAPS + " INTEGER,"
+                + COLUMN_TIMEON + " INTEGER,"
+                + COLUMN_TIMEOFF + " INTEGER,"
+                + COLUMN_SETS + " INTEGER,"
+                + COLUMN_REST + " INTEGER,"
+                + COLUMN_LONGREST + " INTEGER" + ")";
+
         db.execSQL(CREATE_PRODUCTS_TABEL);
     }
     /* ONUPGRADE() METHOD IS CALLED WHEN THE HANDLER IS INVOKED WITH GREATER DATABASE VERSION NUMBER
@@ -44,10 +72,33 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     }
 
-    public void addHangboardWorkout(String hangboardName, int time_under_tension) {
+    public void addHangboardWorkout(int date, String hangboardName, TimeControls timeControls, ArrayList<Hold> workoutHolds) {
+
+        StringBuilder holdNumbers= new StringBuilder();
+        StringBuilder gripTypes = new StringBuilder();
+        StringBuilder difficulties = new StringBuilder();
+
+        for (Hold h: workoutHolds) {
+            holdNumbers.append(h.getHoldNumber()+ ",");
+            gripTypes.append(h.getGripStyleInt() + ",");
+            difficulties.append(h.getHoldValue() + ",");
+
+        }
         ContentValues values = new ContentValues();
+        values.put(COLUMN_DATE,date);
         values.put(COLUMN_HANGBOARD, hangboardName);
-        values.put(COLUMN_TUT,time_under_tension);
+        values.put(COLUMN_HOLDNUMBERS, holdNumbers.toString());
+        values.put(COLUMN_GRIPTYPES, gripTypes.toString());
+        values.put(COLUMN_DIFFICULTIES, difficulties.toString());
+
+        values.put(COLUMN_GRIPLAPS, timeControls.getGripLaps());
+        values.put(COLUMN_HANGLAPS, timeControls.getHangLaps());
+        values.put(COLUMN_TIMEON, timeControls.getTimeON());
+        values.put(COLUMN_TIMEOFF, timeControls.getTimeOFF());
+        values.put(COLUMN_SETS, timeControls.getRoutineLaps());
+        values.put(COLUMN_REST, timeControls.getRestTime());
+        values.put(COLUMN_LONGREST, timeControls.getLongRestTime());
+        //values.put(COLUMN_TUT,time_under_tension);
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -62,6 +113,92 @@ public class MyDBHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public int lookUpDate(int position) {
+        String query = "SELECT * FROM " + TABLE_WORKOUTS + " WHERE " + COLUMN_ID + " =  \"" + position + "\"";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        int date= 0;
+
+        if (cursor.moveToFirst()) {
+            cursor.moveToFirst();
+            date = Integer.parseInt(cursor.getString(1));
+        }
+        return date;
+    }
+
+    public String lookUpHangboard(int position) {
+        String query = "SELECT * FROM " + TABLE_WORKOUTS + " WHERE " + COLUMN_ID + " =  \"" + position + "\"";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        String hangboard= "" ;
+
+        if (cursor.moveToFirst()) {
+            cursor.moveToFirst();
+            hangboard = cursor.getString(2);
+        }
+        return hangboard;
+
+    }
+
+    public ArrayList<Hold> lookUpHolds(int position) {
+        String query = "SELECT * FROM " + TABLE_WORKOUTS + " WHERE " + COLUMN_ID + " =  \"" + position + "\"";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        ArrayList<Hold> allHolds = new ArrayList<>();
+
+        String allHoldNumbersFromDB="";
+        String allGripTypesFromDB="";
+        String allHoldValuesFromDB="";
+
+        if (cursor.moveToFirst()) {
+            cursor.moveToFirst();
+            allHoldNumbersFromDB = cursor.getString(3);
+            allGripTypesFromDB = cursor.getString(4);
+            allHoldValuesFromDB = cursor.getString(5);
+        }
+
+        Log.e("numbers: ", allHoldNumbersFromDB);
+        Log.e("griptypes: ", allGripTypesFromDB);
+        Log.e("holdvalues :",allHoldValuesFromDB);
+
+        String[] s = allHoldNumbersFromDB.split(",");
+
+        int[] holdNumbers = new int[s.length];
+        for (int i = 0; i < s.length; i++) {
+            holdNumbers[i] = Integer.parseInt(s[i]);
+        }
+
+        s = allGripTypesFromDB.split(",");
+
+        int[] gripTypes = new int[s.length];
+        for (int i = 0 ; i < s.length; i++) {
+            gripTypes[i] = Integer.parseInt(s[i]);
+        }
+
+        s = allHoldValuesFromDB.split(",");
+
+        int[] holdValues = new int[s.length];
+        for (int i = 0 ; i < s.length; i++) {
+            holdValues[i] = Integer.parseInt(s[i]);
+        }
+
+        Hold tempHold;
+        for(int i =0 ; i < s.length ; i++) {
+            tempHold = new Hold(holdNumbers[i]);
+            tempHold.setGripType(gripTypes[i]);
+            tempHold.setHoldValue(holdValues[i]);
+
+            allHolds.add(tempHold);
+        }
+
+        Log.e(" length", " : " + holdNumbers.length + " : " + gripTypes.length + " : " + holdValues.length);
+        return allHolds;
+
+    }
+
     public String lookUpTUT(int position) {
 
         String query = "SELECT * FROM " + TABLE_WORKOUTS + " WHERE " + COLUMN_ID + " =  \"" + position + "\"";
@@ -71,19 +208,27 @@ public class MyDBHandler extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(query, null);
 
         String name="ei oleee";
-        int tut=666;
+        //int tut=666;
 
         if ( cursor.moveToFirst() ) {
             cursor.moveToFirst();
-            name = cursor.getString(1);
-            tut = Integer.parseInt(cursor.getString(2));
+            name = name + "   "  + cursor.getString(1);
+            name = name + "   "  + cursor.getString(2);
+            name = name + "   "  + cursor.getString(3);
+            name = name + "   "  + cursor.getString(4);
+            name = name + "   "  + cursor.getString(5);
+            name = name + "   "  + cursor.getString(6);
+            name = name + "   "  + cursor.getString(7);
+            name = name + "   "  + cursor.getString(8);
+            name = name + "   "  + cursor.getString(9);
+          //  tut = Integer.parseInt(cursor.getString(2));
 
         }
-        Log.e("name: ", name);
-        Log.e("tut: ", "" + tut);
+//        Log.e("name: ", name);
+  //      Log.e("tut: ", "" + tut);
         db.close();
 
-        return name + " tut: " + tut;
+        return name + " tut: " ;
 
     }
 

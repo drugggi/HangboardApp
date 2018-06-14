@@ -23,7 +23,7 @@
                 android:id="@+id/workoutInfoTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/large_text" />
+                android:text="workoutInfoTextView" />
 
             <TextView
                 android:id="@+id/holdInfoTextView"

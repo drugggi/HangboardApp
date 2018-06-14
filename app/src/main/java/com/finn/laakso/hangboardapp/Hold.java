@@ -227,6 +227,10 @@ public class Hold implements Comparable<Hold>, Parcelable {
         return single_hold;
     }
 
+    public void setGripType(int grip_type) {
+
+        grip_style = forInt(grip_type);
+    }
     public void setGripStyle(grip_type newgrip) {
         grip_style = newgrip;
     }
@@ -234,6 +238,7 @@ public class Hold implements Comparable<Hold>, Parcelable {
     public grip_type getGripStyle() {
         return grip_style;
     }
+    public int getGripStyleInt() {return grip_style.ordinal();}
 
 
     // Returns the text that represents the grip type

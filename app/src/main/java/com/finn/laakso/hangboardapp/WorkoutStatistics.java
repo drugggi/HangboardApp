@@ -2,6 +2,7 @@ package com.finn.laakso.hangboardapp;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -99,7 +100,7 @@ public class WorkoutStatistics extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 MyDBHandler dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
-                dbHandler.addHangboardWorkout(dates.get(position),timeControls.get(position).getTimeUnderTension());
+                dbHandler.addHangboardWorkout(timeControls.get(0).getTimeUnderTension(),"Metolius",timeControls.get(0),arrayList_workoutHolds.get(0));
 
                 // Get Selected items workoutmatrix
                 // workoutInfoTextView.setText(workoutAdapter.getSelectedTimeControls(position).getGripMatrix(true));
@@ -107,10 +108,17 @@ public class WorkoutStatistics extends AppCompatActivity {
                holdInfoTextView.setText(dbHandler.lookUpTUT(position));
 
                 if ( position == 0) {
-                    dbHandler.DELETEALL();
+                    holdInfoTextView.setText("" + dbHandler.lookUpDate(position));
+
                 }
 
-
+                String he = "";
+                ArrayList<Hold> test = dbHandler.lookUpHolds(position);
+                for (int i = 0 ; i < test.size() ; i++) {
+                    Log.e("hld nro: " , ": " + test.get(i).getHoldNumber());
+                    Log.e("grip type: " , ": " + test.get(i).getHoldText());
+                    Log.e("hold value: " , ": " + test.get(i).getHoldValue());
+                }
 
             }
         });
