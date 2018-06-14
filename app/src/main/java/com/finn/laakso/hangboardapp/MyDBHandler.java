@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -124,6 +123,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
             cursor.moveToFirst();
             date = Integer.parseInt(cursor.getString(1));
         }
+        db.close();
         return date;
     }
 
@@ -138,6 +138,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
             cursor.moveToFirst();
             hangboard = cursor.getString(2);
         }
+        db.close();
         return hangboard;
 
     }
@@ -158,12 +159,12 @@ public class MyDBHandler extends SQLiteOpenHelper {
             allHoldNumbersFromDB = cursor.getString(3);
             allGripTypesFromDB = cursor.getString(4);
             allHoldValuesFromDB = cursor.getString(5);
-        }
 
+/*
         Log.e("numbers: ", allHoldNumbersFromDB);
         Log.e("griptypes: ", allGripTypesFromDB);
         Log.e("holdvalues :",allHoldValuesFromDB);
-
+*/
         String[] s = allHoldNumbersFromDB.split(",");
 
         int[] holdNumbers = new int[s.length];
@@ -176,6 +177,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
         int[] gripTypes = new int[s.length];
         for (int i = 0 ; i < s.length; i++) {
             gripTypes[i] = Integer.parseInt(s[i]);
+
+
         }
 
         s = allHoldValuesFromDB.split(",");
@@ -194,41 +197,42 @@ public class MyDBHandler extends SQLiteOpenHelper {
             allHolds.add(tempHold);
         }
 
-        Log.e(" length", " : " + holdNumbers.length + " : " + gripTypes.length + " : " + holdValues.length);
+        //Log.e(" length", " : " + holdNumbers.length + " : " + gripTypes.length + " : " + holdValues.length);
+        }
+        db.close();
         return allHolds;
 
     }
 
-    public String lookUpTUT(int position) {
+    public TimeControls lookUpTimeControls(int position) {
 
         String query = "SELECT * FROM " + TABLE_WORKOUTS + " WHERE " + COLUMN_ID + " =  \"" + position + "\"";
-
         SQLiteDatabase db = this.getWritableDatabase();
 
         Cursor cursor = db.rawQuery(query, null);
 
-        String name="ei oleee";
+        TimeControls timeControls = new TimeControls();
         //int tut=666;
 
         if ( cursor.moveToFirst() ) {
             cursor.moveToFirst();
-            name = name + "   "  + cursor.getString(1);
-            name = name + "   "  + cursor.getString(2);
-            name = name + "   "  + cursor.getString(3);
-            name = name + "   "  + cursor.getString(4);
-            name = name + "   "  + cursor.getString(5);
-            name = name + "   "  + cursor.getString(6);
-            name = name + "   "  + cursor.getString(7);
-            name = name + "   "  + cursor.getString(8);
-            name = name + "   "  + cursor.getString(9);
+
+            timeControls.setGripLaps(cursor.getInt(6));
+            timeControls.setHangLaps(cursor.getInt(7));
+            timeControls.setTimeON(cursor.getInt(8));
+            timeControls.setTimeOFF(cursor.getInt(9));
+            timeControls.setRoutineLaps(cursor.getInt(10));
+            timeControls.setRestTime(cursor.getInt(11));
+            timeControls.setLongRestTime(cursor.getInt(12));
+
           //  tut = Integer.parseInt(cursor.getString(2));
 
         }
-//        Log.e("name: ", name);
-  //      Log.e("tut: ", "" + tut);
+       // Log.e("name: ", timeControls.getGripMatrix(false));
+
         db.close();
 
-        return name + " tut: " ;
+        return timeControls ;
 
     }
 

@@ -238,7 +238,7 @@ public class Hold implements Comparable<Hold>, Parcelable {
     public grip_type getGripStyle() {
         return grip_style;
     }
-    public int getGripStyleInt() {return grip_style.ordinal();}
+    public int getGripStyleInt() {return grip_style.ordinal()+1;}
 
 
     // Returns the text that represents the grip type

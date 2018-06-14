@@ -100,12 +100,11 @@ public class WorkoutStatistics extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 MyDBHandler dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
-                dbHandler.addHangboardWorkout(timeControls.get(0).getTimeUnderTension(),"Metolius",timeControls.get(0),arrayList_workoutHolds.get(0));
+                dbHandler.addHangboardWorkout(timeControls.get(0).getTotalTime(),"Metolius",timeControls.get(position+1),arrayList_workoutHolds.get(position+1));
 
                 // Get Selected items workoutmatrix
                 // workoutInfoTextView.setText(workoutAdapter.getSelectedTimeControls(position).getGripMatrix(true));
                 // String holdinfo = workoutAdapter.getSelectedHoldInfo(position);
-               holdInfoTextView.setText(dbHandler.lookUpTUT(position));
 
                 if ( position == 0) {
                     holdInfoTextView.setText("" + dbHandler.lookUpDate(position));
@@ -114,11 +113,16 @@ public class WorkoutStatistics extends AppCompatActivity {
 
                 String he = "";
                 ArrayList<Hold> test = dbHandler.lookUpHolds(position);
+
+                /*
                 for (int i = 0 ; i < test.size() ; i++) {
                     Log.e("hld nro: " , ": " + test.get(i).getHoldNumber());
                     Log.e("grip type: " , ": " + test.get(i).getHoldText());
                     Log.e("hold value: " , ": " + test.get(i).getHoldValue());
                 }
+*/
+                TimeControls temp = dbHandler.lookUpTimeControls(position);
+                holdInfoTextView.setText(temp.getGripMatrix(true));
 
             }
         });
@@ -156,6 +160,11 @@ public class WorkoutStatistics extends AppCompatActivity {
         Hold newHold = new Hold(rng.nextInt(20)+1);
         newHold.setHoldValue(rng.nextInt(100)+1);
         int i_hold_bot_info = (rng.nextInt(8)+1)*10;
+
+        if ( i_hold_bot_info < 10) {
+            Log.e("VITTU ","HEHEH");
+        }
+
         i_hold_bot_info = i_hold_bot_info + rng.nextInt(1);
         newHold.setGripTypeAndSingleHang(i_hold_bot_info);
         return newHold;
