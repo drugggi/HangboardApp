@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
                 statsIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
-                statsIntent.putExtra("com.finn.laakso.hangboardapp.BOARDIMAGE",swipeAdapter.getImageResource(viewPager.getCurrentItem()));
+                statsIntent.putExtra("com.finn.laakso.hangboardapp.BOARDNAME",everyBoard.getHangboardName() );
                 statsIntent.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", everyBoard.getCurrentHoldList());
 
                 startActivity(statsIntent);

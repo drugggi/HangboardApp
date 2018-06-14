@@ -511,6 +511,10 @@ public class HangBoard {
         setGrips(0);
     }
 
+    public String getHangboardName() {
+        return current_board.toString();
+    }
+
 
     // Arbitrary grade values, what hold_values to search in a give grade
     // For finn Grade 6c consist of hold that are betweent 7 and 18 in difficulty

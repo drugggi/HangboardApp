@@ -26,6 +26,7 @@ public class WorkoutStatistics extends AppCompatActivity {
 
     ArrayList<Hold> workoutHolds;
     TimeControls timeControls;
+    String hangboardName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,15 +50,12 @@ public class WorkoutStatistics extends AppCompatActivity {
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.HOLDS")) {
             workoutHolds = getIntent().getExtras().getParcelableArrayList("com.finn.laakso.hangboardapp.HOLDS");
         }
-/*
+
         // Hangboard image that user has selected
-        if (getIntent().hasExtra("com.finn.laakso.hangboardapp.BOARDIMAGE")) {
-            int image_resource = getIntent().getIntExtra("com.finn.laakso.hangboardapp.BOARDIMAGE", 0);
-            boardimage.setImageResource(image_resource);
-            pinchZoomBoardImage.setImageBitmap(BitmapFactory.decodeResource(getResources(),image_resource));
-            pinchZoomBoardImage.setVisibility(View.VISIBLE);
+        if (getIntent().hasExtra("com.finn.laakso.hangboardapp.BOARDNAME")) {
+            hangboardName = getIntent().getStringExtra("com.finn.laakso.hangboardapp.BOARDNAME");
         }
-*/
+
         // This Intent brings the time controls to the workout program
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.TIMECONTROLS")) {
             int[] time_controls = getIntent().getExtras().getIntArray("com.finn.laakso.hangboardapp.TIMECONTROLS");
@@ -75,7 +73,7 @@ public class WorkoutStatistics extends AppCompatActivity {
         Date resultdate = new Date(time);
         //Log.e("long time: "," " + time);
         //Log.e("result date", sdf.format(resultdate));
-        dbHandler.addHangboardWorkout(time,"test board", timeControls, workoutHolds);
+        dbHandler.addHangboardWorkout(time,hangboardName, timeControls, workoutHolds);
 
        // Log.d("before tc","tc next");
         allTimeControls = new ArrayList<TimeControls>();
