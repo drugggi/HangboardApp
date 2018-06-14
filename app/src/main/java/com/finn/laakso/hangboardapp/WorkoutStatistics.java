@@ -8,10 +8,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Random;
 
 public class WorkoutStatistics extends AppCompatActivity {
@@ -77,7 +74,7 @@ public class WorkoutStatistics extends AppCompatActivity {
             arrayList_workoutHolds.add(getRandomWorkoutHolds(timeControls.get(i).getGripLaps()));
         }
 
-
+/*
         Date c = Calendar.getInstance().getTime();
         Toast.makeText(this,"arraylist sizee: " + arrayList_workoutHolds.size(),Toast.LENGTH_SHORT).show();
 
@@ -85,12 +82,15 @@ public class WorkoutStatistics extends AppCompatActivity {
         String formattedDate = df.format(c);
 
         Toast.makeText(this, "arraylist 1 item size" +arrayList_workoutHolds.get(0).size(),Toast.LENGTH_LONG).show();
-
+*/
         //String[] dates = {formattedDate,"tuesday","wednesday"};
         // String[] hangboards = {"bm100","bm2000","zlag"};
         // String[] difficulty = {"hard","easy","etc"};
 
         final WorkoutHistoryAdapter workoutAdapter = new WorkoutHistoryAdapter(this,dates, timeControls,arrayList_workoutHolds);
+
+
+
         workoutHistoryListView = (ListView) findViewById(R.id.workoutHistoryListView);
         workoutHistoryListView.setAdapter(workoutAdapter);
 
@@ -98,12 +98,35 @@ public class WorkoutStatistics extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                MyDBHandler dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
+                dbHandler.addHangboardWorkout(dates.get(position),timeControls.get(position).getTimeUnderTension());
+
                 // Get Selected items workoutmatrix
-                workoutInfoTextView.setText(workoutAdapter.getSelectedTimeControls(position).getGripMatrix(true));
-                String holdinfo = workoutAdapter.getSelectedHoldInfo(position);
-                holdInfoTextView.setText(holdinfo);
+                // workoutInfoTextView.setText(workoutAdapter.getSelectedTimeControls(position).getGripMatrix(true));
+                // String holdinfo = workoutAdapter.getSelectedHoldInfo(position);
+               holdInfoTextView.setText(dbHandler.lookUpTUT(position));
+
+                if ( position == 0) {
+                    dbHandler.DELETEALL();
+                }
 
 
+
+            }
+        });
+
+
+
+        holdInfoTextView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                MyDBHandler dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
+                dbHandler.DELETEALL();
+
+                Toast.makeText(WorkoutStatistics.this, "All DELETED, Happy now",Toast.LENGTH_LONG).show();
+
+
+                return true;
             }
         });
 
