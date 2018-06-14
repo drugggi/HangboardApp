@@ -2,7 +2,6 @@ package com.finn.laakso.hangboardapp;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -19,10 +18,12 @@ public class WorkoutStatistics extends AppCompatActivity {
 
     ListView workoutHistoryListView;
     ArrayList<ArrayList<Hold>> arrayList_workoutHolds;
-    ArrayList<TimeControls> timeControls;
+    ArrayList<TimeControls> allTimeControls;
     ArrayList<String> dates;
     Random rng;
 
+    ArrayList<Hold> workoutHolds;
+    TimeControls timeControls;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,10 @@ public class WorkoutStatistics extends AppCompatActivity {
         rng = new Random();
         workoutInfoTextView = (TextView) findViewById(R.id.workoutInfoTextView);
         holdInfoTextView = (TextView) findViewById(R.id.holdInfoTextView);
+
+        MyDBHandler dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
+
+
 /*
         HangBoard testBoard = new HangBoard(getResources());
 
@@ -39,10 +44,10 @@ public class WorkoutStatistics extends AppCompatActivity {
         workoutHistoryListView.setAdapter(gradeAdapter);*/
 
         // Holds that will be used in this workout program
-/*        if (getIntent().hasExtra("com.finn.laakso.hangboardapp.HOLDS")) {
+        if (getIntent().hasExtra("com.finn.laakso.hangboardapp.HOLDS")) {
             workoutHolds = getIntent().getExtras().getParcelableArrayList("com.finn.laakso.hangboardapp.HOLDS");
         }
-
+/*
         // Hangboard image that user has selected
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.BOARDIMAGE")) {
             int image_resource = getIntent().getIntExtra("com.finn.laakso.hangboardapp.BOARDIMAGE", 0);
@@ -50,7 +55,7 @@ public class WorkoutStatistics extends AppCompatActivity {
             pinchZoomBoardImage.setImageBitmap(BitmapFactory.decodeResource(getResources(),image_resource));
             pinchZoomBoardImage.setVisibility(View.VISIBLE);
         }
-
+*/
         // This Intent brings the time controls to the workout program
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.TIMECONTROLS")) {
             int[] time_controls = getIntent().getExtras().getIntArray("com.finn.laakso.hangboardapp.TIMECONTROLS");
@@ -62,17 +67,19 @@ public class WorkoutStatistics extends AppCompatActivity {
             if (timeControls.getGripLaps()*2 != workoutHolds.size()) {
                 timeControls.setGripLaps(workoutHolds.size()/2);
             }
-        }*/
+        }
+
+        dbHandler.addHangboardWorkout(112233,"test board", timeControls, workoutHolds);
 
        // Log.d("before tc","tc next");
-        timeControls = new ArrayList<TimeControls>();
+        allTimeControls = new ArrayList<TimeControls>();
         dates = new ArrayList<String>();
         arrayList_workoutHolds = new ArrayList<ArrayList<Hold>>();
        // Log.d("after tc","tc was");
         for (int i = 0; i <50;i++ ) {
-            timeControls.add(getRandomTimeControls());
+            allTimeControls.add(getRandomTimeControls());
             dates.add(getRandomDate());
-            arrayList_workoutHolds.add(getRandomWorkoutHolds(timeControls.get(i).getGripLaps()));
+            arrayList_workoutHolds.add(getRandomWorkoutHolds(allTimeControls.get(i).getGripLaps()));
         }
 
 /*
@@ -88,9 +95,7 @@ public class WorkoutStatistics extends AppCompatActivity {
         // String[] hangboards = {"bm100","bm2000","zlag"};
         // String[] difficulty = {"hard","easy","etc"};
 
-        final WorkoutHistoryAdapter workoutAdapter = new WorkoutHistoryAdapter(this,dates, timeControls,arrayList_workoutHolds);
-
-
+        final WorkoutHistoryAdapter workoutAdapter = new WorkoutHistoryAdapter(this,dates, allTimeControls,arrayList_workoutHolds);
 
         workoutHistoryListView = (ListView) findViewById(R.id.workoutHistoryListView);
         workoutHistoryListView.setAdapter(workoutAdapter);
@@ -100,7 +105,7 @@ public class WorkoutStatistics extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 MyDBHandler dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
-                dbHandler.addHangboardWorkout(timeControls.get(0).getTotalTime(),"Metolius",timeControls.get(position+1),arrayList_workoutHolds.get(position+1));
+                // dbHandler.addHangboardWorkout(allTimeControls.get(0).getTotalTime(),"Metolius",allTimeControls.get(position+1),arrayList_workoutHolds.get(position+1));
 
                 // Get Selected items workoutmatrix
                 // workoutInfoTextView.setText(workoutAdapter.getSelectedTimeControls(position).getGripMatrix(true));
@@ -114,13 +119,16 @@ public class WorkoutStatistics extends AppCompatActivity {
                 String he = "";
                 ArrayList<Hold> test = dbHandler.lookUpHolds(position);
 
-                /*
+                String text = "";
                 for (int i = 0 ; i < test.size() ; i++) {
+                    
+                    text = text + test.get(i).getHoldNumber() +test.get(i).getHoldText() +test.get(i).getHoldValue() + "\n";
+                    /*
                     Log.e("hld nro: " , ": " + test.get(i).getHoldNumber());
                     Log.e("grip type: " , ": " + test.get(i).getHoldText());
-                    Log.e("hold value: " , ": " + test.get(i).getHoldValue());
+                    Log.e("hold value: " , ": " + test.get(i).getHoldValue());*/
                 }
-*/
+                workoutInfoTextView.setText(text);
                 TimeControls temp = dbHandler.lookUpTimeControls(position);
                 holdInfoTextView.setText(temp.getGripMatrix(true));
 
@@ -161,9 +169,6 @@ public class WorkoutStatistics extends AppCompatActivity {
         newHold.setHoldValue(rng.nextInt(100)+1);
         int i_hold_bot_info = (rng.nextInt(8)+1)*10;
 
-        if ( i_hold_bot_info < 10) {
-            Log.e("VITTU ","HEHEH");
-        }
 
         i_hold_bot_info = i_hold_bot_info + rng.nextInt(1);
         newHold.setGripTypeAndSingleHang(i_hold_bot_info);

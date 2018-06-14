@@ -68,7 +68,7 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
         TextView holdsTextView = (TextView) v.findViewById(R.id.hangboardTextView);
         TextView workoutTextView = (TextView) v.findViewById(R.id.difficultyTextView);
 
-        String board="HANGBOARD\n" + dates.get(position);
+        String board="RANDOM BOARDS\n" + dates.get(position);
         String hold=" Grip Laps: " + timeControls.get(position).getGripLaps();
         String grade="Hold array size" + arrayListOfHolds.get(position).size();
 
