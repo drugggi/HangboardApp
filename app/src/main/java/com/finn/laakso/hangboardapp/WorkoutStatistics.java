@@ -35,6 +35,14 @@ public class WorkoutStatistics extends AppCompatActivity {
     TimeControls timeControls;
     String hangboardName;
 
+    ArrayList<Hold> selectedHolds;
+    TimeControls selectedTimeControls;
+    int[] selectedCompletedHangs;
+    long selectedDate;
+    String selectedHangboardName;
+
+    WorkoutHistoryAdapter workoutAdapter;
+
     static final String[] numbers = new String[] {
             "A", "B", "C", "D", "E",
             "F", "G", "H", "I", "J",
@@ -103,15 +111,30 @@ public class WorkoutStatistics extends AppCompatActivity {
                 timeControls.setGripLaps(workoutHolds.size()/2);
             }
         }
+
+        int[] completed = new int[timeControls.getGripLaps() * timeControls.getRoutineLaps()];
+
+        for (int i = 0; i < completed.length ; i++) {
+            completed[i] = 0;
+        }
+
+        if(getIntent().hasExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS")) {
+            completed = getIntent().getExtras().getIntArray("com.finn.laakso.hangboardapp.COMPLETEDHANGS");
+        }
+
         long time = System.currentTimeMillis();
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
         Date resultdate = new Date(time);
         //Log.e("long time: "," " + time);
         //Log.e("result date", sdf.format(resultdate));
-        dbHandler.addHangboardWorkout(time,hangboardName, timeControls, workoutHolds);
+
+
+
+
+        dbHandler.addHangboardWorkout(time,hangboardName, timeControls, workoutHolds,completed);
 
         TimeControls rngControls = getRandomTimeControls();
-        dbHandler.addHangboardWorkout(time- (long)rng.nextInt(1000*60*60*24*300),"RNG " + hangboardName,rngControls,getRandomWorkoutHolds(rngControls.getHangLaps()));
+        dbHandler.addHangboardWorkout(time- (long)rng.nextInt(1000*60*60*24*300),"RNG " + hangboardName,rngControls,getRandomWorkoutHolds(rngControls.getHangLaps()),completed);
 
        // Log.d("before tc","tc next");
         allTimeControls = new ArrayList<TimeControls>();
@@ -145,15 +168,16 @@ public class WorkoutStatistics extends AppCompatActivity {
                 Intent editWorkout = new Intent(getApplicationContext(), EditWorkoutInfo.class);
 
                 // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
-                editWorkout.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
-                editWorkout.putExtra("com.finn.laakso.hangboardapp.BOARDNAME",hangboardName);
-                editWorkout.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", workoutHolds);
+                editWorkout.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",selectedTimeControls.getTimeControlsIntArray() );
+                editWorkout.putExtra("com.finn.laakso.hangboardapp.BOARDNAME",selectedHangboardName);
+                editWorkout.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", selectedHolds);
+                editWorkout.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS",selectedCompletedHangs);
 
                 startActivity(editWorkout);
             }
         });
 
-        final WorkoutHistoryAdapter workoutAdapter = new WorkoutHistoryAdapter(this,dates, allTimeControls,arrayList_workoutHolds);
+        workoutAdapter = new WorkoutHistoryAdapter(this,dates, allTimeControls,arrayList_workoutHolds);
 
         workoutHistoryListView = (ListView) findViewById(R.id.workoutHistoryListView);
         workoutHistoryListView.setAdapter(workoutAdapter);
@@ -176,6 +200,11 @@ public class WorkoutStatistics extends AppCompatActivity {
 
                 String he = "";
                 ArrayList<Hold> test = dbHandler.lookUpHolds(position);
+                selectedHolds = dbHandler.lookUpHolds(position);
+                selectedDate = dbHandler.lookUpDate(position);
+                selectedCompletedHangs = dbHandler.lookUpCompletedHangs(position);
+                selectedTimeControls = dbHandler.lookUpTimeControls(position);
+                selectedHangboardName = dbHandler.lookUpHangboard(position);
 /*
                 String text = "";
                 for (int i = 0 ; i < test.size() ; i++) {
@@ -232,7 +261,7 @@ public class WorkoutStatistics extends AppCompatActivity {
                 dbHandler.DELETEALL();
 
                 Toast.makeText(WorkoutStatistics.this, "All DELETED, Happy now",Toast.LENGTH_LONG).show();
-
+                workoutAdapter.notifyDataSetChanged();
 
             }
         });

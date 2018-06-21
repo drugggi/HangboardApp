@@ -33,6 +33,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public static final String COLUMN_REST = "rest";
     public static final String COLUMN_LONGREST = "longrest";
 
+    public static final String COLUMN_HANGSCOMPLETED = "hangscompleted";
+
     public static final String COLUMN_TUT = "timeunertension";
 
     public MyDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -56,7 +58,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
                 + COLUMN_TIMEOFF + " INTEGER,"
                 + COLUMN_SETS + " INTEGER,"
                 + COLUMN_REST + " INTEGER,"
-                + COLUMN_LONGREST + " INTEGER" + ")";
+                + COLUMN_LONGREST + " INTEGER,"
+                + COLUMN_HANGSCOMPLETED + " TEXT" + ")";
 
         db.execSQL(CREATE_PRODUCTS_TABEL);
     }
@@ -71,11 +74,16 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     }
 
-    public void addHangboardWorkout(long date, String hangboardName, TimeControls timeControls, ArrayList<Hold> workoutHolds) {
+    public void addHangboardWorkout(long date, String hangboardName, TimeControls timeControls, ArrayList<Hold> workoutHolds, int[] completed) {
 
         StringBuilder holdNumbers= new StringBuilder();
         StringBuilder gripTypes = new StringBuilder();
         StringBuilder difficulties = new StringBuilder();
+
+        StringBuilder hangsCompleted = new StringBuilder();
+        for (int i: completed) {
+            hangsCompleted.append(i+",");
+        }
 
         for (Hold h: workoutHolds) {
             holdNumbers.append(h.getHoldNumber()+ ",");
@@ -97,6 +105,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
         values.put(COLUMN_SETS, timeControls.getRoutineLaps());
         values.put(COLUMN_REST, timeControls.getRestTime());
         values.put(COLUMN_LONGREST, timeControls.getLongRestTime());
+
+        values.put(COLUMN_HANGSCOMPLETED,hangsCompleted.toString());
         //values.put(COLUMN_TUT,time_under_tension);
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -154,6 +164,30 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     }
 
+    public int[] lookUpCompletedHangs(int position) {
+        String query = "SELECT * FROM " + TABLE_WORKOUTS + " WHERE " + COLUMN_ID + " =  \"" + position + "\"";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        String hangsCompletedFromDB = "";
+
+        int[] hangsCompleted=new int[4];
+
+        if (cursor.moveToFirst()) {
+            cursor.moveToFirst();
+            hangsCompletedFromDB = cursor.getString(13);
+
+
+            String[] s = hangsCompletedFromDB.split(",");
+
+            hangsCompleted = new int[s.length];
+            for (int i = 0; i < s.length; i++) {
+                hangsCompleted[i] = Integer.parseInt(s[i]);
+            }
+
+        }
+        return hangsCompleted;
+    }
     public ArrayList<Hold> lookUpHolds(int position) {
         String query = "SELECT * FROM " + TABLE_WORKOUTS + " WHERE " + COLUMN_ID + " =  \"" + position + "\"";
         SQLiteDatabase db = this.getWritableDatabase();

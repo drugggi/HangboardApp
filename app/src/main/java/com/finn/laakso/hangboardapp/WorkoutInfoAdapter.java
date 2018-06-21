@@ -33,14 +33,22 @@ public class WorkoutInfoAdapter extends BaseAdapter {
         this.mContext = context;
         this.mInflator = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.hangsCompleted = completed;
-/*
-        for(int i = 0 ; i < hangsCompleted.length ; i++) {
-            hangsCompleted[i] = timeControls.getHangLaps();
-        }*/
 
-        setCompletedRandomly();
+
+
+        //setCompletedRandomly();
     }
 
+    public int[] getCompletedMatrix() {
+        return hangsCompleted;
+    }
+
+    public void setValueToCompleted(int position, int value) {
+
+        if (position < hangsCompleted.length  && value <= timeControls.getHangLaps()) {
+            hangsCompleted[position] = value;
+        }
+    }
 
     @Override
     public int getCount() {
@@ -81,6 +89,11 @@ public class WorkoutInfoAdapter extends BaseAdapter {
         rightHandImageView.setImageResource(workoutHolds.get(2*hold_position + 1).getGripImage(false));
 
         hangPosTextView.setText(set + ". set (" + hang + "/" + timeControls.getGripLaps()+")");
+
+        if (set % 2 == 0) {
+            hangPosTextView.setTextColor(Color.argb(255,0,0,0));
+        }
+
 
         completedTextView.setText(hangsCompleted[position] + "/" + timeControls.getHangLaps());
 

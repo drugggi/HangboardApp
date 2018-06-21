@@ -6,17 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.finn.laakso.hangboardapp.EditWorkoutInfo">
 
-    <TextView
-        android:id="@+id/hangInfoTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="@+id/workoutInfoGridView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/hangboardImageView"
@@ -25,27 +14,69 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
+        android:layout_weight="1"
         android:alpha="0.2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/workoutInfoGridView"
         app:srcCompat="@drawable/lauta1011" />
 
-    <GridView
-        android:id="@+id/workoutInfoGridView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+
+
+        <GridView
+            android:id="@+id/workoutInfoGridView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:columnWidth="75dp"
+            android:gravity="center"
+            android:numColumns="auto_fit">
+
+        </GridView>
+
+
+
+    <LinearLayout
+        android:id="@+id/buttonLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:columnWidth="75dp"
-        android:gravity="center"
-        android:numColumns="auto_fit"
-        app:layout_constraintBottom_toTopOf="@id/hangInfoTextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:gravity="bottom|end"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@+id/hangboardImageView"
+        app:layout_constraintStart_toStartOf="parent">
 
-    </GridView>
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Save" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Button" />
+
+        <TextView
+            android:id="@+id/hangInfoTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:gravity="bottom"
+            android:text="TextView"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="@+id/workoutInfoGridView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>

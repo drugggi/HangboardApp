@@ -201,6 +201,14 @@ public class MainActivity extends AppCompatActivity {
                 statsIntent.putExtra("com.finn.laakso.hangboardapp.BOARDNAME",everyBoard.getHangboardName() );
                 statsIntent.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", everyBoard.getCurrentHoldList());
 
+                int[] completed = new int[timeControls.getGripLaps() * timeControls.getRoutineLaps()];
+
+                for (int i = 0 ; i < completed.length ; i++) {
+                    completed[i] = timeControls.getHangLaps();
+                }
+
+                statsIntent.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS",completed);
+
                 startActivity(statsIntent);
             }
         });

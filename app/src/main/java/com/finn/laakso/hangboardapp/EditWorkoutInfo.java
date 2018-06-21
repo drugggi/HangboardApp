@@ -1,15 +1,17 @@
 package com.finn.laakso.hangboardapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -30,6 +32,11 @@ public class EditWorkoutInfo extends AppCompatActivity {
     TimeControls timeControls;
 
     ImageView hangboard;
+    WorkoutInfoAdapter workoutInfoAdapter;
+
+    Button saveButton;
+
+    int[] completed;
 
 
     @Override
@@ -38,6 +45,7 @@ public class EditWorkoutInfo extends AppCompatActivity {
         setContentView(R.layout.activity_edit_workout_info);
 
 
+        saveButton = (Button) findViewById(R.id.saveButton);
 
         hangInfoTextView = (TextView) findViewById(R.id.hangInfoTextView);
 
@@ -63,6 +71,15 @@ public class EditWorkoutInfo extends AppCompatActivity {
             }
         }
 
+        completed = new int[timeControls.getGripLaps() * timeControls.getRoutineLaps()];
+
+        for (int i = 0; i < completed.length ; i++) {
+            completed[i] = 0;
+        }
+
+        if(getIntent().hasExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS")) {
+            completed = getIntent().getExtras().getIntArray("com.finn.laakso.hangboardapp.COMPLETEDHANGS");
+        }
 
         workoutInfoGridView = (GridView) findViewById(R.id.workoutInfoGridView);
 
@@ -70,16 +87,25 @@ public class EditWorkoutInfo extends AppCompatActivity {
         //ArrayAdapter<String> workoutInfoAdapter = new ArrayAdapter<String>(this,
           //              android.R.layout.simple_list_item_1, numbers);
 
-        int[] completed = new int[timeControls.getGripLaps() * timeControls.getRoutineLaps()];
 
-        for (int i = 0; i < completed.length ; i++) {
-            completed[i] = 0;
-        }
 
-        WorkoutInfoAdapter workoutInfoAdapter = new WorkoutInfoAdapter(this,timeControls,workoutHolds, completed);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent statsIntent = new Intent(getApplicationContext(), WorkoutStatistics.class);
 
+                // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
+                statsIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
+                statsIntent.putExtra("com.finn.laakso.hangboardapp.BOARDNAME",hangboardName );
+                statsIntent.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS",workoutHolds);
+                statsIntent.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS",completed);
+
+                startActivity(statsIntent);
+            }
+        });
+
+        workoutInfoAdapter = new WorkoutInfoAdapter(this,timeControls,workoutHolds, completed);
         workoutInfoGridView.setAdapter(workoutInfoAdapter);
-
         registerForContextMenu(workoutInfoGridView);
 
         workoutInfoGridView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
@@ -87,7 +113,7 @@ public class EditWorkoutInfo extends AppCompatActivity {
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
 
                 if (v.getId() == R.id.workoutInfoGridView) {
-                    Toast.makeText(EditWorkoutInfo.this, "Context Menu Created ", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(EditWorkoutInfo.this, "Context Menu Created ", Toast.LENGTH_SHORT).show();
 
                     AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
                     if (timeControls.getHangLaps() == 1) {
@@ -128,6 +154,25 @@ public class EditWorkoutInfo extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        // return super.onContextItemSelected(item);
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+
+        int menuItemIndex = info.position;
+
+        int selectedItem = item.getItemId();
+        int[] temp = workoutInfoAdapter.getCompletedMatrix();
+        temp[menuItemIndex] = selectedItem;
+
+        workoutInfoAdapter.setValueToCompleted(menuItemIndex,selectedItem);
+        workoutInfoAdapter.notifyDataSetChanged();
+
+
+        return true;
 
     }
 }
