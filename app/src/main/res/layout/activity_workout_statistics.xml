@@ -63,6 +63,6 @@
             android:id="@+id/testButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="test" />
+            android:text="erase db history" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

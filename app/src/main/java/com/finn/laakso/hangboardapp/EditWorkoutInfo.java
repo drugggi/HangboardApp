@@ -5,7 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -19,15 +20,21 @@ public class EditWorkoutInfo extends AppCompatActivity {
             "U", "V", "W", "X", "Y", "Z"};
 
     GridView workoutInfoGridView;
+    TextView hangInfoTextView;
+
     ArrayList<Hold> workoutHolds;
     String hangboardName;
     TimeControls timeControls;
+
+    ImageView hangboard;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_workout_info);
+
+        hangInfoTextView = (TextView) findViewById(R.id.hangInfoTextView);
 
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.HOLDS")) {
             workoutHolds = getIntent().getExtras().getParcelableArrayList("com.finn.laakso.hangboardapp.HOLDS");
@@ -58,14 +65,29 @@ public class EditWorkoutInfo extends AppCompatActivity {
         //ArrayAdapter<String> workoutInfoAdapter = new ArrayAdapter<String>(this,
           //              android.R.layout.simple_list_item_1, numbers);
 
-        WorkoutInfoAdapter workoutInfoAdapter = new WorkoutInfoAdapter(this,timeControls,workoutHolds);
+        int[] completed = new int[timeControls.getGripLaps() * timeControls.getRoutineLaps()];
+
+        for (int i = 0; i < completed.length ; i++) {
+            completed[i] = 0;
+        }
+
+        WorkoutInfoAdapter workoutInfoAdapter = new WorkoutInfoAdapter(this,timeControls,workoutHolds, completed);
 
         workoutInfoGridView.setAdapter(workoutInfoAdapter);
 
         workoutInfoGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(EditWorkoutInfo.this,"pos: " + position,Toast.LENGTH_SHORT).show();
+               // Toast.makeText(EditWorkoutInfo.this,"pos: " + position,Toast.LENGTH_SHORT).show();
+
+                int hold_position = position % timeControls.getGripLaps();
+
+                String text =workoutHolds.get(hold_position).getHoldInfo(workoutHolds.get(hold_position+1));
+                text = text.replaceAll("\n",", ");
+                hangInfoTextView.setText(text);
+
+//                hangInfoTextView.setText(workoutHolds.get(hold_position).getHoldInfo(workoutHolds.get(hold_position+1)));
+
             }
         });
 

@@ -7,14 +7,24 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/testImageView"
+        android:id="@+id/leftHandImageView"
         android:layout_width="15dp"
         android:layout_height="15dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintStart_toEndOf="@+id/hangPositionTextView"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hangPositionTextView"
         app:srcCompat="@drawable/fourfingerleft" />
+
+    <ImageView
+        android:id="@+id/rightHandImageView"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@+id/completedTextView"
+        app:layout_constraintTop_toBottomOf="@+id/hangPositionTextView"
+        app:srcCompat="@drawable/fourfingerright" />
 
     <TextView
         android:id="@+id/hangPositionTextView"
@@ -34,6 +44,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/leftHandImageView"
         app:layout_constraintTop_toBottomOf="@+id/hangPositionTextView" />
 </android.support.constraint.ConstraintLayout>

@@ -23,6 +23,7 @@ public class WorkoutStatistics extends AppCompatActivity {
     //GridView workoutGridView;
 
     Button editWorkoutButton;
+    Button resetDBButton;
 
     ListView workoutHistoryListView;
     ArrayList<ArrayList<Hold>> arrayList_workoutHolds;
@@ -49,6 +50,8 @@ public class WorkoutStatistics extends AppCompatActivity {
         workoutInfoTextView = (TextView) findViewById(R.id.workoutInfoTextView);
         holdInfoTextView = (TextView) findViewById(R.id.holdInfoTextView);
         editWorkoutButton = (Button) findViewById(R.id.editWorkoutButton);
+        resetDBButton = (Button) findViewById(R.id.testButton);
+
 /*
         //workoutGridView = (GridView) findViewById(R.id.workoutGridView);
 
@@ -222,7 +225,17 @@ public class WorkoutStatistics extends AppCompatActivity {
             }
         });
 
+        resetDBButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyDBHandler dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
+                dbHandler.DELETEALL();
 
+                Toast.makeText(WorkoutStatistics.this, "All DELETED, Happy now",Toast.LENGTH_LONG).show();
+
+
+            }
+        });
 
         holdInfoTextView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override

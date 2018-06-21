@@ -1,13 +1,17 @@
 package com.finn.laakso.hangboardapp;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by Laakso on 21.6.2018.
@@ -20,13 +24,21 @@ public class WorkoutInfoAdapter extends BaseAdapter {
 
     private TimeControls timeControls;
     ArrayList<Hold> workoutHolds;
+    int[] hangsCompleted;
 
-    public WorkoutInfoAdapter(Context context, TimeControls timeControls, ArrayList<Hold> holds ) {
+    public WorkoutInfoAdapter(Context context, TimeControls timeControls, ArrayList<Hold> holds , int[] completed) {
         this.timeControls = timeControls;
         this.workoutHolds = holds;
 
         this.mContext = context;
         this.mInflator = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.hangsCompleted = completed;
+
+        for(int i = 0 ; i < hangsCompleted.length ; i++) {
+            hangsCompleted[i] = timeControls.getHangLaps();
+        }
+
+        //setCompletedRandomly();
     }
 
 
@@ -52,11 +64,54 @@ public class WorkoutInfoAdapter extends BaseAdapter {
 
         TextView hangPosTextView = (TextView) v.findViewById(R.id.hangPositionTextView);
         TextView completedTextView = (TextView) v.findViewById(R.id.completedTextView);
-        //ImageView handImageView = (ImageView) v.findViewById(R.id.testImageView);
+        ImageView leftHandImageView = (ImageView) v.findViewById(R.id.leftHandImageView);
+        ImageView rightHandImageView = (ImageView) v.findViewById(R.id.rightHandImageView);
 
-        hangPosTextView.setText(timeControls.getRoutineLaps() + ". set (1/6)");
-        completedTextView.setText("6/6");
+
+        int set = position/ timeControls.getGripLaps() + 1;
+        int hang = position % timeControls.getGripLaps() + 1 ;
+
+        if (position == 5) {
+            hangPosTextView.setTextColor(Color.BLUE);
+        }
+
+        int hold_position = hang - 1;
+
+        leftHandImageView.setImageResource(workoutHolds.get(2*hold_position).getGripImage(true));
+        rightHandImageView.setImageResource(workoutHolds.get(2*hold_position + 1).getGripImage(false));
+
+        hangPosTextView.setText(set + ". set (" + hang + "/" + timeControls.getGripLaps()+")");
+
+        completedTextView.setText(hangsCompleted[position] + "/" + timeControls.getHangLaps());
+
+        if (hangsCompleted[position] == 0) {
+            completedTextView.setTextColor(Color.RED);
+        }
+        else {
+            /*
+            Drawable selectColor = gradesListView.getSelector();
+            selectColor.setAlpha(90+position*15);
+            gradesListView.setSelector(selectColor);*/
+
+            int alpha = 100 + (155 * hangsCompleted[position] ) / timeControls.getHangLaps();
+            //int green = 100 + (100 * hangsCompleted[position] ) / timeControls.getHangLaps();
+
+            completedTextView.setTextColor(Color.argb(alpha,0,175,0));
+
+            if ( hangsCompleted[position] == timeControls.getHangLaps() ) {
+                completedTextView.setTypeface(Typeface.DEFAULT_BOLD);
+            }
+            }
 
         return v;
+    }
+
+    public void setCompletedRandomly() {
+        Random rng = new Random();
+        for (int i = 0 ; i < hangsCompleted.length; i++) {
+            hangsCompleted[i] = rng.nextInt(timeControls.getHangLaps()+1);
+        }
+
+
     }
 }
