@@ -33,12 +33,12 @@ public class WorkoutInfoAdapter extends BaseAdapter {
         this.mContext = context;
         this.mInflator = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.hangsCompleted = completed;
-
+/*
         for(int i = 0 ; i < hangsCompleted.length ; i++) {
             hangsCompleted[i] = timeControls.getHangLaps();
-        }
+        }*/
 
-        //setCompletedRandomly();
+        setCompletedRandomly();
     }
 
 

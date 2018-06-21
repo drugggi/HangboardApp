@@ -2,11 +2,14 @@ package com.finn.laakso.hangboardapp;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -33,6 +36,8 @@ public class EditWorkoutInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_workout_info);
+
+
 
         hangInfoTextView = (TextView) findViewById(R.id.hangInfoTextView);
 
@@ -74,6 +79,38 @@ public class EditWorkoutInfo extends AppCompatActivity {
         WorkoutInfoAdapter workoutInfoAdapter = new WorkoutInfoAdapter(this,timeControls,workoutHolds, completed);
 
         workoutInfoGridView.setAdapter(workoutInfoAdapter);
+
+        registerForContextMenu(workoutInfoGridView);
+
+        workoutInfoGridView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+            @Override
+            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+
+                if (v.getId() == R.id.workoutInfoGridView) {
+                    Toast.makeText(EditWorkoutInfo.this, "Context Menu Created ", Toast.LENGTH_SHORT).show();
+
+                    AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+                    if (timeControls.getHangLaps() == 1) {
+                        menu.setHeaderTitle("Did you do the Hang?");
+                        menu.add(Menu.NONE, 0, 0, "No  (0/1)");
+                        menu.add(Menu.NONE, 1, 1, "Yes (1/1)");
+                    } else {
+                        menu.setHeaderTitle("How many Hangs did you do?");
+
+                        for (int i = 0; i <= timeControls.getHangLaps() ; i++) {
+                            menu.add(Menu.NONE,i,i,(i+"/" + timeControls.getHangLaps() + "  was succesful"));
+                        }
+
+                    }
+
+
+                }
+
+
+            }
+        });
+
+
 
         workoutInfoGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
