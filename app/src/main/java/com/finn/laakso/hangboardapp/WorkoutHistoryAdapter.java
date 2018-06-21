@@ -71,6 +71,8 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        position = position + 1;
+
         View v = mInflator.inflate(R.layout.workout_history_listview,null);
         TextView boardTextView = (TextView) v.findViewById(R.id.dateTextView);
         TextView holdsTextView = (TextView) v.findViewById(R.id.hangboardTextView);

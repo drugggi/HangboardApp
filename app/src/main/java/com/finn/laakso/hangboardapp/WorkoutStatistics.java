@@ -1,9 +1,12 @@
 package com.finn.laakso.hangboardapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +20,9 @@ public class WorkoutStatistics extends AppCompatActivity {
 
     TextView workoutInfoTextView;
     TextView holdInfoTextView;
+    //GridView workoutGridView;
+
+    Button editWorkoutButton;
 
     ListView workoutHistoryListView;
     ArrayList<ArrayList<Hold>> arrayList_workoutHolds;
@@ -28,6 +34,13 @@ public class WorkoutStatistics extends AppCompatActivity {
     TimeControls timeControls;
     String hangboardName;
 
+    static final String[] numbers = new String[] {
+            "A", "B", "C", "D", "E",
+            "F", "G", "H", "I", "J",
+            "K", "L", "M", "N", "O",
+            "P", "Q", "R", "S", "T",
+            "U", "V", "W", "X", "Y", "Z"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +48,25 @@ public class WorkoutStatistics extends AppCompatActivity {
         rng = new Random();
         workoutInfoTextView = (TextView) findViewById(R.id.workoutInfoTextView);
         holdInfoTextView = (TextView) findViewById(R.id.holdInfoTextView);
+        editWorkoutButton = (Button) findViewById(R.id.editWorkoutButton);
+/*
+        //workoutGridView = (GridView) findViewById(R.id.workoutGridView);
+
+       // workoutGridView.setNumColumns(6);
+        //workoutGridView.set
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, numbers);
+        workoutGridView.setAdapter(adapter);
+
+     workoutGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+         @Override
+         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+             Toast.makeText(getApplicationContext(),
+                     ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
+         }
+     });*/
+
 
         MyDBHandler dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
 
@@ -75,6 +107,9 @@ public class WorkoutStatistics extends AppCompatActivity {
         //Log.e("result date", sdf.format(resultdate));
         dbHandler.addHangboardWorkout(time,hangboardName, timeControls, workoutHolds);
 
+        TimeControls rngControls = getRandomTimeControls();
+        dbHandler.addHangboardWorkout(time- (long)rng.nextInt(1000*60*60*24*300),"RNG " + hangboardName,rngControls,getRandomWorkoutHolds(rngControls.getHangLaps()));
+
        // Log.d("before tc","tc next");
         allTimeControls = new ArrayList<TimeControls>();
         dates = new ArrayList<String>();
@@ -100,6 +135,21 @@ public class WorkoutStatistics extends AppCompatActivity {
         // String[] hangboards = {"bm100","bm2000","zlag"};
         // String[] difficulty = {"hard","easy","etc"};
 */
+
+        editWorkoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent editWorkout = new Intent(getApplicationContext(), EditWorkoutInfo.class);
+
+                // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
+                editWorkout.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
+                editWorkout.putExtra("com.finn.laakso.hangboardapp.BOARDNAME",hangboardName);
+                editWorkout.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", workoutHolds);
+
+                startActivity(editWorkout);
+            }
+        });
+
         final WorkoutHistoryAdapter workoutAdapter = new WorkoutHistoryAdapter(this,dates, allTimeControls,arrayList_workoutHolds);
 
         workoutHistoryListView = (ListView) findViewById(R.id.workoutHistoryListView);
@@ -123,20 +173,52 @@ public class WorkoutStatistics extends AppCompatActivity {
 
                 String he = "";
                 ArrayList<Hold> test = dbHandler.lookUpHolds(position);
-
+/*
                 String text = "";
                 for (int i = 0 ; i < test.size() ; i++) {
 
                     text = text + test.get(i).getHoldNumber() +test.get(i).getHoldText() +test.get(i).getHoldValue() + "\n";
-                    /*
+
                     Log.e("hld nro: " , ": " + test.get(i).getHoldNumber());
                     Log.e("grip type: " , ": " + test.get(i).getHoldText());
-                    Log.e("hold value: " , ": " + test.get(i).getHoldValue());*/
+                    Log.e("hold value: " , ": " + test.get(i).getHoldValue());
                 }
                 workoutInfoTextView.setText(text);
+                */
                 TimeControls temp = dbHandler.lookUpTimeControls(position);
-                holdInfoTextView.setText(temp.getGripMatrix(true));
+                //holdInfoTextView.setText(temp.getGripMatrix(true));
 
+                // workoutGridView.setNumColumns(temp.getGripLaps());
+                Log.e("griplaps"," " + temp.getGripLaps());
+                //workoutGridView.set
+
+                // ArrayList<String> testList = new ArrayList<>();
+                String[] testList = new String[test.size()/2 * temp.getRoutineLaps()];
+
+                for (int i = 0 ; i < testList.length ; i++) {
+
+                    testList[i] = "" + temp.getHangLaps();
+                }
+
+                Log.e("testlistsize", " " + testList.length);
+
+                /*
+                int j = 0;
+                    for (int i = 0; i < testList.length; i++) {
+                        if (2 *j >= test.size()) {
+                            j = 0;
+                        }
+                        testList[i] = test.get(2 * j).getHoldNumber() + " " + test.get(2 * j).getHoldText();
+                        j++;
+//                    testList.(test.get(i).getHoldNumber() + " " + test.get(i).getHoldText());
+                    }
+*/
+
+                /*
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(WorkoutStatistics.this,
+                        android.R.layout.simple_list_item_1, testList);
+                workoutGridView.setAdapter(adapter);
+*/
             }
         });
 
