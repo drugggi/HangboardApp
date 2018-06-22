@@ -20,20 +20,22 @@ public class WorkoutStatistics extends AppCompatActivity {
 
     TextView workoutInfoTextView;
     TextView holdInfoTextView;
-    //GridView workoutGridView;
 
     Button editWorkoutButton;
     Button resetDBButton;
 
-    ListView workoutHistoryListView;
+    // Parameters to hold all the information of workout history
+    // consider dropping these or moving to where the graphs are displayed
     ArrayList<ArrayList<Hold>> arrayList_workoutHolds;
     ArrayList<TimeControls> allTimeControls;
     ArrayList<String> dates;
     Random rng;
+    ArrayList<int[]> completedArrayList;
 
     ArrayList<Hold> workoutHolds;
     TimeControls timeControls;
     String hangboardName;
+    int[] completed;
 
     ArrayList<Hold> selectedHolds;
     TimeControls selectedTimeControls;
@@ -41,14 +43,9 @@ public class WorkoutStatistics extends AppCompatActivity {
     long selectedDate;
     String selectedHangboardName;
 
+    // Adapter that manages the workout history with the help of SQLite
     WorkoutHistoryAdapter workoutAdapter;
-
-    static final String[] numbers = new String[] {
-            "A", "B", "C", "D", "E",
-            "F", "G", "H", "I", "J",
-            "K", "L", "M", "N", "O",
-            "P", "Q", "R", "S", "T",
-            "U", "V", "W", "X", "Y", "Z"};
+    ListView workoutHistoryListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,38 +57,14 @@ public class WorkoutStatistics extends AppCompatActivity {
         editWorkoutButton = (Button) findViewById(R.id.editWorkoutButton);
         resetDBButton = (Button) findViewById(R.id.testButton);
 
-/*
-        //workoutGridView = (GridView) findViewById(R.id.workoutGridView);
-
-       // workoutGridView.setNumColumns(6);
-        //workoutGridView.set
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, numbers);
-        workoutGridView.setAdapter(adapter);
-
-     workoutGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-         @Override
-         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-             Toast.makeText(getApplicationContext(),
-                     ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
-         }
-     });*/
-
-
+        // DBHander to store workout from Intent.
         MyDBHandler dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
-
-
-/*
-        HangBoard testBoard = new HangBoard(getResources());
-
-        workoutHistoryListView = (ListView) findViewById(R.id.workoutHistoryListView);
-        final ArrayAdapter<String> gradeAdapter = new ArrayAdapter<String>(this, R.layout.gradetextview, testBoard.getGrades());
-        workoutHistoryListView.setAdapter(gradeAdapter);*/
 
         // Holds that will be used in this workout program
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.HOLDS")) {
             workoutHolds = getIntent().getExtras().getParcelableArrayList("com.finn.laakso.hangboardapp.HOLDS");
+
+            Log.e("Intent holds:"," holds size: " + workoutHolds.size());
         }
 
         // Hangboard image that user has selected
@@ -110,33 +83,34 @@ public class WorkoutStatistics extends AppCompatActivity {
             if (timeControls.getGripLaps()*2 != workoutHolds.size()) {
                 timeControls.setGripLaps(workoutHolds.size()/2);
             }
-        }
 
-        int[] completed = new int[timeControls.getGripLaps() * timeControls.getRoutineLaps()];
+            completed = new int[timeControls.getGripLaps() * timeControls.getRoutineLaps()];
 
-        for (int i = 0; i < completed.length ; i++) {
-            completed[i] = 0;
+            for (int i = 0; i < completed.length ; i++) {
+                completed[i] = 0;
+            }
+
         }
 
         if(getIntent().hasExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS")) {
             completed = getIntent().getExtras().getIntArray("com.finn.laakso.hangboardapp.COMPLETEDHANGS");
         }
 
+
         long time = System.currentTimeMillis();
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
         Date resultdate = new Date(time);
-        //Log.e("long time: "," " + time);
-        //Log.e("result date", sdf.format(resultdate));
 
-
-
-
+        // Lets add workout information to database straight from the intent.
         dbHandler.addHangboardWorkout(time,hangboardName, timeControls, workoutHolds,completed);
 
-        TimeControls rngControls = getRandomTimeControls();
-        dbHandler.addHangboardWorkout(time- (long)rng.nextInt(1000*60*60*24*300),"RNG " + hangboardName,rngControls,getRandomWorkoutHolds(rngControls.getHangLaps()),completed);
+        // CREATES RANDOMIZED WORKOUT FOR TESTING PURPOSES
+        //TimeControls rngControls = getRandomTimeControls();
+        //dbHandler.addHangboardWorkout(time- (long)rng.nextInt(1000*60*60*24*300),"RNG " + hangboardName,rngControls,getRandomWorkoutHolds(rngControls.getHangLaps()),completed);
 
-       // Log.d("before tc","tc next");
+
+        // Creates randomized workouthistory for 50 workouts for variables not used right now, for testing purposes
+       /*
         allTimeControls = new ArrayList<TimeControls>();
         dates = new ArrayList<String>();
         arrayList_workoutHolds = new ArrayList<ArrayList<Hold>>();
@@ -146,22 +120,9 @@ public class WorkoutStatistics extends AppCompatActivity {
             dates.add(getRandomDate());
             arrayList_workoutHolds.add(getRandomWorkoutHolds(allTimeControls.get(i).getGripLaps()));
         }
-
-
-/*
-        java.sql.Date c = Calendar.getInstance().getTime();
-        Toast.makeText(this,"arraylist sizee: " + arrayList_workoutHolds.size(),Toast.LENGTH_SHORT).show();
-
-        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
-        String formattedDate = df.format(c);
-
-        Toast.makeText(this, "arraylist 1 item size" +arrayList_workoutHolds.get(0).size(),Toast.LENGTH_LONG).show();
-
-        //String[] dates = {formattedDate,"tuesday","wednesday"};
-        // String[] hangboards = {"bm100","bm2000","zlag"};
-        // String[] difficulty = {"hard","easy","etc"};
 */
 
+        // Click listener for editing single workout
         editWorkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -198,6 +159,7 @@ public class WorkoutStatistics extends AppCompatActivity {
 
                 }
 
+
                 String he = "";
                 ArrayList<Hold> test = dbHandler.lookUpHolds(position);
                 selectedHolds = dbHandler.lookUpHolds(position);
@@ -205,55 +167,16 @@ public class WorkoutStatistics extends AppCompatActivity {
                 selectedCompletedHangs = dbHandler.lookUpCompletedHangs(position);
                 selectedTimeControls = dbHandler.lookUpTimeControls(position);
                 selectedHangboardName = dbHandler.lookUpHangboard(position);
-/*
-                String text = "";
-                for (int i = 0 ; i < test.size() ; i++) {
 
-                    text = text + test.get(i).getHoldNumber() +test.get(i).getHoldText() +test.get(i).getHoldValue() + "\n";
+                workoutInfoTextView.setText(selectedTimeControls.getTimeControlsAsString());
+                holdInfoTextView.setText(selectedTimeControls.getGripMatrix(false));
 
-                    Log.e("hld nro: " , ": " + test.get(i).getHoldNumber());
-                    Log.e("grip type: " , ": " + test.get(i).getHoldText());
-                    Log.e("hold value: " , ": " + test.get(i).getHoldValue());
-                }
-                workoutInfoTextView.setText(text);
-                */
-                TimeControls temp = dbHandler.lookUpTimeControls(position);
-                //holdInfoTextView.setText(temp.getGripMatrix(true));
 
-                // workoutGridView.setNumColumns(temp.getGripLaps());
-                Log.e("griplaps"," " + temp.getGripLaps());
-                //workoutGridView.set
 
-                // ArrayList<String> testList = new ArrayList<>();
-                String[] testList = new String[test.size()/2 * temp.getRoutineLaps()];
-
-                for (int i = 0 ; i < testList.length ; i++) {
-
-                    testList[i] = "" + temp.getHangLaps();
-                }
-
-                Log.e("testlistsize", " " + testList.length);
-
-                /*
-                int j = 0;
-                    for (int i = 0; i < testList.length; i++) {
-                        if (2 *j >= test.size()) {
-                            j = 0;
-                        }
-                        testList[i] = test.get(2 * j).getHoldNumber() + " " + test.get(2 * j).getHoldText();
-                        j++;
-//                    testList.(test.get(i).getHoldNumber() + " " + test.get(i).getHoldText());
-                    }
-*/
-
-                /*
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(WorkoutStatistics.this,
-                        android.R.layout.simple_list_item_1, testList);
-                workoutGridView.setAdapter(adapter);
-*/
             }
         });
 
+        // Reset button for clearing all database entries, for testing purposes right now
         resetDBButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -266,6 +189,8 @@ public class WorkoutStatistics extends AppCompatActivity {
             }
         });
 
+        // Clearing the database, button is now used instead.
+        /*
         holdInfoTextView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -278,10 +203,13 @@ public class WorkoutStatistics extends AppCompatActivity {
                 return true;
             }
         });
-
+*/
 
     }
 
+
+    // Randomizers for creating all the data that is neede for testing SQLite database
+    // TimeControls, Holds, Dates
     private ArrayList<Hold> getRandomWorkoutHolds(int number_of_holds) {
 
         ArrayList<Hold> newHolds = new ArrayList<Hold>();
@@ -291,6 +219,13 @@ public class WorkoutStatistics extends AppCompatActivity {
 
         }
         return newHolds;
+    }
+
+    public void setCompletedRandomly(int[] completed) {
+        Random rng = new Random();
+        for (int i = 0; i < completed.length; i++) {
+            completed[i] = rng.nextInt(timeControls.getHangLaps());
+        }
     }
 
     private Hold getNewRandomHold() {

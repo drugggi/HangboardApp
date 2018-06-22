@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -91,6 +92,9 @@ public class MyDBHandler extends SQLiteOpenHelper {
             difficulties.append(h.getHoldValue() + ",");
 
         }
+
+        Log.e("hangs completed"," as string: " + hangsCompleted.toString());
+
         ContentValues values = new ContentValues();
         values.put(COLUMN_DATE,date);
         values.put(COLUMN_HANGBOARD, hangboardName);
@@ -245,6 +249,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
         //Log.e(" length", " : " + holdNumbers.length + " : " + gripTypes.length + " : " + holdValues.length);
         }
         db.close();
+
+        Log.e("db handler"," holds size: " + allHolds.size());
         return allHolds;
 
     }

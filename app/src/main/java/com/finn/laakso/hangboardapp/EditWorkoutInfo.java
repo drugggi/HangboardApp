@@ -17,13 +17,6 @@ import java.util.ArrayList;
 
 public class EditWorkoutInfo extends AppCompatActivity {
 
-    static final String[] numbers = new String[] {
-            "A", "B", "C", "D", "E",
-            "F", "G", "H", "I", "J",
-            "K", "L", "M", "N", "O",
-            "P", "Q", "R", "S", "T",
-            "U", "V", "W", "X", "Y", "Z"};
-
     GridView workoutInfoGridView;
     TextView hangInfoTextView;
 
@@ -37,7 +30,6 @@ public class EditWorkoutInfo extends AppCompatActivity {
     Button saveButton;
 
     int[] completed;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,12 +61,12 @@ public class EditWorkoutInfo extends AppCompatActivity {
             if (timeControls.getGripLaps()*2 != workoutHolds.size()) {
                 timeControls.setGripLaps(workoutHolds.size()/2);
             }
-        }
+            completed = new int[timeControls.getGripLaps() * timeControls.getRoutineLaps()];
 
-        completed = new int[timeControls.getGripLaps() * timeControls.getRoutineLaps()];
+            for (int i = 0; i < completed.length ; i++) {
+                completed[i] = 0;
+            }
 
-        for (int i = 0; i < completed.length ; i++) {
-            completed[i] = 0;
         }
 
         if(getIntent().hasExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS")) {
@@ -82,12 +74,6 @@ public class EditWorkoutInfo extends AppCompatActivity {
         }
 
         workoutInfoGridView = (GridView) findViewById(R.id.workoutInfoGridView);
-
-
-        //ArrayAdapter<String> workoutInfoAdapter = new ArrayAdapter<String>(this,
-          //              android.R.layout.simple_list_item_1, numbers);
-
-
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,8 +122,7 @@ public class EditWorkoutInfo extends AppCompatActivity {
             }
         });
 
-
-
+        // Lets print the selected hang's information
         workoutInfoGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -145,11 +130,11 @@ public class EditWorkoutInfo extends AppCompatActivity {
 
                 int hold_position = position % timeControls.getGripLaps();
 
-                String text =workoutHolds.get(hold_position).getHoldInfo(workoutHolds.get(hold_position+1));
+                //Log.e("hold_pos"," value: " + hold_position);
+
+                String text =workoutHolds.get(2*hold_position).getHoldInfo(workoutHolds.get(2*hold_position+1));
                 text = text.replaceAll("\n",", ");
                 hangInfoTextView.setText(text);
-
-//                hangInfoTextView.setText(workoutHolds.get(hold_position).getHoldInfo(workoutHolds.get(hold_position+1)));
 
             }
         });
@@ -157,6 +142,7 @@ public class EditWorkoutInfo extends AppCompatActivity {
 
     }
 
+    // OnContextItemSelected changes the selected hang success status to what user has selected
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         // return super.onContextItemSelected(item);
@@ -171,8 +157,6 @@ public class EditWorkoutInfo extends AppCompatActivity {
         workoutInfoAdapter.setValueToCompleted(menuItemIndex,selectedItem);
         workoutInfoAdapter.notifyDataSetChanged();
 
-
         return true;
-
     }
 }
