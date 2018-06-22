@@ -395,7 +395,7 @@ public class MainActivity extends AppCompatActivity {
                 settingsIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS", timeControls.getTimeControlsIntArray() );
 
                 setResult(Activity.RESULT_OK,settingsIntent);
-                startActivityForResult(settingsIntent,REQUEST_TIME_CONTROLS);
+                startActivityForResult(settingsIntent, REQUEST_TIME_CONTROLS);
 
             }
         });

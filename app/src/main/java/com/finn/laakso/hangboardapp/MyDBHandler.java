@@ -168,6 +168,33 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     }
 
+    public void updateCompletedHangs(int position, int[] completed) {
+
+        /*
+        int[] completed = lookUpCompletedHangs(position);
+        for (int i = 0; i < completed.length/2 ; i++) {
+            completed[i] = 0;
+        }
+
+        //Log.e(" test" , " " + 1);
+*/
+        StringBuilder hangsCompleted = new StringBuilder();
+        for (int i: completed) {
+            hangsCompleted.append(i+",");
+        }
+        //Log.e(" test" , " " + 2);
+
+        String updatedHangs = hangsCompleted.toString();
+
+        //Log.e(" test" , " " + 3);
+        String query = "UPDATE " + TABLE_WORKOUTS + " SET " + COLUMN_HANGSCOMPLETED + " = \"" + updatedHangs + "\" WHERE " + COLUMN_ID + " =  \"" + position + "\"";
+        SQLiteDatabase db = this.getWritableDatabase();
+        //Log.e(" test" , " " + 4);
+        db.execSQL(query);
+        // Cursor cursor = db.rawQuery(query, null);
+        db.close();
+    }
+
     public int[] lookUpCompletedHangs(int position) {
         String query = "SELECT * FROM " + TABLE_WORKOUTS + " WHERE " + COLUMN_ID + " =  \"" + position + "\"";
         SQLiteDatabase db = this.getWritableDatabase();
@@ -190,6 +217,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
             }
 
         }
+        db.close();
         return hangsCompleted;
     }
     public ArrayList<Hold> lookUpHolds(int position) {

@@ -1,5 +1,6 @@
 package com.finn.laakso.hangboardapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +29,7 @@ public class EditWorkoutInfo extends AppCompatActivity {
     WorkoutInfoAdapter workoutInfoAdapter;
 
     Button saveButton;
+    Button testButton;
 
     int[] completed;
 
@@ -38,6 +40,7 @@ public class EditWorkoutInfo extends AppCompatActivity {
 
 
         saveButton = (Button) findViewById(R.id.saveButton);
+        testButton = (Button) findViewById(R.id.testButton);
 
         hangInfoTextView = (TextView) findViewById(R.id.hangInfoTextView);
 
@@ -78,6 +81,17 @@ public class EditWorkoutInfo extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                completed = workoutInfoAdapter.getCompletedMatrix();
+
+                Intent resultCompletedHangsIntent = new Intent();
+                resultCompletedHangsIntent.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS", workoutInfoAdapter.getCompletedMatrix());
+                setResult(Activity.RESULT_OK, resultCompletedHangsIntent);
+
+
+
+                finish();
+                /*
                 Intent statsIntent = new Intent(getApplicationContext(), WorkoutStatistics.class);
 
                 // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
@@ -86,7 +100,19 @@ public class EditWorkoutInfo extends AppCompatActivity {
                 statsIntent.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS",workoutHolds);
                 statsIntent.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS",completed);
 
-                startActivity(statsIntent);
+                startActivity(statsIntent);*/
+            }
+        });
+
+        testButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*
+                Intent resultCompletedHangsIntent = new Intent();
+                resultCompletedHangsIntent.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS", completed);
+                setResult(Activity.RESULT_OK, resultCompletedHangsIntent);
+*/
+                finish();
             }
         });
 
@@ -94,6 +120,9 @@ public class EditWorkoutInfo extends AppCompatActivity {
         workoutInfoGridView.setAdapter(workoutInfoAdapter);
         registerForContextMenu(workoutInfoGridView);
 
+
+        // Content menu for user to select if the hang was successful or not. In repeaters user
+        // can be successful from 0 to max amount of hangs, usually 6 -> x/6
         workoutInfoGridView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
             @Override
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -115,9 +144,7 @@ public class EditWorkoutInfo extends AppCompatActivity {
 
                     }
 
-
                 }
-
 
             }
         });

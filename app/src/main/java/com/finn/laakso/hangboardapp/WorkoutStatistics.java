@@ -1,9 +1,9 @@
 package com.finn.laakso.hangboardapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -47,6 +47,10 @@ public class WorkoutStatistics extends AppCompatActivity {
     WorkoutHistoryAdapter workoutAdapter;
     ListView workoutHistoryListView;
 
+    int positionGlobal = 0;
+
+    private static final int REQUEST_HANGS_COMPLETED = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +68,6 @@ public class WorkoutStatistics extends AppCompatActivity {
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.HOLDS")) {
             workoutHolds = getIntent().getExtras().getParcelableArrayList("com.finn.laakso.hangboardapp.HOLDS");
 
-            Log.e("Intent holds:"," holds size: " + workoutHolds.size());
         }
 
         // Hangboard image that user has selected
@@ -126,6 +129,9 @@ public class WorkoutStatistics extends AppCompatActivity {
         editWorkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (positionGlobal == 0) { return; }
+
                 Intent editWorkout = new Intent(getApplicationContext(), EditWorkoutInfo.class);
 
                 // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
@@ -134,7 +140,9 @@ public class WorkoutStatistics extends AppCompatActivity {
                 editWorkout.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", selectedHolds);
                 editWorkout.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS",selectedCompletedHangs);
 
-                startActivity(editWorkout);
+                setResult(Activity.RESULT_OK,editWorkout);
+                startActivityForResult(editWorkout, REQUEST_HANGS_COMPLETED);
+
             }
         });
 
@@ -148,6 +156,9 @@ public class WorkoutStatistics extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 MyDBHandler dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
+
+                //dbHandler.updateCompletedHangs(position);
+
                 // dbHandler.addHangboardWorkout(allTimeControls.get(0).getTotalTime(),"Metolius",allTimeControls.get(position+1),arrayList_workoutHolds.get(position+1));
 
                 // Get Selected items workoutmatrix
@@ -156,8 +167,11 @@ public class WorkoutStatistics extends AppCompatActivity {
 
                 if ( position == 0) {
                     holdInfoTextView.setText("" + dbHandler.lookUpDate(position));
-
                 }
+
+                position++;
+
+                positionGlobal = position;
 
 
                 String he = "";
@@ -170,8 +184,6 @@ public class WorkoutStatistics extends AppCompatActivity {
 
                 workoutInfoTextView.setText(selectedTimeControls.getTimeControlsAsString());
                 holdInfoTextView.setText(selectedTimeControls.getGripMatrix(false));
-
-
 
             }
         });
@@ -207,6 +219,73 @@ public class WorkoutStatistics extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HANGS_COMPLETED) {
+            Toast.makeText(WorkoutStatistics.this," results ok",Toast.LENGTH_SHORT).show();
+
+            if (getIntent().hasExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS")) {
+
+               // Toast.makeText(WorkoutStatistics.this," oli intentti",Toast.LENGTH_SHORT).show();
+
+                int[] completed = data.getIntArrayExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS");
+
+               // String terver = getIntent().getStringExtra("com.finn.laakso.hangboardapp.TERVEHDYS");
+
+               // Toast.makeText(WorkoutStatistics.this," oli intentti" + terver,Toast.LENGTH_SHORT).show();
+
+
+                MyDBHandler dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
+
+                int[] temp = dbHandler.lookUpCompletedHangs(positionGlobal);
+
+                dbHandler.updateCompletedHangs(positionGlobal,completed);
+
+                temp = dbHandler.lookUpCompletedHangs(positionGlobal);
+
+
+                //dbHandler.updateCompletedHangs(2,completed);
+
+            }
+        }
+        else {
+            Toast.makeText(WorkoutStatistics.this," results not saved",Toast.LENGTH_SHORT).show();
+        }
+
+            /*
+            int[] i = data.getIntArrayExtra("com.finn.laakso.hangboardapp.SETTINGS");
+
+            // If Grip laps amount has been changed we have to randomize new grips, otherwise lets
+            // keep the old grips that user has maybe liked
+            if (i[0] != timeControls.getGripLaps()) {
+                timeControls.setTimeControls(i);
+                everyBoard.setGripAmount(timeControls.getGripLaps(), grade_descr_position);
+                holdsAdapter = new ArrayAdapter<String>(MainActivity.this,
+                        R.layout.mytextview, everyBoard.getGrips());
+                holdsListView.setAdapter(holdsAdapter);
+                hang_descr_position = 0;
+            } else {
+                timeControls.setTimeControls(i);
+            }
+
+            //Disable the slider and check box, so that those are accidentally changed
+            Toast.makeText(MainActivity.this, "Settings applied, pre made time controls disabled ", Toast.LENGTH_SHORT).show();
+            repeatersBox.setVisibility(View.INVISIBLE);
+            durationSeekBar.setVisibility(View.INVISIBLE);
+            durationTextView.setText("Duration: " + timeControls.getTotalTime() / 60 + "min");
+
+        } // Enabling them when settings are not saved, in future must be made more intuitive.
+        else {
+            Toast.makeText(MainActivity.this, "Settings not applied, pre made time controls enabled", Toast.LENGTH_SHORT).show();
+            repeatersBox.setVisibility(View.VISIBLE);
+            durationSeekBar.setVisibility(View.VISIBLE);
+            durationTextView.setText("Duration: " + timeControls.getTotalTime() / 60 + "min");
+        }
+*/
+
+    }
 
     // Randomizers for creating all the data that is neede for testing SQLite database
     // TimeControls, Holds, Dates

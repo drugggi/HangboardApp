@@ -519,7 +519,6 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent resultIntent = new Intent();
-                // resultIntent.putExtra("com.finn.laakso.hangboardapp.SETTINGS", 62);
                 resultIntent.putExtra("com.finn.laakso.hangboardapp.SETTINGS", timeControls.getTimeControlsIntArray());
                 setResult(Activity.RESULT_OK, resultIntent);
 
