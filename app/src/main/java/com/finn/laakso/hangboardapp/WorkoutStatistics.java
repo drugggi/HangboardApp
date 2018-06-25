@@ -325,8 +325,8 @@ public class WorkoutStatistics extends AppCompatActivity {
         // return super.onContextItemSelected(item);
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
 
-        int selectedListViewPosition = info.position;
-        positionGlobal = info.position;
+        int selectedListViewPosition = info.position+1;
+        positionGlobal = info.position + 1;
         int selectedContextMenuItem = item.getItemId();
 
         selectedHolds = dbHandler.lookUpHolds(selectedListViewPosition);
