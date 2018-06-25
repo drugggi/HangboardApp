@@ -213,6 +213,9 @@ public class WorkoutStatistics extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(WorkoutStatistics.this, "Soon to be shown Graphs! Yay!!",Toast.LENGTH_LONG).show();
+                Intent showDatabaseGraphs = new Intent(getApplicationContext(),WorkoutDatabaseGraphs.class);
+
+                startActivity(showDatabaseGraphs);
             }
         });
 

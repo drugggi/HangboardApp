@@ -22,7 +22,11 @@
             android:label="@string/title_activity_settings"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".WorkoutStatistics" />
-        <activity android:name=".EditWorkoutInfo"></activity>
+        <activity android:name=".EditWorkoutInfo" />
+        <activity
+            android:name=".WorkoutDatabaseGraphs"
+            android:label="@string/title_activity_workout_database_graphs"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
