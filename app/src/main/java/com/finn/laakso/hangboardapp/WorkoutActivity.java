@@ -10,6 +10,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,7 +40,9 @@ public class WorkoutActivity extends AppCompatActivity {
     ImageView leftHandImage;
     ImageView rightHandImage;
     enum workoutPart {ALKULEPO, WORKOUT, LEPO, PITKALEPO};
+
     Button pauseBtn;
+    Button workoutProgressButton;
 
     TimeControls timeControls;
     int current_lap;
@@ -57,7 +60,7 @@ public class WorkoutActivity extends AppCompatActivity {
     TextView gradeTextView;
     TextView infoTextView;
 
-   // int i;
+    int[] completedHangs;
 
     // private int mActivePointerId;
 
@@ -66,6 +69,7 @@ public class WorkoutActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList("workoutactivity_hangboardholds", workoutHolds);
         outState.putIntArray("workoutactivity_timecontrolsintarray", timeControls.getTimeControlsIntArray());
+        outState.putIntArray("workoutactivity_completedhangs", completedHangs);
         outState.putInt("workoutactivity_workoutseconds",s);
         outState.putInt("workoutactivity_currentlap", current_lap);
         outState.putInt("workoutactivity_currentset", current_set);
@@ -104,6 +108,9 @@ public class WorkoutActivity extends AppCompatActivity {
 
         pauseBtn = (Button) findViewById(R.id.pauseBtn);
         pauseBtn.setText("pause");
+        workoutProgressButton = (Button) findViewById(R.id.workoutProgressButton);
+
+
         gradeTextView = (TextView) findViewById(R.id.gradTextView);
         infoTextView = (TextView) findViewById(R.id.infoTextView);
 
@@ -139,6 +146,7 @@ public class WorkoutActivity extends AppCompatActivity {
                 timeControls.setGripLaps(workoutHolds.size()/2);
             }
             total_s = -s + timeControls.getTotalTime();
+            completedHangs = new int[timeControls.getGripLaps()*timeControls.getRoutineLaps()];
 
         }
 
@@ -159,13 +167,21 @@ public class WorkoutActivity extends AppCompatActivity {
             current_lap = savedInstanceState.getInt("workoutactivity_currentlap");
             current_set = savedInstanceState.getInt("workoutactivity_currentset");
             gradeTextView.setText(savedInstanceState.getString("workoutactivity_gripinfo"));
+            completedHangs = savedInstanceState.getIntArray("workoutactivity_completedhangs");
 
             lapseTimeChrono.stop();
             pauseBtn.setText("resume");
             Toast.makeText(this,"Paused",Toast.LENGTH_SHORT).show();
 
+            workoutProgressButton.setVisibility(View.VISIBLE);
+
         }
         else {
+            for (int i = 0; i < completedHangs.length ; i++) {
+                completedHangs[i] = 0;
+            }
+            workoutProgressButton.setVisibility(View.INVISIBLE);
+
             lapseTimeChrono.start();
         }
 
@@ -203,11 +219,13 @@ public class WorkoutActivity extends AppCompatActivity {
                 if ( pauseBtn.getText().equals("pause") ) {
                     lapseTimeChrono.stop();
                     pauseBtn.setText("resume");
+                    workoutProgressButton.setVisibility(View.VISIBLE);
                 }
 
                 else {
                     pauseBtn.setText("pause");
                     lapseTimeChrono.start();
+                    workoutProgressButton.setVisibility(View.INVISIBLE);
                 }
 
             }
@@ -372,6 +390,13 @@ public class WorkoutActivity extends AppCompatActivity {
 
     // updateGripDisplay updates the board image and finger images for every chrono tick
     private void updateGripDisplay() {
+
+        StringBuilder hangsCompleted = new StringBuilder();
+        for (int i: completedHangs) {
+            hangsCompleted.append(i+",");
+        }
+
+        Log.e("completedHangs",hangsCompleted.toString());
 
         Float scaleFactor = pinchZoomBoardImage.getScaleFactor();
 

@@ -79,9 +79,6 @@ public class WorkoutInfoAdapter extends BaseAdapter {
         int set = position/ timeControls.getGripLaps() + 1;
         int hang = position % timeControls.getGripLaps() + 1 ;
 
-        if (position == 5) {
-            hangPosTextView.setTextColor(Color.BLUE);
-        }
 
         int hold_position = hang - 1;
 
