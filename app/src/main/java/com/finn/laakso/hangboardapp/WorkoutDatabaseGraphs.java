@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -52,6 +53,7 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
 
     Random rng;
 
+    TextView generalInfoTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,11 +67,13 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
         int count = dbHandler.lookUpWorkoutCount();
 
         Toast.makeText(this,"count: " + count,Toast.LENGTH_SHORT).show();
+        generalInfoTextView = (TextView) findViewById(R.id.generalInfoTextView);
 
         // Retrieving all the workout history data from SQLite database so that it can be presented
         // on the screen in graph form.
 
         retrieveDataFromDatabaseToArrayLists();
+
 
         createGripDistributionPieChart();
 
@@ -138,6 +142,7 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
         data.setValueTextColor(Color.YELLOW);
         pieChart.setData(data);
         pieChart2.setData(data);
+        pieChart2.animateY(2500);
         pieChart3.setData(data);
 
        //  LineChart chart = (LineChart) findViewById(R.id.chart);
@@ -168,6 +173,7 @@ pieChart4.setCenterTextSize(10);
         PieData piedata = new PieData(pieDataSet);
         pieChart4.setData(piedata);
         pieChart4.invalidate();
+        pieChart4.animateY(4000);
 
 
 
@@ -199,6 +205,7 @@ pieChart4.setCenterTextSize(10);
         int twoback = 0;
         int middlefinger = 0;
         int other = 0;
+        int total_grips = 0;
 
         int seconds_multiplier = 0;
         int hold_index = 0;
@@ -218,6 +225,7 @@ pieChart4.setCenterTextSize(10);
                // Log.e("workout Holds: index: ",hold_index + "   text: "+ arrayList_workoutHolds.get(i).get(hold_index).getHoldText());
 
                 gripType = arrayList_workoutHolds.get(i).get(hold_index).getGripStyle();
+                total_grips += seconds_multiplier;
                 if (gripType == Hold.grip_type.FOUR_FINGER) { fourfinger += seconds_multiplier; }
                 else if (gripType == Hold.grip_type.THREE_FRONT) {threefront += seconds_multiplier; }
                 else if ( gripType == Hold.grip_type.THREE_BACK) {threeback += seconds_multiplier; }
@@ -238,14 +246,27 @@ pieChart4.setCenterTextSize(10);
                 else {twomiddle++; }
             }
         }*/
+        if (fourfinger == 0 || total_grips/fourfinger > 50) {other += fourfinger;}
+         else {yValues.add(new PieEntry(fourfinger,"Four fingers")); }
 
-        yValues.add(new PieEntry(fourfinger,"Four fingers"));
-        yValues.add(new PieEntry(threefront,"Three front"));
-        yValues.add(new PieEntry(threeback,"Three back"));
-        yValues.add(new PieEntry(twomiddle,"Two middle"));
-        yValues.add(new PieEntry(twofront,"Two front"));
-        yValues.add(new PieEntry(twoback,"Two back"));
-        yValues.add(new PieEntry(middlefinger,"Middle finger"));
+        if (threefront == 0 || total_grips/threefront >50) {  other += threefront;  }
+        else { yValues.add(new PieEntry(threefront,"Three front")); }
+
+        if (threeback == 0 || total_grips/threeback > 50) { other += threeback;}
+        else { yValues.add(new PieEntry(threeback,"Three back")); }
+
+        if (twofront == 0 || total_grips/twofront > 50) {other += twofront; }
+        else {yValues.add(new PieEntry(twofront,"Two middle"));}
+
+            if (twomiddle == 0 || total_grips/twomiddle > 50) {other += twomiddle; }
+        else {yValues.add(new PieEntry(twomiddle,"Two front")); }
+
+            if (twoback  == 0 || total_grips/twoback > 50) {other += twoback; }
+        else {yValues.add(new PieEntry(twoback,"Two back")); }
+
+            if (middlefinger == 0 || total_grips/middlefinger > 50) {other += middlefinger; }
+        else {yValues.add(new PieEntry(middlefinger,"Middle finger")); }
+
         yValues.add(new PieEntry(other,"other"));
 
         PieDataSet dataSet = new PieDataSet(yValues,"Grip distribution");
@@ -257,6 +278,7 @@ pieChart4.setCenterTextSize(10);
         data.setValueTextSize(10f);
         data.setValueTextColor(Color.YELLOW);
         gripDistributionPieChart.setData(data);
+        gripDistributionPieChart.animateY(1000);
 
 
     }
@@ -271,6 +293,17 @@ pieChart4.setCenterTextSize(10);
         completedArrayList = new ArrayList<int[]>();
         hangboards = new ArrayList<String>();
 
+        StringBuilder generalInfo = new StringBuilder("Workouts in Database: " + datapoints + "\n");
+
+        int total_workout_time = 0;
+        int total_time_under_tension = 0;
+        int total_hang_laps = 0;
+        int total_successful_hangs = 0;
+
+        int total_adjusted_time_under_tension= 0;
+
+        int erased_workout_time = 0;
+
         // first item in SQLite database is at 1
         for (int i = 1 ; i <= datapoints ; i++) {
             arrayList_workoutHolds.add(dbHandler.lookUpHolds(i));
@@ -279,7 +312,38 @@ pieChart4.setCenterTextSize(10);
             completedArrayList.add(dbHandler.lookUpCompletedHangs(i));
             hangboards.add(dbHandler.lookUpHangboard(i));
 
+            for (int k = completedArrayList.get(i-1).length - 1 ; k >= 0 && completedArrayList.get(i-1)[k] == 0 ; k--) {
+
+                if (k % allTimeControls.get(i-1).getGripLaps() == 0) {
+                    erased_workout_time = erased_workout_time + allTimeControls.get(i-1).getLongRestTime()
+                            + allTimeControls.get(i-1).getHangLaps() * (allTimeControls.get(i-1).getTimeON()
+                            + allTimeControls.get(i-1).getTimeOFF());
+                } else {
+                    erased_workout_time = erased_workout_time + allTimeControls.get(i-1).getRestTime()
+                            + allTimeControls.get(i-1).getHangLaps() * (allTimeControls.get(i-1).getTimeON()
+                            + allTimeControls.get(i-1).getTimeOFF());
+                }
+            }
+            total_workout_time += allTimeControls.get(i-1).getTotalTime();
+            total_time_under_tension += allTimeControls.get(i-1).getTimeUnderTension();
+            total_hang_laps += allTimeControls.get(i-1).getHangLaps()*allTimeControls.get(i-1).getGripLaps()*allTimeControls.get(i-1).getRoutineLaps();
+
+            int single_time_under_tension = 0;
+            for (int j = 0 ; j < completedArrayList.get(i-1).length ; j++) {
+                single_time_under_tension += completedArrayList.get(i-1)[j]*allTimeControls.get(i-1).getTimeON();
+
+                total_successful_hangs += completedArrayList.get(i-1)[j];
+            }
+            total_adjusted_time_under_tension += single_time_under_tension;
         }
+
+        generalInfo.append("(not adjusted) Total workout time: " + total_workout_time + "s where " + erased_workout_time + "s were inactive\n");
+        generalInfo.append("Total workout time: " + (total_workout_time - erased_workout_time) + "s\n");
+        generalInfo.append("(not adjusted) Total time under tension " + total_time_under_tension + "s\n");
+        generalInfo.append("Total time under tension " + total_adjusted_time_under_tension + "s\n");
+        generalInfo.append("Total of " + total_hang_laps + "hangs where " + total_successful_hangs + " were successful so " + 100*total_successful_hangs/total_hang_laps + "% is the success rate\n");
+        generalInfo.append("Erased workout time: " + erased_workout_time);
+        generalInfoTextView.setText(generalInfo.toString());
     }
 
 
