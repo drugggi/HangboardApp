@@ -36,8 +36,6 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     public static final String COLUMN_HANGSCOMPLETED = "hangscompleted";
 
-    public static final String COLUMN_TUT = "timeunertension";
-
     public MyDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
     }

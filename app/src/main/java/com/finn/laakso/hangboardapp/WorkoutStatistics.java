@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -21,11 +20,12 @@ import java.util.Random;
 
 public class WorkoutStatistics extends AppCompatActivity {
 
-    TextView workoutInfoTextView;
-    TextView holdInfoTextView;
+    //TextView workoutInfoTextView;
+    //TextView holdInfoTextView;
 
     Button editWorkoutButton;
     Button resetDBButton;
+    Button showGraphsButton;
 
     // Parameters to hold all the information of workout history
     // consider dropping these or moving to where the graphs are displayed
@@ -60,10 +60,11 @@ public class WorkoutStatistics extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_statistics);
         rng = new Random();
-        workoutInfoTextView = (TextView) findViewById(R.id.workoutInfoTextView);
-        holdInfoTextView = (TextView) findViewById(R.id.holdInfoTextView);
+       // workoutInfoTextView = (TextView) findViewById(R.id.workoutInfoTextView);
+       // holdInfoTextView = (TextView) findViewById(R.id.holdInfoTextView);
         editWorkoutButton = (Button) findViewById(R.id.editWorkoutButton);
         resetDBButton = (Button) findViewById(R.id.testButton);
+        showGraphsButton = (Button) findViewById(R.id.showGraphsButton);
 
         // DBHander to store workout from Intent.
         dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
@@ -170,9 +171,6 @@ public class WorkoutStatistics extends AppCompatActivity {
                 // workoutInfoTextView.setText(workoutAdapter.getSelectedTimeControls(position).getGripMatrix(true));
                 // String holdinfo = workoutAdapter.getSelectedHoldInfo(position);
 
-                if ( position == 0) {
-                    holdInfoTextView.setText("" + dbHandler.lookUpDate(position));
-                }
 
                 position++;
 
@@ -185,8 +183,8 @@ public class WorkoutStatistics extends AppCompatActivity {
                 selectedTimeControls = dbHandler.lookUpTimeControls(position);
                 selectedHangboardName = dbHandler.lookUpHangboard(position);
 
-                workoutInfoTextView.setText(selectedTimeControls.getTimeControlsAsString());
-                holdInfoTextView.setText(selectedTimeControls.getGripMatrix(false));
+                // workoutInfoTextView.setText(selectedTimeControls.getTimeControlsAsString());
+                // holdInfoTextView.setText(selectedTimeControls.getGripMatrix(false));
 
             }
         });
@@ -208,6 +206,13 @@ public class WorkoutStatistics extends AppCompatActivity {
 
                 }
 
+            }
+        });
+
+        showGraphsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(WorkoutStatistics.this, "Soon to be shown Graphs! Yay!!",Toast.LENGTH_LONG).show();
             }
         });
 
