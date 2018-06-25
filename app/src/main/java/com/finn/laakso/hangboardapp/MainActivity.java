@@ -190,6 +190,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         testStatistics = (Button) findViewById(R.id.statsButton);
         testStatistics.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -212,6 +213,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(statsIntent);
             }
         });
+
+
 
         // Every time a grade is selected from the grade list, HangBoard generates holds and grips
         // to the program based on grade difficulty

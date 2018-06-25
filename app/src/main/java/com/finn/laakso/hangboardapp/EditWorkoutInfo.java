@@ -29,20 +29,27 @@ public class EditWorkoutInfo extends AppCompatActivity {
     WorkoutInfoAdapter workoutInfoAdapter;
 
     Button saveButton;
-    Button testButton;
+    Button backButton;
 
     int[] completed;
+    boolean isNewWorkout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_workout_info);
+        isNewWorkout = false;
 
 
         saveButton = (Button) findViewById(R.id.saveButton);
-        testButton = (Button) findViewById(R.id.testButton);
+        backButton = (Button) findViewById(R.id.backButton);
 
         hangInfoTextView = (TextView) findViewById(R.id.hangInfoTextView);
+
+        // This checks whether we are editing existing workout from database or new workout from WorkoutActivity
+        if (getIntent().hasExtra("com.finn.laakso.hangboardapp.NEWWORKOUT")) {
+           isNewWorkout = getIntent().getExtras().getBoolean("com.finn.laakso.hangboardapp.NEWWORKOUT");
+        }
 
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.HOLDS")) {
             workoutHolds = getIntent().getExtras().getParcelableArrayList("com.finn.laakso.hangboardapp.HOLDS");
@@ -84,13 +91,26 @@ public class EditWorkoutInfo extends AppCompatActivity {
 
                 completed = workoutInfoAdapter.getCompletedMatrix();
 
-                Intent resultCompletedHangsIntent = new Intent();
-                resultCompletedHangsIntent.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS", workoutInfoAdapter.getCompletedMatrix());
-                setResult(Activity.RESULT_OK, resultCompletedHangsIntent);
+                if (isNewWorkout) {
+                    Intent workoutIntoDatabaseIntent = new Intent(getApplicationContext(), WorkoutStatistics.class);
 
+                    // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
+                    workoutIntoDatabaseIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS", timeControls.getTimeControlsIntArray());
+                    workoutIntoDatabaseIntent.putExtra("com.finn.laakso.hangboardapp.BOARDNAME", "TEST HANGBOARD NAME EDIT ME");
+                    workoutIntoDatabaseIntent.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", workoutHolds);
 
+                    workoutIntoDatabaseIntent.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS", completed);
 
-                finish();
+                    startActivity(workoutIntoDatabaseIntent);
+                    finish();
+                }
+                else {
+                    Intent resultCompletedHangsIntent = new Intent();
+                    resultCompletedHangsIntent.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS", workoutInfoAdapter.getCompletedMatrix());
+                    setResult(Activity.RESULT_OK, resultCompletedHangsIntent);
+
+                    finish();
+                }
                 /*
                 Intent statsIntent = new Intent(getApplicationContext(), WorkoutStatistics.class);
 
@@ -104,7 +124,7 @@ public class EditWorkoutInfo extends AppCompatActivity {
             }
         });
 
-        testButton.setOnClickListener(new View.OnClickListener() {
+        backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 /*

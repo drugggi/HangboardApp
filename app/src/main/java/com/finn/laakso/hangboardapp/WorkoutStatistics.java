@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -48,6 +51,7 @@ public class WorkoutStatistics extends AppCompatActivity {
     ListView workoutHistoryListView;
 
     int positionGlobal = 0;
+    MyDBHandler dbHandler;
 
     private static final int REQUEST_HANGS_COMPLETED = 1;
 
@@ -62,7 +66,7 @@ public class WorkoutStatistics extends AppCompatActivity {
         resetDBButton = (Button) findViewById(R.id.testButton);
 
         // DBHander to store workout from Intent.
-        MyDBHandler dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
+        dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
 
         // Holds that will be used in this workout program
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.HOLDS")) {
@@ -150,12 +154,13 @@ public class WorkoutStatistics extends AppCompatActivity {
 
         workoutHistoryListView = (ListView) findViewById(R.id.workoutHistoryListView);
         workoutHistoryListView.setAdapter(workoutAdapter);
+        registerForContextMenu(workoutHistoryListView);
 
         workoutHistoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                MyDBHandler dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
+               // dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
 
                 //dbHandler.updateCompletedHangs(position);
 
@@ -173,9 +178,7 @@ public class WorkoutStatistics extends AppCompatActivity {
 
                 positionGlobal = position;
 
-
-                String he = "";
-                ArrayList<Hold> test = dbHandler.lookUpHolds(position);
+                // ArrayList<Hold> test = dbHandler.lookUpHolds(position);
                 selectedHolds = dbHandler.lookUpHolds(position);
                 selectedDate = dbHandler.lookUpDate(position);
                 selectedCompletedHangs = dbHandler.lookUpCompletedHangs(position);
@@ -188,11 +191,31 @@ public class WorkoutStatistics extends AppCompatActivity {
             }
         });
 
+        workoutHistoryListView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+            @Override
+            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+
+                if (v.getId() == R.id.workoutHistoryListView) {
+                    //Toast.makeText(EditWorkoutInfo.this, "Context Menu Created ", Toast.LENGTH_SHORT).show();
+
+                    AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+
+                        menu.setHeaderTitle("Choose your edit");
+                        menu.add(Menu.NONE, 0, 0, "edit workout");
+                        menu.add(Menu.NONE, 1, 1, "edit date");
+                        menu.add(Menu.NONE, 2, 2, "hide workout");
+
+
+                }
+
+            }
+        });
+
         // Reset button for clearing all database entries, for testing purposes right now
         resetDBButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyDBHandler dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
+               // MyDBHandler dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
                 dbHandler.DELETEALL();
 
                 Toast.makeText(WorkoutStatistics.this, "All DELETED, Happy now",Toast.LENGTH_LONG).show();
@@ -237,7 +260,7 @@ public class WorkoutStatistics extends AppCompatActivity {
                // Toast.makeText(WorkoutStatistics.this," oli intentti" + terver,Toast.LENGTH_SHORT).show();
 
 
-                MyDBHandler dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
+                // MyDBHandler dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
 
                 int[] temp = dbHandler.lookUpCompletedHangs(positionGlobal);
 
@@ -285,6 +308,45 @@ public class WorkoutStatistics extends AppCompatActivity {
         }
 */
 
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+
+        // return super.onContextItemSelected(item);
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+
+        int selectedListViewPosition = info.position;
+        positionGlobal = info.position;
+        int selectedContextMenuItem = item.getItemId();
+
+        selectedHolds = dbHandler.lookUpHolds(selectedListViewPosition);
+        selectedDate = dbHandler.lookUpDate(selectedListViewPosition);
+        selectedCompletedHangs = dbHandler.lookUpCompletedHangs(selectedListViewPosition);
+        selectedTimeControls = dbHandler.lookUpTimeControls(selectedListViewPosition);
+        selectedHangboardName = dbHandler.lookUpHangboard(selectedListViewPosition);
+
+        if (selectedContextMenuItem == 0) {
+            Intent editWorkout = new Intent(getApplicationContext(), EditWorkoutInfo.class);
+
+            // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
+            editWorkout.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",selectedTimeControls.getTimeControlsIntArray() );
+            editWorkout.putExtra("com.finn.laakso.hangboardapp.BOARDNAME",selectedHangboardName);
+            editWorkout.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", selectedHolds);
+            editWorkout.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS",selectedCompletedHangs);
+
+            setResult(Activity.RESULT_OK,editWorkout);
+            startActivityForResult(editWorkout, REQUEST_HANGS_COMPLETED);
+        }
+        else if (selectedContextMenuItem == 1) {
+            Toast.makeText(WorkoutStatistics.this, "EDITING DATE ", Toast.LENGTH_SHORT).show();
+        }
+        else if (selectedContextMenuItem == 2) {
+            Toast.makeText(WorkoutStatistics.this, "DELETING ITEM NRO: " + positionGlobal, Toast.LENGTH_SHORT).show();
+        }
+
+        return true;
     }
 
     // Randomizers for creating all the data that is neede for testing SQLite database

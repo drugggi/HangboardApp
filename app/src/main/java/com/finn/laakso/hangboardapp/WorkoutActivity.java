@@ -1,6 +1,7 @@
 package com.finn.laakso.hangboardapp;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
@@ -94,6 +95,9 @@ public class WorkoutActivity extends AppCompatActivity {
 
         s = -30;
         total_s = 0;
+
+        // Major inconsistency during the program current_lap starts from 0 mainly because it is used to pick
+        // correct hold information from workoutHold array.
         current_lap = 0;
         current_set = 1;
 
@@ -231,7 +235,26 @@ public class WorkoutActivity extends AppCompatActivity {
             }
         });
 
+        workoutProgressButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent workoutProgress = new Intent(getApplicationContext(), EditWorkoutInfo.class);
 
+                // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
+                workoutProgress.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
+                workoutProgress.putExtra("com.finn.laakso.hangboardapp.BOARDNAME","TESIT LAUTA POISTA MUT");
+                workoutProgress.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", workoutHolds);
+                workoutProgress.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS",completedHangs);
+
+                // is the workout new or are we editing old workout.
+                boolean isNewWorkout = true;
+                workoutProgress.putExtra("com.finn.laakso.hangboardapp.NEWWORKOUT", isNewWorkout);
+
+                startActivity(workoutProgress);
+                // setResult(Activity.RESULT_OK,editWorkout);
+                //startActivityForResult(editWorkout, REQUEST_HANGS_COMPLETED);
+            }
+        });
 
         // Progress our program for every tick that lapseTimeChrono produces
 
@@ -266,13 +289,18 @@ public class WorkoutActivity extends AppCompatActivity {
                         // If seconds in a hang lap (59s) has passed, it is REST time
                         if ( s == timeControls.getHangLapsSeconds() ) {
                             nowDoing = workoutPart.LEPO;
+                            updateCompletedHangs();
+
                              if (timeControls.getTimeOFF() == 0 ) { playFinishSound.start(); }
                             hangProgressBar.setProgress(0);
                              restProgressBar.setProgress(0);
                             current_lap++;
                             s--;
 
-                            if (current_lap == timeControls.getGripLaps()) {nowDoing = workoutPart.PITKALEPO; }
+                            if (current_lap == timeControls.getGripLaps()) {
+                                nowDoing = workoutPart.PITKALEPO;
+                                updateCompletedHangs();
+                            }
                             break;
                         }
 
@@ -334,13 +362,14 @@ public class WorkoutActivity extends AppCompatActivity {
 
                         }
                         restProgressBar.setProgress((s+timeControls.getLongRestTime())*100 / timeControls.getLongRestTime() );
-                        if (timeControls.getRoutineLaps() == 1) {
+
+                        if (timeControls.getRoutineLaps() == current_set - 1) {
                             lapseTimeChrono.stop();
 
                         }
 
                         if (s == -1) {nowDoing = workoutPart.WORKOUT;
-                            timeControls.setRoutineLaps(timeControls.getRoutineLaps() - 1);
+                            // timeControls.setRoutineLaps(timeControls.getRoutineLaps() - 1);
                         }
 
                         break;
@@ -388,15 +417,26 @@ public class WorkoutActivity extends AppCompatActivity {
 
     }
 
-    // updateGripDisplay updates the board image and finger images for every chrono tick
-    private void updateGripDisplay() {
+    private void updateCompletedHangs() {
 
+        // remember that current_lap starts from 0 and current_set starts from 1
+        int index = (current_set - 1 )* timeControls.getGripLaps() + current_lap;
+        Log.e("index","" + index  + " max index: " + completedHangs.length);
+
+        if (index >= 0 && index < completedHangs.length ) {
+            completedHangs[index] = timeControls.getGripLaps();
+        }
         StringBuilder hangsCompleted = new StringBuilder();
         for (int i: completedHangs) {
             hangsCompleted.append(i+",");
         }
 
         Log.e("completedHangs",hangsCompleted.toString());
+
+    }
+
+    // updateGripDisplay updates the board image and finger images for every chrono tick
+    private void updateGripDisplay() {
 
         Float scaleFactor = pinchZoomBoardImage.getScaleFactor();
 
