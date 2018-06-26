@@ -14,6 +14,11 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+        <com.github.mikephil.charting.charts.HorizontalBarChart
+            android:id="@+id/singleHangsOrRepeatersBarChart"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"></com.github.mikephil.charting.charts.HorizontalBarChart>
+
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/workoutIntensityChart"
             android:layout_width="match_parent"
@@ -39,30 +44,6 @@
             android:layout_width="match_parent"
             android:layout_height="400dp"></com.github.mikephil.charting.charts.PieChart>
 
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/piechart"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"></com.github.mikephil.charting.charts.PieChart>
-
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/piechart2"
-            android:layout_width="match_parent"
-            android:layout_height="400dp"></com.github.mikephil.charting.charts.PieChart>
-
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/piechart3"
-            android:layout_width="match_parent"
-            android:layout_height="400dp"></com.github.mikephil.charting.charts.PieChart>
-
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/idPieChart"
-            android:layout_width="match_parent"
-            android:layout_height="400dp"></com.github.mikephil.charting.charts.PieChart>
-
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/chart"
-            android:layout_width="match_parent"
-            android:layout_height="400dp" />
 
 </LinearLayout>
 

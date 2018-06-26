@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
@@ -36,21 +37,9 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
 
     MyDBHandler dbHandler;
 
-    private float[] yData = {25.6f,10.6f,66.5f,32f,23.2f,24.4f,32.3f,3.2f};
-    private String[] xData = {"yksi","kaksi","kolme","neljä,","ivisi","kuusi","seitsäm","kasi"};
-    PieChart pieChart;
-    PieChart pieChart2;
-    PieChart pieChart3;
-
-    PieChart pieChart4;
-
-    LineChart chart;
-
-    Random random;
-    ArrayList<BarEntry> barEntries;
-
     PieChart gripDistributionPieChart;
     BarChart difficultyBarChart;
+    HorizontalBarChart singleHangsOrRepeatersBarChart;
     LineChart timeUnderTensionLineChart;
     LineChart workoutTimeLineChart;
     LineChart workoutIntensityLineChart;
@@ -82,13 +71,14 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
         Toast.makeText(this,"count: " + count,Toast.LENGTH_SHORT).show();
         generalInfoTextView = (TextView) findViewById(R.id.generalInfoTextView);
 
-        // Retrieving all the workout history data from SQLite database so that it can be presented
-        // on the screen in graph form.
-
         effectiveWorkoutTime = new ArrayList<>();
         effectiveWorkoutTUT = new ArrayList<>();
 
+        // Retrieving all the workout history data from SQLite database so that it can be presented
+        // on the screen in graph form.
         retrieveDataFromDatabaseToArrayLists();
+
+        createSingleHangsOrRepeatersBarChart();
 
         createWorkoutIntensityLineChart();
 
@@ -100,106 +90,6 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
 
         createGripDistributionPieChart();
 
-        Log.e("timeControls size"," " + allTimeControls.size());
-
-        pieChart= (PieChart) findViewById(R.id.piechart);
-        pieChart2= (PieChart) findViewById(R.id.piechart2);
-        pieChart3= (PieChart) findViewById(R.id.piechart3);
-        pieChart4= (PieChart) findViewById(R.id.idPieChart);
-        chart = (LineChart) findViewById(R.id.chart);
-
-        List<Entry> entries = new ArrayList<Entry>();
-
-        int j = 0;
-        for (TimeControls singleTUT: allTimeControls) {
-            entries.add(new Entry(j++,rng.nextInt(100)));
-        }
-        /*
-        entries.add(new Entry(1,5));
-        entries.add(new Entry(2,15));
-        entries.add(new Entry(3,21));
-        entries.add(new Entry(4,17));
-        entries.add(new Entry(5,52));
-        entries.add(new Entry(6,54));
-        entries.add(new Entry(7,35));
-        entries.add(new Entry(8,11));
-        entries.add(new Entry(9,87));
-        entries.add(new Entry(10,12)); */
-
-        LineDataSet linedataSet = new LineDataSet(entries, "testi");
-        linedataSet.setColor(Color.BLUE);
-
-        LineData lineData = new LineData(linedataSet);
-        chart.setData(lineData);
-        chart.invalidate();
-
-
-        pieChart.setUsePercentValues(true);
-        pieChart.getDescription().setEnabled(false);
-        pieChart.setExtraOffsets(5,10,5,5);
-
-        pieChart.setDragDecelerationFrictionCoef(0.95f);
-
-        pieChart.setDrawHoleEnabled(true);
-        pieChart.setHoleColor(Color.WHITE);
-        pieChart.setTransparentCircleRadius(61f);
-
-        ArrayList<PieEntry> yValues = new ArrayList<>();
-
-        yValues.add(new PieEntry(34f,"partyA"));
-        yValues.add(new PieEntry(23f,"usa"));
-        yValues.add(new PieEntry(14f,"uk"));
-        yValues.add(new PieEntry(35f,"neljä"));
-        yValues.add(new PieEntry(40f,"pviisA"));
-        yValues.add(new PieEntry(23f,"kuus"));
-
-
-
-        PieDataSet dataSet = new PieDataSet(yValues,"Countries");
-        dataSet.setSliceSpace(3f);
-        dataSet.setSelectionShift(5f);
-        dataSet.setColors(ColorTemplate.JOYFUL_COLORS);
-
-        PieData data = new PieData(dataSet);
-        data.setValueTextSize(10f);
-        data.setValueTextColor(Color.YELLOW);
-        pieChart.setData(data);
-        pieChart2.setData(data);
-        pieChart2.animateY(2500);
-        pieChart3.setData(data);
-
-       //  LineChart chart = (LineChart) findViewById(R.id.chart);
-        //LineChart chart = (LineChart) findViewById(R.id.chart);
-        pieChart4.setRotationEnabled(true);
-        pieChart4.setHoleRadius(25f);
-        pieChart4.setTransparentCircleAlpha(0);
-        pieChart4.setCenterText("super cool chart");
-pieChart4.setCenterTextSize(10);
-
-        ArrayList<PieEntry> yEntrys = new ArrayList<>();
-        ArrayList<String> xEntrys = new ArrayList<>();
-
-        for (int i = 0 ; i < yData.length ; i++ ) {
-            yEntrys.add(new PieEntry(yData[i],i));
-        }
-
-        for (int i = 0 ; i < xData.length ; i++ ) {
-            xEntrys.add(xData[i]);
-        }
-
-        // Create data set
-        PieDataSet pieDataSet = new PieDataSet(yEntrys,"employee sales");
-        pieDataSet.setSliceSpace(2f);
-        pieDataSet.setValueTextSize(12f);
-
-        // create pie data object
-        PieData piedata = new PieData(pieDataSet);
-        pieChart4.setData(piedata);
-        pieChart4.invalidate();
-        pieChart4.animateY(4000);
-
-
-
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -209,6 +99,43 @@ pieChart4.setCenterTextSize(10);
                         .setAction("Action", null).show();
             }
         });
+
+
+    }
+
+    public void createSingleHangsOrRepeatersBarChart() {
+
+        singleHangsOrRepeatersBarChart = (HorizontalBarChart) findViewById(R.id.singleHangsOrRepeatersBarChart);
+
+        int repeatersAmount = 0;
+        int singleHangsAmount = 0;
+        for ( int i = 0 ; i < allTimeControls.size() ; i++) {
+            if (allTimeControls.get(i).getHangLaps() == 1) {
+                singleHangsAmount++;
+            } else {
+                repeatersAmount++;
+            }
+        }
+        singleHangsOrRepeatersBarChart.getXAxis().setDrawGridLines(false);
+        singleHangsOrRepeatersBarChart.getAxisLeft().setDrawGridLines(false);
+
+        ArrayList<BarEntry> entries = new ArrayList<>();
+
+        entries.add(new BarEntry(1,singleHangsAmount));
+        entries.add(new BarEntry(2,repeatersAmount));
+
+        BarDataSet dataset = new BarDataSet(entries,"Number of repeaters and single hangs ");
+
+        dataset.setColors(ColorTemplate.VORDIPLOM_COLORS);
+
+        ArrayList<String> labels = new ArrayList<>();
+
+        labels.add("single hangs");
+        labels.add("repeaters");
+
+        BarData data = new BarData(dataset);
+
+        singleHangsOrRepeatersBarChart.setData(data);
 
 
     }
@@ -357,12 +284,6 @@ pieChart4.setCenterTextSize(10);
 
         dataset.setColors( barColors);
 
-        //dataset.setColors(ColorTemplate.colorWithAlpha(Color.RED,112));
-        ArrayList<String> labels = new ArrayList<String>();
-        labels.add("5a");
-        labels.add("6a");
-        labels.add("7a");
-
         BarData data = new BarData(dataset);
 
         difficultyBarChart.setData(data);
@@ -483,7 +404,7 @@ pieChart4.setCenterTextSize(10);
         data.setValueTextSize(10f);
         data.setValueTextColor(Color.YELLOW);
         gripDistributionPieChart.setData(data);
-        gripDistributionPieChart.animateY(1000);
+        // gripDistributionPieChart.animateY(1000);
 
 
     }
@@ -500,14 +421,14 @@ pieChart4.setCenterTextSize(10);
 
         StringBuilder generalInfo = new StringBuilder("Workouts in Database: " + datapoints + "\n");
 
-        int total_workout_time = 0;
-        int total_time_under_tension = 0;
-        int total_hang_laps = 0;
-        int total_successful_hangs = 0;
+        long total_workout_time = 0;
+        long total_time_under_tension = 0;
+        long total_hang_laps = 0;
+        long total_successful_hangs = 0;
 
-        int total_adjusted_time_under_tension= 0;
+        long total_adjusted_time_under_tension= 0;
 
-        int erased_workout_time = 0;
+        long erased_workout_time = 0;
         int single_erased_workout_time = 0;
 
         // first item in SQLite database is at 1
@@ -522,13 +443,13 @@ pieChart4.setCenterTextSize(10);
             for (int k = completedArrayList.get(i-1).length - 1 ; k >= 0 && completedArrayList.get(i-1)[k] == 0 ; k--) {
 
                 if (k % allTimeControls.get(i-1).getGripLaps() == 0) {
-                    single_erased_workout_time = erased_workout_time + allTimeControls.get(i-1).getLongRestTime()
+                    single_erased_workout_time = single_erased_workout_time + allTimeControls.get(i-1).getLongRestTime()
                             + allTimeControls.get(i-1).getHangLaps() * (allTimeControls.get(i-1).getTimeON()
                             + allTimeControls.get(i-1).getTimeOFF());
                     erased_workout_time += single_erased_workout_time;
 
                 } else {
-                    single_erased_workout_time = erased_workout_time + allTimeControls.get(i-1).getRestTime()
+                    single_erased_workout_time = single_erased_workout_time + allTimeControls.get(i-1).getRestTime()
                             + allTimeControls.get(i-1).getHangLaps() * (allTimeControls.get(i-1).getTimeON()
                             + allTimeControls.get(i-1).getTimeOFF());
                     erased_workout_time += single_erased_workout_time;
@@ -551,8 +472,8 @@ pieChart4.setCenterTextSize(10);
              effectiveWorkoutTUT.add(single_time_under_tension);
         }
 
-        printIntArrayList(effectiveWorkoutTime, "WorkoutTime");
-        printIntArrayList(effectiveWorkoutTUT,"workoutTUT");
+       // printIntArrayList(effectiveWorkoutTime, "WorkoutTime");
+        //printIntArrayList(effectiveWorkoutTUT,"workoutTUT");
 
         generalInfo.append("(not adjusted) Total workout time: " + total_workout_time + "s where " + erased_workout_time + "s were inactive\n");
         generalInfo.append("Total workout time: " + (total_workout_time - erased_workout_time) + "s\n");
