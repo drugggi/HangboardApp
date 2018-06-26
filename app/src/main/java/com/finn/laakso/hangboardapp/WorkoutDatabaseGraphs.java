@@ -11,8 +11,12 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -24,7 +28,9 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.TreeMap;
 
 public class WorkoutDatabaseGraphs extends AppCompatActivity {
 
@@ -44,12 +50,19 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
     ArrayList<BarEntry> barEntries;
 
     PieChart gripDistributionPieChart;
+    BarChart difficultyBarChart;
+    LineChart timeUnderTensionLineChart;
+    LineChart workoutTimeLineChart;
+    LineChart workoutIntensityLineChart;
 
     ArrayList<ArrayList<Hold>> arrayList_workoutHolds;
     ArrayList<TimeControls> allTimeControls;
     ArrayList<Long> dates;
     ArrayList<int[]> completedArrayList;
     ArrayList<String> hangboards;
+
+    ArrayList<Integer> effectiveWorkoutTUT;
+    ArrayList<Integer> effectiveWorkoutTime;
 
     Random rng;
 
@@ -72,8 +85,18 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
         // Retrieving all the workout history data from SQLite database so that it can be presented
         // on the screen in graph form.
 
+        effectiveWorkoutTime = new ArrayList<>();
+        effectiveWorkoutTUT = new ArrayList<>();
+
         retrieveDataFromDatabaseToArrayLists();
 
+        createWorkoutIntensityLineChart();
+
+        createTotalWorkoutTimeLineChart();
+
+        createTimeUnderTensionLineChart();
+
+        createDifficultyBarChart();
 
         createGripDistributionPieChart();
 
@@ -190,6 +213,188 @@ pieChart4.setCenterTextSize(10);
 
     }
 
+    public void createWorkoutIntensityLineChart() {
+        workoutIntensityLineChart = (LineChart) findViewById(R.id.workoutIntensityChart);
+        List<Entry> entries = new ArrayList<Entry>();
+
+        float intensityPercent = 0;
+        for (int i = 0 ; i < effectiveWorkoutTime.size() ; i++) {
+
+            intensityPercent = (float) effectiveWorkoutTUT.get(i) / (float) effectiveWorkoutTime.get(i);
+
+            entries.add(new Entry(i,intensityPercent));
+        }
+
+        LineDataSet linedataSet = new LineDataSet(entries, "Workout intensity = workout time / time under tension");
+        linedataSet.setColor(Color.GREEN);
+        //linedataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+
+        LineData lineData = new LineData(linedataSet);
+
+
+        if (effectiveWorkoutTime.size() > 30) {
+            lineData.setValueTextSize(0f);
+
+        }
+
+        workoutIntensityLineChart.setData(lineData);
+    }
+
+    public void createTotalWorkoutTimeLineChart() {
+         workoutTimeLineChart = (LineChart) findViewById(R.id.workoutTimeChart);
+
+        List<Entry> entries = new ArrayList<Entry>();
+
+        for (int i = 0 ; i < effectiveWorkoutTime.size() ; i++) {
+            entries.add(new Entry(i,effectiveWorkoutTime.get(i)/60));
+        }
+
+        LineDataSet linedataSet = new LineDataSet(entries, "Total workout time in minutes");
+        linedataSet.setColor(Color.DKGRAY);
+
+        LineData lineData = new LineData(linedataSet);
+
+        if (effectiveWorkoutTime.size() > 30) {
+            lineData.setValueTextSize(0f);
+
+        }
+
+        workoutTimeLineChart.setData(lineData);
+
+    }
+
+    public void createTimeUnderTensionLineChart() {
+        timeUnderTensionLineChart = (LineChart) findViewById(R.id.timeUnderTensionChart);
+
+        List<Entry> entries = new ArrayList<Entry>();
+
+        for (int i = 0 ; i < effectiveWorkoutTUT.size() ; i++) {
+            entries.add(new Entry(i+1,effectiveWorkoutTUT.get(i)));
+        }
+
+        LineDataSet linedataSet = new LineDataSet(entries, "Time under tension in seconds for every workout");
+        linedataSet.setColor(Color.CYAN);
+
+        LineData lineData = new LineData(linedataSet);
+
+        if (effectiveWorkoutTUT.size() > 30) {
+            lineData.setValueTextSize(0f);
+
+        }
+
+        timeUnderTensionLineChart.setData(lineData);
+        // timeUnderTensionLineChart.animateXY(1000,1000);
+
+
+    }
+
+    public void createDifficultyBarChart() {
+        difficultyBarChart = (BarChart) findViewById(R.id.difficultyBarChart);
+        //difficultyBarChart.setDrawBarShadow(true);
+
+        ArrayList<BarEntry> entries = new ArrayList<>();
+
+        int[] completed_seconds;
+        int[] grip_difficulties;
+
+        TreeMap<Integer,Integer> difficultyMap = new TreeMap<Integer, Integer>();
+
+        // all hold in workout history
+        for (int i = 0 ; i < arrayList_workoutHolds.size() ; i++ ) {
+
+            // Holds used in a single workout
+            completed_seconds = new int[allTimeControls.get(i).getGripLaps()];
+            grip_difficulties = new int[allTimeControls.get(i).getGripLaps()];
+
+            // lets get single workouts grip difficulties,
+            for (int j = 0 ; j < grip_difficulties.length; j++) {
+                grip_difficulties[j] = (arrayList_workoutHolds.get(i).get(2*j).getHoldValue() +
+                        arrayList_workoutHolds.get(i).get(2*j+1).getHoldValue() ) / 2;
+            }
+            // lets get single workouts completed hangs in seconds
+            for (int j = 0 ; j < completedArrayList.get(i).length ; j++) {
+                completed_seconds[j % allTimeControls.get(i).getGripLaps()] += completedArrayList.get(i)[j] * allTimeControls.get(i).getTimeON();
+            }
+
+            // lets put both in TreeMap, so that same difficulty level is only once and seconds is summed in that level
+            for (int j = 0; j < grip_difficulties.length ; j++) {
+                // entries.add(new BarEntry(grip_difficulties[j],completed_seconds[j]));
+
+                if (difficultyMap.containsKey(grip_difficulties[j])) {
+                    difficultyMap.put(grip_difficulties[j], difficultyMap.get(grip_difficulties[j]) + completed_seconds[j]);
+                }
+                else {
+                    difficultyMap.put(grip_difficulties[j],completed_seconds[j]);
+                }
+
+            }
+
+            //printIntArray(grip_difficulties,"Grip Difficulties");
+            //printIntArray(completed_seconds,"Completed seconds");
+
+        }
+        ArrayList<Integer> barColors = new ArrayList<Integer>();
+        int increment = 200/difficultyMap.size();
+        int alpha = 0;
+        for(Map.Entry<Integer,Integer> entry: difficultyMap.entrySet()) {
+            int key = entry.getKey();
+            int value = entry.getValue();
+
+            value = value;
+
+            if ( value == 0) {continue;}
+            alpha += increment;
+            barColors.add(Color.argb(50+alpha,200,0,0));
+            entries.add(new BarEntry(key,value));
+            // Log.e("test","increment: " + alpha);
+        }
+
+        BarDataSet dataset = new BarDataSet(entries,"seconds spent on each difficulty level");
+        //dataset.setLabel("TEST LABEL");
+        dataset.setValueTextSize(0f);
+
+        dataset.setBarBorderWidth(1f);
+
+        dataset.setColors( barColors);
+
+        //dataset.setColors(ColorTemplate.colorWithAlpha(Color.RED,112));
+        ArrayList<String> labels = new ArrayList<String>();
+        labels.add("5a");
+        labels.add("6a");
+        labels.add("7a");
+
+        BarData data = new BarData(dataset);
+
+        difficultyBarChart.setData(data);
+        Description desc = new Description();
+        desc.setText("seconds spent on each difficulty level");
+        difficultyBarChart.setDescription(desc);
+
+        difficultyBarChart.setDrawValueAboveBar(true);
+        difficultyBarChart.setFitBars(false);
+
+
+    }
+
+    private void printIntArray(int[] printedArray,String arrayInfo) {
+        StringBuilder sb = new StringBuilder(" ");
+        for (int i = 0; i < printedArray.length ; i++) {
+            sb.append(printedArray[i]+ ",");
+        }
+        Log.e("printIntArray: ",arrayInfo + sb.toString());
+    }
+
+    private void printIntArrayList(ArrayList<Integer> printedArrayList, String arrayInfo) {
+        StringBuilder sb = new StringBuilder(" ");
+
+        for (int i = 0; i < printedArrayList.size() ; i++) {
+            sb.append(printedArrayList.get(i)+ ",");
+        }
+        Log.e("printIntArray: ",arrayInfo + sb.toString());
+
+
+    }
+
     public void createGripDistributionPieChart() {
         gripDistributionPieChart = (PieChart) findViewById(R.id.gripDistributionPieChart);
         gripDistributionPieChart.setCenterText("Each grip type used in seconds");
@@ -218,7 +423,7 @@ pieChart4.setCenterTextSize(10);
             // Holds used in a single workout
             for (int j = 0 ; j < completedArrayList.get(i).length ; j ++) {
 
-                // multiplier depending if the hang were successfull or not
+                // multiplier depending if the hang was successfull or not
                 seconds_multiplier = completedArrayList.get(i)[j] * allTimeControls.get(i).getTimeON();
                 hold_index = 2*( j % allTimeControls.get(i).getGripLaps());
 
@@ -303,6 +508,7 @@ pieChart4.setCenterTextSize(10);
         int total_adjusted_time_under_tension= 0;
 
         int erased_workout_time = 0;
+        int single_erased_workout_time = 0;
 
         // first item in SQLite database is at 1
         for (int i = 1 ; i <= datapoints ; i++) {
@@ -312,18 +518,24 @@ pieChart4.setCenterTextSize(10);
             completedArrayList.add(dbHandler.lookUpCompletedHangs(i));
             hangboards.add(dbHandler.lookUpHangboard(i));
 
+            single_erased_workout_time = 0;
             for (int k = completedArrayList.get(i-1).length - 1 ; k >= 0 && completedArrayList.get(i-1)[k] == 0 ; k--) {
 
                 if (k % allTimeControls.get(i-1).getGripLaps() == 0) {
-                    erased_workout_time = erased_workout_time + allTimeControls.get(i-1).getLongRestTime()
+                    single_erased_workout_time = erased_workout_time + allTimeControls.get(i-1).getLongRestTime()
                             + allTimeControls.get(i-1).getHangLaps() * (allTimeControls.get(i-1).getTimeON()
                             + allTimeControls.get(i-1).getTimeOFF());
+                    erased_workout_time += single_erased_workout_time;
+
                 } else {
-                    erased_workout_time = erased_workout_time + allTimeControls.get(i-1).getRestTime()
+                    single_erased_workout_time = erased_workout_time + allTimeControls.get(i-1).getRestTime()
                             + allTimeControls.get(i-1).getHangLaps() * (allTimeControls.get(i-1).getTimeON()
                             + allTimeControls.get(i-1).getTimeOFF());
+                    erased_workout_time += single_erased_workout_time;
                 }
             }
+             effectiveWorkoutTime.add(allTimeControls.get(i-1).getTotalTime() - single_erased_workout_time);
+
             total_workout_time += allTimeControls.get(i-1).getTotalTime();
             total_time_under_tension += allTimeControls.get(i-1).getTimeUnderTension();
             total_hang_laps += allTimeControls.get(i-1).getHangLaps()*allTimeControls.get(i-1).getGripLaps()*allTimeControls.get(i-1).getRoutineLaps();
@@ -335,7 +547,12 @@ pieChart4.setCenterTextSize(10);
                 total_successful_hangs += completedArrayList.get(i-1)[j];
             }
             total_adjusted_time_under_tension += single_time_under_tension;
+
+             effectiveWorkoutTUT.add(single_time_under_tension);
         }
+
+        printIntArrayList(effectiveWorkoutTime, "WorkoutTime");
+        printIntArrayList(effectiveWorkoutTUT,"workoutTUT");
 
         generalInfo.append("(not adjusted) Total workout time: " + total_workout_time + "s where " + erased_workout_time + "s were inactive\n");
         generalInfo.append("Total workout time: " + (total_workout_time - erased_workout_time) + "s\n");

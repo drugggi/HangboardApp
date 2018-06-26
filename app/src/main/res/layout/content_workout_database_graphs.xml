@@ -14,6 +14,26 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/workoutIntensityChart"
+            android:layout_width="match_parent"
+            android:layout_height="400dp" />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/workoutTimeChart"
+            android:layout_width="match_parent"
+            android:layout_height="400dp" />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/timeUnderTensionChart"
+            android:layout_width="match_parent"
+            android:layout_height="400dp" />
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/difficultyBarChart"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"></com.github.mikephil.charting.charts.BarChart>
+
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/gripDistributionPieChart"
             android:layout_width="match_parent"

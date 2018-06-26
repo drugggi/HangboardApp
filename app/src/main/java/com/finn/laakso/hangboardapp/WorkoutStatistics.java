@@ -222,7 +222,7 @@ public class WorkoutStatistics extends AppCompatActivity {
                         menu.setHeaderTitle("Choose your edit");
                         menu.add(Menu.NONE, 0, 0, "edit workout");
                         menu.add(Menu.NONE, 1, 1, "edit date");
-                        menu.add(Menu.NONE, 2, 2, "hide workout");
+                        menu.add(Menu.NONE, 2, 2, "hide/delete workout");
 
 
                 }
@@ -371,10 +371,15 @@ public class WorkoutStatistics extends AppCompatActivity {
             startActivityForResult(editWorkout, REQUEST_HANGS_COMPLETED);
         }
         else if (selectedContextMenuItem == 1) {
+
+            //dbHandler.delete(positionGlobal);
             Toast.makeText(WorkoutStatistics.this, "EDITING DATE ", Toast.LENGTH_SHORT).show();
+            // workoutAdapter.notifyDataSetChanged();
         }
         else if (selectedContextMenuItem == 2) {
-            Toast.makeText(WorkoutStatistics.this, "DELETING ITEM NRO: " + positionGlobal, Toast.LENGTH_SHORT).show();
+            dbHandler.delete(positionGlobal);
+            Toast.makeText(WorkoutStatistics.this, "NOT WORKING!!!! DELETING ITEM NRO: " + positionGlobal, Toast.LENGTH_SHORT).show();
+            workoutAdapter.notifyDataSetChanged();
         }
 
         return true;
@@ -386,9 +391,16 @@ public class WorkoutStatistics extends AppCompatActivity {
     private ArrayList<Hold> getRandomWorkoutHolds(int number_of_holds) {
 
         ArrayList<Hold> newHolds = new ArrayList<Hold>();
+
+        Hold newLeftHandHold;
+        Hold newRightHandHold;
         for (int i = 0;i < number_of_holds; i++) {
-            newHolds.add(getNewRandomHold());      // left hand
-            newHolds.add(getNewRandomHold()); // right hand
+            newLeftHandHold = getNewRandomHold();
+            newRightHandHold = getNewRandomHold();
+            newRightHandHold.setGripStyle(newLeftHandHold.getGripStyle());
+
+            newHolds.add(newLeftHandHold);      // left hand
+            newHolds.add(newRightHandHold); // right hand
 
         }
         return newHolds;
@@ -399,14 +411,14 @@ public class WorkoutStatistics extends AppCompatActivity {
         int[] rngCompleted = new int[timeControls.getGripLaps()*timeControls.getRoutineLaps()];
         Random rng = new Random();
         for (int i = 0; i < rngCompleted.length; i++) {
-            rngCompleted[i] = rng.nextInt(timeControls.getHangLaps());
+            rngCompleted[i] = rng.nextInt(timeControls.getHangLaps()+1);
         }
         return  rngCompleted;
     }
 
     private Hold getNewRandomHold() {
         Hold newHold = new Hold(rng.nextInt(20)+1);
-        newHold.setHoldValue(rng.nextInt(100)+1);
+        newHold.setHoldValue(rng.nextInt(40)+1);
         int i_hold_bot_info = (rng.nextInt(8)+1)*10;
 
 

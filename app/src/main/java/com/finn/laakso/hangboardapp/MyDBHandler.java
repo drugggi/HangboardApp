@@ -124,6 +124,17 @@ public class MyDBHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public void delete(int position) {
+
+        String query = "DELETE FROM " + TABLE_WORKOUTS + " WHERE " + COLUMN_ID + " = \"" + position + "\"";
+        SQLiteDatabase db = this.getWritableDatabase();
+        //Log.e(" test" , " " + 4);
+        db.execSQL(query);
+        // Cursor cursor = db.rawQuery(query, null);
+        db.close();
+
+    }
+
     public int lookUpWorkoutCount() {
 
         String countQuery = "SELECT  * FROM " + TABLE_WORKOUTS;
@@ -283,7 +294,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         }
         db.close();
 
-        Log.e("db handler"," holds size: " + allHolds.size());
+        // Log.e("db handler"," holds size: " + allHolds.size());
         return allHolds;
 
     }
