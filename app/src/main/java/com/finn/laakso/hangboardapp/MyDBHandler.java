@@ -136,15 +136,22 @@ public class MyDBHandler extends SQLiteOpenHelper {
     }
 
     public long lookUpDate(int position) {
+
         String query = "SELECT * FROM " + TABLE_WORKOUTS + " WHERE " + COLUMN_ID + " =  \"" + position + "\"";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
         long date= 0;
 
-        if (cursor.moveToFirst()) {
-            cursor.moveToFirst();
-            date = Long.parseLong(cursor.getString(1));
+
+        try {
+            if (cursor.moveToFirst()) {
+                cursor.moveToFirst();
+                date = Long.parseLong(cursor.getString(1));
+            }
+        } catch (Exception e) {
+            Log.e(" test" , " stacktrace");
+            e.printStackTrace();
         }
         db.close();
         return date;

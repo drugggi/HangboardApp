@@ -79,6 +79,7 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
         TextView workoutTextView = (TextView) v.findViewById(R.id.difficultyTextView);
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+
         Date resultdate = new Date(db.lookUpDate(position));
 
         /*

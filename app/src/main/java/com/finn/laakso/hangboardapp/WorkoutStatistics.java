@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +27,7 @@ public class WorkoutStatistics extends AppCompatActivity {
     Button editWorkoutButton;
     Button resetDBButton;
     Button showGraphsButton;
+    Button newEntryButton;
 
     // Parameters to hold all the information of workout history
     // consider dropping these or moving to where the graphs are displayed
@@ -57,6 +59,8 @@ public class WorkoutStatistics extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Log.e("crash test: "," 1");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_statistics);
         rng = new Random();
@@ -65,16 +69,18 @@ public class WorkoutStatistics extends AppCompatActivity {
         editWorkoutButton = (Button) findViewById(R.id.editWorkoutButton);
         resetDBButton = (Button) findViewById(R.id.testButton);
         showGraphsButton = (Button) findViewById(R.id.showGraphsButton);
+        newEntryButton = (Button) findViewById(R.id.newEntryButton);
 
         // DBHander to store workout from Intent.
         dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
+        //dbHandler.DELETEALL();
 
         // Holds that will be used in this workout program
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.HOLDS")) {
             workoutHolds = getIntent().getExtras().getParcelableArrayList("com.finn.laakso.hangboardapp.HOLDS");
 
         }
-
+        Log.e("crash test: "," 2");
         // Hangboard image that user has selected
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.BOARDNAME")) {
             hangboardName = getIntent().getStringExtra("com.finn.laakso.hangboardapp.BOARDNAME");
@@ -99,7 +105,7 @@ public class WorkoutStatistics extends AppCompatActivity {
             }
 
         }
-
+        Log.e("crash test: "," 3");
         if(getIntent().hasExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS")) {
             completed = getIntent().getExtras().getIntArray("com.finn.laakso.hangboardapp.COMPLETEDHANGS");
         }
@@ -108,7 +114,7 @@ public class WorkoutStatistics extends AppCompatActivity {
         long time = System.currentTimeMillis();
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
         Date resultdate = new Date(time);
-
+        Log.e("crash test: "," 4");
         // Lets add workout information to database straight from the intent.
         dbHandler.addHangboardWorkout(time,hangboardName, timeControls, workoutHolds,completed);
 
@@ -129,6 +135,21 @@ public class WorkoutStatistics extends AppCompatActivity {
             arrayList_workoutHolds.add(getRandomWorkoutHolds(allTimeControls.get(i).getGripLaps()));
         }
 */
+       newEntryButton.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               long rngTime = System.currentTimeMillis();
+               TimeControls rngControls = getRandomTimeControls();
+               dbHandler.addHangboardWorkout(
+                       rngTime- (long)1000*60*60*24*rng.nextInt(300),
+                       "RNG " + hangboardName,
+                       rngControls,
+                       getRandomWorkoutHolds(rngControls.getGripLaps()),
+                       getCompletedRandomly(rngControls));
+
+                workoutAdapter.notifyDataSetChanged();
+           }
+       });
 
         // Click listener for editing single workout
         editWorkoutButton.setOnClickListener(new View.OnClickListener() {
@@ -208,6 +229,8 @@ public class WorkoutStatistics extends AppCompatActivity {
 
             }
         });
+
+
 
         showGraphsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -357,6 +380,7 @@ public class WorkoutStatistics extends AppCompatActivity {
         return true;
     }
 
+
     // Randomizers for creating all the data that is neede for testing SQLite database
     // TimeControls, Holds, Dates
     private ArrayList<Hold> getRandomWorkoutHolds(int number_of_holds) {
@@ -370,11 +394,14 @@ public class WorkoutStatistics extends AppCompatActivity {
         return newHolds;
     }
 
-    public void setCompletedRandomly(int[] completed) {
+    public int[] getCompletedRandomly(TimeControls timeControls) {
+
+        int[] rngCompleted = new int[timeControls.getGripLaps()*timeControls.getRoutineLaps()];
         Random rng = new Random();
-        for (int i = 0; i < completed.length; i++) {
-            completed[i] = rng.nextInt(timeControls.getHangLaps());
+        for (int i = 0; i < rngCompleted.length; i++) {
+            rngCompleted[i] = rng.nextInt(timeControls.getHangLaps());
         }
+        return  rngCompleted;
     }
 
     private Hold getNewRandomHold() {
