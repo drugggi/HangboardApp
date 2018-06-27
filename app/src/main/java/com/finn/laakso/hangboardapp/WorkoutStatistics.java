@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,39 +13,17 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Random;
 
 public class WorkoutStatistics extends AppCompatActivity {
-
-    //TextView workoutInfoTextView;
-    //TextView holdInfoTextView;
 
     Button editWorkoutButton;
     Button resetDBButton;
     Button showGraphsButton;
     Button newEntryButton;
 
-    // Parameters to hold all the information of workout history
-    // consider dropping these or moving to where the graphs are displayed
-    ArrayList<ArrayList<Hold>> arrayList_workoutHolds;
-    ArrayList<TimeControls> allTimeControls;
-    ArrayList<String> dates;
     Random rng;
-    ArrayList<int[]> completedArrayList;
-
-    ArrayList<Hold> workoutHolds;
-    TimeControls timeControls;
-    String hangboardName;
-    int[] completed;
-
-    ArrayList<Hold> selectedHolds;
-    TimeControls selectedTimeControls;
-    int[] selectedCompletedHangs;
-    long selectedDate;
-    String selectedHangboardName;
 
     // Adapter that manages the workout history with the help of SQLite
     WorkoutHistoryAdapter workoutAdapter;
@@ -59,82 +36,68 @@ public class WorkoutStatistics extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        Log.e("crash test: "," 1");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_statistics);
+
+        // Random needed for generating random workout data
         rng = new Random();
-       // workoutInfoTextView = (TextView) findViewById(R.id.workoutInfoTextView);
-       // holdInfoTextView = (TextView) findViewById(R.id.holdInfoTextView);
+
         editWorkoutButton = (Button) findViewById(R.id.editWorkoutButton);
         resetDBButton = (Button) findViewById(R.id.testButton);
         showGraphsButton = (Button) findViewById(R.id.showGraphsButton);
         newEntryButton = (Button) findViewById(R.id.newEntryButton);
 
-        // DBHander to store workout from Intent.
+        // DBHandler to store workout from Intent.
         dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
-        //dbHandler.DELETEALL();
+
+        // Temporary workout info to generate test workouts
+        ArrayList<Hold> tempWorkoutHolds = new ArrayList<>();
+        TimeControls tempTimeControls = new TimeControls();
+        String tempHangboardName = "";
+        int[] tempCompleted = new int[5];
+
 
         // Holds that will be used in this workout program
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.HOLDS")) {
-            workoutHolds = getIntent().getExtras().getParcelableArrayList("com.finn.laakso.hangboardapp.HOLDS");
+            tempWorkoutHolds = getIntent().getExtras().getParcelableArrayList("com.finn.laakso.hangboardapp.HOLDS");
 
         }
-        Log.e("crash test: "," 2");
+
         // Hangboard image that user has selected
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.BOARDNAME")) {
-            hangboardName = getIntent().getStringExtra("com.finn.laakso.hangboardapp.BOARDNAME");
+            tempHangboardName = getIntent().getStringExtra("com.finn.laakso.hangboardapp.BOARDNAME");
         }
 
         // This Intent brings the time controls to the workout program
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.TIMECONTROLS")) {
             int[] time_controls = getIntent().getExtras().getIntArray("com.finn.laakso.hangboardapp.TIMECONTROLS");
 
-            timeControls = new TimeControls();
-            timeControls.setTimeControls(time_controls);
+            tempTimeControls = new TimeControls();
+            tempTimeControls.setTimeControls(time_controls);
 
             // SECURITY CHECK, WILL MAKE SURE IN FUTURE TO NEVER HAPPEN
-            if (timeControls.getGripLaps()*2 != workoutHolds.size()) {
-                timeControls.setGripLaps(workoutHolds.size()/2);
+            if (tempTimeControls.getGripLaps()*2 != tempWorkoutHolds.size()) {
+                tempTimeControls.setGripLaps(tempWorkoutHolds.size()/2);
             }
 
-            completed = new int[timeControls.getGripLaps() * timeControls.getRoutineLaps()];
+            tempCompleted = new int[tempTimeControls.getGripLaps() * tempTimeControls.getRoutineLaps()];
 
-            for (int i = 0; i < completed.length ; i++) {
-                completed[i] = 0;
+            for (int i = 0; i < tempCompleted.length ; i++) {
+                tempCompleted[i] = 0;
             }
 
         }
-        Log.e("crash test: "," 3");
+
         if(getIntent().hasExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS")) {
-            completed = getIntent().getExtras().getIntArray("com.finn.laakso.hangboardapp.COMPLETEDHANGS");
+            tempCompleted = getIntent().getExtras().getIntArray("com.finn.laakso.hangboardapp.COMPLETEDHANGS");
         }
-
 
         long time = System.currentTimeMillis();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
-        Date resultdate = new Date(time);
-        Log.e("crash test: "," 4");
-        // Lets add workout information to database straight from the intent.
-        dbHandler.addHangboardWorkout(time,hangboardName, timeControls, workoutHolds,completed);
 
-        // CREATES RANDOMIZED WORKOUT FOR TESTING PURPOSES
-        //TimeControls rngControls = getRandomTimeControls();
-        //dbHandler.addHangboardWorkout(time- (long)rng.nextInt(1000*60*60*24*300),"RNG " + hangboardName,rngControls,getRandomWorkoutHolds(rngControls.getHangLaps()),completed);
+        // Lets add workout information to database straight from the Intent.
+        dbHandler.addHangboardWorkout(time,tempHangboardName, tempTimeControls, tempWorkoutHolds,tempCompleted);
 
-
-        // Creates randomized workouthistory for 50 workouts for variables not used right now, for testing purposes
-       /*
-        allTimeControls = new ArrayList<TimeControls>();
-        dates = new ArrayList<String>();
-        arrayList_workoutHolds = new ArrayList<ArrayList<Hold>>();
-       // Log.d("after tc","tc was");
-        for (int i = 0; i <50;i++ ) {
-            allTimeControls.add(getRandomTimeControls());
-            dates.add(getRandomDate());
-            arrayList_workoutHolds.add(getRandomWorkoutHolds(allTimeControls.get(i).getGripLaps()));
-        }
-*/
+        // Button just for generating random workout datapoins and testing purposes
        newEntryButton.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
@@ -142,7 +105,7 @@ public class WorkoutStatistics extends AppCompatActivity {
                TimeControls rngControls = getRandomTimeControls();
                dbHandler.addHangboardWorkout(
                        rngTime- (long)1000*60*60*24*rng.nextInt(300),
-                       "RNG " + hangboardName,
+                       "RNG HANGBOARD",
                        rngControls,
                        getRandomWorkoutHolds(rngControls.getGripLaps()),
                        getCompletedRandomly(rngControls));
@@ -156,18 +119,7 @@ public class WorkoutStatistics extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (positionGlobal == 0) { return; }
-
-                Intent editWorkout = new Intent(getApplicationContext(), EditWorkoutInfo.class);
-
-                // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
-                editWorkout.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",selectedTimeControls.getTimeControlsIntArray() );
-                editWorkout.putExtra("com.finn.laakso.hangboardapp.BOARDNAME",selectedHangboardName);
-                editWorkout.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", selectedHolds);
-                editWorkout.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS",selectedCompletedHangs);
-
-                setResult(Activity.RESULT_OK,editWorkout);
-                startActivityForResult(editWorkout, REQUEST_HANGS_COMPLETED);
+                Toast.makeText(WorkoutStatistics.this, "edit Workout Button not working because of refactoring ", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -178,37 +130,6 @@ public class WorkoutStatistics extends AppCompatActivity {
         workoutHistoryListView.setAdapter(workoutAdapter);
         registerForContextMenu(workoutHistoryListView);
 
-        workoutHistoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-               // dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
-
-                //dbHandler.updateCompletedHangs(position);
-
-                // dbHandler.addHangboardWorkout(allTimeControls.get(0).getTotalTime(),"Metolius",allTimeControls.get(position+1),arrayList_workoutHolds.get(position+1));
-
-                // Get Selected items workoutmatrix
-                // workoutInfoTextView.setText(workoutAdapter.getSelectedTimeControls(position).getGripMatrix(true));
-                // String holdinfo = workoutAdapter.getSelectedHoldInfo(position);
-
-
-                position++;
-
-                positionGlobal = position;
-
-                // ArrayList<Hold> test = dbHandler.lookUpHolds(position);
-                selectedHolds = dbHandler.lookUpHolds(position);
-                selectedDate = dbHandler.lookUpDate(position);
-                selectedCompletedHangs = dbHandler.lookUpCompletedHangs(position);
-                selectedTimeControls = dbHandler.lookUpTimeControls(position);
-                selectedHangboardName = dbHandler.lookUpHangboard(position);
-
-                // workoutInfoTextView.setText(selectedTimeControls.getTimeControlsAsString());
-                // holdInfoTextView.setText(selectedTimeControls.getGripMatrix(false));
-
-            }
-        });
 
         workoutHistoryListView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
             @Override
@@ -259,38 +180,23 @@ public class WorkoutStatistics extends AppCompatActivity {
             }
         });
 
-        // Clearing the database, button is now used instead.
-        /*
-        holdInfoTextView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                MyDBHandler dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
-                dbHandler.DELETEALL();
-
-                Toast.makeText(WorkoutStatistics.this, "All DELETED, Happy now",Toast.LENGTH_LONG).show();
-
-
-                return true;
-            }
-        });
-*/
 
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        // User has updated the completed hangs information lets update that information to database too
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HANGS_COMPLETED) {
             Toast.makeText(WorkoutStatistics.this," results ok",Toast.LENGTH_SHORT).show();
 
             if (getIntent().hasExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS")) {
 
-
                 int[] completed = data.getIntArrayExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS");
 
                 dbHandler.updateCompletedHangs(positionGlobal,completed);
-
 
             }
         }
@@ -303,7 +209,6 @@ public class WorkoutStatistics extends AppCompatActivity {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
 
-
         // return super.onContextItemSelected(item);
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
 
@@ -311,22 +216,21 @@ public class WorkoutStatistics extends AppCompatActivity {
         positionGlobal = info.position + 1;
         int selectedContextMenuItem = item.getItemId();
 
-        selectedHolds = dbHandler.lookUpHolds(selectedListViewPosition);
 
-        selectedDate = dbHandler.lookUpDate(selectedListViewPosition);
-
-        selectedCompletedHangs = dbHandler.lookUpCompletedHangs(selectedListViewPosition);
-        selectedTimeControls = dbHandler.lookUpTimeControls(selectedListViewPosition);
-        selectedHangboardName = dbHandler.lookUpHangboard(selectedListViewPosition);
+        ArrayList<Hold> holds = dbHandler.lookUpHolds(selectedListViewPosition);
+        Long date = dbHandler.lookUpDate(selectedListViewPosition);
+        int[] completedHangs = dbHandler.lookUpCompletedHangs(selectedListViewPosition);
+        TimeControls timeControls = dbHandler.lookUpTimeControls(selectedListViewPosition);
+        String hangboardName = dbHandler.lookUpHangboard(selectedListViewPosition);
 
         if (selectedContextMenuItem == 0) {
             Intent editWorkout = new Intent(getApplicationContext(), EditWorkoutInfo.class);
 
             // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
-            editWorkout.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",selectedTimeControls.getTimeControlsIntArray() );
-            editWorkout.putExtra("com.finn.laakso.hangboardapp.BOARDNAME",selectedHangboardName);
-            editWorkout.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", selectedHolds);
-            editWorkout.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS",selectedCompletedHangs);
+            editWorkout.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
+            editWorkout.putExtra("com.finn.laakso.hangboardapp.BOARDNAME",hangboardName);
+            editWorkout.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", holds);
+            editWorkout.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS",completedHangs);
 
             setResult(Activity.RESULT_OK,editWorkout);
             startActivityForResult(editWorkout, REQUEST_HANGS_COMPLETED);
@@ -338,16 +242,7 @@ public class WorkoutStatistics extends AppCompatActivity {
             // workoutAdapter.notifyDataSetChanged();
         }
         else if (selectedContextMenuItem == 2) {
-            //dbHandler.delete(positionGlobal);
-
-/*
-            Cursor data = dbHandler.getListContents();
-            if (data.move(info.position+1)) {
-                int deleteID = data.getInt(0);
-                Log.e("deleting id"," ID: " + deleteID);
-                dbHandler.delete(deleteID);
-            }*/
-
+            
             dbHandler.delete(info.position+1);
 
             Toast.makeText(WorkoutStatistics.this, "MAYBE WORKING AT LEAST NOT CRASHING!!!! DELETING ITEM NRO: " + positionGlobal, Toast.LENGTH_SHORT).show();
