@@ -18,14 +18,14 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
 
     LayoutInflater mInflator;
 
+    // Database Handler to help put items correctly on a view
     MyDBHandler db;
 
+    public WorkoutHistoryAdapter(Context c, MyDBHandler dbHandler) {
 
 
-    public WorkoutHistoryAdapter(Context c) {
-
-
-        this.db = new MyDBHandler(c,null,null,1);
+        this.db = dbHandler;
+        // this.db = new MyDBHandler(c,null,null,1);
 
         mInflator = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -33,16 +33,13 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-
         return db.lookUpWorkoutCount();
-        //return timeControls.size();
     }
 
     @Override
     public Object getItem(int position) {
         return position;
     }
-
 
     @Override
     public long getItemId(int position) {

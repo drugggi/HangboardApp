@@ -41,6 +41,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
     }
 
 
+    // Creates the database which holds information from workouts. Workout information consist of
+    // date, hangboard used, various time controls, holds used and how successfull each hang was
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_PRODUCTS_TABEL = "CREATE TABLE " + TABLE_WORKOUTS + "("
@@ -63,7 +65,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.execSQL(CREATE_PRODUCTS_TABEL);
     }
     /* ONUPGRADE() METHOD IS CALLED WHEN THE HANDLER IS INVOKED WITH GREATER DATABASE VERSION NUMBER
-    FROM THE ON PREVIOUSLY USED. THE EXACT STEPS OT BE PERFORMED IN THIS INSTANCE WILL BE APPLICATION
+    FROM THE ON PREVIOUSLY USED. THE EXACT STEPS TO BE PERFORMED IN THIS INSTANCE WILL BE APPLICATION
      SPECIFIC, SO FOR THE PURPOSES OF THIS TEST WE WILL SIMPLY REMOVE THE OLD DATABASE AND CREATE A NEW ONE:
     */
     @Override
@@ -73,6 +75,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     }
 
+    // addHangboardWorkout puts single workout into database int values hangsComlpeted, hold number,
+    // grip style and difficulty are converted into String
     public void addHangboardWorkout(long date, String hangboardName, TimeControls timeControls, ArrayList<Hold> workoutHolds, int[] completed) {
 
         StringBuilder holdNumbers= new StringBuilder();
@@ -109,7 +113,6 @@ public class MyDBHandler extends SQLiteOpenHelper {
         values.put(COLUMN_LONGREST, timeControls.getLongRestTime());
 
         values.put(COLUMN_HANGSCOMPLETED,hangsCompleted.toString());
-        //values.put(COLUMN_TUT,time_under_tension);
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -118,6 +121,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     }
 
+    // getListContents returns cursor that helps move around database
     public Cursor getListContents() {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor data = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
@@ -125,23 +129,30 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     }
 
+    // this helps to test database
     public void DELETEALL() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DROP TABLE IF EXISTS "+ TABLE_WORKOUTS);
         onCreate(db);
     }
 
+    // Deletes a single workout entry
     public void delete(int position) {
 
-        String query = "DELETE FROM " + TABLE_WORKOUTS + " WHERE " + COLUMN_ID + " = \"" + position + "\"";
         SQLiteDatabase db = this.getWritableDatabase();
-        //Log.e(" test" , " " + 4);
-        db.execSQL(query);
-        // Cursor cursor = db.rawQuery(query, null);
+        Cursor data = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
+
+        if (data.move(position)) {
+            int deleteID = data.getInt(0);
+            String query = "DELETE FROM " + TABLE_WORKOUTS + " WHERE " + COLUMN_ID + " = \"" + deleteID + "\"";
+            db.execSQL(query);
+        }
+
         db.close();
 
     }
 
+    // Checks how many workouts there are in database
     public int lookUpWorkoutCount() {
 
         String countQuery = "SELECT  * FROM " + TABLE_WORKOUTS;
@@ -153,14 +164,13 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     }
 
+    // returns date when the workout was done
     public long lookUpDate(int position) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
 
         long date= 0;
-
-        Log.e(" Lookupdatepos" , " pos: " + position);
 
         try {
             if (cursor.move(position)) {
@@ -169,32 +179,12 @@ public class MyDBHandler extends SQLiteOpenHelper {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         db.close();
         return date;
     }
 
-    /*
-    public long lookUpDate(int position) {
-
-        String query = "SELECT * FROM " + TABLE_WORKOUTS + " WHERE " + COLUMN_ID + " =  \"" + position + "\"";
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-
-        long date= 0;
-
-        try {
-            if (cursor.moveToFirst()) {
-                cursor.moveToFirst();
-                date = Long.parseLong(cursor.getString(1));
-            }
-        } catch (Exception e) {
-            Log.e(" test" , " stacktrace");
-            e.printStackTrace();
-        }
-        db.close();
-        return date;
-    }*/
-
+    // Returns the hangboard name which were used in the workout
     public String lookUpHangboard(int position) {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -212,31 +202,15 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return hangboard;
 
     }
-    /*
-    public String lookUpHangboard(int position) {
 
-        String query = "SELECT * FROM " + TABLE_WORKOUTS + " WHERE " + COLUMN_ID + " =  \"" + position + "\"";
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-
-        String hangboard= "" ;
-
-        if (cursor.moveToFirst()) {
-            cursor.moveToFirst();
-            hangboard = cursor.getString(2);
-        }
-        db.close();
-        return hangboard;
-
-    }*/
-
-
+    // Updates the completed hangs, which user can manually mark as done or not done
     public void updateCompletedHangs(int position, int[] completed) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
 
         int columnID;
+
         if (cursor.move(position)) {
             columnID = cursor.getInt(0);
         }
@@ -244,24 +218,22 @@ public class MyDBHandler extends SQLiteOpenHelper {
             db.close();
             return;
         }
-
         StringBuilder hangsCompleted = new StringBuilder();
         for (int i: completed) {
             hangsCompleted.append(i+",");
         }
-        //Log.e(" test" , " " + 2);
 
         String updatedHangs = hangsCompleted.toString();
 
-        //Log.e(" test" , " " + 3);
         String query = "UPDATE " + TABLE_WORKOUTS + " SET " + COLUMN_HANGSCOMPLETED + " = \"" + updatedHangs + "\" WHERE " + COLUMN_ID + " =  \"" + columnID + "\"";
-        //Log.e(" test" , " " + 4);
+
         db.execSQL(query);
-        // Cursor cursor = db.rawQuery(query, null);
+
         db.close();
     }
 
 
+    // return completed hangs which are stored as String
     public int[] lookUpCompletedHangs(int position) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
@@ -285,34 +257,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return hangsCompleted;
     }
 
-    /*
-    public int[] lookUpCompletedHangs(int position) {
-        String query = "SELECT * FROM " + TABLE_WORKOUTS + " WHERE " + COLUMN_ID + " =  \"" + position + "\"";
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-
-        String hangsCompletedFromDB = "";
-
-        int[] hangsCompleted=new int[4];
-
-        if (cursor.moveToFirst()) {
-            cursor.moveToFirst();
-            hangsCompletedFromDB = cursor.getString(13);
-
-
-            String[] s = hangsCompletedFromDB.split(",");
-
-            hangsCompleted = new int[s.length];
-            for (int i = 0; i < s.length; i++) {
-                hangsCompleted[i] = Integer.parseInt(s[i]);
-            }
-        }
-        db.close();
-        return hangsCompleted;
-    }
-    */
-
-
+    // return the used holds, each hold has a number, grip type and value.
+    // In the ArrayList even valued holds are for left hand and odd values are for right hand
     public ArrayList<Hold> lookUpHolds(int position) {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -324,16 +270,12 @@ public class MyDBHandler extends SQLiteOpenHelper {
         String allGripTypesFromDB="";
         String allHoldValuesFromDB="";
 
+        // A lot of parsing because hold information is stored as String
         if (cursor.move(position)) {
             allHoldNumbersFromDB = cursor.getString(3);
             allGripTypesFromDB = cursor.getString(4);
             allHoldValuesFromDB = cursor.getString(5);
 
-/*
-        Log.e("numbers: ", allHoldNumbersFromDB);
-        Log.e("griptypes: ", allGripTypesFromDB);
-        Log.e("holdvalues :",allHoldValuesFromDB);
-*/
             String[] s = allHoldNumbersFromDB.split(",");
 
             int[] holdNumbers = new int[s.length];
@@ -364,75 +306,14 @@ public class MyDBHandler extends SQLiteOpenHelper {
                 allHolds.add(tempHold);
             }
 
-            //Log.e(" length", " : " + holdNumbers.length + " : " + gripTypes.length + " : " + holdValues.length);
         }
         db.close();
 
-        // Log.e("db handler"," holds size: " + allHolds.size());
         return allHolds;
 
     }
 
-    /*
-    public ArrayList<Hold> lookUpHolds(int position) {
-        String query = "SELECT * FROM " + TABLE_WORKOUTS + " WHERE " + COLUMN_ID + " =  \"" + position + "\"";
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-
-        ArrayList<Hold> allHolds = new ArrayList<>();
-
-        String allHoldNumbersFromDB="";
-        String allGripTypesFromDB="";
-        String allHoldValuesFromDB="";
-
-        if (cursor.moveToFirst()) {
-            cursor.moveToFirst();
-            allHoldNumbersFromDB = cursor.getString(3);
-            allGripTypesFromDB = cursor.getString(4);
-            allHoldValuesFromDB = cursor.getString(5);
-
-
-        String[] s = allHoldNumbersFromDB.split(",");
-
-        int[] holdNumbers = new int[s.length];
-        for (int i = 0; i < s.length; i++) {
-            holdNumbers[i] = Integer.parseInt(s[i]);
-        }
-
-        s = allGripTypesFromDB.split(",");
-
-        int[] gripTypes = new int[s.length];
-        for (int i = 0 ; i < s.length; i++) {
-            gripTypes[i] = Integer.parseInt(s[i]);
-
-
-        }
-
-        s = allHoldValuesFromDB.split(",");
-
-        int[] holdValues = new int[s.length];
-        for (int i = 0 ; i < s.length; i++) {
-            holdValues[i] = Integer.parseInt(s[i]);
-        }
-
-        Hold tempHold;
-        for(int i =0 ; i < s.length ; i++) {
-            tempHold = new Hold(holdNumbers[i]);
-            tempHold.setGripType(gripTypes[i]);
-            tempHold.setHoldValue(holdValues[i]);
-
-            allHolds.add(tempHold);
-        }
-
-        //Log.e(" length", " : " + holdNumbers.length + " : " + gripTypes.length + " : " + holdValues.length);
-        }
-        db.close();
-
-        // Log.e("db handler"," holds size: " + allHolds.size());
-        return allHolds;
-
-    }*/
-
+    // Returns time controls that are used in workout
     public TimeControls lookUpTimeControls(int position) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
@@ -440,7 +321,6 @@ public class MyDBHandler extends SQLiteOpenHelper {
         TimeControls timeControls = new TimeControls();
 
         if ( cursor.move(position) ) {
-
             timeControls.setGripLaps(cursor.getInt(6));
             timeControls.setHangLaps(cursor.getInt(7));
             timeControls.setTimeON(cursor.getInt(8));
@@ -450,43 +330,11 @@ public class MyDBHandler extends SQLiteOpenHelper {
             timeControls.setLongRestTime(cursor.getInt(12));
 
         }
-
         db.close();
 
         return timeControls ;
 
     }
-    /*
-    public TimeControls lookUpTimeControls(int position) {
 
-        String query = "SELECT * FROM " + TABLE_WORKOUTS + " WHERE " + COLUMN_ID + " =  \"" + position + "\"";
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        Cursor cursor = db.rawQuery(query, null);
-
-        TimeControls timeControls = new TimeControls();
-        //int tut=666;
-
-        if ( cursor.moveToFirst() ) {
-            cursor.moveToFirst();
-
-            timeControls.setGripLaps(cursor.getInt(6));
-            timeControls.setHangLaps(cursor.getInt(7));
-            timeControls.setTimeON(cursor.getInt(8));
-            timeControls.setTimeOFF(cursor.getInt(9));
-            timeControls.setRoutineLaps(cursor.getInt(10));
-            timeControls.setRestTime(cursor.getInt(11));
-            timeControls.setLongRestTime(cursor.getInt(12));
-
-          //  tut = Integer.parseInt(cursor.getString(2));
-
-        }
-       // Log.e("name: ", timeControls.getGripMatrix(false));
-
-        db.close();
-
-        return timeControls ;
-
-    } */
 
 }
