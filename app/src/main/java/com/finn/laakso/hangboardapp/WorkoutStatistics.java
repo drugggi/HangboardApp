@@ -242,7 +242,7 @@ public class WorkoutStatistics extends AppCompatActivity {
             // workoutAdapter.notifyDataSetChanged();
         }
         else if (selectedContextMenuItem == 2) {
-            
+
             dbHandler.delete(info.position+1);
 
             Toast.makeText(WorkoutStatistics.this, "MAYBE WORKING AT LEAST NOT CRASHING!!!! DELETING ITEM NRO: " + positionGlobal, Toast.LENGTH_SHORT).show();
