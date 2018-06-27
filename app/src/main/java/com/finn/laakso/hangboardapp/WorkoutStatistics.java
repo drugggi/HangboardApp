@@ -236,10 +236,14 @@ public class WorkoutStatistics extends AppCompatActivity {
         showGraphsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(WorkoutStatistics.this, "Soon to be shown Graphs! Yay!!",Toast.LENGTH_LONG).show();
-                Intent showDatabaseGraphs = new Intent(getApplicationContext(),WorkoutDatabaseGraphs.class);
 
-                startActivity(showDatabaseGraphs);
+                if (dbHandler.lookUpWorkoutCount() == 0) {
+                    Toast.makeText(WorkoutStatistics.this,"Database empty, cannot show graphs",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Intent showDatabaseGraphs = new Intent(getApplicationContext(),WorkoutDatabaseGraphs.class);
+                    startActivity(showDatabaseGraphs);
+                }
             }
         });
 
@@ -283,62 +287,17 @@ public class WorkoutStatistics extends AppCompatActivity {
 
             if (getIntent().hasExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS")) {
 
-               // Toast.makeText(WorkoutStatistics.this," oli intentti",Toast.LENGTH_SHORT).show();
 
                 int[] completed = data.getIntArrayExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS");
 
-               // String terver = getIntent().getStringExtra("com.finn.laakso.hangboardapp.TERVEHDYS");
-
-               // Toast.makeText(WorkoutStatistics.this," oli intentti" + terver,Toast.LENGTH_SHORT).show();
-
-
-                // MyDBHandler dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
-
-                int[] temp = dbHandler.lookUpCompletedHangs(positionGlobal);
-
                 dbHandler.updateCompletedHangs(positionGlobal,completed);
 
-                temp = dbHandler.lookUpCompletedHangs(positionGlobal);
-
-
-                //dbHandler.updateCompletedHangs(2,completed);
 
             }
         }
         else {
             Toast.makeText(WorkoutStatistics.this," results not saved",Toast.LENGTH_SHORT).show();
         }
-
-            /*
-            int[] i = data.getIntArrayExtra("com.finn.laakso.hangboardapp.SETTINGS");
-
-            // If Grip laps amount has been changed we have to randomize new grips, otherwise lets
-            // keep the old grips that user has maybe liked
-            if (i[0] != timeControls.getGripLaps()) {
-                timeControls.setTimeControls(i);
-                everyBoard.setGripAmount(timeControls.getGripLaps(), grade_descr_position);
-                holdsAdapter = new ArrayAdapter<String>(MainActivity.this,
-                        R.layout.mytextview, everyBoard.getGrips());
-                holdsListView.setAdapter(holdsAdapter);
-                hang_descr_position = 0;
-            } else {
-                timeControls.setTimeControls(i);
-            }
-
-            //Disable the slider and check box, so that those are accidentally changed
-            Toast.makeText(MainActivity.this, "Settings applied, pre made time controls disabled ", Toast.LENGTH_SHORT).show();
-            repeatersBox.setVisibility(View.INVISIBLE);
-            durationSeekBar.setVisibility(View.INVISIBLE);
-            durationTextView.setText("Duration: " + timeControls.getTotalTime() / 60 + "min");
-
-        } // Enabling them when settings are not saved, in future must be made more intuitive.
-        else {
-            Toast.makeText(MainActivity.this, "Settings not applied, pre made time controls enabled", Toast.LENGTH_SHORT).show();
-            repeatersBox.setVisibility(View.VISIBLE);
-            durationSeekBar.setVisibility(View.VISIBLE);
-            durationTextView.setText("Duration: " + timeControls.getTotalTime() / 60 + "min");
-        }
-*/
 
     }
 
