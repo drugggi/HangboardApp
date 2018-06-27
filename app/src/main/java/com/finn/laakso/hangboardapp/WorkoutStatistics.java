@@ -173,7 +173,7 @@ public class WorkoutStatistics extends AppCompatActivity {
             }
         });
 
-        workoutAdapter = new WorkoutHistoryAdapter(this,dates, allTimeControls,arrayList_workoutHolds);
+        workoutAdapter = new WorkoutHistoryAdapter(this);
 
         workoutHistoryListView = (ListView) findViewById(R.id.workoutHistoryListView);
         workoutHistoryListView.setAdapter(workoutAdapter);
