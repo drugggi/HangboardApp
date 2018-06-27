@@ -1,6 +1,8 @@
 package com.finn.laakso.hangboardapp;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,9 +80,7 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
         TextView holdsTextView = (TextView) v.findViewById(R.id.hangboardTextView);
         TextView workoutTextView = (TextView) v.findViewById(R.id.difficultyTextView);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
 
-        Date resultdate = new Date(db.lookUpDate(position));
 
         /*
         int h = db.lookUpCompletedHangs(position).length;
@@ -96,7 +96,31 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
             Log.e("copmleted","i: "+ i + "  arvo: " + jes[i]);
         }*/
 
-        String board= db.lookUpHangboard(position) + "\n" + sdf.format(resultdate);
+        //SQLiteDatabase database = db.getReadableDatabase();
+        Cursor data = db.getListContents();
+
+        if (data.getCount() == 0) {
+            Log.e("cursor: ","database empty count: " + data.getCount());
+        }/*
+        else {
+            while (data.moveToNext() ){
+                Log.e("getString",data.getString(2));
+            }
+        }*/
+
+
+        if (data.moveToPosition(position - 1)) {
+            Log.e("getString","id: " + data.getString(0) + " " + data.getString(2));
+        }
+        else {
+            Log.e("ei onnannut"," to pos: " + position);
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+
+        Date resultdate = new Date(data.getLong(1));
+
+        String board= data.getString(2) + "\n" + sdf.format(resultdate);
         String hold=" Workout time: " + db.lookUpTimeControls(position).getTotalTime() + "s";
         String grade="TUT: " + db.lookUpTimeControls(position).getTimeUnderTension()+ "s";
 

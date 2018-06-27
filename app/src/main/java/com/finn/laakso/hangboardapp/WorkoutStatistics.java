@@ -2,6 +2,7 @@ package com.finn.laakso.hangboardapp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -353,7 +354,9 @@ public class WorkoutStatistics extends AppCompatActivity {
         int selectedContextMenuItem = item.getItemId();
 
         selectedHolds = dbHandler.lookUpHolds(selectedListViewPosition);
+
         selectedDate = dbHandler.lookUpDate(selectedListViewPosition);
+
         selectedCompletedHangs = dbHandler.lookUpCompletedHangs(selectedListViewPosition);
         selectedTimeControls = dbHandler.lookUpTimeControls(selectedListViewPosition);
         selectedHangboardName = dbHandler.lookUpHangboard(selectedListViewPosition);
@@ -377,8 +380,16 @@ public class WorkoutStatistics extends AppCompatActivity {
             // workoutAdapter.notifyDataSetChanged();
         }
         else if (selectedContextMenuItem == 2) {
-            dbHandler.delete(positionGlobal);
-            Toast.makeText(WorkoutStatistics.this, "NOT WORKING!!!! DELETING ITEM NRO: " + positionGlobal, Toast.LENGTH_SHORT).show();
+            //dbHandler.delete(positionGlobal);
+
+            Cursor data = dbHandler.getListContents();
+            if (data.move(info.position+1)) {
+                int deleteID = data.getInt(0);
+                Log.e("deleting id"," ID: " + deleteID);
+                dbHandler.delete(deleteID);
+            }
+
+            Toast.makeText(WorkoutStatistics.this, "MAYBE WORKING AT LEAST NOT CRASHING!!!! DELETING ITEM NRO: " + positionGlobal, Toast.LENGTH_SHORT).show();
             workoutAdapter.notifyDataSetChanged();
         }
 

@@ -118,6 +118,13 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     }
 
+    public Cursor getListContents() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
+        return data;
+
+    }
+
     public void DELETEALL() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DROP TABLE IF EXISTS "+ TABLE_WORKOUTS);
@@ -148,12 +155,32 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     public long lookUpDate(int position) {
 
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
+
+        long date= 0;
+
+        Log.e(" Lookupdatepos" , " pos: " + position);
+
+        try {
+            if (cursor.move(position)) {
+                date = Long.parseLong(cursor.getString(1));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        db.close();
+        return date;
+    }
+
+    /*
+    public long lookUpDate(int position) {
+
         String query = "SELECT * FROM " + TABLE_WORKOUTS + " WHERE " + COLUMN_ID + " =  \"" + position + "\"";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
         long date= 0;
-
 
         try {
             if (cursor.moveToFirst()) {
@@ -166,9 +193,28 @@ public class MyDBHandler extends SQLiteOpenHelper {
         }
         db.close();
         return date;
-    }
+    }*/
 
     public String lookUpHangboard(int position) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
+
+        String hangboard= "" ;
+
+        if (cursor.move(position)) {
+            hangboard = cursor.getString(2);
+        }
+        else {
+            hangboard = "Error getting board";
+        }
+        db.close();
+        return hangboard;
+
+    }
+    /*
+    public String lookUpHangboard(int position) {
+
         String query = "SELECT * FROM " + TABLE_WORKOUTS + " WHERE " + COLUMN_ID + " =  \"" + position + "\"";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
@@ -182,18 +228,23 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.close();
         return hangboard;
 
-    }
+    }*/
+
 
     public void updateCompletedHangs(int position, int[] completed) {
 
-        /*
-        int[] completed = lookUpCompletedHangs(position);
-        for (int i = 0; i < completed.length/2 ; i++) {
-            completed[i] = 0;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
+
+        int columnID;
+        if (cursor.move(position)) {
+            columnID = cursor.getInt(0);
+        }
+        else {
+            db.close();
+            return;
         }
 
-        //Log.e(" test" , " " + 1);
-*/
         StringBuilder hangsCompleted = new StringBuilder();
         for (int i: completed) {
             hangsCompleted.append(i+",");
@@ -203,14 +254,38 @@ public class MyDBHandler extends SQLiteOpenHelper {
         String updatedHangs = hangsCompleted.toString();
 
         //Log.e(" test" , " " + 3);
-        String query = "UPDATE " + TABLE_WORKOUTS + " SET " + COLUMN_HANGSCOMPLETED + " = \"" + updatedHangs + "\" WHERE " + COLUMN_ID + " =  \"" + position + "\"";
-        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "UPDATE " + TABLE_WORKOUTS + " SET " + COLUMN_HANGSCOMPLETED + " = \"" + updatedHangs + "\" WHERE " + COLUMN_ID + " =  \"" + columnID + "\"";
         //Log.e(" test" , " " + 4);
         db.execSQL(query);
         // Cursor cursor = db.rawQuery(query, null);
         db.close();
     }
 
+
+    public int[] lookUpCompletedHangs(int position) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
+
+        String hangsCompletedFromDB = "";
+
+        int[] hangsCompleted=new int[4];
+
+        if (cursor.move(position)) {
+            hangsCompletedFromDB = cursor.getString(13);
+
+            String[] s = hangsCompletedFromDB.split(",");
+
+            hangsCompleted = new int[s.length];
+            for (int i = 0; i < s.length; i++) {
+                hangsCompleted[i] = Integer.parseInt(s[i]);
+            }
+
+        }
+        db.close();
+        return hangsCompleted;
+    }
+
+    /*
     public int[] lookUpCompletedHangs(int position) {
         String query = "SELECT * FROM " + TABLE_WORKOUTS + " WHERE " + COLUMN_ID + " =  \"" + position + "\"";
         SQLiteDatabase db = this.getWritableDatabase();
@@ -231,11 +306,74 @@ public class MyDBHandler extends SQLiteOpenHelper {
             for (int i = 0; i < s.length; i++) {
                 hangsCompleted[i] = Integer.parseInt(s[i]);
             }
-
         }
         db.close();
         return hangsCompleted;
     }
+    */
+
+
+    public ArrayList<Hold> lookUpHolds(int position) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
+
+        ArrayList<Hold> allHolds = new ArrayList<>();
+
+        String allHoldNumbersFromDB="";
+        String allGripTypesFromDB="";
+        String allHoldValuesFromDB="";
+
+        if (cursor.move(position)) {
+            allHoldNumbersFromDB = cursor.getString(3);
+            allGripTypesFromDB = cursor.getString(4);
+            allHoldValuesFromDB = cursor.getString(5);
+
+/*
+        Log.e("numbers: ", allHoldNumbersFromDB);
+        Log.e("griptypes: ", allGripTypesFromDB);
+        Log.e("holdvalues :",allHoldValuesFromDB);
+*/
+            String[] s = allHoldNumbersFromDB.split(",");
+
+            int[] holdNumbers = new int[s.length];
+            for (int i = 0; i < s.length; i++) {
+                holdNumbers[i] = Integer.parseInt(s[i]);
+            }
+
+            s = allGripTypesFromDB.split(",");
+
+            int[] gripTypes = new int[s.length];
+            for (int i = 0 ; i < s.length; i++) {
+                gripTypes[i] = Integer.parseInt(s[i]);
+            }
+
+            s = allHoldValuesFromDB.split(",");
+
+            int[] holdValues = new int[s.length];
+            for (int i = 0 ; i < s.length; i++) {
+                holdValues[i] = Integer.parseInt(s[i]);
+            }
+
+            Hold tempHold;
+            for(int i =0 ; i < s.length ; i++) {
+                tempHold = new Hold(holdNumbers[i]);
+                tempHold.setGripType(gripTypes[i]);
+                tempHold.setHoldValue(holdValues[i]);
+
+                allHolds.add(tempHold);
+            }
+
+            //Log.e(" length", " : " + holdNumbers.length + " : " + gripTypes.length + " : " + holdValues.length);
+        }
+        db.close();
+
+        // Log.e("db handler"," holds size: " + allHolds.size());
+        return allHolds;
+
+    }
+
+    /*
     public ArrayList<Hold> lookUpHolds(int position) {
         String query = "SELECT * FROM " + TABLE_WORKOUTS + " WHERE " + COLUMN_ID + " =  \"" + position + "\"";
         SQLiteDatabase db = this.getWritableDatabase();
@@ -253,11 +391,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
             allGripTypesFromDB = cursor.getString(4);
             allHoldValuesFromDB = cursor.getString(5);
 
-/*
-        Log.e("numbers: ", allHoldNumbersFromDB);
-        Log.e("griptypes: ", allGripTypesFromDB);
-        Log.e("holdvalues :",allHoldValuesFromDB);
-*/
+
         String[] s = allHoldNumbersFromDB.split(",");
 
         int[] holdNumbers = new int[s.length];
@@ -297,8 +431,32 @@ public class MyDBHandler extends SQLiteOpenHelper {
         // Log.e("db handler"," holds size: " + allHolds.size());
         return allHolds;
 
-    }
+    }*/
 
+    public TimeControls lookUpTimeControls(int position) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
+
+        TimeControls timeControls = new TimeControls();
+
+        if ( cursor.move(position) ) {
+
+            timeControls.setGripLaps(cursor.getInt(6));
+            timeControls.setHangLaps(cursor.getInt(7));
+            timeControls.setTimeON(cursor.getInt(8));
+            timeControls.setTimeOFF(cursor.getInt(9));
+            timeControls.setRoutineLaps(cursor.getInt(10));
+            timeControls.setRestTime(cursor.getInt(11));
+            timeControls.setLongRestTime(cursor.getInt(12));
+
+        }
+
+        db.close();
+
+        return timeControls ;
+
+    }
+    /*
     public TimeControls lookUpTimeControls(int position) {
 
         String query = "SELECT * FROM " + TABLE_WORKOUTS + " WHERE " + COLUMN_ID + " =  \"" + position + "\"";
@@ -329,6 +487,6 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
         return timeControls ;
 
-    }
+    } */
 
 }

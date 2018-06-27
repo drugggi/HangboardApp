@@ -76,7 +76,14 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
 
         // Retrieving all the workout history data from SQLite database so that it can be presented
         // on the screen in graph form.
+
+        Long startTime = System.currentTimeMillis();
+        long breakTime = 0;
+
         retrieveDataFromDatabaseToArrayLists();
+
+        breakTime = System.currentTimeMillis()- startTime;
+        Log.e("time retrieve data: ", " " + breakTime + "ms");
 
         createSingleHangsOrRepeatersBarChart();
 
@@ -89,6 +96,9 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
         createDifficultyBarChart();
 
         createGripDistributionPieChart();
+
+        breakTime = System.currentTimeMillis()- startTime;
+        Log.e("time to plot graphs: ", " " + breakTime + "ms");
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -276,7 +286,7 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
             // Log.e("test","increment: " + alpha);
         }
 
-        BarDataSet dataset = new BarDataSet(entries,"seconds spent on each difficulty level");
+        BarDataSet dataset = new BarDataSet(entries,"Difficulty");
         //dataset.setLabel("TEST LABEL");
         dataset.setValueTextSize(0f);
 
@@ -322,7 +332,6 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
 
         ArrayList<PieEntry> yValues = new ArrayList<>();
 
-
         int fourfinger = 0;
         int threefront = 0;
         int threeback= 0;
@@ -362,16 +371,7 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
                 else {other+= seconds_multiplier; }
             }
         }
-        /*
-        for (ArrayList<Hold> holds: arrayList_workoutHolds) {
-            for (Hold current_hold: holds) {
-                gripType = current_hold.getGripStyle();
-                if (gripType == Hold.grip_type.FOUR_FINGER) { fourfinger++; }
-                else if (gripType == Hold.grip_type.THREE_FRONT) {threefront++; }
-                else if ( gripType == Hold.grip_type.THREE_BACK) {threeback++; }
-                else {twomiddle++; }
-            }
-        }*/
+
         if (fourfinger == 0 || total_grips/fourfinger > 50) {other += fourfinger;}
          else {yValues.add(new PieEntry(fourfinger,"Four fingers")); }
 
@@ -431,6 +431,7 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
         long erased_workout_time = 0;
         int single_erased_workout_time = 0;
 
+        
         // first item in SQLite database is at 1
         for (int i = 1 ; i <= datapoints ; i++) {
             arrayList_workoutHolds.add(dbHandler.lookUpHolds(i));
