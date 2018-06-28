@@ -22,10 +22,7 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
     MyDBHandler db;
 
     public WorkoutHistoryAdapter(Context c, MyDBHandler dbHandler) {
-
-
         this.db = dbHandler;
-        // this.db = new MyDBHandler(c,null,null,1);
 
         mInflator = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
