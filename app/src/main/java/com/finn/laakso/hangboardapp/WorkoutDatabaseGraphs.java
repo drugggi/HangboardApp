@@ -16,6 +16,7 @@ import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -25,6 +26,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
@@ -130,23 +132,33 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
         singleHangsOrRepeatersBarChart.getAxisLeft().setDrawGridLines(false);
 
         ArrayList<BarEntry> entries = new ArrayList<>();
-
         entries.add(new BarEntry(1,singleHangsAmount));
         entries.add(new BarEntry(2,repeatersAmount));
 
-        BarDataSet dataset = new BarDataSet(entries,"Number of repeaters and single hangs ");
+        BarDataSet bardataset = new BarDataSet(entries,"Number of workouts" );
 
-        dataset.setColors(ColorTemplate.VORDIPLOM_COLORS);
 
-        ArrayList<String> labels = new ArrayList<>();
+        bardataset.setColors(ColorTemplate.VORDIPLOM_COLORS);
 
-        labels.add("single hangs");
-        labels.add("repeaters");
 
-        BarData data = new BarData(dataset);
+        String[] test = new String[3];
 
-        singleHangsOrRepeatersBarChart.setData(data);
+        test[0] = " ";
+        test[1] = "single hangs: " + singleHangsAmount;
+        test[2] = "repeaters. " + repeatersAmount;
+        BarData theData = new BarData(bardataset);
 
+        Description desc = new Description();
+        desc.setText(" ");
+
+        singleHangsOrRepeatersBarChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(test));
+        singleHangsOrRepeatersBarChart.setData(theData);
+        singleHangsOrRepeatersBarChart.setDescription(desc);
+
+        XAxis xAxis = singleHangsOrRepeatersBarChart.getXAxis();
+        xAxis.setGranularity(1f);
+        xAxis.setGranularityEnabled(true);
+        xAxis.setPosition(XAxis.XAxisPosition.TOP_INSIDE);
 
     }
 
@@ -162,8 +174,8 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
             entries.add(new Entry(i,intensityPercent));
         }
 
-        LineDataSet linedataSet = new LineDataSet(entries, "Workout intensity = workout time / time under tension");
-        linedataSet.setColor(Color.GREEN);
+        LineDataSet linedataSet = new LineDataSet(entries, "Intensity per workout = workout time / time under tension");
+        linedataSet.setColor(Color.MAGENTA);
         //linedataSet.setColors(ColorTemplate.JOYFUL_COLORS);
 
         LineData lineData = new LineData(linedataSet);
