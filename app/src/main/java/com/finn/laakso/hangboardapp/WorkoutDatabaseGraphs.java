@@ -1,5 +1,6 @@
 package com.finn.laakso.hangboardapp;
 
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -9,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
@@ -29,7 +29,11 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -41,6 +45,7 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
 
     PieChart gripDistributionPieChart;
     BarChart difficultyBarChart;
+    BarChart workoutDatesBarChart;
     HorizontalBarChart singleHangsOrRepeatersBarChart;
     LineChart timeUnderTensionLineChart;
     LineChart workoutTimeLineChart;
@@ -55,9 +60,9 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
     ArrayList<Integer> effectiveWorkoutTUT;
     ArrayList<Integer> effectiveWorkoutTime;
 
-    Random rng;
-
     TextView generalInfoTextView;
+
+    ArrayList<String> stringDates;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,11 +71,8 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        rng = new Random();
         dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
-        int count = dbHandler.lookUpWorkoutCount();
 
-        Toast.makeText(this,"count: " + count,Toast.LENGTH_SHORT).show();
         generalInfoTextView = (TextView) findViewById(R.id.generalInfoTextView);
 
         effectiveWorkoutTime = new ArrayList<>();
@@ -86,6 +88,9 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
 
         breakTime = System.currentTimeMillis()- startTime;
         Log.e("time retrieve data: ", " " + breakTime + "ms");
+
+        stringDates= new ArrayList<>();
+        createWorkoutDatesBarChart();
 
         createSingleHangsOrRepeatersBarChart();
 
@@ -115,6 +120,124 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
 
     }
 
+    public void createWorkoutDatesBarChart() {
+        workoutDatesBarChart = (BarChart) findViewById(R.id.workoutDatesBarChart);
+
+        Cursor dbSortedCursor = dbHandler.getSortedContents();
+
+        ArrayList<Long> datesByLongs = new ArrayList<>();
+        ArrayList<Date> allDates = new ArrayList<>();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+
+       // Date resultdate = new Date(db.lookUpDate(position));
+
+        while (dbSortedCursor.moveToNext() ) {
+            datesByLongs.add(dbSortedCursor.getLong(1));
+
+            allDates.add(new Date(dbSortedCursor.getLong(1)));
+        }
+
+        Log.e("datesbylong","size: " + datesByLongs.size());
+
+        for (int i = 0; i < allDates.size() ; i++ ) {
+            Log.e("dates",": " + sdf.format(allDates.get(i)));
+        }
+
+        ArrayList<BarEntry> entries = new ArrayList<>();
+
+        // SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+
+        Date resultdate = new Date(dbHandler.lookUpDate(1));
+
+        createRandomBarGraph("2016/05/05","2016/06/01");
+
+    }
+
+    public void createRandomBarGraph(String stringDate1, String stringDate2) {
+
+        workoutDatesBarChart = (BarChart) findViewById(R.id.workoutDatesBarChart);
+
+        Random rng = new Random();
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        ArrayList<BarEntry> barEntries = new ArrayList<>();
+        try {
+            Date date1 = simpleDateFormat.parse(stringDate1);
+            Date date2 = simpleDateFormat.parse(stringDate2);
+
+            Calendar mDate1 = Calendar.getInstance();
+            Calendar mDate2 = Calendar.getInstance();
+            mDate1.clear();
+            mDate2.clear();
+
+            mDate1.setTime(date1);
+            mDate2.setTime(date2);
+
+            stringDates = new ArrayList<>();
+            stringDates  = getList(mDate1,mDate2);
+
+            float max = 0f;
+            float value = 0f;
+            for (int j = 0; j < stringDates.size() ; j++ ) {
+                max = 100f;
+                value = rng.nextFloat()*max;
+                barEntries.add(new BarEntry(j,value));
+            }
+
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        BarDataSet barDataSet = new BarDataSet(barEntries,"Dates");
+        BarData barData = new BarData(barDataSet);
+        workoutDatesBarChart.setData(barData);
+
+        String[] labels = new String[6];
+
+        labels[0] = "0 date";
+        labels[1] = "1 date " ;
+        labels[2] = "2 date ";
+        labels[3] = "3 date";
+        labels[4] = "4 date " ;
+        labels[5] = "5 date ";
+        // BarData theData = new BarData(bardataset);
+
+        Description desc = new Description();
+        desc.setText(" ");
+
+        XAxis xAxis = workoutDatesBarChart.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+        //xAxis.setGranularity(1f);
+        //xAxis.setGranularityEnabled(true);
+        xAxis.setPosition(XAxis.XAxisPosition.TOP_INSIDE);
+
+
+    }
+
+    public ArrayList<String> getList(Calendar startDate, Calendar endDate) {
+        ArrayList<String> list = new ArrayList<>();
+        while (startDate.compareTo(endDate) <= 0) {
+            list.add(getDate(startDate));
+            startDate.add(Calendar.DAY_OF_MONTH,1);
+        }
+        return list;
+    }
+
+    public String getDate(Calendar cld) {
+        String curDate = cld.get(Calendar.YEAR) + "/" + (cld.get(Calendar.MONTH)+1) + "/" +
+                cld.get(Calendar.DAY_OF_MONTH);
+
+        try  {
+            Date date = new SimpleDateFormat("yyyy/MM/dd").parse(curDate);
+            curDate = new SimpleDateFormat("yyyy/MM/dd").format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return curDate;
+    }
+
     public void createSingleHangsOrRepeatersBarChart() {
 
         singleHangsOrRepeatersBarChart = (HorizontalBarChart) findViewById(R.id.singleHangsOrRepeatersBarChart);
@@ -141,21 +264,22 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
         bardataset.setColors(ColorTemplate.VORDIPLOM_COLORS);
 
 
-        String[] test = new String[3];
+        String[] labels = new String[3];
 
-        test[0] = " ";
-        test[1] = "single hangs: " + singleHangsAmount;
-        test[2] = "repeaters. " + repeatersAmount;
+        labels[0] = " ";
+        labels[1] = "single hangs: " + singleHangsAmount;
+        labels[2] = "repeaters. " + repeatersAmount;
         BarData theData = new BarData(bardataset);
 
         Description desc = new Description();
         desc.setText(" ");
 
-        singleHangsOrRepeatersBarChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(test));
+        //singleHangsOrRepeatersBarChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
         singleHangsOrRepeatersBarChart.setData(theData);
         singleHangsOrRepeatersBarChart.setDescription(desc);
 
         XAxis xAxis = singleHangsOrRepeatersBarChart.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
         xAxis.setGranularity(1f);
         xAxis.setGranularityEnabled(true);
         xAxis.setPosition(XAxis.XAxisPosition.TOP_INSIDE);
@@ -315,6 +439,11 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
 
         difficultyBarChart.setDrawValueAboveBar(true);
         difficultyBarChart.setFitBars(false);
+
+        XAxis xAxis = difficultyBarChart.getXAxis();
+        xAxis.setGranularity(1f);
+        xAxis.setGranularityEnabled(true);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
 
     }

@@ -2,18 +2,23 @@ package com.finn.laakso.hangboardapp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 
 public class WorkoutStatistics extends AppCompatActivity {
@@ -22,6 +27,8 @@ public class WorkoutStatistics extends AppCompatActivity {
     Button resetDBButton;
     Button showGraphsButton;
     Button newEntryButton;
+
+    CheckBox sortByDateCheckBox;
 
     Random rng;
 
@@ -46,6 +53,8 @@ public class WorkoutStatistics extends AppCompatActivity {
         resetDBButton = (Button) findViewById(R.id.testButton);
         showGraphsButton = (Button) findViewById(R.id.showGraphsButton);
         newEntryButton = (Button) findViewById(R.id.newEntryButton);
+
+        sortByDateCheckBox = (CheckBox) findViewById(R.id.sortByDateCheckBox);
 
         // DBHandler to store workout from Intent.
         dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
@@ -119,7 +128,30 @@ public class WorkoutStatistics extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(WorkoutStatistics.this, "edit Workout Button not working because of refactoring ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(WorkoutStatistics.this, "Sorting test ", Toast.LENGTH_SHORT).show();
+
+                Cursor cursor = dbHandler.getListContents();
+                Cursor sortedCursor = dbHandler.getSortedContents();
+
+                if ( cursor.moveToFirst() && sortedCursor.moveToFirst() ) {
+
+
+
+                    Log.e("norm cursor", " " + cursor.getString(1));
+                    Log.e("sorted cursor", " " + sortedCursor.getString(1));
+
+                    Long date1 = cursor.getLong(1);
+                    Long sortedDate = sortedCursor.getLong(1);
+
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+
+                    Date resultdate = new Date(date1);
+                    Date sortedDate1 = new Date(sortedDate);
+
+                    String result = " normi: " + sdf.format(resultdate) + " sorted: " + sdf.format(sortedDate1);
+                    Log.e("result: ", result);
+                }
+                workoutAdapter.notifyDataSetChanged();
 
             }
         });

@@ -124,9 +124,14 @@ public class MyDBHandler extends SQLiteOpenHelper {
     // getListContents returns cursor that helps move around database
     public Cursor getListContents() {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor data = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
-        return data;
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
+        return cursor;
+    }
 
+    public Cursor getSortedContents() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,null,null,null,null,COLUMN_DATE + " DESC",null);
+        return cursor;
     }
 
     // this helps to test database
@@ -140,10 +145,11 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public void delete(int position) {
 
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor data = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
+        //Cursor data = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,null,null,null,null,COLUMN_DATE + " DESC",null);
 
-        if (data.move(position)) {
-            int deleteID = data.getInt(0);
+        if (cursor.move(position)) {
+            int deleteID = cursor.getInt(0);
             String query = "DELETE FROM " + TABLE_WORKOUTS + " WHERE " + COLUMN_ID + " = \"" + deleteID + "\"";
             db.execSQL(query);
         }
@@ -151,6 +157,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.close();
 
     }
+
+
 
     // Checks how many workouts there are in database
     public int lookUpWorkoutCount() {
@@ -168,7 +176,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public long lookUpDate(int position) {
 
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
+        // Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,null,null,null,null,COLUMN_DATE + " DESC",null);
 
         long date= 0;
 
@@ -188,7 +197,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public String lookUpHangboard(int position) {
 
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
+        //Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,null,null,null,null,COLUMN_DATE + " DESC",null);
 
         String hangboard= "" ;
 
@@ -207,7 +217,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public void updateCompletedHangs(int position, int[] completed) {
 
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
+        //Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,null,null,null,null,COLUMN_DATE + " DESC",null);
 
         int columnID;
 
@@ -236,7 +247,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
     // return completed hangs which are stored as String
     public int[] lookUpCompletedHangs(int position) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
+        //Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,null,null,null,null,COLUMN_DATE + " DESC",null);
 
         String hangsCompletedFromDB = "";
 
@@ -262,7 +274,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public ArrayList<Hold> lookUpHolds(int position) {
 
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
+        // Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,null,null,null,null,COLUMN_DATE + " DESC",null);
 
         ArrayList<Hold> allHolds = new ArrayList<>();
 
@@ -316,7 +329,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
     // Returns time controls that are used in workout
     public TimeControls lookUpTimeControls(int position) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
+        // Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,null,null,null,null,COLUMN_DATE + " DESC",null);
 
         TimeControls timeControls = new TimeControls();
 

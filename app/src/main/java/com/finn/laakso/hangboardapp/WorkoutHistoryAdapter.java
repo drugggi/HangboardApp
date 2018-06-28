@@ -21,6 +21,7 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
     // Database Handler to help put items correctly on a view
     MyDBHandler db;
 
+
     public WorkoutHistoryAdapter(Context c, MyDBHandler dbHandler) {
         this.db = dbHandler;
 
@@ -56,13 +57,46 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
 
         Date resultdate = new Date(db.lookUpDate(position));
 
-        String board= db.lookUpHangboard(position) + "\n" + sdf.format(resultdate);
-        String hold=" Workout time: " + db.lookUpTimeControls(position).getTotalTime() + "s";
-        String grade="TUT: " + db.lookUpTimeControls(position).getTimeUnderTension()+ "s";
+        String board = db.lookUpHangboard(position) + "\n" + sdf.format(resultdate);
+        String hold = " Workout time: " + db.lookUpTimeControls(position).getTotalTime() + "s";
+        String grade = "TUT: " + db.lookUpTimeControls(position).getTimeUnderTension() + "s";
 
         boardTextView.setText(board);
         holdsTextView.setText(hold);
         workoutTextView.setText(grade);
+
+        /*
+        Cursor curseMe;
+
+        curseMe = db.getListContents();
+
+        if (curseMe.move(position) ) {
+            Log.e("test " , "pos  " + position);
+
+            resultdate = new Date(curseMe.getLong(1));
+            String board = curseMe.getString(2) + "\n" + sdf.format(resultdate);
+
+
+
+            //String board = db.lookUpHangboard(position) + "\n" + sdf.format(resultdate);
+            String hold = " Workout time: " + db.lookUpTimeControls(position).getTotalTime() + "s";
+            String grade = "TUT: " + db.lookUpTimeControls(position).getTimeUnderTension() + "s";
+
+            boardTextView.setText(board);
+            holdsTextView.setText(hold);
+            workoutTextView.setText(grade);
+        }
+
+        else {
+            String board = db.lookUpHangboard(position) + "\n" + sdf.format(resultdate);
+            String hold = " Workout time: " + db.lookUpTimeControls(position).getTotalTime() + "s";
+            String grade = "TUT: " + db.lookUpTimeControls(position).getTimeUnderTension() + "s";
+
+            boardTextView.setText(board);
+            holdsTextView.setText(hold);
+            workoutTextView.setText(grade);
+
+        }*/
         return v;
     }
 }
