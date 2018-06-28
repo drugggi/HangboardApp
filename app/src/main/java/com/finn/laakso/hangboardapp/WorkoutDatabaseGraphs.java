@@ -90,6 +90,7 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
         breakTime = System.currentTimeMillis()- startTime;
         Log.e("time retrieve data: ", " " + breakTime + "ms");
 
+        // Needs some love, currently crashes randomly
         stringDates= new ArrayList<>();
         createWorkoutDatesBarChart();
 
@@ -135,7 +136,6 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
 
         while (dbSortedCursor.moveToNext() ) {
             datesByLongs.add(dbSortedCursor.getLong(1));
-
             allDates.add(new Date(dbSortedCursor.getLong(1)));
         }
 
@@ -144,7 +144,6 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
         for (int i = allDates.size() - 1 ; i >= 0 ; i-- ) {
             Log.e("dates",": " + sdf.format(allDates.get(i)));
         }
-
 
         ArrayList<BarEntry> entries = new ArrayList<>();
 
@@ -164,7 +163,7 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
         }
 
 
-        for (int i = 0; i < dayDifferences.size() ; i ++) {
+        for (int i = dayDifferences.size()-1; i >= 0 ; i--) {
             entries.add(new BarEntry(dayDifferences.get(i) , effectiveWorkoutTime.get(i)/60 ));
         }
 
@@ -172,7 +171,7 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
         BarData barData = new BarData(barDataSet);
         workoutDatesBarChart.setData(barData);
 
-        String[] labels = new String[(int)day_difference];
+        String[] labels = new String[dayDifferences.get(dayDifferences.size()-1) + 1];
 
         for (int i = 0 ; i < labels.length ; i++ ) {
             labels[i] = "day: " + i;
@@ -180,7 +179,16 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
 
         labels[labels.length-1] = sdf.format(dates.get(dates.size()-1));
 
+        int test = 0;
         for (int i = 0 ; i < dayDifferences.size() -1  ; i++) {
+
+            test = dayDifferences.get(i);
+
+            if (test < 0 || test >= labels.length) {
+                Log.e("ERROR: " , test + " vs. " + labels.length);
+                break;
+            }
+
             labels[dayDifferences.get(i)] = sdf.format(dates.get(i));
             Log.e(" labels i",i + " :  " + sdf.format(dates.get(i)));
         }

@@ -424,14 +424,17 @@ public class WorkoutActivity extends AppCompatActivity {
         Log.e("index","" + index  + " max index: " + completedHangs.length);
 
         if (index >= 0 && index < completedHangs.length ) {
-            completedHangs[index] = timeControls.getGripLaps();
+            completedHangs[index] = timeControls.getHangLaps();
         }
+
+        /*
         StringBuilder hangsCompleted = new StringBuilder();
         for (int i: completedHangs) {
             hangsCompleted.append(i+",");
         }
 
         Log.e("completedHangs",hangsCompleted.toString());
+        Log.e("completedHangs", " " + timeControls.getGripLaps());*/
 
     }
 

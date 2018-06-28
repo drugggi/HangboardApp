@@ -81,6 +81,7 @@ public class EditWorkoutInfo extends AppCompatActivity {
 
         if(getIntent().hasExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS")) {
             completed = getIntent().getExtras().getIntArray("com.finn.laakso.hangboardapp.COMPLETEDHANGS");
+
         }
 
         workoutInfoGridView = (GridView) findViewById(R.id.workoutInfoGridView);
@@ -92,6 +93,7 @@ public class EditWorkoutInfo extends AppCompatActivity {
                 completed = workoutInfoAdapter.getCompletedMatrix();
 
                 if (isNewWorkout) {
+
                     Intent workoutIntoDatabaseIntent = new Intent(getApplicationContext(), WorkoutStatistics.class);
 
                     // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
