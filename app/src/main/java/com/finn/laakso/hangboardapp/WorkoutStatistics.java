@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -113,7 +112,7 @@ public class WorkoutStatistics extends AppCompatActivity {
                long rngTime = System.currentTimeMillis();
                TimeControls rngControls = getRandomTimeControls();
                dbHandler.addHangboardWorkout(
-                       rngTime- (long)1000*60*60*24*rng.nextInt(300),
+                       rngTime- (long)1000*60*60*24*rng.nextInt(60),
                        "RNG HANGBOARD",
                        rngControls,
                        getRandomWorkoutHolds(rngControls.getGripLaps()),
@@ -136,10 +135,6 @@ public class WorkoutStatistics extends AppCompatActivity {
                 if ( cursor.moveToFirst() && sortedCursor.moveToFirst() ) {
 
 
-
-                    Log.e("norm cursor", " " + cursor.getString(1));
-                    Log.e("sorted cursor", " " + sortedCursor.getString(1));
-
                     Long date1 = cursor.getLong(1);
                     Long sortedDate = sortedCursor.getLong(1);
 
@@ -148,8 +143,6 @@ public class WorkoutStatistics extends AppCompatActivity {
                     Date resultdate = new Date(date1);
                     Date sortedDate1 = new Date(sortedDate);
 
-                    String result = " normi: " + sdf.format(resultdate) + " sorted: " + sdf.format(sortedDate1);
-                    Log.e("result: ", result);
                 }
                 workoutAdapter.notifyDataSetChanged();
 

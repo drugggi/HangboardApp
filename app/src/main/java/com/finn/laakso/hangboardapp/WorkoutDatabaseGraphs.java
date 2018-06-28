@@ -75,6 +75,7 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
 
         generalInfoTextView = (TextView) findViewById(R.id.generalInfoTextView);
 
+        // Sorted by latest workout at 0 and the first workout at last item
         effectiveWorkoutTime = new ArrayList<>();
         effectiveWorkoutTUT = new ArrayList<>();
 
@@ -128,7 +129,7 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
         ArrayList<Long> datesByLongs = new ArrayList<>();
         ArrayList<Date> allDates = new ArrayList<>();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
        // Date resultdate = new Date(db.lookUpDate(position));
 
@@ -140,17 +141,66 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
 
         Log.e("datesbylong","size: " + datesByLongs.size());
 
-        for (int i = 0; i < allDates.size() ; i++ ) {
+        for (int i = allDates.size() - 1 ; i >= 0 ; i-- ) {
             Log.e("dates",": " + sdf.format(allDates.get(i)));
         }
 
+
         ArrayList<BarEntry> entries = new ArrayList<>();
+
+        long difference = dates.get(0) - dates.get(dates.size()-1);
+
+        Log.e("difference ",": " + difference);
+
+        long day_difference = difference/ ( 1000*60*60*24);
+
+        Log.e("day difference ",": " + day_difference);
+
+        ArrayList<Integer> dayDifferences = new ArrayList<>();
+        for (int i = 0; i < dates.size() ; i ++) {
+            difference = (dates.get(0) - dates.get(i) )/( 1000*60*60*24);
+            dayDifferences.add( (int) difference);
+
+        }
+
+
+        for (int i = 0; i < dayDifferences.size() ; i ++) {
+            entries.add(new BarEntry(dayDifferences.get(i) , effectiveWorkoutTime.get(i)/60 ));
+        }
+
+        BarDataSet barDataSet = new BarDataSet(entries,"Workout time for each day from first to last");
+        BarData barData = new BarData(barDataSet);
+        workoutDatesBarChart.setData(barData);
+
+        String[] labels = new String[(int)day_difference];
+
+        for (int i = 0 ; i < labels.length ; i++ ) {
+            labels[i] = "day: " + i;
+        }
+
+        labels[labels.length-1] = sdf.format(dates.get(dates.size()-1));
+
+        for (int i = 0 ; i < dayDifferences.size() -1  ; i++) {
+            labels[dayDifferences.get(i)] = sdf.format(dates.get(i));
+            Log.e(" labels i",i + " :  " + sdf.format(dates.get(i)));
+        }
+
+        // BarData theData = new BarData(bardataset);
+
+        Description desc = new Description();
+        desc.setText(" ");
+
+        XAxis xAxis = workoutDatesBarChart.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+        xAxis.setGranularity(1f);
+        //xAxis.setGranularityEnabled(true);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
         // SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
 
-        Date resultdate = new Date(dbHandler.lookUpDate(1));
+       // Date resultdate = new Date(dbHandler.lookUpDate(1));
 
-        createRandomBarGraph("2016/05/05","2016/06/01");
+        // createRandomBarGraph(sdf.format(allDates.get(allDates.size()-1)),sdf.format(allDates.get(0)));
 
     }
 

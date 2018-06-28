@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -17,24 +16,24 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "hangboardWorkout.db";
-    public static final String TABLE_WORKOUTS = "workouts";
-    public static final String COLUMN_ID = "_id";
-    public static final String COLUMN_DATE = "date";
-    public static final String COLUMN_HANGBOARD = "hangboardname";
+    private static final String TABLE_WORKOUTS = "workouts";
+    private static final String COLUMN_ID = "_id";
+    private static final String COLUMN_DATE = "date";
+    private static final String COLUMN_HANGBOARD = "hangboardname";
 
-    public static final String COLUMN_HOLDNUMBERS = "holdnumbers";
-    public static final String COLUMN_GRIPTYPES = "griptypes";
-    public static final String COLUMN_DIFFICULTIES = "difficulties";
+    private static final String COLUMN_HOLDNUMBERS = "holdnumbers";
+    private static final String COLUMN_GRIPTYPES = "griptypes";
+    private static final String COLUMN_DIFFICULTIES = "difficulties";
 
-    public static final String COLUMN_GRIPLAPS = "griplaps";
-    public static final String COLUMN_HANGLAPS = "hanglaps";
-    public static final String COLUMN_TIMEON = "timeon";
-    public static final String COLUMN_TIMEOFF = "timeoff";
-    public static final String COLUMN_SETS = "sets";
-    public static final String COLUMN_REST = "rest";
-    public static final String COLUMN_LONGREST = "longrest";
+    private static final String COLUMN_GRIPLAPS = "griplaps";
+    private static final String COLUMN_HANGLAPS = "hanglaps";
+    private static final String COLUMN_TIMEON = "timeon";
+    private static final String COLUMN_TIMEOFF = "timeoff";
+    private static final String COLUMN_SETS = "sets";
+    private static final String COLUMN_REST = "rest";
+    private static final String COLUMN_LONGREST = "longrest";
 
-    public static final String COLUMN_HANGSCOMPLETED = "hangscompleted";
+    private static final String COLUMN_HANGSCOMPLETED = "hangscompleted";
 
     public MyDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
@@ -95,7 +94,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
         }
 
-        Log.e("hangs completed"," as string: " + hangsCompleted.toString());
+        // Log.e("hangs completed"," as string: " + hangsCompleted.toString());
 
         ContentValues values = new ContentValues();
         values.put(COLUMN_DATE,date);
