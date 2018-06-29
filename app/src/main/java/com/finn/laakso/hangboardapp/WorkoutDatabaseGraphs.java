@@ -42,7 +42,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
 
-public class WorkoutDatabaseGraphs extends AppCompatActivity implements Runnable {
+public class WorkoutDatabaseGraphs extends AppCompatActivity {
 
     MyDBHandler dbHandler;
 
@@ -68,12 +68,16 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity implements Runnable
 
     ArrayList<String> stringDates;
 
+    Long startTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_database_graphs);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        startTime = System.currentTimeMillis();
 
         dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
 
@@ -82,46 +86,27 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity implements Runnable
         // Sorted by latest workout at 0 and the first workout at last item
         effectiveWorkoutTime = new ArrayList<>();
         effectiveWorkoutTUT = new ArrayList<>();
+        arrayList_workoutHolds = new ArrayList<ArrayList<Hold>>();
+        allTimeControls = new ArrayList<TimeControls>();
+        dates = new ArrayList<Long>();
+        completedArrayList = new ArrayList<int[]>();
+        hangboards = new ArrayList<String>();
 
         // Retrieving all the workout history data from SQLite database so that it can be presented
         // on the screen in graph form.
 
 
-        /*
-        Long startTime = System.currentTimeMillis();
-        long breakTime = 0;
-
-        retrieveDataFromDatabaseToArrayLists();
-
-        breakTime = System.currentTimeMillis()- startTime;
-        Log.e("time retrieve data: ", " " + breakTime + "ms");
-
-        createWorkoutTUTandWTLineChart();
-
-        // Needs some love, currently maybe stable
-        stringDates= new ArrayList<>();
-        createWorkoutDatesBarChart();
-
-        createSingleHangsOrRepeatersBarChart();
-
-        createWorkoutIntensityLineChart();
-
-        createTotalWorkoutTimeLineChart();
-
-        createTimeUnderTensionLineChart();
-
-        createDifficultyBarChart();
-
-        createGripDistributionPieChart();
-
-        breakTime = System.currentTimeMillis()- startTime;
-        Log.e("time to plot graphs: ", " " + breakTime + "ms");
-*/
-
         // NEEDS ALL TIME CONTROLS CONSIDER SOME PARAMETERS TO BE CALCULATE DIFFERENTLY THAN ASYNCTAS
         //createSingleHangsOrRepeatersBarChart();
+        allTimeControls = retrieveAllTimeControls();
+
+        createSingleHangsOrRepeatersBarChart();
+        singleHangsOrRepeatersBarChart.invalidate();
+        singleHangsOrRepeatersBarChart.animateY(1000);
+
 
         new RetrieveDataFromDatabase().execute();
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,34 +114,66 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity implements Runnable
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
-                //new DownloadImageTask().execute();
-                /*
-                new Thread(new Runnable() {
-                    public void run() {
 
-                        retrieveDataFromDatabaseToArrayLists();
-                    }
-                }).start(); */
 
             }
         });
 
+    }
 
+    public long checkTime() {
+        return -(System.currentTimeMillis()- startTime);
     }
 
     private class RetrieveDataFromDatabase extends AsyncTask {
-        protected void doInBackground() {
-            //retrieveDataFromDatabaseToArrayLists();
+        protected void onPreExecute() {
+
+
         }
 
         @Override
         protected Object doInBackground(Object[] objects) {
-            retrieveDataFromDatabaseToArrayLists();
+
+            Log.e("start back ground: ", " " + checkTime() + "ms");
+            Log.e("end retrieve: ", " " + checkTime() + "ms");
+
+            int datapoints = dbHandler.lookUpWorkoutCount();
+            arrayList_workoutHolds = new ArrayList<ArrayList<Hold>>();
+           //  allTimeControls = new ArrayList<TimeControls>();
+            dates = new ArrayList<Long>();
+            completedArrayList = new ArrayList<int[]>();
+            hangboards = new ArrayList<String>();
+/*
+            for (int i = 1 ; i <= datapoints ; i++) {
+                allTimeControls.add(dbHandler.lookUpTimeControls(i));
+            }
+
+            createSingleHangsOrRepeatersBarChart();
+            singleHangsOrRepeatersBarChart.invalidate();
+*/
+
+
+            for (int i = 1 ; i <= datapoints ; i++) {
+                arrayList_workoutHolds.add(dbHandler.lookUpHolds(i));
+                dates.add(dbHandler.lookUpDate(i));
+                completedArrayList.add(dbHandler.lookUpCompletedHangs(i));
+                hangboards.add(dbHandler.lookUpHangboard(i));
+            }
+
+            // retrieveDataFromDatabaseToArrayLists();
+
+            // singleHangsOrRepeatersBarChart.animateY(1000);
+
+            // retrieveDataFromDatabaseToArrayLists();
+            calculateEffetiveTUTandWTArrayLists();
+            Log.e("end calculate eff: ", " " + checkTime() + "ms");
             return null;
         }
 
+
+
         protected void onPostExecute(Object objects) {
-            Toast.makeText(WorkoutDatabaseGraphs.this,"onpostexecute!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(WorkoutDatabaseGraphs.this,"RetrieveDataFromDatabase Thread",Toast.LENGTH_SHORT).show();
 
             createWorkoutTUTandWTLineChart();
             workoutTUTandWTLineChart.invalidate();
@@ -167,7 +184,7 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity implements Runnable
             createWorkoutDatesBarChart();
             workoutDatesBarChart.invalidate();
 
-            createSingleHangsOrRepeatersBarChart();
+            // createSingleHangsOrRepeatersBarChart();
 
             createWorkoutIntensityLineChart();
 
@@ -180,6 +197,7 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity implements Runnable
             createGripDistributionPieChart();
             gripDistributionPieChart.invalidate();
             gripDistributionPieChart.animateX(1000);
+
         }
     }
 
@@ -293,7 +311,7 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity implements Runnable
             }
 
             labels[dayDifferences.get(i)] = sdf.format(dates.get(i));
-            Log.e(" labels i",i + " :  " + sdf.format(dates.get(i)));
+            // Log.e(" labels i",i + " :  " + sdf.format(dates.get(i)));
         }
 
         // BarData theData = new BarData(bardataset);
@@ -714,8 +732,147 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity implements Runnable
 
 
     }
+    public void calculateEffetiveTUTandWTArrayLists() {
+
+        Long breaktime = System.currentTimeMillis();
+        Log.e("thread tst"," start! ");
+
+        int datapoints = dbHandler.lookUpWorkoutCount();
+
+
+        StringBuilder generalInfo = new StringBuilder("Workouts in Database: " + datapoints + "\n");
+
+        long total_workout_time = 0;
+        long total_time_under_tension = 0;
+        long total_hang_laps = 0;
+        long total_successful_hangs = 0;
+
+        long total_adjusted_time_under_tension= 0;
+
+        long erased_workout_time = 0;
+        int single_erased_workout_time = 0;
+
+
+        // first item in SQLite database is at 1
+        for (int i = 1 ; i <= datapoints ; i++) {
+            /*
+            arrayList_workoutHolds.add(dbHandler.lookUpHolds(i));
+            allTimeControls.add(dbHandler.lookUpTimeControls(i));
+            dates.add(dbHandler.lookUpDate(i));
+            completedArrayList.add(dbHandler.lookUpCompletedHangs(i));
+            hangboards.add(dbHandler.lookUpHangboard(i));*/
+
+
+            single_erased_workout_time = 0;
+            for (int k = completedArrayList.get(i-1).length - 1 ; k >= 0 && completedArrayList.get(i-1)[k] == 0 ; k--) {
+
+                if (k % allTimeControls.get(i-1).getGripLaps() == 0) {
+                    single_erased_workout_time = single_erased_workout_time + allTimeControls.get(i-1).getLongRestTime()
+                            + allTimeControls.get(i-1).getHangLaps() * (allTimeControls.get(i-1).getTimeON()
+                            + allTimeControls.get(i-1).getTimeOFF());
+                    erased_workout_time += single_erased_workout_time;
+
+                } else {
+                    single_erased_workout_time = single_erased_workout_time + allTimeControls.get(i-1).getRestTime()
+                            + allTimeControls.get(i-1).getHangLaps() * (allTimeControls.get(i-1).getTimeON()
+                            + allTimeControls.get(i-1).getTimeOFF());
+                    erased_workout_time += single_erased_workout_time;
+                }
+            }
+            effectiveWorkoutTime.add(allTimeControls.get(i-1).getTotalTime() - single_erased_workout_time);
+
+            total_workout_time += allTimeControls.get(i-1).getTotalTime();
+            total_time_under_tension += allTimeControls.get(i-1).getTimeUnderTension();
+            total_hang_laps += allTimeControls.get(i-1).getHangLaps()*allTimeControls.get(i-1).getGripLaps()*allTimeControls.get(i-1).getRoutineLaps();
+
+            int single_time_under_tension = 0;
+            for (int j = 0 ; j < completedArrayList.get(i-1).length ; j++) {
+                single_time_under_tension += completedArrayList.get(i-1)[j]*allTimeControls.get(i-1).getTimeON();
+
+                total_successful_hangs += completedArrayList.get(i-1)[j];
+            }
+            total_adjusted_time_under_tension += single_time_under_tension;
+
+            effectiveWorkoutTUT.add(single_time_under_tension);
+        }
+
+        // printIntArrayList(effectiveWorkoutTime, "WorkoutTime");
+        //printIntArrayList(effectiveWorkoutTUT,"workoutTUT");
+
+        // generalInfoTextView.setText(generalInfo.toString());
+        Long endTime = breaktime - System.currentTimeMillis();
+        Log.e("calculate method", "end " +endTime);
+    }
 
     public void retrieveDataFromDatabaseToArrayLists() {
+
+
+        int datapoints = dbHandler.lookUpWorkoutCount();
+
+        arrayList_workoutHolds = new ArrayList<ArrayList<Hold>>();
+        allTimeControls = new ArrayList<TimeControls>();
+        dates = new ArrayList<Long>();
+        completedArrayList = new ArrayList<int[]>();
+        hangboards = new ArrayList<String>();
+
+        StringBuilder generalInfo = new StringBuilder("Workouts in Database: " + datapoints + "\n");
+
+        long total_workout_time = 0;
+        long total_time_under_tension = 0;
+        long total_hang_laps = 0;
+        long total_successful_hangs = 0;
+
+        long total_adjusted_time_under_tension= 0;
+
+        long erased_workout_time = 0;
+        int single_erased_workout_time = 0;
+
+
+        // first item in SQLite database is at 1
+        for (int i = 1 ; i <= datapoints ; i++) {
+            arrayList_workoutHolds.add(dbHandler.lookUpHolds(i));
+            allTimeControls.add(dbHandler.lookUpTimeControls(i));
+            dates.add(dbHandler.lookUpDate(i));
+            completedArrayList.add(dbHandler.lookUpCompletedHangs(i));
+            hangboards.add(dbHandler.lookUpHangboard(i));
+
+            /*
+            single_erased_workout_time = 0;
+            for (int k = completedArrayList.get(i-1).length - 1 ; k >= 0 && completedArrayList.get(i-1)[k] == 0 ; k--) {
+
+                if (k % allTimeControls.get(i-1).getGripLaps() == 0) {
+                    single_erased_workout_time = single_erased_workout_time + allTimeControls.get(i-1).getLongRestTime()
+                            + allTimeControls.get(i-1).getHangLaps() * (allTimeControls.get(i-1).getTimeON()
+                            + allTimeControls.get(i-1).getTimeOFF());
+                    erased_workout_time += single_erased_workout_time;
+
+                } else {
+                    single_erased_workout_time = single_erased_workout_time + allTimeControls.get(i-1).getRestTime()
+                            + allTimeControls.get(i-1).getHangLaps() * (allTimeControls.get(i-1).getTimeON()
+                            + allTimeControls.get(i-1).getTimeOFF());
+                    erased_workout_time += single_erased_workout_time;
+                }
+            }
+            effectiveWorkoutTime.add(allTimeControls.get(i-1).getTotalTime() - single_erased_workout_time);
+
+            total_workout_time += allTimeControls.get(i-1).getTotalTime();
+            total_time_under_tension += allTimeControls.get(i-1).getTimeUnderTension();
+            total_hang_laps += allTimeControls.get(i-1).getHangLaps()*allTimeControls.get(i-1).getGripLaps()*allTimeControls.get(i-1).getRoutineLaps();
+
+            int single_time_under_tension = 0;
+            for (int j = 0 ; j < completedArrayList.get(i-1).length ; j++) {
+                single_time_under_tension += completedArrayList.get(i-1)[j]*allTimeControls.get(i-1).getTimeON();
+
+                total_successful_hangs += completedArrayList.get(i-1)[j];
+            }
+            total_adjusted_time_under_tension += single_time_under_tension;
+
+            effectiveWorkoutTUT.add(single_time_under_tension);*/
+        }
+
+    }
+
+   /* public void retrieveDataFromDatabaseToArrayLists() {
 
         Long breaktime = System.currentTimeMillis();
         Log.e("thread tst"," start! ");
@@ -794,11 +951,27 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity implements Runnable
         // generalInfoTextView.setText(generalInfo.toString());
         Long endTime = breaktime - System.currentTimeMillis();
         Log.e("thread test", "end " +endTime);
+    }*/
+
+   private ArrayList<TimeControls> retrieveAllTimeControls() {
+
+       ArrayList<TimeControls> timeControlsFromDatabase = new ArrayList<>();
+       int datapoints = dbHandler.lookUpWorkoutCount();
+       for (int i = 1 ; i <= datapoints ; i++) {
+           timeControlsFromDatabase.add(dbHandler.lookUpTimeControls(i));
+       }
+        return timeControlsFromDatabase;
+   }
+
+    private ArrayList<Long> retrieveAllDates() {
+
+        ArrayList<Long> datesFromDatabase = new ArrayList<>();
+        int datapoints = dbHandler.lookUpWorkoutCount();
+        for (int i = 1 ; i <= datapoints ; i++) {
+            datesFromDatabase.add(dbHandler.lookUpDate(i));
+        }
+        return datesFromDatabase;
     }
 
 
-    @Override
-    public void run() {
-
-    }
 }
