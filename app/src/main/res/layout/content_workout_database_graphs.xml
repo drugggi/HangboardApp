@@ -14,6 +14,11 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+        <com.github.mikephil.charting.charts.HorizontalBarChart
+            android:id="@+id/singleHangsOrRepeatersBarChart"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"></com.github.mikephil.charting.charts.HorizontalBarChart>
+
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/workoutTUTandWTLineChart"
             android:layout_width="match_parent"
@@ -23,11 +28,6 @@
             android:id="@+id/workoutDatesBarChart"
             android:layout_width="match_parent"
             android:layout_height="400dp"></com.github.mikephil.charting.charts.BarChart>
-
-        <com.github.mikephil.charting.charts.HorizontalBarChart
-            android:id="@+id/singleHangsOrRepeatersBarChart"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"></com.github.mikephil.charting.charts.HorizontalBarChart>
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/workoutIntensityChart"

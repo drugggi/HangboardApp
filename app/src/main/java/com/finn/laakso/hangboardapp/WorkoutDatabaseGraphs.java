@@ -2,11 +2,16 @@ package com.finn.laakso.hangboardapp;
 
 import android.database.Cursor;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
@@ -37,7 +42,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
 
-public class WorkoutDatabaseGraphs extends AppCompatActivity {
+public class WorkoutDatabaseGraphs extends AppCompatActivity implements Runnable {
 
     MyDBHandler dbHandler;
 
@@ -81,6 +86,8 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
         // Retrieving all the workout history data from SQLite database so that it can be presented
         // on the screen in graph form.
 
+
+        /*
         Long startTime = System.currentTimeMillis();
         long breakTime = 0;
 
@@ -109,18 +116,71 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
 
         breakTime = System.currentTimeMillis()- startTime;
         Log.e("time to plot graphs: ", " " + breakTime + "ms");
+*/
 
-/*
+        // NEEDS ALL TIME CONTROLS CONSIDER SOME PARAMETERS TO BE CALCULATE DIFFERENTLY THAN ASYNCTAS
+        //createSingleHangsOrRepeatersBarChart();
+
+        new RetrieveDataFromDatabase().execute();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+                //new DownloadImageTask().execute();
+                /*
+                new Thread(new Runnable() {
+                    public void run() {
+
+                        retrieveDataFromDatabaseToArrayLists();
+                    }
+                }).start(); */
+
             }
         });
 
-*/
+
+    }
+
+    private class RetrieveDataFromDatabase extends AsyncTask {
+        protected void doInBackground() {
+            //retrieveDataFromDatabaseToArrayLists();
+        }
+
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            retrieveDataFromDatabaseToArrayLists();
+            return null;
+        }
+
+        protected void onPostExecute(Object objects) {
+            Toast.makeText(WorkoutDatabaseGraphs.this,"onpostexecute!",Toast.LENGTH_SHORT).show();
+
+            createWorkoutTUTandWTLineChart();
+            workoutTUTandWTLineChart.invalidate();
+            workoutTUTandWTLineChart.animateX(1000);
+
+            // Needs some love, currently maybe stable
+            stringDates= new ArrayList<>();
+            createWorkoutDatesBarChart();
+            workoutDatesBarChart.invalidate();
+
+            createSingleHangsOrRepeatersBarChart();
+
+            createWorkoutIntensityLineChart();
+
+            createTotalWorkoutTimeLineChart();
+
+            createTimeUnderTensionLineChart();
+
+            createDifficultyBarChart();
+
+            createGripDistributionPieChart();
+            gripDistributionPieChart.invalidate();
+            gripDistributionPieChart.animateX(1000);
+        }
     }
 
     public void createWorkoutTUTandWTLineChart() {
@@ -657,6 +717,9 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
 
     public void retrieveDataFromDatabaseToArrayLists() {
 
+        Long breaktime = System.currentTimeMillis();
+        Log.e("thread tst"," start! ");
+
         int datapoints = dbHandler.lookUpWorkoutCount();
 
         arrayList_workoutHolds = new ArrayList<ArrayList<Hold>>();
@@ -728,8 +791,14 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
         generalInfo.append("Total time under tension " + total_adjusted_time_under_tension + "s\n");
         generalInfo.append("Total of " + total_hang_laps + "hangs where " + total_successful_hangs + " were successful so " + 100*total_successful_hangs/total_hang_laps + "% is the success rate\n");
         generalInfo.append("Erased workout time: " + erased_workout_time);
-        generalInfoTextView.setText(generalInfo.toString());
+        // generalInfoTextView.setText(generalInfo.toString());
+        Long endTime = breaktime - System.currentTimeMillis();
+        Log.e("thread test", "end " +endTime);
     }
 
 
+    @Override
+    public void run() {
+
+    }
 }
