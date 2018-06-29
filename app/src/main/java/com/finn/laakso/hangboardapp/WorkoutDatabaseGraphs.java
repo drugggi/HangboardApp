@@ -3,12 +3,9 @@ package com.finn.laakso.hangboardapp;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -113,7 +110,7 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
         breakTime = System.currentTimeMillis()- startTime;
         Log.e("time to plot graphs: ", " " + breakTime + "ms");
 
-
+/*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,7 +120,7 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
             }
         });
 
-
+*/
     }
 
     public void createWorkoutTUTandWTLineChart() {
@@ -135,10 +132,11 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
         int xCoord = 0;
         for (int i = effectiveWorkoutTime.size()-1 ; i >= 0 ; i--) {
 
-            entriesTUT.add(new Entry(xCoord, (float)effectiveWorkoutTUT.get(i)/60 ));
-            entriesWT.add(new Entry(xCoord, (float) effectiveWorkoutTime.get(i)/60 ));
+            entriesTUT.add(new Entry(xCoord, ((float)effectiveWorkoutTUT.get(i)) ));
+            entriesWT.add(new Entry(xCoord, ((float) effectiveWorkoutTime.get(i)) ));
             xCoord++;
         }
+
         String[] labels = new String[effectiveWorkoutTime.size()-1];
         for (int i = 0 ; i < labels.length ; i++ ) {
             labels[i] = "WO: " + (i+1);
@@ -146,9 +144,9 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
 
         ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
 
-        LineDataSet lineDataSetTUT = new LineDataSet(entriesTUT,"Time under tension (min)");
+        LineDataSet lineDataSetTUT = new LineDataSet(entriesTUT,"Time under tension (seconds)");
         lineDataSetTUT.setColor(Color.RED);
-        LineDataSet lineDataSetWT = new LineDataSet(entriesWT,"Workout time (min)");
+        LineDataSet lineDataSetWT = new LineDataSet(entriesWT,"Workout time (seconds)");
         lineDataSetWT.setColors(Color.GREEN);
 
         lineDataSets.add(lineDataSetTUT);
@@ -157,6 +155,7 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
         LineData lineData = new LineData(lineDataSets);
 
 
+        lineData.setValueTextSize(10f);
         workoutTUTandWTLineChart.setData(lineData);
 
         Description desc = new Description();
@@ -168,11 +167,7 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
 
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
 
-        //linedataSet.setColors(ColorTemplate.JOYFUL_COLORS);
 
-        //LineData lineData = new LineData(linedataSet);
-
-        //workoutTUTandWTLineChart.setData(lineData);
 
     }
 
@@ -185,27 +180,13 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
         ArrayList<Date> allDates = new ArrayList<>();
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-
+/*
         while (dbSortedCursor.moveToNext() ) {
             datesByLongs.add(dbSortedCursor.getLong(1));
             allDates.add(new Date(dbSortedCursor.getLong(1)));
         }
-/*
-        Log.e("datesbylong","size: " + datesByLongs.size());
-
-        for (int i = allDates.size() - 1 ; i >= 0 ; i-- ) {
-            Log.e("dates",": " + sdf.format(allDates.get(i)));
-        }
 */
-
         ArrayList<BarEntry> entries = new ArrayList<>();
-
-       // long difference = dates.get(0) - dates.get(dates.size()-1);
-
-      //  Log.e("difference ",": " + difference);
-
-      //  long day_difference = difference/ ( 1000*60*60*24);
-
 
         long difference = 0L;
         ArrayList<Integer> dayDifferences = new ArrayList<>();
@@ -222,11 +203,11 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
         // Lets populate the entries by starting at day 0 (dayDifference = first record) and finishing
         // the latest workout day x and corresponding workoutTime
         for (int i = dayDifferences.size()-1; i >= 0 ; i--) {
-            Log.e("data point ", dayDifferences.get(i) + " : "+effectiveWorkoutTime.get(i)/60);
-            entries.add(new BarEntry(dayDifferences.get(i) , effectiveWorkoutTime.get(i)/60 ));
+            // Log.e("data point ", dayDifferences.get(i) + " : "+effectiveWorkoutTime.get(i)/60);
+            entries.add(new BarEntry(dayDifferences.get(i) , (float)effectiveWorkoutTime.get(i)/60 ));
         }
 
-        BarDataSet barDataSet = new BarDataSet(entries,"Workout time for each day from first to last");
+        BarDataSet barDataSet = new BarDataSet(entries,"Workout time for each day from first to last (min)");
         barDataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
         BarData barData = new BarData(barDataSet);
         workoutDatesBarChart.setData(barData);
@@ -258,8 +239,9 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
         // BarData theData = new BarData(bardataset);
 
         Description desc = new Description();
-        desc.setText(" ");
+        desc.setText("Workout day number");
 
+        workoutDatesBarChart.setDescription(desc);
         XAxis xAxis = workoutDatesBarChart.getXAxis();
         xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
         xAxis.setGranularity(1f);
@@ -666,6 +648,9 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
         data.setValueTextColor(Color.YELLOW);
         gripDistributionPieChart.setData(data);
         // gripDistributionPieChart.animateY(1000);
+
+        Description desc = new Description();
+        desc.setText("Grip distribution");
 
 
     }
