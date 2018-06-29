@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -26,8 +25,6 @@ public class WorkoutStatistics extends AppCompatActivity {
     Button resetDBButton;
     Button showGraphsButton;
     Button newEntryButton;
-
-    CheckBox sortByDateCheckBox;
 
     Random rng;
 
@@ -52,8 +49,6 @@ public class WorkoutStatistics extends AppCompatActivity {
         resetDBButton = (Button) findViewById(R.id.testButton);
         showGraphsButton = (Button) findViewById(R.id.showGraphsButton);
         newEntryButton = (Button) findViewById(R.id.newEntryButton);
-
-        sortByDateCheckBox = (CheckBox) findViewById(R.id.sortByDateCheckBox);
 
         // DBHandler to store workout from Intent.
         dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);

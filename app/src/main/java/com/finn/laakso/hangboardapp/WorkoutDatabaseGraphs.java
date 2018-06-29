@@ -50,6 +50,7 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
     LineChart timeUnderTensionLineChart;
     LineChart workoutTimeLineChart;
     LineChart workoutIntensityLineChart;
+    LineChart workoutTUTandWTLineChart;
 
     ArrayList<ArrayList<Hold>> arrayList_workoutHolds;
     ArrayList<TimeControls> allTimeControls;
@@ -90,7 +91,9 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
         breakTime = System.currentTimeMillis()- startTime;
         Log.e("time retrieve data: ", " " + breakTime + "ms");
 
-        // Needs some love, currently crashes randomly
+        createWorkoutTUTandWTLineChart();
+
+        // Needs some love, currently maybe stable
         stringDates= new ArrayList<>();
         createWorkoutDatesBarChart();
 
@@ -122,6 +125,35 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
 
     }
 
+    public void createWorkoutTUTandWTLineChart() {
+        workoutTUTandWTLineChart = (LineChart) findViewById(R.id.workoutTUTandWTLineChart);
+
+        List<Entry> entries = new ArrayList<Entry>();
+
+        float intensityPercent = 0;
+        for (int i = 0 ; i < effectiveWorkoutTime.size() ; i++) {
+
+            intensityPercent = (float) effectiveWorkoutTUT.get(i) / (float) effectiveWorkoutTime.get(i);
+
+            entries.add(new Entry(i,intensityPercent));
+        }
+
+        LineDataSet linedataSet = new LineDataSet(entries, "Intensity per workout = workout time / time under tension");
+        linedataSet.setColor(Color.MAGENTA);
+        //linedataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+
+        LineData lineData = new LineData(linedataSet);
+
+
+        if (effectiveWorkoutTime.size() > 30) {
+            lineData.setValueTextSize(0f);
+
+        }
+
+        workoutTUTandWTLineChart.setData(lineData);
+
+    }
+
     public void createWorkoutDatesBarChart() {
         workoutDatesBarChart = (BarChart) findViewById(R.id.workoutDatesBarChart);
 
@@ -132,55 +164,63 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
-       // Date resultdate = new Date(db.lookUpDate(position));
-
         while (dbSortedCursor.moveToNext() ) {
             datesByLongs.add(dbSortedCursor.getLong(1));
             allDates.add(new Date(dbSortedCursor.getLong(1)));
         }
-
+/*
         Log.e("datesbylong","size: " + datesByLongs.size());
 
         for (int i = allDates.size() - 1 ; i >= 0 ; i-- ) {
             Log.e("dates",": " + sdf.format(allDates.get(i)));
         }
+*/
 
         ArrayList<BarEntry> entries = new ArrayList<>();
 
-        long difference = dates.get(0) - dates.get(dates.size()-1);
+       // long difference = dates.get(0) - dates.get(dates.size()-1);
 
-        Log.e("difference ",": " + difference);
+      //  Log.e("difference ",": " + difference);
 
-        long day_difference = difference/ ( 1000*60*60*24);
+      //  long day_difference = difference/ ( 1000*60*60*24);
 
-        Log.e("day difference ",": " + day_difference);
 
+        long difference = 0L;
         ArrayList<Integer> dayDifferences = new ArrayList<>();
+
+        // Calculate dates varaibles time difference by day
         for (int i = 0; i < dates.size() ; i ++) {
-            difference = (dates.get(0) - dates.get(i) )/( 1000*60*60*24);
+
+            // compare every date to the first dave by subtracting from it thats the difference
+            difference = - (dates.get(dates.size()-1) - dates.get(i) )/( 1000*60*60*24);
             dayDifferences.add( (int) difference);
 
         }
 
-
+        // Lets populate the entries by starting at day 0 (dayDifference = first record) and finishing
+        // the latest workout day x and corresponding workoutTime
         for (int i = dayDifferences.size()-1; i >= 0 ; i--) {
+            Log.e("data point ", dayDifferences.get(i) + " : "+effectiveWorkoutTime.get(i)/60);
             entries.add(new BarEntry(dayDifferences.get(i) , effectiveWorkoutTime.get(i)/60 ));
         }
 
         BarDataSet barDataSet = new BarDataSet(entries,"Workout time for each day from first to last");
+        barDataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
         BarData barData = new BarData(barDataSet);
         workoutDatesBarChart.setData(barData);
 
-        String[] labels = new String[dayDifferences.get(dayDifferences.size()-1) + 1];
-
+        // Lets populate the x axis that dont have workouts in them
+        String[] labels = new String[dayDifferences.get(0) + 1];
         for (int i = 0 ; i < labels.length ; i++ ) {
             labels[i] = "day: " + i;
         }
 
         labels[labels.length-1] = sdf.format(dates.get(dates.size()-1));
+        labels[0] = sdf.format(dates.get(0));
 
+       // Collections.reverse(dayDifferences);
         int test = 0;
-        for (int i = 0 ; i < dayDifferences.size() -1  ; i++) {
+        for (int i = 0 ; i < dayDifferences.size()  ; i++) {
 
             test = dayDifferences.get(i);
 

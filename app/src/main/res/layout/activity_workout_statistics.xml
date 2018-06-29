@@ -31,13 +31,6 @@
                 android:layout_weight="1"
                 android:text="Edit Workout" />
 
-            <CheckBox
-                android:id="@+id/sortByDateCheckBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="CheckBox" />
-
             <Button
                 android:id="@+id/newEntryButton"
                 android:layout_width="wrap_content"
