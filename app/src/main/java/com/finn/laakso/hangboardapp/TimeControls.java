@@ -12,16 +12,16 @@ public class TimeControls {
     private int grip_laps=6;
     private int hang_laps=6;
     private int hang_laps_seconds=60;
-    private int routine_laps=3;
     private int time_on = 7;
     private int time_off= 3;
+    private int routine_laps=3;
     // private int time_total = time_on + time_off;
     private int rest = 150;
     private int long_rest = 360;
     private boolean isRepeaters = true;
 
 
-    public void TimeControls() {
+    public TimeControls() {
         this.grip_laps = 6;
         this.hang_laps = 6;
 

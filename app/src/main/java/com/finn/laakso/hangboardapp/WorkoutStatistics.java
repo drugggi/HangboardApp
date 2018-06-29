@@ -111,7 +111,7 @@ public class WorkoutStatistics extends AppCompatActivity {
                        "RNG HANGBOARD",
                        rngControls,
                        getRandomWorkoutHolds(rngControls.getGripLaps()),
-                       getCompletedRandomly(rngControls));
+                       getCompletedALL(rngControls));
 
                 workoutAdapter.notifyDataSetChanged();
            }
@@ -293,6 +293,15 @@ public class WorkoutStatistics extends AppCompatActivity {
         return newHolds;
     }
 
+    public int[] getCompletedALL(TimeControls timeControls) {
+
+        int[] allCompleted = new int[timeControls.getGripLaps()*timeControls.getRoutineLaps()];
+        for (int i = 0; i < allCompleted.length; i++) {
+            allCompleted[i] = timeControls.getHangLaps();
+        }
+        return  allCompleted;
+    }
+
     public int[] getCompletedRandomly(TimeControls timeControls) {
 
         int[] rngCompleted = new int[timeControls.getGripLaps()*timeControls.getRoutineLaps()];
@@ -315,11 +324,23 @@ public class WorkoutStatistics extends AppCompatActivity {
     }
 
     private TimeControls getRandomTimeControls() {
-       // Log.d("heh: ", "i next");
-         int[] i = {rng.nextInt(30)+1,rng.nextInt(10)+1,rng.nextInt(9)+1,rng.nextInt(5),rng.nextInt(4)+1,rng.nextInt(200)+1,rng.nextInt(500)+1};
-        //int h = rng.nextInt(50);
-        //int[] i = {6,6,7,3,3,150,555};
-        //Log.d("heh: ", "" + i.length);
+
+        int hang_laps = rng.nextInt(6)+1;
+        int grip_laps = rng.nextInt(6)+2;
+        if (hang_laps == 1) { grip_laps=rng.nextInt(15)+10; }
+
+        int routine_laps=rng.nextInt(4)+1;
+        int time_on = 7;
+        int time_off= 3;
+
+        if (hang_laps == 1) {time_on = 10; time_off = 0; }
+        // private int time_total = time_on + time_off;
+         int rest = rng.nextInt(130)+20;
+        int long_rest = rng.nextInt(60)*(rng.nextInt(5)+1 );
+        int[] i = {grip_laps,hang_laps,time_on,time_off,routine_laps,rest,long_rest};
+
+         // int[] i = {rng.nextInt(30)+1,rng.nextInt(10)+1,rng.nextInt(9)+1,rng.nextInt(5),rng.nextInt(4)+1,rng.nextInt(200)+1,rng.nextInt(500)+1};
+
         TimeControls randomTimeControls = new TimeControls();
         randomTimeControls.setTimeControls(i);
         // rng.nextInt()+1;

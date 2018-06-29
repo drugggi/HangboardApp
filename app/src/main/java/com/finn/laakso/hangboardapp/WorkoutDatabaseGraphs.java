@@ -27,6 +27,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.text.ParseException;
@@ -128,29 +129,50 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
     public void createWorkoutTUTandWTLineChart() {
         workoutTUTandWTLineChart = (LineChart) findViewById(R.id.workoutTUTandWTLineChart);
 
-        List<Entry> entries = new ArrayList<Entry>();
+        ArrayList<Entry> entriesTUT = new ArrayList<Entry>();
+        ArrayList<Entry> entriesWT = new ArrayList<Entry>();
 
-        float intensityPercent = 0;
-        for (int i = 0 ; i < effectiveWorkoutTime.size() ; i++) {
+        int xCoord = 0;
+        for (int i = effectiveWorkoutTime.size()-1 ; i >= 0 ; i--) {
 
-            intensityPercent = (float) effectiveWorkoutTUT.get(i) / (float) effectiveWorkoutTime.get(i);
-
-            entries.add(new Entry(i,intensityPercent));
+            entriesTUT.add(new Entry(xCoord, (float)effectiveWorkoutTUT.get(i)/60 ));
+            entriesWT.add(new Entry(xCoord, (float) effectiveWorkoutTime.get(i)/60 ));
+            xCoord++;
+        }
+        String[] labels = new String[effectiveWorkoutTime.size()-1];
+        for (int i = 0 ; i < labels.length ; i++ ) {
+            labels[i] = "WO: " + (i+1);
         }
 
-        LineDataSet linedataSet = new LineDataSet(entries, "Intensity per workout = workout time / time under tension");
-        linedataSet.setColor(Color.MAGENTA);
-        //linedataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+        ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
 
-        LineData lineData = new LineData(linedataSet);
+        LineDataSet lineDataSetTUT = new LineDataSet(entriesTUT,"Time under tension (min)");
+        lineDataSetTUT.setColor(Color.RED);
+        LineDataSet lineDataSetWT = new LineDataSet(entriesWT,"Workout time (min)");
+        lineDataSetWT.setColors(Color.GREEN);
 
+        lineDataSets.add(lineDataSetTUT);
+        lineDataSets.add(lineDataSetWT);
 
-        if (effectiveWorkoutTime.size() > 30) {
-            lineData.setValueTextSize(0f);
+        LineData lineData = new LineData(lineDataSets);
 
-        }
 
         workoutTUTandWTLineChart.setData(lineData);
+
+        Description desc = new Description();
+        desc.setText("Workout number");
+        workoutTUTandWTLineChart.setDescription(desc);
+
+        XAxis xAxis = workoutTUTandWTLineChart.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
+
+        //linedataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+
+        //LineData lineData = new LineData(linedataSet);
+
+        //workoutTUTandWTLineChart.setData(lineData);
 
     }
 
