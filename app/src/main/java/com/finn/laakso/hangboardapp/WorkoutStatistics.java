@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -25,6 +27,8 @@ public class WorkoutStatistics extends AppCompatActivity {
     Button resetDBButton;
     Button showGraphsButton;
     Button newEntryButton;
+
+    CheckBox showHiddenWorkoutsCheckBox;
 
     Random rng;
 
@@ -49,6 +53,8 @@ public class WorkoutStatistics extends AppCompatActivity {
         resetDBButton = (Button) findViewById(R.id.testButton);
         showGraphsButton = (Button) findViewById(R.id.showGraphsButton);
         newEntryButton = (Button) findViewById(R.id.newEntryButton);
+
+        showHiddenWorkoutsCheckBox = (CheckBox) findViewById(R.id.showHiddenCheckBox);
 
         // DBHandler to store workout from Intent.
         dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
@@ -144,7 +150,7 @@ public class WorkoutStatistics extends AppCompatActivity {
             }
         });
 
-        workoutAdapter = new WorkoutHistoryAdapter(this,dbHandler);
+        workoutAdapter = new WorkoutHistoryAdapter(this,dbHandler,false);
 
         workoutHistoryListView = (ListView) findViewById(R.id.workoutHistoryListView);
         workoutHistoryListView.setAdapter(workoutAdapter);
@@ -171,7 +177,31 @@ public class WorkoutStatistics extends AppCompatActivity {
             }
         });
 
+        showHiddenWorkoutsCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    Toast.makeText(WorkoutStatistics.this,"is checked true, show hidden workouts",Toast.LENGTH_SHORT).show();
 
+                    workoutAdapter = new WorkoutHistoryAdapter(WorkoutStatistics.this,dbHandler,isChecked);
+
+                    workoutHistoryListView = (ListView) findViewById(R.id.workoutHistoryListView);
+                    workoutHistoryListView.setAdapter(workoutAdapter);
+                    //registerForContextMenu(workoutHistoryListView);
+
+                }
+                else {
+                    Toast.makeText(WorkoutStatistics.this,"is checked false, hide hidden workouts",Toast.LENGTH_SHORT).show();
+
+                    workoutAdapter = new WorkoutHistoryAdapter(WorkoutStatistics.this,dbHandler,isChecked);
+
+                    workoutHistoryListView = (ListView) findViewById(R.id.workoutHistoryListView);
+                    workoutHistoryListView.setAdapter(workoutAdapter);
+                   // registerForContextMenu(workoutHistoryListView);
+
+                }
+            }
+        });
 
         showGraphsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -260,6 +290,16 @@ public class WorkoutStatistics extends AppCompatActivity {
             //dbHandler.delete(positionGlobal);
             Toast.makeText(WorkoutStatistics.this, "EDITING DATE ", Toast.LENGTH_SHORT).show();
             // workoutAdapter.notifyDataSetChanged();
+            boolean test = dbHandler.lookUpIsHidden(info.position+1);
+
+            if (test) {
+                dbHandler.setIsHidden(info.position+1,0);
+            }
+            else {
+                dbHandler.setIsHidden(info.position+1,1);
+            }
+            workoutAdapter.notifyDataSetChanged();
+
         }
         else if (selectedContextMenuItem == 2) {
 

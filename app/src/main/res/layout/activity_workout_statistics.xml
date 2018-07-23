@@ -17,6 +17,13 @@
             android:layout_weight="0"
             android:orientation="horizontal">
 
+            <CheckBox
+                android:id="@+id/showHiddenCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Show Hidden" />
+
             <Button
                 android:id="@+id/testButton"
                 android:layout_width="wrap_content"

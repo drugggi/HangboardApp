@@ -1,6 +1,8 @@
 package com.finn.laakso.hangboardapp;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,17 +23,28 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
     // Database Handler to help put items correctly on a view
     MyDBHandler db;
 
+    boolean showHidden;
+    Cursor dbCursor;
 
-    public WorkoutHistoryAdapter(Context c, MyDBHandler dbHandler) {
+
+    public WorkoutHistoryAdapter(Context c, MyDBHandler dbHandler, boolean showHidden) {
         this.db = dbHandler;
-
+        this.showHidden = showHidden;
         mInflator = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        dbCursor = dbHandler.getSortedContents();
 
     }
 
     @Override
     public int getCount() {
-        return db.lookUpWorkoutCount();
+
+        if (showHidden) {
+            return db.lookUpWorkoutCount();
+        }
+        else {
+            return db.lookUpUnHiddenWorkoutCount();
+        }
     }
 
     @Override
@@ -58,8 +71,34 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
         Date resultdate = new Date(db.lookUpDate(position));
 
         String board = db.lookUpHangboard(position) + "\n" + sdf.format(resultdate);
+
+        //Log.e("non hidden"," " + db.lookUpWorkoutCount());
+        // Log.e("All"," " + db.lookUpUnHiddenWorkoutCount());
+
+        if (showHidden) {
+            dbCursor = db.getHiddenContents();
+        }
+        else {
+            dbCursor = db.getNonHiddenContents();
+        }
+
+        if (dbCursor.move(position)) {
+            board = dbCursor.getString(2) + " isHID: "+ dbCursor.getInt(14);
+        }
+/*
+        String pooltest = "NO hidden";
+
+        if (db.lookUpIsHidden(position)) {
+            pooltest = "YES hidden";
+            boardTextView.setText("");
+            holdsTextView.setText("");
+            workoutTextView.setText("");
+            return v; }*/
+
         String hold = " Workout time: " + db.lookUpTimeControls(position).getTotalTime() + "s";
         String grade = "TUT: " + db.lookUpTimeControls(position).getTimeUnderTension() + "s";
+
+        if (position == 2) boardTextView.setTextColor(Color.BLUE);
 
         boardTextView.setText(board);
         holdsTextView.setText(hold);

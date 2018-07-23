@@ -35,6 +35,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     private static final String COLUMN_HANGSCOMPLETED = "hangscompleted";
 
+    private static final String COLUMN_ISHIDDEN = "ishidden";
+
     public MyDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
     }
@@ -59,7 +61,9 @@ public class MyDBHandler extends SQLiteOpenHelper {
                 + COLUMN_SETS + " INTEGER,"
                 + COLUMN_REST + " INTEGER,"
                 + COLUMN_LONGREST + " INTEGER,"
-                + COLUMN_HANGSCOMPLETED + " TEXT" + ")";
+
+                + COLUMN_HANGSCOMPLETED + " TEXT,"
+                + COLUMN_ISHIDDEN + " INTEGER" + ")";
 
         db.execSQL(CREATE_PRODUCTS_TABEL);
     }
@@ -83,18 +87,18 @@ public class MyDBHandler extends SQLiteOpenHelper {
         StringBuilder difficulties = new StringBuilder();
 
         StringBuilder hangsCompleted = new StringBuilder();
+
+        // WorkoutHolds integer information will be converted to Strings -> 5,1,4,5,6,7,....., etc
         for (int i: completed) {
             hangsCompleted.append(i+",");
         }
 
-        for (Hold h: workoutHolds) {
-            holdNumbers.append(h.getHoldNumber()+ ",");
-            gripTypes.append(h.getGripStyleInt() + ",");
-            difficulties.append(h.getHoldValue() + ",");
+        for (Hold currentHold: workoutHolds) {
+            holdNumbers.append(currentHold.getHoldNumber()+ ",");
+            gripTypes.append(currentHold.getGripStyleInt() + ",");
+            difficulties.append(currentHold.getHoldValue() + ",");
 
         }
-
-        // Log.e("hangs completed"," as string: " + hangsCompleted.toString());
 
         ContentValues values = new ContentValues();
         values.put(COLUMN_DATE,date);
@@ -112,6 +116,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
         values.put(COLUMN_LONGREST, timeControls.getLongRestTime());
 
         values.put(COLUMN_HANGSCOMPLETED,hangsCompleted.toString());
+        // Every workout will be visible at first
+        values.put(COLUMN_ISHIDDEN,0);
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -128,6 +134,18 @@ public class MyDBHandler extends SQLiteOpenHelper {
     }
 
     public Cursor getSortedContents() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,null,null,null,null,COLUMN_DATE + " DESC",null);
+        return cursor;
+    }
+
+    public Cursor getNonHiddenContents() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
+        return cursor;
+    }
+
+    public Cursor getHiddenContents() {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(TABLE_WORKOUTS,null,null,null,null,null,COLUMN_DATE + " DESC",null);
         return cursor;
@@ -171,6 +189,14 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     }
 
+    public int lookUpUnHiddenWorkoutCount() {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
+        return cursor.getCount();
+
+    }
+
     // returns date when the workout was done
     public long lookUpDate(int position) {
 
@@ -190,6 +216,50 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
         db.close();
         return date;
+    }
+
+    public void setIsHidden(int position, int isHidden) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        //Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,null,null,null,null,COLUMN_DATE + " DESC",null);
+
+        int columnID;
+
+        if (cursor.move(position)) {
+            columnID = cursor.getInt(0);
+        }
+        else {
+            db.close();
+            return;
+        }
+
+        String query = "UPDATE " + TABLE_WORKOUTS + " SET " + COLUMN_ISHIDDEN + " = \"" + isHidden + "\" WHERE " + COLUMN_ID + " =  \"" + columnID + "\"";
+
+        db.execSQL(query);
+
+        db.close();
+
+    }
+
+    public boolean lookUpIsHidden(int position) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,null,null,null,null,COLUMN_DATE + " DESC",null);
+
+        int isHidden;
+
+        if (cursor.move(position)) {
+            isHidden = cursor.getInt(14);
+        }
+        else {
+            isHidden = 0;
+        }
+
+        db.close();
+
+        if (isHidden == 0) {return false;}
+        else {return true;}
+
     }
 
     // Returns the hangboard name which were used in the workout
