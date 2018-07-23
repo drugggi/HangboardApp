@@ -70,10 +70,17 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
 
         Date resultdate = new Date(db.lookUpDate(position));
 
-        String board = db.lookUpHangboard(position) + "\n" + sdf.format(resultdate);
-
+        //String board = db.lookUpHangboard(position) + "\n" + sdf.format(resultdate);
+        //String hold = " Workout time: " + db.lookUpTimeControls(position).getTotalTime() + "s";
+        //String grade = "TUT: " + db.lookUpTimeControls(position).getTimeUnderTension() + "s";
         //Log.e("non hidden"," " + db.lookUpWorkoutCount());
         // Log.e("All"," " + db.lookUpUnHiddenWorkoutCount());
+
+        String board = "board";
+        String hold ="workout time";
+        String grade = "TUT:";
+
+        TimeControls timeControls = new TimeControls();
 
         if (showHidden) {
             dbCursor = db.getHiddenContents();
@@ -83,7 +90,23 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
         }
 
         if (dbCursor.move(position)) {
-            board = dbCursor.getString(2) + " isHID: "+ dbCursor.getInt(14);
+            resultdate = new Date(dbCursor.getLong(1));
+            board = dbCursor.getString(2) + " isHID: "+ dbCursor.getInt(14) +
+            "\n" + sdf.format(resultdate);
+
+
+                timeControls.setGripLaps(dbCursor.getInt(6));
+                timeControls.setHangLaps(dbCursor.getInt(7));
+                timeControls.setTimeON(dbCursor.getInt(8));
+                timeControls.setTimeOFF(dbCursor.getInt(9));
+                timeControls.setRoutineLaps(dbCursor.getInt(10));
+                timeControls.setRestTime(dbCursor.getInt(11));
+                timeControls.setLongRestTime(dbCursor.getInt(12));
+
+
+
+            hold = " Workout time: " + timeControls.getTotalTime() + "s";
+            grade = " TUT: " + timeControls.getTimeUnderTension() + "s";
         }
 /*
         String pooltest = "NO hidden";
@@ -95,10 +118,12 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
             workoutTextView.setText("");
             return v; }*/
 
-        String hold = " Workout time: " + db.lookUpTimeControls(position).getTotalTime() + "s";
-        String grade = "TUT: " + db.lookUpTimeControls(position).getTimeUnderTension() + "s";
 
-        if (position == 2) boardTextView.setTextColor(Color.BLUE);
+        if (dbCursor.getInt(14) == 1) {
+            boardTextView.setTextColor(Color.BLUE);
+            holdsTextView.setTextColor(Color.BLUE);
+            workoutTextView.setTextColor(Color.BLUE);
+        }
 
         boardTextView.setText(board);
         holdsTextView.setText(hold);
