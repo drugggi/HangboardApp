@@ -121,9 +121,12 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
 
 
         if (dbCursor.getInt(14) == 1) {
-            boardTextView.setTextColor(Color.BLUE);
-            holdsTextView.setTextColor(Color.BLUE);
-            workoutTextView.setTextColor(Color.BLUE);
+
+            int hiddenColor = Color.argb(255,102,24,51);
+
+            boardTextView.setTextColor(hiddenColor);
+            holdsTextView.setTextColor(hiddenColor);
+            workoutTextView.setTextColor(hiddenColor);
         }
 
         boardTextView.setText(board);

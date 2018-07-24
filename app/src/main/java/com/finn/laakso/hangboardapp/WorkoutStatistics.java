@@ -180,17 +180,15 @@ public class WorkoutStatistics extends AppCompatActivity {
                         menu.add(Menu.NONE, 0, 0, "edit workout");
                         menu.add(Menu.NONE, 1, 1, "hide/unhide workout");
                         menu.add(Menu.NONE, 2,2,"edit date");
-                        menu.add(Menu.NONE,3,3,"edit hangboard name");
-                        menu.add(Menu.NONE, 4, 4, "delete workout");
+                        menu.add(Menu.NONE, 3, 3, "delete workout");
                     }
                     // Context menu when hidden workout are not shown
                     else {           menu.setHeaderTitle("Choose your edit");
                         menu.add(Menu.NONE, 0, 0, "edit workout");
                         menu.add(Menu.NONE, 1, 1, "hide workout");
                         menu.add(Menu.NONE, 2,2,"edit date");
-                        menu.add(Menu.NONE,3,3,"edit hangboard name");
-                        // Can't delete unhidden workouts
-                        // menu.add(Menu.NONE, 4, 4, "delete workout");
+                              // Can't delete unhidden workouts
+                        // menu.add(Menu.NONE, 3, 3, "delete workout");
                     }
 
                 }
@@ -348,13 +346,9 @@ public class WorkoutStatistics extends AppCompatActivity {
 
         }
 
+
+
         else if (selectedContextMenuItem == 3) {
-
-
-            Toast.makeText(WorkoutStatistics.this, "EDITING HANGBOARD NAME: " + positionGlobal, Toast.LENGTH_SHORT).show();
-        }
-
-        else if (selectedContextMenuItem == 4) {
 
             if (dbHandler.lookUpIsHidden(selectedListViewPosition)) {
                 dbHandler.delete(selectedListViewPosition);
