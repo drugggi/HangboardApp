@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -15,6 +16,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -65,6 +67,12 @@ public class EditWorkoutInfo extends AppCompatActivity {
             hangboardName = getIntent().getStringExtra("com.finn.laakso.hangboardapp.BOARDNAME");
         }
 
+        if (getIntent().hasExtra("com.finn.laakso.hangboardapp.DESCRIPTION")) {
+            workoutDescription = getIntent().getStringExtra("com.finn.laakso.hangboardapp.DESCRIPTION");
+            workoutDescriptionEditText.setText(workoutDescription);
+            hangInfoTextView.setText(workoutDescription);
+        }
+
         // This Intent brings the time controls to the workout program
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.TIMECONTROLS")) {
             int[] time_controls = getIntent().getExtras().getIntArray("com.finn.laakso.hangboardapp.TIMECONTROLS");
@@ -105,8 +113,8 @@ public class EditWorkoutInfo extends AppCompatActivity {
                     workoutIntoDatabaseIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS", timeControls.getTimeControlsIntArray());
                     workoutIntoDatabaseIntent.putExtra("com.finn.laakso.hangboardapp.BOARDNAME", "TEST HANGBOARD NAME EDIT ME");
                     workoutIntoDatabaseIntent.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", workoutHolds);
-
                     workoutIntoDatabaseIntent.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS", completed);
+                    workoutIntoDatabaseIntent.putExtra("com.finn.laakso.hangboardapp.DESCRIPTION", workoutDescription);
 
                     startActivity(workoutIntoDatabaseIntent);
                     finish();
@@ -114,31 +122,19 @@ public class EditWorkoutInfo extends AppCompatActivity {
                 else {
                     Intent resultCompletedHangsIntent = new Intent();
                     resultCompletedHangsIntent.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS", workoutInfoAdapter.getCompletedMatrix());
+                    resultCompletedHangsIntent.putExtra("com.finn.laakso.hangboardapp.DESCRIPTION", workoutDescription);
+                    Log.e("test",workoutDescription);
                     setResult(Activity.RESULT_OK, resultCompletedHangsIntent);
 
                     finish();
                 }
-                /*
-                Intent statsIntent = new Intent(getApplicationContext(), WorkoutStatistics.class);
 
-                // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
-                statsIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
-                statsIntent.putExtra("com.finn.laakso.hangboardapp.BOARDNAME",hangboardName );
-                statsIntent.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS",workoutHolds);
-                statsIntent.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS",completed);
-
-                startActivity(statsIntent);*/
             }
         });
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
-                Intent resultCompletedHangsIntent = new Intent();
-                resultCompletedHangsIntent.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS", completed);
-                setResult(Activity.RESULT_OK, resultCompletedHangsIntent);
-*/
                 finish();
             }
         });
@@ -147,16 +143,18 @@ public class EditWorkoutInfo extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
-
                 try {
                     workoutDescription = workoutDescriptionEditText.getText().toString();
+                    if (workoutDescription.length() > 255) {
+                        workoutDescription = workoutDescription.substring(0,255);
+                        Toast.makeText(EditWorkoutInfo.this,"Only 255 characters allowed",Toast.LENGTH_SHORT).show();
+                    }
 
                     hangInfoTextView.setText(workoutDescription);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-               // hangInfoTextView.set
 
                 return false;
             }

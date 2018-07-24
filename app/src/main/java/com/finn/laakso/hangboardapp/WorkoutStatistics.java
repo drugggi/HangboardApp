@@ -109,6 +109,10 @@ public class WorkoutStatistics extends AppCompatActivity {
             tempCompleted = getIntent().getExtras().getIntArray("com.finn.laakso.hangboardapp.COMPLETEDHANGS");
         }
 
+        if (getIntent().hasExtra("com.finn.laakso.hangboardapp.DESCRIPTION")) {
+            Toast.makeText(this,"olihan siellä",Toast.LENGTH_SHORT).show();
+        }
+
         long time = System.currentTimeMillis();
 
         // Lets add workout information to database straight from the Intent.
@@ -285,12 +289,17 @@ public class WorkoutStatistics extends AppCompatActivity {
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HANGS_COMPLETED) {
             Toast.makeText(WorkoutStatistics.this," results ok",Toast.LENGTH_SHORT).show();
 
-            if (getIntent().hasExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS")) {
+            boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
+
+            if (data.hasExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS")) {
 
                 int[] completed = data.getIntArrayExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS");
-
-                boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
                 dbHandler.updateCompletedHangs(positionGlobal,completed,includeHidden);
+            }
+
+            if (data.hasExtra("com.finn.laakso.hangboardapp.DESCRIPTION")) {
+
+                String testi = data.getStringExtra("com.finn.laakso.hangboardapp.DESCRIPTION");
 
             }
         }
@@ -326,6 +335,9 @@ public class WorkoutStatistics extends AppCompatActivity {
             editWorkout.putExtra("com.finn.laakso.hangboardapp.BOARDNAME",hangboardName);
             editWorkout.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", holds);
             editWorkout.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS",completedHangs);
+
+            String test = "testi workout description edit me";
+            editWorkout.putExtra("com.finn.laakso.hangboardapp.DESCRIPTION",test);
 
             setResult(Activity.RESULT_OK,editWorkout);
             startActivityForResult(editWorkout, REQUEST_HANGS_COMPLETED);
