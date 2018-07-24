@@ -68,6 +68,8 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
 
     ArrayList<String> stringDates;
 
+    private boolean includeHidden;
+
     Long startTime;
 
     @Override
@@ -76,6 +78,12 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
         setContentView(R.layout.activity_workout_database_graphs);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //at com.finn.laakso.hangboardapp.WorkoutDatabaseGraphs.createDifficultyBarChart(WorkoutDatabaseGraphs.java:568)
+        //at com.finn.laakso.hangboardapp.WorkoutDatabaseGraphs$RetrieveDataFromDatabase.onPostExecute(WorkoutDatabaseGraphs.java:199)
+
+        // WHEN SET TO FALSE, IT WILL CRASH
+        includeHidden = true;
 
         startTime = System.currentTimeMillis();
 
@@ -154,10 +162,10 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
 
 
             for (int i = 1 ; i <= datapoints ; i++) {
-                arrayList_workoutHolds.add(dbHandler.lookUpHolds(i));
-                dates.add(dbHandler.lookUpDate(i,true));
-                completedArrayList.add(dbHandler.lookUpCompletedHangs(i));
-                hangboards.add(dbHandler.lookUpHangboard(i));
+                arrayList_workoutHolds.add(dbHandler.lookUpHolds(i, includeHidden));
+                dates.add(dbHandler.lookUpDate(i, includeHidden));
+                completedArrayList.add(dbHandler.lookUpCompletedHangs(i, includeHidden));
+                hangboards.add(dbHandler.lookUpHangboard(i, includeHidden));
             }
 
             // retrieveDataFromDatabaseToArrayLists();
@@ -830,11 +838,11 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
 
         // first item in SQLite database is at 1
         for (int i = 1 ; i <= datapoints ; i++) {
-            arrayList_workoutHolds.add(dbHandler.lookUpHolds(i));
-            allTimeControls.add(dbHandler.lookUpTimeControls(i));
-            dates.add(dbHandler.lookUpDate(i,true));
-            completedArrayList.add(dbHandler.lookUpCompletedHangs(i));
-            hangboards.add(dbHandler.lookUpHangboard(i));
+            arrayList_workoutHolds.add(dbHandler.lookUpHolds(i, includeHidden));
+            allTimeControls.add(dbHandler.lookUpTimeControls(i, includeHidden));
+            dates.add(dbHandler.lookUpDate(i, includeHidden));
+            completedArrayList.add(dbHandler.lookUpCompletedHangs(i, includeHidden));
+            hangboards.add(dbHandler.lookUpHangboard(i, includeHidden));
 
             /*
             single_erased_workout_time = 0;
@@ -958,7 +966,7 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
        ArrayList<TimeControls> timeControlsFromDatabase = new ArrayList<>();
        int datapoints = dbHandler.lookUpWorkoutCount();
        for (int i = 1 ; i <= datapoints ; i++) {
-           timeControlsFromDatabase.add(dbHandler.lookUpTimeControls(i));
+           timeControlsFromDatabase.add(dbHandler.lookUpTimeControls(i, includeHidden));
        }
         return timeControlsFromDatabase;
    }
@@ -968,7 +976,7 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
         ArrayList<Long> datesFromDatabase = new ArrayList<>();
         int datapoints = dbHandler.lookUpWorkoutCount();
         for (int i = 1 ; i <= datapoints ; i++) {
-            datesFromDatabase.add(dbHandler.lookUpDate(i,true));
+            datesFromDatabase.add(dbHandler.lookUpDate(i, includeHidden));
         }
         return datesFromDatabase;
     }

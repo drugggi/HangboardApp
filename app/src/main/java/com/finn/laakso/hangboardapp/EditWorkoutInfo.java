@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,6 +22,8 @@ public class EditWorkoutInfo extends AppCompatActivity {
 
     GridView workoutInfoGridView;
     TextView hangInfoTextView;
+    private EditText workoutDescriptionEditText;
+    private String workoutDescription;
 
     ArrayList<Hold> workoutHolds;
     String hangboardName;
@@ -40,7 +44,8 @@ public class EditWorkoutInfo extends AppCompatActivity {
         setContentView(R.layout.activity_edit_workout_info);
         isNewWorkout = false;
 
-
+        workoutDescriptionEditText = (EditText) findViewById(R.id.workoutDescriptionEditText);
+        workoutDescription = "err";
         saveButton = (Button) findViewById(R.id.saveButton);
         backButton = (Button) findViewById(R.id.backButton);
 
@@ -138,6 +143,25 @@ public class EditWorkoutInfo extends AppCompatActivity {
             }
         });
 
+        workoutDescriptionEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+
+                try {
+                    workoutDescription = workoutDescriptionEditText.getText().toString();
+
+                    hangInfoTextView.setText(workoutDescription);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+               // hangInfoTextView.set
+
+                return false;
+            }
+        });
+
         workoutInfoAdapter = new WorkoutInfoAdapter(this,timeControls,workoutHolds, completed);
         workoutInfoGridView.setAdapter(workoutInfoAdapter);
         registerForContextMenu(workoutInfoGridView);
@@ -183,11 +207,13 @@ public class EditWorkoutInfo extends AppCompatActivity {
 
                 String text =workoutHolds.get(2*hold_position).getHoldInfo(workoutHolds.get(2*hold_position+1));
                 text = text.replaceAll("\n",", ");
-                hangInfoTextView.setText(text);
+
+                String temp = workoutDescriptionEditText.getText() + "\n" + text;
+
+                hangInfoTextView.setText(temp);
 
             }
         });
-
 
     }
 

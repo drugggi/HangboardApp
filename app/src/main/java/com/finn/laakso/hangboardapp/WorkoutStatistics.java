@@ -289,7 +289,8 @@ public class WorkoutStatistics extends AppCompatActivity {
 
                 int[] completed = data.getIntArrayExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS");
 
-                dbHandler.updateCompletedHangs(positionGlobal,completed);
+                boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
+                dbHandler.updateCompletedHangs(positionGlobal,completed,includeHidden);
 
             }
         }
@@ -309,12 +310,13 @@ public class WorkoutStatistics extends AppCompatActivity {
         positionGlobal = info.position + 1;
         int selectedContextMenuItem = item.getItemId();
 
+        boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
 
-        ArrayList<Hold> holds = dbHandler.lookUpHolds(selectedListViewPosition);
+        ArrayList<Hold> holds = dbHandler.lookUpHolds(selectedListViewPosition,includeHidden);
        // Long date = dbHandler.lookUpDate(selectedListViewPosition);
-        int[] completedHangs = dbHandler.lookUpCompletedHangs(selectedListViewPosition);
-        TimeControls timeControls = dbHandler.lookUpTimeControls(selectedListViewPosition);
-        String hangboardName = dbHandler.lookUpHangboard(selectedListViewPosition);
+        int[] completedHangs = dbHandler.lookUpCompletedHangs(selectedListViewPosition, includeHidden);
+        TimeControls timeControls = dbHandler.lookUpTimeControls(selectedListViewPosition, includeHidden);
+        String hangboardName = dbHandler.lookUpHangboard(selectedListViewPosition, includeHidden);
 
         if (selectedContextMenuItem == 0) {
             Intent editWorkout = new Intent(getApplicationContext(), EditWorkoutInfo.class);
@@ -330,9 +332,7 @@ public class WorkoutStatistics extends AppCompatActivity {
         }
         else if (selectedContextMenuItem == 1) {
 
-            boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
             dbHandler.hideWorkoutNumber(selectedListViewPosition,includeHidden);
-
 
             workoutAdapter.notifyDataSetChanged();
 
@@ -341,7 +341,6 @@ public class WorkoutStatistics extends AppCompatActivity {
 
             Toast.makeText(WorkoutStatistics.this, "EDITING DATE" + positionGlobal, Toast.LENGTH_SHORT).show();
 
-            boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
             long timeInMillis = dbHandler.lookUpDate(selectedListViewPosition,includeHidden);
 
             Calendar cal = Calendar.getInstance();

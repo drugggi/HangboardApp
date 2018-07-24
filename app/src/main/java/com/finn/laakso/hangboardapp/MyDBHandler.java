@@ -353,12 +353,13 @@ public class MyDBHandler extends SQLiteOpenHelper {
     }
 
     // Returns the hangboard name which were used in the workout
-    public String lookUpHangboard(int position) {
+    public String lookUpHangboard(int position, boolean includeHidden) {
 
         SQLiteDatabase db = this.getWritableDatabase();
-        //Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
-        Cursor cursor = db.query(TABLE_WORKOUTS,null,null,null,null,null,COLUMN_DATE + " DESC",null);
-
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
+        if (includeHidden) {
+            cursor = db.query(TABLE_WORKOUTS, null, null, null, null, null, COLUMN_DATE + " DESC", null);
+        }
         String hangboard= "" ;
 
         if (cursor.move(position)) {
@@ -373,11 +374,14 @@ public class MyDBHandler extends SQLiteOpenHelper {
     }
 
     // Updates the completed hangs, which user can manually mark as done or not done
-    public void updateCompletedHangs(int position, int[] completed) {
+    public void updateCompletedHangs(int position, int[] completed, boolean includeHidden) {
 
         SQLiteDatabase db = this.getWritableDatabase();
-        //Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
-        Cursor cursor = db.query(TABLE_WORKOUTS,null,null,null,null,null,COLUMN_DATE + " DESC",null);
+
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
+        if (includeHidden) {
+            cursor = db.query(TABLE_WORKOUTS, null, null, null, null, null, COLUMN_DATE + " DESC", null);
+        }
 
         int columnID;
 
@@ -394,7 +398,6 @@ public class MyDBHandler extends SQLiteOpenHelper {
         }
 
         String updatedHangs = hangsCompleted.toString();
-
         String query = "UPDATE " + TABLE_WORKOUTS + " SET " + COLUMN_HANGSCOMPLETED + " = \"" + updatedHangs + "\" WHERE " + COLUMN_ID + " =  \"" + columnID + "\"";
 
         db.execSQL(query);
@@ -404,11 +407,12 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
 
     // return completed hangs which are stored as String
-    public int[] lookUpCompletedHangs(int position) {
+    public int[] lookUpCompletedHangs(int position, boolean includeHidden) {
         SQLiteDatabase db = this.getWritableDatabase();
-        //Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
-        Cursor cursor = db.query(TABLE_WORKOUTS,null,null,null,null,null,COLUMN_DATE + " DESC",null);
-
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
+        if (includeHidden) {
+            cursor = db.query(TABLE_WORKOUTS, null, null, null, null, null, COLUMN_DATE + " DESC", null);
+        }
         String hangsCompletedFromDB = "";
 
         int[] hangsCompleted=new int[4];
@@ -430,12 +434,13 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     // return the used holds, each hold has a number, grip type and value.
     // In the ArrayList even valued holds are for left hand and odd values are for right hand
-    public ArrayList<Hold> lookUpHolds(int position) {
+    public ArrayList<Hold> lookUpHolds(int position, boolean includeHidden) {
 
         SQLiteDatabase db = this.getWritableDatabase();
-        // Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
-        Cursor cursor = db.query(TABLE_WORKOUTS,null,null,null,null,null,COLUMN_DATE + " DESC",null);
-
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
+        if (includeHidden) {
+            cursor = db.query(TABLE_WORKOUTS, null, null, null, null, null, COLUMN_DATE + " DESC", null);
+        }
         ArrayList<Hold> allHolds = new ArrayList<>();
 
         String allHoldNumbersFromDB="";
@@ -486,11 +491,12 @@ public class MyDBHandler extends SQLiteOpenHelper {
     }
 
     // Returns time controls that are used in workout
-    public TimeControls lookUpTimeControls(int position) {
+    public TimeControls lookUpTimeControls(int position, boolean includeHidden ) {
         SQLiteDatabase db = this.getWritableDatabase();
-        // Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
-        Cursor cursor = db.query(TABLE_WORKOUTS,null,null,null,null,null,COLUMN_DATE + " DESC",null);
-
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
+        if (includeHidden) {
+            cursor = db.query(TABLE_WORKOUTS, null, null, null, null, null, COLUMN_DATE + " DESC", null);
+        }
         TimeControls timeControls = new TimeControls();
 
         if ( cursor.move(position) ) {

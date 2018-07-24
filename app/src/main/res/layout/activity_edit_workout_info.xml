@@ -43,6 +43,15 @@
                 android:layout_weight="1"
                 android:text="Save / Update Database" />
 
+            <EditText
+                android:id="@+id/workoutDescriptionEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="optional short description"
+                android:inputType="textPersonName" />
+
             <Button
                 android:id="@+id/backButton"
                 android:layout_width="wrap_content"
