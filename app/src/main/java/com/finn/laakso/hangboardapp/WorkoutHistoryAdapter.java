@@ -105,7 +105,7 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
 
 
 
-            hold = " Workout time: " + timeControls.getTotalTime() + "s";
+            hold = "INFO: " + dbCursor.getString(15);
             grade = " TUT: " + timeControls.getTimeUnderTension() + "s";
         }
 /*

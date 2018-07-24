@@ -66,7 +66,7 @@ public class WorkoutStatistics extends AppCompatActivity {
 
         // DBHandler to store workout from Intent.
         dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
-
+        // dbHandler.DELETEALL();
         // Temporary workout info to generate test workouts
         ArrayList<Hold> tempWorkoutHolds = new ArrayList<>();
         TimeControls tempTimeControls = new TimeControls();
@@ -116,7 +116,8 @@ public class WorkoutStatistics extends AppCompatActivity {
         long time = System.currentTimeMillis();
 
         // Lets add workout information to database straight from the Intent.
-        dbHandler.addHangboardWorkout(time,tempHangboardName, tempTimeControls, tempWorkoutHolds,tempCompleted);
+        String workoutDescription = "this is desc";
+        dbHandler.addHangboardWorkout(time,tempHangboardName, tempTimeControls, tempWorkoutHolds,tempCompleted,workoutDescription);
 
         // Button just for generating random workout datapoins and testing purposes
        newEntryButton.setOnClickListener(new View.OnClickListener() {
@@ -129,7 +130,8 @@ public class WorkoutStatistics extends AppCompatActivity {
                        "RNG HANGBOARD",
                        rngControls,
                        getRandomWorkoutHolds(rngControls.getGripLaps()),
-                       getCompletedALL(rngControls));
+                       getCompletedALL(rngControls),
+                       "workout desc");
 
                 workoutAdapter.notifyDataSetChanged();
            }
@@ -299,10 +301,14 @@ public class WorkoutStatistics extends AppCompatActivity {
 
             if (data.hasExtra("com.finn.laakso.hangboardapp.DESCRIPTION")) {
 
-                String testi = data.getStringExtra("com.finn.laakso.hangboardapp.DESCRIPTION");
+                String desc = data.getStringExtra("com.finn.laakso.hangboardapp.DESCRIPTION");
+                dbHandler.updateWorkoutDescription(positionGlobal,desc,includeHidden);
 
             }
+            workoutAdapter.notifyDataSetChanged();
         }
+
+
         else {
             Toast.makeText(WorkoutStatistics.this," results not saved",Toast.LENGTH_SHORT).show();
         }
@@ -322,10 +328,11 @@ public class WorkoutStatistics extends AppCompatActivity {
         boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
 
         ArrayList<Hold> holds = dbHandler.lookUpHolds(selectedListViewPosition,includeHidden);
-       // Long date = dbHandler.lookUpDate(selectedListViewPosition);
+        //Long date = dbHandler.lookUpDate(selectedListViewPosition, includeHidden);
         int[] completedHangs = dbHandler.lookUpCompletedHangs(selectedListViewPosition, includeHidden);
         TimeControls timeControls = dbHandler.lookUpTimeControls(selectedListViewPosition, includeHidden);
         String hangboardName = dbHandler.lookUpHangboard(selectedListViewPosition, includeHidden);
+        String desc = dbHandler.lookUpWorkoutDescription(selectedListViewPosition, includeHidden);
 
         if (selectedContextMenuItem == 0) {
             Intent editWorkout = new Intent(getApplicationContext(), EditWorkoutInfo.class);
@@ -335,9 +342,7 @@ public class WorkoutStatistics extends AppCompatActivity {
             editWorkout.putExtra("com.finn.laakso.hangboardapp.BOARDNAME",hangboardName);
             editWorkout.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", holds);
             editWorkout.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS",completedHangs);
-
-            String test = "testi workout description edit me";
-            editWorkout.putExtra("com.finn.laakso.hangboardapp.DESCRIPTION",test);
+            editWorkout.putExtra("com.finn.laakso.hangboardapp.DESCRIPTION",desc);
 
             setResult(Activity.RESULT_OK,editWorkout);
             startActivityForResult(editWorkout, REQUEST_HANGS_COMPLETED);
