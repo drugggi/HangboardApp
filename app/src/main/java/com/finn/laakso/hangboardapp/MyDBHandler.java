@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -218,6 +219,62 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return date;
     }
 
+    public void hideWorkoutNumber(int position) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
+
+
+        Log.e("hideworkoutnumber"," " );
+        Log.e("Move pos"," " + position);
+        int isHidden = 1;
+        int columnID = 0;
+
+        if (cursor.move(position)) {
+            columnID = cursor.getInt(0);
+
+            String query = "UPDATE " + TABLE_WORKOUTS + " SET " + COLUMN_ISHIDDEN + " = \"" + isHidden + "\" WHERE " + COLUMN_ID + " =  \"" + columnID + "\"";
+            db.execSQL(query);
+            Log.e("Moved to"," " + position);
+
+        }
+
+        db.close();
+        return;
+
+    }
+
+    public void hideOrUnhideWorkoutNumber(int position) {
+
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,null,null,null,null,COLUMN_DATE + " DESC",null);
+
+        int isHidden = 0;
+        int columnID = 0;
+        Log.e("hideORUNHIDEwoer"," ");
+        Log.e("Move pos"," " + position);
+
+        if (cursor.move(position)) {
+            isHidden = cursor.getInt(14);
+            columnID = cursor.getInt(0);
+
+            if (isHidden == 0) {
+                isHidden = 1;
+            }
+            else {
+                isHidden = 0;
+            }
+
+            Log.e("set ishidden to"," " + isHidden);
+
+            String query = "UPDATE " + TABLE_WORKOUTS + " SET " + COLUMN_ISHIDDEN + " = \"" + isHidden + "\" WHERE " + COLUMN_ID + " =  \"" + columnID + "\"";
+            db.execSQL(query);
+        }
+
+        db.close();
+
+    }
+
     public void setIsHidden(int position, int isHidden) {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -233,7 +290,6 @@ public class MyDBHandler extends SQLiteOpenHelper {
             db.close();
             return;
         }
-
         String query = "UPDATE " + TABLE_WORKOUTS + " SET " + COLUMN_ISHIDDEN + " = \"" + isHidden + "\" WHERE " + COLUMN_ID + " =  \"" + columnID + "\"";
 
         db.execSQL(query);

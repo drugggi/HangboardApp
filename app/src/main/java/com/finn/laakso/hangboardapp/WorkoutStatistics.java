@@ -166,11 +166,25 @@ public class WorkoutStatistics extends AppCompatActivity {
 
                     AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
 
+                    // Show different context menu if all workout are shown (hidden too)
+                    if (showHiddenWorkoutsCheckBox.isChecked() ) {
+
                         menu.setHeaderTitle("Choose your edit");
                         menu.add(Menu.NONE, 0, 0, "edit workout");
-                        menu.add(Menu.NONE, 1, 1, "edit date");
-                        menu.add(Menu.NONE, 2, 2, "hide/delete workout");
-
+                        menu.add(Menu.NONE, 1, 1, "hide/unhide workout");
+                        menu.add(Menu.NONE, 2,2,"edit date");
+                        menu.add(Menu.NONE,3,3,"edit hangboard name");
+                        menu.add(Menu.NONE, 4, 4, "delete workout");
+                    }
+                    // Context menu when hidden workout are not shown
+                    else {           menu.setHeaderTitle("Choose your edit");
+                        menu.add(Menu.NONE, 0, 0, "edit workout");
+                        menu.add(Menu.NONE, 1, 1, "hide workout");
+                        menu.add(Menu.NONE, 2,2,"edit date");
+                        menu.add(Menu.NONE,3,3,"edit hangboard name");
+                        // Can't delete unhidden workouts
+                        // menu.add(Menu.NONE, 4, 4, "delete workout");
+                    }
 
                 }
 
@@ -287,26 +301,62 @@ public class WorkoutStatistics extends AppCompatActivity {
         }
         else if (selectedContextMenuItem == 1) {
 
-            //dbHandler.delete(positionGlobal);
-            Toast.makeText(WorkoutStatistics.this, "EDITING DATE ", Toast.LENGTH_SHORT).show();
-            // workoutAdapter.notifyDataSetChanged();
-            boolean test = dbHandler.lookUpIsHidden(info.position+1);
 
-            if (test) {
-                dbHandler.setIsHidden(info.position+1,0);
+            if (showHiddenWorkoutsCheckBox.isChecked() ) {
+                Toast.makeText(WorkoutStatistics.this, "HIDE/UNHIDE WORKOUT, pos: " + selectedListViewPosition, Toast.LENGTH_SHORT).show();
+                dbHandler.hideOrUnhideWorkoutNumber(selectedListViewPosition);
+
             }
             else {
-                dbHandler.setIsHidden(info.position+1,1);
+                Toast.makeText(WorkoutStatistics.this, "HIDE WORKOUT, pos: " + selectedListViewPosition, Toast.LENGTH_SHORT).show();
+                dbHandler.hideWorkoutNumber(selectedListViewPosition);
             }
+/*
+            if (cursor.move(selectedListViewPosition)) {
+                int isHidden = cursor.getInt(14);
+
+                if (isHidden == 0) {
+                    cursor.
+                }
+            }
+
+            // workoutAdapter.notifyDataSetChanged();
+            boolean test = dbHandler.lookUpIsHidden(selectedListViewPosition);
+
+            if (test) {
+                dbHandler.setIsHidden(selectedListViewPosition,0);
+            }
+            else {
+                dbHandler.setIsHidden(selectedListViewPosition,1);
+            }
+            */
+
             workoutAdapter.notifyDataSetChanged();
 
         }
         else if (selectedContextMenuItem == 2) {
 
-            dbHandler.delete(info.position+1);
+            Toast.makeText(WorkoutStatistics.this, "EDITING DATE" + positionGlobal, Toast.LENGTH_SHORT).show();
+        }
 
-            Toast.makeText(WorkoutStatistics.this, "MAYBE WORKING AT LEAST NOT CRASHING!!!! DELETING ITEM NRO: " + positionGlobal, Toast.LENGTH_SHORT).show();
-            workoutAdapter.notifyDataSetChanged();
+        else if (selectedContextMenuItem == 3) {
+
+
+            Toast.makeText(WorkoutStatistics.this, "EDITING HANGBOARD NAME: " + positionGlobal, Toast.LENGTH_SHORT).show();
+        }
+
+        else if (selectedContextMenuItem == 4) {
+
+            if (dbHandler.lookUpIsHidden(selectedListViewPosition)) {
+                dbHandler.delete(selectedListViewPosition);
+
+                Toast.makeText(WorkoutStatistics.this, "DELETING: " + positionGlobal, Toast.LENGTH_SHORT).show();
+                workoutAdapter.notifyDataSetChanged();
+            }
+            else {
+                Toast.makeText(WorkoutStatistics.this, "To delete a Workout you must hide it first", Toast.LENGTH_SHORT).show();
+            }
+
         }
 
         return true;
