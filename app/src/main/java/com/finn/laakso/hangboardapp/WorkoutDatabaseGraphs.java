@@ -155,7 +155,7 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
 
             for (int i = 1 ; i <= datapoints ; i++) {
                 arrayList_workoutHolds.add(dbHandler.lookUpHolds(i));
-                dates.add(dbHandler.lookUpDate(i));
+                dates.add(dbHandler.lookUpDate(i,true));
                 completedArrayList.add(dbHandler.lookUpCompletedHangs(i));
                 hangboards.add(dbHandler.lookUpHangboard(i));
             }
@@ -832,7 +832,7 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
         for (int i = 1 ; i <= datapoints ; i++) {
             arrayList_workoutHolds.add(dbHandler.lookUpHolds(i));
             allTimeControls.add(dbHandler.lookUpTimeControls(i));
-            dates.add(dbHandler.lookUpDate(i));
+            dates.add(dbHandler.lookUpDate(i,true));
             completedArrayList.add(dbHandler.lookUpCompletedHangs(i));
             hangboards.add(dbHandler.lookUpHangboard(i));
 
@@ -968,7 +968,7 @@ public class WorkoutDatabaseGraphs extends AppCompatActivity {
         ArrayList<Long> datesFromDatabase = new ArrayList<>();
         int datapoints = dbHandler.lookUpWorkoutCount();
         for (int i = 1 ; i <= datapoints ; i++) {
-            datesFromDatabase.add(dbHandler.lookUpDate(i));
+            datesFromDatabase.add(dbHandler.lookUpDate(i,true));
         }
         return datesFromDatabase;
     }

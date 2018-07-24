@@ -199,11 +199,13 @@ public class MyDBHandler extends SQLiteOpenHelper {
     }
 
     // returns date when the workout was done
-    public long lookUpDate(int position) {
+    public long lookUpDate(int position, boolean includeHidden) {
 
         SQLiteDatabase db = this.getWritableDatabase();
-        // Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
-        Cursor cursor = db.query(TABLE_WORKOUTS,null,null,null,null,null,COLUMN_DATE + " DESC",null);
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
+        if (includeHidden) {
+            cursor = db.query(TABLE_WORKOUTS, null, null, null, null, null, COLUMN_DATE + " DESC", null);
+        }
 
         long date= 0;
 
@@ -219,10 +221,12 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return date;
     }
 
-    public void hideWorkoutNumber(int position) {
+    public void hideWorkoutNumber(int position, boolean includeHidden) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
-
+        if (includeHidden) {
+            cursor = db.query(TABLE_WORKOUTS, null, null, null, null, null, COLUMN_DATE + " DESC", null);
+        }
 
         Log.e("hideworkoutnumber"," " );
         Log.e("Move pos"," " + position);
@@ -230,7 +234,16 @@ public class MyDBHandler extends SQLiteOpenHelper {
         int columnID = 0;
 
         if (cursor.move(position)) {
+            isHidden = cursor.getInt(14);
             columnID = cursor.getInt(0);
+
+            if (isHidden == 0) {
+                isHidden = 1;
+            }
+            else {
+                isHidden = 0;
+            }
+
 
             String query = "UPDATE " + TABLE_WORKOUTS + " SET " + COLUMN_ISHIDDEN + " = \"" + isHidden + "\" WHERE " + COLUMN_ID + " =  \"" + columnID + "\"";
             db.execSQL(query);

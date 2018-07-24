@@ -1,8 +1,11 @@
 package com.finn.laakso.hangboardapp;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
@@ -13,11 +16,13 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
@@ -29,6 +34,8 @@ public class WorkoutStatistics extends AppCompatActivity {
     Button newEntryButton;
 
     CheckBox showHiddenWorkoutsCheckBox;
+
+    private DatePickerDialog.OnDateSetListener dateSetListener;
 
     Random rng;
 
@@ -244,6 +251,15 @@ public class WorkoutStatistics extends AppCompatActivity {
             }
         });
 
+        dateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month = month + 1;
+
+               // Toast.makeText(WorkoutStatistics.this, "date picker set listenr",Toast.LENGTH_LONG).show();
+            }
+        };
+
 
     }
 
@@ -282,7 +298,7 @@ public class WorkoutStatistics extends AppCompatActivity {
 
 
         ArrayList<Hold> holds = dbHandler.lookUpHolds(selectedListViewPosition);
-        Long date = dbHandler.lookUpDate(selectedListViewPosition);
+       // Long date = dbHandler.lookUpDate(selectedListViewPosition);
         int[] completedHangs = dbHandler.lookUpCompletedHangs(selectedListViewPosition);
         TimeControls timeControls = dbHandler.lookUpTimeControls(selectedListViewPosition);
         String hangboardName = dbHandler.lookUpHangboard(selectedListViewPosition);
@@ -301,35 +317,9 @@ public class WorkoutStatistics extends AppCompatActivity {
         }
         else if (selectedContextMenuItem == 1) {
 
+            boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
+            dbHandler.hideWorkoutNumber(selectedListViewPosition,includeHidden);
 
-            if (showHiddenWorkoutsCheckBox.isChecked() ) {
-                Toast.makeText(WorkoutStatistics.this, "HIDE/UNHIDE WORKOUT, pos: " + selectedListViewPosition, Toast.LENGTH_SHORT).show();
-                dbHandler.hideOrUnhideWorkoutNumber(selectedListViewPosition);
-
-            }
-            else {
-                Toast.makeText(WorkoutStatistics.this, "HIDE WORKOUT, pos: " + selectedListViewPosition, Toast.LENGTH_SHORT).show();
-                dbHandler.hideWorkoutNumber(selectedListViewPosition);
-            }
-/*
-            if (cursor.move(selectedListViewPosition)) {
-                int isHidden = cursor.getInt(14);
-
-                if (isHidden == 0) {
-                    cursor.
-                }
-            }
-
-            // workoutAdapter.notifyDataSetChanged();
-            boolean test = dbHandler.lookUpIsHidden(selectedListViewPosition);
-
-            if (test) {
-                dbHandler.setIsHidden(selectedListViewPosition,0);
-            }
-            else {
-                dbHandler.setIsHidden(selectedListViewPosition,1);
-            }
-            */
 
             workoutAdapter.notifyDataSetChanged();
 
@@ -337,6 +327,25 @@ public class WorkoutStatistics extends AppCompatActivity {
         else if (selectedContextMenuItem == 2) {
 
             Toast.makeText(WorkoutStatistics.this, "EDITING DATE" + positionGlobal, Toast.LENGTH_SHORT).show();
+            Calendar cal = Calendar.getInstance();
+
+            boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
+            long timeInMillis = dbHandler.lookUpDate(selectedListViewPosition,includeHidden);
+
+            cal.setTimeInMillis(timeInMillis);
+            int year = cal.get(Calendar.YEAR);
+            int month = cal.get(Calendar.MONTH);
+            int day = cal.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog dialog = new DatePickerDialog(
+                    WorkoutStatistics.this,
+                    android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                    dateSetListener,
+                    year,month,day);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
+
+
         }
 
         else if (selectedContextMenuItem == 3) {

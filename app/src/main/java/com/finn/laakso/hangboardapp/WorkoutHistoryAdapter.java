@@ -68,7 +68,8 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
 
-        Date resultdate = new Date(db.lookUpDate(position));
+        Date resultdate;
+       // Date resultdate = new Date(db.lookUpDate(position,true));
 
         //String board = db.lookUpHangboard(position) + "\n" + sdf.format(resultdate);
         //String hold = " Workout time: " + db.lookUpTimeControls(position).getTotalTime() + "s";
