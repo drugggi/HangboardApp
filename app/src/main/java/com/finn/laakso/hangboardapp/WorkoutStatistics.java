@@ -77,7 +77,6 @@ public class WorkoutStatistics extends AppCompatActivity {
         // Holds that will be used in this workout program
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.HOLDS")) {
             tempWorkoutHolds = getIntent().getExtras().getParcelableArrayList("com.finn.laakso.hangboardapp.HOLDS");
-
         }
 
         // Hangboard image that user has selected
@@ -109,14 +108,15 @@ public class WorkoutStatistics extends AppCompatActivity {
             tempCompleted = getIntent().getExtras().getIntArray("com.finn.laakso.hangboardapp.COMPLETEDHANGS");
         }
 
+        String workoutDescription = "Temp desc";
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.DESCRIPTION")) {
+            workoutDescription = getIntent().getExtras().getString("com.finn.laakso.hangboardapp.DESCRIPTION");
             Toast.makeText(this,"olihan siellä",Toast.LENGTH_SHORT).show();
         }
 
         long time = System.currentTimeMillis();
 
         // Lets add workout information to database straight from the Intent.
-        String workoutDescription = "this is desc";
         dbHandler.addHangboardWorkout(time,tempHangboardName, tempTimeControls, tempWorkoutHolds,tempCompleted,workoutDescription);
 
         // Button just for generating random workout datapoins and testing purposes

@@ -111,7 +111,7 @@ public class EditWorkoutInfo extends AppCompatActivity {
 
                     // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
                     workoutIntoDatabaseIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS", timeControls.getTimeControlsIntArray());
-                    workoutIntoDatabaseIntent.putExtra("com.finn.laakso.hangboardapp.BOARDNAME", "TEST HANGBOARD NAME EDIT ME");
+                    workoutIntoDatabaseIntent.putExtra("com.finn.laakso.hangboardapp.BOARDNAME", "TEST HANGBOARD");
                     workoutIntoDatabaseIntent.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", workoutHolds);
                     workoutIntoDatabaseIntent.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS", completed);
                     workoutIntoDatabaseIntent.putExtra("com.finn.laakso.hangboardapp.DESCRIPTION", workoutDescription);

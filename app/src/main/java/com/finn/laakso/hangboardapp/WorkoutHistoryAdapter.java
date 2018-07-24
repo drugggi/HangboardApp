@@ -78,7 +78,7 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
         // Log.e("All"," " + db.lookUpUnHiddenWorkoutCount());
 
         String board = "board";
-        String hold ="workout time";
+        String hold = "workout time";
         String grade = "TUT:";
 
         TimeControls timeControls = new TimeControls();
@@ -94,7 +94,6 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
             resultdate = new Date(dbCursor.getLong(1));
             board = dbCursor.getString(2) + "\n" + sdf.format(resultdate);
 
-
                 timeControls.setGripLaps(dbCursor.getInt(6));
                 timeControls.setHangLaps(dbCursor.getInt(7));
                 timeControls.setTimeON(dbCursor.getInt(8));
@@ -106,7 +105,8 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
 
 
             hold = "INFO: " + dbCursor.getString(15);
-            grade = " TUT: " + timeControls.getTimeUnderTension() + "s";
+            grade = "Time/TUT(min)" + "\n  " + timeControls.getTotalTime()/60 + "/" +
+                    timeControls.getTimeUnderTension()/60;
         }
 /*
         String pooltest = "NO hidden";
