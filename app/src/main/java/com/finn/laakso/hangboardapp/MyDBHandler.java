@@ -221,6 +221,27 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return date;
     }
 
+    public void updateDate(int position, long newDate, boolean includeHidden) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
+        if (includeHidden) {
+            cursor = db.query(TABLE_WORKOUTS, null, null, null, null, null, COLUMN_DATE + " DESC", null);
+        }
+
+
+
+        if (cursor.move(position)) {
+           // isHidden = cursor.getInt(14);
+            int columnID = cursor.getInt(0);
+
+            String query = "UPDATE " + TABLE_WORKOUTS + " SET " + COLUMN_DATE + " = \"" + newDate + "\" WHERE " + COLUMN_ID + " =  \"" + columnID + "\"";
+            db.execSQL(query);
+            //Log.e("Moved to"," " + position);
+        }
+
+        db.close();
+    }
+
     public void hideWorkoutNumber(int position, boolean includeHidden) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);

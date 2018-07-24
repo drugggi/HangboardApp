@@ -92,8 +92,7 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
 
         if (dbCursor.move(position)) {
             resultdate = new Date(dbCursor.getLong(1));
-            board = dbCursor.getString(2) + " isHID: "+ dbCursor.getInt(14) +
-            "\n" + sdf.format(resultdate);
+            board = dbCursor.getString(2) + "\n" + sdf.format(resultdate);
 
 
                 timeControls.setGripLaps(dbCursor.getInt(6));
