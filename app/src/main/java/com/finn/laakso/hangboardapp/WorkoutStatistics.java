@@ -44,6 +44,7 @@ public class WorkoutStatistics extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener dateSetListener;
 
     Random rng;
+    int DELETEALLCOUNTER;
 
     // Adapter that manages the workout history with the help of SQLite
     WorkoutHistoryAdapter workoutAdapter;
@@ -61,6 +62,7 @@ public class WorkoutStatistics extends AppCompatActivity {
 
         // Random needed for generating random workout data
         rng = new Random();
+        DELETEALLCOUNTER = 3;
 
         editWorkoutButton = (Button) findViewById(R.id.editWorkoutButton);
         resetDBButton = (Button) findViewById(R.id.testButton);
@@ -265,9 +267,18 @@ public class WorkoutStatistics extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                // MyDBHandler dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
-                dbHandler.DELETEALL();
+                // dbHandler.DELETEALL();
 
-                Toast.makeText(WorkoutStatistics.this, "All DELETED, Happy now",Toast.LENGTH_LONG).show();
+                if (DELETEALLCOUNTER == 0) {
+                    dbHandler.DELETEALL();
+                    Toast.makeText(WorkoutStatistics.this, "All DELETED, Happy now", Toast.LENGTH_LONG).show();
+                    DELETEALLCOUNTER = 3;
+                }
+                else   {
+                    DELETEALLCOUNTER--;
+                    Toast.makeText(WorkoutStatistics.this, "SOON ALL WILL BE GONE, countdown: " + DELETEALLCOUNTER, Toast.LENGTH_LONG).show();
+                }
+
                 workoutAdapter.notifyDataSetChanged();
 
             }
