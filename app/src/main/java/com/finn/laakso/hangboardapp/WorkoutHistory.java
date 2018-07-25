@@ -136,7 +136,7 @@ public class WorkoutHistory extends AppCompatActivity {
            @Override
            public void onClick(View v) {
                long rngTime = System.currentTimeMillis();
-               TimeControls rngControls = getRandomTimeControls();
+               TimeControls rngControls = getTotallyRandomTimeControls();
                dbHandler.addHangboardWorkout(
                        rngTime- (long)1000*60*60*24*rng.nextInt(60),
                        getRandomHangboard(),
@@ -560,6 +560,33 @@ public class WorkoutHistory extends AppCompatActivity {
         randomTimeControls.setTimeControls(i);
         // rng.nextInt()+1;
        // Log.d("heh: ", "" + i.length);
+        return  randomTimeControls;
+    }
+
+    private TimeControls getTotallyRandomTimeControls() {
+
+        int hang_laps = rng.nextInt(100)-20;
+        int grip_laps = rng.nextInt(100)-20;
+        if (hang_laps == 1) { grip_laps=rng.nextInt(15)+10; }
+
+        int routine_laps=rng.nextInt(20)-10;
+        int time_on = rng.nextInt(40)-30;;
+        int time_off= rng.nextInt(30)-10;;
+
+        if (hang_laps == 1) {time_on = 10; time_off = 0; }
+        // private int time_total = time_on + time_off;
+        int rest = rng.nextInt(1500)-500;
+        int long_rest = rng.nextInt(25)-10;
+        int[] i = {grip_laps,hang_laps,time_on,time_off,routine_laps,rest,long_rest};
+
+        // int[] i = {rng.nextInt(30)+1,rng.nextInt(10)+1,rng.nextInt(9)+1,rng.nextInt(5),rng.nextInt(4)+1,rng.nextInt(200)+1,rng.nextInt(500)+1};
+
+        TimeControls randomTimeControls = new TimeControls();
+        Log.e("TC rng"," " + grip_laps + " " + hang_laps + " " + time_on + " " + time_off + " " + routine_laps + " " + rest + " " + long_rest);
+        randomTimeControls.setTimeControls(i);
+        Log.e("TC real",randomTimeControls.getTimeControlsAsString());
+        // rng.nextInt()+1;
+        // Log.d("heh: ", "" + i.length);
         return  randomTimeControls;
     }
 

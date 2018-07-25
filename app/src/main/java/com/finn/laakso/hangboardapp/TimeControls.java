@@ -262,7 +262,14 @@ public class TimeControls {
     public void setTimeControls(int[] time_controls) {
         if( time_controls.length != 7 ) {return; }
 
-        grip_laps = time_controls[0];
+        setGripLaps(time_controls[0]);
+        setHangLaps(time_controls[1]);
+        setTimeON(time_controls[2]);
+        setTimeOFF(time_controls[3]);
+        setRoutineLaps(time_controls[4]);
+        setRestTime(time_controls[5]);
+        setLongRestTime(time_controls[6]);
+        /*
         hang_laps = time_controls[1];
         time_on = time_controls[2];
         time_off = time_controls[3];
@@ -270,7 +277,7 @@ public class TimeControls {
         routine_laps = time_controls[4];
         rest = time_controls[5];
         long_rest = time_controls[6];
-        hang_laps_seconds = hang_laps*(time_on + time_off);
+        hang_laps_seconds = hang_laps*(time_on + time_off);*/
     }
 
     public int[] getTimeControlsIntArray() {
