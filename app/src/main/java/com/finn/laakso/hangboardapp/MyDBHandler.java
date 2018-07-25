@@ -260,6 +260,23 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void updateHangboardName(int position, String newBoardName, boolean includeHidden) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
+        if (includeHidden) {
+            cursor = db.query(TABLE_WORKOUTS, null, null, null, null, null, COLUMN_DATE + " DESC", null);
+        }
+
+        if (cursor.move(position)) {
+            int columnID = cursor.getInt(0);
+
+            String query = "UPDATE " + TABLE_WORKOUTS + " SET " + COLUMN_HANGBOARD + " = \"" + newBoardName + "\" WHERE " + COLUMN_ID + " =  \"" + columnID + "\"";
+            db.execSQL(query);
+        }
+
+        db.close();
+    }
+
     public void updateDate(int position, long newDate, boolean includeHidden) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);

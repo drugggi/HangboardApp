@@ -1,7 +1,9 @@
 package com.finn.laakso.hangboardapp;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -18,6 +20,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -33,6 +36,8 @@ public class WorkoutStatistics extends AppCompatActivity {
     Button resetDBButton;
     Button showGraphsButton;
     Button newEntryButton;
+
+    EditText hangboardNameEditText;
 
     CheckBox showHiddenWorkoutsCheckBox;
 
@@ -112,14 +117,13 @@ public class WorkoutStatistics extends AppCompatActivity {
         String workoutDescription = "Temp desc";
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.DESCRIPTION")) {
             workoutDescription = getIntent().getExtras().getString("com.finn.laakso.hangboardapp.DESCRIPTION");
-            Toast.makeText(this,"olihan siellä",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "olihan siellä", Toast.LENGTH_SHORT).show();
+
+            long time = System.currentTimeMillis();
+
+            // Lets add workout information to database straight from the Intent.
+            dbHandler.addHangboardWorkout(time, tempHangboardName, tempTimeControls, tempWorkoutHolds, tempCompleted, workoutDescription);
         }
-
-        long time = System.currentTimeMillis();
-
-        // Lets add workout information to database straight from the Intent.
-        dbHandler.addHangboardWorkout(time,tempHangboardName, tempTimeControls, tempWorkoutHolds,tempCompleted,workoutDescription);
-
         // Button just for generating random workout datapoins and testing purposes
        newEntryButton.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -198,15 +202,17 @@ public class WorkoutStatistics extends AppCompatActivity {
                         menu.add(Menu.NONE, 0, 0, "edit workout");
                         menu.add(Menu.NONE, 1, 1, "hide/unhide workout");
                         menu.add(Menu.NONE, 2,2,"edit date");
-                        menu.add(Menu.NONE, 3, 3, "delete workout");
+                        menu.add(Menu.NONE,3,3,"edit hangboard name");
+                        menu.add(Menu.NONE, 4, 4, "delete workout");
                     }
                     // Context menu when hidden workout are not shown
                     else {           menu.setHeaderTitle("Choose your edit");
                         menu.add(Menu.NONE, 0, 0, "edit workout");
                         menu.add(Menu.NONE, 1, 1, "hide workout");
                         menu.add(Menu.NONE, 2,2,"edit date");
+                        menu.add(Menu.NONE,3,3,"edit hangboard name");
                               // Can't delete unhidden workouts
-                        // menu.add(Menu.NONE, 3, 3, "delete workout");
+                        // menu.add(Menu.NONE, 4, 4, "delete workout");
                     }
 
                 }
@@ -338,7 +344,7 @@ public class WorkoutStatistics extends AppCompatActivity {
         positionGlobal = info.position + 1;
         int selectedContextMenuItem = item.getItemId();
 
-        boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
+        final boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
         Log.e("WO statistics 2","is checked: " + showHiddenWorkoutsCheckBox.isChecked());
 
         ArrayList<Hold> holds = dbHandler.lookUpHolds(selectedListViewPosition,includeHidden);
@@ -391,9 +397,49 @@ public class WorkoutStatistics extends AppCompatActivity {
 
         }
 
-
-
         else if (selectedContextMenuItem == 3) {
+            Toast.makeText(WorkoutStatistics.this, "editing hangboard name " + positionGlobal, Toast.LENGTH_SHORT).show();
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Hangboard name");
+            builder.setIcon(R.drawable.ic_launcher_background);
+            builder.setMessage("edit hangboard name");
+
+            hangboardNameEditText = new EditText(this);
+            hangboardNameEditText.setText(hangboardName);
+            builder.setView(hangboardNameEditText);
+
+            //Set positive button
+            builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String newBoardName = hangboardNameEditText.getText().toString();
+                    if (newBoardName.length() > 25) {
+                        newBoardName = newBoardName.substring(0,25);
+
+                        Toast.makeText(WorkoutStatistics.this,"Please use under 25 characters to describe hangboard name.",Toast.LENGTH_LONG).show();
+                    }
+                    boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
+                    dbHandler.updateHangboardName(positionGlobal,newBoardName,includeHidden);
+
+                    workoutAdapter.notifyDataSetChanged();
+
+                }
+            });
+
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+
+            AlertDialog ad = builder.create();
+            ad.show();
+
+        }
+
+        else if (selectedContextMenuItem == 4) {
 
             if (dbHandler.lookUpIsHidden(selectedListViewPosition)) {
                 dbHandler.delete(selectedListViewPosition);

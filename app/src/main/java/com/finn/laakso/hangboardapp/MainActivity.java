@@ -198,6 +198,8 @@ public class MainActivity extends AppCompatActivity {
                 Intent statsIntent = new Intent(getApplicationContext(), WorkoutStatistics.class);
 
                 // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
+
+               /*
                 statsIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
                 statsIntent.putExtra("com.finn.laakso.hangboardapp.BOARDNAME",everyBoard.getHangboardName() );
                 statsIntent.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", everyBoard.getCurrentHoldList());
@@ -209,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 statsIntent.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS",completed);
-
+*/
                 startActivity(statsIntent);
             }
         });
