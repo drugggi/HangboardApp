@@ -11,20 +11,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Created by Laakso on 21.6.2018.
+ *
+ * WorkoutInfoAdapter manages the cells of different hangs in a workout. Every cell is basically
+ * a Hold, that has hold numbers, hold values, grip types in it. In addition it has completed information
+ * that tells if the hang was successful or not, user edits this information to match how the workout went.
+ * The cell has also visual images of the used grip type
  */
+
 
 public class WorkoutInfoAdapter extends BaseAdapter {
 
-    LayoutInflater mInflator;
+    private LayoutInflater mInflator;
     private final Context mContext;
 
     private TimeControls timeControls;
-    ArrayList<Hold> workoutHolds;
-    int[] hangsCompleted;
+    private ArrayList<Hold> workoutHolds;
+    private int[] hangsCompleted;
 
     public WorkoutInfoAdapter(Context context, TimeControls timeControls, ArrayList<Hold> holds , int[] completed) {
         this.timeControls = timeControls;
@@ -34,22 +39,22 @@ public class WorkoutInfoAdapter extends BaseAdapter {
         this.mInflator = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.hangsCompleted = completed;
 
-
-
-        //setCompletedRandomly();
     }
 
+    // Getter to completed matrix that is meant to be edited
     public int[] getCompletedMatrix() {
         return hangsCompleted;
     }
 
     public void setValueToCompleted(int position, int value) {
 
+        // Cannot be out of bounds and larger than how many hangs user was supposed to do
         if (position < hangsCompleted.length  && value <= timeControls.getHangLaps()) {
             hangsCompleted[position] = value;
         }
     }
 
+    // this is the same as hangsCompleted.length
     @Override
     public int getCount() {
         return timeControls.getGripLaps()*timeControls.getRoutineLaps();
@@ -79,43 +84,40 @@ public class WorkoutInfoAdapter extends BaseAdapter {
         int set = position/ timeControls.getGripLaps() + 1;
         int hang = position % timeControls.getGripLaps() + 1 ;
 
-
         int hold_position = hang - 1;
 
+        // Lets set the correct grip images to every cell
         leftHandImageView.setImageResource(workoutHolds.get(2*hold_position).getGripImage(true));
         rightHandImageView.setImageResource(workoutHolds.get(2*hold_position + 1).getGripImage(false));
 
         hangPosTextView.setText(set + ". set (" + hang + "/" + timeControls.getGripLaps()+")");
 
+        // Bold every other set, so user can more easily distinguish them
         if (set % 2 == 0) {
             hangPosTextView.setTextColor(Color.argb(255,0,0,0));
         }
 
-
         completedTextView.setText(hangsCompleted[position] + "/" + timeControls.getHangLaps());
 
+        // If the hang was no completed at all, show it as red
         if (hangsCompleted[position] == 0) {
             completedTextView.setTextColor(Color.RED);
         }
+        // other hangs are shown in different shades of green
         else {
-            /*
-            Drawable selectColor = gradesListView.getSelector();
-            selectColor.setAlpha(90+position*15);
-            gradesListView.setSelector(selectColor);*/
 
             int alpha = 100 + (155 * hangsCompleted[position] ) / timeControls.getHangLaps();
-            //int green = 100 + (100 * hangsCompleted[position] ) / timeControls.getHangLaps();
 
             completedTextView.setTextColor(Color.argb(alpha,0,175,0));
 
             if ( hangsCompleted[position] == timeControls.getHangLaps() ) {
                 completedTextView.setTypeface(Typeface.DEFAULT_BOLD);
-            }
+                }
             }
 
         return v;
     }
-
+/*
     public void setCompletedRandomly() {
         Random rng = new Random();
         for (int i = 0 ; i < hangsCompleted.length; i++) {
@@ -124,4 +126,5 @@ public class WorkoutInfoAdapter extends BaseAdapter {
 
 
     }
+    */
 }
