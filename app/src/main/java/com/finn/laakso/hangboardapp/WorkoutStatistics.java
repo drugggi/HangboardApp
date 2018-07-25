@@ -63,6 +63,7 @@ public class WorkoutStatistics extends AppCompatActivity {
         newEntryButton = (Button) findViewById(R.id.newEntryButton);
 
         showHiddenWorkoutsCheckBox = (CheckBox) findViewById(R.id.showHiddenCheckBox);
+        showHiddenWorkoutsCheckBox.setChecked(false);
 
         // DBHandler to store workout from Intent.
         dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
@@ -127,11 +128,11 @@ public class WorkoutStatistics extends AppCompatActivity {
                TimeControls rngControls = getRandomTimeControls();
                dbHandler.addHangboardWorkout(
                        rngTime- (long)1000*60*60*24*rng.nextInt(60),
-                       "RNG HANGBOARD",
+                       getRandomHangboard(),
                        rngControls,
                        getRandomWorkoutHolds(rngControls.getGripLaps()),
                        getCompletedALL(rngControls),
-                       "workout desc");
+                       getRandomWorkoutDescription());
 
                 workoutAdapter.notifyDataSetChanged();
            }
@@ -164,7 +165,8 @@ public class WorkoutStatistics extends AppCompatActivity {
             }
         });
 
-        workoutAdapter = new WorkoutHistoryAdapter(this,dbHandler,false);
+        boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
+        workoutAdapter = new WorkoutHistoryAdapter(this,dbHandler,includeHidden);
 
         workoutHistoryListView = (ListView) findViewById(R.id.workoutHistoryListView);
         workoutHistoryListView.setAdapter(workoutAdapter);
@@ -174,6 +176,15 @@ public class WorkoutStatistics extends AppCompatActivity {
         workoutHistoryListView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
             @Override
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+
+                if (showHiddenWorkoutsCheckBox.isChecked() != workoutAdapter.getShowHiddenStatus())  {
+                    Log.e("ERR"," error: boolean value showhidden differs");
+                    int h = 1;
+                }
+                else {
+                    Log.e("OK","showHidden value same");
+                }
+
 
                 if (v.getId() == R.id.workoutHistoryListView) {
                     //Toast.makeText(EditWorkoutInfo.this, "Context Menu Created ", Toast.LENGTH_SHORT).show();
@@ -280,6 +291,8 @@ public class WorkoutStatistics extends AppCompatActivity {
         };
 
 
+        Log.e("WO statistics","is checked: " + showHiddenWorkoutsCheckBox.isChecked());
+
     }
 
 
@@ -326,6 +339,7 @@ public class WorkoutStatistics extends AppCompatActivity {
         int selectedContextMenuItem = item.getItemId();
 
         boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
+        Log.e("WO statistics 2","is checked: " + showHiddenWorkoutsCheckBox.isChecked());
 
         ArrayList<Hold> holds = dbHandler.lookUpHolds(selectedListViewPosition,includeHidden);
         //Long date = dbHandler.lookUpDate(selectedListViewPosition, includeHidden);
@@ -444,6 +458,15 @@ public class WorkoutStatistics extends AppCompatActivity {
 
         i_hold_bot_info = i_hold_bot_info + rng.nextInt(1);
         newHold.setGripTypeAndSingleHang(i_hold_bot_info);
+
+        if (showHiddenWorkoutsCheckBox.isChecked() != workoutAdapter.getShowHiddenStatus())  {
+            Log.e("ERR"," error: boolean value showhidden differs");
+            int h = 1;
+        }
+        else {
+            Log.e("OK","showHidden value same");
+        }
+
         return newHold;
     }
 
@@ -470,6 +493,46 @@ public class WorkoutStatistics extends AppCompatActivity {
         // rng.nextInt()+1;
        // Log.d("heh: ", "" + i.length);
         return  randomTimeControls;
+    }
+
+    private String getRandomHangboard() {
+        String rngBoard="rng failed board";
+        int rngSeed = rng.nextInt(15);
+        CustomSwipeAdapter.hangboard rngHB = CustomSwipeAdapter.getHangBoard(rngSeed);
+
+        rngBoard = "RNG " + CustomSwipeAdapter.getHangboardName(rngHB);
+
+        return rngBoard;
+    }
+
+    private String getRandomWorkoutDescription() {
+        String rngString= "This paragraph describes my frustration towards my inability to articulate " +
+                "what is so wrong about workouts and their timing in mornings and evenings, even though " +
+                "I do not hate parallel or even or even odd values that is to say this rambling and " +
+                "mumbo jumbo no. 5 will make this even tho yes no very good bad yes yes very good I am " +
+                "alpha king kong gorilla finger strength is stronger than triceps in lizards limbs " +
+                "mental gift is higher than gods will to fly towards should stability and tendon " +
+                "soreness Much needed break timer laps are coming or sets and reps four fingers though" +
+                " three front often and three back yes why not middle finger one armer and sandwich THEEND";
+
+
+        StringBuilder rngDesc= new StringBuilder("rng: ");
+        String[] rngStringList = rngString.split(" ");
+        for (int i = rng.nextInt(15)+1 ; i >=0 ; i--) {
+            //Log.e("kierros",": " + i);
+
+            int rngIndex = rng.nextInt(rngStringList.length);
+
+            rngDesc.append(rngStringList[rngIndex]);
+            rngDesc.append(" ");
+
+            // int start = rng.nextInt(rngString.length()-10);
+            // int end = start + rng.nextInt(10);
+
+//            rngDesc.append(rngString.substring(start,end));
+        }
+
+        return rngDesc.toString();
     }
 
     private String getRandomDate() {

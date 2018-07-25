@@ -21,8 +21,8 @@ public class CustomSwipeAdapter extends PagerAdapter {
     private LayoutInflater layoutInflater;
     // int[] coordinates;
 
-    public enum hangboard {BM1000,BM2000, TRANS, TENSION, ZLAG, MOONHARD, MOONEASY, METO,
-        ROCKPRODIGY, PROBLEMSOLVER,METO_CONTACT, METO_WOOD, DRCC};
+    public enum hangboard {BM1000, BM2000, TRANS, TENSION, ZLAG, MOONHARD, MOONEASY, METO,
+        ROCKPRODIGY, PROBLEMSOLVER, METO_CONTACT, METO_WOOD, DRCC};
 
     public static hangboard getHangBoard(int position) {
         if (position == 0) { return hangboard.BM1000; }
@@ -39,6 +39,74 @@ public class CustomSwipeAdapter extends PagerAdapter {
         else if (position == 11) {return hangboard.METO_WOOD; }
         else if (position == 12) {return hangboard.DRCC; }
         else {return hangboard.BM1000; }
+    }
+
+    public static String getHangboardName(hangboard HB) {
+
+        switch (HB) {
+            case BM1000:
+                return "BM 1000";
+            case BM2000:
+                return "BM 2000";
+            case TRANS:
+                return "Transgression";
+            case TENSION:
+                return "Tension";
+            case ZLAG:
+                return "Zlagboard";
+            case MOONHARD:
+                return "Moonboard hard";
+            case MOONEASY:
+                return "Moonboard easy";
+            case METO:
+                return "Metolius";
+            case ROCKPRODIGY:
+                return "Rock Prodigy";
+            case PROBLEMSOLVER:
+                return "Problemsolver";
+            case METO_CONTACT:
+                return "Meto. Contact";
+            case METO_WOOD:
+                return "Meto. Wood";
+            case DRCC:
+                return "DRCC";
+            default:
+                return "Custom";
+        }
+    }
+
+    public static String getHangboardName(int HB) {
+
+        switch (HB) {
+            case R.drawable.lauta1011:
+                return "BM 1000";
+            case R.drawable.lauta2002:
+                return "BM 2000";
+            case R.drawable.trans:
+                return "Transgression";
+            case R.drawable.tension:
+                return "Tension";
+            case R.drawable.zlag:
+                return "Zlagboard";
+            case R.drawable.moonhard:
+                return "Moonboard hard";
+            case R.drawable.mooneasy:
+                return "Moonboard easy";
+            case R.drawable.meto:
+                return "Metolius";
+            case R.drawable.rockprodigy:
+                return "Rock Prodigy";
+            case R.drawable.problemsolver:
+                return "Problemsolver";
+            case R.drawable.meto_contact:
+                return "Meto. Contact";
+            case R.drawable.meto_wood:
+                return "Meto. Wood";
+            case R.drawable.drcc:
+                return "DRCC";
+            default:
+                return "Custom";
+        }
     }
 
 

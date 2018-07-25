@@ -512,7 +512,8 @@ public class HangBoard {
     }
 
     public String getHangboardName() {
-        return current_board.toString();
+        return CustomSwipeAdapter.getHangboardName(current_board);
+        //return current_board.toString();
     }
 
 

@@ -36,6 +36,10 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
 
     }
 
+    public boolean getShowHiddenStatus() {
+        return this.showHidden;
+    }
+
     @Override
     public int getCount() {
 
@@ -77,11 +81,13 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
         //Log.e("non hidden"," " + db.lookUpWorkoutCount());
         // Log.e("All"," " + db.lookUpUnHiddenWorkoutCount());
 
-        String workoutDate = "board";
-        String workoutTime = "workout time";
-        String workoutDescrption = "TUT:";
+        String workoutDate = "fail workout date";
+        String workoutTime = "fail workout time";
+        String workoutDescrption = "Fail desc:";
 
         TimeControls timeControls = new TimeControls();
+
+     //   Log.e("WO adapter","show hidden value: " + showHidden);
 
         if (showHidden) {
             dbCursor = db.getHiddenContents();
@@ -114,7 +120,7 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
 
 
 
-            workoutDescrption = "INFO: " + dbCursor.getString(15);
+            workoutDescrption =  dbCursor.getString(15);
         }
 /*
         String pooltest = "NO hidden";

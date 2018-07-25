@@ -37,6 +37,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
     PinchZoomImageView pinchZoomBoardImage;
 
+    private int boardimageResource;
     ImageView boardimage;
     ImageView leftHandImage;
     ImageView rightHandImage;
@@ -131,9 +132,9 @@ public class WorkoutActivity extends AppCompatActivity {
 
         // Hangboard image that user has selected
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.BOARDIMAGE")) {
-            int image_resource = getIntent().getIntExtra("com.finn.laakso.hangboardapp.BOARDIMAGE", 0);
-            boardimage.setImageResource(image_resource);
-            pinchZoomBoardImage.setImageBitmap(BitmapFactory.decodeResource(getResources(),image_resource));
+            boardimageResource = getIntent().getIntExtra("com.finn.laakso.hangboardapp.BOARDIMAGE", 0);
+            boardimage.setImageResource(boardimageResource);
+            pinchZoomBoardImage.setImageBitmap(BitmapFactory.decodeResource(getResources(),boardimageResource));
             pinchZoomBoardImage.setVisibility(View.VISIBLE);
         }
 
@@ -242,7 +243,9 @@ public class WorkoutActivity extends AppCompatActivity {
 
                 // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
                 workoutProgress.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
-                workoutProgress.putExtra("com.finn.laakso.hangboardapp.BOARDNAME","TESIT LAUTA POISTA MUT");
+
+                String hangboardName = CustomSwipeAdapter.getHangboardName(boardimageResource);
+                workoutProgress.putExtra("com.finn.laakso.hangboardapp.BOARDNAME",hangboardName);
                 workoutProgress.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", workoutHolds);
                 workoutProgress.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS",completedHangs);
 
