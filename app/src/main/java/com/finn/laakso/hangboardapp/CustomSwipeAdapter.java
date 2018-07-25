@@ -24,6 +24,7 @@ public class CustomSwipeAdapter extends PagerAdapter {
     public enum hangboard {BM1000, BM2000, TRANS, TENSION, ZLAG, MOONHARD, MOONEASY, METO,
         ROCKPRODIGY, PROBLEMSOLVER, METO_CONTACT, METO_WOOD, DRCC};
 
+    // Converts PagerAdapter position into hangboard enum.
     public static hangboard getHangBoard(int position) {
         if (position == 0) { return hangboard.BM1000; }
         else if (position == 1) {return hangboard.BM2000; }
@@ -41,6 +42,7 @@ public class CustomSwipeAdapter extends PagerAdapter {
         else {return hangboard.BM1000; }
     }
 
+    // Converts hangboard enum into describing name. Should be somewhere else
     public static String getHangboardName(hangboard HB) {
 
         switch (HB) {
@@ -75,6 +77,7 @@ public class CustomSwipeAdapter extends PagerAdapter {
         }
     }
 
+    // Converts hangboard image resource into describing name. This should be somewhere else.
     public static String getHangboardName(int HB) {
 
         switch (HB) {

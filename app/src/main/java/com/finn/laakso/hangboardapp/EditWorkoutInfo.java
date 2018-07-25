@@ -21,9 +21,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class EditWorkoutInfo extends AppCompatActivity {
+    
+    private GridView workoutInfoGridView;
 
-    GridView workoutInfoGridView;
-    TextView hangInfoTextView;
+    private TextView hangInfoTextView;
     private EditText workoutDescriptionEditText;
     private String workoutDescription;
 
