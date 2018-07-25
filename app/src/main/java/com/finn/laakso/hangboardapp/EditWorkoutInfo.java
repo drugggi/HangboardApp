@@ -21,7 +21,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class EditWorkoutInfo extends AppCompatActivity {
-    
+
+    // workoutInfoGridView helps user to see and edit single hangs. With this user can see and edit
+    // completed array which stores the information how successful a hang was.
     private GridView workoutInfoGridView;
 
     private TextView hangInfoTextView;
@@ -32,7 +34,7 @@ public class EditWorkoutInfo extends AppCompatActivity {
     String hangboardName;
     TimeControls timeControls;
 
-    ImageView hangboard;
+    private ImageView hangboardImageView;
     WorkoutInfoAdapter workoutInfoAdapter;
 
     Button saveButton;
@@ -48,7 +50,8 @@ public class EditWorkoutInfo extends AppCompatActivity {
         isNewWorkout = false;
 
         workoutDescriptionEditText = (EditText) findViewById(R.id.workoutDescriptionEditText);
-        workoutDescription = "err";
+        hangboardImageView = (ImageView) findViewById(R.id.hangboardImageView);
+        //workoutDescription = "err";
         saveButton = (Button) findViewById(R.id.saveButton);
         backButton = (Button) findViewById(R.id.backButton);
 
@@ -66,6 +69,13 @@ public class EditWorkoutInfo extends AppCompatActivity {
         // Hangboard image that user has selected
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.BOARDNAME")) {
             hangboardName = getIntent().getStringExtra("com.finn.laakso.hangboardapp.BOARDNAME");
+
+        }
+
+        if (getIntent().hasExtra("com.finn.laakso.hangboardapp.BOARDIMAGE")) {
+            int imageResource = getIntent().getIntExtra("com.finn.laakso.hangboardapp.BOARDIMAGE",0);
+            hangboardImageView.setImageResource(imageResource);
+
         }
 
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.DESCRIPTION")) {

@@ -246,6 +246,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
                 String hangboardName = CustomSwipeAdapter.getHangboardName(boardimageResource);
                 workoutProgress.putExtra("com.finn.laakso.hangboardapp.BOARDNAME",hangboardName);
+                workoutProgress.putExtra("com.finn.laakso.hangboardapp.BOARDIMAGE",boardimageResource);
                 workoutProgress.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", workoutHolds);
                 workoutProgress.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS",completedHangs);
 
