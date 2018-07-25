@@ -1,609 +1,985 @@
 package com.finn.laakso.hangboardapp;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.HorizontalBarChart;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.TreeMap;
 
 public class WorkoutStatistics extends AppCompatActivity {
 
-    Button editWorkoutButton;
-    Button resetDBButton;
-    Button showGraphsButton;
-    Button newEntryButton;
-
-    EditText hangboardNameEditText;
-
-    CheckBox showHiddenWorkoutsCheckBox;
-
-    private DatePickerDialog.OnDateSetListener dateSetListener;
-
-    Random rng;
-    int DELETEALLCOUNTER;
-
-    // Adapter that manages the workout history with the help of SQLite
-    WorkoutHistoryAdapter workoutAdapter;
-    ListView workoutHistoryListView;
-
-    int positionGlobal = 0;
     MyDBHandler dbHandler;
 
-    private static final int REQUEST_HANGS_COMPLETED = 1;
+    PieChart gripDistributionPieChart;
+    BarChart difficultyBarChart;
+    BarChart workoutDatesBarChart;
+    HorizontalBarChart singleHangsOrRepeatersBarChart;
+    LineChart timeUnderTensionLineChart;
+    LineChart workoutTimeLineChart;
+    LineChart workoutIntensityLineChart;
+    LineChart workoutTUTandWTLineChart;
+
+    ArrayList<ArrayList<Hold>> arrayList_workoutHolds;
+    ArrayList<TimeControls> allTimeControls;
+    ArrayList<Long> dates;
+    ArrayList<int[]> completedArrayList;
+    ArrayList<String> hangboards;
+
+    ArrayList<Integer> effectiveWorkoutTUT;
+    ArrayList<Integer> effectiveWorkoutTime;
+
+    TextView generalInfoTextView;
+
+    ArrayList<String> stringDates;
+
+    private boolean includeHidden;
+
+    Long startTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_workout_statistics);
+        setContentView(R.layout.activity_workout_database_graphs);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        // Random needed for generating random workout data
-        rng = new Random();
-        DELETEALLCOUNTER = 3;
+        //at com.finn.laakso.hangboardapp.WorkoutStatistics.createDifficultyBarChart(WorkoutStatistics.java:568)
+        //at com.finn.laakso.hangboardapp.WorkoutStatistics$RetrieveDataFromDatabase.onPostExecute(WorkoutStatistics.java:199)
 
-        editWorkoutButton = (Button) findViewById(R.id.editWorkoutButton);
-        resetDBButton = (Button) findViewById(R.id.testButton);
-        showGraphsButton = (Button) findViewById(R.id.showGraphsButton);
-        newEntryButton = (Button) findViewById(R.id.newEntryButton);
+        // WHEN SET TO FALSE, IT WILL CRASH
+        includeHidden = true;
 
-        showHiddenWorkoutsCheckBox = (CheckBox) findViewById(R.id.showHiddenCheckBox);
-        showHiddenWorkoutsCheckBox.setChecked(false);
+        startTime = System.currentTimeMillis();
 
-        // DBHandler to store workout from Intent.
         dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
-        // dbHandler.DELETEALL();
-        // Temporary workout info to generate test workouts
-        ArrayList<Hold> tempWorkoutHolds = new ArrayList<>();
-        TimeControls tempTimeControls = new TimeControls();
-        String tempHangboardName = "";
-        int[] tempCompleted = new int[5];
+
+        generalInfoTextView = (TextView) findViewById(R.id.generalInfoTextView);
+
+        // Sorted by latest workout at 0 and the first workout at last item
+        effectiveWorkoutTime = new ArrayList<>();
+        effectiveWorkoutTUT = new ArrayList<>();
+        arrayList_workoutHolds = new ArrayList<ArrayList<Hold>>();
+        allTimeControls = new ArrayList<TimeControls>();
+        dates = new ArrayList<Long>();
+        completedArrayList = new ArrayList<int[]>();
+        hangboards = new ArrayList<String>();
+
+        // Retrieving all the workout history data from SQLite database so that it can be presented
+        // on the screen in graph form.
 
 
-        // Holds that will be used in this workout program
-        if (getIntent().hasExtra("com.finn.laakso.hangboardapp.HOLDS")) {
-            tempWorkoutHolds = getIntent().getExtras().getParcelableArrayList("com.finn.laakso.hangboardapp.HOLDS");
-        }
+        // NEEDS ALL TIME CONTROLS CONSIDER SOME PARAMETERS TO BE CALCULATE DIFFERENTLY THAN ASYNCTAS
+        //createSingleHangsOrRepeatersBarChart();
+        allTimeControls = retrieveAllTimeControls();
 
-        // Hangboard image that user has selected
-        if (getIntent().hasExtra("com.finn.laakso.hangboardapp.BOARDNAME")) {
-            tempHangboardName = getIntent().getStringExtra("com.finn.laakso.hangboardapp.BOARDNAME");
-        }
+        createSingleHangsOrRepeatersBarChart();
+        singleHangsOrRepeatersBarChart.invalidate();
+        singleHangsOrRepeatersBarChart.animateY(1000);
 
-        // This Intent brings the time controls to the workout program
-        if (getIntent().hasExtra("com.finn.laakso.hangboardapp.TIMECONTROLS")) {
-            int[] time_controls = getIntent().getExtras().getIntArray("com.finn.laakso.hangboardapp.TIMECONTROLS");
 
-            tempTimeControls = new TimeControls();
-            tempTimeControls.setTimeControls(time_controls);
+        new RetrieveDataFromDatabase().execute();
 
-            // SECURITY CHECK, WILL MAKE SURE IN FUTURE TO NEVER HAPPEN
-            if (tempTimeControls.getGripLaps()*2 != tempWorkoutHolds.size()) {
-                tempTimeControls.setGripLaps(tempWorkoutHolds.size()/2);
-            }
-
-            tempCompleted = new int[tempTimeControls.getGripLaps() * tempTimeControls.getRoutineLaps()];
-
-            for (int i = 0; i < tempCompleted.length ; i++) {
-                tempCompleted[i] = 0;
-            }
-
-        }
-
-        if(getIntent().hasExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS")) {
-            tempCompleted = getIntent().getExtras().getIntArray("com.finn.laakso.hangboardapp.COMPLETEDHANGS");
-        }
-
-        String workoutDescription = "Temp desc";
-        if (getIntent().hasExtra("com.finn.laakso.hangboardapp.DESCRIPTION")) {
-            workoutDescription = getIntent().getExtras().getString("com.finn.laakso.hangboardapp.DESCRIPTION");
-            Toast.makeText(this, "olihan siellä", Toast.LENGTH_SHORT).show();
-
-            long time = System.currentTimeMillis();
-
-            // Lets add workout information to database straight from the Intent.
-            dbHandler.addHangboardWorkout(time, tempHangboardName, tempTimeControls, tempWorkoutHolds, tempCompleted, workoutDescription);
-        }
-        // Button just for generating random workout datapoins and testing purposes
-       newEntryButton.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               long rngTime = System.currentTimeMillis();
-               TimeControls rngControls = getRandomTimeControls();
-               dbHandler.addHangboardWorkout(
-                       rngTime- (long)1000*60*60*24*rng.nextInt(60),
-                       getRandomHangboard(),
-                       rngControls,
-                       getRandomWorkoutHolds(rngControls.getGripLaps()),
-                       getCompletedALL(rngControls),
-                       getRandomWorkoutDescription());
-
-                workoutAdapter.notifyDataSetChanged();
-           }
-       });
-
-        // Click listener for editing single workout
-        editWorkoutButton.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-
-                Toast.makeText(WorkoutStatistics.this, "Sorting test ", Toast.LENGTH_SHORT).show();
-
-                Cursor cursor = dbHandler.getListContents();
-                Cursor sortedCursor = dbHandler.getSortedContents();
-
-                if ( cursor.moveToFirst() && sortedCursor.moveToFirst() ) {
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
 
 
-                    Long date1 = cursor.getLong(1);
-                    Long sortedDate = sortedCursor.getLong(1);
-
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
-
-                    Date resultdate = new Date(date1);
-                    Date sortedDate1 = new Date(sortedDate);
-
-                }
-                workoutAdapter.notifyDataSetChanged();
 
             }
         });
 
-        boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
-        workoutAdapter = new WorkoutHistoryAdapter(this,dbHandler,includeHidden);
+    }
 
-        workoutHistoryListView = (ListView) findViewById(R.id.workoutHistoryListView);
-        workoutHistoryListView.setAdapter(workoutAdapter);
-        registerForContextMenu(workoutHistoryListView);
+    public long checkTime() {
+        return -(System.currentTimeMillis()- startTime);
+    }
 
-
-        workoutHistoryListView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
-            @Override
-            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-
-                if (showHiddenWorkoutsCheckBox.isChecked() != workoutAdapter.getShowHiddenStatus())  {
-                    Log.e("ERR"," error: boolean value showhidden differs");
-                    int h = 1;
-                }
-                else {
-                    Log.e("OK","showHidden value same");
-                }
+    private class RetrieveDataFromDatabase extends AsyncTask {
+        protected void onPreExecute() {
 
 
-                if (v.getId() == R.id.workoutHistoryListView) {
-                    //Toast.makeText(EditWorkoutInfo.this, "Context Menu Created ", Toast.LENGTH_SHORT).show();
+        }
 
-                    AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+        @Override
+        protected Object doInBackground(Object[] objects) {
 
-                    // Show different context menu if all workout are shown (hidden too)
-                    if (showHiddenWorkoutsCheckBox.isChecked() ) {
+            Log.e("start back ground: ", " " + checkTime() + "ms");
+            Log.e("end retrieve: ", " " + checkTime() + "ms");
 
-                        menu.setHeaderTitle("Choose your edit");
-                        menu.add(Menu.NONE, 0, 0, "edit workout");
-                        menu.add(Menu.NONE, 1, 1, "hide/unhide workout");
-                        menu.add(Menu.NONE, 2,2,"edit date");
-                        menu.add(Menu.NONE,3,3,"edit hangboard name");
-                        menu.add(Menu.NONE, 4, 4, "delete workout");
-                    }
-                    // Context menu when hidden workout are not shown
-                    else {           menu.setHeaderTitle("Choose your edit");
-                        menu.add(Menu.NONE, 0, 0, "edit workout");
-                        menu.add(Menu.NONE, 1, 1, "hide workout");
-                        menu.add(Menu.NONE, 2,2,"edit date");
-                        menu.add(Menu.NONE,3,3,"edit hangboard name");
-                              // Can't delete unhidden workouts
-                        // menu.add(Menu.NONE, 4, 4, "delete workout");
-                    }
-
-                }
-
+            int datapoints = dbHandler.lookUpWorkoutCount();
+            arrayList_workoutHolds = new ArrayList<ArrayList<Hold>>();
+           //  allTimeControls = new ArrayList<TimeControls>();
+            dates = new ArrayList<Long>();
+            completedArrayList = new ArrayList<int[]>();
+            hangboards = new ArrayList<String>();
+/*
+            for (int i = 1 ; i <= datapoints ; i++) {
+                allTimeControls.add(dbHandler.lookUpTimeControls(i));
             }
-        });
 
-        showHiddenWorkoutsCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Toast.makeText(WorkoutStatistics.this,"is checked true, show hidden workouts",Toast.LENGTH_SHORT).show();
+            createSingleHangsOrRepeatersBarChart();
+            singleHangsOrRepeatersBarChart.invalidate();
+*/
 
-                    workoutAdapter = new WorkoutHistoryAdapter(WorkoutStatistics.this,dbHandler,isChecked);
 
-                    workoutHistoryListView = (ListView) findViewById(R.id.workoutHistoryListView);
-                    workoutHistoryListView.setAdapter(workoutAdapter);
-                    //registerForContextMenu(workoutHistoryListView);
-
-                }
-                else {
-                    Toast.makeText(WorkoutStatistics.this,"is checked false, hide hidden workouts",Toast.LENGTH_SHORT).show();
-
-                    workoutAdapter = new WorkoutHistoryAdapter(WorkoutStatistics.this,dbHandler,isChecked);
-
-                    workoutHistoryListView = (ListView) findViewById(R.id.workoutHistoryListView);
-                    workoutHistoryListView.setAdapter(workoutAdapter);
-                   // registerForContextMenu(workoutHistoryListView);
-
-                }
+            for (int i = 1 ; i <= datapoints ; i++) {
+                arrayList_workoutHolds.add(dbHandler.lookUpHolds(i, includeHidden));
+                dates.add(dbHandler.lookUpDate(i, includeHidden));
+                completedArrayList.add(dbHandler.lookUpCompletedHangs(i, includeHidden));
+                hangboards.add(dbHandler.lookUpHangboard(i, includeHidden));
             }
-        });
 
-        showGraphsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            // retrieveDataFromDatabaseToArrayLists();
 
-                if (dbHandler.lookUpWorkoutCount() == 0) {
-                    Toast.makeText(WorkoutStatistics.this,"Database empty, cannot show graphs",Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Intent showDatabaseGraphs = new Intent(getApplicationContext(),WorkoutDatabaseGraphs.class);
-                    startActivity(showDatabaseGraphs);
-                }
-            }
-        });
+            // singleHangsOrRepeatersBarChart.animateY(1000);
 
-        // Reset button for clearing all database entries, for testing purposes right now
-        resetDBButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               // MyDBHandler dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
-                // dbHandler.DELETEALL();
-
-                if (DELETEALLCOUNTER == 0) {
-                    dbHandler.DELETEALL();
-                    Toast.makeText(WorkoutStatistics.this, "All DELETED, Happy now", Toast.LENGTH_LONG).show();
-                    DELETEALLCOUNTER = 3;
-                }
-                else   {
-                    DELETEALLCOUNTER--;
-                    Toast.makeText(WorkoutStatistics.this, "SOON ALL WILL BE GONE, countdown: " + DELETEALLCOUNTER, Toast.LENGTH_LONG).show();
-                }
-
-                workoutAdapter.notifyDataSetChanged();
-
-            }
-        });
-
-        dateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                // month = month + 1;
-
-                Calendar cal = Calendar.getInstance();
-                cal.set(Calendar.YEAR, year);
-                cal.set(Calendar.MONTH, month);
-                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-                Long timeInMillis = cal.getTimeInMillis();
-
-                boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
-
-                dbHandler.updateDate(positionGlobal,timeInMillis,includeHidden);
-
-                workoutAdapter.notifyDataSetChanged();
-
-                Log.e("millis time"," " + timeInMillis);
-               // Toast.makeText(WorkoutStatistics.this, "date picker set listenr",Toast.LENGTH_LONG).show();
-            }
-        };
+            // retrieveDataFromDatabaseToArrayLists();
+            calculateEffetiveTUTandWTArrayLists();
+            Log.e("end calculate eff: ", " " + checkTime() + "ms");
+            return null;
+        }
 
 
-        Log.e("WO statistics","is checked: " + showHiddenWorkoutsCheckBox.isChecked());
+
+        protected void onPostExecute(Object objects) {
+            Toast.makeText(WorkoutStatistics.this,"RetrieveDataFromDatabase Thread",Toast.LENGTH_SHORT).show();
+
+            createWorkoutTUTandWTLineChart();
+            workoutTUTandWTLineChart.invalidate();
+            workoutTUTandWTLineChart.animateX(1000);
+
+            // Needs some love, currently maybe stable
+            stringDates= new ArrayList<>();
+            createWorkoutDatesBarChart();
+            workoutDatesBarChart.invalidate();
+
+            // createSingleHangsOrRepeatersBarChart();
+
+            createWorkoutIntensityLineChart();
+
+            createTotalWorkoutTimeLineChart();
+
+            createTimeUnderTensionLineChart();
+
+            createDifficultyBarChart();
+
+            createGripDistributionPieChart();
+            gripDistributionPieChart.invalidate();
+            gripDistributionPieChart.animateX(1000);
+
+        }
+    }
+
+    public void createWorkoutTUTandWTLineChart() {
+        workoutTUTandWTLineChart = (LineChart) findViewById(R.id.workoutTUTandWTLineChart);
+
+        ArrayList<Entry> entriesTUT = new ArrayList<Entry>();
+        ArrayList<Entry> entriesWT = new ArrayList<Entry>();
+
+        int xCoord = 0;
+        for (int i = effectiveWorkoutTime.size()-1 ; i >= 0 ; i--) {
+
+            entriesTUT.add(new Entry(xCoord, ((float)effectiveWorkoutTUT.get(i)) ));
+            entriesWT.add(new Entry(xCoord, ((float) effectiveWorkoutTime.get(i)) ));
+            xCoord++;
+        }
+
+        String[] labels = new String[effectiveWorkoutTime.size()-1];
+        for (int i = 0 ; i < labels.length ; i++ ) {
+            labels[i] = "WO: " + (i+1);
+        }
+
+        ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
+
+        LineDataSet lineDataSetTUT = new LineDataSet(entriesTUT,"Time under tension (seconds)");
+        lineDataSetTUT.setColor(Color.RED);
+        LineDataSet lineDataSetWT = new LineDataSet(entriesWT,"Workout time (seconds)");
+        lineDataSetWT.setColors(Color.GREEN);
+
+        lineDataSets.add(lineDataSetTUT);
+        lineDataSets.add(lineDataSetWT);
+
+        LineData lineData = new LineData(lineDataSets);
+
+
+        lineData.setValueTextSize(10f);
+        workoutTUTandWTLineChart.setData(lineData);
+
+        Description desc = new Description();
+        desc.setText("Workout number");
+        workoutTUTandWTLineChart.setDescription(desc);
+
+        XAxis xAxis = workoutTUTandWTLineChart.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
+
+
 
     }
 
+    public void createWorkoutDatesBarChart() {
+        workoutDatesBarChart = (BarChart) findViewById(R.id.workoutDatesBarChart);
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        Cursor dbSortedCursor = dbHandler.getSortedContents();
 
-        // User has updated the completed hangs information lets update that information to database too
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HANGS_COMPLETED) {
-            Toast.makeText(WorkoutStatistics.this," results ok",Toast.LENGTH_SHORT).show();
+        ArrayList<Long> datesByLongs = new ArrayList<>();
+        ArrayList<Date> allDates = new ArrayList<>();
 
-            boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+/*
+        while (dbSortedCursor.moveToNext() ) {
+            datesByLongs.add(dbSortedCursor.getLong(1));
+            allDates.add(new Date(dbSortedCursor.getLong(1)));
+        }
+*/
+        ArrayList<BarEntry> entries = new ArrayList<>();
 
-            if (data.hasExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS")) {
+        long difference = 0L;
+        ArrayList<Integer> dayDifferences = new ArrayList<>();
 
-                int[] completed = data.getIntArrayExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS");
-                dbHandler.updateCompletedHangs(positionGlobal,completed,includeHidden);
-            }
+        // Calculate dates varaibles time difference by day
+        for (int i = 0; i < dates.size() ; i ++) {
 
-            if (data.hasExtra("com.finn.laakso.hangboardapp.DESCRIPTION")) {
+            // compare every date to the first dave by subtracting from it thats the difference
+            difference = - (dates.get(dates.size()-1) - dates.get(i) )/( 1000*60*60*24);
+            dayDifferences.add( (int) difference);
 
-                String desc = data.getStringExtra("com.finn.laakso.hangboardapp.DESCRIPTION");
-                dbHandler.updateWorkoutDescription(positionGlobal,desc,includeHidden);
-
-            }
-            workoutAdapter.notifyDataSetChanged();
         }
 
-
-        else {
-            Toast.makeText(WorkoutStatistics.this," results not saved",Toast.LENGTH_SHORT).show();
+        // Lets populate the entries by starting at day 0 (dayDifference = first record) and finishing
+        // the latest workout day x and corresponding workoutTime
+        for (int i = dayDifferences.size()-1; i >= 0 ; i--) {
+            // Log.e("data point ", dayDifferences.get(i) + " : "+effectiveWorkoutTime.get(i)/60);
+            entries.add(new BarEntry(dayDifferences.get(i) , (float)effectiveWorkoutTime.get(i)/60 ));
         }
+
+        BarDataSet barDataSet = new BarDataSet(entries,"Workout time for each day from first to last (min)");
+        barDataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
+        BarData barData = new BarData(barDataSet);
+        workoutDatesBarChart.setData(barData);
+
+        // Lets populate the x axis that dont have workouts in them
+        String[] labels = new String[dayDifferences.get(0) + 1];
+        for (int i = 0 ; i < labels.length ; i++ ) {
+            labels[i] = "day: " + i;
+        }
+
+        labels[labels.length-1] = sdf.format(dates.get(dates.size()-1));
+        labels[0] = sdf.format(dates.get(0));
+
+       // Collections.reverse(dayDifferences);
+        int test = 0;
+        for (int i = 0 ; i < dayDifferences.size()  ; i++) {
+
+            test = dayDifferences.get(i);
+
+            if (test < 0 || test >= labels.length) {
+                Log.e("ERROR: " , test + " vs. " + labels.length);
+                break;
+            }
+
+            labels[dayDifferences.get(i)] = sdf.format(dates.get(i));
+            // Log.e(" labels i",i + " :  " + sdf.format(dates.get(i)));
+        }
+
+        // BarData theData = new BarData(bardataset);
+
+        Description desc = new Description();
+        desc.setText("Workout day number");
+
+        workoutDatesBarChart.setDescription(desc);
+        XAxis xAxis = workoutDatesBarChart.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+        xAxis.setGranularity(1f);
+        //xAxis.setGranularityEnabled(true);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        // SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+
+       // Date resultdate = new Date(dbHandler.lookUpDate(1));
+
+        // createRandomBarGraph(sdf.format(allDates.get(allDates.size()-1)),sdf.format(allDates.get(0)));
 
     }
 
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
+    public void createRandomBarGraph(String stringDate1, String stringDate2) {
 
-        // return super.onContextItemSelected(item);
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        workoutDatesBarChart = (BarChart) findViewById(R.id.workoutDatesBarChart);
 
-        int selectedListViewPosition = info.position+1;
-        positionGlobal = info.position + 1;
-        int selectedContextMenuItem = item.getItemId();
-
-        final boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
-        Log.e("WO statistics 2","is checked: " + showHiddenWorkoutsCheckBox.isChecked());
-
-        ArrayList<Hold> holds = dbHandler.lookUpHolds(selectedListViewPosition,includeHidden);
-        //Long date = dbHandler.lookUpDate(selectedListViewPosition, includeHidden);
-        int[] completedHangs = dbHandler.lookUpCompletedHangs(selectedListViewPosition, includeHidden);
-        TimeControls timeControls = dbHandler.lookUpTimeControls(selectedListViewPosition, includeHidden);
-        String hangboardName = dbHandler.lookUpHangboard(selectedListViewPosition, includeHidden);
-        String desc = dbHandler.lookUpWorkoutDescription(selectedListViewPosition, includeHidden);
-
-        if (selectedContextMenuItem == 0) {
-            Intent editWorkout = new Intent(getApplicationContext(), EditWorkoutInfo.class);
-
-            // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
-            editWorkout.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
-            editWorkout.putExtra("com.finn.laakso.hangboardapp.BOARDNAME",hangboardName);
-            editWorkout.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", holds);
-            editWorkout.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS",completedHangs);
-            editWorkout.putExtra("com.finn.laakso.hangboardapp.DESCRIPTION",desc);
-
-            setResult(Activity.RESULT_OK,editWorkout);
-            startActivityForResult(editWorkout, REQUEST_HANGS_COMPLETED);
-        }
-        else if (selectedContextMenuItem == 1) {
-
-            dbHandler.hideWorkoutNumber(selectedListViewPosition,includeHidden);
-
-            workoutAdapter.notifyDataSetChanged();
-
-        }
-        else if (selectedContextMenuItem == 2) {
-
-            Toast.makeText(WorkoutStatistics.this, "EDITING DATE" + positionGlobal, Toast.LENGTH_SHORT).show();
-
-            long timeInMillis = dbHandler.lookUpDate(selectedListViewPosition,includeHidden);
-
-            Calendar cal = Calendar.getInstance();
-            cal.setTimeInMillis(timeInMillis);
-            int year = cal.get(Calendar.YEAR);
-            int month = cal.get(Calendar.MONTH);
-            int day = cal.get(Calendar.DAY_OF_MONTH);
-
-            DatePickerDialog dialog = new DatePickerDialog(
-                    WorkoutStatistics.this,
-                    android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                    dateSetListener,
-                    year,month,day);
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            dialog.show();
-
-
-        }
-
-        else if (selectedContextMenuItem == 3) {
-            Toast.makeText(WorkoutStatistics.this, "editing hangboard name " + positionGlobal, Toast.LENGTH_SHORT).show();
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Hangboard name");
-            builder.setIcon(R.drawable.ic_launcher_background);
-            builder.setMessage("edit hangboard name");
-
-            hangboardNameEditText = new EditText(this);
-            hangboardNameEditText.setText(hangboardName);
-            builder.setView(hangboardNameEditText);
-
-            //Set positive button
-            builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    String newBoardName = hangboardNameEditText.getText().toString();
-                    if (newBoardName.length() > 25) {
-                        newBoardName = newBoardName.substring(0,25);
-
-                        Toast.makeText(WorkoutStatistics.this,"Please use under 25 characters to describe hangboard name.",Toast.LENGTH_LONG).show();
-                    }
-                    boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
-                    dbHandler.updateHangboardName(positionGlobal,newBoardName,includeHidden);
-
-                    workoutAdapter.notifyDataSetChanged();
-
-                }
-            });
-
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-
-            AlertDialog ad = builder.create();
-            ad.show();
-
-        }
-
-        else if (selectedContextMenuItem == 4) {
-
-            if (dbHandler.lookUpIsHidden(selectedListViewPosition)) {
-                dbHandler.delete(selectedListViewPosition);
-
-                Toast.makeText(WorkoutStatistics.this, "DELETING: " + positionGlobal, Toast.LENGTH_SHORT).show();
-                workoutAdapter.notifyDataSetChanged();
-            }
-            else {
-                Toast.makeText(WorkoutStatistics.this, "To delete a Workout you must hide it first", Toast.LENGTH_SHORT).show();
-            }
-
-        }
-
-        return true;
-    }
-
-
-    // Randomizers for creating all the data that is neede for testing SQLite database
-    // TimeControls, Holds, Dates
-    private ArrayList<Hold> getRandomWorkoutHolds(int number_of_holds) {
-
-        ArrayList<Hold> newHolds = new ArrayList<Hold>();
-
-        Hold newLeftHandHold;
-        Hold newRightHandHold;
-        for (int i = 0;i < number_of_holds; i++) {
-            newLeftHandHold = getNewRandomHold();
-            newRightHandHold = getNewRandomHold();
-            newRightHandHold.setGripStyle(newLeftHandHold.getGripStyle());
-
-            newHolds.add(newLeftHandHold);      // left hand
-            newHolds.add(newRightHandHold); // right hand
-
-        }
-        return newHolds;
-    }
-
-    public int[] getCompletedALL(TimeControls timeControls) {
-
-        int[] allCompleted = new int[timeControls.getGripLaps()*timeControls.getRoutineLaps()];
-        for (int i = 0; i < allCompleted.length; i++) {
-            allCompleted[i] = timeControls.getHangLaps();
-        }
-        return  allCompleted;
-    }
-
-    public int[] getCompletedRandomly(TimeControls timeControls) {
-
-        int[] rngCompleted = new int[timeControls.getGripLaps()*timeControls.getRoutineLaps()];
         Random rng = new Random();
-        for (int i = 0; i < rngCompleted.length; i++) {
-            rngCompleted[i] = rng.nextInt(timeControls.getHangLaps()+1);
-        }
-        return  rngCompleted;
-    }
 
-    private Hold getNewRandomHold() {
-        Hold newHold = new Hold(rng.nextInt(20)+1);
-        newHold.setHoldValue(rng.nextInt(40)+1);
-        int i_hold_bot_info = (rng.nextInt(8)+1)*10;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        ArrayList<BarEntry> barEntries = new ArrayList<>();
+        try {
+            Date date1 = simpleDateFormat.parse(stringDate1);
+            Date date2 = simpleDateFormat.parse(stringDate2);
 
+            Calendar mDate1 = Calendar.getInstance();
+            Calendar mDate2 = Calendar.getInstance();
+            mDate1.clear();
+            mDate2.clear();
 
-        i_hold_bot_info = i_hold_bot_info + rng.nextInt(1);
-        newHold.setGripTypeAndSingleHang(i_hold_bot_info);
+            mDate1.setTime(date1);
+            mDate2.setTime(date2);
 
-        if (showHiddenWorkoutsCheckBox.isChecked() != workoutAdapter.getShowHiddenStatus())  {
-            Log.e("ERR"," error: boolean value showhidden differs");
-            int h = 1;
-        }
-        else {
-            Log.e("OK","showHidden value same");
-        }
+            stringDates = new ArrayList<>();
+            stringDates  = getList(mDate1,mDate2);
 
-        return newHold;
-    }
-
-    private TimeControls getRandomTimeControls() {
-
-        int hang_laps = rng.nextInt(6)+1;
-        int grip_laps = rng.nextInt(6)+2;
-        if (hang_laps == 1) { grip_laps=rng.nextInt(15)+10; }
-
-        int routine_laps=rng.nextInt(4)+1;
-        int time_on = 7;
-        int time_off= 3;
-
-        if (hang_laps == 1) {time_on = 10; time_off = 0; }
-        // private int time_total = time_on + time_off;
-         int rest = rng.nextInt(130)+20;
-        int long_rest = rng.nextInt(60)*(rng.nextInt(5)+1 );
-        int[] i = {grip_laps,hang_laps,time_on,time_off,routine_laps,rest,long_rest};
-
-         // int[] i = {rng.nextInt(30)+1,rng.nextInt(10)+1,rng.nextInt(9)+1,rng.nextInt(5),rng.nextInt(4)+1,rng.nextInt(200)+1,rng.nextInt(500)+1};
-
-        TimeControls randomTimeControls = new TimeControls();
-        randomTimeControls.setTimeControls(i);
-        // rng.nextInt()+1;
-       // Log.d("heh: ", "" + i.length);
-        return  randomTimeControls;
-    }
-
-    private String getRandomHangboard() {
-        String rngBoard="rng failed board";
-        int rngSeed = rng.nextInt(15);
-        CustomSwipeAdapter.hangboard rngHB = CustomSwipeAdapter.getHangBoard(rngSeed);
-
-        rngBoard = "RNG " + CustomSwipeAdapter.getHangboardName(rngHB);
-
-        return rngBoard;
-    }
-
-    private String getRandomWorkoutDescription() {
-        String rngString= "This paragraph describes my frustration towards my inability to articulate " +
-                "what is so wrong about workouts and their timing in mornings and evenings, even though " +
-                "I do not hate parallel or even or even odd values that is to say this rambling and " +
-                "mumbo jumbo no. 5 will make this even tho yes no very good bad yes yes very good I am " +
-                "alpha king kong gorilla finger strength is stronger than triceps in lizards limbs " +
-                "mental gift is higher than gods will to fly towards should stability and tendon " +
-                "soreness Much needed break timer laps are coming or sets and reps four fingers though" +
-                " three front often and three back yes why not middle finger one armer and sandwich THEEND";
+            float max = 0f;
+            float value = 0f;
+            for (int j = 0; j < stringDates.size() ; j++ ) {
+                max = 100f;
+                value = rng.nextFloat()*max;
+                barEntries.add(new BarEntry(j,value));
+            }
 
 
-        StringBuilder rngDesc= new StringBuilder("rng: ");
-        String[] rngStringList = rngString.split(" ");
-        for (int i = rng.nextInt(15)+1 ; i >=0 ; i--) {
-            //Log.e("kierros",": " + i);
-
-            int rngIndex = rng.nextInt(rngStringList.length);
-
-            rngDesc.append(rngStringList[rngIndex]);
-            rngDesc.append(" ");
-
-            // int start = rng.nextInt(rngString.length()-10);
-            // int end = start + rng.nextInt(10);
-
-//            rngDesc.append(rngString.substring(start,end));
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
 
-        return rngDesc.toString();
+        BarDataSet barDataSet = new BarDataSet(barEntries,"Dates");
+        BarData barData = new BarData(barDataSet);
+        workoutDatesBarChart.setData(barData);
+
+        String[] labels = new String[6];
+
+        labels[0] = "0 date";
+        labels[1] = "1 date " ;
+        labels[2] = "2 date ";
+        labels[3] = "3 date";
+        labels[4] = "4 date " ;
+        labels[5] = "5 date ";
+        // BarData theData = new BarData(bardataset);
+
+        Description desc = new Description();
+        desc.setText(" ");
+
+        XAxis xAxis = workoutDatesBarChart.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+        //xAxis.setGranularity(1f);
+        //xAxis.setGranularityEnabled(true);
+        xAxis.setPosition(XAxis.XAxisPosition.TOP_INSIDE);
+
+
     }
 
-    private String getRandomDate() {
-        int paiva = rng.nextInt(30)+1;
-        int vuosi = rng.nextInt(28)+1990;
-        String kk = "Jun";
-
-        int i = rng.nextInt(6);
-        if (i == 0) {kk = "Jan"; }
-        else if (i==1) {kk = "Feb"; }
-        else if (i == 2) {kk = "May"; }
-        else if (i==3) {kk = "Aug"; }
-        else if ( i == 4) { kk = "Apr"; }
-
-        return paiva + "-" + kk + "-" + vuosi;
+    public ArrayList<String> getList(Calendar startDate, Calendar endDate) {
+        ArrayList<String> list = new ArrayList<>();
+        while (startDate.compareTo(endDate) <= 0) {
+            list.add(getDate(startDate));
+            startDate.add(Calendar.DAY_OF_MONTH,1);
+        }
+        return list;
     }
+
+    public String getDate(Calendar cld) {
+        String curDate = cld.get(Calendar.YEAR) + "/" + (cld.get(Calendar.MONTH)+1) + "/" +
+                cld.get(Calendar.DAY_OF_MONTH);
+
+        try  {
+            Date date = new SimpleDateFormat("yyyy/MM/dd").parse(curDate);
+            curDate = new SimpleDateFormat("yyyy/MM/dd").format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return curDate;
+    }
+
+    public void createSingleHangsOrRepeatersBarChart() {
+
+        singleHangsOrRepeatersBarChart = (HorizontalBarChart) findViewById(R.id.singleHangsOrRepeatersBarChart);
+
+        int repeatersAmount = 0;
+        int singleHangsAmount = 0;
+        for ( int i = 0 ; i < allTimeControls.size() ; i++) {
+            if (allTimeControls.get(i).getHangLaps() == 1) {
+                singleHangsAmount++;
+            } else {
+                repeatersAmount++;
+            }
+        }
+        singleHangsOrRepeatersBarChart.getXAxis().setDrawGridLines(false);
+        singleHangsOrRepeatersBarChart.getAxisLeft().setDrawGridLines(false);
+
+        ArrayList<BarEntry> entries = new ArrayList<>();
+        entries.add(new BarEntry(1,singleHangsAmount));
+        entries.add(new BarEntry(2,repeatersAmount));
+
+        BarDataSet bardataset = new BarDataSet(entries,"Number of workouts" );
+
+
+        bardataset.setColors(ColorTemplate.VORDIPLOM_COLORS);
+
+
+        String[] labels = new String[3];
+
+        labels[0] = " ";
+        labels[1] = "single hangs: " + singleHangsAmount;
+        labels[2] = "repeaters. " + repeatersAmount;
+        BarData theData = new BarData(bardataset);
+
+        Description desc = new Description();
+        desc.setText(" ");
+
+        //singleHangsOrRepeatersBarChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
+        singleHangsOrRepeatersBarChart.setData(theData);
+        singleHangsOrRepeatersBarChart.setDescription(desc);
+
+        XAxis xAxis = singleHangsOrRepeatersBarChart.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+        xAxis.setGranularity(1f);
+        xAxis.setGranularityEnabled(true);
+        xAxis.setPosition(XAxis.XAxisPosition.TOP_INSIDE);
+
+    }
+
+    public void createWorkoutIntensityLineChart() {
+        workoutIntensityLineChart = (LineChart) findViewById(R.id.workoutIntensityChart);
+        List<Entry> entries = new ArrayList<Entry>();
+
+        float intensityPercent = 0;
+        for (int i = 0 ; i < effectiveWorkoutTime.size() ; i++) {
+
+            intensityPercent = (float) effectiveWorkoutTUT.get(i) / (float) effectiveWorkoutTime.get(i);
+
+            entries.add(new Entry(i,intensityPercent));
+        }
+
+        LineDataSet linedataSet = new LineDataSet(entries, "Intensity per workout = workout time / time under tension");
+        linedataSet.setColor(Color.MAGENTA);
+        //linedataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+
+        LineData lineData = new LineData(linedataSet);
+
+
+        if (effectiveWorkoutTime.size() > 30) {
+            lineData.setValueTextSize(0f);
+
+        }
+
+        workoutIntensityLineChart.setData(lineData);
+    }
+
+    public void createTotalWorkoutTimeLineChart() {
+         workoutTimeLineChart = (LineChart) findViewById(R.id.workoutTimeChart);
+
+        List<Entry> entries = new ArrayList<Entry>();
+
+        for (int i = 0 ; i < effectiveWorkoutTime.size() ; i++) {
+            entries.add(new Entry(i,effectiveWorkoutTime.get(i)/60));
+        }
+
+        LineDataSet linedataSet = new LineDataSet(entries, "Total workout time in minutes");
+        linedataSet.setColor(Color.DKGRAY);
+
+        LineData lineData = new LineData(linedataSet);
+
+        if (effectiveWorkoutTime.size() > 30) {
+            lineData.setValueTextSize(0f);
+
+        }
+
+        workoutTimeLineChart.setData(lineData);
+
+    }
+
+    public void createTimeUnderTensionLineChart() {
+        timeUnderTensionLineChart = (LineChart) findViewById(R.id.timeUnderTensionChart);
+
+        List<Entry> entries = new ArrayList<Entry>();
+
+        for (int i = 0 ; i < effectiveWorkoutTUT.size() ; i++) {
+            entries.add(new Entry(i+1,effectiveWorkoutTUT.get(i)));
+        }
+
+        LineDataSet linedataSet = new LineDataSet(entries, "Time under tension in seconds for every workout");
+        linedataSet.setColor(Color.CYAN);
+
+        LineData lineData = new LineData(linedataSet);
+
+        if (effectiveWorkoutTUT.size() > 30) {
+            lineData.setValueTextSize(0f);
+
+        }
+
+        timeUnderTensionLineChart.setData(lineData);
+        // timeUnderTensionLineChart.animateXY(1000,1000);
+
+
+    }
+
+    public void createDifficultyBarChart() {
+        difficultyBarChart = (BarChart) findViewById(R.id.difficultyBarChart);
+        //difficultyBarChart.setDrawBarShadow(true);
+
+        ArrayList<BarEntry> entries = new ArrayList<>();
+
+        int[] completed_seconds;
+        int[] grip_difficulties;
+
+        TreeMap<Integer,Integer> difficultyMap = new TreeMap<Integer, Integer>();
+
+        // all hold in workout history
+        for (int i = 0 ; i < arrayList_workoutHolds.size() ; i++ ) {
+
+            // Holds used in a single workout
+            completed_seconds = new int[allTimeControls.get(i).getGripLaps()];
+            grip_difficulties = new int[allTimeControls.get(i).getGripLaps()];
+
+            // lets get single workouts grip difficulties,
+            for (int j = 0 ; j < grip_difficulties.length; j++) {
+                grip_difficulties[j] = (arrayList_workoutHolds.get(i).get(2*j).getHoldValue() +
+                        arrayList_workoutHolds.get(i).get(2*j+1).getHoldValue() ) / 2;
+            }
+            // lets get single workouts completed hangs in seconds
+            for (int j = 0 ; j < completedArrayList.get(i).length ; j++) {
+                completed_seconds[j % allTimeControls.get(i).getGripLaps()] += completedArrayList.get(i)[j] * allTimeControls.get(i).getTimeON();
+            }
+
+            // lets put both in TreeMap, so that same difficulty level is only once and seconds is summed in that level
+            for (int j = 0; j < grip_difficulties.length ; j++) {
+                // entries.add(new BarEntry(grip_difficulties[j],completed_seconds[j]));
+
+                if (difficultyMap.containsKey(grip_difficulties[j])) {
+                    difficultyMap.put(grip_difficulties[j], difficultyMap.get(grip_difficulties[j]) + completed_seconds[j]);
+                }
+                else {
+                    difficultyMap.put(grip_difficulties[j],completed_seconds[j]);
+                }
+
+            }
+
+            //printIntArray(grip_difficulties,"Grip Difficulties");
+            //printIntArray(completed_seconds,"Completed seconds");
+
+        }
+        ArrayList<Integer> barColors = new ArrayList<Integer>();
+        int increment = 200/difficultyMap.size();
+        int alpha = 0;
+        for(Map.Entry<Integer,Integer> entry: difficultyMap.entrySet()) {
+            int key = entry.getKey();
+            int value = entry.getValue();
+
+            value = value;
+
+            if ( value == 0) {continue;}
+            alpha += increment;
+            barColors.add(Color.argb(50+alpha,200,0,0));
+            entries.add(new BarEntry(key,value));
+            // Log.e("test","increment: " + alpha);
+        }
+
+        BarDataSet dataset = new BarDataSet(entries,"Difficulty");
+        //dataset.setLabel("TEST LABEL");
+        dataset.setValueTextSize(0f);
+
+        dataset.setBarBorderWidth(1f);
+
+        dataset.setColors( barColors);
+
+        BarData data = new BarData(dataset);
+
+        difficultyBarChart.setData(data);
+        Description desc = new Description();
+        desc.setText("seconds spent on each difficulty level");
+        difficultyBarChart.setDescription(desc);
+
+        difficultyBarChart.setDrawValueAboveBar(true);
+        difficultyBarChart.setFitBars(false);
+
+        XAxis xAxis = difficultyBarChart.getXAxis();
+        xAxis.setGranularity(1f);
+        xAxis.setGranularityEnabled(true);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+
+    }
+
+    private void printIntArray(int[] printedArray,String arrayInfo) {
+        StringBuilder sb = new StringBuilder(" ");
+        for (int i = 0; i < printedArray.length ; i++) {
+            sb.append(printedArray[i]+ ",");
+        }
+        Log.e("printIntArray: ",arrayInfo + sb.toString());
+    }
+
+    private void printIntArrayList(ArrayList<Integer> printedArrayList, String arrayInfo) {
+        StringBuilder sb = new StringBuilder(" ");
+
+        for (int i = 0; i < printedArrayList.size() ; i++) {
+            sb.append(printedArrayList.get(i)+ ",");
+        }
+        Log.e("printIntArray: ",arrayInfo + sb.toString());
+
+
+    }
+
+    public void createGripDistributionPieChart() {
+        gripDistributionPieChart = (PieChart) findViewById(R.id.gripDistributionPieChart);
+        gripDistributionPieChart.setCenterText("Each grip type used in seconds");
+
+        ArrayList<PieEntry> yValues = new ArrayList<>();
+
+        int fourfinger = 0;
+        int threefront = 0;
+        int threeback= 0;
+        int twofront = 0;
+        int twomiddle = 0;
+        int twoback = 0;
+        int middlefinger = 0;
+        int other = 0;
+        int total_grips = 0;
+
+        int seconds_multiplier = 0;
+        int hold_index = 0;
+
+        Hold.grip_type gripType;
+
+        // All Holds ever used
+        for (int i = 0 ; i < arrayList_workoutHolds.size() ; i++ ) {
+
+            // Holds used in a single workout
+            for (int j = 0 ; j < completedArrayList.get(i).length ; j ++) {
+
+                // multiplier depending if the hang was successfull or not
+                seconds_multiplier = completedArrayList.get(i)[j] * allTimeControls.get(i).getTimeON();
+                hold_index = 2*( j % allTimeControls.get(i).getGripLaps());
+
+               // Log.e("workout Holds: index: ",hold_index + "   text: "+ arrayList_workoutHolds.get(i).get(hold_index).getHoldText());
+
+                gripType = arrayList_workoutHolds.get(i).get(hold_index).getGripStyle();
+                total_grips += seconds_multiplier;
+                if (gripType == Hold.grip_type.FOUR_FINGER) { fourfinger += seconds_multiplier; }
+                else if (gripType == Hold.grip_type.THREE_FRONT) {threefront += seconds_multiplier; }
+                else if ( gripType == Hold.grip_type.THREE_BACK) {threeback += seconds_multiplier; }
+                else if ( gripType == Hold.grip_type.TWO_FRONT){twofront += seconds_multiplier; }
+                else if ( gripType == Hold.grip_type.TWO_MIDDLE){twomiddle += seconds_multiplier; }
+                else if ( gripType == Hold.grip_type.TWO_BACK){twoback += seconds_multiplier; }
+                else if ( gripType == Hold.grip_type.MIDDLE_FINGER){middlefinger += seconds_multiplier; }
+                else {other+= seconds_multiplier; }
+            }
+        }
+
+        if (fourfinger == 0 || total_grips/fourfinger > 50) {other += fourfinger;}
+         else {yValues.add(new PieEntry(fourfinger,"Four fingers")); }
+
+        if (threefront == 0 || total_grips/threefront >50) {  other += threefront;  }
+        else { yValues.add(new PieEntry(threefront,"Three front")); }
+
+        if (threeback == 0 || total_grips/threeback > 50) { other += threeback;}
+        else { yValues.add(new PieEntry(threeback,"Three back")); }
+
+        if (twofront == 0 || total_grips/twofront > 50) {other += twofront; }
+        else {yValues.add(new PieEntry(twofront,"Two middle"));}
+
+            if (twomiddle == 0 || total_grips/twomiddle > 50) {other += twomiddle; }
+        else {yValues.add(new PieEntry(twomiddle,"Two front")); }
+
+            if (twoback  == 0 || total_grips/twoback > 50) {other += twoback; }
+        else {yValues.add(new PieEntry(twoback,"Two back")); }
+
+            if (middlefinger == 0 || total_grips/middlefinger > 50) {other += middlefinger; }
+        else {yValues.add(new PieEntry(middlefinger,"Middle finger")); }
+
+        yValues.add(new PieEntry(other,"other"));
+
+        PieDataSet dataSet = new PieDataSet(yValues,"Grip distribution");
+        dataSet.setSliceSpace(3f);
+        dataSet.setSelectionShift(5f);
+        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+
+        PieData data = new PieData(dataSet);
+        data.setValueTextSize(10f);
+        data.setValueTextColor(Color.YELLOW);
+        gripDistributionPieChart.setData(data);
+        // gripDistributionPieChart.animateY(1000);
+
+        Description desc = new Description();
+        desc.setText("Grip distribution");
+
+
+    }
+    public void calculateEffetiveTUTandWTArrayLists() {
+
+        Long breaktime = System.currentTimeMillis();
+        Log.e("thread tst"," start! ");
+
+        int datapoints = dbHandler.lookUpWorkoutCount();
+
+
+        StringBuilder generalInfo = new StringBuilder("Workouts in Database: " + datapoints + "\n");
+
+        long total_workout_time = 0;
+        long total_time_under_tension = 0;
+        long total_hang_laps = 0;
+        long total_successful_hangs = 0;
+
+        long total_adjusted_time_under_tension= 0;
+
+        long erased_workout_time = 0;
+        int single_erased_workout_time = 0;
+
+
+        // first item in SQLite database is at 1
+        for (int i = 1 ; i <= datapoints ; i++) {
+            /*
+            arrayList_workoutHolds.add(dbHandler.lookUpHolds(i));
+            allTimeControls.add(dbHandler.lookUpTimeControls(i));
+            dates.add(dbHandler.lookUpDate(i));
+            completedArrayList.add(dbHandler.lookUpCompletedHangs(i));
+            hangboards.add(dbHandler.lookUpHangboard(i));*/
+
+
+            single_erased_workout_time = 0;
+            for (int k = completedArrayList.get(i-1).length - 1 ; k >= 0 && completedArrayList.get(i-1)[k] == 0 ; k--) {
+
+                if (k % allTimeControls.get(i-1).getGripLaps() == 0) {
+                    single_erased_workout_time = single_erased_workout_time + allTimeControls.get(i-1).getLongRestTime()
+                            + allTimeControls.get(i-1).getHangLaps() * (allTimeControls.get(i-1).getTimeON()
+                            + allTimeControls.get(i-1).getTimeOFF());
+                    erased_workout_time += single_erased_workout_time;
+
+                } else {
+                    single_erased_workout_time = single_erased_workout_time + allTimeControls.get(i-1).getRestTime()
+                            + allTimeControls.get(i-1).getHangLaps() * (allTimeControls.get(i-1).getTimeON()
+                            + allTimeControls.get(i-1).getTimeOFF());
+                    erased_workout_time += single_erased_workout_time;
+                }
+            }
+            effectiveWorkoutTime.add(allTimeControls.get(i-1).getTotalTime() - single_erased_workout_time);
+
+            total_workout_time += allTimeControls.get(i-1).getTotalTime();
+            total_time_under_tension += allTimeControls.get(i-1).getTimeUnderTension();
+            total_hang_laps += allTimeControls.get(i-1).getHangLaps()*allTimeControls.get(i-1).getGripLaps()*allTimeControls.get(i-1).getRoutineLaps();
+
+            int single_time_under_tension = 0;
+            for (int j = 0 ; j < completedArrayList.get(i-1).length ; j++) {
+                single_time_under_tension += completedArrayList.get(i-1)[j]*allTimeControls.get(i-1).getTimeON();
+
+                total_successful_hangs += completedArrayList.get(i-1)[j];
+            }
+            total_adjusted_time_under_tension += single_time_under_tension;
+
+            effectiveWorkoutTUT.add(single_time_under_tension);
+        }
+
+        // printIntArrayList(effectiveWorkoutTime, "WorkoutTime");
+        //printIntArrayList(effectiveWorkoutTUT,"workoutTUT");
+
+        // generalInfoTextView.setText(generalInfo.toString());
+        Long endTime = breaktime - System.currentTimeMillis();
+        Log.e("calculate method", "end " +endTime);
+    }
+
+    public void retrieveDataFromDatabaseToArrayLists() {
+
+
+        int datapoints = dbHandler.lookUpWorkoutCount();
+
+        arrayList_workoutHolds = new ArrayList<ArrayList<Hold>>();
+        allTimeControls = new ArrayList<TimeControls>();
+        dates = new ArrayList<Long>();
+        completedArrayList = new ArrayList<int[]>();
+        hangboards = new ArrayList<String>();
+
+        StringBuilder generalInfo = new StringBuilder("Workouts in Database: " + datapoints + "\n");
+
+        long total_workout_time = 0;
+        long total_time_under_tension = 0;
+        long total_hang_laps = 0;
+        long total_successful_hangs = 0;
+
+        long total_adjusted_time_under_tension= 0;
+
+        long erased_workout_time = 0;
+        int single_erased_workout_time = 0;
+
+
+        // first item in SQLite database is at 1
+        for (int i = 1 ; i <= datapoints ; i++) {
+            arrayList_workoutHolds.add(dbHandler.lookUpHolds(i, includeHidden));
+            allTimeControls.add(dbHandler.lookUpTimeControls(i, includeHidden));
+            dates.add(dbHandler.lookUpDate(i, includeHidden));
+            completedArrayList.add(dbHandler.lookUpCompletedHangs(i, includeHidden));
+            hangboards.add(dbHandler.lookUpHangboard(i, includeHidden));
+
+            /*
+            single_erased_workout_time = 0;
+            for (int k = completedArrayList.get(i-1).length - 1 ; k >= 0 && completedArrayList.get(i-1)[k] == 0 ; k--) {
+
+                if (k % allTimeControls.get(i-1).getGripLaps() == 0) {
+                    single_erased_workout_time = single_erased_workout_time + allTimeControls.get(i-1).getLongRestTime()
+                            + allTimeControls.get(i-1).getHangLaps() * (allTimeControls.get(i-1).getTimeON()
+                            + allTimeControls.get(i-1).getTimeOFF());
+                    erased_workout_time += single_erased_workout_time;
+
+                } else {
+                    single_erased_workout_time = single_erased_workout_time + allTimeControls.get(i-1).getRestTime()
+                            + allTimeControls.get(i-1).getHangLaps() * (allTimeControls.get(i-1).getTimeON()
+                            + allTimeControls.get(i-1).getTimeOFF());
+                    erased_workout_time += single_erased_workout_time;
+                }
+            }
+            effectiveWorkoutTime.add(allTimeControls.get(i-1).getTotalTime() - single_erased_workout_time);
+
+            total_workout_time += allTimeControls.get(i-1).getTotalTime();
+            total_time_under_tension += allTimeControls.get(i-1).getTimeUnderTension();
+            total_hang_laps += allTimeControls.get(i-1).getHangLaps()*allTimeControls.get(i-1).getGripLaps()*allTimeControls.get(i-1).getRoutineLaps();
+
+            int single_time_under_tension = 0;
+            for (int j = 0 ; j < completedArrayList.get(i-1).length ; j++) {
+                single_time_under_tension += completedArrayList.get(i-1)[j]*allTimeControls.get(i-1).getTimeON();
+
+                total_successful_hangs += completedArrayList.get(i-1)[j];
+            }
+            total_adjusted_time_under_tension += single_time_under_tension;
+
+            effectiveWorkoutTUT.add(single_time_under_tension);*/
+        }
+
+    }
+
+   /* public void retrieveDataFromDatabaseToArrayLists() {
+
+        Long breaktime = System.currentTimeMillis();
+        Log.e("thread tst"," start! ");
+
+        int datapoints = dbHandler.lookUpWorkoutCount();
+
+        arrayList_workoutHolds = new ArrayList<ArrayList<Hold>>();
+        allTimeControls = new ArrayList<TimeControls>();
+        dates = new ArrayList<Long>();
+        completedArrayList = new ArrayList<int[]>();
+        hangboards = new ArrayList<String>();
+
+        StringBuilder generalInfo = new StringBuilder("Workouts in Database: " + datapoints + "\n");
+
+        long total_workout_time = 0;
+        long total_time_under_tension = 0;
+        long total_hang_laps = 0;
+        long total_successful_hangs = 0;
+
+        long total_adjusted_time_under_tension= 0;
+
+        long erased_workout_time = 0;
+        int single_erased_workout_time = 0;
+
+        
+        // first item in SQLite database is at 1
+        for (int i = 1 ; i <= datapoints ; i++) {
+            arrayList_workoutHolds.add(dbHandler.lookUpHolds(i));
+            allTimeControls.add(dbHandler.lookUpTimeControls(i));
+            dates.add(dbHandler.lookUpDate(i));
+            completedArrayList.add(dbHandler.lookUpCompletedHangs(i));
+            hangboards.add(dbHandler.lookUpHangboard(i));
+
+            single_erased_workout_time = 0;
+            for (int k = completedArrayList.get(i-1).length - 1 ; k >= 0 && completedArrayList.get(i-1)[k] == 0 ; k--) {
+
+                if (k % allTimeControls.get(i-1).getGripLaps() == 0) {
+                    single_erased_workout_time = single_erased_workout_time + allTimeControls.get(i-1).getLongRestTime()
+                            + allTimeControls.get(i-1).getHangLaps() * (allTimeControls.get(i-1).getTimeON()
+                            + allTimeControls.get(i-1).getTimeOFF());
+                    erased_workout_time += single_erased_workout_time;
+
+                } else {
+                    single_erased_workout_time = single_erased_workout_time + allTimeControls.get(i-1).getRestTime()
+                            + allTimeControls.get(i-1).getHangLaps() * (allTimeControls.get(i-1).getTimeON()
+                            + allTimeControls.get(i-1).getTimeOFF());
+                    erased_workout_time += single_erased_workout_time;
+                }
+            }
+             effectiveWorkoutTime.add(allTimeControls.get(i-1).getTotalTime() - single_erased_workout_time);
+
+            total_workout_time += allTimeControls.get(i-1).getTotalTime();
+            total_time_under_tension += allTimeControls.get(i-1).getTimeUnderTension();
+            total_hang_laps += allTimeControls.get(i-1).getHangLaps()*allTimeControls.get(i-1).getGripLaps()*allTimeControls.get(i-1).getRoutineLaps();
+
+            int single_time_under_tension = 0;
+            for (int j = 0 ; j < completedArrayList.get(i-1).length ; j++) {
+                single_time_under_tension += completedArrayList.get(i-1)[j]*allTimeControls.get(i-1).getTimeON();
+
+                total_successful_hangs += completedArrayList.get(i-1)[j];
+            }
+            total_adjusted_time_under_tension += single_time_under_tension;
+
+             effectiveWorkoutTUT.add(single_time_under_tension);
+        }
+
+       // printIntArrayList(effectiveWorkoutTime, "WorkoutTime");
+        //printIntArrayList(effectiveWorkoutTUT,"workoutTUT");
+
+        generalInfo.append("(not adjusted) Total workout time: " + total_workout_time + "s where " + erased_workout_time + "s were inactive\n");
+        generalInfo.append("Total workout time: " + (total_workout_time - erased_workout_time) + "s\n");
+        generalInfo.append("(not adjusted) Total time under tension " + total_time_under_tension + "s\n");
+        generalInfo.append("Total time under tension " + total_adjusted_time_under_tension + "s\n");
+        generalInfo.append("Total of " + total_hang_laps + "hangs where " + total_successful_hangs + " were successful so " + 100*total_successful_hangs/total_hang_laps + "% is the success rate\n");
+        generalInfo.append("Erased workout time: " + erased_workout_time);
+        // generalInfoTextView.setText(generalInfo.toString());
+        Long endTime = breaktime - System.currentTimeMillis();
+        Log.e("thread test", "end " +endTime);
+    }*/
+
+   private ArrayList<TimeControls> retrieveAllTimeControls() {
+
+       ArrayList<TimeControls> timeControlsFromDatabase = new ArrayList<>();
+       int datapoints = dbHandler.lookUpWorkoutCount();
+       for (int i = 1 ; i <= datapoints ; i++) {
+           timeControlsFromDatabase.add(dbHandler.lookUpTimeControls(i, includeHidden));
+       }
+        return timeControlsFromDatabase;
+   }
+
+    private ArrayList<Long> retrieveAllDates() {
+
+        ArrayList<Long> datesFromDatabase = new ArrayList<>();
+        int datapoints = dbHandler.lookUpWorkoutCount();
+        for (int i = 1 ; i <= datapoints ; i++) {
+            datesFromDatabase.add(dbHandler.lookUpDate(i, includeHidden));
+        }
+        return datesFromDatabase;
+    }
+
+
 }

@@ -120,7 +120,7 @@ public class EditWorkoutInfo extends AppCompatActivity {
                 // or returning back information
                 if (isNewWorkout) {
 
-                    Intent workoutIntoDatabaseIntent = new Intent(getApplicationContext(), WorkoutStatistics.class);
+                    Intent workoutIntoDatabaseIntent = new Intent(getApplicationContext(), WorkoutHistory.class);
 
                     // Lets pass the necessary information to WorkoutActivity; time controls, hangboard name, and used holds with grip information
                     workoutIntoDatabaseIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS", timeControls.getTimeControlsIntArray());
