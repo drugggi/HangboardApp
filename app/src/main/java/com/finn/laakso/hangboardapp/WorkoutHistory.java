@@ -349,7 +349,7 @@ public class WorkoutHistory extends AppCompatActivity {
             }
             workoutAdapter.notifyDataSetChanged();
         }
-        
+
         else {
             Toast.makeText(WorkoutHistory.this," results not saved",Toast.LENGTH_SHORT).show();
         }

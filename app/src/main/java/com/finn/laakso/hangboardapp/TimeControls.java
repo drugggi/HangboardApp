@@ -7,7 +7,7 @@ package com.finn.laakso.hangboardapp;
 // Class TimeControls tries to hide a lot of time control parameters that are confusing to follow
 public class TimeControls {
     // In future I will refactor TimeControls class to keep track with current lap
-    private int current_lap=0;
+    // private int current_lap=0;
 
     private int grip_laps=6;
     private int hang_laps=6;
@@ -109,7 +109,12 @@ public class TimeControls {
     }
 
     public void setGripLaps(int grip_laps) {
-        this.grip_laps = grip_laps;
+        if (grip_laps > 0 && grip_laps <= 100) {
+            this.grip_laps = grip_laps;
+        }
+        else {
+            this.grip_laps = 6;
+        }
     }
     public int getGripLaps() {
         return grip_laps;
@@ -117,23 +122,46 @@ public class TimeControls {
 
     // PITÄÄ VARMAAN MUUTTAA MYÖS HANGLAPS SECONDSIT JOS MUUTTAA TÄTÄ
     public void setHangLaps(int hang_laps) {
-        this.hang_laps = hang_laps;
+
+        if (hang_laps > 0 && hang_laps <= 20) {
+            this.hang_laps = hang_laps;
+        }
+        else {
+            this.hang_laps = 6;
+        }
         hang_laps_seconds = hang_laps * (time_on + time_off);
+
+        if (this.hang_laps == 1 ) {
+            isRepeaters = false;
+        }
+        else {
+            isRepeaters = true;
+        }
     }
     public int getHangLaps() {
         return hang_laps;
     }
-    // PITÄÄ VARMAAN MUUTTAA MYÖS HANGLAPS SECONDSIT JOS MUUTTAA TÄTÄ
+
     public void setTimeON(int time_on) {
-        this.time_on = time_on;
+        if ( time_on > 0 && time_off <= 60 ) {
+            this.time_on = time_on;
+        }
+        else {
+            time_on = 7;
+        }
         hang_laps_seconds = hang_laps * (time_on + time_off);
     }
     public int getTimeON() {
         return time_on;
     }
-    // PITÄÄ VARMAAN MUUTTAA MYÖS HANGLAPS SECONDSIT JOS MUUTTAA TÄTÄ
+
     public void setTimeOFF(int time_off) {
-        this.time_off = time_off;
+        if ( time_off >= 0 && time_off <= 200 ) {
+            this.time_off = time_off;
+        }
+        else {
+            this.time_off = 3;
+        }
         hang_laps_seconds = hang_laps * (time_on + time_off);
     }
     public int getTimeOFF() {
@@ -141,21 +169,37 @@ public class TimeControls {
     }
 
     public void setRoutineLaps(int routine_laps) {
-        this.routine_laps = routine_laps;
+        if (routine_laps > 0 && routine_laps <= 50) {
+            this.routine_laps = routine_laps;
+        }
+        else {
+            this.routine_laps = 3;
+        }
+
     }
     public int getRoutineLaps() {
         return  routine_laps;
     }
 
     public void setRestTime(int rest) {
-        this.rest = rest;
+        if (rest > 0 && rest <= 500) {
+            this.rest = rest;
+        }
+        else {
+            this.rest = 150;
+        }
     }
     public int getRestTime() {
         return rest;
     }
 
     public void setLongRestTime(int long_rest) {
-        this.long_rest = long_rest;
+        if (long_rest > 0 && long_rest <= 1000) {
+            this.long_rest = long_rest;
+        }
+        else {
+            this.long_rest = 360;
+        }
     }
     public int getLongRestTime() {
         return long_rest;

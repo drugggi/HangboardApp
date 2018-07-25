@@ -163,6 +163,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
     }
 
     // Deletes a single workout entry
+    // THIS DOES NOT TAKE INTO ACCOUNT IF INCLUDEHIDDEN PARAMETER IS TRUE OR FALSE, CONCIDER SAFER OPTION!!
     public void delete(int position) {
 
         SQLiteDatabase db = this.getWritableDatabase();
