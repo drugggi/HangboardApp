@@ -69,12 +69,14 @@ public class EditWorkoutInfo extends AppCompatActivity {
 
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.BOARDNAME")) {
             hangboardName = getIntent().getStringExtra("com.finn.laakso.hangboardapp.BOARDNAME");
+            int imageResource = CustomSwipeAdapter.getHangboardResource(hangboardName);
+            hangboardImageView.setImageResource(imageResource);
         }
 
         // Hangboard image that user has used in workout, not shown if editing old workout (default bm1000)
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.BOARDIMAGE")) {
             int imageResource = getIntent().getIntExtra("com.finn.laakso.hangboardapp.BOARDIMAGE",0);
-            hangboardImageView.setImageResource(imageResource);
+            // hangboardImageView.setImageResource(imageResource);
         }
 
         // Description is users short description of the workout, by default empty

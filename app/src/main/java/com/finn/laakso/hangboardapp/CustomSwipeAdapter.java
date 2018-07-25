@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
  */
 // CustomSwipeAdapter Creates with the help of PagerAdapter swipeable view of different hangboards
 public class CustomSwipeAdapter extends PagerAdapter {
-    private int[] image_resources = {R.drawable.lauta1011, R.drawable.lauta2002, R.drawable.trans,
+    private static int[] image_resources = {R.drawable.lauta1011, R.drawable.lauta2002, R.drawable.trans,
     R.drawable.tension, R.drawable.zlag, R.drawable.moonhard, R.drawable.mooneasy, R.drawable.meto,
     R.drawable.rockprodigy, R.drawable.problemsolver, R.drawable.meto_contact, R.drawable.meto_wood,
     R.drawable.drcc};
@@ -77,6 +77,21 @@ public class CustomSwipeAdapter extends PagerAdapter {
         }
     }
 
+    public static int getHangboardResource(String hangboardName) {
+
+        hangboard tempHB;
+        String tempName;
+       for (int position = 0 ; position < image_resources.length; position++) {
+           tempHB = getHangBoard(position);
+           tempName = CustomSwipeAdapter.getHangboardName(tempHB);
+           if (tempName.equals(hangboardName)){
+               return CustomSwipeAdapter.getImageResource(position);
+           }
+
+       }
+        return R.drawable.lauta1011;
+    }
+
     // Converts hangboard image resource into describing name. This should be somewhere else.
     public static String getHangboardName(int HB) {
 
@@ -113,7 +128,7 @@ public class CustomSwipeAdapter extends PagerAdapter {
     }
 
 
-    public int getImageResource(int position) {
+    public static int getImageResource(int position) {
         return image_resources[position];
     }
 
