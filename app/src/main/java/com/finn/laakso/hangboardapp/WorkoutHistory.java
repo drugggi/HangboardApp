@@ -30,16 +30,20 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
+
+// WorkoutHistory shows all recorded workouts from database to workoutHistoryListView
+// user can edit, hide and delete workouts. Only hidden workouts can be deleted. User can edit
+// date and hangboard name with pop up dialogs and other workout data with EditWorkoutInfo activity
 public class WorkoutHistory extends AppCompatActivity {
 
-    Button editWorkoutButton;
-    Button resetDBButton;
-    Button showGraphsButton;
-    Button newEntryButton;
+    private Button editWorkoutButton;
+    private Button resetDBButton;
+    private Button showGraphsButton;
+    private Button newEntryButton;
 
-    EditText hangboardNameEditText;
+    private EditText hangboardNameEditText;
 
-    CheckBox showHiddenWorkoutsCheckBox;
+    private CheckBox showHiddenWorkoutsCheckBox;
 
     private DatePickerDialog.OnDateSetListener dateSetListener;
 
@@ -47,11 +51,11 @@ public class WorkoutHistory extends AppCompatActivity {
     int DELETEALLCOUNTER;
 
     // Adapter that manages the workout history with the help of SQLite
-    WorkoutHistoryAdapter workoutAdapter;
-    ListView workoutHistoryListView;
+    private WorkoutHistoryAdapter workoutAdapter;
+    private ListView workoutHistoryListView;
 
-    int positionGlobal = 0;
-    MyDBHandler dbHandler;
+    private int positionGlobal = 0;
+    private MyDBHandler dbHandler;
 
     private static final int REQUEST_HANGS_COMPLETED = 1;
 
@@ -75,6 +79,7 @@ public class WorkoutHistory extends AppCompatActivity {
         // DBHandler to store workout from Intent.
         dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
         // dbHandler.DELETEALL();
+
         // Temporary workout info to generate test workouts
         ArrayList<Hold> tempWorkoutHolds = new ArrayList<>();
         TimeControls tempTimeControls = new TimeControls();
@@ -145,6 +150,7 @@ public class WorkoutHistory extends AppCompatActivity {
        });
 
         // Click listener for editing single workout
+        editWorkoutButton.setText("test");
         editWorkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -222,6 +228,9 @@ public class WorkoutHistory extends AppCompatActivity {
             }
         });
 
+        // Show hidden workout check box is meant to be a security wall for not deleting accidentally
+        // an importan workout and secondly user can hide warmups, failed workouts or test without
+        // them influencing statistics and graphs
         showHiddenWorkoutsCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -248,6 +257,8 @@ public class WorkoutHistory extends AppCompatActivity {
             }
         });
 
+        // The whole point storing the workouts in database is to build beautifully useless graphs
+        // hopefully this will be one of the main attraction of this app
         showGraphsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -284,6 +295,7 @@ public class WorkoutHistory extends AppCompatActivity {
             }
         });
 
+        // Listener for parsing and updating the date that user selects
         dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -302,13 +314,13 @@ public class WorkoutHistory extends AppCompatActivity {
 
                 workoutAdapter.notifyDataSetChanged();
 
-                Log.e("millis time"," " + timeInMillis);
+                //Log.e("millis time"," " + timeInMillis);
                // Toast.makeText(WorkoutHistory.this, "date picker set listenr",Toast.LENGTH_LONG).show();
             }
         };
 
 
-        Log.e("WO statistics","is checked: " + showHiddenWorkoutsCheckBox.isChecked());
+        //Log.e("WO statistics","is checked: " + showHiddenWorkoutsCheckBox.isChecked());
 
     }
 
@@ -337,8 +349,7 @@ public class WorkoutHistory extends AppCompatActivity {
             }
             workoutAdapter.notifyDataSetChanged();
         }
-
-
+        
         else {
             Toast.makeText(WorkoutHistory.this," results not saved",Toast.LENGTH_SHORT).show();
         }
