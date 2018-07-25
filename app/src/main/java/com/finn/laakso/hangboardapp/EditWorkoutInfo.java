@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -29,19 +28,22 @@ public class EditWorkoutInfo extends AppCompatActivity {
     private TextView hangInfoTextView;
     private EditText workoutDescriptionEditText;
     private String workoutDescription;
-
-    ArrayList<Hold> workoutHolds;
-    String hangboardName;
-    TimeControls timeControls;
-
     private ImageView hangboardImageView;
-    WorkoutInfoAdapter workoutInfoAdapter;
 
-    Button saveButton;
-    Button backButton;
+    private Button saveButton;
+    private Button backButton;
 
-    int[] completed;
-    boolean isNewWorkout;
+
+    private ArrayList<Hold> workoutHolds;
+    private String hangboardName;
+    private TimeControls timeControls;
+
+    private WorkoutInfoAdapter workoutInfoAdapter;
+
+    // This completed matrix is the one that user edits in this activity
+    private int[] completed;
+    // isNewWorkout tells if we are editing old workout from database or just completed a new one
+    private boolean isNewWorkout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +53,10 @@ public class EditWorkoutInfo extends AppCompatActivity {
 
         workoutDescriptionEditText = (EditText) findViewById(R.id.workoutDescriptionEditText);
         hangboardImageView = (ImageView) findViewById(R.id.hangboardImageView);
-        //workoutDescription = "err";
         saveButton = (Button) findViewById(R.id.saveButton);
         backButton = (Button) findViewById(R.id.backButton);
-
         hangInfoTextView = (TextView) findViewById(R.id.hangInfoTextView);
+        workoutInfoGridView = (GridView) findViewById(R.id.workoutInfoGridView);
 
         // This checks whether we are editing existing workout from database or new workout from WorkoutActivity
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.NEWWORKOUT")) {
@@ -66,18 +67,17 @@ public class EditWorkoutInfo extends AppCompatActivity {
             workoutHolds = getIntent().getExtras().getParcelableArrayList("com.finn.laakso.hangboardapp.HOLDS");
         }
 
-        // Hangboard image that user has selected
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.BOARDNAME")) {
             hangboardName = getIntent().getStringExtra("com.finn.laakso.hangboardapp.BOARDNAME");
-
         }
 
+        // Hangboard image that user has used in workout, not shown if editing old workout (default bm1000)
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.BOARDIMAGE")) {
             int imageResource = getIntent().getIntExtra("com.finn.laakso.hangboardapp.BOARDIMAGE",0);
             hangboardImageView.setImageResource(imageResource);
-
         }
 
+        // Description is users short description of the workout, by default empty
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.DESCRIPTION")) {
             workoutDescription = getIntent().getStringExtra("com.finn.laakso.hangboardapp.DESCRIPTION");
             workoutDescriptionEditText.setText(workoutDescription);
@@ -97,18 +97,16 @@ public class EditWorkoutInfo extends AppCompatActivity {
             }
             completed = new int[timeControls.getGripLaps() * timeControls.getRoutineLaps()];
 
+            // We have to be careful that completed matrix will always be right size!
             for (int i = 0; i < completed.length ; i++) {
                 completed[i] = 0;
             }
-
         }
 
+        // Completed matrix should come from the intent
         if(getIntent().hasExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS")) {
             completed = getIntent().getExtras().getIntArray("com.finn.laakso.hangboardapp.COMPLETEDHANGS");
-
         }
-
-        workoutInfoGridView = (GridView) findViewById(R.id.workoutInfoGridView);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,11 +114,13 @@ public class EditWorkoutInfo extends AppCompatActivity {
 
                 completed = workoutInfoAdapter.getCompletedMatrix();
 
+                // boolean isNewWorkout tells us if we are creating new instanse of Workoutstatistics activity
+                // or returning back information
                 if (isNewWorkout) {
 
                     Intent workoutIntoDatabaseIntent = new Intent(getApplicationContext(), WorkoutStatistics.class);
 
-                    // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
+                    // Lets pass the necessary information to WorkoutActivity; time controls, hangboard name, and used holds with grip information
                     workoutIntoDatabaseIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS", timeControls.getTimeControlsIntArray());
                     workoutIntoDatabaseIntent.putExtra("com.finn.laakso.hangboardapp.BOARDNAME", hangboardName);
                     workoutIntoDatabaseIntent.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", workoutHolds);
@@ -130,11 +130,12 @@ public class EditWorkoutInfo extends AppCompatActivity {
                     startActivity(workoutIntoDatabaseIntent);
                     finish();
                 }
+                // Returning back edited workout information
                 else {
                     Intent resultCompletedHangsIntent = new Intent();
                     resultCompletedHangsIntent.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS", workoutInfoAdapter.getCompletedMatrix());
                     resultCompletedHangsIntent.putExtra("com.finn.laakso.hangboardapp.DESCRIPTION", workoutDescription);
-                    Log.e("test",workoutDescription);
+
                     setResult(Activity.RESULT_OK, resultCompletedHangsIntent);
 
                     finish();
@@ -143,6 +144,7 @@ public class EditWorkoutInfo extends AppCompatActivity {
             }
         });
 
+        // Nothing to do but finish when back button is pressed.
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -171,10 +173,10 @@ public class EditWorkoutInfo extends AppCompatActivity {
             }
         });
 
+        // workoutInfoAdapter needs a context menu for editing how many hangs was completed.
         workoutInfoAdapter = new WorkoutInfoAdapter(this,timeControls,workoutHolds, completed);
         workoutInfoGridView.setAdapter(workoutInfoAdapter);
         registerForContextMenu(workoutInfoGridView);
-
 
         // Content menu for user to select if the hang was successful or not. In repeaters user
         // can be successful from 0 to max amount of hangs, usually 6 -> x/6
@@ -212,8 +214,6 @@ public class EditWorkoutInfo extends AppCompatActivity {
 
                 int hold_position = position % timeControls.getGripLaps();
 
-                //Log.e("hold_pos"," value: " + hold_position);
-
                 String text =workoutHolds.get(2*hold_position).getHoldInfo(workoutHolds.get(2*hold_position+1));
                 text = text.replaceAll("\n",", ");
 
@@ -226,7 +226,7 @@ public class EditWorkoutInfo extends AppCompatActivity {
 
     }
 
-    // OnContextItemSelected changes the selected hang success status to what user has selected
+    // OnContextItemSelected changes the selected hang's success status to what user has selected
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         // return super.onContextItemSelected(item);
