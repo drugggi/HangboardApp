@@ -53,8 +53,8 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
             id = dbHandler.lookUpId(databasePosition,isHidden);
             date = dbHandler.lookUpDate(databasePosition,isHidden);
             hangboardName = dbHandler.lookUpHangboard(databasePosition,isHidden);
+            workoutHolds = dbHandler.lookUpWorkoutHolds(databasePosition,isHidden);
             timeControls = dbHandler.lookUpTimeControls(databasePosition,isHidden);
-            workoutHolds = dbHandler.lookUpHolds(databasePosition,isHidden);
             completed = dbHandler.lookUpCompletedHangs(databasePosition,isHidden);
             description = dbHandler.lookUpWorkoutDescription(databasePosition,isHidden);
 

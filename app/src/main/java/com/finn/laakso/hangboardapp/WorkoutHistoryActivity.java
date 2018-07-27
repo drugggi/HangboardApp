@@ -404,7 +404,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         final boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
         Log.e("WO statistics 2","is checked: " + showHiddenWorkoutsCheckBox.isChecked());
 
-        ArrayList<Hold> holds = dbHandler.lookUpHolds(selectedListViewPosition,includeHidden);
+        ArrayList<Hold> holds = dbHandler.lookUpWorkoutHolds(selectedListViewPosition,includeHidden);
         //Long date = dbHandler.lookUpDate(selectedListViewPosition, includeHidden);
         int[] completedHangs = dbHandler.lookUpCompletedHangs(selectedListViewPosition, includeHidden);
         TimeControls timeControls = dbHandler.lookUpTimeControls(selectedListViewPosition, includeHidden);

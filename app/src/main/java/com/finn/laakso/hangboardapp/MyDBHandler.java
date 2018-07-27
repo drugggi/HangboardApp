@@ -605,7 +605,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     // return the used holds, each hold has a number, grip type and value.
     // In the ArrayList even valued holds are for left hand and odd values are for right hand
-    public ArrayList<Hold> lookUpHolds(int position, boolean includeHidden) {
+    public ArrayList<Hold> lookUpWorkoutHolds(int position, boolean includeHidden) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
@@ -614,17 +614,19 @@ public class MyDBHandler extends SQLiteOpenHelper {
         }
         ArrayList<Hold> allHolds = new ArrayList<>();
 
-        String allHoldNumbersFromDB="";
-        String allGripTypesFromDB="";
-        String allHoldValuesFromDB="";
+        String allHoldNumbersFromDB;
+        String allGripTypesFromDB;
+        String allHoldValuesFromDB;
 
         // A lot of parsing because hold information is stored as String
-
         try {
             if (cursor.move(position)) {
-                allHoldNumbersFromDB = cursor.getString(3);
-                allGripTypesFromDB = cursor.getString(4);
-                allHoldValuesFromDB = cursor.getString(5);
+                int indexHoldNumbers = cursor.getColumnIndex(COLUMN_HOLDNUMBERS);
+                int indexGripTypes = cursor.getColumnIndex(COLUMN_GRIPTYPES);
+                int indexHoldValues = cursor.getColumnIndex(COLUMN_DIFFICULTIES);
+                allHoldNumbersFromDB = cursor.getString(indexHoldNumbers);
+                allGripTypesFromDB = cursor.getString(indexGripTypes);
+                allHoldValuesFromDB = cursor.getString(indexHoldValues);
 
                 String[] s = allHoldNumbersFromDB.split(",");
 
@@ -664,6 +666,73 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
         return allHolds;
 
+    }
+
+    public ArrayList<ArrayList<Hold>> lookUpAllWorkoutHolds(boolean includeHidden) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
+        if (includeHidden) {
+            cursor = db.query(TABLE_WORKOUTS, null, null, null, null, null, COLUMN_DATE + " DESC", null);
+        }
+
+        String allHoldNumbersFromDB;
+        String allGripTypesFromDB;
+        String allHoldValuesFromDB;
+
+        ArrayList<ArrayList<Hold>> allWorkoutHolds = new ArrayList<>();
+        ArrayList<Hold> workoutHolds;
+
+        try {
+            while  (cursor.moveToNext() ) {
+                workoutHolds = new ArrayList<>();
+
+                int indexHoldNumbers = cursor.getColumnIndex(COLUMN_HOLDNUMBERS);
+                int indexGripTypes = cursor.getColumnIndex(COLUMN_GRIPTYPES);
+                int indexHoldValues = cursor.getColumnIndex(COLUMN_DIFFICULTIES);
+                allHoldNumbersFromDB = cursor.getString(indexHoldNumbers);
+                allGripTypesFromDB = cursor.getString(indexGripTypes);
+                allHoldValuesFromDB = cursor.getString(indexHoldValues);
+
+                String[] s = allHoldNumbersFromDB.split(",");
+
+                int[] holdNumbers = new int[s.length];
+                for (int i = 0; i < s.length; i++) {
+                    holdNumbers[i] = Integer.parseInt(s[i]);
+                }
+
+                s = allGripTypesFromDB.split(",");
+
+                int[] gripTypes = new int[s.length];
+                for (int i = 0; i < s.length; i++) {
+                    gripTypes[i] = Integer.parseInt(s[i]);
+                }
+
+                s = allHoldValuesFromDB.split(",");
+
+                int[] holdValues = new int[s.length];
+                for (int i = 0; i < s.length; i++) {
+                    holdValues[i] = Integer.parseInt(s[i]);
+                }
+
+                Hold tempHold;
+                for (int i = 0; i < s.length; i++) {
+                    tempHold = new Hold(holdNumbers[i]);
+                    tempHold.setGripType(gripTypes[i]);
+                    tempHold.setHoldValue(holdValues[i]);
+
+                    workoutHolds.add(tempHold);
+                }
+
+                allWorkoutHolds.add(workoutHolds);
+
+            }
+        } finally {
+            cursor.close();
+            db.close();
+        }
+
+        return allWorkoutHolds;
     }
 
     // Returns time controls that are used in workout
