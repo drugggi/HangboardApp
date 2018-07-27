@@ -232,17 +232,39 @@ public class MyDBHandler extends SQLiteOpenHelper {
         }
 
         long date= 0;
-
         try {
             if (cursor.move(position)) {
                 date = Long.parseLong(cursor.getString(1));
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            cursor.close();
         }
 
         db.close();
+
         return date;
+    }
+
+    public ArrayList<Long> lookUpAllDates(boolean includeHidden) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
+        if (includeHidden) {
+            cursor = db.query(TABLE_WORKOUTS, null, null, null, null, null, COLUMN_DATE + " DESC", null);
+        }
+
+        ArrayList<Long> dbDateList = new ArrayList<>();
+        try {
+            int index = cursor.getColumnIndex( COLUMN_DATE );
+            while (cursor.moveToNext() ) {
+                dbDateList.add(cursor.getLong(index));
+            }
+        } finally {
+            cursor.close();
+        }
+        db.close();
+        return dbDateList;
     }
 
     public String lookUpWorkoutDescription(int position, boolean includeHidden) {

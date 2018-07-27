@@ -163,10 +163,12 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
             for (int i = 1 ; i <= datapoints ; i++) {
                 arrayList_workoutHolds.add(dbHandler.lookUpHolds(i, includeHidden));
-                dates.add(dbHandler.lookUpDate(i, includeHidden));
+               //  dates.add(dbHandler.lookUpDate(i, includeHidden));
                 completedArrayList.add(dbHandler.lookUpCompletedHangs(i, includeHidden));
                 hangboards.add(dbHandler.lookUpHangboard(i, includeHidden));
             }
+
+            dates = dbHandler.lookUpAllDates(includeHidden);
 
             // retrieveDataFromDatabaseToArrayLists();
 
