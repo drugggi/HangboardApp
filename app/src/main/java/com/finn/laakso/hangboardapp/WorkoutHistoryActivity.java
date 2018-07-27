@@ -28,10 +28,10 @@ import java.util.Calendar;
 import java.util.Random;
 
 
-// WorkoutHistory shows all recorded workouts from database to workoutHistoryListView
+// WorkoutHistoryActivity shows all recorded workouts from database to workoutHistoryListView
 // user can edit, hide and delete workouts. Only hidden workouts can be deleted. User can edit
-// date and hangboard name with pop up dialogs and other workout data with EditWorkoutInfo activity
-public class WorkoutHistory extends AppCompatActivity {
+// date and hangboard name with pop up dialogs and other workout data with EditWorkoutInfoActivity activity
+public class WorkoutHistoryActivity extends AppCompatActivity {
 
     private Button editWorkoutButton;
     private Button resetDBButton;
@@ -152,12 +152,12 @@ public class WorkoutHistory extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent workoutDetailsIntent = new Intent(getApplicationContext(), WorkoutDetails.class);
+                Intent workoutDetailsIntent = new Intent(getApplicationContext(), WorkoutDetailsActivity.class);
 
                 // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
 
                 if (positionGlobal == 0) {
-                    Toast.makeText(WorkoutHistory.this,"pos global == 0",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WorkoutHistoryActivity.this,"pos global == 0",Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -169,7 +169,7 @@ public class WorkoutHistory extends AppCompatActivity {
                 startActivity(workoutDetailsIntent);
 
                 /*
-                Toast.makeText(WorkoutHistory.this, "Sorting test ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(WorkoutHistoryActivity.this, "Sorting test ", Toast.LENGTH_SHORT).show();
 
                 Cursor cursor = dbHandler.getListContents();
                 Cursor sortedCursor = dbHandler.getSortedContents();
@@ -213,7 +213,7 @@ public class WorkoutHistory extends AppCompatActivity {
 
 
                 if (v.getId() == R.id.workoutHistoryListView) {
-                    //Toast.makeText(EditWorkoutInfo.this, "Context Menu Created ", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(EditWorkoutInfoActivity.this, "Context Menu Created ", Toast.LENGTH_SHORT).show();
 
                     AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
 
@@ -256,9 +256,9 @@ public class WorkoutHistory extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    Toast.makeText(WorkoutHistory.this,"is checked true, show hidden workouts",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WorkoutHistoryActivity.this,"is checked true, show hidden workouts",Toast.LENGTH_SHORT).show();
 
-                    workoutAdapter = new WorkoutHistoryAdapter(WorkoutHistory.this,dbHandler,isChecked);
+                    workoutAdapter = new WorkoutHistoryAdapter(WorkoutHistoryActivity.this,dbHandler,isChecked);
 
                     workoutHistoryListView = (ListView) findViewById(R.id.workoutHistoryListView);
                     workoutHistoryListView.setAdapter(workoutAdapter);
@@ -266,9 +266,9 @@ public class WorkoutHistory extends AppCompatActivity {
 
                 }
                 else {
-                    Toast.makeText(WorkoutHistory.this,"is checked false, hide hidden workouts",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WorkoutHistoryActivity.this,"is checked false, hide hidden workouts",Toast.LENGTH_SHORT).show();
 
-                    workoutAdapter = new WorkoutHistoryAdapter(WorkoutHistory.this,dbHandler,isChecked);
+                    workoutAdapter = new WorkoutHistoryAdapter(WorkoutHistoryActivity.this,dbHandler,isChecked);
 
                     workoutHistoryListView = (ListView) findViewById(R.id.workoutHistoryListView);
                     workoutHistoryListView.setAdapter(workoutAdapter);
@@ -285,10 +285,10 @@ public class WorkoutHistory extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (dbHandler.lookUpWorkoutCount() == 0) {
-                    Toast.makeText(WorkoutHistory.this,"Database empty, cannot show graphs",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WorkoutHistoryActivity.this,"Database empty, cannot show graphs",Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Intent showDatabaseGraphs = new Intent(getApplicationContext(),WorkoutStatistics.class);
+                    Intent showDatabaseGraphs = new Intent(getApplicationContext(),WorkoutStatisticsActivity.class);
                     startActivity(showDatabaseGraphs);
                 }
             }
@@ -303,12 +303,12 @@ public class WorkoutHistory extends AppCompatActivity {
 
                 if (DELETEALLCOUNTER == 0) {
                     dbHandler.DELETEALL();
-                    Toast.makeText(WorkoutHistory.this, "All DELETED, Happy now", Toast.LENGTH_LONG).show();
+                    Toast.makeText(WorkoutHistoryActivity.this, "All DELETED, Happy now", Toast.LENGTH_LONG).show();
                     DELETEALLCOUNTER = 3;
                 }
                 else   {
                     DELETEALLCOUNTER--;
-                    Toast.makeText(WorkoutHistory.this, "SOON ALL WILL BE GONE, countdown: " + DELETEALLCOUNTER, Toast.LENGTH_LONG).show();
+                    Toast.makeText(WorkoutHistoryActivity.this, "SOON ALL WILL BE GONE, countdown: " + DELETEALLCOUNTER, Toast.LENGTH_LONG).show();
                 }
 
                 workoutAdapter.notifyDataSetChanged();
@@ -336,7 +336,7 @@ public class WorkoutHistory extends AppCompatActivity {
                 workoutAdapter.notifyDataSetChanged();
 
                 //Log.e("millis time"," " + timeInMillis);
-               // Toast.makeText(WorkoutHistory.this, "date picker set listenr",Toast.LENGTH_LONG).show();
+               // Toast.makeText(WorkoutHistoryActivity.this, "date picker set listenr",Toast.LENGTH_LONG).show();
             }
         };
 
@@ -352,7 +352,7 @@ public class WorkoutHistory extends AppCompatActivity {
 
         // User has updated the completed hangs information lets update that information to database too
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HANGS_COMPLETED) {
-            Toast.makeText(WorkoutHistory.this," results ok",Toast.LENGTH_SHORT).show();
+            Toast.makeText(WorkoutHistoryActivity.this," results ok",Toast.LENGTH_SHORT).show();
 
             boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
 
@@ -372,7 +372,7 @@ public class WorkoutHistory extends AppCompatActivity {
         }
 
         else {
-            Toast.makeText(WorkoutHistory.this," results not saved",Toast.LENGTH_SHORT).show();
+            Toast.makeText(WorkoutHistoryActivity.this," results not saved",Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -398,7 +398,7 @@ public class WorkoutHistory extends AppCompatActivity {
         String desc = dbHandler.lookUpWorkoutDescription(selectedListViewPosition, includeHidden);
 
         if (selectedContextMenuItem == 0) {
-            Intent editWorkout = new Intent(getApplicationContext(), EditWorkoutInfo.class);
+            Intent editWorkout = new Intent(getApplicationContext(), EditWorkoutInfoActivity.class);
 
             // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
             editWorkout.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
@@ -419,7 +419,7 @@ public class WorkoutHistory extends AppCompatActivity {
         }
         else if (selectedContextMenuItem == 2) {
 
-            Toast.makeText(WorkoutHistory.this, "EDITING DATE" + positionGlobal, Toast.LENGTH_SHORT).show();
+            Toast.makeText(WorkoutHistoryActivity.this, "EDITING DATE" + positionGlobal, Toast.LENGTH_SHORT).show();
 
             long timeInMillis = dbHandler.lookUpDate(selectedListViewPosition,includeHidden);
 
@@ -430,7 +430,7 @@ public class WorkoutHistory extends AppCompatActivity {
             int day = cal.get(Calendar.DAY_OF_MONTH);
 
             DatePickerDialog dialog = new DatePickerDialog(
-                    WorkoutHistory.this,
+                    WorkoutHistoryActivity.this,
                     android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                     dateSetListener,
                     year,month,day);
@@ -441,7 +441,7 @@ public class WorkoutHistory extends AppCompatActivity {
         }
 
         else if (selectedContextMenuItem == 3) {
-            Toast.makeText(WorkoutHistory.this, "editing hangboard name " + positionGlobal, Toast.LENGTH_SHORT).show();
+            Toast.makeText(WorkoutHistoryActivity.this, "editing hangboard name " + positionGlobal, Toast.LENGTH_SHORT).show();
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Hangboard name");
@@ -460,7 +460,7 @@ public class WorkoutHistory extends AppCompatActivity {
                     if (newBoardName.length() > 25) {
                         newBoardName = newBoardName.substring(0,25);
 
-                        Toast.makeText(WorkoutHistory.this,"Please use under 25 characters to describe hangboard name.",Toast.LENGTH_LONG).show();
+                        Toast.makeText(WorkoutHistoryActivity.this,"Please use under 25 characters to describe hangboard name.",Toast.LENGTH_LONG).show();
                     }
                     boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
                     dbHandler.updateHangboardName(positionGlobal,newBoardName,includeHidden);
@@ -487,11 +487,11 @@ public class WorkoutHistory extends AppCompatActivity {
             if (dbHandler.lookUpIsHidden(selectedListViewPosition)) {
                 dbHandler.delete(selectedListViewPosition);
 
-                Toast.makeText(WorkoutHistory.this, "DELETING: " + positionGlobal, Toast.LENGTH_SHORT).show();
+                Toast.makeText(WorkoutHistoryActivity.this, "DELETING: " + positionGlobal, Toast.LENGTH_SHORT).show();
                 workoutAdapter.notifyDataSetChanged();
             }
             else {
-                Toast.makeText(WorkoutHistory.this, "To delete a Workout you must hide it first", Toast.LENGTH_SHORT).show();
+                Toast.makeText(WorkoutHistoryActivity.this, "To delete a Workout you must hide it first", Toast.LENGTH_SHORT).show();
             }
 
         }

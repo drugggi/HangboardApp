@@ -239,7 +239,7 @@ public class WorkoutActivity extends AppCompatActivity {
         workoutProgressButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent workoutProgress = new Intent(getApplicationContext(), EditWorkoutInfo.class);
+                Intent workoutProgress = new Intent(getApplicationContext(), EditWorkoutInfoActivity.class);
 
                 // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
                 workoutProgress.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );

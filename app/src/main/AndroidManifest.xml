@@ -21,13 +21,13 @@
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".WorkoutHistory" />
-        <activity android:name=".EditWorkoutInfo" />
+        <activity android:name=".WorkoutHistoryActivity" />
+        <activity android:name=".EditWorkoutInfoActivity" />
         <activity
-            android:name=".WorkoutStatistics"
+            android:name=".WorkoutStatisticsActivity"
             android:label="@string/title_activity_workout_database_graphs"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".WorkoutDetails"></activity>
+        <activity android:name=".WorkoutDetailsActivity"></activity>
     </application>
 
 </manifest>

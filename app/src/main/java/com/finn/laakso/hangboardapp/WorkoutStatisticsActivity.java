@@ -42,7 +42,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
 
-public class WorkoutStatistics extends AppCompatActivity {
+public class WorkoutStatisticsActivity extends AppCompatActivity {
 
     MyDBHandler dbHandler;
 
@@ -79,8 +79,8 @@ public class WorkoutStatistics extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //at com.finn.laakso.hangboardapp.WorkoutStatistics.createDifficultyBarChart(WorkoutStatistics.java:568)
-        //at com.finn.laakso.hangboardapp.WorkoutStatistics$RetrieveDataFromDatabase.onPostExecute(WorkoutStatistics.java:199)
+        //at com.finn.laakso.hangboardapp.WorkoutStatisticsActivity.createDifficultyBarChart(WorkoutStatisticsActivity.java:568)
+        //at com.finn.laakso.hangboardapp.WorkoutStatisticsActivity$RetrieveDataFromDatabase.onPostExecute(WorkoutStatisticsActivity.java:199)
 
         // WHEN SET TO FALSE, IT WILL CRASH
         includeHidden = true;
@@ -181,7 +181,7 @@ public class WorkoutStatistics extends AppCompatActivity {
 
 
         protected void onPostExecute(Object objects) {
-            Toast.makeText(WorkoutStatistics.this,"RetrieveDataFromDatabase Thread",Toast.LENGTH_SHORT).show();
+            Toast.makeText(WorkoutStatisticsActivity.this,"RetrieveDataFromDatabase Thread",Toast.LENGTH_SHORT).show();
 
             createWorkoutTUTandWTLineChart();
             workoutTUTandWTLineChart.invalidate();

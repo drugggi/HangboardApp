@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
         testStatistics.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent statsIntent = new Intent(getApplicationContext(), WorkoutHistory.class);
+                Intent statsIntent = new Intent(getApplicationContext(), WorkoutHistoryActivity.class);
 
                 // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
 

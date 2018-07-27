@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class EditWorkoutInfo extends AppCompatActivity {
+public class EditWorkoutInfoActivity extends AppCompatActivity {
 
     // workoutInfoGridView helps user to see and edit single hangs. With this user can see and edit
     // completed array which stores the information how successful a hang was.
@@ -120,7 +120,7 @@ public class EditWorkoutInfo extends AppCompatActivity {
                 // or returning back information
                 if (isNewWorkout) {
 
-                    Intent workoutIntoDatabaseIntent = new Intent(getApplicationContext(), WorkoutHistory.class);
+                    Intent workoutIntoDatabaseIntent = new Intent(getApplicationContext(), WorkoutHistoryActivity.class);
 
                     // Lets pass the necessary information to WorkoutActivity; time controls, hangboard name, and used holds with grip information
                     workoutIntoDatabaseIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS", timeControls.getTimeControlsIntArray());
@@ -162,7 +162,7 @@ public class EditWorkoutInfo extends AppCompatActivity {
                     workoutDescription = workoutDescriptionEditText.getText().toString();
                     if (workoutDescription.length() > 255) {
                         workoutDescription = workoutDescription.substring(0,255);
-                        Toast.makeText(EditWorkoutInfo.this,"Only 255 characters allowed",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditWorkoutInfoActivity.this,"Only 255 characters allowed",Toast.LENGTH_SHORT).show();
                     }
 
                     hangInfoTextView.setText(workoutDescription);
@@ -187,7 +187,7 @@ public class EditWorkoutInfo extends AppCompatActivity {
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
 
                 if (v.getId() == R.id.workoutInfoGridView) {
-                    //Toast.makeText(EditWorkoutInfo.this, "Context Menu Created ", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(EditWorkoutInfoActivity.this, "Context Menu Created ", Toast.LENGTH_SHORT).show();
 
                     AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
                     if (timeControls.getHangLaps() == 1) {
@@ -212,7 +212,7 @@ public class EditWorkoutInfo extends AppCompatActivity {
         workoutInfoGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               // Toast.makeText(EditWorkoutInfo.this,"pos: " + position,Toast.LENGTH_SHORT).show();
+               // Toast.makeText(EditWorkoutInfoActivity.this,"pos: " + position,Toast.LENGTH_SHORT).show();
 
                 int hold_position = position % timeControls.getGripLaps();
 
