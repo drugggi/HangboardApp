@@ -25,9 +25,6 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
 
     // workout info that requires calculation usually involving completed matrix
 
-    private int adjustedWorkoutTime;
-    private int adjustedTUT;
-
     private TextView workoutDetailsTextView;
     private TextView calculatedDetailsTextView;
 
@@ -80,14 +77,15 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
 
         CalculateWorkoutDetails calculatedDetails = new CalculateWorkoutDetails(timeControls,workoutHolds,completed);
 
-        adjustedWorkoutTime= calculatedDetails.getAdjustedWorkoutTime();
-        adjustedTUT = calculatedDetails.getAdjustedTUT();
 
         StringBuilder calculatedDetailsBuilder = new StringBuilder();
-        calculatedDetailsBuilder.append("Workout Time:          " + timeControls.getTotalTime() + "\n");
-        calculatedDetailsBuilder.append("Workout Time adjusted: " + adjustedWorkoutTime + "\n    (Times of failed hangs at the end of workout are removed. I.e. workout is stopped early.\n");
-        calculatedDetailsBuilder.append("Time Under Tension:           " + timeControls.getTimeUnderTension() + "\n");
-        calculatedDetailsBuilder.append("Time Under Tension: adjusted: " + adjustedTUT + "\n    (Times of failed hangs are obviously not part of time under tension");
+        calculatedDetailsBuilder.append("Workout Time:          " + timeControls.getTotalTime() + "s\n");
+        calculatedDetailsBuilder.append("Workout Time adjusted: " + calculatedDetails.getAdjustedWorkoutTime() + "s\n    (Times of failed hangs at the end of workout are removed. I.e. workout is stopped early.\n");
+        calculatedDetailsBuilder.append("Unused Workout Time: " + calculatedDetails.getUnusedWorkoutTime() + "s\n");
+        calculatedDetailsBuilder.append("Time Under Tension:           " + timeControls.getTimeUnderTension() + "s\n");
+        calculatedDetailsBuilder.append("Time Under Tension: adjusted: " + calculatedDetails.getAdjustedTUT() + "s\n    (Times of failed hangs are obviously not part of time under tension\n");
+        calculatedDetailsBuilder.append("Completed Hangs: " + calculatedDetails.getCompletedHangs() + "/" + calculatedDetails.getTotalHangs() + "\n");
+        calculatedDetailsBuilder.append("Successful hang percent: " + calculatedDetails.getSuccessfulHangRate() + "%\n");
 
         calculatedDetailsTextView.setText(calculatedDetailsBuilder.toString());
     }
