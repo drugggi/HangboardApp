@@ -214,12 +214,15 @@ public class MyDBHandler extends SQLiteOpenHelper {
         }
 
         int id = 0;
-
-        if (cursor.move(position)) {
-            id = cursor.getInt(0);
+        try {
+            if (cursor.move(position)) {
+                int index = cursor.getColumnIndex(COLUMN_ID);
+                id = cursor.getInt(index);
+            }
+        } finally {
+            cursor.close();
+            db.close();
         }
-
-        db.close();
         return id;
 
     }
@@ -317,15 +320,19 @@ public class MyDBHandler extends SQLiteOpenHelper {
         if (includeHidden) {
             cursor = db.query(TABLE_WORKOUTS, null, null, null, null, null, COLUMN_DATE + " DESC", null);
         }
+        try {
+            if (cursor.move(position)) {
+                int index = cursor.getColumnIndex(COLUMN_ID);
+                int columnID = cursor.getInt(index);
 
-        if (cursor.move(position)) {
-            int columnID = cursor.getInt(0);
-
-            String query = "UPDATE " + TABLE_WORKOUTS + " SET " + COLUMN_HANGBOARD + " = \"" + newBoardName + "\" WHERE " + COLUMN_ID + " =  \"" + columnID + "\"";
-            db.execSQL(query);
+                String query = "UPDATE " + TABLE_WORKOUTS + " SET " + COLUMN_HANGBOARD + " = \"" + newBoardName + "\" WHERE " + COLUMN_ID + " =  \"" + columnID + "\"";
+                db.execSQL(query);
+            }
+        } finally {
+            cursor.close();
+            db.close();
         }
 
-        db.close();
     }
 
     public void updateDate(int position, long newDate, boolean includeHidden) {
@@ -335,16 +342,18 @@ public class MyDBHandler extends SQLiteOpenHelper {
             cursor = db.query(TABLE_WORKOUTS, null, null, null, null, null, COLUMN_DATE + " DESC", null);
         }
 
-        if (cursor.move(position)) {
-           // isHidden = cursor.getInt(14);
-            int columnID = cursor.getInt(0);
+        try {
+            if (cursor.move(position)) {
+                int index = cursor.getColumnIndex(COLUMN_ID);
+                int columnID = cursor.getInt(index);
 
-            String query = "UPDATE " + TABLE_WORKOUTS + " SET " + COLUMN_DATE + " = \"" + newDate + "\" WHERE " + COLUMN_ID + " =  \"" + columnID + "\"";
-            db.execSQL(query);
-            //Log.e("Moved to"," " + position);
+                String query = "UPDATE " + TABLE_WORKOUTS + " SET " + COLUMN_DATE + " = \"" + newDate + "\" WHERE " + COLUMN_ID + " =  \"" + columnID + "\"";
+                db.execSQL(query);
+            }
+        } finally {
+            cursor.close();
+            db.close();
         }
-
-        db.close();
     }
 
     public void hideWorkoutNumber(int position, boolean includeHidden) {
@@ -354,30 +363,32 @@ public class MyDBHandler extends SQLiteOpenHelper {
             cursor = db.query(TABLE_WORKOUTS, null, null, null, null, null, COLUMN_DATE + " DESC", null);
         }
 
-        Log.e("hideworkoutnumber"," " );
-        Log.e("Move pos"," " + position);
         int isHidden = 1;
         int columnID = 0;
 
-        if (cursor.move(position)) {
-            isHidden = cursor.getInt(14);
-            columnID = cursor.getInt(0);
+        try {
+            if (cursor.move(position)) {
+                int indexHidden = cursor.getColumnIndex(COLUMN_ISHIDDEN);
+                int indexID = cursor.getColumnIndex(COLUMN_ID);
+                isHidden = cursor.getInt(indexHidden);
+                columnID = cursor.getInt(indexID);
 
-            if (isHidden == 0) {
-                isHidden = 1;
+                if (isHidden == 0) {
+                    isHidden = 1;
+                } else {
+                    isHidden = 0;
+                }
+
+
+                String query = "UPDATE " + TABLE_WORKOUTS + " SET " + COLUMN_ISHIDDEN + " = \"" + isHidden + "\" WHERE " + COLUMN_ID + " =  \"" + columnID + "\"";
+                db.execSQL(query);
+                // Log.e("Moved to"," " + position);
+
             }
-            else {
-                isHidden = 0;
-            }
-
-
-            String query = "UPDATE " + TABLE_WORKOUTS + " SET " + COLUMN_ISHIDDEN + " = \"" + isHidden + "\" WHERE " + COLUMN_ID + " =  \"" + columnID + "\"";
-            db.execSQL(query);
-            Log.e("Moved to"," " + position);
-
+        }finally {
+            cursor.close();
+            db.close();
         }
-
-        db.close();
         return;
 
     }
@@ -443,14 +454,16 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
         int isHidden;
 
-        if (cursor.move(position)) {
-            isHidden = cursor.getInt(14);
+        try {
+            if (cursor.move(position)) {
+                isHidden = cursor.getInt(14);
+            } else {
+                isHidden = 0;
+            }
+        } finally {
+            cursor.close();
+            db.close();
         }
-        else {
-            isHidden = 0;
-        }
-
-        db.close();
 
         if (isHidden == 0) {return false;}
         else {return true;}
@@ -525,7 +538,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
         }
         StringBuilder hangsCompleted = new StringBuilder();
         for (int i: completed) {
-            hangsCompleted.append(i+",");
+            hangsCompleted.append(i);
+            hangsCompleted.append(",");
         }
 
         String updatedHangs = hangsCompleted.toString();
@@ -744,20 +758,70 @@ public class MyDBHandler extends SQLiteOpenHelper {
         }
         TimeControls timeControls = new TimeControls();
 
-        if ( cursor.move(position) ) {
-            timeControls.setGripLaps(cursor.getInt(6));
-            timeControls.setHangLaps(cursor.getInt(7));
-            timeControls.setTimeON(cursor.getInt(8));
-            timeControls.setTimeOFF(cursor.getInt(9));
-            timeControls.setRoutineLaps(cursor.getInt(10));
-            timeControls.setRestTime(cursor.getInt(11));
-            timeControls.setLongRestTime(cursor.getInt(12));
+        try {
+            if (cursor.move(position)) {
+                int indexGL = cursor.getColumnIndex(COLUMN_GRIPLAPS);
+                int indexHL = cursor.getColumnIndex(COLUMN_HANGLAPS);
+                int indexTimeON = cursor.getColumnIndex(COLUMN_TIMEON);
+                int indexTimeOFF = cursor.getColumnIndex(COLUMN_TIMEOFF);
+                int indexLaps = cursor.getColumnIndex(COLUMN_SETS);
+                int indexRest = cursor.getColumnIndex(COLUMN_REST);
+                int indexLongRest = cursor.getColumnIndex(COLUMN_LONGREST);
 
+                timeControls.setGripLaps(cursor.getInt(indexGL));
+                timeControls.setHangLaps(cursor.getInt(indexHL));
+                timeControls.setTimeON(cursor.getInt(indexTimeON));
+                timeControls.setTimeOFF(cursor.getInt(indexTimeOFF));
+                timeControls.setRoutineLaps(cursor.getInt(indexLaps));
+                timeControls.setRestTime(cursor.getInt(indexRest));
+                timeControls.setLongRestTime(cursor.getInt(indexLongRest));
+
+            }
+        } finally {
+            cursor.close();
+            db.close();
         }
-        db.close();
 
         return timeControls ;
 
+    }
+
+    public ArrayList<TimeControls> lookUpAllTimeControls(boolean includeHidden) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
+        if (includeHidden) {
+            cursor = db.query(TABLE_WORKOUTS, null, null, null, null, null, COLUMN_DATE + " DESC", null);
+        }
+
+        ArrayList<TimeControls> allTimeControls = new ArrayList<>();
+        TimeControls tempControl;
+
+        try {
+            int indexGL = cursor.getColumnIndex(COLUMN_GRIPLAPS);
+            int indexHL = cursor.getColumnIndex(COLUMN_HANGLAPS);
+            int indexTimeON = cursor.getColumnIndex(COLUMN_TIMEON);
+            int indexTimeOFF = cursor.getColumnIndex(COLUMN_TIMEOFF);
+            int indexLaps = cursor.getColumnIndex(COLUMN_SETS);
+            int indexRest = cursor.getColumnIndex(COLUMN_REST);
+            int indexLongRest = cursor.getColumnIndex(COLUMN_LONGREST);
+
+            while (cursor.moveToNext()) {
+                tempControl = new TimeControls();
+                tempControl.setGripLaps(cursor.getInt(indexGL));
+                tempControl.setHangLaps(cursor.getInt(indexHL));
+                tempControl.setTimeON(cursor.getInt(indexTimeON));
+                tempControl.setTimeOFF(cursor.getInt(indexTimeOFF));
+                tempControl.setRoutineLaps(cursor.getInt(indexLaps));
+                tempControl.setRestTime(cursor.getInt(indexRest));
+                tempControl.setLongRestTime(cursor.getInt(indexLongRest));
+
+                allTimeControls.add(tempControl);
+            }
+        } finally {
+            cursor.close();
+            db.close();
+        }
+        return allTimeControls;
     }
 
 

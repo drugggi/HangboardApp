@@ -106,7 +106,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
         // NEEDS ALL TIME CONTROLS CONSIDER SOME PARAMETERS TO BE CALCULATE DIFFERENTLY THAN ASYNCTAS
         //createSingleHangsOrRepeatersBarChart();
-        allTimeControls = retrieveAllTimeControls();
+        allTimeControls = dbHandler.lookUpAllTimeControls(includeHidden);
 
         createSingleHangsOrRepeatersBarChart();
         singleHangsOrRepeatersBarChart.invalidate();
@@ -213,6 +213,15 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
             gripDistributionPieChart.invalidate();
             gripDistributionPieChart.animateX(1000);
 
+            ArrayList<CalculateWorkoutDetails> allWorkoutsCalculatedDetails = new ArrayList<>();
+            CalculateWorkoutDetails tempDetails;
+
+            for( int i = 0; i < hangboards.size() ; i++) {
+
+                tempDetails = new CalculateWorkoutDetails(allTimeControls.get(i), arrayList_workoutHolds.get(i), completedArrayList.get(i));
+                allWorkoutsCalculatedDetails.add(tempDetails);
+            }
+            Log.e("caldworkdet: ", "size " + allWorkoutsCalculatedDetails.size());
         }
     }
 
