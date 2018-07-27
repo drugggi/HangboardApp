@@ -131,11 +131,12 @@ public class MyDBHandler extends SQLiteOpenHelper {
     }
 
     // getListContents returns cursor that helps move around database
+    /*
     public Cursor getListContents() {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
         return cursor;
-    }
+    }*/
 
     public Cursor getSortedContents() {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -183,7 +184,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
 
     // Checks how many workouts there are in database
-    public int lookUpWorkoutCount() {
+    protected int lookUpWorkoutCount() {
 
         String countQuery = "SELECT  * FROM " + TABLE_WORKOUTS;
         SQLiteDatabase db = this.getReadableDatabase();
@@ -241,7 +242,6 @@ public class MyDBHandler extends SQLiteOpenHelper {
         } finally {
             cursor.close();
         }
-
         db.close();
 
         return date;
@@ -276,9 +276,13 @@ public class MyDBHandler extends SQLiteOpenHelper {
         }
 
         String workoutDescription = "Err";
-
-        if (cursor.move(position)) {
-            workoutDescription = cursor.getString(15);
+        try {
+            if (cursor.move(position)) {
+                int index = cursor.getColumnIndex(COLUMN_DESCRIPTION);
+                workoutDescription = cursor.getString(index);
+            }
+        } finally {
+            cursor.close();
         }
         db.close();
         return workoutDescription;
@@ -457,14 +461,41 @@ public class MyDBHandler extends SQLiteOpenHelper {
         }
         String hangboard= "" ;
 
-        if (cursor.move(position)) {
-            hangboard = cursor.getString(2);
+        try {
+            if (cursor.move(position)) {
+                int index = cursor.getColumnIndex( COLUMN_HANGBOARD );
+                hangboard = cursor.getString(2);
+            }
+        } finally {
+            cursor.close();
         }
-        else {
-            hangboard = "Error getting board";
-        }
+
         db.close();
         return hangboard;
+
+    }
+
+    public ArrayList<String> lookUpAllHangboards(boolean includeHidden) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
+        if (includeHidden) {
+            cursor = db.query(TABLE_WORKOUTS, null, null, null, null, null, COLUMN_DATE + " DESC", null);
+        }
+
+        ArrayList<String> hangboardNames = new ArrayList<>();
+        try {
+            int index = cursor.getColumnIndex( COLUMN_HANGBOARD );
+            while (cursor.moveToNext() ) {
+                hangboardNames.add(cursor.getString(index));
+            }
+
+        } finally {
+            cursor.close();
+        }
+        db.close();
+        return hangboardNames;
+
 
     }
 
@@ -472,7 +503,6 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public void updateCompletedHangs(int position, int[] completed, boolean includeHidden) {
 
         SQLiteDatabase db = this.getWritableDatabase();
-
         Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
         if (includeHidden) {
             cursor = db.query(TABLE_WORKOUTS, null, null, null, null, null, COLUMN_DATE + " DESC", null);

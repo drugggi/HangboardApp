@@ -165,10 +165,13 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
                 arrayList_workoutHolds.add(dbHandler.lookUpHolds(i, includeHidden));
                //  dates.add(dbHandler.lookUpDate(i, includeHidden));
                 completedArrayList.add(dbHandler.lookUpCompletedHangs(i, includeHidden));
-                hangboards.add(dbHandler.lookUpHangboard(i, includeHidden));
+                //hangboards.add(dbHandler.lookUpHangboard(i, includeHidden));
             }
 
+            hangboards = dbHandler.lookUpAllHangboards(includeHidden);
             dates = dbHandler.lookUpAllDates(includeHidden);
+
+            Log.e("array size:","HB: " + hangboards.size() + " dates: " + dates.size());
 
             // retrieveDataFromDatabaseToArrayLists();
 
