@@ -78,10 +78,10 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
 
         workoutDetailsTextView.setText(workoutDetailsBuilder.toString());
 
+        CalculateWorkoutDetails calculatedDetails = new CalculateWorkoutDetails(timeControls,workoutHolds,completed);
 
-
-        adjustedWorkoutTime= timeControls.getTotalTime();
-        adjustedTUT = timeControls.getTimeUnderTension();
+        adjustedWorkoutTime= calculatedDetails.getAdjustedWorkoutTime();
+        adjustedTUT = calculatedDetails.getAdjustedTUT();
 
         StringBuilder calculatedDetailsBuilder = new StringBuilder();
         calculatedDetailsBuilder.append("Workout Time:          " + timeControls.getTotalTime() + "\n");

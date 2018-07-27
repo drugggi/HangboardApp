@@ -133,7 +133,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
            @Override
            public void onClick(View v) {
                long rngTime = System.currentTimeMillis();
-               TimeControls rngControls = getTotallyRandomTimeControls();
+               TimeControls rngControls = getRandomTimeControls();
                dbHandler.addHangboardWorkout(
                        rngTime- (long)1000*60*60*24*rng.nextInt(60),
                        getRandomHangboard(),
@@ -542,11 +542,11 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
     private Hold getNewRandomHold() {
         Hold newHold = new Hold(rng.nextInt(20)+1);
         newHold.setHoldValue(rng.nextInt(40)+1);
-        int i_hold_bot_info = (rng.nextInt(8)+1)*10;
+        int i_hold_both_info = (rng.nextInt(8)+1)*10;
 
 
-        i_hold_bot_info = i_hold_bot_info + rng.nextInt(1);
-        newHold.setGripTypeAndSingleHang(i_hold_bot_info);
+        i_hold_both_info = i_hold_both_info + rng.nextInt(1);
+        newHold.setGripTypeAndSingleHang(i_hold_both_info);
 
         if (showHiddenWorkoutsCheckBox.isChecked() != workoutAdapter.getShowHiddenStatus())  {
             Log.e("ERR"," error: boolean value showhidden differs");
