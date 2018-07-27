@@ -26,7 +26,8 @@
         <activity
             android:name=".WorkoutStatistics"
             android:label="@string/title_activity_workout_database_graphs"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".WorkoutDetails"></activity>
     </application>
 
 </manifest>

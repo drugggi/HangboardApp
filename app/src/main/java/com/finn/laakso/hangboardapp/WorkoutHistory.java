@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -24,10 +23,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Random;
 
 
@@ -150,11 +147,28 @@ public class WorkoutHistory extends AppCompatActivity {
        });
 
         // Click listener for editing single workout
-        editWorkoutButton.setText("test");
+        editWorkoutButton.setText("show WO details");
         editWorkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                Intent workoutDetailsIntent = new Intent(getApplicationContext(), WorkoutDetails.class);
+
+                // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
+
+                if (positionGlobal == 0) {
+                    Toast.makeText(WorkoutHistory.this,"pos global == 0",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                boolean isHidden = dbHandler.lookUpIsHidden(positionGlobal);
+
+                workoutDetailsIntent.putExtra("com.finn.laakso.hangboardapp.DBPOSITION",positionGlobal );
+                workoutDetailsIntent.putExtra("com.finn.laakso.hangboardapp.ISHIDDEN",isHidden );
+
+                startActivity(workoutDetailsIntent);
+
+                /*
                 Toast.makeText(WorkoutHistory.this, "Sorting test ", Toast.LENGTH_SHORT).show();
 
                 Cursor cursor = dbHandler.getListContents();
@@ -172,7 +186,7 @@ public class WorkoutHistory extends AppCompatActivity {
                     Date sortedDate1 = new Date(sortedDate);
 
                 }
-                workoutAdapter.notifyDataSetChanged();
+                workoutAdapter.notifyDataSetChanged(); */
 
             }
         });
@@ -225,6 +239,13 @@ public class WorkoutHistory extends AppCompatActivity {
 
                 }
 
+            }
+        });
+
+        workoutHistoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                positionGlobal = position+1;
             }
         });
 

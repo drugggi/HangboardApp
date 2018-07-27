@@ -204,6 +204,24 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     }
 
+    public int lookUpId(int position, boolean includeHidden) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
+        if (includeHidden) {
+            cursor = db.query(TABLE_WORKOUTS, null, null, null, null, null, COLUMN_DATE + " DESC", null);
+        }
+
+        int id = 0;
+
+        if (cursor.move(position)) {
+            id = cursor.getInt(0);
+        }
+
+        db.close();
+        return id;
+
+    }
+
     // returns date when the workout was done
     public long lookUpDate(int position, boolean includeHidden) {
 

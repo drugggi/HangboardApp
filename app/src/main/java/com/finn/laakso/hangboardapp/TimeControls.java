@@ -250,7 +250,7 @@ public class TimeControls {
 
     public String getTimeControlsAsString() {
         return "Grip laps: " + grip_laps + " Hang laps: " + hang_laps + " Time on/off: " + time_on + "/"
-                + time_off + " Laps/sets: " + routine_laps + " longrest/rest: " + long_rest + "/" + rest;
+                + time_off + " Sets: " + routine_laps + " rest/long rest: " + rest + "/" + long_rest;
     }
 
     public int getTotalTime() {
