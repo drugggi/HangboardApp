@@ -14,6 +14,11 @@ public class CalculateWorkoutDetails {
     private int successfulHangRate;
     private int holdDifficultiesSum;
     private int unusedWorkoutTime;
+    private float averageDifficutly;
+    private float intensity;
+    private float workload;
+    private float difficultyPerMinute;
+    private float power;
 
 
 
@@ -46,8 +51,9 @@ public class CalculateWorkoutDetails {
         // from end to start
         for (int i = completed.length -1; i >= 0 && completed[i] == 0 ; i--) {
 
-            // If completed matrix is zero matrix i.e. not a single successful hangs we dont erase rest time
-            // This is not common in actual use, but in testing cases really common situation
+            // If completed matrix is zero matrix i.e. not a single successful hangs were done
+            // we dont erase rest time
+            // This is not common in actual use, but in test cases, really common situation
             if (i == 0) {
                 unusedWorkoutTime += timeControls.getHangLaps()*( timeControls.getTimeON() + timeControls.getTimeOFF() );
                 break;
@@ -65,10 +71,15 @@ public class CalculateWorkoutDetails {
 
         }
 
+
         adjustedWorkoutTime = timeControls.getTotalTime() - unusedWorkoutTime;
         successfulHangRate = 100 * completedHangs / totalHangs;
 
-        float averageDifficulty = (float) holdDifficultiesSum / completedHangs ;
+        intensity = (float) adjustedTUT / adjustedWorkoutTime;
+        averageDifficutly = (float) holdDifficultiesSum / completedHangs ;
+        workload = averageDifficutly * adjustedTUT;
+        difficultyPerMinute = averageDifficutly / adjustedTUT *60;
+        power = averageDifficutly * adjustedTUT /adjustedWorkoutTime;
 
 
 
@@ -94,6 +105,21 @@ public class CalculateWorkoutDetails {
     }
     public int getUnusedWorkoutTime() {
         return this.unusedWorkoutTime;
+    }
+    public float getIntensity() {
+        return this.intensity;
+    }
+    public float getAverageDifficutly() {
+        return this.averageDifficutly;
+    }
+    public float getWorkload() {
+        return this.workload;
+    }
+    public float getDifficultyPerMinute() {
+        return this.difficultyPerMinute;
+    }
+    public float getPower() {
+        return this.power;
     }
 
 

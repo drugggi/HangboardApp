@@ -139,7 +139,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                        getRandomHangboard(),
                        rngControls,
                        getRandomWorkoutHolds(rngControls.getGripLaps()),
-                       getCompletedALL(rngControls),
+                       getCompletedRandomly(rngControls),
                        getRandomWorkoutDescription());
 
                 workoutAdapter.notifyDataSetChanged();

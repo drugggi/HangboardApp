@@ -83,9 +83,14 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
         calculatedDetailsBuilder.append("Workout Time adjusted: " + calculatedDetails.getAdjustedWorkoutTime() + "s\n    (Times of failed hangs at the end of workout are removed. I.e. workout is stopped early.\n");
         calculatedDetailsBuilder.append("Unused Workout Time: " + calculatedDetails.getUnusedWorkoutTime() + "s\n");
         calculatedDetailsBuilder.append("Time Under Tension:           " + timeControls.getTimeUnderTension() + "s\n");
-        calculatedDetailsBuilder.append("Time Under Tension: adjusted: " + calculatedDetails.getAdjustedTUT() + "s\n    (Times of failed hangs are obviously not part of time under tension\n");
+        calculatedDetailsBuilder.append("Time Under Tension adjusted: " + calculatedDetails.getAdjustedTUT() + "s\n    (Times of failed hangs are obviously not part of time under tension\n");
         calculatedDetailsBuilder.append("Completed Hangs: " + calculatedDetails.getCompletedHangs() + "/" + calculatedDetails.getTotalHangs() + "\n");
         calculatedDetailsBuilder.append("Successful hang percent: " + calculatedDetails.getSuccessfulHangRate() + "%\n");
+        calculatedDetailsBuilder.append("Average Difficulty: " + calculatedDetails.getAverageDifficutly() + "\n");
+        calculatedDetailsBuilder.append("Workout intensity: " +calculatedDetails.getIntensity() +  " (TUT/WT)\n");
+        calculatedDetailsBuilder.append("Total workload: " + calculatedDetails.getWorkload() + " (\n");
+        calculatedDetailsBuilder.append("Difficulty per min: " +calculatedDetails.getDifficultyPerMinute()+  "\n");
+        calculatedDetailsBuilder.append("Workout power: " + calculatedDetails.getPower() + "\n");
 
         calculatedDetailsTextView.setText(calculatedDetailsBuilder.toString());
     }
