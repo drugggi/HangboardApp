@@ -191,6 +191,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(countQuery, null);
         int count = cursor.getCount();
         cursor.close();
+        db.close();
         return count;
 
     }
@@ -262,8 +263,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
             }
         } finally {
             cursor.close();
+            db.close();
         }
-        db.close();
         return dbDateList;
     }
 
@@ -283,8 +284,9 @@ public class MyDBHandler extends SQLiteOpenHelper {
             }
         } finally {
             cursor.close();
+            db.close();
         }
-        db.close();
+
         return workoutDescription;
     }
 
@@ -294,15 +296,19 @@ public class MyDBHandler extends SQLiteOpenHelper {
         if (includeHidden) {
             cursor = db.query(TABLE_WORKOUTS, null, null, null, null, null, COLUMN_DATE + " DESC", null);
         }
+        try {
+            if (cursor.move(position)) {
+                int index = cursor.getColumnIndex(COLUMN_ID);
+                int columnID = cursor.getInt(index);
 
-        if (cursor.move(position)) {
-            int columnID = cursor.getInt(0);
-
-            String query = "UPDATE " + TABLE_WORKOUTS + " SET " + COLUMN_DESCRIPTION + " = \"" + workoutDescription + "\" WHERE " + COLUMN_ID + " =  \"" + columnID + "\"";
-            db.execSQL(query);
+                String query = "UPDATE " + TABLE_WORKOUTS + " SET " + COLUMN_DESCRIPTION + " = \"" + workoutDescription + "\" WHERE " + COLUMN_ID + " =  \"" + columnID + "\"";
+                db.execSQL(query);
+            }
+        } finally {
+            cursor.close();
+            db.close();
         }
 
-        db.close();
     }
 
     public void updateHangboardName(int position, String newBoardName, boolean includeHidden) {
@@ -538,24 +544,64 @@ public class MyDBHandler extends SQLiteOpenHelper {
         if (includeHidden) {
             cursor = db.query(TABLE_WORKOUTS, null, null, null, null, null, COLUMN_DATE + " DESC", null);
         }
-        String hangsCompletedFromDB = "";
 
-        int[] hangsCompleted=new int[4];
+        String hangsCompletedFromDB;
+        int[] hangsCompleted = new int[1];
 
-        if (cursor.move(position)) {
-            hangsCompletedFromDB = cursor.getString(13);
+        try {
+            if (cursor.move(position)) {
+                int index = cursor.getColumnIndex(COLUMN_HANGSCOMPLETED);
+                 hangsCompletedFromDB = cursor.getString(index);
 
-            String[] s = hangsCompletedFromDB.split(",");
+                String[] s = hangsCompletedFromDB.split(",");
 
-            hangsCompleted = new int[s.length];
-            for (int i = 0; i < s.length; i++) {
-                hangsCompleted[i] = Integer.parseInt(s[i]);
+                hangsCompleted = new int[s.length];
+                for (int i = 0; i < s.length; i++) {
+                    hangsCompleted[i] = Integer.parseInt(s[i]);
+                }
+
             }
-
+        } finally {
+            cursor.close();
+            db.close();
         }
-        db.close();
         return hangsCompleted;
     }
+
+    public ArrayList<int[]> lookUpAllCompletedHangs(boolean includeHidden) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
+        if (includeHidden) {
+            cursor = db.query(TABLE_WORKOUTS, null, null, null, null, null, COLUMN_DATE + " DESC", null);
+        }
+
+        String hangsCompletedFromDB;
+        String[] temp;
+        int[] hangsCompleted;
+        ArrayList<int[]> allCompletedArrays = new ArrayList<>();
+
+        try {
+            int index = cursor.getColumnIndex(COLUMN_HANGSCOMPLETED);
+            while (cursor.moveToNext() ) {
+                hangsCompletedFromDB = cursor.getString(index);
+
+                temp = hangsCompletedFromDB.split(",");
+
+                hangsCompleted = new int[temp.length];
+                for (int i = 0 ; i < temp.length ; i++) {
+                    hangsCompleted[i] = Integer.parseInt(temp[i]);
+                }
+                allCompletedArrays.add(hangsCompleted);
+            }
+        } finally {
+            cursor.close();
+            db.close();
+        }
+
+        return allCompletedArrays;
+
+    }
+
 
     // return the used holds, each hold has a number, grip type and value.
     // In the ArrayList even valued holds are for left hand and odd values are for right hand
@@ -573,43 +619,48 @@ public class MyDBHandler extends SQLiteOpenHelper {
         String allHoldValuesFromDB="";
 
         // A lot of parsing because hold information is stored as String
-        if (cursor.move(position)) {
-            allHoldNumbersFromDB = cursor.getString(3);
-            allGripTypesFromDB = cursor.getString(4);
-            allHoldValuesFromDB = cursor.getString(5);
 
-            String[] s = allHoldNumbersFromDB.split(",");
+        try {
+            if (cursor.move(position)) {
+                allHoldNumbersFromDB = cursor.getString(3);
+                allGripTypesFromDB = cursor.getString(4);
+                allHoldValuesFromDB = cursor.getString(5);
 
-            int[] holdNumbers = new int[s.length];
-            for (int i = 0; i < s.length; i++) {
-                holdNumbers[i] = Integer.parseInt(s[i]);
+                String[] s = allHoldNumbersFromDB.split(",");
+
+                int[] holdNumbers = new int[s.length];
+                for (int i = 0; i < s.length; i++) {
+                    holdNumbers[i] = Integer.parseInt(s[i]);
+                }
+
+                s = allGripTypesFromDB.split(",");
+
+                int[] gripTypes = new int[s.length];
+                for (int i = 0; i < s.length; i++) {
+                    gripTypes[i] = Integer.parseInt(s[i]);
+                }
+
+                s = allHoldValuesFromDB.split(",");
+
+                int[] holdValues = new int[s.length];
+                for (int i = 0; i < s.length; i++) {
+                    holdValues[i] = Integer.parseInt(s[i]);
+                }
+
+                Hold tempHold;
+                for (int i = 0; i < s.length; i++) {
+                    tempHold = new Hold(holdNumbers[i]);
+                    tempHold.setGripType(gripTypes[i]);
+                    tempHold.setHoldValue(holdValues[i]);
+
+                    allHolds.add(tempHold);
+                }
+
             }
-
-            s = allGripTypesFromDB.split(",");
-
-            int[] gripTypes = new int[s.length];
-            for (int i = 0 ; i < s.length; i++) {
-                gripTypes[i] = Integer.parseInt(s[i]);
-            }
-
-            s = allHoldValuesFromDB.split(",");
-
-            int[] holdValues = new int[s.length];
-            for (int i = 0 ; i < s.length; i++) {
-                holdValues[i] = Integer.parseInt(s[i]);
-            }
-
-            Hold tempHold;
-            for(int i =0 ; i < s.length ; i++) {
-                tempHold = new Hold(holdNumbers[i]);
-                tempHold.setGripType(gripTypes[i]);
-                tempHold.setHoldValue(holdValues[i]);
-
-                allHolds.add(tempHold);
-            }
-
+        } finally {
+            cursor.close();
+            db.close();
         }
-        db.close();
 
         return allHolds;
 
