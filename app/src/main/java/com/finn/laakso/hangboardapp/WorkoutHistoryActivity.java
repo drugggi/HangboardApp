@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -133,12 +134,25 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
            @Override
            public void onClick(View v) {
                long rngTime = System.currentTimeMillis();
+
+
+
                TimeControls rngControls = getRandomTimeControls();
+
+               // Lets set up random hangboard so that holds are real and based on random grade
+               Resources res = getResources();
+               HangBoard rngHangboard = new HangBoard(res);
+               rngHangboard.initializeHolds(res,getRandomHB());
+               rngHangboard.setGripAmount(rngControls.getGripLaps(),rng.nextInt(11));
+               ArrayList<Hold> holdsFromRNGhangboard = rngHangboard.getCurrentHoldList();
+
+
                dbHandler.addHangboardWorkout(
                        rngTime- (long)1000*60*60*24*rng.nextInt(60),
                        getRandomHangboard(),
                        rngControls,
-                       getRandomWorkoutHolds(rngControls.getGripLaps()),
+                       holdsFromRNGhangboard,
+                       // getRandomWorkoutHolds(rngControls.getGripLaps()),
                        getCompletedRandomly(rngControls),
                        getRandomWorkoutDescription());
 
@@ -619,6 +633,13 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         rngBoard = "RNG " + CustomSwipeAdapter.getHangboardName(rngHB);
 
         return rngBoard;
+    }
+
+    private CustomSwipeAdapter.hangboard getRandomHB() {
+        int rngSeed = rng.nextInt(15);
+        CustomSwipeAdapter.hangboard rngHB = CustomSwipeAdapter.getHangBoard(rngSeed);
+
+        return rngHB;
     }
 
     private String getRandomWorkoutDescription() {
