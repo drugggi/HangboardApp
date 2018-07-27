@@ -71,7 +71,7 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
 
         workoutDetailsBuilder.append("Completed: \n" +getCompletedMatrix(completed) +  "\n");
         workoutDetailsBuilder.append("Description: " + description + "\n");
-        workoutDetailsBuilder.append("Is Hidden: " + isHidden + "\n");
+        workoutDetailsBuilder.append("Hidden workout (warm up, test, etc.): " + isHidden + "\n");
 
         workoutDetailsTextView.setText(workoutDetailsBuilder.toString());
 
@@ -86,11 +86,11 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
         calculatedDetailsBuilder.append("Time Under Tension adjusted: " + calculatedDetails.getAdjustedTUT() + "s\n    (Times of failed hangs are obviously not part of time under tension\n");
         calculatedDetailsBuilder.append("Completed Hangs: " + calculatedDetails.getCompletedHangs() + "/" + calculatedDetails.getTotalHangs() + "\n");
         calculatedDetailsBuilder.append("Successful hang percent: " + calculatedDetails.getSuccessfulHangRate() + "%\n");
-        calculatedDetailsBuilder.append("Average Difficulty: " + calculatedDetails.getAverageDifficutly() + "\n");
+        calculatedDetailsBuilder.append("Average Difficulty per hang: " + calculatedDetails.getAverageDifficutly() + "\n");
         calculatedDetailsBuilder.append("Workout intensity: " +calculatedDetails.getIntensity() +  " (TUT/WT)\n");
-        calculatedDetailsBuilder.append("Total workload: " + calculatedDetails.getWorkload() + " (\n");
-        calculatedDetailsBuilder.append("Difficulty per min: " +calculatedDetails.getDifficultyPerMinute()+  "\n");
-        calculatedDetailsBuilder.append("Workout power: " + calculatedDetails.getPower() + "\n");
+        calculatedDetailsBuilder.append("Total workload: " + calculatedDetails.getWorkload() + " (avg D*TUT)\n");
+        calculatedDetailsBuilder.append("Difficulty per min: " +calculatedDetails.getDifficultyPerMinute()+  " (avg D*60)/TUT\n");
+        calculatedDetailsBuilder.append("Workout power: " + calculatedDetails.getPower() + " (avg D*TUT)/WT\n");
 
         calculatedDetailsTextView.setText(calculatedDetailsBuilder.toString());
     }
