@@ -127,7 +127,11 @@ public class WorkoutActivity extends AppCompatActivity {
 
         // Holds that will be used in this workout program
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.HOLDS")) {
-             workoutHolds = getIntent().getExtras().getParcelableArrayList("com.finn.laakso.hangboardapp.HOLDS");
+            try {
+                workoutHolds = getIntent().getExtras().getParcelableArrayList("com.finn.laakso.hangboardapp.HOLDS");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         // Hangboard image that user has selected
@@ -191,7 +195,8 @@ public class WorkoutActivity extends AppCompatActivity {
         }
 
         // Set the text becouse if the phone orientation has changed it would display "00:00" instead
-        lapseTimeChrono.setText("" + Math.abs(s) );
+        String timeText = "" + Math.abs(s);
+        lapseTimeChrono.setText(timeText );
 
         // Context Menu Listener so user can change the timer text size
         lapseTimeChrono.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
@@ -277,7 +282,7 @@ public class WorkoutActivity extends AppCompatActivity {
                         .append(". set (").append(current_lap+1).append("/")
                         .append(timeControls.getGripLaps() ).append(") ");
                 infoTextView.setText(timeTextBuilder.toString() );
-                
+
                 updateGripDisplay();
 
                 switch (nowDoing) {
