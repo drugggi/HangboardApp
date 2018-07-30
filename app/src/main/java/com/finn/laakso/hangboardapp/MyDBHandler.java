@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -219,7 +218,12 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
-        return cursor.getCount();
+
+        int workoutEntriesCount = cursor.getCount();
+
+        cursor.close();
+
+        return workoutEntriesCount;
 
     }
 
@@ -380,8 +384,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
             cursor = db.query(TABLE_WORKOUTS, null, null, null, null, null, COLUMN_DATE + " DESC", null);
         }
 
-        int isHidden = 1;
-        int columnID = 0;
+        int isHidden;
+        int columnID;
 
         try {
             if (cursor.move(position)) {
@@ -406,10 +410,9 @@ public class MyDBHandler extends SQLiteOpenHelper {
             cursor.close();
             db.close();
         }
-        return;
 
     }
-
+/*
     public void hideOrUnhideWorkoutNumber(int position) {
 
 
@@ -441,7 +444,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.close();
 
     }
-
+    */
+/*
     public void setIsHidden(int position, int isHidden) {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -464,6 +468,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.close();
 
     }
+    */
 
     public boolean lookUpIsHidden(int position, boolean includeHidden) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -471,11 +476,12 @@ public class MyDBHandler extends SQLiteOpenHelper {
         if (includeHidden) {
             cursor = db.query(TABLE_WORKOUTS, null, null, null, null, null, COLUMN_DATE + " DESC", null);
         }
-        int isHidden;
+        Integer isHidden;
 
         try {
             if (cursor.move(position)) {
-                isHidden = cursor.getInt(14);
+                int index = cursor.getColumnIndex(COLUMN_ISHIDDEN);
+                isHidden = cursor.getInt(index);
             } else {
                 isHidden = 0;
             }
@@ -484,10 +490,11 @@ public class MyDBHandler extends SQLiteOpenHelper {
             db.close();
         }
 
-        if (isHidden == 0) {return false;}
-        else {return true;}
+        // Editor made me do this
+        return !isHidden.equals(0);
 
     }
+
 
     // Returns the hangboard name which were used in the workout
     public String lookUpHangboard(int position, boolean includeHidden) {
@@ -502,13 +509,13 @@ public class MyDBHandler extends SQLiteOpenHelper {
         try {
             if (cursor.move(position)) {
                 int index = cursor.getColumnIndex( COLUMN_HANGBOARD );
-                hangboard = cursor.getString(2);
+                hangboard = cursor.getString(index);
             }
         } finally {
             cursor.close();
+            db.close();
         }
 
-        db.close();
         return hangboard;
 
     }
@@ -548,25 +555,31 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
         int columnID;
 
-        if (cursor.move(position)) {
-            columnID = cursor.getInt(0);
-        }
-        else {
+
+        try {
+
+            if (cursor.move(position)) {
+                int index = cursor.getColumnIndex(COLUMN_ID);
+                columnID = cursor.getInt(index);
+
+
+                StringBuilder hangsCompleted = new StringBuilder();
+                for (int i : completed) {
+                    hangsCompleted.append(i);
+                    hangsCompleted.append(",");
+                }
+
+                String updatedHangs = hangsCompleted.toString();
+                String query = "UPDATE " + TABLE_WORKOUTS + " SET " + COLUMN_HANGSCOMPLETED + " = \"" + updatedHangs + "\" WHERE " + COLUMN_ID + " =  \"" + columnID + "\"";
+
+                db.execSQL(query);
+            }
+
+        } finally {
+            cursor.close();
             db.close();
-            return;
-        }
-        StringBuilder hangsCompleted = new StringBuilder();
-        for (int i: completed) {
-            hangsCompleted.append(i);
-            hangsCompleted.append(",");
         }
 
-        String updatedHangs = hangsCompleted.toString();
-        String query = "UPDATE " + TABLE_WORKOUTS + " SET " + COLUMN_HANGSCOMPLETED + " = \"" + updatedHangs + "\" WHERE " + COLUMN_ID + " =  \"" + columnID + "\"";
-
-        db.execSQL(query);
-
-        db.close();
     }
 
 
