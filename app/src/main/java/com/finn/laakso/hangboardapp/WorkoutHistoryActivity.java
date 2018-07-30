@@ -307,6 +307,10 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                 }
                 else {
                     Intent showDatabaseGraphs = new Intent(getApplicationContext(),WorkoutStatisticsActivity.class);
+
+                    boolean showHidden = showHiddenWorkoutsCheckBox.isChecked();
+                    showDatabaseGraphs.putExtra("com.finn.laakso.hangboardapp.SHOWHIDDEN",showHidden );
+
                     startActivity(showDatabaseGraphs);
                 }
             }
@@ -452,6 +456,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                     android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                     dateSetListener,
                     year,month,day);
+
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.show();
 

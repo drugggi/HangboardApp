@@ -5,6 +5,9 @@ import android.os.Parcelable;
 
 /**
  * Created by Laakso on 20.11.2017.
+ * Hold class represents a hangboard hold that one hand can grip. It has hangboards hold number,
+ * hold value that is how difficult it is to hang there, it has grip type and coordinates to hangboard
+ * so that it can be visually showed to user
  */
 
 // Hold contains the information that a single hang can hold
@@ -31,7 +34,7 @@ public class Hold implements Comparable<Hold>, Parcelable {
     }
 
     // Single holds dont have a pair with same measurements in the hangboard
-    boolean single_hold;
+    private boolean single_hold;
 
     public boolean isEqual(Hold compareHold) {
         if (this.hold_number == compareHold.getHoldNumber() && this.grip_style == compareHold.getGripStyle()) {
