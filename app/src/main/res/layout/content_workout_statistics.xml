@@ -34,6 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="400dp" />
 
+        <!--
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/workoutTimeChart"
             android:layout_width="match_parent"
@@ -43,6 +44,7 @@
             android:id="@+id/timeUnderTensionChart"
             android:layout_width="match_parent"
             android:layout_height="400dp" />
+            -->
 
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/difficultyBarChart"

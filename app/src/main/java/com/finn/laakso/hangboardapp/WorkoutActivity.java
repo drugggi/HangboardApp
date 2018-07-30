@@ -267,8 +267,17 @@ public class WorkoutActivity extends AppCompatActivity {
             public void onChronometerTick(Chronometer chronometer) {
                 s++;
                 total_s--;
-                lapseTimeChrono.setText("" + Math.abs(s) );
-                infoTextView.setText(total_s/60 + "min left\n"+ current_set + ". set ("+ (current_lap+1) + "/" + timeControls.getGripLaps()+") ");
+
+                StringBuilder timeTextBuilder = new StringBuilder();
+                timeTextBuilder.append(Math.abs(s));
+                lapseTimeChrono.setText(timeTextBuilder.toString() );
+
+                timeTextBuilder = new StringBuilder();
+                timeTextBuilder.append(total_s/60).append("min left\n").append(current_set)
+                        .append(". set (").append(current_lap+1).append("/")
+                        .append(timeControls.getGripLaps() ).append(") ");
+                infoTextView.setText(timeTextBuilder.toString() );
+                
                 updateGripDisplay();
 
                 switch (nowDoing) {

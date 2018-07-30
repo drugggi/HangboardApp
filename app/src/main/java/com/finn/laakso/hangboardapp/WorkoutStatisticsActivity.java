@@ -30,6 +30,7 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +42,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
     private MyDBHandler dbHandler;
 
     private TextView workoutsInfoTextView;
+    private TextView generalInfoTextView;
 
     private PieChart gripDistributionPieChart;
     private BarChart difficultyBarChart;
@@ -58,8 +60,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
     private ArrayList<String> allHangboards;
 
     private ArrayList<CalculateWorkoutDetails> allCalculatedDetails;
-
-    private TextView generalInfoTextView;
 
     private ArrayList<String> stringDates;
 
@@ -82,7 +82,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
 
 
-        generalInfoTextView = (TextView) findViewById(R.id.generalInfoTextView);
+        // generalInfoTextView = (TextView) findViewById(R.id.generalInfoTextView);
 
 
         new RetrieveDataFromDatabase().execute();
@@ -255,8 +255,8 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
     public void createWorkoutDatesBarChart() {
         workoutDatesBarChart = (BarChart) findViewById(R.id.workoutDatesBarChart);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-
+        //SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        DateFormat dateFormatTest = SimpleDateFormat.getDateInstance();
         ArrayList<BarEntry> entries = new ArrayList<>();
 
         long difference;
@@ -290,8 +290,8 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
             labels[i] = "day: " + i;
         }
 
-        labels[labels.length-1] = sdf.format(allDates.get(allDates.size()-1));
-        labels[0] = sdf.format(allDates.get(0));
+        labels[labels.length-1] = dateFormatTest.format(allDates.get(allDates.size()-1));
+        labels[0] = dateFormatTest.format(allDates.get(0));
 
        // Collections.reverse(dayDifferences);
 
@@ -306,7 +306,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
             }
             */
 
-            labels[dayDifferences.get(i)] = sdf.format(allDates.get(i));
+            labels[dayDifferences.get(i)] = dateFormatTest.format(allDates.get(i));
             // Log.e(" labels i",i + " :  " + sdf.format(dates.get(i)));
         }
         Description desc = new Description();
@@ -466,7 +466,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         workoutIntensityLineChart = (LineChart) findViewById(R.id.workoutIntensityChart);
         List<Entry> entries = new ArrayList<Entry>();
 
-        float intensityPercent = 0;
+        float intensityPercent;
         int xcoord = 1;
         for (int i = allCalculatedDetails.size() - 1  ; i >= 0 ; i--) {
 
@@ -623,7 +623,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
 
     }
-
+/*
     private void printIntArray(int[] printedArray,String arrayInfo) {
         StringBuilder sb = new StringBuilder(" ");
         for (int i = 0; i < printedArray.length ; i++) {
@@ -642,6 +642,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
 
     }
+    */
 
     public void createGripDistributionPieChart() {
         gripDistributionPieChart = (PieChart) findViewById(R.id.gripDistributionPieChart);
@@ -659,8 +660,8 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         int other = 0;
         int total_grips = 0;
 
-        int seconds_multiplier = 0;
-        int hold_index = 0;
+        int seconds_multiplier;
+        int hold_index;
 
         Hold.grip_type gripType;
 
@@ -726,6 +727,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         Description desc = new Description();
         desc.setText("Grip distribution");
 
+        gripDistributionPieChart.invalidate();
 
     }
 
@@ -797,6 +799,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         Log.e("calculate method", "end " +endTime);
     }
 */
+    /*
     public void retrieveDataFromDatabaseToArrayLists() {
 
 
@@ -829,7 +832,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
             allCompletedHangs.add(dbHandler.lookUpCompletedHangs(i, includeHidden));
             allHangboards.add(dbHandler.lookUpHangboard(i, includeHidden));
 
-            /*
+
             single_erased_workout_time = 0;
             for (int k = completedArrayList.get(i-1).length - 1 ; k >= 0 && completedArrayList.get(i-1)[k] == 0 ; k--) {
 
@@ -860,11 +863,11 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
             }
             total_adjusted_time_under_tension += single_time_under_tension;
 
-            effectiveWorkoutTUT.add(single_time_under_tension);*/
+            effectiveWorkoutTUT.add(single_time_under_tension);
         }
 
     }
-
+*/
    /* public void retrieveDataFromDatabaseToArrayLists() {
 
         Long breaktime = System.currentTimeMillis();
@@ -1016,6 +1019,10 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
        generalInfo.append("Average intensity: ").append(String.format(java.util.Locale.US,"%.3f",averageIntensity)).append("\n");
        generalInfo.append("Average difficulty per workout: ").append(averageDifficulty).append("\n");
        generalInfo.append("Average workload per workout: ").append(averageWorkload).append("\n");
+       generalInfo.append("Average difficulty per minute: ").append("\n");
+       generalInfo.append("Average workout power: ").append("\n");
+       generalInfo.append("First workout date: ").append("\n");
+       generalInfo.append("Average workouts per week: ").append("\n");
 
 
        generalInfoTextView.setText(generalInfo.toString() );
@@ -1023,7 +1030,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
 
    }
-
+/*
    private ArrayList<TimeControls> retrieveAllTimeControls() {
 
        ArrayList<TimeControls> timeControlsFromDatabase = new ArrayList<>();
@@ -1043,6 +1050,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         }
         return datesFromDatabase;
     }
-
+*/
 
 }
