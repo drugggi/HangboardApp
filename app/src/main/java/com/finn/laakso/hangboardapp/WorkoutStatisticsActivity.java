@@ -30,14 +30,10 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.TreeMap;
 
 public class WorkoutStatisticsActivity extends AppCompatActivity {
@@ -48,8 +44,8 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
     private BarChart difficultyBarChart;
     private BarChart workoutDatesBarChart;
     private HorizontalBarChart singleHangsOrRepeatersBarChart;
-    private LineChart timeUnderTensionLineChart;
-    private LineChart workoutTimeLineChart;
+    // private LineChart timeUnderTensionLineChart;
+   // private LineChart workoutTimeLineChart;
     private LineChart workoutIntensityLineChart;
     private LineChart workoutTUTandWTLineChart;
 
@@ -60,9 +56,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
     private ArrayList<String> allHangboards;
 
     private ArrayList<CalculateWorkoutDetails> allCalculatedDetails;
-
-    private ArrayList<Integer> effectiveWorkoutTUT;
-    private ArrayList<Integer> effectiveWorkoutTime;
 
     private TextView generalInfoTextView;
 
@@ -117,7 +110,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         @Override
         protected Object doInBackground(Object[] objects) {
 
-
             allDates = new ArrayList<Long>();
             allHangboards = new ArrayList<String>();
             allTimeControls = new ArrayList<TimeControls>();
@@ -140,11 +132,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
                 allCalculatedDetails.add(tempDetails);
             }
 
-            Log.e("array sizes:"," " + allHangboards.size() + " " + allDates.size() + " "
-                    + allTimeControls.size() + " " + allWorkoutsHolds.size()
-            + " " + allCompletedHangs.size() + " " + allCalculatedDetails.size() );
-
-
             return null;
         }
 
@@ -157,6 +144,14 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
                     allWorkoutsHolds.size()) == (allCompletedHangs.size() == allCalculatedDetails.size()) ) {
 
                 createSingleHangsOrRepeatersBarChart();
+                createWorkoutTUTandWTLineChart();
+                createWorkoutIntensityLineChart();
+                createWorkoutDatesBarChart();
+                createDifficultyBarChart();
+                createGripDistributionPieChart();
+
+
+
 
                 Log.e("yes","kaikki listat saman kokosii");
 
@@ -209,15 +204,15 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         ArrayList<Entry> entriesTUT = new ArrayList<Entry>();
         ArrayList<Entry> entriesWT = new ArrayList<Entry>();
 
-        int xCoord = 0;
-        for (int i = effectiveWorkoutTime.size()-1 ; i >= 0 ; i--) {
 
-            entriesTUT.add(new Entry(xCoord, ((float)effectiveWorkoutTUT.get(i)) ));
-            entriesWT.add(new Entry(xCoord, ((float) effectiveWorkoutTime.get(i)) ));
+        int xCoord = 0;
+        for (int i = allCalculatedDetails.size()-1 ; i >= 0 ; i--) {
+            entriesTUT.add(new Entry(xCoord, ((float) allCalculatedDetails.get(i).getAdjustedTUT()) ));
+            entriesWT.add(new Entry(xCoord, ((float) allCalculatedDetails.get(i).getAdjustedWorkoutTime()) ));
             xCoord++;
         }
 
-        String[] labels = new String[effectiveWorkoutTime.size()-1];
+        String[] labels = new String[allCalculatedDetails.size()-1];
         for (int i = 0 ; i < labels.length ; i++ ) {
             labels[i] = "WO: " + (i+1);
         }
@@ -248,33 +243,26 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
 
 
+        workoutTUTandWTLineChart.invalidate();
+        workoutTUTandWTLineChart.animateX(1500);
+
 
     }
 
     public void createWorkoutDatesBarChart() {
         workoutDatesBarChart = (BarChart) findViewById(R.id.workoutDatesBarChart);
 
-       // Cursor dbSortedCursor = dbHandler.getSortedContents();
-
-        ArrayList<Long> datesByLongs = new ArrayList<>();
-        ArrayList<Date> allDateDates = new ArrayList<>();
-
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-/*
-        while (dbSortedCursor.moveToNext() ) {
-            datesByLongs.add(dbSortedCursor.getLong(1));
-            allDates.add(new Date(dbSortedCursor.getLong(1)));
-        }
-*/
+
         ArrayList<BarEntry> entries = new ArrayList<>();
 
-        long difference = 0L;
+        long difference;
         ArrayList<Integer> dayDifferences = new ArrayList<>();
 
-        // Calculate dates varaibles time difference by day
+        // Calculate dates variables time difference by day
         for (int i = 0; i < allDates.size() ; i ++) {
 
-            // compare every date to the first dave by subtracting from it thats the difference
+            // compare every date to the first day by subtracting from it, that tells the difference
             difference = - (allDates.get(allDates.size()-1) - allDates.get(i) )/( 1000*60*60*24);
             dayDifferences.add( (int) difference);
 
@@ -284,15 +272,16 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         // the latest workout day x and corresponding workoutTime
         for (int i = dayDifferences.size()-1; i >= 0 ; i--) {
             // Log.e("data point ", dayDifferences.get(i) + " : "+effectiveWorkoutTime.get(i)/60);
-            entries.add(new BarEntry(dayDifferences.get(i) , (float)effectiveWorkoutTime.get(i)/60 ));
+            entries.add(new BarEntry(dayDifferences.get(i) , (float)allCalculatedDetails.get(i).getAdjustedWorkoutTime()/60 ));
         }
 
         BarDataSet barDataSet = new BarDataSet(entries,"Workout time for each day from first to last (min)");
-        barDataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
+        //barDataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
+        barDataSet.setColor(Color.DKGRAY);
         BarData barData = new BarData(barDataSet);
         workoutDatesBarChart.setData(barData);
 
-        // Lets populate the x axis that dont have workouts in them
+        // Lets populate the x axis with day numbers from first workout day
         String[] labels = new String[dayDifferences.get(0) + 1];
         for (int i = 0 ; i < labels.length ; i++ ) {
             labels[i] = "day: " + i;
@@ -302,22 +291,21 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         labels[0] = sdf.format(allDates.get(0));
 
        // Collections.reverse(dayDifferences);
-        int test = 0;
+
         for (int i = 0 ; i < dayDifferences.size()  ; i++) {
 
-            test = dayDifferences.get(i);
+            /*
+             int test = dayDifferences.get(i);
 
             if (test < 0 || test >= labels.length) {
                 Log.e("ERROR: " , test + " vs. " + labels.length);
                 break;
             }
+            */
 
             labels[dayDifferences.get(i)] = sdf.format(allDates.get(i));
             // Log.e(" labels i",i + " :  " + sdf.format(dates.get(i)));
         }
-
-        // BarData theData = new BarData(bardataset);
-
         Description desc = new Description();
         desc.setText("Workout day number");
 
@@ -328,13 +316,11 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         //xAxis.setGranularityEnabled(true);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
-        // SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
-
-       // Date resultdate = new Date(dbHandler.lookUpDate(1));
-
-        // createRandomBarGraph(sdf.format(allDates.get(allDates.size()-1)),sdf.format(allDates.get(0)));
+        workoutDatesBarChart.invalidate();
+        workoutDatesBarChart.animateY(2000);
 
     }
+    /*
 
     public void createRandomBarGraph(String stringDate1, String stringDate2) {
 
@@ -407,6 +393,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         return list;
     }
 
+
     public String getDate(Calendar cld) {
         String curDate = cld.get(Calendar.YEAR) + "/" + (cld.get(Calendar.MONTH)+1) + "/" +
                 cld.get(Calendar.DAY_OF_MONTH);
@@ -419,6 +406,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         }
         return curDate;
     }
+*/
 
     public void createSingleHangsOrRepeatersBarChart() {
 
@@ -476,10 +464,9 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         List<Entry> entries = new ArrayList<Entry>();
 
         float intensityPercent = 0;
-        for (int i = 0 ; i < effectiveWorkoutTime.size() ; i++) {
+        for (int i = 0 ; i < allCalculatedDetails.size() ; i++) {
 
-            intensityPercent = (float) effectiveWorkoutTUT.get(i) / (float) effectiveWorkoutTime.get(i);
-
+            intensityPercent = allCalculatedDetails.get(i).getIntensity();
             entries.add(new Entry(i,intensityPercent));
         }
 
@@ -489,15 +476,16 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
         LineData lineData = new LineData(linedataSet);
 
-
-        if (effectiveWorkoutTime.size() > 30) {
+        if (allCalculatedDetails.size() > 30) {
             lineData.setValueTextSize(0f);
 
         }
 
         workoutIntensityLineChart.setData(lineData);
+        workoutIntensityLineChart.invalidate();
     }
 
+/*
     public void createTotalWorkoutTimeLineChart() {
          workoutTimeLineChart = (LineChart) findViewById(R.id.workoutTimeChart);
 
@@ -545,7 +533,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
 
     }
-
+*/
     public void createDifficultyBarChart() {
         difficultyBarChart = (BarChart) findViewById(R.id.difficultyBarChart);
         //difficultyBarChart.setDrawBarShadow(true);
@@ -587,8 +575,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
             }
 
-            //printIntArray(grip_difficulties,"Grip Difficulties");
-            //printIntArray(completed_seconds,"Completed seconds");
 
         }
         ArrayList<Integer> barColors = new ArrayList<Integer>();
@@ -597,8 +583,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         for(Map.Entry<Integer,Integer> entry: difficultyMap.entrySet()) {
             int key = entry.getKey();
             int value = entry.getValue();
-
-            value = value;
 
             if ( value == 0) {continue;}
             alpha += increment;
@@ -629,6 +613,8 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         xAxis.setGranularity(1f);
         xAxis.setGranularityEnabled(true);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        difficultyBarChart.invalidate();
 
 
     }
@@ -737,6 +723,8 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
 
     }
+
+    /*
     public void calculateEffetiveTUTandWTArrayLists() {
 
         Long breaktime = System.currentTimeMillis();
@@ -760,12 +748,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
         // first item in SQLite database is at 1
         for (int i = 1 ; i <= datapoints ; i++) {
-            /*
-            allWorkoutsHolds.add(dbHandler.lookUpHolds(i));
-            allTimeControls.add(dbHandler.lookUpTimeControls(i));
-            dates.add(dbHandler.lookUpDate(i));
-            completedArrayList.add(dbHandler.lookUpCompletedHangs(i));
-            hangboards.add(dbHandler.lookUpHangboard(i));*/
+
 
 
             single_erased_workout_time = 0;
@@ -808,7 +791,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         Long endTime = breaktime - System.currentTimeMillis();
         Log.e("calculate method", "end " +endTime);
     }
-
+*/
     public void retrieveDataFromDatabaseToArrayLists() {
 
 
