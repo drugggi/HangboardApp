@@ -1,7 +1,6 @@
 package com.finn.laakso.hangboardapp;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,18 +20,18 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
     private LayoutInflater mInflator;
 
     // Database Handler to help put items correctly on a view
-    private MyDBHandler db;
+    private MyDBHandler dbHandler;
 
     private boolean showHidden;
-    private Cursor dbCursor;
+    // private Cursor dbCursor;
 
 
     public WorkoutHistoryAdapter(Context c, MyDBHandler dbHandler, boolean showHidden) {
-        this.db = dbHandler;
+        this.dbHandler = dbHandler;
         this.showHidden = showHidden;
         mInflator = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        dbCursor = dbHandler.getSortedContents();
+        // dbCursor = dbHandler.getSortedContents();
 
     }
 
@@ -44,10 +43,10 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
     public int getCount() {
 
         if (showHidden) {
-            return db.lookUpWorkoutCount();
+            return dbHandler.lookUpWorkoutCount();
         }
         else {
-            return db.lookUpUnHiddenWorkoutCount();
+            return dbHandler.lookUpUnHiddenWorkoutCount();
         }
     }
 
@@ -88,14 +87,36 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
         TimeControls timeControls = new TimeControls();
 
      //   Log.e("WO adapter","show hidden value: " + showHidden);
-
+/*
         if (showHidden) {
             dbCursor = db.getHiddenContents();
         }
         else {
             dbCursor = db.getNonHiddenContents();
         }
+*/
 
+
+            resultdate = new Date(dbHandler.lookUpDate(position,showHidden) );
+            String hangboard = dbHandler.lookUpHangboard(position,showHidden);
+            workoutDate = hangboard + "\n" + sdf.format(resultdate);
+
+            timeControls = dbHandler.lookUpTimeControls(position,showHidden);
+
+            if (timeControls.getHangLaps() == 1) {
+                workoutTime = "Single hangs\n";
+            }
+            else {
+                workoutTime = "Repeaters\n";
+            }
+
+            workoutTime += "Time: " + timeControls.getTotalTime()/60 + "min\n" +
+                    "TUT: " +  timeControls.getTimeUnderTension()/60+"min";
+
+            workoutDescrption = dbHandler.lookUpWorkoutDescription(position,showHidden);
+
+
+        /*
         if (dbCursor.move(position)) {
             resultdate = new Date(dbCursor.getLong(1));
             workoutDate = dbCursor.getString(2) + "\n" + sdf.format(resultdate);
@@ -121,7 +142,7 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
 
 
             workoutDescrption =  dbCursor.getString(15);
-        }
+        }*/
 /*
         String pooltest = "NO hidden";
 
@@ -133,7 +154,7 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
             return v; }*/
 
 
-        if (dbCursor.getInt(14) == 1) {
+        if (dbHandler.lookUpIsHidden(position) ) {
 
             int hiddenColor = Color.argb(255,102,24,51);
 

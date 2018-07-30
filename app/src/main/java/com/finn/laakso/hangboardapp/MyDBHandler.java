@@ -11,6 +11,9 @@ import java.util.ArrayList;
 
 /**
  * Created by Laakso on 14.6.2018.
+ * MyDBHandler creates an SQLite database consisting everything that need to be stored in a workout;
+ * Hangboard, date, holds used, time controls, and how successful each hang were. MyDBHandler provides
+ * methods to get and update these properties.
  */
 
 public class MyDBHandler extends SQLiteOpenHelper {
@@ -93,13 +96,17 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
         // WorkoutHolds integer information will be converted to Strings -> 5,1,4,5,6,7,....., etc
         for (int i: completed) {
-            hangsCompleted.append(i+",");
+            hangsCompleted.append(i);
+            hangsCompleted.append(",");
         }
 
         for (Hold currentHold: workoutHolds) {
-            holdNumbers.append(currentHold.getHoldNumber()+ ",");
-            gripTypes.append(currentHold.getGripStyleInt() + ",");
-            difficulties.append(currentHold.getHoldValue() + ",");
+            holdNumbers.append(currentHold.getHoldNumber() );
+            holdNumbers.append(",");
+            gripTypes.append(currentHold.getGripStyleInt() );
+            gripTypes.append(",");
+            difficulties.append(currentHold.getHoldValue() );
+            difficulties.append(",");
 
         }
 
