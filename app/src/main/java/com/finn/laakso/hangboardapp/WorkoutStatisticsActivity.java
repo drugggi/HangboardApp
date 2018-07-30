@@ -40,6 +40,8 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
     private MyDBHandler dbHandler;
 
+    private TextView workoutsInfoTextView;
+
     private PieChart gripDistributionPieChart;
     private BarChart difficultyBarChart;
     private BarChart workoutDatesBarChart;
@@ -141,6 +143,8 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
             // Lets check that all arrays are the same size, a fatal error will occur
             if ((allDates.size() == allHangboards.size()) == (allTimeControls.size() ==
                     allWorkoutsHolds.size()) == (allCompletedHangs.size() == allCalculatedDetails.size()) ) {
+
+                createWorkoutsInfoTextViews();
 
                 createSingleHangsOrRepeatersBarChart();
                 createWorkoutTUTandWTLineChart();
@@ -941,6 +945,84 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         Long endTime = breaktime - System.currentTimeMillis();
         Log.e("thread test", "end " +endTime);
     }*/
+
+   private void createWorkoutsInfoTextViews() {
+       workoutsInfoTextView = (TextView) findViewById(R.id.workoutInfoTextView);
+       generalInfoTextView = (TextView) findViewById(R.id.generalInfoTextView);
+
+       StringBuilder workoutsInfo = new StringBuilder();
+       StringBuilder generalInfo = new StringBuilder();
+
+       int totalWorkoutsDone = allCalculatedDetails.size();
+       int totalWorkoutTime = 0;
+       int totalAdjustedWorkoutTime = 0;
+       int totalWorkoutTUT = 0;
+       int totalAdjustedTUT = 0;
+       int totalUnusedTime = 0;
+
+       int totalHangs = 0;
+       int totalCompletedHangs = 0;
+
+       Float averageIntensity = 0f;
+       int averageDifficulty = 0;
+       int averageWorkload = 0;
+       int totalDifficultiesSum = 0;
+
+       for (int i = 0; i < allCalculatedDetails.size() ; i++) {
+           totalHangs += allCalculatedDetails.get(i).getTotalHangs();
+           totalCompletedHangs += allCalculatedDetails.get(i).getCompletedHangs();
+
+           totalWorkoutTime += allTimeControls.get(i).getTotalTime();
+           totalAdjustedWorkoutTime += allCalculatedDetails.get(i).getAdjustedWorkoutTime();
+
+           totalWorkoutTUT += allTimeControls.get(i).getTimeUnderTension();
+           totalAdjustedTUT += allCalculatedDetails.get(i).getAdjustedTUT();
+
+           totalUnusedTime += allCalculatedDetails.get(i).getUnusedWorkoutTime();
+           averageIntensity += allCalculatedDetails.get(i).getIntensity();
+
+           averageDifficulty += allCalculatedDetails.get(i).getDifficultiesSum();
+           averageWorkload += allCalculatedDetails.get(i).getWorkload();
+
+           totalDifficultiesSum += allCalculatedDetails.get(i).getDifficultiesSum();
+       }
+
+       int hangSuccessRate = 100* totalCompletedHangs / totalHangs;
+
+       totalWorkoutTime = totalWorkoutTime / 60;
+       totalAdjustedWorkoutTime = totalAdjustedWorkoutTime / 60;
+       totalWorkoutTUT = totalWorkoutTUT / 60;
+       totalAdjustedTUT = totalAdjustedTUT / 60;
+       totalUnusedTime = totalUnusedTime / 60;
+
+       workoutsInfo.append("Workouts done: ").append(totalWorkoutsDone).append("\n");
+       workoutsInfo.append("Total hangs: ").append(totalHangs).append("\n");
+       workoutsInfo.append("Total hangs completed").append(totalCompletedHangs).append("\n");
+       workoutsInfo.append("Success rate: ").append(hangSuccessRate).append("% \n");
+       workoutsInfo.append("Total workout time: ").append(totalWorkoutTime).append("min\n");
+       workoutsInfo.append("Adjusted workout time: ").append(totalAdjustedWorkoutTime).append("min\n");
+       workoutsInfo.append("Total TUT: ").append(totalWorkoutTUT).append("min\n");
+       workoutsInfo.append("Adjusted TUT: ").append(totalAdjustedTUT).append("min\n");
+
+       workoutsInfoTextView.setText(workoutsInfo.toString() );
+
+       averageIntensity = averageIntensity / totalWorkoutsDone;
+
+       averageDifficulty = averageDifficulty / totalWorkoutsDone;
+
+       averageWorkload = totalDifficultiesSum / totalCompletedHangs;
+
+       generalInfo.append("Total unused time: ").append(totalUnusedTime).append("min\n");
+       generalInfo.append("Average intensity: ").append(String.format(java.util.Locale.US,"%.3f",averageIntensity)).append("\n");
+       generalInfo.append("Average difficulty per workout: ").append(averageDifficulty).append("\n");
+       generalInfo.append("Average workload per workout: ").append(averageWorkload).append("\n");
+
+
+       generalInfoTextView.setText(generalInfo.toString() );
+
+
+
+   }
 
    private ArrayList<TimeControls> retrieveAllTimeControls() {
 
