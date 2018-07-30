@@ -56,8 +56,10 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
     private ArrayList<ArrayList<Hold>> allWorkoutsHolds;
     private ArrayList<TimeControls> allTimeControls;
     private ArrayList<Long> allDates;
-    private ArrayList<int[]> allCompletedArrayList;
+    private ArrayList<int[]> allCompletedHangs;
     private ArrayList<String> allHangboards;
+
+    private ArrayList<CalculateWorkoutDetails> allCalculatedDetails;
 
     private ArrayList<Integer> effectiveWorkoutTUT;
     private ArrayList<Integer> effectiveWorkoutTime;
@@ -77,43 +79,16 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //at com.finn.laakso.hangboardapp.WorkoutStatisticsActivity.createDifficultyBarChart(WorkoutStatisticsActivity.java:568)
-        //at com.finn.laakso.hangboardapp.WorkoutStatisticsActivity$RetrieveDataFromDatabase.onPostExecute(WorkoutStatisticsActivity.java:199)
-
-        // WHEN SET TO FALSE, IT WILL CRASH
         includeHidden = false;
 
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.SHOWHIDDEN")) {
             includeHidden = getIntent().getExtras().getBoolean("com.finn.laakso.hangboardapp.SHOWHIDDEN");
         }
 
-        startTime = System.currentTimeMillis();
-
         dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
 
+
         generalInfoTextView = (TextView) findViewById(R.id.generalInfoTextView);
-
-        // Sorted by latest workout at 0 and the first workout at last item
-        effectiveWorkoutTime = new ArrayList<>();
-        effectiveWorkoutTUT = new ArrayList<>();
-        allWorkoutsHolds = new ArrayList<ArrayList<Hold>>();
-        allTimeControls = new ArrayList<TimeControls>();
-        allDates = new ArrayList<Long>();
-        allCompletedArrayList = new ArrayList<int[]>();
-        allHangboards = new ArrayList<String>();
-
-        // Retrieving all the workout history data from SQLite database so that it can be presented
-        // on the screen in graph form.
-
-
-        // NEEDS ALL TIME CONTROLS CONSIDER SOME PARAMETERS TO BE CALCULATE DIFFERENTLY THAN ASYNCTAS
-        //createSingleHangsOrRepeatersBarChart();
-        allTimeControls = dbHandler.lookUpAllTimeControls(includeHidden);
-
-
-        createSingleHangsOrRepeatersBarChart();
-        singleHangsOrRepeatersBarChart.invalidate();
-        singleHangsOrRepeatersBarChart.animateY(1000);
 
 
         new RetrieveDataFromDatabase().execute();
@@ -132,9 +107,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
     }
 
-    public long checkTime() {
-        return -(System.currentTimeMillis()- startTime);
-    }
 
     private class RetrieveDataFromDatabase extends AsyncTask {
         protected void onPreExecute() {
@@ -145,36 +117,50 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         @Override
         protected Object doInBackground(Object[] objects) {
 
-            Log.e("start back ground: ", " " + checkTime() + "ms");
-            Log.e("end retrieve: ", " " + checkTime() + "ms");
 
-            //int datapoints = dbHandler.lookUpWorkoutCount();
-            allWorkoutsHolds = new ArrayList<ArrayList<Hold>>();
             allDates = new ArrayList<Long>();
-            allCompletedArrayList = new ArrayList<int[]>();
             allHangboards = new ArrayList<String>();
+            allTimeControls = new ArrayList<TimeControls>();
+            allWorkoutsHolds = new ArrayList<ArrayList<Hold>>();
+            allCompletedHangs = new ArrayList<int[]>();
+
+            allCalculatedDetails = new ArrayList<CalculateWorkoutDetails>();
 
 
-            allWorkoutsHolds = dbHandler.lookUpAllWorkoutHolds(includeHidden);
-            allCompletedArrayList = dbHandler.lookUpAllCompletedHangs(includeHidden);
-            allHangboards = dbHandler.lookUpAllHangboards(includeHidden);
             allDates = dbHandler.lookUpAllDates(includeHidden);
+            allHangboards = dbHandler.lookUpAllHangboards(includeHidden);
+            allTimeControls = dbHandler.lookUpAllTimeControls(includeHidden);
+            allWorkoutsHolds = dbHandler.lookUpAllWorkoutHolds(includeHidden);
+            allCompletedHangs = dbHandler.lookUpAllCompletedHangs(includeHidden);
 
-            Log.e("array size:","HB: " + allHangboards.size() + " dates: " + allDates.size());
+            CalculateWorkoutDetails tempDetails;
+            for( int i = 0; i < allDates.size() ; i++) {
 
-            // retrieveDataFromDatabaseToArrayLists();
+                tempDetails = new CalculateWorkoutDetails(allTimeControls.get(i), allWorkoutsHolds.get(i), allCompletedHangs.get(i));
+                allCalculatedDetails.add(tempDetails);
+            }
 
-            // singleHangsOrRepeatersBarChart.animateY(1000);
+            Log.e("array sizes:"," " + allHangboards.size() + " " + allDates.size() + " "
+                    + allTimeControls.size() + " " + allWorkoutsHolds.size()
+            + " " + allCompletedHangs.size() + " " + allCalculatedDetails.size() );
 
-            // retrieveDataFromDatabaseToArrayLists();
-            // calculateEffetiveTUTandWTArrayLists();
-            Log.e("end calculate eff: ", " " + checkTime() + "ms");
+
             return null;
         }
 
 
 
         protected void onPostExecute(Object objects) {
+
+            // Lets check that all arrays are the same size, a fatal error will occur
+            if ((allDates.size() == allHangboards.size()) == (allTimeControls.size() ==
+                    allWorkoutsHolds.size()) == (allCompletedHangs.size() == allCalculatedDetails.size()) ) {
+
+                createSingleHangsOrRepeatersBarChart();
+
+                Log.e("yes","kaikki listat saman kokosii");
+
+            }
 
             /*
             Toast.makeText(WorkoutStatisticsActivity.this,"RetrieveDataFromDatabase Thread",Toast.LENGTH_SHORT).show();
@@ -480,6 +466,9 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         xAxis.setGranularityEnabled(true);
         xAxis.setPosition(XAxis.XAxisPosition.TOP_INSIDE);
 
+        singleHangsOrRepeatersBarChart.invalidate();
+        singleHangsOrRepeatersBarChart.animateY(1000);
+
     }
 
     public void createWorkoutIntensityLineChart() {
@@ -581,8 +570,8 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
                         allWorkoutsHolds.get(i).get(2*j+1).getHoldValue() ) / 2;
             }
             // lets get single workouts completed hangs in seconds
-            for (int j = 0 ; j < allCompletedArrayList.get(i).length ; j++) {
-                completed_seconds[j % allTimeControls.get(i).getGripLaps()] += allCompletedArrayList.get(i)[j] * allTimeControls.get(i).getTimeON();
+            for (int j = 0 ; j < allCompletedHangs.get(i).length ; j++) {
+                completed_seconds[j % allTimeControls.get(i).getGripLaps()] += allCompletedHangs.get(i)[j] * allTimeControls.get(i).getTimeON();
             }
 
             // lets put both in TreeMap, so that same difficulty level is only once and seconds is summed in that level
@@ -688,10 +677,10 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         for (int i = 0 ; i < allWorkoutsHolds.size() ; i++ ) {
 
             // Holds used in a single workout
-            for (int j = 0 ; j < allCompletedArrayList.get(i).length ; j ++) {
+            for (int j = 0 ; j < allCompletedHangs.get(i).length ; j ++) {
 
                 // multiplier depending if the hang was successfull or not
-                seconds_multiplier = allCompletedArrayList.get(i)[j] * allTimeControls.get(i).getTimeON();
+                seconds_multiplier = allCompletedHangs.get(i)[j] * allTimeControls.get(i).getTimeON();
                 hold_index = 2*( j % allTimeControls.get(i).getGripLaps());
 
                // Log.e("workout Holds: index: ",hold_index + "   text: "+ allWorkoutsHolds.get(i).get(hold_index).getHoldText());
@@ -780,7 +769,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
 
             single_erased_workout_time = 0;
-            for (int k = allCompletedArrayList.get(i-1).length - 1 ; k >= 0 && allCompletedArrayList.get(i-1)[k] == 0 ; k--) {
+            for (int k = allCompletedHangs.get(i-1).length - 1 ; k >= 0 && allCompletedHangs.get(i-1)[k] == 0 ; k--) {
 
                 if (k % allTimeControls.get(i-1).getGripLaps() == 0) {
                     single_erased_workout_time = single_erased_workout_time + allTimeControls.get(i-1).getLongRestTime()
@@ -802,10 +791,10 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
             total_hang_laps += allTimeControls.get(i-1).getHangLaps()*allTimeControls.get(i-1).getGripLaps()*allTimeControls.get(i-1).getRoutineLaps();
 
             int single_time_under_tension = 0;
-            for (int j = 0 ; j < allCompletedArrayList.get(i-1).length ; j++) {
-                single_time_under_tension += allCompletedArrayList.get(i-1)[j]*allTimeControls.get(i-1).getTimeON();
+            for (int j = 0 ; j < allCompletedHangs.get(i-1).length ; j++) {
+                single_time_under_tension += allCompletedHangs.get(i-1)[j]*allTimeControls.get(i-1).getTimeON();
 
-                total_successful_hangs += allCompletedArrayList.get(i-1)[j];
+                total_successful_hangs += allCompletedHangs.get(i-1)[j];
             }
             total_adjusted_time_under_tension += single_time_under_tension;
 
@@ -828,7 +817,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         allWorkoutsHolds = new ArrayList<ArrayList<Hold>>();
         allTimeControls = new ArrayList<TimeControls>();
         allDates = new ArrayList<Long>();
-        allCompletedArrayList = new ArrayList<int[]>();
+        allCompletedHangs = new ArrayList<int[]>();
         allHangboards = new ArrayList<String>();
 
         StringBuilder generalInfo = new StringBuilder("Workouts in Database: " + datapoints + "\n");
@@ -849,7 +838,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
             allWorkoutsHolds.add(dbHandler.lookUpWorkoutHolds(i, includeHidden));
             allTimeControls.add(dbHandler.lookUpTimeControls(i, includeHidden));
             allDates.add(dbHandler.lookUpDate(i, includeHidden));
-            allCompletedArrayList.add(dbHandler.lookUpCompletedHangs(i, includeHidden));
+            allCompletedHangs.add(dbHandler.lookUpCompletedHangs(i, includeHidden));
             allHangboards.add(dbHandler.lookUpHangboard(i, includeHidden));
 
             /*
