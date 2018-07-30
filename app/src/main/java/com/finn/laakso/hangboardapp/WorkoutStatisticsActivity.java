@@ -68,7 +68,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_workout_database_graphs);
+        setContentView(R.layout.activity_workout_statistics);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -464,10 +464,12 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         List<Entry> entries = new ArrayList<Entry>();
 
         float intensityPercent = 0;
-        for (int i = 0 ; i < allCalculatedDetails.size() ; i++) {
+        int xcoord = 1;
+        for (int i = allCalculatedDetails.size() - 1  ; i >= 0 ; i--) {
 
             intensityPercent = allCalculatedDetails.get(i).getIntensity();
-            entries.add(new Entry(i,intensityPercent));
+            entries.add(new Entry(xcoord,intensityPercent));
+            xcoord++;
         }
 
         LineDataSet linedataSet = new LineDataSet(entries, "Intensity per workout = workout time / time under tension");

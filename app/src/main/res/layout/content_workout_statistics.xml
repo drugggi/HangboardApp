@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.finn.laakso.hangboardapp.WorkoutStatisticsActivity"
-    tools:showIn="@layout/activity_workout_database_graphs">
+    tools:showIn="@layout/activity_workout_statistics">
 
 
     <LinearLayout
@@ -17,7 +17,7 @@
         <com.github.mikephil.charting.charts.HorizontalBarChart
             android:id="@+id/singleHangsOrRepeatersBarChart"
             android:layout_width="match_parent"
-            android:layout_height="200dp"></com.github.mikephil.charting.charts.HorizontalBarChart>
+            android:layout_height="200dp"/>
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/workoutTUTandWTLineChart"
@@ -27,7 +27,7 @@
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/workoutDatesBarChart"
             android:layout_width="match_parent"
-            android:layout_height="400dp"></com.github.mikephil.charting.charts.BarChart>
+            android:layout_height="400dp"/>
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/workoutIntensityChart"
@@ -47,12 +47,12 @@
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/difficultyBarChart"
             android:layout_width="match_parent"
-            android:layout_height="400dp"></com.github.mikephil.charting.charts.BarChart>
+            android:layout_height="400dp"/>
 
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/gripDistributionPieChart"
             android:layout_width="match_parent"
-            android:layout_height="400dp"></com.github.mikephil.charting.charts.PieChart>
+            android:layout_height="400dp"/>
 
 
 </LinearLayout>

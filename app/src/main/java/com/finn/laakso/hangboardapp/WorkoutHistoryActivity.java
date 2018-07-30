@@ -60,7 +60,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_workout_statistics);
+        setContentView(R.layout.activity_workout_history);
 
         // Random needed for generating random workout data
         rng = new Random();
@@ -122,7 +122,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         String workoutDescription = "Temp desc";
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.DESCRIPTION")) {
             workoutDescription = getIntent().getExtras().getString("com.finn.laakso.hangboardapp.DESCRIPTION");
-            Toast.makeText(this, "olihan siellä", Toast.LENGTH_SHORT).show();
+
 
             long time = System.currentTimeMillis();
 
@@ -135,7 +135,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
            public void onClick(View v) {
                long rngTime = System.currentTimeMillis();
 
-
+               // Toast.makeText(WorkoutHistoryActivity.this, "PIILOTETAAN RANDOMILLA",(int) 10).show();
 
                TimeControls rngControls = getRandomTimeControls();
 
@@ -155,7 +155,12 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                        // getRandomWorkoutHolds(rngControls.getGripLaps()),
                        getCompletedALL(rngControls),
                        //getCompleted(rngControls),
-                       getRandomWorkoutDescription());
+                       getRandomWorkoutDescription()
+               );
+
+               int pos = rng.nextInt(dbHandler.lookUpWorkoutCount());
+               boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
+               dbHandler.hideWorkoutNumber(pos,includeHidden);
 
                 workoutAdapter.notifyDataSetChanged();
            }
