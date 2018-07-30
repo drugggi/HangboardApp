@@ -69,7 +69,7 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
         workoutDetailsBuilder.append("Time Controls:\n    " + timeControls.getTimeControlsAsString() + "\n");
         workoutDetailsBuilder.append("Holds:\n" + getWorkoutHoldsInfo(workoutHolds) );
 
-        workoutDetailsBuilder.append("Completed: \n" +getCompletedMatrix(completed) +  "\n");
+        workoutDetailsBuilder.append("Completed Matrix: \n" +getCompletedMatrix(completed) +  "\n");
         workoutDetailsBuilder.append("Description: " + description + "\n");
         workoutDetailsBuilder.append("Hidden workout (warm up, test, etc.): " + isHidden + "\n");
 

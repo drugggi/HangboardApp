@@ -68,6 +68,7 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
         TextView dateTextView = (TextView) v.findViewById(R.id.dateTextView);
         TextView workoutTimeTextView = (TextView) v.findViewById(R.id.workoutTimeTextView);
         TextView workoutDescriptionTextView = (TextView) v.findViewById(R.id.workoutDescriptionTextView);
+        TextView workoutNumberTextView = (TextView) v.findViewById(R.id.workoutNumberTextView);
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
 
@@ -97,6 +98,7 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
 */
 
 
+            String workoutNumber = "" + (this.getCount() - position + 1);
             resultdate = new Date(dbHandler.lookUpDate(position,showHidden) );
             String hangboard = dbHandler.lookUpHangboard(position,showHidden);
             workoutDate = hangboard + "\n" + sdf.format(resultdate);
@@ -161,11 +163,13 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
             dateTextView.setTextColor(hiddenColor);
             workoutTimeTextView.setTextColor(hiddenColor);
             workoutDescriptionTextView.setTextColor(hiddenColor);
+            workoutNumberTextView.setTextColor(hiddenColor);
         }
 
         dateTextView.setText(workoutDate);
         workoutTimeTextView.setText(workoutTime);
         workoutDescriptionTextView.setText(workoutDescrption);
+        workoutNumberTextView.setText(workoutNumber);
 
 
         return v;

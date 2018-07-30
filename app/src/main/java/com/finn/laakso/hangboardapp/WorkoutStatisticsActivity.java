@@ -63,7 +63,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
     private boolean includeHidden;
 
-    Long startTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
