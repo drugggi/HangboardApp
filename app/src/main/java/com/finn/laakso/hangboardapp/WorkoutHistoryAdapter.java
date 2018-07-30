@@ -154,7 +154,7 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
             return v; }*/
 
 
-        if (dbHandler.lookUpIsHidden(position) ) {
+        if (dbHandler.lookUpIsHidden(position, showHidden) ) {
 
             int hiddenColor = Color.argb(255,102,24,51);
 

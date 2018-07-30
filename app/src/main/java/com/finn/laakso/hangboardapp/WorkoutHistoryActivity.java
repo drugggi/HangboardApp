@@ -175,7 +175,8 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                     return;
                 }
 
-                boolean isHidden = dbHandler.lookUpIsHidden(positionGlobal);
+                boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
+                boolean isHidden = dbHandler.lookUpIsHidden(positionGlobal,includeHidden);
 
                 workoutDetailsIntent.putExtra("com.finn.laakso.hangboardapp.DBPOSITION",positionGlobal );
                 workoutDetailsIntent.putExtra("com.finn.laakso.hangboardapp.ISHIDDEN",isHidden );
@@ -217,6 +218,9 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
             @Override
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
 
+                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+                int position = info.position + 1;
+
                 if (showHiddenWorkoutsCheckBox.isChecked() != workoutAdapter.getShowHiddenStatus())  {
                     Log.e("ERR"," error: boolean value showhidden differs");
                     int h = 1;
@@ -229,10 +233,10 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                 if (v.getId() == R.id.workoutHistoryListView) {
                     //Toast.makeText(EditWorkoutInfoActivity.this, "Context Menu Created ", Toast.LENGTH_SHORT).show();
 
-                    AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+                    boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
 
                     // Show different context menu if all workout are shown (hidden too)
-                    if (showHiddenWorkoutsCheckBox.isChecked() ) {
+                    if (showHiddenWorkoutsCheckBox.isChecked() && dbHandler.lookUpIsHidden(position,includeHidden) ) {
 
                         menu.setHeaderTitle("Choose your edit");
                         menu.add(Menu.NONE, 0, 0, "edit workout");
@@ -401,7 +405,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         positionGlobal = info.position + 1;
         int selectedContextMenuItem = item.getItemId();
 
-        final boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
+        boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
         Log.e("WO statistics 2","is checked: " + showHiddenWorkoutsCheckBox.isChecked());
 
         ArrayList<Hold> holds = dbHandler.lookUpWorkoutHolds(selectedListViewPosition,includeHidden);
@@ -498,8 +502,8 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
         else if (selectedContextMenuItem == 4) {
 
-            if (dbHandler.lookUpIsHidden(selectedListViewPosition)) {
-                dbHandler.delete(selectedListViewPosition);
+            if (dbHandler.lookUpIsHidden(selectedListViewPosition,includeHidden)) {
+                dbHandler.delete(selectedListViewPosition,includeHidden);
 
                 Toast.makeText(WorkoutHistoryActivity.this, "DELETING: " + positionGlobal, Toast.LENGTH_SHORT).show();
                 workoutAdapter.notifyDataSetChanged();

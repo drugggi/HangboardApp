@@ -144,13 +144,14 @@ public class MyDBHandler extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
         return cursor;
     }*/
-
+/*
     public Cursor getSortedContents() {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(TABLE_WORKOUTS,null,null,null,null,null,COLUMN_DATE + " DESC",null);
         return cursor;
     }
-
+    */
+/*
     public Cursor getNonHiddenContents() {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
@@ -162,6 +163,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         Cursor cursor = db.query(TABLE_WORKOUTS,null,null,null,null,null,COLUMN_DATE + " DESC",null);
         return cursor;
     }
+    */
 
     // this helps to test database
     public void DELETEALL() {
@@ -171,20 +173,28 @@ public class MyDBHandler extends SQLiteOpenHelper {
     }
 
     // Deletes a single workout entry
-    // THIS DOES NOT TAKE INTO ACCOUNT IF INCLUDEHIDDEN PARAMETER IS TRUE OR FALSE, CONCIDER SAFER OPTION!!
-    public void delete(int position) {
+    // Does not check if COLUMN_ISHIDDEN truly is hidden so it can be deleted
+    public void delete(int position,boolean includeHidden) {
+
+        // Only hidden entries can be deleted
+        if ( !includeHidden ) {return; }
 
         SQLiteDatabase db = this.getWritableDatabase();
         //Cursor data = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
         Cursor cursor = db.query(TABLE_WORKOUTS,null,null,null,null,null,COLUMN_DATE + " DESC",null);
+        try {
+            if (cursor.move(position) ) {
 
-        if (cursor.move(position)) {
-            int deleteID = cursor.getInt(0);
-            String query = "DELETE FROM " + TABLE_WORKOUTS + " WHERE " + COLUMN_ID + " = \"" + deleteID + "\"";
-            db.execSQL(query);
+                    int index = cursor.getColumnIndex(COLUMN_ID);
+                    int deleteID = cursor.getInt(index);
+                    String query = "DELETE FROM " + TABLE_WORKOUTS + " WHERE " + COLUMN_ID + " = \"" + deleteID + "\"";
+                    db.execSQL(query);
+
+            }
+        } finally {
+            db.close();
+            cursor.close();
         }
-
-        db.close();
 
     }
 
@@ -455,10 +465,12 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     }
 
-    public boolean lookUpIsHidden(int position) {
+    public boolean lookUpIsHidden(int position, boolean includeHidden) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.query(TABLE_WORKOUTS,null,null,null,null,null,COLUMN_DATE + " DESC",null);
-
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
+        if (includeHidden) {
+            cursor = db.query(TABLE_WORKOUTS, null, null, null, null, null, COLUMN_DATE + " DESC", null);
+        }
         int isHidden;
 
         try {

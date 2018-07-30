@@ -1,6 +1,5 @@
 package com.finn.laakso.hangboardapp;
 
-import android.database.Cursor;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -276,7 +275,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
     public void createWorkoutDatesBarChart() {
         workoutDatesBarChart = (BarChart) findViewById(R.id.workoutDatesBarChart);
 
-        Cursor dbSortedCursor = dbHandler.getSortedContents();
+       // Cursor dbSortedCursor = dbHandler.getSortedContents();
 
         ArrayList<Long> datesByLongs = new ArrayList<>();
         ArrayList<Date> allDates = new ArrayList<>();
