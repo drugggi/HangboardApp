@@ -212,6 +212,7 @@ public class MainActivity extends AppCompatActivity {
 
                 statsIntent.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS",completed);
 
+
                 startActivity(statsIntent);
             }
         });

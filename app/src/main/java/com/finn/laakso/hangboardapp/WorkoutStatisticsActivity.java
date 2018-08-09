@@ -334,7 +334,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
             alpha = (int) adjustment;
             barColors.add(Color.argb(50+alpha,0,0,200));
         }
-        
+
         BarDataSet barDataSet = new BarDataSet(workloadEntries,"Total workload for each workout (avg D*TUT)");
         //barDataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
         //barDataSet.setColor(Color.BLUE);
