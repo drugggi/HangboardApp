@@ -199,9 +199,9 @@ public class MainActivity extends AppCompatActivity {
 
                 // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
 
-               /*
                 statsIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
                 statsIntent.putExtra("com.finn.laakso.hangboardapp.BOARDNAME",everyBoard.getHangboardName() );
+                statsIntent.putExtra("com.finn.laakso.hangboardapp.DESCRIPTION","Pre made timecontrols test");
                 statsIntent.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", everyBoard.getCurrentHoldList());
 
                 int[] completed = new int[timeControls.getGripLaps() * timeControls.getRoutineLaps()];
@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 statsIntent.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS",completed);
-*/
+
                 startActivity(statsIntent);
             }
         });
@@ -448,12 +448,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
+                String durationText;
                 // In "TEST progression" case we must sort the holds by their difficulty
-                if (progress == 4) {
+                if (progress == 7) {
                     gradesListView.setVisibility(View.INVISIBLE);
 
-                    durationTextView.setText("progression TEST");
-                    timeControls.setProgramBasedOnTime(20 + progress * 15);
+                    durationText = "progression TEST";
+                    timeControls.setPremadeTimeControls(progress);
+                    //timeControls.setProgramBasedOnTime(20 + progress * 15);
 
                     everyBoard.sortHoldByDifficulty();
                     timeControls.setGripLaps(everyBoard.getCurrentHoldListSize()/2 );
@@ -461,20 +463,20 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     gradesListView.setVisibility(View.VISIBLE);
 
-                    timeControls.setProgramBasedOnTime(20 + progress * 15);
-                    durationTextView.setText("Duration: " + timeControls.getTotalTime()/60 + "min");
-
-                    // Toast.makeText(MainActivity.this, "onprogresschaged tultiin else  ", Toast.LENGTH_LONG).show();
+                    timeControls.setPremadeTimeControls(progress);
+                    //timeControls.setProgramBasedOnTime(20 + progress * 15);
+                    durationText = "Duration: " + timeControls.getTotalTime()/60 + "min";
 
                     everyBoard.setGripAmount(timeControls.getGripLaps(),grade_descr_position);
 
 
-                    if (repeatersBox.isChecked() == false) {
+                    if (!repeatersBox.isChecked() ) {
                         everyBoard.setHoldsForSingleHangs();
                     }
 
                 }
 
+                durationTextView.setText(durationText);
                 rightFingerImage.setVisibility(View.INVISIBLE);
                 leftFingerImage.setVisibility(View.INVISIBLE);
 

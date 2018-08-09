@@ -234,9 +234,7 @@ public class TimeControls {
                 setTimeControls(new int[]{12, 1, 10, 0, 2, 40, 90}); // 20min program
             } else if (workout_time < 40) {
                 setTimeControls(new int[]{19, 1, 10, 0, 2, 45, 120}); // 35min program
-            }
-            // THIS IS NOT WORKING CURRENTLY or maybe it is who knows
-            else if (workout_time < 55) {
+            } else if (workout_time < 55) {
                 setTimeControls(new int[]{16, 1, 10, 0, 3, 50, 120}); // 50min program
             } else if (workout_time < 70) {
                 setTimeControls(new int[]{21, 1, 10, 0, 3, 50, 150}); // default program
@@ -246,6 +244,49 @@ public class TimeControls {
 
         }
 
+    }
+
+    public void setPremadeTimeControls(int progressBarPosition) {
+        if (isRepeaters) {
+            if (progressBarPosition == 0) {
+                setTimeControls(new int[] {6, 6, 7, 3, 1, 50, 1}); // 10min OK
+            } else if (progressBarPosition == 1) {
+                setTimeControls(new int[] {4, 5, 7, 3, 2, 60, 140}); // 15min OK
+            } else if (progressBarPosition == 2) {
+                setTimeControls(new int[] {5, 5, 7, 3, 2, 70, 180}); // 20min OK
+            } else if (progressBarPosition == 3) {
+                setTimeControls(new int[]{5, 6, 7, 3, 2, 100, 300});  // 30min OK
+            } else if (progressBarPosition == 4) {
+                setTimeControls(new int[] {4, 6, 7, 3, 3, 120, 270}); // 40min OK
+            } else if (progressBarPosition == 5) {
+                setTimeControls(new int[]{5, 6, 7, 3, 3, 140, 300}); // 50min OK
+            } else if (progressBarPosition == 6) {
+                setTimeControls(new int[]{6, 6, 7, 3, 3, 150, 360}); // 65min OK
+            } else {
+                setTimeControls(new int[]{15, 6, 7, 3, 1, 150, 150}); // TEST grade program
+            }
+
+        }
+        else {
+            if (progressBarPosition == 0) {
+                setTimeControls(new int[]{16, 1, 10, 0, 1, 30, 1}); // 10min OK
+            } else if (progressBarPosition == 1) {
+                setTimeControls(new int[]{10, 1, 10, 0, 2, 35, 70}); // 15min OK
+            } else if (progressBarPosition == 2) {
+                setTimeControls(new int[]{12, 1, 10, 0, 2, 40, 90}); // 20min OK
+            } else if (progressBarPosition == 3) {
+                setTimeControls(new int[]{17, 1, 10, 0, 2, 45, 120}); // 30min OK
+            } else if (progressBarPosition == 4) {
+                setTimeControls(new int[]{14, 1, 10, 0, 3, 45, 120}); // 40min OK
+            } else if (progressBarPosition == 5) {
+                setTimeControls(new int[]{16, 1, 10, 0, 3, 50, 120}); // 50min OK
+            } else if (progressBarPosition == 6) {
+                setTimeControls(new int[]{21, 1, 10, 0, 3, 50, 150}); // 65min OK
+            } else {
+                setTimeControls(new int[]{15, 1, 10, 0, 1, 50, 50}); // TEST grade program
+            }
+
+        }
     }
 
     public String getTimeControlsAsString() {

@@ -92,8 +92,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:backgroundTint="@color/colorAccent"
-                    android:max="4"
-                    android:progress="3" />
+                    android:max="7"
+                    android:progress="6" />
             </LinearLayout>
 
             <LinearLayout
