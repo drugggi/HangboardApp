@@ -56,6 +56,11 @@
             android:layout_width="match_parent"
             android:layout_height="400dp"/>
 
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/hangboardDistributionPieChart"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"/>
+
 
 </LinearLayout>
 

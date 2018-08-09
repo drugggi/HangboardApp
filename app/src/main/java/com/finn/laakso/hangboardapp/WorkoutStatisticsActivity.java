@@ -27,14 +27,17 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.TreeMap;
 
 public class WorkoutStatisticsActivity extends AppCompatActivity {
@@ -45,6 +48,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
     private TextView generalInfoTextView;
 
     private PieChart gripDistributionPieChart;
+    private PieChart hangboardDistributionPieChart;
     private BarChart difficultyBarChart;
     private BarChart workoutDatesBarChart;
     private HorizontalBarChart singleHangsOrRepeatersBarChart;
@@ -119,7 +123,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
             allCalculatedDetails = new ArrayList<CalculateWorkoutDetails>();
 
-
             allDates = dbHandler.lookUpAllDates(includeHidden);
             allHangboards = dbHandler.lookUpAllHangboards(includeHidden);
             allTimeControls = dbHandler.lookUpAllTimeControls(includeHidden);
@@ -152,6 +155,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
                 createWorkoutDatesBarChart();
                 createDifficultyBarChart();
                 createGripDistributionPieChart();
+                createHangboardDistributionPieChart();
 
 
 
@@ -548,6 +552,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         int[] completed_seconds;
         int[] grip_difficulties;
 
+        // Why TreeMap?
         TreeMap<Integer,Integer> difficultyMap = new TreeMap<Integer, Integer>();
 
         // all hold in workout history
@@ -643,6 +648,65 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
     }
     */
+
+    public void createHangboardDistributionPieChart() {
+        hangboardDistributionPieChart = (PieChart) findViewById(R.id.hangboardDistributionPieChart);
+        hangboardDistributionPieChart.setCenterText("Hangboards used");
+
+        Map<String,Integer> hangboardMap = new HashMap();
+        ArrayList<PieEntry> yValues = new ArrayList<>();
+        ArrayList<Integer> barColors = new ArrayList<Integer>();
+        Random rng = new Random();
+
+        for (String hangboardName: allHangboards) {
+
+            if (hangboardMap.containsKey(hangboardName)) {
+                hangboardMap.put(hangboardName, hangboardMap.get(hangboardName)+1);
+            }
+            else {
+                hangboardMap.put(hangboardName, 1);
+            }
+        }
+
+        float total = allHangboards.size();
+        float percent;
+
+        for(Map.Entry<String,Integer> entry: hangboardMap.entrySet()) {
+            String name = entry.getKey();
+            int amount = entry.getValue();
+
+            percent = 100* amount / total ;
+
+            yValues.add(new PieEntry(percent,name));
+            barColors.add(rng.nextInt() );
+
+        }
+
+        PieDataSet dataSet = new PieDataSet(yValues,"Hangboard distribution");
+
+        dataSet.setSliceSpace(5f);
+        dataSet.setSelectionShift(8f);
+        //dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        dataSet.setColors(barColors);
+        dataSet.setValueLineColor(Color.BLACK);
+        PieData data = new PieData(dataSet);
+        data.setValueTextSize(12f);
+        data.setValueFormatter(new PercentFormatter());
+        data.setValueTextColor(Color.BLUE);
+
+        hangboardDistributionPieChart.setData(data);
+
+        // gripDistributionPieChart.animateY(1000);
+        hangboardDistributionPieChart.setTransparentCircleRadius(35f);
+        hangboardDistributionPieChart.setHoleRadius(25f);
+        hangboardDistributionPieChart.setEntryLabelColor(Color.BLACK);
+        Description desc = new Description();
+        desc.setText("Hangboard distribution");
+        hangboardDistributionPieChart.setDescription(desc);
+        hangboardDistributionPieChart.invalidate();
+
+
+    }
 
     public void createGripDistributionPieChart() {
         gripDistributionPieChart = (PieChart) findViewById(R.id.gripDistributionPieChart);
