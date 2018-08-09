@@ -589,7 +589,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
             int key = entry.getKey();
             int value = entry.getValue();
 
-            if ( value == 0) {continue;}
+            if ( value == 0) {continue;} // custom hold
             alpha += increment;
             barColors.add(Color.argb(50+alpha,200,0,0));
             entries.add(new BarEntry(key,value));
@@ -689,35 +689,45 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
                 else {other+= seconds_multiplier; }
             }
         }
-
-        if (fourfinger == 0 || total_grips/fourfinger > 50) {other += fourfinger;}
-         else {yValues.add(new PieEntry(fourfinger,"Four fingers")); }
-
-        if (threefront == 0 || total_grips/threefront >50) {  other += threefront;  }
-        else { yValues.add(new PieEntry(threefront,"Three front")); }
-
-        if (threeback == 0 || total_grips/threeback > 50) { other += threeback;}
-        else { yValues.add(new PieEntry(threeback,"Three back")); }
-
-        if (twofront == 0 || total_grips/twofront > 50) {other += twofront; }
-        else {yValues.add(new PieEntry(twofront,"Two middle"));}
-
-            if (twomiddle == 0 || total_grips/twomiddle > 50) {other += twomiddle; }
-        else {yValues.add(new PieEntry(twomiddle,"Two front")); }
-
-            if (twoback  == 0 || total_grips/twoback > 50) {other += twoback; }
-        else {yValues.add(new PieEntry(twoback,"Two back")); }
-
-            if (middlefinger == 0 || total_grips/middlefinger > 50) {other += middlefinger; }
-        else {yValues.add(new PieEntry(middlefinger,"Middle finger")); }
-
-        yValues.add(new PieEntry(other,"other"));
+        ArrayList<Integer> barColors = new ArrayList<Integer>();
+        if (fourfinger != 0) {
+            yValues.add(new PieEntry(fourfinger,"Four fingers"));
+            //barColors.add(Color.argb(255,200,0,0));
+            barColors.add(Color.argb(255,104,159,56));
+        }
+        if (threefront != 0) {
+            yValues.add(new PieEntry(threefront,"Three front"));
+            barColors.add(Color.argb(255,0,172,193));
+        }
+        if (threeback != 0) {
+            yValues.add(new PieEntry(threeback,"Three back"));
+            barColors.add(Color.argb(255,126,87,194));
+        }
+        if (twofront != 0) {yValues.add(new PieEntry(twofront,"Two front"));
+            barColors.add(Color.argb(255,251,140,0));
+        }
+        if (twomiddle != 0) {yValues.add(new PieEntry(twofront,"Two middle"));
+            barColors.add(Color.argb(255,255,112,67));
+        }
+        if (twoback != 0) {
+            yValues.add(new PieEntry(twofront,"Two back"));
+            barColors.add(Color.argb(255,255,202,40));
+        }
+        if (middlefinger != 0) {
+            yValues.add(new PieEntry(twofront,"Middle finger"));
+            barColors.add(Color.argb(255,156,39,176));
+        }
+        if (other != 0) {
+            yValues.add(new PieEntry(other,"Other"));
+            barColors.add(Color.argb(255,158,158,158));
+        }
 
         PieDataSet dataSet = new PieDataSet(yValues,"Grip distribution");
+
         dataSet.setSliceSpace(3f);
         dataSet.setSelectionShift(5f);
-        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
-
+        //dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        dataSet.setColors(barColors);
         PieData data = new PieData(dataSet);
         data.setValueTextSize(10f);
         data.setValueTextColor(Color.YELLOW);
