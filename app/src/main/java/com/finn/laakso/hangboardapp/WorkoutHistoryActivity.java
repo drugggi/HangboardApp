@@ -621,7 +621,9 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
     private TimeControls getRandomPremadeTimeControls() {
         TimeControls premadeRNGcontrols = new TimeControls();
-        premadeRNGcontrols.setHangLaps(1);
+        if (rng.nextBoolean() ) {
+            premadeRNGcontrols.setHangLaps(1);
+        }
         premadeRNGcontrols.setPremadeTimeControls(rng.nextInt(8) );
         return premadeRNGcontrols;
     }
@@ -633,8 +635,8 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         if (hang_laps == 1) { grip_laps=rng.nextInt(15)+10; }
 
         int routine_laps=rng.nextInt(20)-10;
-        int time_on = rng.nextInt(40)-30;;
-        int time_off= rng.nextInt(30)-10;;
+        int time_on = rng.nextInt(40)-30;
+        int time_off= rng.nextInt(30)-10;
 
         if (hang_laps == 1) {time_on = 10; time_off = 0; }
         // private int time_total = time_on + time_off;

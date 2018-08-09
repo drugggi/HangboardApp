@@ -51,6 +51,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
     private PieChart hangboardDistributionPieChart;
     private BarChart difficultyBarChart;
     private BarChart workoutDatesBarChart;
+    private BarChart totalWorkloadBarChart;
     private HorizontalBarChart singleHangsOrRepeatersBarChart;
     // private LineChart timeUnderTensionLineChart;
    // private LineChart workoutTimeLineChart;
@@ -158,7 +159,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
                 createGripDistributionPieChart();
                 createHangboardDistributionPieChart();
                 createAverageDifficultyPerHangLineChart();
-                // createTotalWorkloadLineChart();
+                createTotalWorkloadBarChart();
 
 
 
@@ -296,6 +297,64 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
         workoutTUTandWTLineChart.invalidate();
         workoutTUTandWTLineChart.animateX(1500);
+
+
+    }
+
+    public void createTotalWorkloadBarChart() {
+        totalWorkloadBarChart = (BarChart) findViewById(R.id.totalWorkloadBarChart);
+
+        ArrayList<BarEntry> workloadEntries = new ArrayList<>();
+        ArrayList<Integer> barColors = new ArrayList<Integer>();
+
+        int xCoord = 0;
+        float maxValue = 0;
+        for (int i = allCalculatedDetails.size()-1 ; i >= 0 ; i--) {
+            //entries.add(new BarEntry(dayDifferences.get(i) , (float)allCalculatedDetails.get(i).getAdjustedWorkoutTime()/60 ));
+            workloadEntries.add(new BarEntry(xCoord,allCalculatedDetails.get(i).getWorkload() ) );
+            if (maxValue < allCalculatedDetails.get(i).getWorkload() ) {
+                maxValue = allCalculatedDetails.get(i).getWorkload();
+            }
+            xCoord++;
+        }
+
+
+        String[] labels = new String[allCalculatedDetails.size()-1];
+        for (int i = 0 ; i < labels.length ; i++ ) {
+            labels[i] = "WO: " + (i+1);
+
+        }
+        float adjustment = 0;
+        float currentWorkload = 0;
+        int alpha = 0;
+        for (int i = allCalculatedDetails.size()-1 ; i >= 0 ; i--) {
+            currentWorkload = allCalculatedDetails.get(i).getWorkload();
+
+            adjustment = 200*currentWorkload / maxValue;
+            alpha = (int) adjustment;
+            barColors.add(Color.argb(50+alpha,0,0,200));
+        }
+        
+        BarDataSet barDataSet = new BarDataSet(workloadEntries,"Total workload for each workout (avg D*TUT)");
+        //barDataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
+        //barDataSet.setColor(Color.BLUE);
+        barDataSet.setColors(barColors);
+
+        BarData barData = new BarData(barDataSet);
+        totalWorkloadBarChart.setData(barData);
+
+        Description desc = new Description();
+        desc.setText("Workout number");
+
+        totalWorkloadBarChart.setDescription(desc);
+        XAxis xAxis = totalWorkloadBarChart.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+        xAxis.setGranularity(1f);
+        //xAxis.setGranularityEnabled(true);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        totalWorkloadBarChart.invalidate();
+
 
 
     }
