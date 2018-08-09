@@ -56,6 +56,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
    // private LineChart workoutTimeLineChart;
     private LineChart workoutIntensityLineChart;
     private LineChart workoutTUTandWTLineChart;
+    private LineChart averageDifficultyPerHang;
 
     private ArrayList<ArrayList<Hold>> allWorkoutsHolds;
     private ArrayList<TimeControls> allTimeControls;
@@ -156,6 +157,8 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
                 createDifficultyBarChart();
                 createGripDistributionPieChart();
                 createHangboardDistributionPieChart();
+                createAverageDifficultyPerHangLineChart();
+                // createTotalWorkloadLineChart();
 
 
 
@@ -202,6 +205,47 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         */
         }
 
+
+    }
+
+    public void createAverageDifficultyPerHangLineChart() {
+        averageDifficultyPerHang = (LineChart) findViewById(R.id.averageDifficultyPerHang);
+
+        ArrayList<Entry> difficultyEntries = new ArrayList<>();
+
+        int xCoord = 0;
+        for (int i = allCalculatedDetails.size() -1 ; i >= 0 ; i-- ) {
+            difficultyEntries.add(new Entry(xCoord,allCalculatedDetails.get(i).getAverageDifficutly() ));
+            xCoord++;
+        }
+
+        String[] labels = new String[allCalculatedDetails.size()-1];
+        for (int i = 0 ; i < labels.length ; i++ ) {
+            labels[i] = "WO: " + (i+1);
+        }
+
+        ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
+
+        LineDataSet lineDataSetTUT = new LineDataSet(difficultyEntries,"Average difficulty per hang");
+        lineDataSetTUT.setColor(Color.YELLOW);
+
+        lineDataSets.add(lineDataSetTUT);
+
+        LineData lineData = new LineData(lineDataSets);
+
+        lineData.setValueTextSize(10f);
+        averageDifficultyPerHang.setData(lineData);
+
+        Description desc = new Description();
+        desc.setText("Workout number");
+        averageDifficultyPerHang.setDescription(desc);
+
+        XAxis xAxis = averageDifficultyPerHang.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
+
+        averageDifficultyPerHang.invalidate();
 
     }
 

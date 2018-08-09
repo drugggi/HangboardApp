@@ -213,7 +213,7 @@ public class TimeControls {
         return hang_laps*(time_on + time_off);
     }
 
-
+/*
     // Pre made workoutprograms, hopefully in future these will be replaced by community standards
     public void setProgramBasedOnTime(int workout_time) {
         if (isRepeaters) {
@@ -245,11 +245,12 @@ public class TimeControls {
         }
 
     }
+    */
 
     public void setPremadeTimeControls(int progressBarPosition) {
         if (isRepeaters) {
             if (progressBarPosition == 0) {
-                setTimeControls(new int[] {6, 6, 7, 3, 1, 50, 1}); // 10min OK
+                setTimeControls(new int[] {6, 6, 7, 3, 1, 60, 1}); // 10min OK
             } else if (progressBarPosition == 1) {
                 setTimeControls(new int[] {4, 5, 7, 3, 2, 60, 140}); // 15min OK
             } else if (progressBarPosition == 2) {

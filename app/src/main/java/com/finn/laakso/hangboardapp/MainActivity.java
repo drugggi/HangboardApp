@@ -416,7 +416,8 @@ public class MainActivity extends AppCompatActivity {
                     timeControls.changeTimeToSingleHangs();
 
                 }
-                timeControls.setProgramBasedOnTime(20 + durationSeekBar.getProgress() * 15);
+                //timeControls.setProgramBasedOnTime(20 + durationSeekBar.getProgress() * 15);
+                timeControls.setPremadeTimeControls(durationSeekBar.getProgress() );
 
                 // Toast.makeText(MainActivity.this, "onprogresschaged durationSeekBar.getProgress():  " + durationSeekBar.getProgress(), Toast.LENGTH_LONG).show();
 
