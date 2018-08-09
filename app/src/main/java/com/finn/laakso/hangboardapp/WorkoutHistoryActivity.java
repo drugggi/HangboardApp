@@ -84,51 +84,56 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         String tempHangboardName = "";
         int[] tempCompleted = new int[5];
 
+        //If phone orientation is changed, we don't need to get intents
+        if (savedInstanceState == null) {
 
-        // Holds that will be used in this workout program
-        if (getIntent().hasExtra("com.finn.laakso.hangboardapp.HOLDS")) {
-            tempWorkoutHolds = getIntent().getExtras().getParcelableArrayList("com.finn.laakso.hangboardapp.HOLDS");
-        }
-
-        // Hangboard image that user has selected
-        if (getIntent().hasExtra("com.finn.laakso.hangboardapp.BOARDNAME")) {
-            tempHangboardName = getIntent().getStringExtra("com.finn.laakso.hangboardapp.BOARDNAME");
-        }
-
-        // This Intent brings the time controls to the workout program
-        if (getIntent().hasExtra("com.finn.laakso.hangboardapp.TIMECONTROLS")) {
-            int[] time_controls = getIntent().getExtras().getIntArray("com.finn.laakso.hangboardapp.TIMECONTROLS");
-
-            tempTimeControls = new TimeControls();
-            tempTimeControls.setTimeControls(time_controls);
-
-            // SECURITY CHECK, WILL MAKE SURE IN FUTURE TO NEVER HAPPEN
-            if (tempTimeControls.getGripLaps()*2 != tempWorkoutHolds.size()) {
-                tempTimeControls.setGripLaps(tempWorkoutHolds.size()/2);
+            // Holds that will be used in this workout program
+            if (getIntent().hasExtra("com.finn.laakso.hangboardapp.HOLDS")) {
+                tempWorkoutHolds = getIntent().getExtras().getParcelableArrayList("com.finn.laakso.hangboardapp.HOLDS");
             }
 
-            tempCompleted = new int[tempTimeControls.getGripLaps() * tempTimeControls.getRoutineLaps()];
+            // Hangboard image that user has selected
+            if (getIntent().hasExtra("com.finn.laakso.hangboardapp.BOARDNAME")) {
+                tempHangboardName = getIntent().getStringExtra("com.finn.laakso.hangboardapp.BOARDNAME");
+            }
 
-            for (int i = 0; i < tempCompleted.length ; i++) {
-                tempCompleted[i] = 0;
+            // This Intent brings the time controls to the workout program
+            if (getIntent().hasExtra("com.finn.laakso.hangboardapp.TIMECONTROLS")) {
+                int[] time_controls = getIntent().getExtras().getIntArray("com.finn.laakso.hangboardapp.TIMECONTROLS");
+
+                tempTimeControls = new TimeControls();
+                tempTimeControls.setTimeControls(time_controls);
+
+                // SECURITY CHECK, WILL MAKE SURE IN FUTURE TO NEVER HAPPEN
+                if (tempTimeControls.getGripLaps() * 2 != tempWorkoutHolds.size()) {
+                    tempTimeControls.setGripLaps(tempWorkoutHolds.size() / 2);
+                }
+
+                tempCompleted = new int[tempTimeControls.getGripLaps() * tempTimeControls.getRoutineLaps()];
+
+                for (int i = 0; i < tempCompleted.length; i++) {
+                    tempCompleted[i] = 0;
+                }
+
+            }
+
+            if (getIntent().hasExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS")) {
+                tempCompleted = getIntent().getExtras().getIntArray("com.finn.laakso.hangboardapp.COMPLETEDHANGS");
+            }
+
+            String workoutDescription = "Temp desc";
+            if (getIntent().hasExtra("com.finn.laakso.hangboardapp.DESCRIPTION")) {
+                workoutDescription = getIntent().getExtras().getString("com.finn.laakso.hangboardapp.DESCRIPTION");
+
+
+                long time = System.currentTimeMillis();
+
+                // Lets add workout information to database straight from the Intent.
+                dbHandler.addHangboardWorkout(time, tempHangboardName, tempTimeControls, tempWorkoutHolds, tempCompleted, workoutDescription);
             }
 
         }
 
-        if(getIntent().hasExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS")) {
-            tempCompleted = getIntent().getExtras().getIntArray("com.finn.laakso.hangboardapp.COMPLETEDHANGS");
-        }
-
-        String workoutDescription = "Temp desc";
-        if (getIntent().hasExtra("com.finn.laakso.hangboardapp.DESCRIPTION")) {
-            workoutDescription = getIntent().getExtras().getString("com.finn.laakso.hangboardapp.DESCRIPTION");
-
-
-            long time = System.currentTimeMillis();
-
-            // Lets add workout information to database straight from the Intent.
-            dbHandler.addHangboardWorkout(time, tempHangboardName, tempTimeControls, tempWorkoutHolds, tempCompleted, workoutDescription);
-        }
         // Button just for generating random workout datapoins and testing purposes
        newEntryButton.setOnClickListener(new View.OnClickListener() {
            @Override
