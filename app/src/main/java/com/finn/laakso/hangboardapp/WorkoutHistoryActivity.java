@@ -138,32 +138,34 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
        newEntryButton.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               long rngTime = System.currentTimeMillis();
 
-               // Toast.makeText(WorkoutHistoryActivity.this, "PIILOTETAAN RANDOMILLA",(int) 10).show();
+               for (int i = 0 ; i < 10 ; i++) {
+                   long rngTime = System.currentTimeMillis();
 
-               //TimeControls rngControls = getRandomTimeControls();
-                TimeControls rngControls = getRandomPremadeTimeControls();
+                   // Toast.makeText(WorkoutHistoryActivity.this, "PIILOTETAAN RANDOMILLA",(int) 10).show();
 
-               // Lets set up random hangboard so that holds are real and based on random grade
-               Resources res = getResources();
-               HangBoard rngHangboard = new HangBoard(res);
-               rngHangboard.initializeHolds(res,getRandomHB());
-               rngHangboard.setGripAmount(rngControls.getGripLaps(),rng.nextInt(11));
-               ArrayList<Hold> holdsFromRNGhangboard = rngHangboard.getCurrentHoldList();
+                   //TimeControls rngControls = getRandomTimeControls();
+                   TimeControls rngControls = getRandomPremadeTimeControls();
+
+                   // Lets set up random hangboard so that holds are real and based on random grade
+                   Resources res = getResources();
+                   HangBoard rngHangboard = new HangBoard(res);
+                   rngHangboard.initializeHolds(res, getRandomHB());
+                   rngHangboard.setGripAmount(rngControls.getGripLaps(), rng.nextInt(11));
+                   ArrayList<Hold> holdsFromRNGhangboard = rngHangboard.getCurrentHoldList();
 
 
-               dbHandler.addHangboardWorkout(
-                       rngTime- (long)1000*60*60*24*rng.nextInt(60),
-                       getRandomHangboard(),
-                       rngControls,
-                       holdsFromRNGhangboard,
-                       // getRandomWorkoutHolds(rngControls.getGripLaps()),
-                       //getCompletedALL(rngControls),
-                       getCompletedRandomly(rngControls),
-                       getRandomWorkoutDescription()
-               );
-
+                   dbHandler.addHangboardWorkout(
+                           rngTime - (long) 1000 * 60 * 60 * 24 * rng.nextInt(60),
+                           getRandomHangboard(),
+                           rngControls,
+                           holdsFromRNGhangboard,
+                           // getRandomWorkoutHolds(rngControls.getGripLaps()),
+                           //getCompletedALL(rngControls),
+                           getCompletedRandomly(rngControls),
+                           getRandomWorkoutDescription()
+                   );
+               }
               // int pos = rng.nextInt(dbHandler.lookUpWorkoutCount());
                boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
                int pos = rng.nextInt(dbHandler.lookUpWorkoutCount(includeHidden));
