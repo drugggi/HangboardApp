@@ -164,8 +164,9 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                        getRandomWorkoutDescription()
                );
 
-               int pos = rng.nextInt(dbHandler.lookUpWorkoutCount());
+              // int pos = rng.nextInt(dbHandler.lookUpWorkoutCount());
                boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
+               int pos = rng.nextInt(dbHandler.lookUpWorkoutCount(includeHidden));
                dbHandler.hideWorkoutNumber(pos,includeHidden);
 
                 workoutAdapter.notifyDataSetChanged();
@@ -314,7 +315,9 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (dbHandler.lookUpWorkoutCount() == 0) {
+                boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
+
+                if (dbHandler.lookUpWorkoutCount(includeHidden) == 0) {
                     Toast.makeText(WorkoutHistoryActivity.this,"Database empty, cannot show graphs",Toast.LENGTH_SHORT).show();
                 }
                 else {

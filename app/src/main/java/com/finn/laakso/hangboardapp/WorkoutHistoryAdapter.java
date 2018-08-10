@@ -43,10 +43,10 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
     public int getCount() {
 
         if (showHidden) {
-            return dbHandler.lookUpWorkoutCount();
+            return dbHandler.lookUpWorkoutCount(showHidden);
         }
         else {
-            return dbHandler.lookUpUnHiddenWorkoutCount();
+            return dbHandler.lookUpWorkoutCount(showHidden);
         }
     }
 

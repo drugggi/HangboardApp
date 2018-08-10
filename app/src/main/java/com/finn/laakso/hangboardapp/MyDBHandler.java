@@ -200,8 +200,21 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
 
     // Checks how many workouts there are in database
-    protected int lookUpWorkoutCount() {
+    protected int lookUpWorkoutCount(boolean includeHidden) {
 
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
+        if (includeHidden) {
+            cursor = db.query(TABLE_WORKOUTS, null, null, null, null, null, COLUMN_DATE + " DESC", null);
+        }
+
+        int count = cursor.getCount();
+
+        cursor.close();
+        db.close();
+
+        return count;
+        /*
         String countQuery = "SELECT  * FROM " + TABLE_WORKOUTS;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
@@ -209,7 +222,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return count;
-
+*/
     }
 
 
