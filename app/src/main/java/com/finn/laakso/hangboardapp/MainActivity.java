@@ -225,12 +225,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                // This is useless now that gradeslistview visibility is set to invisible
-                if (durationSeekBar.getProgress() == 4) {
-                    Toast.makeText(MainActivity.this, "There is no grades in \"progression TEST\" program", Toast.LENGTH_LONG).show();
-                    return;
-                }
-
                 // The harder the grade the darker the color
                 Drawable selectColor = gradesListView.getSelector();
                 selectColor.setAlpha(90+position*15);
@@ -241,7 +235,8 @@ public class MainActivity extends AppCompatActivity {
 
                 grade_descr_position = gradesListView.getPositionForView(view);
 
-                randomizeBtn.setText("New "+ everyBoard.getGrade(grade_descr_position)+ " Workout");
+                String randomizeText = "New "+ everyBoard.getGrade(grade_descr_position)+ " Workout";
+                randomizeBtn.setText(randomizeText);
                 hang_descr_position = 0;
 /*
                 // THIS IS ONLY FOR TESTING HAND IMAGES POSITION PURPOSES
@@ -258,6 +253,9 @@ public class MainActivity extends AppCompatActivity {
         holdsListView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
             @Override
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+
+                menu.setHeaderIcon(R.drawable.gripgrading72px);
+                // v.setIcon
 
                 if (v.getId()==R.id.holdsListView) {
                     AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;

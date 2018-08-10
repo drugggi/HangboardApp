@@ -25,7 +25,6 @@ public class EditWorkoutInfoActivity extends AppCompatActivity {
     // completed array which stores the information how successful a hang was.
     private GridView workoutInfoGridView;
 
-    private TextView hangInfoTextView;
     private EditText workoutDescriptionEditText;
     private String workoutDescription;
     private ImageView hangboardImageView;
@@ -55,7 +54,6 @@ public class EditWorkoutInfoActivity extends AppCompatActivity {
         hangboardImageView = (ImageView) findViewById(R.id.hangboardImageView);
         saveButton = (Button) findViewById(R.id.saveButton);
         backButton = (Button) findViewById(R.id.backButton);
-        hangInfoTextView = (TextView) findViewById(R.id.hangInfoTextView);
         workoutInfoGridView = (GridView) findViewById(R.id.workoutInfoGridView);
 
         // This checks whether we are editing existing workout from database or new workout from WorkoutActivity
@@ -83,7 +81,6 @@ public class EditWorkoutInfoActivity extends AppCompatActivity {
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.DESCRIPTION")) {
             workoutDescription = getIntent().getStringExtra("com.finn.laakso.hangboardapp.DESCRIPTION");
             workoutDescriptionEditText.setText(workoutDescription);
-            hangInfoTextView.setText(workoutDescription);
         }
 
         // This Intent brings the time controls to the workout program
@@ -165,7 +162,6 @@ public class EditWorkoutInfoActivity extends AppCompatActivity {
                         Toast.makeText(EditWorkoutInfoActivity.this,"Only 255 characters allowed",Toast.LENGTH_SHORT).show();
                     }
 
-                    hangInfoTextView.setText(workoutDescription);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -209,19 +205,19 @@ public class EditWorkoutInfoActivity extends AppCompatActivity {
         });
 
         // Lets print the selected hang's information
+
         workoutInfoGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               // Toast.makeText(EditWorkoutInfoActivity.this,"pos: " + position,Toast.LENGTH_SHORT).show();
 
                 int hold_position = position % timeControls.getGripLaps();
 
                 String text =workoutHolds.get(2*hold_position).getHoldInfo(workoutHolds.get(2*hold_position+1));
                 text = text.replaceAll("\n",", ");
 
-                String temp = workoutDescriptionEditText.getText() + "\n" + text;
+                String temp = text + "\n" + "Long click to edit hangs.";
 
-                hangInfoTextView.setText(temp);
+                Toast.makeText(EditWorkoutInfoActivity.this,temp,Toast.LENGTH_LONG).show();
 
             }
         });

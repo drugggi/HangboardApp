@@ -29,42 +29,45 @@ import java.util.ArrayList;
 
 public class WorkoutActivity extends AppCompatActivity {
 
+    // This hack provides the information which Context Menu was created. The two are
+    // progressbar long click listener and lapseTimeChrono long click listener. We have to
+    // be able to tell which one was pressed.
+    private boolean progressBarContextMenu;
+
     // Chronometer totalTimeChrono;
-    Chronometer lapseTimeChrono;
+    private Chronometer lapseTimeChrono;
 
-    ProgressBar hangProgressBar;
-    ProgressBar restProgressBar;
+    private ProgressBar hangProgressBar;
+    private ProgressBar restProgressBar;
 
-    PinchZoomImageView pinchZoomBoardImage;
+    private PinchZoomImageView pinchZoomBoardImage;
 
     private int boardimageResource;
-    ImageView boardimage;
-    ImageView leftHandImage;
-    ImageView rightHandImage;
-    enum workoutPart {ALKULEPO, WORKOUT, LEPO, PITKALEPO};
+    private ImageView boardimage;
+    private ImageView leftHandImage;
+    private ImageView rightHandImage;
+    private enum workoutPart {INITIALREST, WORKOUT, REST, LONGREST};
 
-    Button pauseBtn;
-    Button workoutProgressButton;
+    private Button pauseBtn;
+    private Button workoutProgressButton;
 
-    TimeControls timeControls;
-    int current_lap;
-    int current_set;
-    workoutPart nowDoing = workoutPart.ALKULEPO;
+    private TimeControls timeControls;
+    private int current_lap;
+    private int current_set;
+    private workoutPart nowDoing = workoutPart.INITIALREST;
 
     // workout starts in 30 seconds
-    int s;
+    private int s;
 
     // total_s is the total workout_time and will count down to zero
-    int total_s;
+    private int total_s;
 
     // Change the name, this keeps track on grips used at the time
-    ArrayList<Hold> workoutHolds;
-    TextView gradeTextView;
-    TextView infoTextView;
+    private ArrayList<Hold> workoutHolds;
+    private TextView gradeTextView;
+    private TextView infoTextView;
 
-    int[] completedHangs;
-
-    // private int mActivePointerId;
+    private int[] completedHangs;
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -193,6 +196,44 @@ public class WorkoutActivity extends AppCompatActivity {
 
             lapseTimeChrono.start();
         }
+/*
+        hangProgressBar.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast.makeText(WorkoutActivity.this,"jes",Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });*/
+
+        hangProgressBar.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+            @Override
+            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+                if (v.getId() == R.id.hangProgressBar) {
+                    progressBarContextMenu = true;
+
+                    if (current_lap == 0 && current_set == 1) {
+                        Toast.makeText(WorkoutActivity.this, "Only the last hang can be edited, no hangs completed yet.", Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+                        if (timeControls.getHangLaps() == 1) {
+                            String title = "Did you do hang: (" + (current_lap + 1) + "/" + timeControls.getHangLaps() + ")";
+                            menu.setHeaderTitle(title);
+                            menu.add(Menu.NONE, 0, 0, "No  (0/1)");
+                            menu.add(Menu.NONE, 1, 1, "Yes (1/1)");
+                        } else {
+                            String title = "Edit hang: (" + (current_lap + 1) + "/" + timeControls.getHangLaps() + ")";
+                            menu.setHeaderTitle(title);
+
+                            for (int i = 0; i <= timeControls.getHangLaps(); i++) {
+                                menu.add(Menu.NONE, i, i, (i + "/" + timeControls.getHangLaps() + "  was succesful"));
+                            }
+
+                        }
+                    }
+                }
+            }
+        });
 
         // Set the text becouse if the phone orientation has changed it would display "00:00" instead
         String timeText = "" + Math.abs(s);
@@ -204,7 +245,8 @@ public class WorkoutActivity extends AppCompatActivity {
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
 
                 if (v.getId()==R.id.lapseTimeChrono) {
-                    AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+                    progressBarContextMenu = false;
+
                     menu.setHeaderTitle("Select new size");
 
                     // Options to change the size of lapseTimeChrono
@@ -286,7 +328,7 @@ public class WorkoutActivity extends AppCompatActivity {
                 updateGripDisplay();
 
                 switch (nowDoing) {
-                    case ALKULEPO:
+                    case INITIALREST:
 
                         // At 25s mark lets show the next hang instructions
                         if ( s == -25) {
@@ -306,7 +348,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
                         // If seconds in a hang lap (59s) has passed, it is REST time
                         if ( s == timeControls.getHangLapsSeconds() ) {
-                            nowDoing = workoutPart.LEPO;
+                            nowDoing = workoutPart.REST;
                             updateCompletedHangs();
 
                              if (timeControls.getTimeOFF() == 0 ) { playFinishSound.start(); }
@@ -316,7 +358,7 @@ public class WorkoutActivity extends AppCompatActivity {
                             s--;
 
                             if (current_lap == timeControls.getGripLaps()) {
-                                nowDoing = workoutPart.PITKALEPO;
+                                nowDoing = workoutPart.LONGREST;
                                 updateCompletedHangs();
                             }
                             break;
@@ -351,7 +393,7 @@ public class WorkoutActivity extends AppCompatActivity {
                         }
 
                         break;
-                    case LEPO:
+                    case REST:
 
                         // This if statement will be called only once because s is positive and will be negative thereafter
                         if (s >= timeControls.getHangLapsSeconds()) {
@@ -367,7 +409,7 @@ public class WorkoutActivity extends AppCompatActivity {
                         if (s == -1) {nowDoing = workoutPart.WORKOUT;}
 
                         break;
-                    case PITKALEPO:
+                    case LONGREST:
                         // This if statmenet will be called once becouse s is positive and will be negative
                         if (s >= timeControls.getHangLapsSeconds()) {
                             current_set++;
@@ -383,6 +425,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
                         if (timeControls.getRoutineLaps() == current_set - 1) {
                             lapseTimeChrono.stop();
+                            workoutProgressButton.setVisibility(View.VISIBLE);
 
                         }
 
@@ -407,30 +450,48 @@ public class WorkoutActivity extends AppCompatActivity {
 
         int clicked_position = item.getItemId();
 
-        DisplayMetrics metrics;
-        metrics = getApplicationContext().getResources().getDisplayMetrics();
-        float chronoTextSize = lapseTimeChrono.getTextSize()/metrics.density;
 
-        if (clicked_position == 1) {
-            lapseTimeChrono.setTextSize(chronoTextSize*1.5f);
-        } else if (clicked_position == 2) {
-            lapseTimeChrono.setTextSize(chronoTextSize*1.25f);
-        } else if (clicked_position == 3) {
-            lapseTimeChrono.setTextSize(chronoTextSize*1.1f);
-        } else if (clicked_position == 4) {
-            lapseTimeChrono.setTextSize(chronoTextSize*0.9f);
-        } else if (clicked_position == 5) {
-            lapseTimeChrono.setTextSize(chronoTextSize*0.75f);
-        } else  {
-            lapseTimeChrono.setTextSize(chronoTextSize*0.5f);
+
+        if (progressBarContextMenu) {
+
+            int index = (current_set - 1 )* timeControls.getGripLaps() + current_lap - 1;
+             Log.e("manual","manual update completed hangs: " + index  + " max index: " + completedHangs.length);
+
+            if (index >= 0 && index < completedHangs.length ) {
+                if (clicked_position >= 0 && clicked_position <= timeControls.getHangLaps() ) {
+                    completedHangs[index] = clicked_position;
+                }
+            }
+
+            //Toast.makeText(WorkoutActivity.this, "prog bar pressed", Toast.LENGTH_SHORT).show();
         }
+        else {
 
-        // Lets not allow user to make ridiculously small or big text size.
-        if (lapseTimeChrono.getTextSize() > 1500f || lapseTimeChrono.getTextSize() < 100f) {
-            Toast.makeText(WorkoutActivity.this,"Inappropriate text size",Toast.LENGTH_SHORT ).show();
-            lapseTimeChrono.setTextSize(155f);
+            //Toast.makeText(WorkoutActivity.this, "lapse chrono pressed", Toast.LENGTH_SHORT).show();
+            DisplayMetrics metrics;
+            metrics = getApplicationContext().getResources().getDisplayMetrics();
+            float chronoTextSize = lapseTimeChrono.getTextSize() / metrics.density;
+
+            if (clicked_position == 1) {
+                lapseTimeChrono.setTextSize(chronoTextSize * 1.5f);
+            } else if (clicked_position == 2) {
+                lapseTimeChrono.setTextSize(chronoTextSize * 1.25f);
+            } else if (clicked_position == 3) {
+                lapseTimeChrono.setTextSize(chronoTextSize * 1.1f);
+            } else if (clicked_position == 4) {
+                lapseTimeChrono.setTextSize(chronoTextSize * 0.9f);
+            } else if (clicked_position == 5) {
+                lapseTimeChrono.setTextSize(chronoTextSize * 0.75f);
+            } else {
+                lapseTimeChrono.setTextSize(chronoTextSize * 0.5f);
+            }
+
+            // Lets not allow user to make ridiculously small or big text size.
+            if (lapseTimeChrono.getTextSize() > 1500f || lapseTimeChrono.getTextSize() < 100f) {
+                Toast.makeText(WorkoutActivity.this, "Inappropriate text size", Toast.LENGTH_SHORT).show();
+                lapseTimeChrono.setTextSize(155f);
+            }
         }
-
         return true;
 
     }
@@ -439,20 +500,11 @@ public class WorkoutActivity extends AppCompatActivity {
 
         // remember that current_lap starts from 0 and current_set starts from 1
         int index = (current_set - 1 )* timeControls.getGripLaps() + current_lap;
-        Log.e("index","" + index  + " max index: " + completedHangs.length);
+        Log.e("update","updateCompletedhangs: " + index  + " max index: " + completedHangs.length);
 
         if (index >= 0 && index < completedHangs.length ) {
             completedHangs[index] = timeControls.getHangLaps();
         }
-
-        /*
-        StringBuilder hangsCompleted = new StringBuilder();
-        for (int i: completedHangs) {
-            hangsCompleted.append(i+",");
-        }
-
-        Log.e("completedHangs",hangsCompleted.toString());
-        Log.e("completedHangs", " " + timeControls.getGripLaps());*/
 
     }
 
