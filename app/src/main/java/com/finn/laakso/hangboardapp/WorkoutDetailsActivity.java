@@ -90,7 +90,7 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
         calculatedDetailsBuilder.append("Workout intensity: " +calculatedDetails.getIntensity() +  " (TUT/WT)\n");
         calculatedDetailsBuilder.append("Total workload: " + calculatedDetails.getWorkload() + " (avg D*TUT)\n");
         calculatedDetailsBuilder.append("Difficulty per min: " +calculatedDetails.getDifficultyPerMinute()+  " (avg D*60)/TUT\n");
-        calculatedDetailsBuilder.append("Workout power: " + calculatedDetails.getPower() + " (avg D*TUT)/WT\n");
+        calculatedDetailsBuilder.append("Workout power: " + calculatedDetails.getWorkoutPower() + " (avg D*TUT)/WT\n");
 
         calculatedDetailsTextView.setText(calculatedDetailsBuilder.toString());
     }

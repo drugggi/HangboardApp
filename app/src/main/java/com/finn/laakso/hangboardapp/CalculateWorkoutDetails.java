@@ -118,7 +118,7 @@ public class CalculateWorkoutDetails {
     public float getDifficultyPerMinute() {
         return this.difficultyPerMinute;
     }
-    public float getPower() {
+    public float getWorkoutPower() {
         return this.power;
     }
 

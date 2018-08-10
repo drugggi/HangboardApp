@@ -156,7 +156,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
 
                    dbHandler.addHangboardWorkout(
-                           rngTime - (long) 1000 * 60 * 60 * 24 * rng.nextInt(60),
+                           rngTime - (long) 1000 * 60 * 60 * 24 * rng.nextInt(2000),
                            getRandomHangboard(),
                            rngControls,
                            holdsFromRNGhangboard,

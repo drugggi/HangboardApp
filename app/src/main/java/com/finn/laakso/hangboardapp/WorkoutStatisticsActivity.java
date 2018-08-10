@@ -7,7 +7,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -58,6 +57,8 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
     private LineChart workoutIntensityLineChart;
     private LineChart workoutTUTandWTLineChart;
     private LineChart averageDifficultyPerHang;
+    private LineChart difficultyPerMinLineChart;
+    private LineChart workoutPowerLineChart;
 
     private ArrayList<ArrayList<Hold>> allWorkoutsHolds;
     private ArrayList<TimeControls> allTimeControls;
@@ -161,10 +162,10 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
                 createAverageDifficultyPerHangLineChart();
                 createTotalWorkloadBarChart();
 
+                createDifficultyPerMinLineChart();
+                createWorkoutPowerLineChart();
+                //createScaledLineChart();
 
-
-
-                Log.e("yes","kaikki listat saman kokosii");
 
             }
 
@@ -207,6 +208,88 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    private void createWorkoutPowerLineChart() {
+        workoutPowerLineChart = (LineChart) findViewById(R.id.workoutPowerLineChart);
+
+        ArrayList<Entry> workoutPowerEntries = new ArrayList<>();
+
+        int xCoord = 0;
+        for (int i = allCalculatedDetails.size() -1 ; i >= 0 ; i-- ) {
+            workoutPowerEntries.add(new Entry(xCoord,allCalculatedDetails.get(i).getWorkoutPower() ));
+            xCoord++;
+        }
+
+        String[] labels = new String[allCalculatedDetails.size()-1];
+        for (int i = 0 ; i < labels.length ; i++ ) {
+            labels[i] = "WO: " + (i+1);
+        }
+
+        ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
+
+        LineDataSet lineDataSetTUT = new LineDataSet(workoutPowerEntries,"Workout power (avg D*TUT/WT)");
+        lineDataSetTUT.setColor(Color.CYAN);
+
+        lineDataSets.add(lineDataSetTUT);
+
+        LineData lineData = new LineData(lineDataSets);
+
+        lineData.setValueTextSize(10f);
+        workoutPowerLineChart.setData(lineData);
+
+        Description desc = new Description();
+        desc.setText("Workout number");
+        workoutPowerLineChart.setDescription(desc);
+
+        XAxis xAxis = workoutPowerLineChart.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
+
+        workoutPowerLineChart.invalidate();
+
+
+    }
+
+    public void createDifficultyPerMinLineChart() {
+        difficultyPerMinLineChart = (LineChart) findViewById(R.id.difficultyPerMinLineChart);
+
+        ArrayList<Entry> diffPerMinEntries = new ArrayList<>();
+
+        int xCoord = 0;
+        for (int i = allCalculatedDetails.size() -1 ; i >= 0 ; i-- ) {
+            diffPerMinEntries.add(new Entry(xCoord,allCalculatedDetails.get(i).getDifficultyPerMinute() ));
+            xCoord++;
+        }
+
+        String[] labels = new String[allCalculatedDetails.size()-1];
+        for (int i = 0 ; i < labels.length ; i++ ) {
+            labels[i] = "WO: " + (i+1);
+        }
+
+        ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
+
+        LineDataSet lineDataSetTUT = new LineDataSet(diffPerMinEntries,"Difficulty per min (avg D*60/TUT)");
+        lineDataSetTUT.setColor(Color.MAGENTA);
+
+        lineDataSets.add(lineDataSetTUT);
+
+        LineData lineData = new LineData(lineDataSets);
+
+        lineData.setValueTextSize(10f);
+        difficultyPerMinLineChart.setData(lineData);
+
+        Description desc = new Description();
+        desc.setText("Workout number");
+        difficultyPerMinLineChart.setDescription(desc);
+
+        XAxis xAxis = difficultyPerMinLineChart.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
+
+        difficultyPerMinLineChart.invalidate();
     }
 
     public void createAverageDifficultyPerHangLineChart() {
