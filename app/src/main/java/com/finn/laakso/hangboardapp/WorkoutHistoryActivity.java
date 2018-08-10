@@ -476,12 +476,11 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         }
 
         else if (selectedContextMenuItem == 3) {
-            Toast.makeText(WorkoutHistoryActivity.this, "editing hangboard name " + positionGlobal, Toast.LENGTH_SHORT).show();
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Hangboard name");
-            builder.setIcon(R.drawable.ic_launcher_background);
-            builder.setMessage("edit hangboard name");
+            builder.setTitle("Hangboard name: " + hangboardName);
+            builder.setIcon(R.drawable.gripgrading72px);
+            builder.setMessage("type new hangboard name");
 
             hangboardNameEditText = new EditText(this);
             hangboardNameEditText.setText(hangboardName);
