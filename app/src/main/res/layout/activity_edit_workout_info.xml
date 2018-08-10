@@ -49,7 +49,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="optional short description"
+                android:hint="optional short description about the workout"
                 android:inputType="textPersonName" />
 
             <Button

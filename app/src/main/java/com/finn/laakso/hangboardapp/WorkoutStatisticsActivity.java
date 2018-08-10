@@ -1188,10 +1188,9 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
        averageIntensity = averageIntensity / totalWorkoutsDone;
 
-       averageDifficulty = averageDifficulty / totalWorkoutsDone;
-
-       averageWorkload = totalDifficultiesSum / totalCompletedHangs;
-
+       if (totalCompletedHangs != 0) {
+           averageWorkload = totalDifficultiesSum / totalCompletedHangs;
+       } else { averageWorkload = 0; }
        generalInfo.append("Total unused time: ").append(totalUnusedTime).append("min\n");
        generalInfo.append("Average intensity: ").append(String.format(java.util.Locale.US,"%.3f",averageIntensity)).append("\n");
        generalInfo.append("Average difficulty per workout: ").append(averageDifficulty).append("\n");
