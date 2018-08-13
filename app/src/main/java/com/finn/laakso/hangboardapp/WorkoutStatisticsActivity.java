@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -25,7 +26,6 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.data.ScatterDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
@@ -169,42 +169,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
             }
 
-            /*
-            Toast.makeText(WorkoutStatisticsActivity.this,"RetrieveDataFromDatabase Thread",Toast.LENGTH_SHORT).show();
-
-            createWorkoutTUTandWTLineChart();
-            workoutTUTandWTLineChart.invalidate();
-            workoutTUTandWTLineChart.animateX(1000);
-
-            // Needs some love, currently maybe stable
-            stringDates= new ArrayList<>();
-            createWorkoutDatesBarChart();
-            workoutDatesBarChart.invalidate();
-
-            // createSingleHangsOrRepeatersBarChart();
-
-            createWorkoutIntensityLineChart();
-
-            createTotalWorkoutTimeLineChart();
-
-            createTimeUnderTensionLineChart();
-
-            createDifficultyBarChart();
-
-            createGripDistributionPieChart();
-            gripDistributionPieChart.invalidate();
-            gripDistributionPieChart.animateX(1000);
-
-            ArrayList<CalculateWorkoutDetails> allWorkoutsCalculatedDetails = new ArrayList<>();
-            CalculateWorkoutDetails tempDetails;
-
-            for( int i = 0; i < hangboards.size() ; i++) {
-
-                tempDetails = new CalculateWorkoutDetails(allTimeControls.get(i), arrayList_workoutHolds.get(i), completedArrayList.get(i));
-                allWorkoutsCalculatedDetails.add(tempDetails);
-            }
-            Log.e("caldworkdet: ", "size " + allWorkoutsCalculatedDetails.size());
-        */
         }
 
 
@@ -214,12 +178,28 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         workoutPowerLineChart = (LineChart) findViewById(R.id.workoutPowerLineChart);
 
         ArrayList<Entry> workoutPowerEntries = new ArrayList<>();
+        ArrayList<Entry> linearRegressionEntries = new ArrayList<>();
+
+        ArrayList<Float> y = new ArrayList<>();
+        ArrayList<Float> x = new ArrayList<>();
 
         int xCoord = 0;
         for (int i = allCalculatedDetails.size() -1 ; i >= 0 ; i-- ) {
             workoutPowerEntries.add(new Entry(xCoord,allCalculatedDetails.get(i).getWorkoutPower() ));
             xCoord++;
+            y.add(allCalculatedDetails.get(i).getWorkoutPower());
+            x.add((float)xCoord);
         }
+
+        LinearRegression powerRegressionLine = new LinearRegression(x,y);
+
+        Log.e("test", powerRegressionLine.toString());
+        Log.e("test", " 1 " + powerRegressionLine.predict(1) + " 2 " + powerRegressionLine.predict(2));
+        Log.e("test", " slope " + powerRegressionLine.slope());
+       // powerRegressionLine.toString()
+
+        linearRegressionEntries.add(new Entry(0,powerRegressionLine.predict(0)));
+        linearRegressionEntries.add(new Entry(xCoord - 1,powerRegressionLine.predict(xCoord-1)));
 
         String[] labels = new String[allCalculatedDetails.size()-1];
         for (int i = 0 ; i < labels.length ; i++ ) {
@@ -229,9 +209,15 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
 
         LineDataSet lineDataSetTUT = new LineDataSet(workoutPowerEntries,"Workout power (avg D*TUT/WT)");
+        LineDataSet lineDataSetLR = new LineDataSet(linearRegressionEntries,"Linear Regression");
+
+        lineDataSetLR.setDrawCircles(false);
+        lineDataSetLR.setValueTextSize(1f);
+
         lineDataSetTUT.setColor(Color.CYAN);
 
         lineDataSets.add(lineDataSetTUT);
+        lineDataSets.add(lineDataSetLR);
 
         LineData lineData = new LineData(lineDataSets);
 
@@ -376,7 +362,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
         ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
 
-        ScatterDataSet test = new ScatterDataSet(entriesAvgDifficulty,"test");
 
         LineDataSet lineDataSetIntensity = new LineDataSet(entriesIntensity,"Intensity (TUT/WT)");
         lineDataSetIntensity.setColor(Color.MAGENTA);
