@@ -145,18 +145,21 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                    // Toast.makeText(WorkoutHistoryActivity.this, "PIILOTETAAN RANDOMILLA",(int) 10).show();
 
                    //TimeControls rngControls = getRandomTimeControls();
-                   TimeControls rngControls = getRandomPremadeTimeControls();
+                   //TimeControls rngControls = getRandomPremadeTimeControls();
+                   TimeControls rngControls = getTotallyRandomTimeControls();
 
                    // Lets set up random hangboard so that holds are real and based on random grade
+
                    Resources res = getResources();
                    HangBoard rngHangboard = new HangBoard(res);
                    rngHangboard.initializeHolds(res, getRandomHB());
                    rngHangboard.setGripAmount(rngControls.getGripLaps(), rng.nextInt(11));
                    ArrayList<Hold> holdsFromRNGhangboard = rngHangboard.getCurrentHoldList();
 
+                   //ArrayList<Hold> randomHolds = getRandomWorkoutHolds(rngControls.getGripLaps() );
 
                    dbHandler.addHangboardWorkout(
-                           rngTime - (long) 1000 * 60 * 60 * 24 * rng.nextInt(2000),
+                           rngTime - (long) 1000 * 60 * 60 * 24 * rng.nextInt(1000),
                            getRandomHangboard(),
                            rngControls,
                            holdsFromRNGhangboard,

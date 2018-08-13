@@ -16,6 +16,11 @@
     android:orientation="vertical">
 
         <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/scaledLineChart"
+            android:layout_width="match_parent"
+            android:layout_height="400dp" />
+
+        <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/workoutPowerLineChart"
             android:layout_width="match_parent"
             android:layout_height="400dp" />

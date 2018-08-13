@@ -75,12 +75,32 @@ public class CalculateWorkoutDetails {
         adjustedWorkoutTime = timeControls.getTotalTime() - unusedWorkoutTime;
         successfulHangRate = 100 * completedHangs / totalHangs;
 
-        intensity = (float) adjustedTUT / adjustedWorkoutTime;
-        averageDifficutly = (float) holdDifficultiesSum / completedHangs ;
-        workload = averageDifficutly * adjustedTUT;
-        difficultyPerMinute = averageDifficutly / adjustedTUT *60;
-        power = averageDifficutly * adjustedTUT /adjustedWorkoutTime;
+        if (adjustedWorkoutTime != 0) {
+            intensity = (float) adjustedTUT / adjustedWorkoutTime;
+        } else {
+            intensity = -1;
+        }
 
+        if (completedHangs != 0) {
+            averageDifficutly = (float) holdDifficultiesSum / completedHangs;
+        } else {
+            averageDifficutly = 0;
+        }
+
+
+        workload = averageDifficutly * adjustedTUT;
+
+        if (adjustedTUT != 0) {
+            difficultyPerMinute = averageDifficutly / adjustedTUT * 60;
+        } else {
+            difficultyPerMinute = 0;
+        }
+
+        if (adjustedWorkoutTime != 0 ) {
+            power = averageDifficutly * adjustedTUT / adjustedWorkoutTime;
+        } else {
+            power = 0;
+        }
 
 
     }

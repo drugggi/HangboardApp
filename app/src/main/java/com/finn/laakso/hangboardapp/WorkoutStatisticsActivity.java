@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -59,6 +60,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
     private LineChart averageDifficultyPerHang;
     private LineChart difficultyPerMinLineChart;
     private LineChart workoutPowerLineChart;
+    private LineChart scaledLineChart;
 
     private ArrayList<ArrayList<Hold>> allWorkoutsHolds;
     private ArrayList<TimeControls> allTimeControls;
@@ -164,7 +166,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
                 createDifficultyPerMinLineChart();
                 createWorkoutPowerLineChart();
-                //createScaledLineChart();
+                createScaledLineChart();
 
 
             }
@@ -260,6 +262,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         int xCoord = 0;
         for (int i = allCalculatedDetails.size() -1 ; i >= 0 ; i-- ) {
             diffPerMinEntries.add(new Entry(xCoord,allCalculatedDetails.get(i).getDifficultyPerMinute() ));
+            Log.e("dif per min","" + allCalculatedDetails.get(i).getDifficultyPerMinute() );
             xCoord++;
         }
 
@@ -330,6 +333,119 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
 
         averageDifficultyPerHang.invalidate();
+
+    }
+
+    public void createScaledLineChart() {
+        scaledLineChart = (LineChart) findViewById(R.id.scaledLineChart);
+
+        ArrayList<Entry> entriesIntensity = new ArrayList<>();
+        ArrayList<Entry> entriesWorkload = new ArrayList<>();
+        ArrayList<Entry> entriesPower = new ArrayList<>();
+        ArrayList<Entry> entriesDiffPerMin = new ArrayList<>();
+
+        float minIntensity = Float.MAX_VALUE;
+        float maxIntensity = 0;
+        float minWorkload = Float.MAX_VALUE;
+        float maxWorkload = 0;
+        float minPower = Float.MAX_VALUE;
+        float maxPower = 0;
+        float minDiffPerMin = Float.MAX_VALUE;
+        float maxDiffPerMin = 0;
+
+        //ArrayList<Float> tempIntensity = new ArrayList<>();
+        //ArrayList<Float> tempWorkload = new ArrayList<>();
+        //ArrayList<Float> tempPower = new ArrayList<>();
+        //ArrayList<Float> tempDiffPerMin = new ArrayList<>();
+
+        for (int i = 0 ; i < allCalculatedDetails.size() ; i++) {
+            if (minIntensity > allCalculatedDetails.get(i).getIntensity() ) {
+                minIntensity = allCalculatedDetails.get(i).getIntensity();
+            }
+            if (maxIntensity < allCalculatedDetails.get(i).getIntensity() ) {
+                maxIntensity = allCalculatedDetails.get(i).getIntensity();
+            }
+
+            if (minWorkload > allCalculatedDetails.get(i).getWorkload() ) {
+                minWorkload = allCalculatedDetails.get(i).getWorkload();
+            }
+            if (maxWorkload < allCalculatedDetails.get(i).getWorkload() ) {
+                maxWorkload = allCalculatedDetails.get(i).getWorkload();
+            }
+
+            if (minPower > allCalculatedDetails.get(i).getWorkoutPower() ) {
+                minPower = allCalculatedDetails.get(i).getWorkoutPower();
+            }
+            if (maxPower < allCalculatedDetails.get(i).getWorkoutPower() ) {
+                maxPower = allCalculatedDetails.get(i).getWorkoutPower();
+            }
+
+            if (minDiffPerMin > allCalculatedDetails.get(i).getDifficultyPerMinute() ) {
+                minDiffPerMin = allCalculatedDetails.get(i).getDifficultyPerMinute();
+            }
+            if (maxDiffPerMin < allCalculatedDetails.get(i).getDifficultyPerMinute() ) {
+                maxDiffPerMin = allCalculatedDetails.get(i).getDifficultyPerMinute();
+            }
+
+        }
+
+        int xCoord = 0;
+
+        float tempIntensity;
+        float tempWorkload;
+        float tempPower;
+        float tempDiffPerMin;
+        for (int i = allCalculatedDetails.size()-1 ; i >= 0 ; i--) {
+
+            tempIntensity = (allCalculatedDetails.get(i).getIntensity() - minIntensity) / maxIntensity;
+            tempWorkload = (allCalculatedDetails.get(i).getWorkload() - minWorkload) / maxWorkload;
+            tempPower = (allCalculatedDetails.get(i).getWorkoutPower() - minPower) / maxPower;
+            tempDiffPerMin = (allCalculatedDetails.get(i).getDifficultyPerMinute() - minDiffPerMin) / maxDiffPerMin;
+
+            entriesIntensity.add(new Entry(xCoord, tempIntensity ));
+            entriesWorkload.add(new Entry(xCoord, tempWorkload ));
+            entriesPower.add(new Entry(xCoord, tempPower));
+            entriesDiffPerMin.add(new Entry(xCoord, tempDiffPerMin ));
+            xCoord++;
+        }
+
+        String[] labels = new String[allCalculatedDetails.size()-1];
+        for (int i = 0 ; i < labels.length ; i++ ) {
+            labels[i] = "WO: " + (i+1);
+        }
+
+        ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
+
+        LineDataSet lineDataSetIntensity = new LineDataSet(entriesIntensity,"Intensinty");
+        lineDataSetIntensity.setColor(Color.RED);
+        LineDataSet lineDataSetWorkload = new LineDataSet(entriesWorkload,"Workload");
+        lineDataSetWorkload.setColors(Color.GREEN);
+        LineDataSet lineDataSetPower = new LineDataSet(entriesPower,"power");
+        lineDataSetPower.setColor(Color.BLUE);
+        LineDataSet lineDataSetDiffPerMin = new LineDataSet(entriesDiffPerMin,"Difficulty per min");
+        lineDataSetDiffPerMin.setColors(Color.BLACK);
+
+        lineDataSets.add(lineDataSetIntensity);
+        lineDataSets.add(lineDataSetWorkload);
+        lineDataSets.add(lineDataSetPower);
+        lineDataSets.add(lineDataSetDiffPerMin);
+
+        LineData lineData = new LineData(lineDataSets);
+
+        lineData.setValueTextSize(10f);
+        scaledLineChart.setData(lineData);
+
+        Description desc = new Description();
+        desc.setText("Scaled values");
+        scaledLineChart.setDescription(desc);
+
+        XAxis xAxis = scaledLineChart.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+
+        xAxis.setPosition(XAxis.XAxisPosition.TOP);
+
+        scaledLineChart.invalidate();
+        //workoutTUTandWTLineChart.animateX(1500);
 
     }
 
