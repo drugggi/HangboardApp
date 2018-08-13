@@ -7,7 +7,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -193,11 +192,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
         LinearRegression powerRegressionLine = new LinearRegression(x,y);
 
-        Log.e("test", powerRegressionLine.toString());
-        Log.e("test", " 1 " + powerRegressionLine.predict(1) + " 2 " + powerRegressionLine.predict(2));
-        Log.e("test", " slope " + powerRegressionLine.slope());
-       // powerRegressionLine.toString()
-
         linearRegressionEntries.add(new Entry(0,powerRegressionLine.predict(0)));
         linearRegressionEntries.add(new Entry(xCoord - 1,powerRegressionLine.predict(xCoord-1)));
 
@@ -212,7 +206,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         LineDataSet lineDataSetLR = new LineDataSet(linearRegressionEntries,"Linear Regression");
 
         lineDataSetLR.setDrawCircles(false);
-        lineDataSetLR.setValueTextSize(1f);
 
         lineDataSetTUT.setColor(Color.CYAN);
 
@@ -242,12 +235,24 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         averageDifficultyPerHang = (LineChart) findViewById(R.id.averageDifficultyPerHang);
 
         ArrayList<Entry> difficultyEntries = new ArrayList<>();
+        ArrayList<Entry> linearRegressionEntries = new ArrayList<>();
+
+        ArrayList<Float> y = new ArrayList<>();
+        ArrayList<Float> x = new ArrayList<>();
 
         int xCoord = 0;
         for (int i = allCalculatedDetails.size() -1 ; i >= 0 ; i-- ) {
             difficultyEntries.add(new Entry(xCoord,allCalculatedDetails.get(i).getAverageDifficutly() ));
             xCoord++;
+
+            y.add(allCalculatedDetails.get(i).getAverageDifficutly() );
+            x.add((float)xCoord);
         }
+
+        LinearRegression powerRegressionLine = new LinearRegression(x,y);
+
+        linearRegressionEntries.add(new Entry(0,powerRegressionLine.predict(0)));
+        linearRegressionEntries.add(new Entry(xCoord - 1,powerRegressionLine.predict(xCoord-1)));
 
         String[] labels = new String[allCalculatedDetails.size()-1];
         for (int i = 0 ; i < labels.length ; i++ ) {
@@ -257,9 +262,12 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
 
         LineDataSet lineDataSetTUT = new LineDataSet(difficultyEntries,"Average difficulty per hang");
+        LineDataSet lineDataSetLR = new LineDataSet(linearRegressionEntries,"Linear Regression");
+        lineDataSetLR.setDrawCircles(false);
         lineDataSetTUT.setColor(Color.YELLOW);
 
         lineDataSets.add(lineDataSetTUT);
+        lineDataSets.add(lineDataSetLR);
 
         LineData lineData = new LineData(lineDataSets);
 
@@ -721,22 +729,42 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
     public void createWorkoutIntensityLineChart() {
         workoutIntensityLineChart = (LineChart) findViewById(R.id.workoutIntensityChart);
-        List<Entry> entries = new ArrayList<Entry>();
+        List<Entry> intensityEntries = new ArrayList<Entry>();
+        ArrayList<Entry> linearRegressionEntries = new ArrayList<>();
 
-        float intensityPercent;
-        int xcoord = 1;
+        ArrayList<Float> y = new ArrayList<>();
+        ArrayList<Float> x = new ArrayList<>();
+
+        int xCoord = 0;
         for (int i = allCalculatedDetails.size() - 1  ; i >= 0 ; i--) {
+            intensityEntries.add(new Entry(xCoord,allCalculatedDetails.get(i).getIntensity()));
+            xCoord++;
 
-            intensityPercent = allCalculatedDetails.get(i).getIntensity();
-            entries.add(new Entry(xcoord,intensityPercent));
-            xcoord++;
+            x.add((float) xCoord );
+            y.add(allCalculatedDetails.get(i).getIntensity());
         }
 
-        LineDataSet linedataSet = new LineDataSet(entries, "Intensity per workout = workout time / time under tension");
-        linedataSet.setColor(Color.MAGENTA);
-        //linedataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+        LinearRegression intensityRegression = new LinearRegression(x,y);
 
-        LineData lineData = new LineData(linedataSet);
+        linearRegressionEntries.add(new Entry(0,intensityRegression.predict(0)));
+        linearRegressionEntries.add(new Entry(xCoord-1,intensityRegression.predict(xCoord-1)));
+
+        String[] labels = new String[allCalculatedDetails.size()-1];
+        for (int i = 0 ; i < labels.length ; i++ ) {
+            labels[i] = "WO: " + (i+1);
+        }
+
+        ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
+
+        LineDataSet lineDataIntensityRegression = new LineDataSet(linearRegressionEntries,"Linear Regression");
+        lineDataIntensityRegression.setDrawCircles(false);
+        LineDataSet linedataSetIntensity = new LineDataSet(intensityEntries, "Intensity (time under tension / workout time)");
+        linedataSetIntensity.setColor(Color.MAGENTA);
+
+        lineDataSets.add(linedataSetIntensity);
+        lineDataSets.add(lineDataIntensityRegression);
+
+        LineData lineData = new LineData(lineDataSets);
 
         lineData.setValueTextSize(12f);
         if (allCalculatedDetails.size() > 30) {
@@ -745,7 +773,18 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         }
 
         workoutIntensityLineChart.setData(lineData);
-        workoutIntensityLineChart.invalidate();
+
+        Description desc = new Description();
+        desc.setText("Workout number");
+        workoutIntensityLineChart.setDescription(desc);
+
+        XAxis xAxis = workoutIntensityLineChart.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
+
+      workoutIntensityLineChart.invalidate();
+
     }
 
 /*
