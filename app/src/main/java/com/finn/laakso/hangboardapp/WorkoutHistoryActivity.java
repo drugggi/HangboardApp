@@ -139,14 +139,14 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
            @Override
            public void onClick(View v) {
 
-               for (int i = 0 ; i < 10 ; i++) {
+
                    long rngTime = System.currentTimeMillis();
 
                    // Toast.makeText(WorkoutHistoryActivity.this, "PIILOTETAAN RANDOMILLA",(int) 10).show();
 
                    //TimeControls rngControls = getRandomTimeControls();
-                   //TimeControls rngControls = getRandomPremadeTimeControls();
-                   TimeControls rngControls = getTotallyRandomTimeControls();
+                   TimeControls rngControls = getRandomPremadeTimeControls();
+                   //TimeControls rngControls = getTotallyRandomTimeControls();
 
                    // Lets set up random hangboard so that holds are real and based on random grade
 
@@ -168,7 +168,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                            getCompletedRandomly(rngControls),
                            getRandomWorkoutDescription()
                    );
-               }
+
               // int pos = rng.nextInt(dbHandler.lookUpWorkoutCount());
                boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
                int pos = rng.nextInt(dbHandler.lookUpWorkoutCount(includeHidden));
@@ -200,26 +200,6 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                 workoutDetailsIntent.putExtra("com.finn.laakso.hangboardapp.ISHIDDEN",isHidden );
 
                 startActivity(workoutDetailsIntent);
-
-                /*
-                Toast.makeText(WorkoutHistoryActivity.this, "Sorting test ", Toast.LENGTH_SHORT).show();
-
-                Cursor cursor = dbHandler.getListContents();
-                Cursor sortedCursor = dbHandler.getSortedContents();
-
-                if ( cursor.moveToFirst() && sortedCursor.moveToFirst() ) {
-
-
-                    Long date1 = cursor.getLong(1);
-                    Long sortedDate = sortedCursor.getLong(1);
-
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
-
-                    Date resultdate = new Date(date1);
-                    Date sortedDate1 = new Date(sortedDate);
-
-                }
-                workoutAdapter.notifyDataSetChanged(); */
 
             }
         });

@@ -274,7 +274,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
 
         LineDataSet lineDataSetTUT = new LineDataSet(diffPerMinEntries,"Difficulty per min (avg D*60/TUT)");
-        lineDataSetTUT.setColor(Color.MAGENTA);
+        lineDataSetTUT.setColor(Color.RED);
 
         lineDataSets.add(lineDataSetTUT);
 
@@ -340,23 +340,19 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         scaledLineChart = (LineChart) findViewById(R.id.scaledLineChart);
 
         ArrayList<Entry> entriesIntensity = new ArrayList<>();
+        ArrayList<Entry> entriesAvgDifficulty = new ArrayList<>();
         ArrayList<Entry> entriesWorkload = new ArrayList<>();
         ArrayList<Entry> entriesPower = new ArrayList<>();
-        ArrayList<Entry> entriesDiffPerMin = new ArrayList<>();
+
 
         float minIntensity = Float.MAX_VALUE;
         float maxIntensity = 0;
+        float minAvgDifficulty = Float.MAX_VALUE;
+        float maxAvgDifficulty = 0;
         float minWorkload = Float.MAX_VALUE;
         float maxWorkload = 0;
         float minPower = Float.MAX_VALUE;
         float maxPower = 0;
-        float minDiffPerMin = Float.MAX_VALUE;
-        float maxDiffPerMin = 0;
-
-        //ArrayList<Float> tempIntensity = new ArrayList<>();
-        //ArrayList<Float> tempWorkload = new ArrayList<>();
-        //ArrayList<Float> tempPower = new ArrayList<>();
-        //ArrayList<Float> tempDiffPerMin = new ArrayList<>();
 
         for (int i = 0 ; i < allCalculatedDetails.size() ; i++) {
             if (minIntensity > allCalculatedDetails.get(i).getIntensity() ) {
@@ -364,6 +360,13 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
             }
             if (maxIntensity < allCalculatedDetails.get(i).getIntensity() ) {
                 maxIntensity = allCalculatedDetails.get(i).getIntensity();
+            }
+
+            if (minAvgDifficulty > allCalculatedDetails.get(i).getAverageDifficutly() ) {
+                minAvgDifficulty = allCalculatedDetails.get(i).getAverageDifficutly();
+            }
+            if (maxAvgDifficulty < allCalculatedDetails.get(i).getAverageDifficutly() ) {
+                maxAvgDifficulty = allCalculatedDetails.get(i).getAverageDifficutly();
             }
 
             if (minWorkload > allCalculatedDetails.get(i).getWorkload() ) {
@@ -380,32 +383,32 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
                 maxPower = allCalculatedDetails.get(i).getWorkoutPower();
             }
 
-            if (minDiffPerMin > allCalculatedDetails.get(i).getDifficultyPerMinute() ) {
-                minDiffPerMin = allCalculatedDetails.get(i).getDifficultyPerMinute();
-            }
-            if (maxDiffPerMin < allCalculatedDetails.get(i).getDifficultyPerMinute() ) {
-                maxDiffPerMin = allCalculatedDetails.get(i).getDifficultyPerMinute();
-            }
 
         }
+
+        maxIntensity = maxIntensity - minIntensity;
+        maxAvgDifficulty = maxAvgDifficulty - minAvgDifficulty;
+        maxWorkload = maxWorkload - minWorkload;
+        maxPower = maxPower - minPower;
 
         int xCoord = 0;
 
         float tempIntensity;
         float tempWorkload;
         float tempPower;
-        float tempDiffPerMin;
+        float tempAvgDifficulty;
         for (int i = allCalculatedDetails.size()-1 ; i >= 0 ; i--) {
 
             tempIntensity = (allCalculatedDetails.get(i).getIntensity() - minIntensity) / maxIntensity;
+            tempAvgDifficulty = (allCalculatedDetails.get(i).getAverageDifficutly() - minAvgDifficulty) / maxAvgDifficulty;
             tempWorkload = (allCalculatedDetails.get(i).getWorkload() - minWorkload) / maxWorkload;
             tempPower = (allCalculatedDetails.get(i).getWorkoutPower() - minPower) / maxPower;
-            tempDiffPerMin = (allCalculatedDetails.get(i).getDifficultyPerMinute() - minDiffPerMin) / maxDiffPerMin;
 
             entriesIntensity.add(new Entry(xCoord, tempIntensity ));
+            entriesAvgDifficulty.add(new Entry(xCoord, tempAvgDifficulty ));
             entriesWorkload.add(new Entry(xCoord, tempWorkload ));
             entriesPower.add(new Entry(xCoord, tempPower));
-            entriesDiffPerMin.add(new Entry(xCoord, tempDiffPerMin ));
+
             xCoord++;
         }
 
@@ -416,19 +419,21 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
         ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
 
-        LineDataSet lineDataSetIntensity = new LineDataSet(entriesIntensity,"Intensinty");
-        lineDataSetIntensity.setColor(Color.RED);
-        LineDataSet lineDataSetWorkload = new LineDataSet(entriesWorkload,"Workload");
-        lineDataSetWorkload.setColors(Color.GREEN);
-        LineDataSet lineDataSetPower = new LineDataSet(entriesPower,"power");
-        lineDataSetPower.setColor(Color.BLUE);
-        LineDataSet lineDataSetDiffPerMin = new LineDataSet(entriesDiffPerMin,"Difficulty per min");
-        lineDataSetDiffPerMin.setColors(Color.BLACK);
+        LineDataSet lineDataSetIntensity = new LineDataSet(entriesIntensity,"Intensity (TUT/WT)");
+        lineDataSetIntensity.setColor(Color.MAGENTA);
+        LineDataSet lineDataSetAvgDifficulty = new LineDataSet(entriesAvgDifficulty,"Average Difficulty (avg D)");
+        lineDataSetAvgDifficulty.setColors(Color.YELLOW);
+        LineDataSet lineDataSetWorkload = new LineDataSet(entriesWorkload,"total Workload(avg D*TUT)");
+        lineDataSetWorkload.setColors(Color.BLUE);
+        LineDataSet lineDataSetPower = new LineDataSet(entriesPower,"Workout power (avg D*TUT/WT)");
+        lineDataSetPower.setColor(Color.CYAN);
+
 
         lineDataSets.add(lineDataSetIntensity);
+        lineDataSets.add(lineDataSetAvgDifficulty);
         lineDataSets.add(lineDataSetWorkload);
         lineDataSets.add(lineDataSetPower);
-        lineDataSets.add(lineDataSetDiffPerMin);
+
 
         LineData lineData = new LineData(lineDataSets);
 
@@ -523,9 +528,9 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
             labels[i] = "WO: " + (i+1);
 
         }
-        float adjustment = 0;
-        float currentWorkload = 0;
-        int alpha = 0;
+        float adjustment;
+        float currentWorkload ;
+        int alpha;
         for (int i = allCalculatedDetails.size()-1 ; i >= 0 ; i--) {
             currentWorkload = allCalculatedDetails.get(i).getWorkload();
 
@@ -787,6 +792,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
         LineData lineData = new LineData(linedataSet);
 
+        lineData.setValueTextSize(12f);
         if (allCalculatedDetails.size() > 30) {
             lineData.setValueTextSize(0f);
 

@@ -421,7 +421,7 @@ public class MainActivity extends AppCompatActivity {
                 // Toast.makeText(MainActivity.this, "onprogresschaged durationSeekBar.getProgress():  " + durationSeekBar.getProgress(), Toast.LENGTH_LONG).show();
 
                 // If the progressBar is "TEST progress" we must sort the holds
-                if (durationSeekBar.getProgress() == 4) {
+                if (durationSeekBar.getProgress() == 7) {
                     everyBoard.sortHoldByDifficulty();
                     timeControls.setGripLaps((everyBoard.getCurrentHoldListSize()/2));
                 }

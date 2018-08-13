@@ -1,5 +1,7 @@
 package com.finn.laakso.hangboardapp;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 /**
@@ -90,8 +92,18 @@ public class CalculateWorkoutDetails {
 
         workload = averageDifficutly * adjustedTUT;
 
-        if (adjustedTUT != 0) {
-            difficultyPerMinute = averageDifficutly / adjustedTUT * 60;
+
+        if (adjustedWorkoutTime != 0) {
+            //difficultyPerMinute = averageDifficutly / adjustedTUT;
+            //difficultyPerMinute = averageDifficutly * adjustedTUT / adjustedWorkoutTime;
+            //difficultyPerMinute = averageDifficutly;
+            difficultyPerMinute = averageDifficutly / completedHangs;
+            float test1 = averageDifficutly * 60 / adjustedTUT;
+            float test2 = averageDifficutly * completedHangs * timeControls.getTimeON() / 60;
+            float test3 = averageDifficutly * adjustedTUT / 60;
+
+            Log.e("testit",": " + test1 + " , " + test2 + " , " + test3  );
+            difficultyPerMinute = 0;
         } else {
             difficultyPerMinute = 0;
         }
