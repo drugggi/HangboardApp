@@ -202,12 +202,15 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
         ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
 
-        LineDataSet lineDataSetTUT = new LineDataSet(workoutPowerEntries,"Workout power (avg D*TUT/WT)");
+        LineDataSet lineDataSetTUT = new LineDataSet(workoutPowerEntries,"Workout power (avg D*TUT/WT)\n");
         LineDataSet lineDataSetLR = new LineDataSet(linearRegressionEntries,"Linear Regression");
 
         lineDataSetLR.setDrawCircles(false);
-
+        lineDataSetLR.setColor(Color.CYAN);
         lineDataSetTUT.setColor(Color.CYAN);
+
+        lineDataSetLR.setLineWidth(3f);
+        lineDataSetTUT.setLineWidth(1f);
 
         lineDataSets.add(lineDataSetTUT);
         lineDataSets.add(lineDataSetLR);
@@ -265,6 +268,9 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         LineDataSet lineDataSetLR = new LineDataSet(linearRegressionEntries,"Linear Regression");
         lineDataSetLR.setDrawCircles(false);
         lineDataSetTUT.setColor(Color.YELLOW);
+        lineDataSetLR.setColor(Color.YELLOW);
+        lineDataSetTUT.setLineWidth(1f);
+        lineDataSetLR.setLineWidth(3f);
 
         lineDataSets.add(lineDataSetTUT);
         lineDataSets.add(lineDataSetLR);
@@ -389,6 +395,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
 
         LineData lineData = new LineData(lineDataSets);
+        lineData.setDrawValues(false);
 
 
         lineData.setValueTextSize(10f);
@@ -502,7 +509,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         totalWorkloadBarChart.setData(barData);
 
         Description desc = new Description();
-        desc.setText("Workout number");
+        desc.setText("Total workload for each workout (avg D*TUT)");
 
         totalWorkloadBarChart.setDescription(desc);
         XAxis xAxis = totalWorkloadBarChart.getXAxis();
@@ -562,15 +569,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
         for (int i = 0 ; i < dayDifferences.size()  ; i++) {
 
-            /*
-             int test = dayDifferences.get(i);
-
-            if (test < 0 || test >= labels.length) {
-                Log.e("ERROR: " , test + " vs. " + labels.length);
-                break;
-            }
-            */
-
             labels[dayDifferences.get(i)] = dateFormatTest.format(allDates.get(i));
             // Log.e(" labels i",i + " :  " + sdf.format(dates.get(i)));
         }
@@ -585,7 +583,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
         workoutDatesBarChart.invalidate();
-        workoutDatesBarChart.animateY(2000);
 
     }
     /*
@@ -695,8 +692,11 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         ArrayList<BarEntry> entries = new ArrayList<>();
         entries.add(new BarEntry(1,singleHangsAmount));
         entries.add(new BarEntry(2,repeatersAmount));
+        entries.add(new BarEntry(1,0));
+        entries.add(new BarEntry(2,0));
 
-        BarDataSet bardataset = new BarDataSet(entries,"Number of workouts" );
+        BarDataSet bardataset = new BarDataSet(entries," " );
+        bardataset.setLabel("Workouts done: " +(singleHangsAmount + repeatersAmount));
 
 
         bardataset.setColors(ColorTemplate.VORDIPLOM_COLORS);
@@ -705,8 +705,9 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         String[] labels = new String[3];
 
         labels[0] = " ";
-        labels[1] = "single hangs: " + singleHangsAmount;
-        labels[2] = "repeaters. " + repeatersAmount;
+        labels[1] = "Single hangs: " + singleHangsAmount;
+        labels[2] = "Repeaters: " + repeatersAmount;
+       // labels[3] = "total: " + (singleHangsAmount + repeatersAmount);
         BarData theData = new BarData(bardataset);
 
         Description desc = new Description();
@@ -723,7 +724,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         xAxis.setPosition(XAxis.XAxisPosition.TOP_INSIDE);
 
         singleHangsOrRepeatersBarChart.invalidate();
-        singleHangsOrRepeatersBarChart.animateY(1000);
+        singleHangsOrRepeatersBarChart.animateY(500);
 
     }
 
@@ -758,8 +759,12 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
         LineDataSet lineDataIntensityRegression = new LineDataSet(linearRegressionEntries,"Linear Regression");
         lineDataIntensityRegression.setDrawCircles(false);
+        lineDataIntensityRegression.setColors(Color.MAGENTA);
+        lineDataIntensityRegression.setLineWidth(3f);
         LineDataSet linedataSetIntensity = new LineDataSet(intensityEntries, "Intensity (time under tension / workout time)");
         linedataSetIntensity.setColor(Color.MAGENTA);
+        linedataSetIntensity.setLineWidth(1f);
+
 
         lineDataSets.add(linedataSetIntensity);
         lineDataSets.add(lineDataIntensityRegression);
@@ -918,6 +923,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
         difficultyBarChart.invalidate();
+        difficultyBarChart.animateY(3000);
 
 
     }
@@ -977,6 +983,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
         PieDataSet dataSet = new PieDataSet(yValues,"Hangboard distribution");
 
+
         dataSet.setSliceSpace(5f);
         dataSet.setSelectionShift(8f);
         //dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
@@ -988,6 +995,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         data.setValueTextColor(Color.BLUE);
 
         hangboardDistributionPieChart.setData(data);
+        hangboardDistributionPieChart.setHoleColor(android.R.color.darker_gray);
 
         // gripDistributionPieChart.animateY(1000);
         hangboardDistributionPieChart.setTransparentCircleRadius(35f);
@@ -1003,7 +1011,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
     public void createGripDistributionPieChart() {
         gripDistributionPieChart = (PieChart) findViewById(R.id.gripDistributionPieChart);
-        gripDistributionPieChart.setCenterText("Each grip type used in seconds");
+        gripDistributionPieChart.setCenterText("Each grip type used (seconds)");
 
         ArrayList<PieEntry> yValues = new ArrayList<>();
 
@@ -1079,22 +1087,27 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
             barColors.add(Color.argb(255,158,158,158));
         }
 
-        PieDataSet dataSet = new PieDataSet(yValues,"Grip distribution");
+        PieDataSet dataSet = new PieDataSet(yValues," ");
 
         dataSet.setSliceSpace(3f);
         dataSet.setSelectionShift(5f);
         //dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
         dataSet.setColors(barColors);
         PieData data = new PieData(dataSet);
+
         data.setValueTextSize(10f);
         data.setValueTextColor(Color.YELLOW);
         gripDistributionPieChart.setData(data);
         // gripDistributionPieChart.animateY(1000);
-
+        gripDistributionPieChart.setHoleColor(android.R.color.darker_gray);
         Description desc = new Description();
-        desc.setText("Grip distribution");
+        desc.setText("Grip distribution (seconds)");
+        //desc.setTextColor(Color.argb(255,104,159,56));
+        desc.setTextSize(15f);
 
+        gripDistributionPieChart.setDescription(desc);
         gripDistributionPieChart.invalidate();
+        gripDistributionPieChart.animateY(1500);
 
     }
 
