@@ -7,7 +7,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -26,6 +25,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.data.ScatterDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
@@ -58,7 +58,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
     private LineChart workoutIntensityLineChart;
     private LineChart workoutTUTandWTLineChart;
     private LineChart averageDifficultyPerHang;
-    private LineChart difficultyPerMinLineChart;
     private LineChart workoutPowerLineChart;
     private LineChart scaledLineChart;
 
@@ -148,7 +147,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
         protected void onPostExecute(Object objects) {
 
-            // Lets check that all arrays are the same size, a fatal error will occur
+            // Lets check that all arrays are the same size, or else a fatal error will occur
             if ((allDates.size() == allHangboards.size()) == (allTimeControls.size() ==
                     allWorkoutsHolds.size()) == (allCompletedHangs.size() == allCalculatedDetails.size()) ) {
 
@@ -163,8 +162,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
                 createHangboardDistributionPieChart();
                 createAverageDifficultyPerHangLineChart();
                 createTotalWorkloadBarChart();
-
-                createDifficultyPerMinLineChart();
+                //createDifficultyPerMinLineChart();
                 createWorkoutPowerLineChart();
                 createScaledLineChart();
 
@@ -252,47 +250,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         workoutPowerLineChart.invalidate();
 
 
-    }
-
-    public void createDifficultyPerMinLineChart() {
-        difficultyPerMinLineChart = (LineChart) findViewById(R.id.difficultyPerMinLineChart);
-
-        ArrayList<Entry> diffPerMinEntries = new ArrayList<>();
-
-        int xCoord = 0;
-        for (int i = allCalculatedDetails.size() -1 ; i >= 0 ; i-- ) {
-            diffPerMinEntries.add(new Entry(xCoord,allCalculatedDetails.get(i).getDifficultyPerMinute() ));
-            Log.e("dif per min","" + allCalculatedDetails.get(i).getDifficultyPerMinute() );
-            xCoord++;
-        }
-
-        String[] labels = new String[allCalculatedDetails.size()-1];
-        for (int i = 0 ; i < labels.length ; i++ ) {
-            labels[i] = "WO: " + (i+1);
-        }
-
-        ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
-
-        LineDataSet lineDataSetTUT = new LineDataSet(diffPerMinEntries,"Difficulty per min (avg D*60/TUT)");
-        lineDataSetTUT.setColor(Color.RED);
-
-        lineDataSets.add(lineDataSetTUT);
-
-        LineData lineData = new LineData(lineDataSets);
-
-        lineData.setValueTextSize(10f);
-        difficultyPerMinLineChart.setData(lineData);
-
-        Description desc = new Description();
-        desc.setText("Workout number");
-        difficultyPerMinLineChart.setDescription(desc);
-
-        XAxis xAxis = difficultyPerMinLineChart.getXAxis();
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
-
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
-
-        difficultyPerMinLineChart.invalidate();
     }
 
     public void createAverageDifficultyPerHangLineChart() {
@@ -419,6 +376,8 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
         ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
 
+        ScatterDataSet test = new ScatterDataSet(entriesAvgDifficulty,"test");
+
         LineDataSet lineDataSetIntensity = new LineDataSet(entriesIntensity,"Intensity (TUT/WT)");
         lineDataSetIntensity.setColor(Color.MAGENTA);
         LineDataSet lineDataSetAvgDifficulty = new LineDataSet(entriesAvgDifficulty,"Average Difficulty (avg D)");
@@ -428,14 +387,16 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         LineDataSet lineDataSetPower = new LineDataSet(entriesPower,"Workout power (avg D*TUT/WT)");
         lineDataSetPower.setColor(Color.CYAN);
 
-
+        //lineDataSetAvgDifficulty.setLineWidth(-1000f);
         lineDataSets.add(lineDataSetIntensity);
         lineDataSets.add(lineDataSetAvgDifficulty);
         lineDataSets.add(lineDataSetWorkload);
         lineDataSets.add(lineDataSetPower);
 
 
+
         LineData lineData = new LineData(lineDataSets);
+
 
         lineData.setValueTextSize(10f);
         scaledLineChart.setData(lineData);
