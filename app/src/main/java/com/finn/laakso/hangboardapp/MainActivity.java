@@ -84,6 +84,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setTitle("  Grips & Grades");
+        actionBar.setLogo(R.drawable.gripgrading48x);
+        actionBar.setDisplayUseLogoEnabled(true);
+
         setContentView(R.layout.activity_main);
 
         leftFingerImage = (ImageView) findViewById(R.id.leftFingerImageView);

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Hangboard App</string>
+    <string name="app_name">Grips and Grades</string>
 
     <integer-array name="bm1000_coordinates">
         <!--                        LEFT  HAND                          RIGHT   HAND      -->
