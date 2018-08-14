@@ -80,7 +80,7 @@ public class CalculateWorkoutDetails {
         if (adjustedWorkoutTime != 0) {
             intensity = (float) adjustedTUT / adjustedWorkoutTime;
         } else {
-            intensity = -1;
+            intensity = 0;
         }
 
         if (completedHangs != 0) {

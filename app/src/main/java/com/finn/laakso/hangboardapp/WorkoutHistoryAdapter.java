@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by Laakso on 5.6.2018.
@@ -70,90 +70,28 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
         TextView workoutDescriptionTextView = (TextView) v.findViewById(R.id.workoutDescriptionTextView);
         TextView workoutNumberTextView = (TextView) v.findViewById(R.id.workoutNumberTextView);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+        String workoutDescrption = dbHandler.lookUpWorkoutDescription(position,showHidden);;
 
-        Date resultdate;
-       // Date resultdate = new Date(db.lookUpDate(position,true));
+        DateFormat dateFormat = SimpleDateFormat.getDateInstance();
 
-        //String board = db.lookUpHangboard(position) + "\n" + sdf.format(resultdate);
-        //String hold = " Workout time: " + db.lookUpTimeControls(position).getTotalTime() + "s";
-        //String grade = "TUT: " + db.lookUpTimeControls(position).getTimeUnderTension() + "s";
-        //Log.e("non hidden"," " + db.lookUpWorkoutCount());
-        // Log.e("All"," " + db.lookUpUnHiddenWorkoutCount());
+        long workoutTimeMillis = dbHandler.lookUpDate(position,showHidden);
+        String hangboard = dbHandler.lookUpHangboard(position,showHidden);
+        String workoutDate = hangboard + "\n" + dateFormat.format(workoutTimeMillis);
 
-        String workoutDate = "fail workout date";
-        String workoutTime = "fail workout time";
-        String workoutDescrption = "Fail desc:";
 
-        TimeControls timeControls = new TimeControls();
+        String workoutNumber = "" + (this.getCount() - position + 1);
 
-     //   Log.e("WO adapter","show hidden value: " + showHidden);
-/*
-        if (showHidden) {
-            dbCursor = db.getHiddenContents();
-        }
+        String workoutTime;
+        TimeControls timeControls = dbHandler.lookUpTimeControls(position,showHidden);
+        if (timeControls.getHangLaps() == 1) {
+                workoutTime = "Single hangs\n";
+            }
         else {
-            dbCursor = db.getNonHiddenContents();
-        }
-*/
-
-
-            String workoutNumber = "" + (this.getCount() - position + 1);
-            resultdate = new Date(dbHandler.lookUpDate(position,showHidden) );
-            String hangboard = dbHandler.lookUpHangboard(position,showHidden);
-            workoutDate = hangboard + "\n" + sdf.format(resultdate);
-
-            timeControls = dbHandler.lookUpTimeControls(position,showHidden);
-
-            if (timeControls.getHangLaps() == 1) {
-                workoutTime = "Single hangs\n";
-            }
-            else {
                 workoutTime = "Repeaters\n";
             }
 
-            workoutTime += "Time: " + timeControls.getTotalTime()/60 + "min\n" +
+        workoutTime += "Time: " + timeControls.getTotalTime()/60 + "min\n" +
                     "TUT: " +  timeControls.getTimeUnderTension()/60+"min";
-
-            workoutDescrption = dbHandler.lookUpWorkoutDescription(position,showHidden);
-
-
-        /*
-        if (dbCursor.move(position)) {
-            resultdate = new Date(dbCursor.getLong(1));
-            workoutDate = dbCursor.getString(2) + "\n" + sdf.format(resultdate);
-
-                timeControls.setGripLaps(dbCursor.getInt(6));
-                timeControls.setHangLaps(dbCursor.getInt(7));
-                timeControls.setTimeON(dbCursor.getInt(8));
-                timeControls.setTimeOFF(dbCursor.getInt(9));
-                timeControls.setRoutineLaps(dbCursor.getInt(10));
-                timeControls.setRestTime(dbCursor.getInt(11));
-                timeControls.setLongRestTime(dbCursor.getInt(12));
-
-            if (timeControls.getHangLaps() == 1) {
-                workoutTime = "Single hangs\n";
-            }
-            else {
-                workoutTime = "Repeaters\n";
-            }
-
-            workoutTime += "Time: " + timeControls.getTotalTime()/60 + "min\n" +
-                    "TUT: " +  timeControls.getTimeUnderTension()/60+"min";
-
-
-
-            workoutDescrption =  dbCursor.getString(15);
-        }*/
-/*
-        String pooltest = "NO hidden";
-
-        if (db.lookUpIsHidden(position)) {
-            pooltest = "YES hidden";
-            boardTextView.setText("");
-            holdsTextView.setText("");
-            workoutTextView.setText("");
-            return v; }*/
 
 
         if (dbHandler.lookUpIsHidden(position, showHidden) ) {

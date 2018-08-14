@@ -3,11 +3,8 @@ package com.finn.laakso.hangboardapp;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -94,6 +91,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
         new RetrieveDataFromDatabase().execute();
 
+        /*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,13 +103,12 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
             }
         });
-
+*/
     }
 
 
     private class RetrieveDataFromDatabase extends AsyncTask {
         protected void onPreExecute() {
-
 
         }
 
@@ -165,12 +162,9 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
                 createScaledLineChart();
                 createHangboardDistributionPieChart();
 
-
-
             }
 
         }
-
 
     }
 
@@ -548,12 +542,16 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
         LineDataSet lineDataSetIntensity = new LineDataSet(entriesIntensity,"Intensity (TUT/WT)");
         lineDataSetIntensity.setColor(Color.MAGENTA);
+        lineDataSetIntensity.setDrawCircles(false);
         LineDataSet lineDataSetAvgDifficulty = new LineDataSet(entriesAvgDifficulty,"Average Difficulty (avg D)");
         lineDataSetAvgDifficulty.setColors(Color.YELLOW);
+        lineDataSetAvgDifficulty.setDrawCircles(false);
         LineDataSet lineDataSetWorkload = new LineDataSet(entriesWorkload,"total Workload(avg D*TUT)");
         lineDataSetWorkload.setColors(Color.BLUE);
+        lineDataSetWorkload.setDrawCircles(false);
         LineDataSet lineDataSetPower = new LineDataSet(entriesPower,"Workout power (avg D*TUT/WT)");
         lineDataSetPower.setColor(Color.CYAN);
+        lineDataSetPower.setDrawCircles(false);
 
         //lineDataSetAvgDifficulty.setLineWidth(-1000f);
         lineDataSets.add(lineDataSetIntensity);
@@ -567,11 +565,12 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         lineData.setDrawValues(false);
 
 
+
         lineData.setValueTextSize(10f);
         scaledLineChart.setData(lineData);
 
         Description desc = new Description();
-        desc.setText("Scaled values");
+        desc.setText("Important workout parameters scaled between 0-1");
         scaledLineChart.setDescription(desc);
 
         XAxis xAxis = scaledLineChart.getXAxis();
@@ -1084,6 +1083,10 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
        int averageDifficulty = 0;
        int averageWorkload = 0;
        int totalDifficultiesSum = 0;
+       int averagePower = 0;
+
+       long firstWorkout = allDates.get(allDates.size() - 1);
+       long lastWorkout = allDates.get(0);
 
        for (int i = 0; i < allCalculatedDetails.size() ; i++) {
            totalHangs += allCalculatedDetails.get(i).getTotalHangs();
@@ -1100,6 +1103,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
            averageDifficulty += allCalculatedDetails.get(i).getDifficultiesSum();
            averageWorkload += allCalculatedDetails.get(i).getWorkload();
+           averagePower += allCalculatedDetails.get(i).getWorkoutPower();
 
            totalDifficultiesSum += allCalculatedDetails.get(i).getDifficultiesSum();
        }
@@ -1124,6 +1128,11 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
        workoutsInfoTextView.setText(workoutsInfo.toString() );
 
        averageIntensity = averageIntensity / totalWorkoutsDone;
+       averagePower = averagePower / totalWorkoutsDone;
+
+       DateFormat dateFormat = SimpleDateFormat.getDateInstance();
+       String firstDate = dateFormat.format(allDates.get(allDates.size()-1 ));
+       String lastDate = dateFormat.format(allDates.get(0));
 
        if (totalCompletedHangs != 0) {
            averageWorkload = totalDifficultiesSum / totalCompletedHangs;
@@ -1132,11 +1141,10 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
        generalInfo.append("Average intensity: ").append(String.format(java.util.Locale.US,"%.3f",averageIntensity)).append("\n");
        generalInfo.append("Average difficulty per workout: ").append(averageDifficulty).append("\n");
        generalInfo.append("Average workload per workout: ").append(averageWorkload).append("\n");
-       generalInfo.append("Average difficulty per minute: ").append("\n");
-       generalInfo.append("Average workout power: ").append("\n");
-       generalInfo.append("First workout date: ").append("\n");
-       generalInfo.append("Average workouts per week: ").append("\n");
-
+       generalInfo.append("Average workout power: ").append(averagePower).append("\n");
+       generalInfo.append("First workout: ").append(firstDate).append("\n");
+       generalInfo.append("Last workout: ").append(lastDate).append("\n");
+       // generalInfo.append("Average workouts per week: ").append("\n");
 
        generalInfoTextView.setText(generalInfo.toString() );
 

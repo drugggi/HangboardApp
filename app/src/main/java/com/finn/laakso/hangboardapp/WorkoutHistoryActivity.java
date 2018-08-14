@@ -170,10 +170,11 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                    );
 
               // int pos = rng.nextInt(dbHandler.lookUpWorkoutCount());
+               /*
                boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
                int pos = rng.nextInt(dbHandler.lookUpWorkoutCount(includeHidden));
                dbHandler.hideWorkoutNumber(pos,includeHidden);
-
+*/
                 workoutAdapter.notifyDataSetChanged();
            }
        });
