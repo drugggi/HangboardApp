@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -19,6 +20,7 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -42,6 +44,8 @@ import java.util.TreeMap;
 public class WorkoutStatisticsActivity extends AppCompatActivity {
 
     private MyDBHandler dbHandler;
+
+    private CombinedChart totalWorkloadCombinedChart;
 
     private TextView workoutsInfoTextView;
     private TextView generalInfoTextView;
@@ -87,10 +91,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         }
 
         dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
-
-
-        // generalInfoTextView = (TextView) findViewById(R.id.generalInfoTextView);
-
 
         new RetrieveDataFromDatabase().execute();
 
@@ -157,14 +157,15 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
                 createDifficultyBarChart();
                 createWorkoutDatesBarChart();
                 createWorkoutTUTandWTLineChart();
-
                 createWorkoutIntensityLineChart();
                 createAverageDifficultyPerHangLineChart();
-                createTotalWorkloadBarChart();
-                //createDifficultyPerMinLineChart();
+                // createTotalWorkloadBarChart();
+                createTotalWorkloadCombinedChart();
                 createWorkoutPowerLineChart();
                 createScaledLineChart();
                 createHangboardDistributionPieChart();
+
+
 
             }
 
@@ -172,6 +173,92 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
 
     }
+
+    public void createTotalWorkloadCombinedChart() {
+        totalWorkloadCombinedChart = (CombinedChart) findViewById(R.id.totalWorkloadCombinedChart);
+
+        totalWorkloadCombinedChart.getDescription().setText("Total workload for each workout (avg D*TUT)");
+        totalWorkloadCombinedChart.setDrawOrder(new CombinedChart.DrawOrder[]{
+                CombinedChart.DrawOrder.BAR,  CombinedChart.DrawOrder.LINE
+        });
+
+        ArrayList<BarEntry> workloadEntries = new ArrayList<>();
+        ArrayList<Integer> barColors = new ArrayList<Integer>();
+
+        ArrayList<Entry> linearRegressionEntries = new ArrayList<>();
+
+        ArrayList<Float> y = new ArrayList<>();
+        ArrayList<Float> x = new ArrayList<>();
+
+        int xCoord = 0;
+        float maxValue = 0;
+        for (int i = allCalculatedDetails.size()-1 ; i >= 0 ; i--) {
+
+            workloadEntries.add(new BarEntry(xCoord,allCalculatedDetails.get(i).getWorkload() ) );
+            if (maxValue < allCalculatedDetails.get(i).getWorkload() ) {
+                maxValue = allCalculatedDetails.get(i).getWorkload();
+            }
+            xCoord++;
+            x.add((float) xCoord );
+            y.add(allCalculatedDetails.get(i).getWorkload() );
+
+        }
+
+        LinearRegression workloadRegression = new LinearRegression(x,y);
+
+        linearRegressionEntries.add(new Entry(0,workloadRegression.predict(0)));
+        linearRegressionEntries.add(new Entry(xCoord-1,workloadRegression.predict(xCoord-1)));
+
+        String[] labels = new String[allCalculatedDetails.size()-1];
+        for (int i = 0 ; i < labels.length ; i++ ) {
+            labels[i] = "WO: " + (i+1);
+
+        }
+        float adjustment;
+        float currentWorkload ;
+        int alpha;
+        for (int i = allCalculatedDetails.size()-1 ; i >= 0 ; i--) {
+            currentWorkload = allCalculatedDetails.get(i).getWorkload();
+
+            adjustment = 200*currentWorkload / maxValue;
+            alpha = (int) adjustment;
+            barColors.add(Color.argb(50+alpha,0,0,200));
+        }
+
+        String regressionLabel = "Progression line: positive";
+        if (workloadRegression.slope() < 0) {
+            regressionLabel = "Progression line: negative";
+        }
+
+        LineDataSet lineDataSet = new LineDataSet(linearRegressionEntries,regressionLabel);
+        lineDataSet.setLineWidth(1f);
+        lineDataSet.setDrawCircles(false);
+        lineDataSet.setValueTextSize(0f);
+        lineDataSet.setColor(Color.BLUE);
+        BarDataSet barDataSet = new BarDataSet(workloadEntries,"Workload");
+
+        barDataSet.setColors(barColors);
+
+        LineData lineData = new LineData(lineDataSet);
+        BarData barData = new BarData(barDataSet);
+
+        CombinedData data = new CombinedData();
+
+        //data.setData( generateLineData());
+        data.setData(barData);
+        data.setData(lineData);
+        //xAxis.setAxisMaximum(data.getXMax() + 0.25f);
+
+        XAxis xAxis = totalWorkloadCombinedChart.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+        xAxis.setGranularity(1f);
+        //xAxis.setGranularityEnabled(true);
+        xAxis.setPosition(XAxis.XAxisPosition.TOP);
+
+        totalWorkloadCombinedChart.setData(data);
+        totalWorkloadCombinedChart.invalidate();
+    }
+
 
     public void createWorkoutIntensityLineChart() {
         workoutIntensityLineChart = (LineChart) findViewById(R.id.workoutIntensityChart);
@@ -200,12 +287,18 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
             labels[i] = "WO: " + (i+1);
         }
 
+        String slope = "positive";
+        if ( intensityRegression.slope() < 0 ) {
+            slope = "negative";
+        }
+
         ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
 
-        LineDataSet lineDataIntensityRegression = new LineDataSet(linearRegressionEntries,"Linear Regression");
+        LineDataSet lineDataIntensityRegression = new LineDataSet(linearRegressionEntries,"progression line: " + slope);
         lineDataIntensityRegression.setDrawCircles(false);
         lineDataIntensityRegression.setColors(Color.MAGENTA);
         lineDataIntensityRegression.setLineWidth(1f);
+        lineDataIntensityRegression.setValueTextSize(0f);
         LineDataSet linedataSetIntensity = new LineDataSet(intensityEntries, "Intensity (time under tension / workout time)");
         linedataSetIntensity.setColor(Color.MAGENTA);
         linedataSetIntensity.setLineWidth(2f);
@@ -237,67 +330,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
     }
 
-    private void createWorkoutPowerLineChart() {
-        workoutPowerLineChart = (LineChart) findViewById(R.id.workoutPowerLineChart);
-
-        ArrayList<Entry> workoutPowerEntries = new ArrayList<>();
-        ArrayList<Entry> linearRegressionEntries = new ArrayList<>();
-
-        ArrayList<Float> y = new ArrayList<>();
-        ArrayList<Float> x = new ArrayList<>();
-
-        int xCoord = 0;
-        for (int i = allCalculatedDetails.size() -1 ; i >= 0 ; i-- ) {
-            workoutPowerEntries.add(new Entry(xCoord,allCalculatedDetails.get(i).getWorkoutPower() ));
-            xCoord++;
-            y.add(allCalculatedDetails.get(i).getWorkoutPower());
-            x.add((float)xCoord);
-        }
-
-        LinearRegression powerRegressionLine = new LinearRegression(x,y);
-
-        linearRegressionEntries.add(new Entry(0,powerRegressionLine.predict(0)));
-        linearRegressionEntries.add(new Entry(xCoord - 1,powerRegressionLine.predict(xCoord-1)));
-
-        String[] labels = new String[allCalculatedDetails.size()-1];
-        for (int i = 0 ; i < labels.length ; i++ ) {
-            labels[i] = "WO: " + (i+1);
-        }
-
-        ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
-
-        LineDataSet lineDataSetTUT = new LineDataSet(workoutPowerEntries,"Workout power (avg D*TUT/WT)\n");
-        LineDataSet lineDataSetLR = new LineDataSet(linearRegressionEntries,"Linear Regression");
-
-        lineDataSetLR.setDrawCircles(false);
-        lineDataSetLR.setColor(Color.CYAN);
-        lineDataSetTUT.setColor(Color.CYAN);
-
-        lineDataSetLR.setLineWidth(1f);
-        lineDataSetTUT.setLineWidth(2f);
-
-        lineDataSets.add(lineDataSetTUT);
-        lineDataSets.add(lineDataSetLR);
-
-        LineData lineData = new LineData(lineDataSets);
-
-        lineData.setValueTextSize(10f);
-        workoutPowerLineChart.setData(lineData);
-
-        Description desc = new Description();
-        desc.setText("Workout number");
-        workoutPowerLineChart.setDescription(desc);
-
-        XAxis xAxis = workoutPowerLineChart.getXAxis();
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
-
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
-
-        workoutPowerLineChart.invalidate();
-
-
-    }
-
     public void createAverageDifficultyPerHangLineChart() {
         averageDifficultyPerHang = (LineChart) findViewById(R.id.averageDifficultyPerHang);
 
@@ -326,15 +358,21 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
             labels[i] = "WO: " + (i+1);
         }
 
+        String slope = "positive";
+        if (powerRegressionLine.slope() < 0) {
+            slope = "negative";
+        }
+
         ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
 
         LineDataSet lineDataSetTUT = new LineDataSet(difficultyEntries,"Average difficulty per hang");
-        LineDataSet lineDataSetLR = new LineDataSet(linearRegressionEntries,"Linear Regression");
+        LineDataSet lineDataSetLR = new LineDataSet(linearRegressionEntries,"Progression line: " + slope);
         lineDataSetLR.setDrawCircles(false);
         lineDataSetTUT.setColor(Color.YELLOW);
         lineDataSetLR.setColor(Color.YELLOW);
         lineDataSetTUT.setLineWidth(2f);
         lineDataSetLR.setLineWidth(1f);
+        lineDataSetLR.setValueTextSize(0f);
 
         lineDataSets.add(lineDataSetTUT);
         lineDataSets.add(lineDataSetLR);
@@ -354,6 +392,73 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
 
         averageDifficultyPerHang.invalidate();
+
+    }
+
+    private void createWorkoutPowerLineChart() {
+        workoutPowerLineChart = (LineChart) findViewById(R.id.workoutPowerLineChart);
+
+        ArrayList<Entry> workoutPowerEntries = new ArrayList<>();
+        ArrayList<Entry> linearRegressionEntries = new ArrayList<>();
+
+        ArrayList<Float> y = new ArrayList<>();
+        ArrayList<Float> x = new ArrayList<>();
+
+        int xCoord = 0;
+        for (int i = allCalculatedDetails.size() -1 ; i >= 0 ; i-- ) {
+            workoutPowerEntries.add(new Entry(xCoord,allCalculatedDetails.get(i).getWorkoutPower() ));
+            xCoord++;
+            y.add(allCalculatedDetails.get(i).getWorkoutPower());
+            x.add((float)xCoord);
+        }
+
+        LinearRegression powerRegressionLine = new LinearRegression(x,y);
+
+        linearRegressionEntries.add(new Entry(0,powerRegressionLine.predict(0)));
+        linearRegressionEntries.add(new Entry(xCoord - 1,powerRegressionLine.predict(xCoord-1)));
+
+        String[] labels = new String[allCalculatedDetails.size()-1];
+        for (int i = 0 ; i < labels.length ; i++ ) {
+            labels[i] = "WO: " + (i+1);
+        }
+
+        String regressionLabel = "Progression line: positive";
+        if (powerRegressionLine.slope() < 0 ) {
+            regressionLabel = "Progression line: negative";
+        }
+
+        ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
+
+        LineDataSet lineDataSetTUT = new LineDataSet(workoutPowerEntries,"Workout power (avg D*TUT/WT)");
+        LineDataSet lineDataSetLR = new LineDataSet(linearRegressionEntries,regressionLabel);
+        lineDataSetLR.setValueTextSize(0f);
+
+        lineDataSetLR.setDrawCircles(false);
+        lineDataSetLR.setColor(Color.CYAN);
+        lineDataSetTUT.setColor(Color.CYAN);
+
+        lineDataSetLR.setLineWidth(1f);
+        lineDataSetTUT.setLineWidth(2f);
+
+        lineDataSets.add(lineDataSetTUT);
+        lineDataSets.add(lineDataSetLR);
+
+        LineData lineData = new LineData(lineDataSets);
+
+        lineData.setValueTextSize(10f);
+        workoutPowerLineChart.setData(lineData);
+
+        Description desc = new Description();
+        desc.setText("Workout number");
+        workoutPowerLineChart.setDescription(desc);
+
+        XAxis xAxis = workoutPowerLineChart.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
+
+        workoutPowerLineChart.invalidate();
+
 
     }
 
@@ -529,7 +634,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
 
     }
-
+/*
     public void createTotalWorkloadBarChart() {
         totalWorkloadBarChart = (BarChart) findViewById(R.id.totalWorkloadBarChart);
 
@@ -587,7 +692,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
 
     }
-
+*/
     public void createWorkoutDatesBarChart() {
         workoutDatesBarChart = (BarChart) findViewById(R.id.workoutDatesBarChart);
 
@@ -687,10 +792,11 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
        // labels[3] = "total: " + (singleHangsAmount + repeatersAmount);
         BarData theData = new BarData(bardataset);
 
+        theData.setValueTextSize(0f);
+
         Description desc = new Description();
         desc.setText(" ");
 
-        //singleHangsOrRepeatersBarChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
         singleHangsOrRepeatersBarChart.setData(theData);
         singleHangsOrRepeatersBarChart.setDescription(desc);
 
@@ -749,22 +855,24 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
 
         }
+
+        // Calculate different for every difficulty level from easiest to hardest
         ArrayList<Integer> barColors = new ArrayList<Integer>();
-        int increment = 200/difficultyMap.size();
-        int alpha = 0;
+        int color_increment = 200/difficultyMap.size();
+        int alpha = 50;
         for(Map.Entry<Integer,Integer> entry: difficultyMap.entrySet()) {
             int key = entry.getKey();
             int value = entry.getValue();
 
             if ( value == 0) {continue;} // custom hold
-            alpha += increment;
-            barColors.add(Color.argb(50+alpha,200,0,0));
+            alpha += color_increment;
+            barColors.add(Color.argb(alpha,200,0,0));
             entries.add(new BarEntry(key,value));
-            // Log.e("test","increment: " + alpha);
+
         }
 
         BarDataSet dataset = new BarDataSet(entries,"Difficulty");
-        //dataset.setLabel("TEST LABEL");
+
         dataset.setValueTextSize(0f);
 
         dataset.setBarBorderWidth(1f);

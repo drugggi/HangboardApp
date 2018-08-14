@@ -55,12 +55,16 @@
             android:layout_width="match_parent"
             android:layout_height="400dp" />
 
-
+        <com.github.mikephil.charting.charts.CombinedChart
+            android:id="@+id/totalWorkloadCombinedChart"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"/>
+        <!--
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/totalWorkloadBarChart"
             android:layout_width="match_parent"
             android:layout_height="400dp"/>
-
+        -->
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/scaledLineChart"
             android:layout_width="match_parent"
