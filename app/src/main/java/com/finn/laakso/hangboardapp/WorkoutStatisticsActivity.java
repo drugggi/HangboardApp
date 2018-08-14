@@ -153,23 +153,87 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
                 createWorkoutsInfoTextViews();
 
                 createSingleHangsOrRepeatersBarChart();
-                createWorkoutTUTandWTLineChart();
-                createWorkoutIntensityLineChart();
-                createWorkoutDatesBarChart();
-                createDifficultyBarChart();
                 createGripDistributionPieChart();
-                createHangboardDistributionPieChart();
+                createDifficultyBarChart();
+                createWorkoutDatesBarChart();
+                createWorkoutTUTandWTLineChart();
+
+                createWorkoutIntensityLineChart();
                 createAverageDifficultyPerHangLineChart();
                 createTotalWorkloadBarChart();
                 //createDifficultyPerMinLineChart();
                 createWorkoutPowerLineChart();
                 createScaledLineChart();
-
+                createHangboardDistributionPieChart();
 
             }
 
         }
 
+
+    }
+
+    public void createWorkoutIntensityLineChart() {
+        workoutIntensityLineChart = (LineChart) findViewById(R.id.workoutIntensityChart);
+        List<Entry> intensityEntries = new ArrayList<Entry>();
+        ArrayList<Entry> linearRegressionEntries = new ArrayList<>();
+
+        ArrayList<Float> y = new ArrayList<>();
+        ArrayList<Float> x = new ArrayList<>();
+
+        int xCoord = 0;
+        for (int i = allCalculatedDetails.size() - 1  ; i >= 0 ; i--) {
+            intensityEntries.add(new Entry(xCoord,allCalculatedDetails.get(i).getIntensity()));
+            xCoord++;
+
+            x.add((float) xCoord );
+            y.add(allCalculatedDetails.get(i).getIntensity());
+        }
+
+        LinearRegression intensityRegression = new LinearRegression(x,y);
+
+        linearRegressionEntries.add(new Entry(0,intensityRegression.predict(0)));
+        linearRegressionEntries.add(new Entry(xCoord-1,intensityRegression.predict(xCoord-1)));
+
+        String[] labels = new String[allCalculatedDetails.size()-1];
+        for (int i = 0 ; i < labels.length ; i++ ) {
+            labels[i] = "WO: " + (i+1);
+        }
+
+        ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
+
+        LineDataSet lineDataIntensityRegression = new LineDataSet(linearRegressionEntries,"Linear Regression");
+        lineDataIntensityRegression.setDrawCircles(false);
+        lineDataIntensityRegression.setColors(Color.MAGENTA);
+        lineDataIntensityRegression.setLineWidth(1f);
+        LineDataSet linedataSetIntensity = new LineDataSet(intensityEntries, "Intensity (time under tension / workout time)");
+        linedataSetIntensity.setColor(Color.MAGENTA);
+        linedataSetIntensity.setLineWidth(2f);
+
+
+        lineDataSets.add(linedataSetIntensity);
+        lineDataSets.add(lineDataIntensityRegression);
+
+        LineData lineData = new LineData(lineDataSets);
+
+        lineData.setValueTextSize(12f);
+        if (allCalculatedDetails.size() > 30) {
+            lineData.setValueTextSize(0f);
+
+        }
+
+        workoutIntensityLineChart.setData(lineData);
+
+        Description desc = new Description();
+        desc.setText("Workout number");
+        workoutIntensityLineChart.setDescription(desc);
+
+        XAxis xAxis = workoutIntensityLineChart.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
+
+        workoutIntensityLineChart.invalidate();
 
     }
 
@@ -209,8 +273,8 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         lineDataSetLR.setColor(Color.CYAN);
         lineDataSetTUT.setColor(Color.CYAN);
 
-        lineDataSetLR.setLineWidth(3f);
-        lineDataSetTUT.setLineWidth(1f);
+        lineDataSetLR.setLineWidth(1f);
+        lineDataSetTUT.setLineWidth(2f);
 
         lineDataSets.add(lineDataSetTUT);
         lineDataSets.add(lineDataSetLR);
@@ -269,8 +333,8 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         lineDataSetLR.setDrawCircles(false);
         lineDataSetTUT.setColor(Color.YELLOW);
         lineDataSetLR.setColor(Color.YELLOW);
-        lineDataSetTUT.setLineWidth(1f);
-        lineDataSetLR.setLineWidth(3f);
+        lineDataSetTUT.setLineWidth(2f);
+        lineDataSetLR.setLineWidth(1f);
 
         lineDataSets.add(lineDataSetTUT);
         lineDataSets.add(lineDataSetLR);
@@ -585,93 +649,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         workoutDatesBarChart.invalidate();
 
     }
-    /*
-
-    public void createRandomBarGraph(String stringDate1, String stringDate2) {
-
-        workoutDatesBarChart = (BarChart) findViewById(R.id.workoutDatesBarChart);
-
-        Random rng = new Random();
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
-        ArrayList<BarEntry> barEntries = new ArrayList<>();
-        try {
-            Date date1 = simpleDateFormat.parse(stringDate1);
-            Date date2 = simpleDateFormat.parse(stringDate2);
-
-            Calendar mDate1 = Calendar.getInstance();
-            Calendar mDate2 = Calendar.getInstance();
-            mDate1.clear();
-            mDate2.clear();
-
-            mDate1.setTime(date1);
-            mDate2.setTime(date2);
-
-            stringDates = new ArrayList<>();
-            stringDates  = getList(mDate1,mDate2);
-
-            float max = 0f;
-            float value = 0f;
-            for (int j = 0; j < stringDates.size() ; j++ ) {
-                max = 100f;
-                value = rng.nextFloat()*max;
-                barEntries.add(new BarEntry(j,value));
-            }
-
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        BarDataSet barDataSet = new BarDataSet(barEntries,"Dates");
-        BarData barData = new BarData(barDataSet);
-        workoutDatesBarChart.setData(barData);
-
-        String[] labels = new String[6];
-
-        labels[0] = "0 date";
-        labels[1] = "1 date " ;
-        labels[2] = "2 date ";
-        labels[3] = "3 date";
-        labels[4] = "4 date " ;
-        labels[5] = "5 date ";
-        // BarData theData = new BarData(bardataset);
-
-        Description desc = new Description();
-        desc.setText(" ");
-
-        XAxis xAxis = workoutDatesBarChart.getXAxis();
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
-        //xAxis.setGranularity(1f);
-        //xAxis.setGranularityEnabled(true);
-        xAxis.setPosition(XAxis.XAxisPosition.TOP_INSIDE);
-
-
-    }
-
-    public ArrayList<String> getList(Calendar startDate, Calendar endDate) {
-        ArrayList<String> list = new ArrayList<>();
-        while (startDate.compareTo(endDate) <= 0) {
-            list.add(getDate(startDate));
-            startDate.add(Calendar.DAY_OF_MONTH,1);
-        }
-        return list;
-    }
-
-
-    public String getDate(Calendar cld) {
-        String curDate = cld.get(Calendar.YEAR) + "/" + (cld.get(Calendar.MONTH)+1) + "/" +
-                cld.get(Calendar.DAY_OF_MONTH);
-
-        try  {
-            Date date = new SimpleDateFormat("yyyy/MM/dd").parse(curDate);
-            curDate = new SimpleDateFormat("yyyy/MM/dd").format(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return curDate;
-    }
-*/
 
     public void createSingleHangsOrRepeatersBarChart() {
 
@@ -728,119 +705,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
     }
 
-    public void createWorkoutIntensityLineChart() {
-        workoutIntensityLineChart = (LineChart) findViewById(R.id.workoutIntensityChart);
-        List<Entry> intensityEntries = new ArrayList<Entry>();
-        ArrayList<Entry> linearRegressionEntries = new ArrayList<>();
-
-        ArrayList<Float> y = new ArrayList<>();
-        ArrayList<Float> x = new ArrayList<>();
-
-        int xCoord = 0;
-        for (int i = allCalculatedDetails.size() - 1  ; i >= 0 ; i--) {
-            intensityEntries.add(new Entry(xCoord,allCalculatedDetails.get(i).getIntensity()));
-            xCoord++;
-
-            x.add((float) xCoord );
-            y.add(allCalculatedDetails.get(i).getIntensity());
-        }
-
-        LinearRegression intensityRegression = new LinearRegression(x,y);
-
-        linearRegressionEntries.add(new Entry(0,intensityRegression.predict(0)));
-        linearRegressionEntries.add(new Entry(xCoord-1,intensityRegression.predict(xCoord-1)));
-
-        String[] labels = new String[allCalculatedDetails.size()-1];
-        for (int i = 0 ; i < labels.length ; i++ ) {
-            labels[i] = "WO: " + (i+1);
-        }
-
-        ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
-
-        LineDataSet lineDataIntensityRegression = new LineDataSet(linearRegressionEntries,"Linear Regression");
-        lineDataIntensityRegression.setDrawCircles(false);
-        lineDataIntensityRegression.setColors(Color.MAGENTA);
-        lineDataIntensityRegression.setLineWidth(3f);
-        LineDataSet linedataSetIntensity = new LineDataSet(intensityEntries, "Intensity (time under tension / workout time)");
-        linedataSetIntensity.setColor(Color.MAGENTA);
-        linedataSetIntensity.setLineWidth(1f);
-
-
-        lineDataSets.add(linedataSetIntensity);
-        lineDataSets.add(lineDataIntensityRegression);
-
-        LineData lineData = new LineData(lineDataSets);
-
-        lineData.setValueTextSize(12f);
-        if (allCalculatedDetails.size() > 30) {
-            lineData.setValueTextSize(0f);
-
-        }
-
-        workoutIntensityLineChart.setData(lineData);
-
-        Description desc = new Description();
-        desc.setText("Workout number");
-        workoutIntensityLineChart.setDescription(desc);
-
-        XAxis xAxis = workoutIntensityLineChart.getXAxis();
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
-
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
-
-      workoutIntensityLineChart.invalidate();
-
-    }
-
-/*
-    public void createTotalWorkoutTimeLineChart() {
-         workoutTimeLineChart = (LineChart) findViewById(R.id.workoutTimeChart);
-
-        List<Entry> entries = new ArrayList<Entry>();
-
-        for (int i = 0 ; i < effectiveWorkoutTime.size() ; i++) {
-            entries.add(new Entry(i,effectiveWorkoutTime.get(i)/60));
-        }
-
-        LineDataSet linedataSet = new LineDataSet(entries, "Total workout time in minutes");
-        linedataSet.setColor(Color.DKGRAY);
-
-        LineData lineData = new LineData(linedataSet);
-
-        if (effectiveWorkoutTime.size() > 30) {
-            lineData.setValueTextSize(0f);
-
-        }
-
-        workoutTimeLineChart.setData(lineData);
-
-    }
-
-    public void createTimeUnderTensionLineChart() {
-        timeUnderTensionLineChart = (LineChart) findViewById(R.id.timeUnderTensionChart);
-
-        List<Entry> entries = new ArrayList<Entry>();
-
-        for (int i = 0 ; i < effectiveWorkoutTUT.size() ; i++) {
-            entries.add(new Entry(i+1,effectiveWorkoutTUT.get(i)));
-        }
-
-        LineDataSet linedataSet = new LineDataSet(entries, "Time under tension in seconds for every workout");
-        linedataSet.setColor(Color.CYAN);
-
-        LineData lineData = new LineData(linedataSet);
-
-        if (effectiveWorkoutTUT.size() > 30) {
-            lineData.setValueTextSize(0f);
-
-        }
-
-        timeUnderTensionLineChart.setData(lineData);
-        // timeUnderTensionLineChart.animateXY(1000,1000);
-
-
-    }
-*/
     public void createDifficultyBarChart() {
         difficultyBarChart = (BarChart) findViewById(R.id.difficultyBarChart);
         //difficultyBarChart.setDrawBarShadow(true);
@@ -927,26 +791,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
 
     }
-/*
-    private void printIntArray(int[] printedArray,String arrayInfo) {
-        StringBuilder sb = new StringBuilder(" ");
-        for (int i = 0; i < printedArray.length ; i++) {
-            sb.append(printedArray[i]+ ",");
-        }
-        Log.e("printIntArray: ",arrayInfo + sb.toString());
-    }
-
-    private void printIntArrayList(ArrayList<Integer> printedArrayList, String arrayInfo) {
-        StringBuilder sb = new StringBuilder(" ");
-
-        for (int i = 0; i < printedArrayList.size() ; i++) {
-            sb.append(printedArrayList.get(i)+ ",");
-        }
-        Log.e("printIntArray: ",arrayInfo + sb.toString());
-
-
-    }
-    */
 
     public void createHangboardDistributionPieChart() {
         hangboardDistributionPieChart = (PieChart) findViewById(R.id.hangboardDistributionPieChart);
@@ -1111,224 +955,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
     }
 
-    /*
-    public void calculateEffetiveTUTandWTArrayLists() {
-
-        Long breaktime = System.currentTimeMillis();
-        Log.e("thread tst"," start! ");
-
-        int datapoints = dbHandler.lookUpWorkoutCount();
-
-
-        StringBuilder generalInfo = new StringBuilder("Workouts in Database: " + datapoints + "\n");
-
-        long total_workout_time = 0;
-        long total_time_under_tension = 0;
-        long total_hang_laps = 0;
-        long total_successful_hangs = 0;
-
-        long total_adjusted_time_under_tension= 0;
-
-        long erased_workout_time = 0;
-        int single_erased_workout_time = 0;
-
-
-        // first item in SQLite database is at 1
-        for (int i = 1 ; i <= datapoints ; i++) {
-
-
-
-            single_erased_workout_time = 0;
-            for (int k = allCompletedHangs.get(i-1).length - 1 ; k >= 0 && allCompletedHangs.get(i-1)[k] == 0 ; k--) {
-
-                if (k % allTimeControls.get(i-1).getGripLaps() == 0) {
-                    single_erased_workout_time = single_erased_workout_time + allTimeControls.get(i-1).getLongRestTime()
-                            + allTimeControls.get(i-1).getHangLaps() * (allTimeControls.get(i-1).getTimeON()
-                            + allTimeControls.get(i-1).getTimeOFF());
-                    erased_workout_time += single_erased_workout_time;
-
-                } else {
-                    single_erased_workout_time = single_erased_workout_time + allTimeControls.get(i-1).getRestTime()
-                            + allTimeControls.get(i-1).getHangLaps() * (allTimeControls.get(i-1).getTimeON()
-                            + allTimeControls.get(i-1).getTimeOFF());
-                    erased_workout_time += single_erased_workout_time;
-                }
-            }
-            effectiveWorkoutTime.add(allTimeControls.get(i-1).getTotalTime() - single_erased_workout_time);
-
-            total_workout_time += allTimeControls.get(i-1).getTotalTime();
-            total_time_under_tension += allTimeControls.get(i-1).getTimeUnderTension();
-            total_hang_laps += allTimeControls.get(i-1).getHangLaps()*allTimeControls.get(i-1).getGripLaps()*allTimeControls.get(i-1).getRoutineLaps();
-
-            int single_time_under_tension = 0;
-            for (int j = 0 ; j < allCompletedHangs.get(i-1).length ; j++) {
-                single_time_under_tension += allCompletedHangs.get(i-1)[j]*allTimeControls.get(i-1).getTimeON();
-
-                total_successful_hangs += allCompletedHangs.get(i-1)[j];
-            }
-            total_adjusted_time_under_tension += single_time_under_tension;
-
-            effectiveWorkoutTUT.add(single_time_under_tension);
-        }
-
-        // printIntArrayList(effectiveWorkoutTime, "WorkoutTime");
-        //printIntArrayList(effectiveWorkoutTUT,"workoutTUT");
-
-        // generalInfoTextView.setText(generalInfo.toString());
-        Long endTime = breaktime - System.currentTimeMillis();
-        Log.e("calculate method", "end " +endTime);
-    }
-*/
-    /*
-    public void retrieveDataFromDatabaseToArrayLists() {
-
-
-        int datapoints = dbHandler.lookUpWorkoutCount();
-
-        allWorkoutsHolds = new ArrayList<ArrayList<Hold>>();
-        allTimeControls = new ArrayList<TimeControls>();
-        allDates = new ArrayList<Long>();
-        allCompletedHangs = new ArrayList<int[]>();
-        allHangboards = new ArrayList<String>();
-
-        StringBuilder generalInfo = new StringBuilder("Workouts in Database: " + datapoints + "\n");
-
-        long total_workout_time = 0;
-        long total_time_under_tension = 0;
-        long total_hang_laps = 0;
-        long total_successful_hangs = 0;
-
-        long total_adjusted_time_under_tension= 0;
-
-        long erased_workout_time = 0;
-        int single_erased_workout_time = 0;
-
-
-        // first item in SQLite database is at 1
-        for (int i = 1 ; i <= datapoints ; i++) {
-            allWorkoutsHolds.add(dbHandler.lookUpWorkoutHolds(i, includeHidden));
-            allTimeControls.add(dbHandler.lookUpTimeControls(i, includeHidden));
-            allDates.add(dbHandler.lookUpDate(i, includeHidden));
-            allCompletedHangs.add(dbHandler.lookUpCompletedHangs(i, includeHidden));
-            allHangboards.add(dbHandler.lookUpHangboard(i, includeHidden));
-
-
-            single_erased_workout_time = 0;
-            for (int k = completedArrayList.get(i-1).length - 1 ; k >= 0 && completedArrayList.get(i-1)[k] == 0 ; k--) {
-
-                if (k % allTimeControls.get(i-1).getGripLaps() == 0) {
-                    single_erased_workout_time = single_erased_workout_time + allTimeControls.get(i-1).getLongRestTime()
-                            + allTimeControls.get(i-1).getHangLaps() * (allTimeControls.get(i-1).getTimeON()
-                            + allTimeControls.get(i-1).getTimeOFF());
-                    erased_workout_time += single_erased_workout_time;
-
-                } else {
-                    single_erased_workout_time = single_erased_workout_time + allTimeControls.get(i-1).getRestTime()
-                            + allTimeControls.get(i-1).getHangLaps() * (allTimeControls.get(i-1).getTimeON()
-                            + allTimeControls.get(i-1).getTimeOFF());
-                    erased_workout_time += single_erased_workout_time;
-                }
-            }
-            effectiveWorkoutTime.add(allTimeControls.get(i-1).getTotalTime() - single_erased_workout_time);
-
-            total_workout_time += allTimeControls.get(i-1).getTotalTime();
-            total_time_under_tension += allTimeControls.get(i-1).getTimeUnderTension();
-            total_hang_laps += allTimeControls.get(i-1).getHangLaps()*allTimeControls.get(i-1).getGripLaps()*allTimeControls.get(i-1).getRoutineLaps();
-
-            int single_time_under_tension = 0;
-            for (int j = 0 ; j < completedArrayList.get(i-1).length ; j++) {
-                single_time_under_tension += completedArrayList.get(i-1)[j]*allTimeControls.get(i-1).getTimeON();
-
-                total_successful_hangs += completedArrayList.get(i-1)[j];
-            }
-            total_adjusted_time_under_tension += single_time_under_tension;
-
-            effectiveWorkoutTUT.add(single_time_under_tension);
-        }
-
-    }
-*/
-   /* public void retrieveDataFromDatabaseToArrayLists() {
-
-        Long breaktime = System.currentTimeMillis();
-        Log.e("thread tst"," start! ");
-
-        int datapoints = dbHandler.lookUpWorkoutCount();
-
-        arrayList_workoutHolds = new ArrayList<ArrayList<Hold>>();
-        allTimeControls = new ArrayList<TimeControls>();
-        dates = new ArrayList<Long>();
-        completedArrayList = new ArrayList<int[]>();
-        hangboards = new ArrayList<String>();
-
-        StringBuilder generalInfo = new StringBuilder("Workouts in Database: " + datapoints + "\n");
-
-        long total_workout_time = 0;
-        long total_time_under_tension = 0;
-        long total_hang_laps = 0;
-        long total_successful_hangs = 0;
-
-        long total_adjusted_time_under_tension= 0;
-
-        long erased_workout_time = 0;
-        int single_erased_workout_time = 0;
-
-        
-        // first item in SQLite database is at 1
-        for (int i = 1 ; i <= datapoints ; i++) {
-            arrayList_workoutHolds.add(dbHandler.lookUpHolds(i));
-            allTimeControls.add(dbHandler.lookUpTimeControls(i));
-            dates.add(dbHandler.lookUpDate(i));
-            completedArrayList.add(dbHandler.lookUpCompletedHangs(i));
-            hangboards.add(dbHandler.lookUpHangboard(i));
-
-            single_erased_workout_time = 0;
-            for (int k = completedArrayList.get(i-1).length - 1 ; k >= 0 && completedArrayList.get(i-1)[k] == 0 ; k--) {
-
-                if (k % allTimeControls.get(i-1).getGripLaps() == 0) {
-                    single_erased_workout_time = single_erased_workout_time + allTimeControls.get(i-1).getLongRestTime()
-                            + allTimeControls.get(i-1).getHangLaps() * (allTimeControls.get(i-1).getTimeON()
-                            + allTimeControls.get(i-1).getTimeOFF());
-                    erased_workout_time += single_erased_workout_time;
-
-                } else {
-                    single_erased_workout_time = single_erased_workout_time + allTimeControls.get(i-1).getRestTime()
-                            + allTimeControls.get(i-1).getHangLaps() * (allTimeControls.get(i-1).getTimeON()
-                            + allTimeControls.get(i-1).getTimeOFF());
-                    erased_workout_time += single_erased_workout_time;
-                }
-            }
-             effectiveWorkoutTime.add(allTimeControls.get(i-1).getTotalTime() - single_erased_workout_time);
-
-            total_workout_time += allTimeControls.get(i-1).getTotalTime();
-            total_time_under_tension += allTimeControls.get(i-1).getTimeUnderTension();
-            total_hang_laps += allTimeControls.get(i-1).getHangLaps()*allTimeControls.get(i-1).getGripLaps()*allTimeControls.get(i-1).getRoutineLaps();
-
-            int single_time_under_tension = 0;
-            for (int j = 0 ; j < completedArrayList.get(i-1).length ; j++) {
-                single_time_under_tension += completedArrayList.get(i-1)[j]*allTimeControls.get(i-1).getTimeON();
-
-                total_successful_hangs += completedArrayList.get(i-1)[j];
-            }
-            total_adjusted_time_under_tension += single_time_under_tension;
-
-             effectiveWorkoutTUT.add(single_time_under_tension);
-        }
-
-       // printIntArrayList(effectiveWorkoutTime, "WorkoutTime");
-        //printIntArrayList(effectiveWorkoutTUT,"workoutTUT");
-
-        generalInfo.append("(not adjusted) Total workout time: " + total_workout_time + "s where " + erased_workout_time + "s were inactive\n");
-        generalInfo.append("Total workout time: " + (total_workout_time - erased_workout_time) + "s\n");
-        generalInfo.append("(not adjusted) Total time under tension " + total_time_under_tension + "s\n");
-        generalInfo.append("Total time under tension " + total_adjusted_time_under_tension + "s\n");
-        generalInfo.append("Total of " + total_hang_laps + "hangs where " + total_successful_hangs + " were successful so " + 100*total_successful_hangs/total_hang_laps + "% is the success rate\n");
-        generalInfo.append("Erased workout time: " + erased_workout_time);
-        // generalInfoTextView.setText(generalInfo.toString());
-        Long endTime = breaktime - System.currentTimeMillis();
-        Log.e("thread test", "end " +endTime);
-    }*/
-
    private void createWorkoutsInfoTextViews() {
        workoutsInfoTextView = (TextView) findViewById(R.id.workoutInfoTextView);
        generalInfoTextView = (TextView) findViewById(R.id.generalInfoTextView);
@@ -1409,26 +1035,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
 
    }
-/*
-   private ArrayList<TimeControls> retrieveAllTimeControls() {
 
-       ArrayList<TimeControls> timeControlsFromDatabase = new ArrayList<>();
-       int datapoints = dbHandler.lookUpWorkoutCount();
-       for (int i = 1 ; i <= datapoints ; i++) {
-           timeControlsFromDatabase.add(dbHandler.lookUpTimeControls(i, includeHidden));
-       }
-        return timeControlsFromDatabase;
-   }
-
-    private ArrayList<Long> retrieveAllDates() {
-
-        ArrayList<Long> datesFromDatabase = new ArrayList<>();
-        int datapoints = dbHandler.lookUpWorkoutCount();
-        for (int i = 1 ; i <= datapoints ; i++) {
-            datesFromDatabase.add(dbHandler.lookUpDate(i, includeHidden));
-        }
-        return datesFromDatabase;
-    }
-*/
 
 }
