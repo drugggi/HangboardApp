@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -85,11 +86,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setTitle("  Grips & Grades");
-        actionBar.setLogo(R.drawable.gripgrading48x);
-        actionBar.setDisplayUseLogoEnabled(true);
+        try {
+            android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setTitle(Html.fromHtml("<font color='#3E0E1F'>Grips & Grades</font>"));
+            actionBar.setLogo(R.drawable.gripgrading48x);
+            actionBar.setDisplayUseLogoEnabled(true);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
 
         setContentView(R.layout.activity_main);
 
