@@ -16,6 +16,7 @@ public class CalculateWorkoutDetails {
     private int successfulHangRate;
     private int holdDifficultiesSum;
     private int unusedWorkoutTime;
+    private int holdDifficulties[];
     private float averageDifficutly;
     private float intensity;
     private float workload;
@@ -33,7 +34,7 @@ public class CalculateWorkoutDetails {
         holdDifficultiesSum = 0;
 
         // Average difficulty for every grip lap
-        int holdDifficulties[] = new int[timeControls.getGripLaps()];
+        holdDifficulties = new int[timeControls.getGripLaps()];
         for (int i = 0 ; i < holdDifficulties.length ; i++) {
             holdDifficulties[i] = (workoutHolds.get(2*i).getHoldValue() + workoutHolds.get(2*i+1).getHoldValue() )/ 2;
         }
@@ -117,6 +118,7 @@ public class CalculateWorkoutDetails {
 
     }
 
+
     public int getAdjustedWorkoutTime() {
         return this.adjustedWorkoutTime;
     }
@@ -135,6 +137,7 @@ public class CalculateWorkoutDetails {
     public int getDifficultiesSum() {
         return this.holdDifficultiesSum;
     }
+    public int[] getHoldDifficulties() {return this.holdDifficulties;}
     public int getUnusedWorkoutTime() {
         return this.unusedWorkoutTime;
     }

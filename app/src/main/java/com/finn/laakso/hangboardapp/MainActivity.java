@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
             actionBar.setDisplayUseLogoEnabled(true);
         } catch (NullPointerException e) {
             e.printStackTrace();
+
         }
 
         setContentView(R.layout.activity_main);

@@ -23,6 +23,10 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
     private int[] completed;
     private boolean isHidden;
     private String description;
+    private CalculateWorkoutDetails calculatedDetails;
+
+    //private LineChart workoutDifficultyPerSecondLineChart;
+    //private BarChart workoutDifficultyPerSecondBarChart;
 
     // workout info that requires calculation usually involving completed matrix
 
@@ -38,6 +42,7 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
 
         workoutDetailsTextView = (TextView) findViewById(R.id.workoutDetailsTextView);
         calculatedDetailsTextView = (TextView) findViewById(R.id.calculatedDetailsTextView);
+
 
         dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
 
@@ -78,7 +83,7 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
 
         workoutDetailsTextView.setText(workoutDetailsBuilder.toString());
 
-        CalculateWorkoutDetails calculatedDetails = new CalculateWorkoutDetails(timeControls,workoutHolds,completed);
+        calculatedDetails = new CalculateWorkoutDetails(timeControls,workoutHolds,completed);
 
 
         StringBuilder calculatedDetailsBuilder = new StringBuilder();
@@ -96,10 +101,10 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
         calculatedDetailsBuilder.append("Workout power: " + calculatedDetails.getWorkoutPower() + " (avg D*TUT)/WT\n");
 
         calculatedDetailsTextView.setText(calculatedDetailsBuilder.toString());
+
+        //createDifficultyPerSecondBarChart();
+        //createDifficultyPerSecondLineChart();
     }
-
-
-
 
     private String getCompletedMatrix(int[] completed) {
         String hangs ="" + timeControls.getHangLaps();
@@ -129,5 +134,159 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
         }
         return holdsInfoBuilder.toString();
     }
+
+
+    /*
+    private void createDifficultyPerSecondBarChart() {
+        workoutDifficultyPerSecondBarChart = (BarChart) findViewById(R.id.workoutDifficultyPerSecondBarChart);
+        ArrayList<BarEntry> successfulEntries = new ArrayList<>();
+        ArrayList<BarEntry> failedEntries = new ArrayList<>();
+
+        ArrayList<Float> y = new ArrayList<>();
+        ArrayList<Float> x = new ArrayList<>();
+
+        int holdDifficulties[] = calculatedDetails.getHoldDifficulties();
+
+        int seconds = 1;
+        for (int laps = 0; laps < timeControls.getRoutineLaps() ; laps ++) {
+            for (int grips = 0; grips < timeControls.getGripLaps(); grips++) {
+
+                for (int hangs = 0; hangs < timeControls.getHangLaps(); hangs++) {
+                    Log.e("laps & grips","laps " + laps + "  grips: " + grips);
+                    Log.e("hang & completed","hangs: " + hangs + "  comp[] = " + completed[(laps)*(grips+1)]  );
+                    for (int time_on = 0; time_on < timeControls.getTimeON(); time_on++) {
+                        //Log.e("laps & grips","laps " + laps + "  grips: " + grips);
+                       // Log.e("hang & completed","hangs: " + hangs + "  comp[] = " + completed[hangs]  );
+                        if (hangs < completed[(laps)*(timeControls.getGripLaps()-1 ) + grips] ) {
+                            successfulEntries.add(new BarEntry(seconds, holdDifficulties[grips]));
+                        }
+                        else {
+                            failedEntries.add(new BarEntry(seconds, holdDifficulties[grips]));
+                        }
+                        seconds++;
+                    }
+                    for (int time_off = 0; time_off < timeControls.getTimeOFF(); time_off++) {
+                        //workoutDifficultyEntries.add(new BarEntry(seconds, 0));
+                        seconds++;
+
+                    }
+
+                }
+                for (int rest = 0; rest < timeControls.getRestTime(); rest++) {
+                    //workoutDifficultyEntries.add(new BarEntry(seconds, 0));
+                    seconds++;
+                }
+            }
+            for (int long_rest = 0; long_rest < timeControls.getRestTime(); long_rest++) {
+                //workoutDifficultyEntries.add(new BarEntry(seconds, 0));
+                seconds++;
+            }
+        }
+        Log.e("entries","size: " + successfulEntries.size());
+
+        ArrayList<IBarDataSet> barDataSets = new ArrayList<>();
+        BarDataSet successfulBarDataSet = new BarDataSet(successfulEntries,"Successful hangs");
+        BarDataSet failedBarDataSet = new BarDataSet(failedEntries,"Failed hangs");
+        failedBarDataSet.setColor(Color.RED);
+
+        barDataSets.add(successfulBarDataSet );
+        barDataSets.add(failedBarDataSet);
+        // BarDataSet dataset = new BarDataSet(workoutDifficultyEntries,"Difficulty");
+
+        //dataset.setValueTextSize(0f);
+
+        //dataset.setValueTextSize(0f);
+        //dataset.setBarBorderWidth(1f);
+
+
+
+        BarData data = new BarData(barDataSets);
+
+        data.setBarWidth(1f);
+
+        workoutDifficultyPerSecondBarChart.setData(data);
+        Description desc = new Description();
+        desc.setText("seconds spent on each difficulty level");
+        workoutDifficultyPerSecondBarChart.setDescription(desc);
+
+        workoutDifficultyPerSecondBarChart.setDrawValueAboveBar(true);
+        workoutDifficultyPerSecondBarChart.setFitBars(false);
+
+        XAxis xAxis = workoutDifficultyPerSecondBarChart.getXAxis();
+        xAxis.setGranularity(1f);
+        xAxis.setGranularityEnabled(true);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+       workoutDifficultyPerSecondBarChart.invalidate();
+
+
+    }
+
+    private void createDifficultyPerSecondLineChart() {
+        workoutDifficultyPerSecondLineChart = (LineChart) findViewById(R.id.workoutDifficultyPerSecondLineChart);
+        ArrayList<Entry> workoutDifficultyEntries = new ArrayList<>();
+        ArrayList<Entry> linearRegressionEntries = new ArrayList<>();
+
+        ArrayList<Float> y = new ArrayList<>();
+        ArrayList<Float> x = new ArrayList<>();
+
+        int holdDifficulties[] = calculatedDetails.getHoldDifficulties();
+
+        int seconds = 1;
+            for (int laps = 0; laps < timeControls.getRoutineLaps() ; laps ++) {
+                for (int grips = 0; grips < timeControls.getGripLaps(); grips++) {
+
+                    for (int hangs = 0; hangs < timeControls.getHangLaps(); hangs++) {
+
+                        for (int time_on = 0; time_on < timeControls.getTimeON(); time_on++) {
+                            workoutDifficultyEntries.add(new Entry(seconds, holdDifficulties[grips]));
+                            seconds++;
+                        }
+                        for (int time_off = 0; time_off < timeControls.getTimeOFF(); time_off++) {
+                            workoutDifficultyEntries.add(new Entry(seconds, 0));
+                            seconds++;
+
+                        }
+
+                    }
+                    for (int rest = 0; rest < timeControls.getRestTime(); rest++) {
+                        workoutDifficultyEntries.add(new Entry(seconds, 0));
+                        seconds++;
+                    }
+                }
+                for (int long_rest = 0; long_rest < timeControls.getRestTime(); long_rest++) {
+                    workoutDifficultyEntries.add(new Entry(seconds, 0));
+                    seconds++;
+                }
+            }
+        Log.e("entries","size: " + workoutDifficultyEntries.size());
+
+        ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
+
+        LineDataSet lineDataSetDifficulties = new LineDataSet(workoutDifficultyEntries,"Workout power (avg D*TUT/WT)");
+
+        lineDataSets.add(lineDataSetDifficulties);
+
+        LineData lineData = new LineData(lineDataSets);
+
+        lineData.setValueTextSize(10f);
+        workoutDifficultyPerSecondLineChart.setData(lineData);
+
+        Description desc = new Description();
+        desc.setText("Workout number");
+        workoutDifficultyPerSecondLineChart.setDescription(desc);
+
+       // XAxis xAxis = workoutDifficultyPerSecondLineChart.getXAxis();
+        //xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+
+        //xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
+
+        workoutDifficultyPerSecondLineChart.invalidate();
+
+
+    }
+*/
+
+
 
 }

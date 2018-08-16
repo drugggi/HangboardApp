@@ -33,6 +33,17 @@
                 android:id="@+id/calculatedDetailsTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+            <!--
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/workoutDifficultyPerSecondBarChart"
+                android:layout_width="match_parent"
+                android:layout_height="400dp" />
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/workoutDifficultyPerSecondLineChart"
+                android:layout_width="match_parent"
+                android:layout_height="400dp" />
+            -->
         </LinearLayout>
     </ScrollView>
 

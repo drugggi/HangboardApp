@@ -19,39 +19,40 @@ import android.widget.Toast;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    Switch repeaterSwitch;
-    Switch timeInfoSwitch;
+    private Switch repeaterSwitch;
+    private Switch timeInfoSwitch;
 
-    TimeControls timeControls;
+    private TimeControls timeControls;
 
-    Button finishButton;
-    Button cancelButton;
-    Button savePreferencesButton;
-    Button loadPreferencesButton;
+    private Button finishButton;
+    private Button cancelButton;
+    private Button savePreferencesButton;
+    private Button loadPreferencesButton;
 
 
-    EditText gripLapsEditText;
-    EditText hangLapsEditText;
-    EditText timeONEditText;
-    EditText timeOFFEditText;
-    EditText setsEditText;
-    EditText restEditText;
-    EditText longRestEditText;
+    private EditText gripLapsEditText;
+    private EditText hangLapsEditText;
+    private EditText timeONEditText;
+    private EditText timeOFFEditText;
+    private EditText setsEditText;
+    private EditText restEditText;
+    private EditText longRestEditText;
 
-    TextView mHangsTextView;
-    TextView mTimeONTextView;
-    TextView mTimeOFFTextView;
-    TextView matrixTextView;
+    private TextView mHangsTextView;
+    private TextView mTimeONTextView;
+    private TextView mTimeOFFTextView;
+    private TextView matrixTextView;
+    private TextView preferencesTextView;
 
-    SeekBar gripSeekBar;
-    SeekBar hangSeekBar;
-    SeekBar timeONSeekBar;
-    SeekBar timeOFFSeekBar;
-    SeekBar setsSeekBar;
-    SeekBar restSeekBar;
-    SeekBar longRestSeekBar;
+    private SeekBar gripSeekBar;
+    private SeekBar hangSeekBar;
+    private SeekBar timeONSeekBar;
+    private SeekBar timeOFFSeekBar;
+    private SeekBar setsSeekBar;
+    private SeekBar restSeekBar;
+    private SeekBar longRestSeekBar;
 
-    int gripMultiplier;
+    private int gripMultiplier;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +71,7 @@ public class SettingsActivity extends AppCompatActivity {
         mTimeONTextView = (TextView) findViewById(R.id.mTimeONTextView);
         mTimeOFFTextView = (TextView) findViewById(R.id.mTimeOFFTextView);
         matrixTextView = (TextView) findViewById(R.id.matrixTextView);
+        preferencesTextView = (TextView) findViewById(R.id.preferenceTextView);
 
         repeaterSwitch = (Switch) findViewById(R.id.repeaterSwitch);
         timeInfoSwitch = (Switch) findViewById(R.id.showTimeSwitch);
@@ -106,6 +108,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         }
 
+        // puts the saved preferences to TextView so that user can see what time controls are saved
+        updatePreferenceTextView();
+
         // puts settings edite text and progressbars into right positions
         updateTimeControlsDisplay();
 
@@ -131,6 +136,10 @@ public class SettingsActivity extends AppCompatActivity {
                 editor.putInt("restTime",Integer.parseInt(restEditText.getText().toString()));
                 editor.putInt("longRestTime", Integer.parseInt(longRestEditText.getText().toString()));
 
+                String preferenceText = "Saved preferences: " + timeControls.getTimeControlsAsString();
+
+                preferencesTextView.setText(preferenceText );
+
                 editor.commit();
                 Toast.makeText(v.getContext(),"Preferences Saved",Toast.LENGTH_SHORT).show();
             }
@@ -144,11 +153,11 @@ public class SettingsActivity extends AppCompatActivity {
 
                 boolean isRepeaters = prefs.getBoolean("isRepeaters", true);
 
-                int grips = prefs.getInt("grips",150);
-                int reps = prefs.getInt("repetitions",150);
-                int timeON = prefs.getInt("timeON",150);
-                int timeOFF = prefs.getInt("timeOFF",150);
-                int sets = prefs.getInt("sets",150);
+                int grips = prefs.getInt("grips",6);
+                int reps = prefs.getInt("repetitions",6);
+                int timeON = prefs.getInt("timeON",7);
+                int timeOFF = prefs.getInt("timeOFF",3);
+                int sets = prefs.getInt("sets",3);
 
                 int rest = prefs.getInt("restTime",150);
                 int longRest =  prefs.getInt("longRestTime",360);
@@ -543,6 +552,33 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });*/
     }
+
+    private void updatePreferenceTextView() {
+        //SharedPreferences test = PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this);
+        String statusString = prefs.getString("savePreferences","No preferences saved yet");
+
+        boolean isRepeaters = prefs.getBoolean("isRepeaters", true);
+
+        int grips = prefs.getInt("grips",6);
+        int reps = prefs.getInt("repetitions",6);
+        int timeON = prefs.getInt("timeON",7);
+        int timeOFF = prefs.getInt("timeOFF",3);
+        int sets = prefs.getInt("sets",3);
+
+        int rest = prefs.getInt("restTime",150);
+        int longRest =  prefs.getInt("longRestTime",360);
+
+        TimeControls tempTimeControls = new TimeControls();
+
+        tempTimeControls.setTimeControls(new int[]{grips, reps, timeON, timeOFF, sets, rest, longRest});
+        tempTimeControls.setToRepeaters(isRepeaters);
+
+        String preferenceText = "Saved preferences: " + tempTimeControls.getTimeControlsAsString();
+        preferencesTextView.setText(preferenceText);
+
+    }
+
 
     private void updateTimeControlsDisplay() {
 
