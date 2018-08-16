@@ -105,6 +105,8 @@ public class SettingsActivity extends AppCompatActivity {
             timeControls = new TimeControls();
             // timeControls.setTimeControls(time_controls);
             timeControls.setTimeControls(time_controls);
+            // Log.e("intent",timeControls.getTimeControlsAsString());
+
 
         }
 
@@ -161,6 +163,8 @@ public class SettingsActivity extends AppCompatActivity {
 
                 int rest = prefs.getInt("restTime",150);
                 int longRest =  prefs.getInt("longRestTime",360);
+
+               // Log.e("longRest","" + longRest);
 
                 timeControls.setTimeControls(new int[]{grips, reps, timeON, timeOFF, sets, rest, longRest});
                 timeControls.setToRepeaters(isRepeaters);
@@ -322,7 +326,7 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 restEditText.setText("" + (progress+1)*10);
-                timeControls.setRestTime((progress+1)*10);
+                timeControls.setRestTime((progress)*10);
                 updateProgramDisplay();
             }
 
@@ -340,7 +344,8 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 longRestEditText.setText("" + (progress+1)*60);
-                timeControls.setLongRestTime((progress+1)*60);
+                timeControls.setLongRestTime((progress)*60);
+                //Log.e("changelistener","setText: " + (progress+1)*60);
                // matrixTextView.setText(timeControls.getGripMatrix(timeInfoSwitch.isChecked()));
                 updateProgramDisplay();
             }
@@ -556,7 +561,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void updatePreferenceTextView() {
         //SharedPreferences test = PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this);
-        String statusString = prefs.getString("savePreferences","No preferences saved yet");
+        // String statusString = prefs.getString("savePreferences","No preferences saved yet");
 
         boolean isRepeaters = prefs.getBoolean("isRepeaters", true);
 
@@ -589,6 +594,7 @@ public class SettingsActivity extends AppCompatActivity {
         setsEditText.setText("" + timeControls.getRoutineLaps());
         restEditText.setText("" + timeControls.getRestTime());
         longRestEditText.setText("" + timeControls.getLongRestTime());
+       // Log.e("uTCD",""+ timeControls.getTimeControlsAsString());
         //gripLapsEditText.set
 
         gripSeekBar.setProgress(timeControls.getGripLaps()-1);
@@ -596,8 +602,8 @@ public class SettingsActivity extends AppCompatActivity {
         timeONSeekBar.setProgress(timeControls.getTimeON()-1);
         timeOFFSeekBar.setProgress(timeControls.getTimeOFF());
         setsSeekBar.setProgress(timeControls.getRoutineLaps()-1);
-        restSeekBar.setProgress(timeControls.getRestTime()/10);
-        longRestSeekBar.setProgress(timeControls.getLongRestTime()/60);
+        restSeekBar.setProgress(timeControls.getRestTime()/10-1);
+        longRestSeekBar.setProgress(timeControls.getLongRestTime()/60-1);
 
 
     // If hang laps are anything but 1, then workoutprogram is set to repeaters

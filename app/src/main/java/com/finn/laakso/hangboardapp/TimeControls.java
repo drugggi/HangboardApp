@@ -291,18 +291,27 @@ public class TimeControls {
     }
 
     public String getTimeControlsAsString() {
-        return "Grip laps: " + grip_laps + " Hang laps: " + hang_laps + " Time on/off: " + time_on + "/"
+        return "Grips: " + grip_laps + " Hangs: " + hang_laps + " Time on/off: " + time_on + "/"
                 + time_off + " Sets: " + routine_laps + " rest/long rest: " + rest + "/" + long_rest;
     }
 
     public int getTotalTime() {
         // 0 represents workout starts in time
         // total_s = workout_starts_in + (hang_laps*grip_laps+(grip_laps - 1)*rest) * routine_laps  + (routine_laps - 1)*long_rest;
-        return 0 + (hang_laps_seconds*grip_laps+(grip_laps - 1)*rest) * routine_laps  + (routine_laps - 1)*long_rest;
+        return (hang_laps_seconds*grip_laps+(grip_laps - 1)*rest) * routine_laps  + (routine_laps - 1)*long_rest;
     }
 
     public void setTimeControls(int[] time_controls) {
-        if( time_controls.length != 7 ) {return; }
+        if( time_controls.length != 7 ) {
+            setGripLaps(6);
+            setHangLaps(6);
+            setTimeON(7);
+            setTimeOFF(3);
+            setRoutineLaps(3);
+            setRestTime(150);
+            setLongRestTime(360);
+            return;
+        }
 
         setGripLaps(time_controls[0]);
         setHangLaps(time_controls[1]);
