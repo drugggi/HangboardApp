@@ -11,7 +11,6 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -455,7 +454,6 @@ public class WorkoutActivity extends AppCompatActivity {
         if (progressBarContextMenu) {
 
             int index = (current_set - 1 )* timeControls.getGripLaps() + current_lap - 1;
-             Log.e("manual","manual update completed hangs: " + index  + " max index: " + completedHangs.length);
 
             if (index >= 0 && index < completedHangs.length ) {
                 if (clicked_position >= 0 && clicked_position <= timeControls.getHangLaps() ) {
@@ -500,7 +498,6 @@ public class WorkoutActivity extends AppCompatActivity {
 
         // remember that current_lap starts from 0 and current_set starts from 1
         int index = (current_set - 1 )* timeControls.getGripLaps() + current_lap;
-        Log.e("update","updateCompletedhangs: " + index  + " max index: " + completedHangs.length);
 
         if (index >= 0 && index < completedHangs.length ) {
             completedHangs[index] = timeControls.getHangLaps();
@@ -535,15 +532,6 @@ public class WorkoutActivity extends AppCompatActivity {
             offsetX = offsetX - 20f;
 
         }
-// Log.e("SCREEN"," WIDTH/HEIGHT:   " +pinchZoomBoardImage.getWidth()+" / "+pinchZoomBoardImage.getHeight());
-        /*
-
-        Log.e("HANGBOARD IMAGE","image WIDTH/HEIGHT:   " +pinchZoomBoardImage.getImageWidth()+" / "+pinchZoomBoardImage.getImageHeight());
-        Log.e("OFFSET","offset x/y:   " +offsetX+ " / " + offsetY);
-
-        Log.e("LEFT HAND" , "X and Y: "+ workoutInfoTest.get(current_lap*2 ).getLeftCoordX() + " / " + workoutInfoTest.get(current_lap*2 ).getLeftCoordY());
-        Log.e("RIGHT HAND" , "X and Y: "+ workoutInfoTest.get(current_lap*2+1 ).getRightCoordX() + " / " + workoutInfoTest.get(current_lap*2+1 ).getRightCoordY());*/
-
 
     // MAKE SURE THIS TEST IS USELESS IN THE FUTURE! this method is called when the current lap is not reduced
        // Log.e("CURRENT LAP" , "size and current_lap: "+ workoutHolds.size() + " / " + current_lap);

@@ -33,7 +33,6 @@ public class EditWorkoutInfoActivity extends AppCompatActivity {
     private Button saveButton;
     private Button backButton;
 
-
     private ArrayList<Hold> workoutHolds;
     private String hangboardName;
     private TimeControls timeControls;

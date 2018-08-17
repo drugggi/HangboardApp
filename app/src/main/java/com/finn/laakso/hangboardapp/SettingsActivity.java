@@ -105,8 +105,6 @@ public class SettingsActivity extends AppCompatActivity {
             timeControls = new TimeControls();
             // timeControls.setTimeControls(time_controls);
             timeControls.setTimeControls(time_controls);
-            // Log.e("intent",timeControls.getTimeControlsAsString());
-
 
         }
 
@@ -163,8 +161,6 @@ public class SettingsActivity extends AppCompatActivity {
 
                 int rest = prefs.getInt("restTime",150);
                 int longRest =  prefs.getInt("longRestTime",360);
-
-               // Log.e("longRest","" + longRest);
 
                 timeControls.setTimeControls(new int[]{grips, reps, timeON, timeOFF, sets, rest, longRest});
                 timeControls.setToRepeaters(isRepeaters);
@@ -227,7 +223,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 gripLapsEditText.setText("" + (progress+1)*gripMultiplier);
                 timeControls.setGripLaps((progress+1)*gripMultiplier);
-                //matrixTextView.setText(timeControls.getGripMatrix(timeInfoSwitch.isChecked()));
+
                 updateProgramDisplay();
             }
 
@@ -268,7 +264,6 @@ public class SettingsActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 timeONEditText.setText("" + (progress+1));
                 timeControls.setTimeON(progress+1);
-                // mTimeONTextView.setText(progress+1 + "on");
                 updateProgramDisplay();
             }
 
@@ -288,8 +283,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 timeOFFEditText.setText("" + (progress));
                 timeControls.setTimeOFF(progress);
-                //mTimeOFFTextView.setText(progress + "off");
-                // if (progress == 0) { mTimeOFFTextView.setText(""); }
+
                 updateProgramDisplay();
             }
 
@@ -308,7 +302,6 @@ public class SettingsActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 setsEditText.setText("" + (progress+1));
                 timeControls.setRoutineLaps(progress+1);
-                //matrixTextView.setText(timeControls.getGripMatrix(timeInfoSwitch.isChecked()));
                 updateProgramDisplay();
             }
 
@@ -326,7 +319,7 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 restEditText.setText("" + (progress+1)*10);
-                timeControls.setRestTime((progress)*10);
+                timeControls.setRestTime((progress+1)*10);
                 updateProgramDisplay();
             }
 
@@ -344,9 +337,7 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 longRestEditText.setText("" + (progress+1)*60);
-                timeControls.setLongRestTime((progress)*60);
-                //Log.e("changelistener","setText: " + (progress+1)*60);
-               // matrixTextView.setText(timeControls.getGripMatrix(timeInfoSwitch.isChecked()));
+                timeControls.setLongRestTime((progress+1)*60);
                 updateProgramDisplay();
             }
 
@@ -396,7 +387,6 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
-                // if (repeaterSwitch.isChecked()) {return false;}
 
                 try {
                     int i = Integer.parseInt(hangLapsEditText.getText().toString());
@@ -594,8 +584,6 @@ public class SettingsActivity extends AppCompatActivity {
         setsEditText.setText("" + timeControls.getRoutineLaps());
         restEditText.setText("" + timeControls.getRestTime());
         longRestEditText.setText("" + timeControls.getLongRestTime());
-       // Log.e("uTCD",""+ timeControls.getTimeControlsAsString());
-        //gripLapsEditText.set
 
         gripSeekBar.setProgress(timeControls.getGripLaps()-1);
         hangSeekBar.setProgress(timeControls.getHangLaps()-1);

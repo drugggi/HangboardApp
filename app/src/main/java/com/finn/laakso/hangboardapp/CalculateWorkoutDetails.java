@@ -1,7 +1,5 @@
 package com.finn.laakso.hangboardapp;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 
 /**
@@ -16,11 +14,9 @@ public class CalculateWorkoutDetails {
     private int successfulHangRate;
     private int holdDifficultiesSum;
     private int unusedWorkoutTime;
-    private int holdDifficulties[];
     private float averageDifficutly;
     private float intensity;
     private float workload;
-    private float difficultyPerMinute;
     private float power;
 
 
@@ -34,7 +30,7 @@ public class CalculateWorkoutDetails {
         holdDifficultiesSum = 0;
 
         // Average difficulty for every grip lap
-        holdDifficulties = new int[timeControls.getGripLaps()];
+        int holdDifficulties[] = new int[timeControls.getGripLaps()];
         for (int i = 0 ; i < holdDifficulties.length ; i++) {
             holdDifficulties[i] = (workoutHolds.get(2*i).getHoldValue() + workoutHolds.get(2*i+1).getHoldValue() )/ 2;
         }
@@ -93,22 +89,6 @@ public class CalculateWorkoutDetails {
 
         workload = averageDifficutly * adjustedTUT;
 
-
-        if (adjustedWorkoutTime != 0) {
-            //difficultyPerMinute = averageDifficutly / adjustedTUT;
-            //difficultyPerMinute = averageDifficutly * adjustedTUT / adjustedWorkoutTime;
-            //difficultyPerMinute = averageDifficutly;
-            difficultyPerMinute = averageDifficutly / completedHangs;
-            float test1 = averageDifficutly * 60 / adjustedTUT;
-            float test2 = averageDifficutly * completedHangs * timeControls.getTimeON() / 60;
-            float test3 = averageDifficutly * adjustedTUT / 60;
-
-            Log.e("testit",": " + test1 + " , " + test2 + " , " + test3  );
-            difficultyPerMinute = 0;
-        } else {
-            difficultyPerMinute = 0;
-        }
-
         if (adjustedWorkoutTime != 0 ) {
             power = averageDifficutly * adjustedTUT / adjustedWorkoutTime;
         } else {
@@ -137,7 +117,6 @@ public class CalculateWorkoutDetails {
     public int getDifficultiesSum() {
         return this.holdDifficultiesSum;
     }
-    public int[] getHoldDifficulties() {return this.holdDifficulties;}
     public int getUnusedWorkoutTime() {
         return this.unusedWorkoutTime;
     }
@@ -149,9 +128,6 @@ public class CalculateWorkoutDetails {
     }
     public float getWorkload() {
         return this.workload;
-    }
-    public float getDifficultyPerMinute() {
-        return this.difficultyPerMinute;
     }
     public float getWorkoutPower() {
         return this.power;

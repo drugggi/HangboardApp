@@ -69,8 +69,8 @@ public class TimeControls {
                 matrix = matrix + i + ". SET:  " + grips;
             }
             matrix = matrix + "  workout ends\n";
-            matrix = matrix + "Time under tension: " + getTimeUnderTension() + "s ";
-            matrix = matrix + " Workout time: " + getTotalTime() + "s ";
+            matrix = matrix + "Time under tension: " + getTimeUnderTension() + "s/" + getTimeUnderTension()/60+"min ";
+            matrix = matrix + " Workout time: " + getTotalTime() + "s/" + getTotalTime()/60 +"min ";
 
         }
         // if showTimeInfo is false lets print grip 1, rest, grip 2, rest etc...
