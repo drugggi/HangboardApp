@@ -22,13 +22,7 @@ public class LinearRegression {
     private final float r2;
     private final float svar0, svar1;
 
-    /**
-     * Performs a linear regression on the data points {@code (y[i], x[i])}.
-     *
-     * @param  x the values of the predictor variable
-     * @param  y the corresponding values of the response variable
-     * @throws IllegalArgumentException if the lengths of the two arrays are not equal
-     */
+
     public LinearRegression(ArrayList<Float> x, ArrayList<Float> y) {
         if (x.size() != y.size() ) {
             throw new IllegalArgumentException("array lengths are not equal");
@@ -136,6 +130,7 @@ public class LinearRegression {
      *         including the best-fit line and the coefficient of determination
      *         <em>R</em><sup>2</sup>
      */
+
     public String toString() {
         StringBuilder s = new StringBuilder();
         s.append(String.format("%.2f n + %.2f", slope(), intercept()));

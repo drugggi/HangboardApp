@@ -24,10 +24,9 @@ public class Hold implements Comparable<Hold>, Parcelable {
     private int righthand_coord_x;
     private int righthand_coord_y;
 
-
     // grip type describes the fingers used in hanging in a hold
-    public static enum grip_type {FOUR_FINGER, THREE_FRONT, THREE_BACK, TWO_FRONT, TWO_MIDDLE, TWO_BACK
-        , INDEX_FINGER,MIDDLE_FINGER, RING_FINGER, LITTLE_FINGER};
+    public enum grip_type {FOUR_FINGER, THREE_FRONT, THREE_BACK, TWO_FRONT, TWO_MIDDLE, TWO_BACK
+        , INDEX_FINGER,MIDDLE_FINGER, RING_FINGER, LITTLE_FINGER}
     grip_type grip_style;
     public static grip_type forInt(int id) {
         return grip_type.values()[id-1];
@@ -37,12 +36,8 @@ public class Hold implements Comparable<Hold>, Parcelable {
     private boolean single_hold;
 
     public boolean isEqual(Hold compareHold) {
-        if (this.hold_number == compareHold.getHoldNumber() && this.grip_style == compareHold.getGripStyle()) {
-            return true;
-        }
-        else {return false;}
+        return (this.hold_number == compareHold.getHoldNumber() && this.grip_style == compareHold.getGripStyle());
     }
-
 
     public Hold(int number) {
         single_hold = false;
@@ -95,7 +90,7 @@ public class Hold implements Comparable<Hold>, Parcelable {
     // Hold Class implements comparable so that holds can be sorted by their value ie. how
     // difficult it is to hang in a give hold with given grip_type
     public int compareTo(Hold compareHold) {
-        return this.hold_value - compareHold.hold_value;
+            return this.hold_value - compareHold.hold_value;
     }
 
     public int getLeftCoordX() {
@@ -108,7 +103,7 @@ public class Hold implements Comparable<Hold>, Parcelable {
         return righthand_coord_x;
     }
     public int getRightCoordY() {return righthand_coord_y;}
-
+/*
     public void setLeftCoordX(int lcx) {
         lefthand_coord_x=lcx;
     }
@@ -119,7 +114,7 @@ public class Hold implements Comparable<Hold>, Parcelable {
         righthand_coord_x=rcx;
     }
     public void setRightCoordY(int rcy) {righthand_coord_y=rcy;}
-
+*/
     public void setHoldCoordinates(int[] coordinates) {
         lefthand_coord_x = coordinates[(hold_number-1)*5+1];
         lefthand_coord_y = coordinates[(hold_number-1)*5+2];
@@ -128,6 +123,8 @@ public class Hold implements Comparable<Hold>, Parcelable {
 
     }
 
+    // Get hold info Takes two holds left(this) and right hand hold and makes String information
+    // out of those: Grip type is alternate and hold value is average
     public String getHoldInfo(Hold rightHandHold) {
         String hold_value_text;
 
@@ -220,11 +217,11 @@ public class Hold implements Comparable<Hold>, Parcelable {
         return hold_value;
     }
 
-
-    public void setAsSingleHold(boolean isit) {
-        single_hold = isit;
+/*
+    public void setAsSingleHold(boolean isSingleHold) {
+        single_hold = isSingleHold;
     }
-
+*/
 
     public boolean isSingleHold() {
         return single_hold;
@@ -245,7 +242,7 @@ public class Hold implements Comparable<Hold>, Parcelable {
 
 
     // Returns the text that represents the grip type
-    public String getHoldText() {
+    private String getHoldText() {
         if (grip_style == grip_type.FOUR_FINGER) { return "four fingers";}
         if (grip_style == grip_type.THREE_FRONT) { return "three front";}
         if (grip_style == grip_type.THREE_BACK) { return "three back";}
