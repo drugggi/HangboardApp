@@ -72,7 +72,7 @@ public class HangBoard {
 
     // Just converts valueLists' Hold descriptions into Array of Strings
     public String[] getGrips() {
-        ArrayList<String> tempList = new ArrayList<String>();
+            ArrayList<String> tempList = new ArrayList<String>();
 
         for (int i = 0; i < valueList.size()/2; i++) {
                 tempList.add((i+1) + ". " + valueList.get(2*i).getHoldInfo( valueList.get(2*i+1) ) );

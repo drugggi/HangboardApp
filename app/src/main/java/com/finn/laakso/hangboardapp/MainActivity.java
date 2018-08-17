@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     ListView gradesListView;
     ListView holdsListView;
     ArrayAdapter<String> holdsAdapter;
+    ArrayAdapter<String> gradeAdapter;
 
     // Maybe get rid of these in the future
     int grade_descr_position;
@@ -56,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
     HangBoard everyBoard;
     TimeControls timeControls;
 
-    int progressbarposition;
 
     private static final int REQUEST_TIME_CONTROLS = 0;
 
@@ -71,16 +71,6 @@ public class MainActivity extends AppCompatActivity {
         outState.putIntArray("mainactivity_timecontrolsintarray", timeControls.getTimeControlsIntArray());
         outState.putInt("mainactivity_hangboardposition",hangboard_descr_position);
     }
-/*
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        grade_descr_position = savedInstanceState.getInt("mainactivity_grade_desc_pos");
-       // progressbarposition =savedInstanceState.getInt("progbar");
-        // durationSeekBar.setProgress(progressbarposition);
-       // Toast.makeText(MainActivity.this, "progbar restores: " + progressbarposition , Toast.LENGTH_LONG).show();
-    }
-*/
 
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
@@ -129,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Lets use ArrayAdapter to list all the grades in to grades ListView
         gradesListView = (ListView) findViewById(R.id.gradeListView);
-        final ArrayAdapter<String> gradeAdapter = new ArrayAdapter<String>(this, R.layout.gradetextview, everyBoard.getGrades());
+        gradeAdapter = new ArrayAdapter<String>(this, R.layout.gradetextview, everyBoard.getGrades());
         gradesListView.setAdapter(gradeAdapter);
 
         // HOLDSADAPTER IS ALLREADY USING R.LAYOUT.MYTESTVIEW. CONSIDER MAKING IT MUCH MORE SWEETER FOR EXAMPLE HOLD AND GRIPS LEFT AND DIFFICULTY RIGHT
@@ -141,7 +131,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         holdsAdapter = new  ArrayAdapter<String>(this, R.layout.mytextview, everyBoard.getGrips());
-        // Toast.makeText(MainActivity.this, "grade descr pos: " + grade_descr_position , Toast.LENGTH_LONG).show();
 
         holdsListView.setAdapter(holdsAdapter);
         registerForContextMenu(holdsListView);
@@ -192,7 +181,8 @@ public class MainActivity extends AppCompatActivity {
                     holdsListView.setAdapter(holdsAdapter);
                     durationSeekBar.setProgress(3);
 
-                    randomizeBtn.setText("New " + everyBoard.getGrade(grade_descr_position) + " Workout");
+                    String randomizeText = "New " + everyBoard.getGrade(grade_descr_position) + " Workout";
+                    randomizeBtn.setText(randomizeText);
                     hang_descr_position = 0;
                 }
             }
@@ -312,7 +302,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 hang_descr_position = position+1;
-                randomizeBtn.setText(hang_descr_position + ". New "+ everyBoard.getGrade(grade_descr_position) + " Hang" );
+                String randomizeText = hang_descr_position + ". New "+ everyBoard.getGrade(grade_descr_position) + " Hang";
+                randomizeBtn.setText(randomizeText );
 
                 rightFingerImage.setVisibility(View.VISIBLE);
                 leftFingerImage.setVisibility(View.VISIBLE);
@@ -395,9 +386,13 @@ public class MainActivity extends AppCompatActivity {
                     rightFingerImage.setY(everyBoard.getCoordRightY(position)*multiplyer_h);
                 }
 
+
+
                 ArrayAdapter<String> holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
                         R.layout.mytextview , everyBoard.getGrips());
+
                 holdsListView.setAdapter(holdsAdapter);
+
 
             }
         });
