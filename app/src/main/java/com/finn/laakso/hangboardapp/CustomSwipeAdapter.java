@@ -10,8 +10,10 @@ import android.widget.LinearLayout;
 
 /**
  * Created by Laakso on 9.1.2018.
+ * CustomSwipeAdapter Creates with the help of PagerAdapter swipeable view of different hangboards.
+ * It also converts them between different representation (enum, int, string)
  */
-// CustomSwipeAdapter Creates with the help of PagerAdapter swipeable view of different hangboards
+
 public class CustomSwipeAdapter extends PagerAdapter {
     private static int[] image_resources = {R.drawable.lauta1011, R.drawable.lauta2002, R.drawable.trans,
     R.drawable.tension, R.drawable.zlag, R.drawable.moonhard, R.drawable.mooneasy, R.drawable.meto,
@@ -21,8 +23,9 @@ public class CustomSwipeAdapter extends PagerAdapter {
     private LayoutInflater layoutInflater;
     // int[] coordinates;
 
+    // All supported Hangboards
     public enum hangboard {BM1000, BM2000, TRANS, TENSION, ZLAG, MOONHARD, MOONEASY, METO,
-        ROCKPRODIGY, PROBLEMSOLVER, METO_CONTACT, METO_WOOD, DRCC};
+        ROCKPRODIGY, PROBLEMSOLVER, METO_CONTACT, METO_WOOD, DRCC}
 
     // Converts PagerAdapter position into hangboard enum.
     public static hangboard getHangBoard(int position) {
@@ -77,6 +80,8 @@ public class CustomSwipeAdapter extends PagerAdapter {
         }
     }
 
+    // Returns the hangboard picture resource int. Used to get picture when name is known and name
+    // is stored into database.
     public static int getHangboardResource(String hangboardName) {
 
         hangboard tempHB;
@@ -153,9 +158,8 @@ public class CustomSwipeAdapter extends PagerAdapter {
         View item_view = layoutInflater.inflate(R.layout.swipe_layout,container,false);
         ImageView imageView = (ImageView)item_view.findViewById(R.id.image_view);
 
-       // TextView textView = (TextView)item_view.findViewById(R.id.image_count);
         imageView.setImageResource(image_resources[position]);
-       // textView.setText("Image: :" + position);
+
         container.addView(item_view);
 
         return item_view;

@@ -72,13 +72,13 @@ public class EditWorkoutInfoActivity extends AppCompatActivity {
             int imageResource = CustomSwipeAdapter.getHangboardResource(hangboardName);
             hangboardImageView.setImageResource(imageResource);
         }
-
+/*
         // Hangboard image that user has used in workout, not shown if editing old workout (default bm1000)
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.BOARDIMAGE")) {
             int imageResource = getIntent().getIntExtra("com.finn.laakso.hangboardapp.BOARDIMAGE",0);
-            // hangboardImageView.setImageResource(imageResource);
-        }
 
+        }
+*/
         // Description is users short description of the workout, by default empty
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.DESCRIPTION")) {
             workoutDescription = getIntent().getStringExtra("com.finn.laakso.hangboardapp.DESCRIPTION");
@@ -185,9 +185,8 @@ public class EditWorkoutInfoActivity extends AppCompatActivity {
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
 
                 if (v.getId() == R.id.workoutInfoGridView) {
-                    //Toast.makeText(EditWorkoutInfoActivity.this, "Context Menu Created ", Toast.LENGTH_SHORT).show();
 
-                    AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+                    //AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
                     if (timeControls.getHangLaps() == 1) {
                         menu.setHeaderTitle("Did you do the Hang?");
                         menu.add(Menu.NONE, 0, 0, "No  (0/1)");

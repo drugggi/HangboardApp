@@ -13,7 +13,7 @@ import java.util.Random;
 public class HangBoard {
 
     private String[] grades;
-    CustomSwipeAdapter.hangboard current_board;
+    private CustomSwipeAdapter.hangboard current_board;
     private int[] hold_coordinates;
 
     // All possible grip types in a hangboard
@@ -21,7 +21,7 @@ public class HangBoard {
 
     // valueList represents the holds that are in a current workout shown in holdsListView
     // These will be sent to WorkoutActivity. Even values has the left hand information and odd values  right hand information
-    ArrayList<Hold> valueList;
+    private ArrayList<Hold> valueList;
 
     // Grips constructor takes resources so that it can read all the information needed constructing
     // workout and hangs and grips
@@ -72,14 +72,13 @@ public class HangBoard {
 
     // Just converts valueLists' Hold descriptions into Array of Strings
     public String[] getGrips() {
-        ArrayList<String> testList = new ArrayList<String>();
+        ArrayList<String> tempList = new ArrayList<String>();
 
         for (int i = 0; i < valueList.size()/2; i++) {
-                testList.add((i+1) + ". " + valueList.get(2*i).getHoldInfo( valueList.get(2*i+1) ) );
+                tempList.add((i+1) + ". " + valueList.get(2*i).getHoldInfo( valueList.get(2*i+1) ) );
 
         }
-        String[] holds = testList.toArray(new String[testList.size()]);
-        return holds;
+        return tempList.toArray(new String[tempList.size()]);
     }
 
     // WHAT TEHESE TWO SETGRIPS DO?!?!??!?! EXPLAIN!!!!
@@ -112,7 +111,9 @@ public class HangBoard {
         return max;
     }
 
-    public Hold createCustomHold(int holdnumber, Hold.grip_type grip_style) {
+    // Creates a custom hold and tries to search if the holds is in stored list, if not
+    // especially the hold value is impossible to set, and is put to custom = 0
+    private Hold createCustomHold(int holdnumber, Hold.grip_type grip_style) {
         Hold customHold = new Hold(holdnumber);
         customHold.setGripStyle(grip_style);
 
@@ -124,10 +125,8 @@ public class HangBoard {
         customHold.setHoldCoordinates(hold_coordinates);
         return customHold;
 
-
     }
 
-    // NEEDS MAJOR REFACTORING
     // addCustomHold method manipulates Hold information at selected position. If info is more than twice
     // the size of maximun hold number at a given hangboard, then the user selected different grip type.
     // We also have to do dirty copying
@@ -308,7 +307,6 @@ public class HangBoard {
             ++i;
         }
 
-        return;
     }
 
     // RandomizeGrip method randomizes selected grip instead of all the grips
@@ -327,8 +325,6 @@ public class HangBoard {
         // Min and max values of grades which the hold search is based on
         int min_value=getMinValue(grades[grade_position]);
         int max_value=getMaxValue(grades[grade_position]);
-
-        int value = 0;
 
         if (isAlternate) {
 
@@ -350,10 +346,8 @@ public class HangBoard {
             }
 
         if ( !isAlternate ) {
-                // Lets search for a hold that max hardness is half the remaining points for a give grade
-                random_nro = getHoldNumberWithValue(min_value, max_value);
-
-                value = value + all_hold_values[random_nro].getHoldValue();
+            // Lets search for a hold that max hardness is half the remaining points for a give grade
+            random_nro = getHoldNumberWithValue(min_value, max_value);
 
             valueList.set(hold_nro*2, all_hold_values[random_nro]);
             valueList.set(hold_nro*2 + 1,all_hold_values[random_nro]);
@@ -393,9 +387,8 @@ public class HangBoard {
         return search_point;
     }
 
-    private int getHoldNumberWithValue(int min_value, int max_value) {
 
-       // Log.e("searchhold" ,  "min: " + min_value + " max: " + max_value);
+    private int getHoldNumberWithValue(int min_value, int max_value) {
 
         Random rng = new Random();
         int search_point = rng.nextInt(all_hold_values.length);
@@ -418,7 +411,7 @@ public class HangBoard {
                 }
             }
         }
-       // Log.e("found", " value_found: " + all_hold_values[search_point].getHoldValue());
+
         return search_point;
     }
     // initializeHolds method collects from resources all the possible grip types, hold numbers,
@@ -511,11 +504,6 @@ public class HangBoard {
         setGrips(0);
     }
 
-    public String getHangboardName() {
-        return CustomSwipeAdapter.getHangboardName(current_board);
-        //return current_board.toString();
-    }
-
 
     // Arbitrary grade values, what hold_values to search in a give grade
     // For finn Grade 6c consist of hold that are betweent 7 and 18 in difficulty
@@ -531,7 +519,7 @@ public class HangBoard {
         else if (grade.equals("7C")) {return 18;}
         else if (grade.equals("8A")) {return 29;}
         else if (grade.equals("8B")) {return 49;}
-        return 1;
+        else {return 1; }
     }
     private static int getMaxValue(String grade) {
         if (grade.equals("5A")) {return 2;}
@@ -545,7 +533,7 @@ public class HangBoard {
         else if (grade.equals("7C")) {return 120;}
         else if (grade.equals("8A")) {return 200;}
         else if (grade.equals("8B")) {return 500;}
-        return 1;
+        else {return 1; }
     }
 
 }
