@@ -6,7 +6,9 @@ HangboardApp is a training application for climbing. It generates hangboard work
 # Getting Started
 
 HangboardApp is developed with the latest Android Studio https://developer.android.com/studio/index.html
+
 git clone https://github.com/drugggi/HangboardApp.git
+
 Android Studio -> Open an existing Android Studio project and select HangboardApp
 
 # Usage
@@ -21,6 +23,18 @@ Previous workouts and statistics can be accessed through statistics button. Ther
 
 ![custom_hold](https://drugggi.github.io/Customhold.jpg)
 
-When the Workout starts, holds and grips are visually represented with pictures and in text form. Timer is presented with countdown clock, progress bar and sound effects.
+When the Workout starts, holds and grips are visually represented with pictures and in text form. Timer is presented with countdown clock, progress bar and sound effects. Hangboard image can be moved and scaled by touching it. Increase or decrease timer text by long clicking it. Edit latest hang by long clicking first progress bar.
 
-![Workout_screen](https://drugggi.github.io/Workout_screen.jpg)
+![Workout_screen](https://drugggi.github.io/workout.jpg)
+
+During and after workout user can check the workout progress when the timer is paused. After the workout user is supposed to edit all the unsuccessful hangs and save the workout to database.
+
+![Edit workout](https://drugggi.github.io/editing_workout.jpg)
+
+All previous saved workouts are shown in a list. All the workout details are editable. If user don't want some workout to be shown in a list, it can be made hidden. For example if the workout was simply a warmup, or it was total failure, or it never happened. Only hidden workouts then can be deleted.
+
+![Workout history](https://drugggi.github.io/database.jpg)
+
+Show graphs button gathers a lot of information about all the workouts and represents them in graph form.
+
+![graphs](https://drugggi.github.io/graphs.jpg)
