@@ -13,6 +13,8 @@ import java.text.SimpleDateFormat;
 
 /**
  * Created by Laakso on 5.6.2018.
+ * WorkoutHistoryAdapter manages the workout list on WorkoutHistoryActivity. It collects the shown
+ * items information from database.
  */
 
 public class WorkoutHistoryAdapter extends BaseAdapter {
@@ -30,8 +32,6 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
         this.dbHandler = dbHandler;
         this.showHidden = showHidden;
         mInflator = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        // dbCursor = dbHandler.getSortedContents();
 
     }
 

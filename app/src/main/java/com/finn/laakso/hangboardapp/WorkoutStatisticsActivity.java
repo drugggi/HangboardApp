@@ -144,6 +144,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         // When the details are gathered and calculated we draw the graphs
         protected void onPostExecute(Object objects) {
 
+
             // Lets check that all arrays are the same size, or else a fatal error will occur
             if ((allDates.size() == allHangboards.size()) == (allTimeControls.size() ==
                     allWorkoutsHolds.size()) == (allCompletedHangs.size() == allCalculatedDetails.size()) ) {
@@ -670,7 +671,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         // Lets populate the entries by starting at day 0 (dayDifference = first record) and finishing
         // the latest workout day x and corresponding workoutTime
         for (int i = dayDifferences.size()-1; i >= 0 ; i--) {
-            // Log.e("data point ", dayDifferences.get(i) + " : "+effectiveWorkoutTime.get(i)/60);
             entries.add(new BarEntry(dayDifferences.get(i) , (float)allCalculatedDetails.get(i).getAdjustedWorkoutTime()/60 ));
         }
 
@@ -689,12 +689,9 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         labels[labels.length-1] = dateFormatTest.format(allDates.get(allDates.size()-1));
         labels[0] = dateFormatTest.format(allDates.get(0));
 
-       // Collections.reverse(dayDifferences);
-
         for (int i = 0 ; i < dayDifferences.size()  ; i++) {
 
             labels[dayDifferences.get(i)] = dateFormatTest.format(allDates.get(i));
-            // Log.e(" labels i",i + " :  " + sdf.format(dates.get(i)));
         }
         Description desc = new Description();
         desc.setText("Workout day number");
@@ -946,8 +943,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
                 // multiplier depending if the hang was successfull or not
                 seconds_multiplier = allCompletedHangs.get(i)[j] * allTimeControls.get(i).getTimeON();
                 hold_index = 2*( j % allTimeControls.get(i).getGripLaps());
-
-               // Log.e("workout Holds: index: ",hold_index + "   text: "+ allWorkoutsHolds.get(i).get(hold_index).getHoldText());
 
                 gripType = allWorkoutsHolds.get(i).get(hold_index).getGripStyle();
                 total_grips += seconds_multiplier;

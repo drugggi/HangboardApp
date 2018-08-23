@@ -214,19 +214,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.close();
 
         return count;
-        /*
-        String countQuery = "SELECT  * FROM " + TABLE_WORKOUTS;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(countQuery, null);
-        int count = cursor.getCount();
-        cursor.close();
-        db.close();
-        return count;
-*/
     }
-
-
-
+/*
     public int lookUpUnHiddenWorkoutCount() {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -239,6 +228,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return workoutEntriesCount;
 
     }
+    */
 
     public int lookUpId(int position, boolean includeHidden) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -314,6 +304,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         }
 
         String workoutDescription = "Err";
+
         try {
             if (cursor.move(position)) {
                 int index = cursor.getColumnIndex(COLUMN_DESCRIPTION);
@@ -370,6 +361,14 @@ public class MyDBHandler extends SQLiteOpenHelper {
     }
 
     public void updateDate(int position, long newDate, boolean includeHidden) {
+
+        if (newDate < 0) {
+            newDate = 0;
+        }
+        else if (newDate > 4120720611736l) {
+            newDate = 3120720611736l;
+        }
+
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
         if (includeHidden) {

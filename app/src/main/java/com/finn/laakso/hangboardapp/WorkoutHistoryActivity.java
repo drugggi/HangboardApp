@@ -143,41 +143,9 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
            public void onClick(View v) {
 
 
-                   long rngTime = System.currentTimeMillis();
+               TESTcreateNewEntry();
+               TESTeditEntryRandomly();
 
-                   // Toast.makeText(WorkoutHistoryActivity.this, "PIILOTETAAN RANDOMILLA",(int) 10).show();
-
-                   //TimeControls rngControls = getRandomTimeControls();
-                   TimeControls rngControls = getRandomPremadeTimeControls();
-                   //TimeControls rngControls = getTotallyRandomTimeControls();
-
-                   // Lets set up random hangboard so that holds are real and based on random grade
-
-                   Resources res = getResources();
-                   HangBoard rngHangboard = new HangBoard(res);
-                   rngHangboard.initializeHolds(res, getRandomHB());
-                   rngHangboard.setGripAmount(rngControls.getGripLaps(), rng.nextInt(11));
-                   ArrayList<Hold> holdsFromRNGhangboard = rngHangboard.getCurrentHoldList();
-
-                   //ArrayList<Hold> randomHolds = getRandomWorkoutHolds(rngControls.getGripLaps() );
-
-                   dbHandler.addHangboardWorkout(
-                           rngTime - (long) 1000 * 60 * 60 * 24 * rng.nextInt(1000),
-                           getRandomHangboard(),
-                           rngControls,
-                           holdsFromRNGhangboard,
-                           // getRandomWorkoutHolds(rngControls.getGripLaps()),
-                           //getCompletedALL(rngControls),
-                           getCompletedRandomly(rngControls),
-                           getRandomWorkoutDescription()
-                   );
-
-              // int pos = rng.nextInt(dbHandler.lookUpWorkoutCount());
-               /*
-               boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
-               int pos = rng.nextInt(dbHandler.lookUpWorkoutCount(includeHidden));
-               dbHandler.hideWorkoutNumber(pos,includeHidden);
-*/
                 workoutAdapter.notifyDataSetChanged();
            }
        });
@@ -385,6 +353,8 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
             if (data.hasExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS")) {
 
                 int[] completed = data.getIntArrayExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS");
+
+
                 dbHandler.updateCompletedHangs(positionGlobal,completed,includeHidden);
             }
 
@@ -525,6 +495,113 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         return true;
     }
 
+    private void TESTeditEntryRandomly() {
+        int doThis = rng.nextInt(6);
+        boolean includeHidden = rng.nextBoolean();
+
+        int position = rng.nextInt(dbHandler.lookUpWorkoutCount(includeHidden))+1;
+        Log.e("pos, IH",position + " , " + includeHidden);
+
+        if (doThis == 0 ) {
+
+            TimeControls tempControls = dbHandler.lookUpTimeControls(position,includeHidden);
+            int[] jhfe = getCompletedRandomly(tempControls);
+            dbHandler.updateCompletedHangs(position,jhfe,includeHidden);
+            Log.e("udCompHangs","int[] length: " + jhfe.length);
+        }
+        else if (doThis == 1 ) {
+            long rngDate = rng.nextLong();
+            dbHandler.updateDate(position,rngDate,includeHidden);
+            Log.e("udDate","long: " + rngDate);
+        }
+        else if (doThis == 2 ) {
+            String rngName = getRandomHangboard();
+            dbHandler.updateHangboardName(position,rngName,includeHidden);
+            Log.e("udHBName","new name: " + rngName);
+        }
+        else if (doThis == 3) {
+            String rngDesc = getRandomWorkoutDescription();
+            dbHandler.updateWorkoutDescription(position,rngDesc,includeHidden);
+            Log.e("udDesc","new desc: " + rngDesc);
+        }
+        else if (doThis == 4 ){
+            dbHandler.delete(position,includeHidden);
+            Log.e("deleting","pos: " + position + "  is hidden: " + includeHidden);
+        }
+        else {
+            TESTcreateNewEntryReallyRandom();
+            Log.e("new one","Totally random workout created");
+        }
+    }
+
+    private void TESTcreateNewEntryReallyRandom() {
+        long rngTime = System.currentTimeMillis();
+
+        // Toast.makeText(WorkoutHistoryActivity.this, "PIILOTETAAN RANDOMILLA",(int) 10).show();
+
+        //TimeControls rngControls = getRandomTimeControls();
+        //TimeControls rngControls = getRandomPremadeTimeControls();
+        TimeControls rngControls = getTotallyRandomTimeControls();
+
+        // Lets set up random hangboard so that holds are real and based on random grade
+
+        Resources res = getResources();
+        HangBoard rngHangboard = new HangBoard(res);
+        rngHangboard.initializeHolds(res, getRandomHB());
+        rngHangboard.setGripAmount(rngControls.getGripLaps(), rng.nextInt(11));
+        ArrayList<Hold> holdsFromRNGhangboard = rngHangboard.getCurrentHoldList();
+
+        ArrayList<Hold> randomHolds = getRandomWorkoutHolds(rngControls.getGripLaps() );
+
+        dbHandler.addHangboardWorkout(
+                rngTime - (long) 1000 * 60 * 60 * 24 * rng.nextInt(1000),
+                getRandomHangboard(),
+                rngControls,
+                randomHolds,
+                // getRandomWorkoutHolds(rngControls.getGripLaps()),
+                //getCompletedALL(rngControls),
+                getCompletedRandomly(rngControls),
+                getRandomWorkoutDescription()
+        );
+
+    }
+
+    private void TESTcreateNewEntry() {
+        long rngTime = System.currentTimeMillis();
+
+        // Toast.makeText(WorkoutHistoryActivity.this, "PIILOTETAAN RANDOMILLA",(int) 10).show();
+
+        //TimeControls rngControls = getRandomTimeControls();
+        TimeControls rngControls = getRandomPremadeTimeControls();
+        //TimeControls rngControls = getTotallyRandomTimeControls();
+
+        // Lets set up random hangboard so that holds are real and based on random grade
+
+        Resources res = getResources();
+        HangBoard rngHangboard = new HangBoard(res);
+        rngHangboard.initializeHolds(res, getRandomHB());
+        rngHangboard.setGripAmount(rngControls.getGripLaps(), rng.nextInt(11));
+        ArrayList<Hold> holdsFromRNGhangboard = rngHangboard.getCurrentHoldList();
+
+        //ArrayList<Hold> randomHolds = getRandomWorkoutHolds(rngControls.getGripLaps() );
+
+        dbHandler.addHangboardWorkout(
+                rngTime - (long) 1000 * 60 * 60 * 24 * rng.nextInt(1000),
+                getRandomHangboard(),
+                rngControls,
+                holdsFromRNGhangboard,
+                // getRandomWorkoutHolds(rngControls.getGripLaps()),
+                //getCompletedALL(rngControls),
+                getCompletedRandomly(rngControls),
+                getRandomWorkoutDescription()
+        );
+
+        // int pos = rng.nextInt(dbHandler.lookUpWorkoutCount());
+
+               boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
+               int pos = rng.nextInt(dbHandler.lookUpWorkoutCount(includeHidden));
+               dbHandler.hideWorkoutNumber(pos,includeHidden);
+    }
 
     // Randomizers for creating all the data that is neede for testing SQLite database
     // TimeControls, Holds, Dates
