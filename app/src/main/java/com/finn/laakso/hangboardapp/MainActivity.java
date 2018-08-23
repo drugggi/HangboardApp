@@ -28,34 +28,34 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    ListView gradesListView;
-    ListView holdsListView;
-    ArrayAdapter<String> holdsAdapter;
-    ArrayAdapter<String> gradeAdapter;
+    private ListView gradesListView;
+    private ListView holdsListView;
+    private ArrayAdapter<String> holdsAdapter;
+    private ArrayAdapter<String> gradeAdapter;
 
     // Maybe get rid of these in the future
-    int grade_descr_position;
-    int hang_descr_position;
-    int hangboard_descr_position;
+    private int grade_descr_position;
+    private int hang_descr_position;
+    private int hangboard_descr_position;
 
-    Button startWorkout;
-    Button randomizeBtn;
-    Button timeControlBtn;
-    Button testStatistics;
+    private Button startWorkout;
+    private Button randomizeBtn;
+    private Button timeControlBtn;
+    private Button testStatistics;
 
-    CheckBox repeatersBox;
-    TextView durationTextView;
-    SeekBar durationSeekBar;
+    private CheckBox repeatersBox;
+    private TextView durationTextView;
+    private SeekBar durationSeekBar;
 
-    ImageView leftFingerImage;
-    ImageView rightFingerImage;
+    private ImageView leftFingerImage;
+    private ImageView rightFingerImage;
    // ImageView fingerImage;
 
-    ViewPager viewPager;
-    CustomSwipeAdapter swipeAdapter;
+    private ViewPager viewPager;
+    private CustomSwipeAdapter swipeAdapter;
 
-    HangBoard everyBoard;
-    TimeControls timeControls;
+    private HangBoard everyBoard;
+    private TimeControls timeControls;
 
 
     private static final int REQUEST_TIME_CONTROLS = 0;
