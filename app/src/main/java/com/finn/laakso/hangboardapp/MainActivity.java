@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Setting the AcdtionBar icon and thext. Must be a better way to do this
         try {
             android.support.v7.app.ActionBar actionBar = getSupportActionBar();
             actionBar.setDisplayShowHomeEnabled(true);

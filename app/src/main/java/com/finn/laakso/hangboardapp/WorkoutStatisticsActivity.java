@@ -44,6 +44,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
     private CombinedChart totalWorkloadCombinedChart;
 
+    // When all the workout details are calculated, they are put on these variables
     private TextView workoutsInfoTextView;
     private TextView generalInfoTextView;
 
@@ -51,28 +52,27 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
     private PieChart hangboardDistributionPieChart;
     private BarChart difficultyBarChart;
     private BarChart workoutDatesBarChart;
-    private BarChart totalWorkloadBarChart;
     private HorizontalBarChart singleHangsOrRepeatersBarChart;
-    // private LineChart timeUnderTensionLineChart;
-   // private LineChart workoutTimeLineChart;
     private LineChart workoutIntensityLineChart;
     private LineChart workoutTUTandWTLineChart;
     private LineChart averageDifficultyPerHang;
     private LineChart workoutPowerLineChart;
     private LineChart scaledLineChart;
 
+    // All the workouts details from database are put on these variables
     private ArrayList<ArrayList<Hold>> allWorkoutsHolds;
     private ArrayList<TimeControls> allTimeControls;
     private ArrayList<Long> allDates;
     private ArrayList<int[]> allCompletedHangs;
     private ArrayList<String> allHangboards;
 
+    // Extra calculations are need, and we use CalculateWorkoutDetails class.
     private ArrayList<CalculateWorkoutDetails> allCalculatedDetails;
 
-    private ArrayList<String> stringDates;
-
+    // includeHidden tells if the user wants to see hidden workout represented too
     private boolean includeHidden;
 
+    private static final int LINEAR_REGRESSION_DATA_POINTS_NEEDED = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +112,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
         }
 
+        // We gather all the workouts details from the database in the background
         @Override
         protected Object doInBackground(Object[] objects) {
 
@@ -140,7 +141,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         }
 
 
-
+        // When the details are gathered and calculated we draw the graphs
         protected void onPostExecute(Object objects) {
 
             // Lets check that all arrays are the same size, or else a fatal error will occur
@@ -152,12 +153,11 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
                 createSingleHangsOrRepeatersBarChart();
                 createGripDistributionPieChart();
                 createDifficultyBarChart();
+                createTotalWorkloadCombinedChart();
                 createWorkoutDatesBarChart();
                 createWorkoutTUTandWTLineChart();
                 createWorkoutIntensityLineChart();
                 createAverageDifficultyPerHangLineChart();
-                // createTotalWorkloadBarChart();
-                createTotalWorkloadCombinedChart();
                 createWorkoutPowerLineChart();
                 createScaledLineChart();
                 createHangboardDistributionPieChart();
@@ -168,6 +168,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
     }
 
+    // This method creates Workload bar chart and draws linear regression line over it
     public void createTotalWorkloadCombinedChart() {
         totalWorkloadCombinedChart = (CombinedChart) findViewById(R.id.totalWorkloadCombinedChart);
 
@@ -208,6 +209,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
             labels[i] = "WO: " + (i+1);
 
         }
+
         float adjustment;
         float currentWorkload ;
         int alpha;
@@ -233,15 +235,18 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
         barDataSet.setColors(barColors);
 
+
         LineData lineData = new LineData(lineDataSet);
         BarData barData = new BarData(barDataSet);
 
         CombinedData data = new CombinedData();
 
-        //data.setData( generateLineData());
         data.setData(barData);
-        data.setData(lineData);
-        //xAxis.setAxisMaximum(data.getXMax() + 0.25f);
+
+        // Linear regression line is kinda useless on low datapoins
+        if ( allCalculatedDetails.size() > LINEAR_REGRESSION_DATA_POINTS_NEEDED) {
+            data.setData(lineData);
+        }
 
         XAxis xAxis = totalWorkloadCombinedChart.getXAxis();
         xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
@@ -253,7 +258,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         totalWorkloadCombinedChart.invalidate();
     }
 
-
+    // This method creates Intensity line chart and draws linear regression line
     public void createWorkoutIntensityLineChart() {
         workoutIntensityLineChart = (LineChart) findViewById(R.id.workoutIntensityChart);
         List<Entry> intensityEntries = new ArrayList<Entry>();
@@ -299,7 +304,9 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
 
         lineDataSets.add(linedataSetIntensity);
-        lineDataSets.add(lineDataIntensityRegression);
+        if (allCalculatedDetails.size() > LINEAR_REGRESSION_DATA_POINTS_NEEDED) {
+            lineDataSets.add(lineDataIntensityRegression);
+        }
 
         LineData lineData = new LineData(lineDataSets);
 
@@ -324,6 +331,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
     }
 
+    // This method creates Average difficutly per hang line chart
     public void createAverageDifficultyPerHangLineChart() {
         averageDifficultyPerHang = (LineChart) findViewById(R.id.averageDifficultyPerHang);
 
@@ -369,8 +377,10 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         lineDataSetLR.setValueTextSize(0f);
 
         lineDataSets.add(lineDataSetTUT);
-        lineDataSets.add(lineDataSetLR);
 
+        if (allCalculatedDetails.size() > LINEAR_REGRESSION_DATA_POINTS_NEEDED) {
+            lineDataSets.add(lineDataSetLR);
+        }
         LineData lineData = new LineData(lineDataSets);
 
         lineData.setValueTextSize(10f);
@@ -435,8 +445,9 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         lineDataSetTUT.setLineWidth(2f);
 
         lineDataSets.add(lineDataSetTUT);
-        lineDataSets.add(lineDataSetLR);
-
+        if (allCalculatedDetails.size() > LINEAR_REGRESSION_DATA_POINTS_NEEDED) {
+            lineDataSets.add(lineDataSetLR);
+        }
         LineData lineData = new LineData(lineDataSets);
 
         lineData.setValueTextSize(10f);
@@ -456,6 +467,10 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
     }
 
+    // This method creates scaled line chart combining and scaling workload, intensity, difficulty per hang
+    // and workout power into one chart. Chart is sclaed from 0 to 1, where every variables min value is 0 and
+    // max value is 1. With the help of this chart, user can see for examlpe how increasing one workout
+    // variable affects the other. It is really hard to have every variable be maximum in a single workout.
     public void createScaledLineChart() {
         scaledLineChart = (LineChart) findViewById(R.id.scaledLineChart);
 
@@ -463,7 +478,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         ArrayList<Entry> entriesAvgDifficulty = new ArrayList<>();
         ArrayList<Entry> entriesWorkload = new ArrayList<>();
         ArrayList<Entry> entriesPower = new ArrayList<>();
-
 
         float minIntensity = Float.MAX_VALUE;
         float maxIntensity = 0;
@@ -633,65 +647,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
 
     }
-/*
-    public void createTotalWorkloadBarChart() {
-        totalWorkloadBarChart = (BarChart) findViewById(R.id.totalWorkloadBarChart);
 
-        ArrayList<BarEntry> workloadEntries = new ArrayList<>();
-        ArrayList<Integer> barColors = new ArrayList<Integer>();
-
-        int xCoord = 0;
-        float maxValue = 0;
-        for (int i = allCalculatedDetails.size()-1 ; i >= 0 ; i--) {
-            //entries.add(new BarEntry(dayDifferences.get(i) , (float)allCalculatedDetails.get(i).getAdjustedWorkoutTime()/60 ));
-            workloadEntries.add(new BarEntry(xCoord,allCalculatedDetails.get(i).getWorkload() ) );
-            if (maxValue < allCalculatedDetails.get(i).getWorkload() ) {
-                maxValue = allCalculatedDetails.get(i).getWorkload();
-            }
-            xCoord++;
-        }
-
-
-        String[] labels = new String[allCalculatedDetails.size()-1];
-        for (int i = 0 ; i < labels.length ; i++ ) {
-            labels[i] = "WO: " + (i+1);
-
-        }
-        float adjustment;
-        float currentWorkload ;
-        int alpha;
-        for (int i = allCalculatedDetails.size()-1 ; i >= 0 ; i--) {
-            currentWorkload = allCalculatedDetails.get(i).getWorkload();
-
-            adjustment = 200*currentWorkload / maxValue;
-            alpha = (int) adjustment;
-            barColors.add(Color.argb(50+alpha,0,0,200));
-        }
-
-        BarDataSet barDataSet = new BarDataSet(workloadEntries,"Total workload for each workout (avg D*TUT)");
-        //barDataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
-        //barDataSet.setColor(Color.BLUE);
-        barDataSet.setColors(barColors);
-
-        BarData barData = new BarData(barDataSet);
-        totalWorkloadBarChart.setData(barData);
-
-        Description desc = new Description();
-        desc.setText("Total workload for each workout (avg D*TUT)");
-
-        totalWorkloadBarChart.setDescription(desc);
-        XAxis xAxis = totalWorkloadBarChart.getXAxis();
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
-        xAxis.setGranularity(1f);
-        //xAxis.setGranularityEnabled(true);
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-
-        totalWorkloadBarChart.invalidate();
-
-
-
-    }
-*/
     public void createWorkoutDatesBarChart() {
         workoutDatesBarChart = (BarChart) findViewById(R.id.workoutDatesBarChart);
 
@@ -1085,9 +1041,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
        int totalDifficultiesSum = 0;
        int averagePower = 0;
 
-       long firstWorkout = allDates.get(allDates.size() - 1);
-       long lastWorkout = allDates.get(0);
-
        for (int i = 0; i < allCalculatedDetails.size() ; i++) {
            totalHangs += allCalculatedDetails.get(i).getTotalHangs();
            totalCompletedHangs += allCalculatedDetails.get(i).getCompletedHangs();
@@ -1118,7 +1071,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
        workoutsInfo.append("Workouts done: ").append(totalWorkoutsDone).append("\n");
        workoutsInfo.append("Total hangs: ").append(totalHangs).append("\n");
-       workoutsInfo.append("Total hangs completed").append(totalCompletedHangs).append("\n");
+       workoutsInfo.append("Total hangs completed: ").append(totalCompletedHangs).append("\n");
        workoutsInfo.append("Success rate: ").append(hangSuccessRate).append("% \n");
        workoutsInfo.append("Total workout time: ").append(totalWorkoutTime).append("min\n");
        workoutsInfo.append("Adjusted workout time: ").append(totalAdjustedWorkoutTime).append("min\n");
