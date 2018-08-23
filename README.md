@@ -1,5 +1,5 @@
-# HangboardApp
-HangboardApp is a training application for climbing. It generates hangboard workout based on user's climbing level (grade).
+# Grips & Grades hangboard application
+Grips & Grades HangboardApp is a training application for climbing. It generates hangboard workout based on user's climbing level (grade).
 
 ![main screen](https://drugggi.github.io/main_screen.jpg)
 
