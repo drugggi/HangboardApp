@@ -35,6 +35,6 @@ All previous saved workouts are shown in a list. All the workout details are edi
 
 ![Workout history](https://drugggi.github.io/database.jpg)
 
-Show graphs button gathers a lot of information about all the workouts and represents them in graph form.
+Show graphs button gathers a lot of information about all the workouts and represents them in graph form. For example grip type and hangboard type pie chart, hang difficulties, workload and date bar charts, workout time, time under tension, intensity, hang difficulty and workout power line charts.
 
 ![graphs](https://drugggi.github.io/graphs.jpg)
