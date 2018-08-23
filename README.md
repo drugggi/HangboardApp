@@ -1,7 +1,7 @@
 # HangboardApp
 HangboardApp is a training application for climbing. It generates hangboard workout based on user's climbing level (grade).
 
-![main screen](https://drugggi.github.io/Main_screen.jpg)
+![main screen](https://drugggi.github.io/main_screen.jpg)
 
 # Getting Started
 
@@ -13,7 +13,7 @@ Android Studio -> Open an existing Android Studio project and select HangboardAp
 
 # Usage
 
-Select the grade and duration with slider and the HangboardApp generates the holds and grips for the workout. Holds and grips can be shuffled until preferable workout structure is found.
+Select the hangboard by swiping the hangboard picture. Select the grade and duration with slider and the HangboardApp generates the holds and grips for the workout. Holds and grips can be shuffled until preferable workout hangs are found.
 
 Time controls can be fully controlled in Time Controls menu. Holds and grips can be manually changed by long clicking target hang on the list until pop up list appears. User can only change left hand hold, right hand hold, or grip type at a time, So it takes three clicks to fully customize a hang.
 
