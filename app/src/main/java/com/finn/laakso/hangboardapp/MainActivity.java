@@ -30,8 +30,9 @@ public class MainActivity extends AppCompatActivity {
 
     private ListView gradesListView;
     private ListView holdsListView;
-    private ArrayAdapter<String> holdsAdapter;
+    //private ArrayAdapter<String> holdsAdapter;
     private ArrayAdapter<String> gradeAdapter;
+    private HangListAdapter hangsAdapter;
 
     // Maybe get rid of these in the future
     private int grade_descr_position;
@@ -89,10 +90,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_main);
-
         leftFingerImage = (ImageView) findViewById(R.id.leftFingerImageView);
         rightFingerImage = (ImageView) findViewById(R.id.rightFingerImageView);
-
 /*
         fingerImage = (ImageView) findViewById(R.id.templateFingerImageView);
         fingerImage.setImageResource(R.drawable.finger_template);
@@ -130,14 +129,15 @@ public class MainActivity extends AppCompatActivity {
             ArrayList<Hold> holds = savedInstanceState.getParcelableArrayList("mainactivity_hangboardholds");
             everyBoard.setGrips(holds);
         }
+        // holdsAdapter = new  ArrayAdapter<String>(this, R.layout.mytextview, everyBoard.getGrips());
 
-        holdsAdapter = new  ArrayAdapter<String>(this, R.layout.mytextview, everyBoard.getGrips());
-
-        holdsListView.setAdapter(holdsAdapter);
+        hangsAdapter = new HangListAdapter(this, everyBoard.getCurrentHoldList() );
+        holdsListView.setAdapter(hangsAdapter);
         registerForContextMenu(holdsListView);
 
         durationTextView = (TextView) findViewById(R.id.durationTextView);
-        durationTextView.setText("Duration: " + timeControls.getTotalTime()/60 + "min");
+        String durationText = "Duration: " + timeControls.getTotalTime()/60 + "min";
+        durationTextView.setText(durationText);
 
         durationSeekBar = (SeekBar) findViewById(R.id.durationSeekBar);
 
@@ -177,9 +177,11 @@ public class MainActivity extends AppCompatActivity {
                     repeatersBox.setVisibility(View.VISIBLE);
 
                     everyBoard.initializeHolds(res, HangboardSwipeAdapter.getHangBoard(hangboard_descr_position));
-                    holdsAdapter = new ArrayAdapter<String>(MainActivity.this,
-                            R.layout.mytextview, everyBoard.setGrips(grade_descr_position));
-                    holdsListView.setAdapter(holdsAdapter);
+                    hangsAdapter = new HangListAdapter(MainActivity.this,everyBoard.getCurrentHoldList());
+                    everyBoard.setGrips(grade_descr_position);
+                    //holdsAdapter = new ArrayAdapter<String>(MainActivity.this, R.layout.mytextview, everyBoard.setGrips(grade_descr_position));
+
+                    holdsListView.setAdapter(hangsAdapter);
                     durationSeekBar.setProgress(3);
 
                     String randomizeText = "New " + everyBoard.getGrade(grade_descr_position) + " Workout";
@@ -359,13 +361,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
-
                 // when 0 grip is not selected and we can randomize all grips
                 if ( hang_descr_position == 0 ) {
                     everyBoard.randomizeGrips(grade_descr_position);
 
-                    if (repeatersBox.isChecked() == false) {
+                    if (!repeatersBox.isChecked()) {
                         everyBoard.setHoldsForSingleHangs();
                     }
                 }
@@ -387,13 +387,13 @@ public class MainActivity extends AppCompatActivity {
                     rightFingerImage.setY(everyBoard.getCoordRightY(position)*multiplyer_h);
                 }
 
-
-
+                /*
                 ArrayAdapter<String> holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
                         R.layout.mytextview , everyBoard.getGrips());
 
                 holdsListView.setAdapter(holdsAdapter);
-
+                */
+                hangsAdapter.notifyDataSetChanged();
 
             }
         });
@@ -441,10 +441,13 @@ public class MainActivity extends AppCompatActivity {
                 if (!isChecked) {
                     everyBoard.setHoldsForSingleHangs();
                 }
-
+/*
                 holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
                         R.layout.mytextview , everyBoard.getGrips());
                 holdsListView.setAdapter(holdsAdapter);
+                */
+
+                hangsAdapter.notifyDataSetChanged();
 
                 rightFingerImage.setVisibility(View.INVISIBLE);
                 leftFingerImage.setVisibility(View.INVISIBLE);
@@ -488,10 +491,12 @@ public class MainActivity extends AppCompatActivity {
                 durationTextView.setText(durationText);
                 rightFingerImage.setVisibility(View.INVISIBLE);
                 leftFingerImage.setVisibility(View.INVISIBLE);
-
+/*
                 holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
                         R.layout.mytextview , everyBoard.getGrips());
                 holdsListView.setAdapter(holdsAdapter);
+                */
+                hangsAdapter.notifyDataSetChanged();
 
             }
 
@@ -521,10 +526,12 @@ public class MainActivity extends AppCompatActivity {
         // not very elegant way at all
         everyBoard.addCustomHold(item.getItemId(),info.position);
 
+        /*
         holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
                 R.layout.mytextview , everyBoard.getGrips());
         holdsListView.setAdapter(holdsAdapter);
-
+*/
+        hangsAdapter.notifyDataSetChanged();
 
         ImageView imageView = (ImageView) findViewById(R.id.image_view);
         Float multiplyer_w = imageView.getWidth() / 350F;
@@ -547,6 +554,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+
             if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_TIME_CONTROLS) {
                 int[] i = data.getIntArrayExtra("com.finn.laakso.hangboardapp.SETTINGS");
 
@@ -555,9 +563,9 @@ public class MainActivity extends AppCompatActivity {
                 if (i[0] != timeControls.getGripLaps()) {
                     timeControls.setTimeControls(i);
                     everyBoard.setGripAmount(timeControls.getGripLaps(), grade_descr_position);
-                    holdsAdapter = new ArrayAdapter<String>(MainActivity.this,
-                            R.layout.mytextview, everyBoard.getGrips());
-                    holdsListView.setAdapter(holdsAdapter);
+
+                    hangsAdapter.notifyDataSetChanged();
+
                     hang_descr_position = 0;
                 } else {
                     timeControls.setTimeControls(i);
@@ -567,16 +575,16 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Settings applied, pre made time controls disabled ", Toast.LENGTH_SHORT).show();
                 repeatersBox.setVisibility(View.INVISIBLE);
                 durationSeekBar.setVisibility(View.INVISIBLE);
-                durationTextView.setText("Duration: " + timeControls.getTotalTime() / 60 + "min");
 
             } // Enabling them when settings are not saved, in future must be made more intuitive.
             else {
                 Toast.makeText(MainActivity.this, "Settings not applied, pre made time controls enabled", Toast.LENGTH_SHORT).show();
                 repeatersBox.setVisibility(View.VISIBLE);
                 durationSeekBar.setVisibility(View.VISIBLE);
-                durationTextView.setText("Duration: " + timeControls.getTotalTime() / 60 + "min");
-            }
 
+            }
+            String durationText = "Duration: " + timeControls.getTotalTime() / 60 + "min";
+            durationTextView.setText(durationText);
 
     }
 }

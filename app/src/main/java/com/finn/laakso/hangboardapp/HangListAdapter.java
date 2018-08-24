@@ -44,15 +44,18 @@ public class HangListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View v = mInflator.inflate(R.layout.mytextview,null);
-        TextView hangTextView = (TextView) v.findViewById(R.id.textView);
+        View v = mInflator.inflate(R.layout.hanglist,null);
+        TextView hangPositionTextView = (TextView) v.findViewById(R.id.hangPositionTextView);
+        TextView hangInfoTextView = (TextView) v.findViewById(R.id.hangInfoTextView);
 
         Hold leftHandHold = workoutHolds.get(2*position);
         Hold rightHandHold = workoutHolds.get(2*position + 1);
 
         String test = leftHandHold.getHoldInfo(rightHandHold);
+        String positionText = (position+1) + ".";
 
-        hangTextView.setText(test);
+        hangInfoTextView.setText(test);
+        hangPositionTextView.setText(positionText);
 
         return v;
     }
