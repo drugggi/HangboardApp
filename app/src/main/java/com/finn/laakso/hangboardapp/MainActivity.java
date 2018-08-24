@@ -188,6 +188,8 @@ public class MainActivity extends AppCompatActivity {
                     String randomizeText = "New " + everyBoard.getGrade(grade_descr_position) + " Workout";
                     randomizeBtn.setText(randomizeText);
                     hang_descr_position = 0;
+
+                    testMethod();
                 }
             }
 
@@ -246,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
                 randomizeBtn.setText(randomizeText);
                 hang_descr_position = 0;
 
-                testMethod();
+
 /*
                 // THIS IS ONLY FOR TESTING HAND IMAGES POSITION PURPOSES
                 float x;
@@ -457,7 +459,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
 
         durationSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

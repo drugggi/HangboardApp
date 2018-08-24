@@ -196,7 +196,6 @@ public class HangBoard {
     public void setGripAmount(int amount, int grade_position) {
 
         // No need to change if the size is the same than wanthed size (amount)
-        // Log.d("amount, value",amount + ":" +valueList.size() );
 
         if (amount*2 < valueList.size() ) {
             while (amount*2 < valueList.size() ) {
@@ -214,16 +213,19 @@ public class HangBoard {
             }
 
         }
-        /*
-        valueList.clear();
 
-        while (amount > 0) {
-            valueList.add(new Hold(1));
-            valueList.add(new Hold(1));
-            --amount;
-        }
-*/
         // Lets randomize the holds in all_hold_values
+        randomizeHoldList();
+
+
+        // randomizeGrips(grade_position);
+
+
+    }
+
+    // RandomizeHoldList method is necessary to guarantee that holds are random for every
+    // button press. Otherwise it would pick some holds more frequently
+    private void randomizeHoldList() {
         Hold temp;
         int index;
         Random random = new Random();
@@ -234,10 +236,6 @@ public class HangBoard {
             all_hold_values[index] = all_hold_values[i];
             all_hold_values[i] = temp;
         }
-
-        // randomizeGrips(grade_position);
-
-
     }
 
     // setHoldsForSingleHangs method makes sure that if one hang contains different holds for left
@@ -322,6 +320,7 @@ public class HangBoard {
             ++i;
         }
 
+        randomizeHoldList();
     }
 
     // RandomizeGrip method randomizes selected grip instead of all the grips
@@ -370,6 +369,7 @@ public class HangBoard {
 
 
             }
+            randomizeHoldList();
     }
 
     // getHoldNumberWithValue searches hold types with given difficulty range and wanted grip type
