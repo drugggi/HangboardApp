@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -244,6 +245,8 @@ public class MainActivity extends AppCompatActivity {
                 String randomizeText = "New "+ everyBoard.getGrade(grade_descr_position)+ " Workout";
                 randomizeBtn.setText(randomizeText);
                 hang_descr_position = 0;
+
+                testMethod();
 /*
                 // THIS IS ONLY FOR TESTING HAND IMAGES POSITION PURPOSES
                 float x;
@@ -585,6 +588,19 @@ public class MainActivity extends AppCompatActivity {
             }
             String durationText = "Duration: " + timeControls.getTotalTime() / 60 + "min";
             durationTextView.setText(durationText);
+
+    }
+
+    private void testMethod() {
+        Random rng = new Random();
+
+        timeControls = WorkoutHistoryActivity.getTotallyRandomTimeControls();
+
+        int gradePosition = rng.nextInt(11);
+
+        everyBoard.setGripAmount(timeControls.getGripLaps(), gradePosition);
+
+        hangsAdapter.notifyDataSetChanged();
 
     }
 }

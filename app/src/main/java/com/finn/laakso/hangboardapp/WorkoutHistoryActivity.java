@@ -662,7 +662,8 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         return newHold;
     }
 
-    private TimeControls getRandomTimeControls() {
+    public static TimeControls getRandomTimeControls() {
+        Random rng = new Random();
 
         int hang_laps = rng.nextInt(6)+1;
         int grip_laps = rng.nextInt(6)+2;
@@ -687,7 +688,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         return  randomTimeControls;
     }
 
-    private TimeControls getRandomPremadeTimeControls() {
+    public TimeControls getRandomPremadeTimeControls() {
         TimeControls premadeRNGcontrols = new TimeControls();
         if (rng.nextBoolean() ) {
             premadeRNGcontrols.setHangLaps(1);
@@ -696,7 +697,9 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         return premadeRNGcontrols;
     }
 
-    private TimeControls getTotallyRandomTimeControls() {
+    public static TimeControls getTotallyRandomTimeControls() {
+
+        Random rng = new Random();
 
         int hang_laps = rng.nextInt(100)-20;
         int grip_laps = rng.nextInt(100)-20;
