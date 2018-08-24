@@ -197,10 +197,24 @@ public class HangBoard {
 
         // No need to change if the size is the same than wanthed size (amount)
         // Log.d("amount, value",amount + ":" +valueList.size() );
-        if (amount*2 == valueList.size() ) {
-            return;
-        }
 
+        if (amount*2 < valueList.size() ) {
+            while (amount*2 < valueList.size() ) {
+                valueList.remove(valueList.size()-1 );
+                valueList.remove(valueList.size()-1 );
+            }
+
+        }
+        else if (amount*2 > valueList.size() ) {
+            while (amount*2 > valueList.size() ){
+                valueList.add(new Hold(1));
+                valueList.add(new Hold(1));
+                randomizeGrip(grade_position, valueList.size()/2-1 );
+
+            }
+
+        }
+        /*
         valueList.clear();
 
         while (amount > 0) {
@@ -208,7 +222,7 @@ public class HangBoard {
             valueList.add(new Hold(1));
             --amount;
         }
-
+*/
         // Lets randomize the holds in all_hold_values
         Hold temp;
         int index;
@@ -221,7 +235,8 @@ public class HangBoard {
             all_hold_values[i] = temp;
         }
 
-        randomizeGrips(grade_position);
+        // randomizeGrips(grade_position);
+
 
     }
 
