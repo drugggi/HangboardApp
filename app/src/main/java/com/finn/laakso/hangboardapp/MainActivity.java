@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
    // ImageView fingerImage;
 
     private ViewPager viewPager;
-    private CustomSwipeAdapter swipeAdapter;
+    private HangboardSwipeAdapter swipeAdapter;
 
     private HangBoard everyBoard;
     private TimeControls timeControls;
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         final Resources res = getResources();
         everyBoard = new HangBoard(res);
 
-        everyBoard.initializeHolds(res, CustomSwipeAdapter.getHangBoard(hangboard_descr_position));
+        everyBoard.initializeHolds(res, HangboardSwipeAdapter.getHangBoard(hangboard_descr_position));
 
         timeControls = new TimeControls();
         if (savedInstanceState != null) {
@@ -152,9 +152,9 @@ public class MainActivity extends AppCompatActivity {
             repeatersBox.setChecked(true);
         }
 
-        // Lets use CustomSwipeAdapter to show different hangboards in a swipeable fashion
+        // Lets use HangboardSwipeAdapter to show different hangboards in a swipeable fashion
         viewPager = (ViewPager) findViewById(R.id.view_pager);
-        swipeAdapter = new CustomSwipeAdapter(this);
+        swipeAdapter = new HangboardSwipeAdapter(this);
         viewPager.setAdapter(swipeAdapter);
 
         // ViewPager for showing and swiping different HangBoards.
@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
                     durationSeekBar.setVisibility(View.VISIBLE);
                     repeatersBox.setVisibility(View.VISIBLE);
 
-                    everyBoard.initializeHolds(res, CustomSwipeAdapter.getHangBoard(hangboard_descr_position));
+                    everyBoard.initializeHolds(res, HangboardSwipeAdapter.getHangBoard(hangboard_descr_position));
                     holdsAdapter = new ArrayAdapter<String>(MainActivity.this,
                             R.layout.mytextview, everyBoard.setGrips(grade_descr_position));
                     holdsListView.setAdapter(holdsAdapter);

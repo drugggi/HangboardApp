@@ -54,7 +54,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
     private ListView workoutHistoryListView;
 
     private int positionGlobal = 0;
-    private MyDBHandler dbHandler;
+    private WorkoutDBHandler dbHandler;
 
     private static final int REQUEST_HANGS_COMPLETED = 1;
 
@@ -78,7 +78,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         showHiddenWorkoutsCheckBox.setChecked(false);
 
         // DBHandler to store workout from Intent.
-        dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
+        dbHandler = new WorkoutDBHandler(getApplicationContext(),null,null,1);
         // dbHandler.DELETEALL();
 
         // Temporary workout info to generate test workouts
@@ -292,7 +292,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         resetDBButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // MyDBHandler dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
+               // WorkoutDBHandler dbHandler = new WorkoutDBHandler(getApplicationContext(),null,null,1);
                 // dbHandler.DELETEALL();
 
                 if (DELETEALLCOUNTER == 0) {
@@ -726,16 +726,16 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
     private String getRandomHangboard() {
         String rngBoard="rng failed board";
         int rngSeed = rng.nextInt(15);
-        CustomSwipeAdapter.hangboard rngHB = CustomSwipeAdapter.getHangBoard(rngSeed);
+        HangboardSwipeAdapter.hangboard rngHB = HangboardSwipeAdapter.getHangBoard(rngSeed);
 
-        rngBoard = "RNG " + CustomSwipeAdapter.getHangboardName(rngHB);
+        rngBoard = "RNG " + HangboardSwipeAdapter.getHangboardName(rngHB);
 
         return rngBoard;
     }
 
-    private CustomSwipeAdapter.hangboard getRandomHB() {
+    private HangboardSwipeAdapter.hangboard getRandomHB() {
         int rngSeed = rng.nextInt(15);
-        CustomSwipeAdapter.hangboard rngHB = CustomSwipeAdapter.getHangBoard(rngSeed);
+        HangboardSwipeAdapter.hangboard rngHB = HangboardSwipeAdapter.getHangBoard(rngSeed);
 
         return rngHB;
     }

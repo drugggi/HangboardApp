@@ -69,7 +69,7 @@ public class EditWorkoutInfoActivity extends AppCompatActivity {
 
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.BOARDNAME")) {
             hangboardName = getIntent().getStringExtra("com.finn.laakso.hangboardapp.BOARDNAME");
-            int imageResource = CustomSwipeAdapter.getHangboardResource(hangboardName);
+            int imageResource = HangboardSwipeAdapter.getHangboardResource(hangboardName);
             hangboardImageView.setImageResource(imageResource);
         }
 /*
@@ -129,6 +129,12 @@ public class EditWorkoutInfoActivity extends AppCompatActivity {
                 // boolean isNewWorkout tells us if we are creating new instanse of Workoutstatistics activity
                 // or returning back information
                 if (isNewWorkout) {
+                    if (hangboardName == null) {
+                        hangboardName = "Custom";
+                    }
+                    if (workoutDescription == null) {
+                        workoutDescription = "";
+                    }
 
                     Intent workoutIntoDatabaseIntent = new Intent(getApplicationContext(), WorkoutHistoryActivity.class);
 

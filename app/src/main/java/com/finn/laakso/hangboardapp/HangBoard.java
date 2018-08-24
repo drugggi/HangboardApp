@@ -13,7 +13,7 @@ import java.util.Random;
 public class HangBoard {
 
     private String[] grades;
-    private CustomSwipeAdapter.hangboard current_board;
+    private HangboardSwipeAdapter.hangboard current_board;
     private int[] hold_coordinates;
 
     // All possible grip types in a hangboard
@@ -28,7 +28,7 @@ public class HangBoard {
     public HangBoard(Resources res) {
         // starter_grips = res.getStringArray(R.array.beastmaker1000);
         grades = res.getStringArray(R.array.grades);
-        current_board = CustomSwipeAdapter.hangboard.BM1000;
+        current_board = HangboardSwipeAdapter.hangboard.BM1000;
 
         valueList = new ArrayList<Hold>();
 
@@ -417,7 +417,7 @@ public class HangBoard {
     // initializeHolds method collects from resources all the possible grip types, hold numbers,
     // coordinates and difficulties that a Hangboard can have. Those will be stored in all_hold_values
     // and they are randomized so that when a hold is picked it will be random.
-    public void initializeHolds(Resources res, CustomSwipeAdapter.hangboard new_board) {
+    public void initializeHolds(Resources res, HangboardSwipeAdapter.hangboard new_board) {
         current_board = new_board;
         int[] hold_values = res.getIntArray(R.array.grip_values_bm1000);
         

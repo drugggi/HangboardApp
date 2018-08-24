@@ -12,7 +12,7 @@ import java.util.Date;
 
 public class WorkoutDetailsActivity extends AppCompatActivity {
 
-    private MyDBHandler dbHandler;
+    private WorkoutDBHandler dbHandler;
 
     // workout info from SQLite database
     private int id;
@@ -44,7 +44,7 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
         calculatedDetailsTextView = (TextView) findViewById(R.id.calculatedDetailsTextView);
 
 
-        dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
+        dbHandler = new WorkoutDBHandler(getApplicationContext(),null,null,1);
 
         int databasePosition=0;
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.DBPOSITION")) {

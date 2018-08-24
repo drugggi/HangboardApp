@@ -10,12 +10,12 @@ import java.util.ArrayList;
 
 /**
  * Created by Laakso on 14.6.2018.
- * MyDBHandler creates an SQLite database consisting everything that need to be stored in a workout;
- * Hangboard, date, holds used, time controls, and how successful each hang were. MyDBHandler provides
+ * WorkoutDBHandler creates an SQLite database consisting everything that need to be stored in a workout;
+ * Hangboard, date, holds used, time controls, and how successful each hang were. WorkoutDBHandler provides
  * methods to get and update these properties.
  */
 
-public class MyDBHandler extends SQLiteOpenHelper {
+public class WorkoutDBHandler extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "hangboardWorkout.db";
@@ -40,7 +40,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
     private static final String COLUMN_ISHIDDEN = "ishidden";
     private static final String COLUMN_DESCRIPTION = "description";
 
-    public MyDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    public WorkoutDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
     }
 
@@ -362,6 +362,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     public void updateDate(int position, long newDate, boolean includeHidden) {
 
+        // Dates are represented in long format, valid dates between 1970 - 20xx
         if (newDate < 0) {
             newDate = 0;
         }

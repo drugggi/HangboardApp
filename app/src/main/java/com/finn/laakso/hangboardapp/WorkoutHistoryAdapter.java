@@ -22,13 +22,13 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
     private LayoutInflater mInflator;
 
     // Database Handler to help put items correctly on a view
-    private MyDBHandler dbHandler;
+    private WorkoutDBHandler dbHandler;
 
     private boolean showHidden;
     // private Cursor dbCursor;
 
 
-    public WorkoutHistoryAdapter(Context c, MyDBHandler dbHandler, boolean showHidden) {
+    public WorkoutHistoryAdapter(Context c, WorkoutDBHandler dbHandler, boolean showHidden) {
         this.dbHandler = dbHandler;
         this.showHidden = showHidden;
         mInflator = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

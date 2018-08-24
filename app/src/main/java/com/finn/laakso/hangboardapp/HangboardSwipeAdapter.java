@@ -10,11 +10,11 @@ import android.widget.LinearLayout;
 
 /**
  * Created by Laakso on 9.1.2018.
- * CustomSwipeAdapter Creates with the help of PagerAdapter swipeable view of different hangboards.
+ * HangboardSwipeAdapter Creates with the help of PagerAdapter swipeable view of different hangboards.
  * It also converts them between different representation (enum, int, string)
  */
 
-public class CustomSwipeAdapter extends PagerAdapter {
+public class HangboardSwipeAdapter extends PagerAdapter {
     private static int[] image_resources = {R.drawable.lauta1011, R.drawable.lauta2002, R.drawable.trans,
     R.drawable.tension, R.drawable.zlag, R.drawable.moonhard, R.drawable.mooneasy, R.drawable.meto,
     R.drawable.rockprodigy, R.drawable.problemsolver, R.drawable.meto_contact, R.drawable.meto_wood,
@@ -88,9 +88,9 @@ public class CustomSwipeAdapter extends PagerAdapter {
         String tempName;
        for (int position = 0 ; position < image_resources.length; position++) {
            tempHB = getHangBoard(position);
-           tempName = CustomSwipeAdapter.getHangboardName(tempHB);
+           tempName = HangboardSwipeAdapter.getHangboardName(tempHB);
            if (tempName.equals(hangboardName)){
-               return CustomSwipeAdapter.getImageResource(position);
+               return HangboardSwipeAdapter.getImageResource(position);
            }
 
        }
@@ -137,7 +137,7 @@ public class CustomSwipeAdapter extends PagerAdapter {
         return image_resources[position];
     }
 
-    public CustomSwipeAdapter(Context ctx) {
+    public HangboardSwipeAdapter(Context ctx) {
         this.ctx = ctx;
     }
 

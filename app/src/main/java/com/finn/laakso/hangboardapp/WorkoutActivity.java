@@ -290,7 +290,7 @@ public class WorkoutActivity extends AppCompatActivity {
                 // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
                 workoutProgress.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
 
-                String hangboardName = CustomSwipeAdapter.getHangboardName(boardimageResource);
+                String hangboardName = HangboardSwipeAdapter.getHangboardName(boardimageResource);
                 workoutProgress.putExtra("com.finn.laakso.hangboardapp.BOARDNAME",hangboardName);
                 workoutProgress.putExtra("com.finn.laakso.hangboardapp.BOARDIMAGE",boardimageResource);
                 workoutProgress.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", workoutHolds);

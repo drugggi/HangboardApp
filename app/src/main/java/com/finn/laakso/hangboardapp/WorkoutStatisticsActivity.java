@@ -40,7 +40,7 @@ import java.util.TreeMap;
 
 public class WorkoutStatisticsActivity extends AppCompatActivity {
 
-    private MyDBHandler dbHandler;
+    private WorkoutDBHandler dbHandler;
 
     private CombinedChart totalWorkloadCombinedChart;
 
@@ -87,7 +87,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
             includeHidden = getIntent().getExtras().getBoolean("com.finn.laakso.hangboardapp.SHOWHIDDEN");
         }
 
-        dbHandler = new MyDBHandler(getApplicationContext(),null,null,1);
+        dbHandler = new WorkoutDBHandler(getApplicationContext(),null,null,1);
 
         new RetrieveDataFromDatabase().execute();
 
