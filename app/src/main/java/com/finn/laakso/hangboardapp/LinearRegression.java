@@ -3,18 +3,7 @@ package com.finn.laakso.hangboardapp;
 import java.util.ArrayList;
 
 /**
- *  The {@code LinearRegression} class performs a simple linear regression
- *  on an set of <em>n</em> data points (<em>y<sub>i</sub></em>, <em>x<sub>i</sub></em>).
- *  That is, it fits a straight line <em>y</em> = &alpha; + &beta; <em>x</em>,
- *  (where <em>y</em> is the response variable, <em>x</em> is the predictor variable,
- *  &alpha; is the <em>y-intercept</em>, and &beta; is the <em>slope</em>)
- *  that minimizes the sum of squared residuals of the linear regression model.
- *  It also computes associated statistics, including the coefficient of
- *  determination <em>R</em><sup>2</sup> and the standard deviation of the
- *  estimates for the slope and <em>y</em>-intercept.
- *
- *  @author Robert Sedgewick
- *  @author Kevin Wayne
+ *  The LinearRegression class performs a simple linear regression
  */
 
 public class LinearRegression {
@@ -65,71 +54,32 @@ public class LinearRegression {
         svar0 = svar/n + xbar*xbar*svar1;
     }
 
-    /**
-     * Returns the <em>y</em>-intercept &alpha; of the best of the best-fit line <em>y</em> = &alpha; + &beta; <em>x</em>.
-     *
-     * @return the <em>y</em>-intercept &alpha; of the best-fit line <em>y = &alpha; + &beta; x</em>
-     */
+
     public float intercept() {
         return intercept;
     }
 
-    /**
-     * Returns the slope &beta; of the best of the best-fit line <em>y</em> = &alpha; + &beta; <em>x</em>.
-     *
-     * @return the slope &beta; of the best-fit line <em>y</em> = &alpha; + &beta; <em>x</em>
-     */
     public float slope() {
         return slope;
     }
 
-    /**
-     * Returns the coefficient of determination <em>R</em><sup>2</sup>.
-     *
-     * @return the coefficient of determination <em>R</em><sup>2</sup>,
-     *         which is a real number between 0 and 1
-     */
     public float R2() {
         return r2;
     }
 
-    /**
-     * Returns the standard error of the estimate for the intercept.
-     *
-     * @return the standard error of the estimate for the intercept
-     */
     public float interceptStdErr() {
         return (float) Math.sqrt(svar0);
     }
 
-    /**
-     * Returns the standard error of the estimate for the slope.
-     *
-     * @return the standard error of the estimate for the slope
-     */
+
     public float slopeStdErr() {
         return (float) Math.sqrt(svar1);
     }
 
-    /**
-     * Returns the expected response {@code y} given the value of the predictor
-     * variable {@code x}.
-     *
-     * @param  x the value of the predictor variable
-     * @return the expected response {@code y} given the value of the predictor
-     *         variable {@code x}
-     */
+
     public float predict(float x) {
         return slope*x + intercept;
     }
-
-    /**
-     * Returns a string representation of the simple linear regression model.
-     *
-     * @return a string representation of the simple linear regression model,
-     *         including the best-fit line and the coefficient of determination
-     *         <em>R</em><sup>2</sup>
-     */
 
     public String toString() {
         StringBuilder s = new StringBuilder();

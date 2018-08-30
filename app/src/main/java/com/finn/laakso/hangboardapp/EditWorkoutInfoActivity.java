@@ -31,7 +31,6 @@ public class EditWorkoutInfoActivity extends AppCompatActivity {
     private ImageView hangboardImageView;
 
     private Button saveButton;
-    private Button backButton;
 
     private ArrayList<Hold> workoutHolds;
     private String hangboardName;
@@ -55,7 +54,6 @@ public class EditWorkoutInfoActivity extends AppCompatActivity {
         workoutDescriptionEditText = (EditText) findViewById(R.id.workoutDescriptionEditText);
         hangboardImageView = (ImageView) findViewById(R.id.hangboardImageView);
         saveButton = (Button) findViewById(R.id.saveButton);
-        backButton = (Button) findViewById(R.id.backButton);
         workoutInfoGridView = (GridView) findViewById(R.id.workoutInfoGridView);
 
         // This checks whether we are editing existing workout from database or new workout from WorkoutActivity
@@ -109,6 +107,13 @@ public class EditWorkoutInfoActivity extends AppCompatActivity {
             completed = getIntent().getExtras().getIntArray("com.finn.laakso.hangboardapp.COMPLETEDHANGS");
         }
 
+        if (isNewWorkout) {
+            saveButton.setText("Save workout to database");
+        }
+        else {
+            saveButton.setText("Update workout to database");
+        }
+
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,14 +164,6 @@ public class EditWorkoutInfoActivity extends AppCompatActivity {
                     finish();
                 }
 
-            }
-        });
-
-        // Nothing to do but finish when back button is pressed.
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
             }
         });
 
