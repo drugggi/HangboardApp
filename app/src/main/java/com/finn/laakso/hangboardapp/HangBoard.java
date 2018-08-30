@@ -1,6 +1,7 @@
 package com.finn.laakso.hangboardapp;
 
 import android.content.res.Resources;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,7 +69,9 @@ public class HangBoard {
         return grades[position];
     }
 
-
+    public String getHangboardName() {
+        return HangboardSwipeAdapter.getHangboardName(current_board);
+    }
 
     // Just converts valueLists' Hold descriptions into Array of Strings
     public String[] getGrips() {
@@ -197,6 +200,8 @@ public class HangBoard {
 
         // No need to change if the size is the same than wanthed size (amount)
 
+        Log.e("setGripAmount","grade pos: "+ grade_position);
+
         if (amount*2 < valueList.size() ) {
             while (amount*2 < valueList.size() ) {
                 valueList.remove(valueList.size()-1 );
@@ -256,8 +261,11 @@ public class HangBoard {
 
     // Method randomizeGrips randomizes holds and grips that are used in a workout
     public void randomizeGrips(int grade_position) {
+
+
         int poista_tama = valueList.size()/2;
         if (poista_tama == 0) {poista_tama = 6; }
+
 
         valueList.clear();
         // Random generator that is only used if we are using the same hold or alternating between holds
@@ -272,7 +280,7 @@ public class HangBoard {
 
         int min_value=getMinValue(grades[grade_position]);
         int max_value=getMaxValue(grades[grade_position]);
-
+        Log.e("min/max from grades[]",min_value + "/" + max_value);
         int value = 0;
         int i=0;
 
@@ -297,6 +305,7 @@ public class HangBoard {
 
                 min_value=getMinValue(grades[grade_position]);
                 max_value=getMaxValue(grades[grade_position]);
+
 
                 // Holds should not be the same, if it is lets just find one hold ie. jump to else statement
                 if (random_nro == random_nro_alt) {
@@ -339,7 +348,7 @@ public class HangBoard {
         // Min and max values of grades which the hold search is based on
         int min_value=getMinValue(grades[grade_position]);
         int max_value=getMaxValue(grades[grade_position]);
-
+        Log.e("min/max from grades[]",min_value + "/" + max_value);
         if (isAlternate) {
 
                 // Lets search for a holds that max hardness is half the remaining points for a give grade
@@ -391,9 +400,13 @@ public class HangBoard {
 
             if (search_point == all_hold_values.length) { search_point = 0; }
             if (tuplakierros > all_hold_values.length) {
-                if (min_value < 1 && max_value > 1000) {
+                if (min_value < 1 && max_value > 1000 || max_value < 0) {
                     return 0;
                 } else {
+                    if (min_value < 0 || max_value < 0) {
+                        Log.e("searchponit/tuplak",search_point + "/" + tuplakierros);
+                    }
+                    Log.e("get hld nro with value","min/max: "+min_value + "/"+max_value);
                     return getHoldNumberWithValue(min_value / 2, max_value * 2, wanted_hold);
                 }
             }
@@ -422,10 +435,15 @@ public class HangBoard {
                 if (min_value < 1 && max_value > 1000) {
                     return 0;
                 } else {
+                    if (min_value < 0 || max_value < 0) {
+                        Log.e("searchponit/tuplak",search_point + "/" + tuplakierros);
+                    }
+                    Log.e("get hld nro with value","min/max: "+min_value + "/"+max_value);
                     return getHoldNumberWithValue(min_value / 2, max_value * 2);
                 }
             }
         }
+
 
         return search_point;
     }

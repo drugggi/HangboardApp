@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -1035,6 +1036,10 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
        int averageWorkload = 0;
        int totalDifficultiesSum = 0;
        int averagePower = 0;
+       float averageWorkoutsPerWeek = 1;
+       long firstWorkout = 0;
+       long lastWorkout = 0;
+       long timeDifference = 0;
 
        for (int i = 0; i < allCalculatedDetails.size() ; i++) {
            totalHangs += allCalculatedDetails.get(i).getTotalHangs();
@@ -1077,10 +1082,23 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
        averageIntensity = averageIntensity / totalWorkoutsDone;
        averagePower = averagePower / totalWorkoutsDone;
+       averageDifficulty = averageDifficulty / totalWorkoutsDone;
 
        DateFormat dateFormat = SimpleDateFormat.getDateInstance();
-       String firstDate = dateFormat.format(allDates.get(allDates.size()-1 ));
-       String lastDate = dateFormat.format(allDates.get(0));
+       firstWorkout = allDates.get(allDates.size()-1 );
+       String firstDate = dateFormat.format(firstWorkout);
+       lastWorkout = allDates.get(0);
+       String lastDate = dateFormat.format(lastWorkout);
+       timeDifference = lastWorkout - firstWorkout;
+
+       long weeks = timeDifference / (1000*60*60*24*7);
+       Log.e("weeks",""+weeks);
+
+       if (totalWorkoutsDone > 1 && weeks != 0) {
+           averageWorkoutsPerWeek = (float)totalWorkoutsDone / weeks;
+       }
+
+
 
        if (totalCompletedHangs != 0) {
            averageWorkload = totalDifficultiesSum / totalCompletedHangs;
@@ -1092,6 +1110,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
        generalInfo.append("Average workout power: ").append(averagePower).append("\n");
        generalInfo.append("First workout: ").append(firstDate).append("\n");
        generalInfo.append("Last workout: ").append(lastDate).append("\n");
+       generalInfo.append("Average workouts per week: ").append(averageWorkoutsPerWeek).append("\n");
        // generalInfo.append("Average workouts per week: ").append("\n");
 
        generalInfoTextView.setText(generalInfo.toString() );

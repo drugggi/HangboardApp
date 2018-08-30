@@ -11,6 +11,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -352,13 +353,13 @@ public class WorkoutActivity extends AppCompatActivity {
 
                              if (timeControls.getTimeOFF() == 0 ) { playFinishSound.start(); }
                             hangProgressBar.setProgress(0);
-                             restProgressBar.setProgress(0);
+                            restProgressBar.setProgress(0);
                             current_lap++;
                             s--;
 
                             if (current_lap == timeControls.getGripLaps()) {
                                 nowDoing = workoutPart.LONGREST;
-                                updateCompletedHangs();
+                                //updateCompletedHangs();
                             }
                             break;
                         }
@@ -446,26 +447,23 @@ public class WorkoutActivity extends AppCompatActivity {
     // Lets change the lapseTimeChrono size base on what user chose.
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-
         int clicked_position = item.getItemId();
-
-
 
         if (progressBarContextMenu) {
 
             int index = (current_set - 1 )* timeControls.getGripLaps() + current_lap - 1;
 
             if (index >= 0 && index < completedHangs.length ) {
+                Log.e("called","conContextItemSelected called set: " + current_set + " lap: " + current_lap);
                 if (clicked_position >= 0 && clicked_position <= timeControls.getHangLaps() ) {
                     completedHangs[index] = clicked_position;
                 }
             }
-
-            //Toast.makeText(WorkoutActivity.this, "prog bar pressed", Toast.LENGTH_SHORT).show();
+            else {
+                Log.e("Out of bounds","conContextItemSelected index out of bounds set: " + current_set + " lap: " + current_lap);
+            }
         }
         else {
-
-            //Toast.makeText(WorkoutActivity.this, "lapse chrono pressed", Toast.LENGTH_SHORT).show();
             DisplayMetrics metrics;
             metrics = getApplicationContext().getResources().getDisplayMetrics();
             float chronoTextSize = lapseTimeChrono.getTextSize() / metrics.density;
@@ -500,7 +498,11 @@ public class WorkoutActivity extends AppCompatActivity {
         int index = (current_set - 1 )* timeControls.getGripLaps() + current_lap;
 
         if (index >= 0 && index < completedHangs.length ) {
+            Log.e("called","updateCompletedHangs called set: " + current_set + " lap: " + current_lap);
             completedHangs[index] = timeControls.getHangLaps();
+        }
+        else {
+            Log.e("Out of bounds","updateCompletedHangs index out of bounds set: " + current_set + " lap: " + current_lap);
         }
 
     }

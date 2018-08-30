@@ -506,31 +506,41 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
             TimeControls tempControls = dbHandler.lookUpTimeControls(position,includeHidden);
             int[] jhfe = getCompletedRandomly(tempControls);
-            dbHandler.updateCompletedHangs(position,jhfe,includeHidden);
             Log.e("udCompHangs","int[] length: " + jhfe.length);
+            dbHandler.updateCompletedHangs(position,jhfe,includeHidden);
+
         }
         else if (doThis == 1 ) {
             long rngDate = rng.nextLong();
-            dbHandler.updateDate(position,rngDate,includeHidden);
+
             Log.e("udDate","long: " + rngDate);
+            dbHandler.updateDate(position,rngDate,includeHidden);
+
         }
         else if (doThis == 2 ) {
             String rngName = getRandomHangboard();
-            dbHandler.updateHangboardName(position,rngName,includeHidden);
             Log.e("udHBName","new name: " + rngName);
+            dbHandler.updateHangboardName(position,rngName,includeHidden);
+
         }
         else if (doThis == 3) {
+
+
             String rngDesc = getRandomWorkoutDescription();
-            dbHandler.updateWorkoutDescription(position,rngDesc,includeHidden);
             Log.e("udDesc","new desc: " + rngDesc);
+            dbHandler.updateWorkoutDescription(position,rngDesc,includeHidden);
+
         }
         else if (doThis == 4 ){
-            dbHandler.delete(position,includeHidden);
+
             Log.e("deleting","pos: " + position + "  is hidden: " + includeHidden);
+            dbHandler.delete(position,includeHidden);
+
         }
         else {
-            TESTcreateNewEntryReallyRandom();
             Log.e("new one","Totally random workout created");
+            TESTcreateNewEntryReallyRandom();
+
         }
     }
 
