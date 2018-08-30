@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Grips and Grades</string>
+    <string name="workout_description_hint">Optional short description about the workout</string>
+    <string name="save_workout_to_database">Save workout to database</string>
+    <string name="update_workout_to_database">Update workout to database</string>
+    <string name="hangboard_image">Hangboard image</string>
 
     <integer-array name="bm1000_coordinates">
         <!--                        LEFT  HAND                          RIGHT   HAND      -->

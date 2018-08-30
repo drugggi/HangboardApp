@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:alpha="0.2"
+        android:contentDescription="@string/hangboard_image"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Save / Update Database" />
+                android:text="@string/save_workout_to_database" />
 
             <EditText
                 android:id="@+id/workoutDescriptionEditText"
@@ -49,7 +50,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="optional short description about the workout"
+                android:hint="@string/workout_description_hint"
                 android:inputType="textPersonName" />
 
         </LinearLayout>
@@ -57,11 +58,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:baselineAligned="true"
             android:orientation="horizontal">
 
             <GridView
                 android:id="@+id/workoutInfoGridView"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"

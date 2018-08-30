@@ -118,7 +118,6 @@ public class WorkoutActivity extends AppCompatActivity {
         pauseBtn.setText("pause");
         workoutProgressButton = (Button) findViewById(R.id.workoutProgressButton);
 
-
         gradeTextView = (TextView) findViewById(R.id.gradTextView);
         infoTextView = (TextView) findViewById(R.id.infoTextView);
 
