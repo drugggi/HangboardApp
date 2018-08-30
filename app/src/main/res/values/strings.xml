@@ -28,6 +28,7 @@
     <string name="apply">Apply</string>
     <string name="save_preferences">Save preferences</string>
     <string name="load_preferences">Load preferences</string>
+    <string name="scaled_line_explanation">Scaled line is this that thot htithte</string>
 
     <integer-array name="bm1000_coordinates">
         <!--                        LEFT  HAND                          RIGHT   HAND      -->

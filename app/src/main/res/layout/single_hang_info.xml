@@ -12,6 +12,7 @@
         android:layout_height="20dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:contentDescription="@string/finger_image"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/hangPositionTextView"
         app:srcCompat="@drawable/fourfingerleft" />
@@ -20,8 +21,8 @@
         android:id="@+id/rightHandImageView"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginStart="0dp"
         android:layout_marginTop="8dp"
+        android:contentDescription="@string/finger_image"
         app:layout_constraintStart_toEndOf="@+id/completedTextView"
         app:layout_constraintTop_toBottomOf="@+id/hangPositionTextView"
         app:srcCompat="@drawable/fourfingerright" />
@@ -32,8 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="TextView"
-        android:textSize="10sp"
+        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,9 +41,7 @@
         android:id="@+id/completedTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
         android:layout_marginTop="8dp"
-        android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/leftHandImageView"
         app:layout_constraintTop_toBottomOf="@+id/hangPositionTextView" />
 </android.support.constraint.ConstraintLayout>
