@@ -38,12 +38,11 @@
 
                     <TextView
                         android:id="@+id/workoutInfoTextView"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_margin="4dp"
                         android:layout_weight="1"
-                        android:gravity="left|center"
-                        android:text="TextView" />
+                        android:gravity="left|center" />
 
                     <TextView
                         android:id="@+id/generalInfoTextView"
@@ -51,7 +50,6 @@
                         android:layout_height="match_parent"
                         android:layout_margin="4dp"
                         android:gravity="left|center"
-                        android:text="TextView"
                         android:textSize="14sp" />
 
                 </LinearLayout>

@@ -13,7 +13,9 @@
     <string name="workout_duration">Duration: xxmin</string>
     <string name="pause">Pause</string>
     <string name="workout_progress">Workout progress</string>
-
+    <string name="workout_deatils">Workout details</string>
+    <string name="graphs">Graphs</string>
+    <string name="show_hidden">Show Hidden</string>
 
     <integer-array name="bm1000_coordinates">
         <!--                        LEFT  HAND                          RIGHT   HAND      -->

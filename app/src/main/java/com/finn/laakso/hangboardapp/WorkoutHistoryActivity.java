@@ -35,7 +35,7 @@ import java.util.Random;
 // date and hangboard name with pop up dialogs and other workout data with EditWorkoutInfoActivity activity
 public class WorkoutHistoryActivity extends AppCompatActivity {
 
-    private Button editWorkoutButton;
+    private Button workoutDetailstButton;
     private Button resetDBButton;
     private Button showGraphsButton;
     private Button newEntryButton;
@@ -69,7 +69,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         rng = new Random();
         DELETEALLCOUNTER = 3;
 
-        editWorkoutButton = (Button) findViewById(R.id.editWorkoutButton);
+        workoutDetailstButton = (Button) findViewById(R.id.workoutDetailsButton);
         resetDBButton = (Button) findViewById(R.id.testButton);
         showGraphsButton = (Button) findViewById(R.id.showGraphsButton);
         newEntryButton = (Button) findViewById(R.id.newEntryButton);
@@ -151,8 +151,8 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
        });
 
         // Click listener for editing single workout
-        editWorkoutButton.setText("show WO details");
-        editWorkoutButton.setOnClickListener(new View.OnClickListener() {
+        //workoutDetailstButton.setText("show WO details");
+        workoutDetailstButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

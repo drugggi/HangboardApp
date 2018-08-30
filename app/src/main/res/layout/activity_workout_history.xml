@@ -14,52 +14,51 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="75dp"
             android:layout_weight="0"
             android:orientation="horizontal">
 
             <CheckBox
                 android:id="@+id/showHiddenCheckBox"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Show Hidden"
-                />
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:text="@string/show_hidden" />
 
             <Button
                 android:id="@+id/testButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="erase db history" />
 
             <Button
-                android:id="@+id/editWorkoutButton"
+                android:id="@+id/workoutDetailsButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Edit Workout" />
+                android:text="@string/workout_deatils" />
 
             <Button
                 android:id="@+id/newEntryButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="new entry" />
 
             <Button
                 android:id="@+id/showGraphsButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Show Graphs" />
+                android:text="@string/graphs" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0"
+            android:layout_weight="5"
             android:orientation="horizontal">
 
             <ListView
