@@ -124,7 +124,7 @@ public class SettingsActivity extends AppCompatActivity {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(v.getContext());
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString("savePreferences", statusString);
-
+/*
                 editor.putBoolean("isRepeaters",repeaterSwitch.isSelected());
                 editor.putInt("grips",Integer.parseInt(gripLapsEditText.getText().toString()));
                 editor.putInt("repetitions", Integer.parseInt(hangLapsEditText.getText().toString()));
@@ -135,6 +135,17 @@ public class SettingsActivity extends AppCompatActivity {
 
                 editor.putInt("restTime",Integer.parseInt(restEditText.getText().toString()));
                 editor.putInt("longRestTime", Integer.parseInt(longRestEditText.getText().toString()));
+*/
+                editor.putBoolean("isRepeaters",timeControls.isRepeaters() );
+                editor.putInt("grips",timeControls.getGripLaps() );
+                editor.putInt("repetitions", timeControls.getHangLaps() );
+
+                editor.putInt("timeON",timeControls.getTimeON() );
+                editor.putInt("timeOFF", timeControls.getTimeOFF() );
+                editor.putInt("sets",timeControls.getRoutineLaps() );
+
+                editor.putInt("restTime",timeControls.getRestTime() );
+                editor.putInt("longRestTime", timeControls.getLongRestTime() );
 
                 String preferenceText = "Saved preferences: " + timeControls.getTimeControlsAsString();
 
@@ -568,6 +579,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         tempTimeControls.setTimeControls(new int[]{grips, reps, timeON, timeOFF, sets, rest, longRest});
         tempTimeControls.setToRepeaters(isRepeaters);
+
 
         String preferenceText = "Saved preferences: " + tempTimeControls.getTimeControlsAsString();
         preferencesTextView.setText(preferenceText);
