@@ -26,7 +26,7 @@
                 android:layout_weight="1"
                 android:paddingLeft="50dp"
                 android:paddingRight="50dp"
-                android:text="Repeaters are: ON" />
+                android:text="@string/repeaters" />
 
             <Switch
                 android:id="@+id/showTimeSwitch"
@@ -35,7 +35,7 @@
                 android:layout_weight="1"
                 android:paddingLeft="50dp"
                 android:paddingRight="50dp"
-                android:text="Show time info in workout matrix" />
+                android:text="@string/show_time_info_matrix" />
 
         </LinearLayout>
 
@@ -49,7 +49,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:hint="Grip laps"
+                android:hint="@string/grip_info"
                 android:inputType="numberSigned"
                 android:textAlignment="center"
                 android:textStyle="bold" />
@@ -65,7 +65,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
-                    android:text="Amount of different grips in a Set" />
+                    android:text="@string/grip_info" />
 
                 <SeekBar
                     android:id="@+id/gripSeekBar"
@@ -93,7 +93,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:hint="Hang laps"
+                android:hint="@string/hang_info"
                 android:inputType="numberSigned"
                 android:textAlignment="center"
                 android:textStyle="bold" />
@@ -114,7 +114,7 @@
                     android:id="@+id/hangSeekBar"
                     style="@style/Widget.AppCompat.SeekBar.Discrete"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_gravity="center"
                     android:layout_weight="3"
                     android:max="10"
@@ -136,7 +136,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:hint="Time on"
+                android:hint="@string/time_on_info"
                 android:inputType="numberSigned"
                 android:textAlignment="center"
                 android:textStyle="bold" />
@@ -152,7 +152,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
-                    android:text="The actual hang time" />
+                    android:text="@string/time_on_info" />
 
                 <SeekBar
                     android:id="@+id/timeONSeekBar"
@@ -180,7 +180,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:hint="Time off"
+                android:hint="@string/time_off_info"
                 android:inputType="numberSigned"
                 android:textAlignment="center"
                 android:textStyle="bold" />
@@ -196,7 +196,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
-                    android:text="In Repeaters, the small off time between hangs (reps)" />
+                    android:text="@string/time_off_info" />
 
                 <SeekBar
                     android:id="@+id/timeOFFSeekBar"
@@ -225,7 +225,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:hint="sets"
+                android:hint="@string/set_info"
                 android:inputType="numberSigned"
                 android:textAlignment="center"
                 android:textStyle="bold" />
@@ -241,7 +241,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
-                    android:text="Amount of times the whole set is repeated" />
+                    android:text="@string/set_info" />
 
                 <SeekBar
                     android:id="@+id/setsSeekBar"
@@ -269,7 +269,7 @@
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:hint="rest"
+                android:hint="@string/rest_info"
                 android:inputType="numberSigned"
                 android:textAlignment="center" />
 
@@ -284,7 +284,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
-                    android:text="Rest time between different Grips" />
+                    android:text="@string/rest_info" />
 
                 <SeekBar
                     android:id="@+id/restSeekBar"
@@ -311,7 +311,7 @@
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:hint="long rest time"
+                android:hint="@string/long_rest_info"
                 android:inputType="numberSigned"
                 android:textAlignment="center" />
 
@@ -326,7 +326,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
-                    android:text="Long rest time between Sets" />
+                    android:text="@string/long_rest_info" />
 
                 <SeekBar
                     android:id="@+id/longRestSeekBar"
@@ -350,8 +350,7 @@
             <TextView
                 android:id="@+id/preferenceTextView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:layout_height="wrap_content" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -362,30 +361,30 @@
                 <Button
                     android:id="@+id/finishButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Apply" />
+                    android:text="@string/apply" />
 
                 <Button
                     android:id="@+id/cancelButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Cancel" />
+                    android:text="@string/cancel" />
 
                 <Button
                     android:id="@+id/saveButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Save Preferences" />
+                    android:text="@string/save_preferences" />
 
                 <Button
                     android:id="@+id/loadButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="load Preferences" />
+                    android:text="@string/load_preferences" />
             </LinearLayout>
 
         </LinearLayout>

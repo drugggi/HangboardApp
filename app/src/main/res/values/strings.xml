@@ -16,6 +16,18 @@
     <string name="workout_deatils">Workout details</string>
     <string name="graphs">Graphs</string>
     <string name="show_hidden">Show Hidden</string>
+    <string name="show_time_info_matrix">Show time info in workout matrix</string>
+    <string name="grip_info">Amount of different grips in a Set</string>
+    <string name="hang_info">In Repeaters, how many times to hang a single grip (reps)</string>
+    <string name="time_on_info">The actual hang time</string>
+    <string name="time_off_info">In Repeaters, the small off (rest) time between hangs (reps)</string>
+    <string name="set_info">Amount of times the whole set is repeated</string>
+    <string name="rest_info">Rest time between different Grips</string>
+    <string name="long_rest_info">Long rest time between Sets</string>
+    <string name="cancel">Cancel</string>
+    <string name="apply">Apply</string>
+    <string name="save_preferences">Save preferences</string>
+    <string name="load_preferences">Load preferences</string>
 
     <integer-array name="bm1000_coordinates">
         <!--                        LEFT  HAND                          RIGHT   HAND      -->
