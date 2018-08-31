@@ -13,7 +13,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:baselineAligned="false">
 
         <ListView
             android:id="@+id/gradeListView"
@@ -72,20 +73,23 @@
                     android:id="@+id/leftFingerImageView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:alpha="0.9" />
+                    android:alpha="0.9"
+                    android:contentDescription="@string/finger_image" />
 
                 <ImageView
                     android:id="@+id/rightFingerImageView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:alpha="0.9" />
-
+                    android:alpha="0.9"
+                    android:contentDescription="@string/finger_image" />
+<!--
                 <ImageView
                     android:id="@+id/templateFingerImageView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:alpha="0.9" />
 
+                -->
             </RelativeLayout>
 
 
@@ -104,13 +108,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
-                        android:text="Repeaters" />
+                        android:text="@string/repeaters" />
 
                     <TextView
                         android:id="@+id/durationTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Duration: 65min"
+                        android:text="@string/workout_duration"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -129,8 +133,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="0dp"
                 android:layout_marginTop="0dp"
-                android:layout_weight="-1"
-                android:gravity="bottom|right"
+                android:gravity="top"
                 android:orientation="horizontal"
                 android:paddingTop="0dp">
 
@@ -138,32 +141,32 @@
                     android:id="@+id/timeControlBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|left"
+                    android:layout_gravity="bottom"
                     android:layout_weight="1"
-                    android:text="Time Controls" />
+                    android:text="@string/time_controls" />
 
                 <Button
                     android:id="@+id/randomizeBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|left"
+                    android:layout_gravity="bottom"
                     android:layout_weight="1"
-                    android:text="New 5A Workout" />
+                    android:text="@string/new_workout" />
 
                 <Button
                     android:id="@+id/startWorkoutBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|right"
+                    android:layout_gravity="bottom"
                     android:layout_weight="1"
-                    android:text="Start workout" />
+                    android:text="@string/start_workout" />
 
                 <Button
                     android:id="@+id/statsButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Statistics" />
+                    android:text="@string/workout_history" />
 
             </LinearLayout>
 
