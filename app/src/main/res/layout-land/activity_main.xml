@@ -39,7 +39,7 @@
             android:layout_marginTop="0dp"
             android:layout_weight="1"
             android:choiceMode="singleChoice"
-            android:listSelector="@color/gray"
+            android:listSelector="@android:color/darker_gray"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 

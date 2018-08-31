@@ -30,13 +30,12 @@ public class MainActivity extends AppCompatActivity {
 
     private ListView gradesListView;
     private ListView holdsListView;
-    //private ArrayAdapter<String> holdsAdapter;
     private ArrayAdapter<String> gradeAdapter;
     private HangListAdapter hangsAdapter;
 
     // Maybe get rid of these in the future
     private int grade_descr_position;
-    private int hang_descr_position;
+    // private int hang_descr_position;
     private int hangboard_descr_position;
 
     private Button startWorkoutButton;
@@ -185,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
 
                     String randomizeText = "New " + everyBoard.getGrade(grade_descr_position) + " Workout";
                     newWorkoutButton.setText(randomizeText);
-                    hang_descr_position = 0;
+
 
                 }
             }
@@ -204,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent statsIntent = new Intent(getApplicationContext(), WorkoutHistoryActivity.class);
 
                 // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
-
+/*
                 statsIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
                 statsIntent.putExtra("com.finn.laakso.hangboardapp.BOARDNAME",everyBoard.getHangboardName() );
                 statsIntent.putExtra("com.finn.laakso.hangboardapp.DESCRIPTION","Pre made timecontrols test");
@@ -217,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 statsIntent.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS",completed);
-
+*/
 
                 startActivity(statsIntent);
             }
@@ -230,7 +229,6 @@ public class MainActivity extends AppCompatActivity {
         gradesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 // The harder the grade the darker the color
                 Drawable selectColor = gradesListView.getSelector();
                 selectColor.setAlpha(90+position*15);
@@ -243,7 +241,9 @@ public class MainActivity extends AppCompatActivity {
 
                 String randomizeText = "New "+ everyBoard.getGrade(grade_descr_position)+ " Workout";
                 newWorkoutButton.setText(randomizeText);
-                hang_descr_position = 0;
+
+                hangsAdapter.setSelectedHangNumber(0);
+                hangsAdapter.notifyDataSetChanged();
 
 
 /*
@@ -262,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
 
-                menu.setHeaderIcon(R.drawable.gripgrading72px);
+               // menu.setHeaderIcon(R.drawable.gripgrading72px);
                 // v.setIcon
 
                 if (v.getId()==R.id.holdsListView) {
@@ -306,9 +306,11 @@ public class MainActivity extends AppCompatActivity {
         holdsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                hang_descr_position = position+1;
-                String randomizeText = hang_descr_position + ". New "+ everyBoard.getGrade(grade_descr_position) + " Hang";
-                newWorkoutButton.setText(randomizeText );
+                hangsAdapter.setSelectedHangNumber(position+1);
+
+
+                String randomizeText = (position+1) + ". New "+ everyBoard.getGrade(grade_descr_position) + " Hang";
+                newWorkoutButton.setText(randomizeText);
 
                 rightFingerImage.setVisibility(View.VISIBLE);
                 leftFingerImage.setVisibility(View.VISIBLE);
@@ -325,6 +327,8 @@ public class MainActivity extends AppCompatActivity {
                 rightFingerImage.setImageResource(everyBoard.getRightFingerImage(position));
                 rightFingerImage.setX(everyBoard.getCoordRightX(position)*multiplyer_w);
                 rightFingerImage.setY(everyBoard.getCoordRightY(position)*multiplyer_h);
+
+                hangsAdapter.notifyDataSetChanged();
 
                // Log.e("HANGBOARD IMAGE","image WIDTH/HEIGHT:   " +imageView.getWidth()+" / "+imageView.getHeight());
               ///  Log.e("LEFT HAND" , "X and Y: "+ everyBoard.getCoordLeftX(position)+ " / " + everyBoard.getCoordLeftY(position));
@@ -363,8 +367,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                // when 0 grip is not selected and we can randomize all grips
-                if ( hang_descr_position == 0 ) {
+                // when 0, grip is not selected and we can randomize all grips
+                if ( hangsAdapter.getSelectedHangNumber() == 0 ) {
                     everyBoard.randomizeGrips(grade_descr_position);
 
                     if (!repeatersBox.isChecked()) {
@@ -373,28 +377,22 @@ public class MainActivity extends AppCompatActivity {
                 }
                 // randomize a single grip
                 else {
-                    everyBoard.randomizeGrip(grade_descr_position,hang_descr_position-1);
+                    int hangPosition = hangsAdapter.getSelectedHangNumber() - 1;
+                    everyBoard.randomizeGrip(grade_descr_position,hangPosition);
 
                     ImageView imageView = (ImageView) findViewById(R.id.image_view);
-                    int position = hang_descr_position - 1;
                     Float multiplyer_w = imageView.getWidth() / 350F;
                     Float multiplyer_h = imageView.getHeight() / 150F;
 
-                    leftFingerImage.setImageResource(everyBoard.getLeftFingerImage(position));
-                    leftFingerImage.setX(everyBoard.getCoordLeftX(position)* multiplyer_w);
-                    leftFingerImage.setY(everyBoard.getCoordLeftY(position)* multiplyer_h);
+                    leftFingerImage.setImageResource(everyBoard.getLeftFingerImage(hangPosition));
+                    leftFingerImage.setX(everyBoard.getCoordLeftX(hangPosition)* multiplyer_w);
+                    leftFingerImage.setY(everyBoard.getCoordLeftY(hangPosition)* multiplyer_h);
 
-                    rightFingerImage.setImageResource(everyBoard.getRightFingerImage(position));
-                    rightFingerImage.setX(everyBoard.getCoordRightX(position)*multiplyer_w);
-                    rightFingerImage.setY(everyBoard.getCoordRightY(position)*multiplyer_h);
+                    rightFingerImage.setImageResource(everyBoard.getRightFingerImage(hangPosition));
+                    rightFingerImage.setX(everyBoard.getCoordRightX(hangPosition)*multiplyer_w);
+                    rightFingerImage.setY(everyBoard.getCoordRightY(hangPosition)*multiplyer_h);
                 }
 
-                /*
-                ArrayAdapter<String> holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
-                        R.layout.mytextview , everyBoard.getGrips());
-
-                holdsListView.setAdapter(holdsAdapter);
-                */
                 hangsAdapter.notifyDataSetChanged();
 
             }
@@ -565,7 +563,7 @@ public class MainActivity extends AppCompatActivity {
 
                     hangsAdapter.notifyDataSetChanged();
 
-                    hang_descr_position = 0;
+                    hangsAdapter.setSelectedHangNumber(0);
                 } else {
                     timeControls.setTimeControls(i);
                 }
