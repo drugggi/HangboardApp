@@ -25,7 +25,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,10 +39,10 @@ public class MainActivity extends AppCompatActivity {
     private int hang_descr_position;
     private int hangboard_descr_position;
 
-    private Button startWorkout;
-    private Button randomizeBtn;
-    private Button timeControlBtn;
-    private Button testStatistics;
+    private Button startWorkoutButton;
+    private Button newWorkoutButton;
+    private Button settingsButton;
+    private Button workoutHistoryButton;
 
     private CheckBox repeatersBox;
     private TextView durationTextView;
@@ -185,10 +184,9 @@ public class MainActivity extends AppCompatActivity {
                     durationSeekBar.setProgress(3);
 
                     String randomizeText = "New " + everyBoard.getGrade(grade_descr_position) + " Workout";
-                    randomizeBtn.setText(randomizeText);
+                    newWorkoutButton.setText(randomizeText);
                     hang_descr_position = 0;
 
-                    testMethod();
                 }
             }
 
@@ -199,8 +197,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        testStatistics = (Button) findViewById(R.id.statsButton);
-        testStatistics.setOnClickListener(new View.OnClickListener() {
+        workoutHistoryButton = (Button) findViewById(R.id.statsButton);
+        workoutHistoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent statsIntent = new Intent(getApplicationContext(), WorkoutHistoryActivity.class);
@@ -244,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
                 grade_descr_position = gradesListView.getPositionForView(view);
 
                 String randomizeText = "New "+ everyBoard.getGrade(grade_descr_position)+ " Workout";
-                randomizeBtn.setText(randomizeText);
+                newWorkoutButton.setText(randomizeText);
                 hang_descr_position = 0;
 
 
@@ -310,7 +308,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 hang_descr_position = position+1;
                 String randomizeText = hang_descr_position + ". New "+ everyBoard.getGrade(grade_descr_position) + " Hang";
-                randomizeBtn.setText(randomizeText );
+                newWorkoutButton.setText(randomizeText );
 
                 rightFingerImage.setVisibility(View.VISIBLE);
                 leftFingerImage.setVisibility(View.VISIBLE);
@@ -344,8 +342,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Attempts to launch an activity within our own app
-        startWorkout = (Button) findViewById(R.id.startWorkoutBtn);
-        startWorkout.setOnClickListener(new View.OnClickListener() {
+        startWorkoutButton = (Button) findViewById(R.id.startWorkoutBtn);
+        startWorkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent workoutIntent = new Intent(getApplicationContext(), WorkoutActivity.class);
@@ -360,8 +358,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // RandomizeButton listener that randomizes hold or holds that user wants
-        randomizeBtn = (Button) findViewById(R.id.randomizeBtn);
-        randomizeBtn.setOnClickListener(new View.OnClickListener() {
+        newWorkoutButton = (Button) findViewById(R.id.randomizeBtn);
+        newWorkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -403,8 +401,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // timeControlBtn starts settings activity where user can control mainly time control settings
-        timeControlBtn = (Button) findViewById(R.id.timeControlBtn);
-        timeControlBtn.setOnClickListener(new View.OnClickListener() {
+        settingsButton = (Button) findViewById(R.id.timeControlBtn);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -588,7 +586,7 @@ public class MainActivity extends AppCompatActivity {
             durationTextView.setText(durationText);
 
     }
-
+/*
     private void testMethod() {
         Random rng = new Random();
 
@@ -601,4 +599,5 @@ public class MainActivity extends AppCompatActivity {
         hangsAdapter.notifyDataSetChanged();
 
     }
+    */
 }

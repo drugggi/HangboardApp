@@ -351,13 +351,13 @@ public class HangBoard {
         Log.e("min/max from grades[]",min_value + "/" + max_value);
         if (isAlternate) {
 
-                // Lets search for a holds that max hardness is half the remaining points for a give grade
+
                 random_nro = getHoldNumberWithValue(min_value/2, (max_value*3)/2 );
                 temp_hold_value = all_hold_values[random_nro].getHoldValue();
 
                 min_value = 2*min_value-temp_hold_value;
                 max_value = 2*max_value-temp_hold_value;
-                // And then search for a hold that could be slightly harder than the first one
+
                 random_nro_alt = getHoldNumberWithValue( min_value, max_value, all_hold_values[random_nro].grip_style);
 
                 // Holds should not be the same, if it is lets make sure next if statement is true
@@ -385,7 +385,8 @@ public class HangBoard {
     // and returns first that if finds. I none is found, it increases the search range and calls itself
     private int getHoldNumberWithValue(int min_value, int max_value, Hold.grip_type wanted_hold) {
 
-       //Log.e("searchhold" , "wanted: " + wanted_hold + " min: " + min_value + " max: " + max_value);
+       // Log.e("get hld nro with value","min/max: "+min_value + "/"+max_value);
+       Log.e("searchhold" , "wanted: " + wanted_hold + " min: " + min_value + " max: " + max_value);
 
         Random rng = new Random();
         int search_point = rng.nextInt(all_hold_values.length);
@@ -406,7 +407,7 @@ public class HangBoard {
                     if (min_value < 0 || max_value < 0) {
                         Log.e("searchponit/tuplak",search_point + "/" + tuplakierros);
                     }
-                    Log.e("get hld nro with value","min/max: "+min_value + "/"+max_value);
+
                     return getHoldNumberWithValue(min_value / 2, max_value * 2, wanted_hold);
                 }
             }
@@ -417,6 +418,8 @@ public class HangBoard {
 
 
     private int getHoldNumberWithValue(int min_value, int max_value) {
+
+        Log.e("get hld nro with value","min/max: "+min_value + "/"+max_value);
 
         Random rng = new Random();
         int search_point = rng.nextInt(all_hold_values.length);

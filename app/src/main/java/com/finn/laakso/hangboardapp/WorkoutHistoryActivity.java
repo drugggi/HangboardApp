@@ -138,7 +138,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         }
 
         // Button just for generating random workout datapoins and testing purposes
-       newEntryButton.setOnClickListener(new View.OnClickListener() {
+  /*     newEntryButton.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
 
@@ -146,11 +146,12 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                for (int i = 0 ; i < 10 ; i++) {
 
                    TESTcreateNewEntry();
-                   // TESTeditEntryRandomly();
+                   TESTeditEntryRandomly();
                }
                 workoutAdapter.notifyDataSetChanged();
            }
        });
+*/
 
         // Click listener for editing single workout
         //workoutDetailstButton.setText("show WO details");
