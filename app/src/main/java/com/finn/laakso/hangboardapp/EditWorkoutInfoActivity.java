@@ -120,11 +120,9 @@ public class EditWorkoutInfoActivity extends AppCompatActivity {
 
                 completed = workoutInfoAdapter.getCompletedMatrix();
 
-                Toast.makeText(EditWorkoutInfoActivity.this,"CHECKING COMPLETED LENGTH IS RIGHT",Toast.LENGTH_SHORT).show();
                 if (completed.length -1 == timeControls.getGripLaps() + timeControls.getRoutineLaps()) {
                     completed = new int[timeControls.getGripLaps() * timeControls.getRoutineLaps()];
 
-                    Toast.makeText(EditWorkoutInfoActivity.this,"WAS NOT RIGHT",Toast.LENGTH_LONG).show();
                     // We have to be careful that completed matrix will always be right size!
                     for (int i = 0; i < completed.length; i++) {
                         completed[i] = timeControls.getHangLaps();

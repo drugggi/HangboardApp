@@ -197,7 +197,6 @@ public class SettingsActivity extends AppCompatActivity {
                     timeOFFSeekBar.setProgress(3);
                     timeOFFEditText.setText("" + 3);
                     timeControls.setTimeOFF(3);
-                   // Toast.makeText(SettingsActivity.this,"Repeaters are: ON" ,Toast.LENGTH_LONG).show();
                 }
                 else {
                     repeaterSwitch.setText("Repeaters are: OFF");
@@ -214,7 +213,6 @@ public class SettingsActivity extends AppCompatActivity {
                     hangSeekBar.setEnabled(false);
                     timeOFFEditText.setVisibility(View.INVISIBLE);
                     timeOFFSeekBar.setEnabled(false);
-                   // Toast.makeText(SettingsActivity.this,"Repeaters are: OFF" ,Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -384,7 +382,6 @@ public class SettingsActivity extends AppCompatActivity {
                         gripLapsEditText.setText("" + timeControls.getGripLaps() );
                         Toast.makeText(SettingsActivity.this,"Number out of bounds, changes reverted",Toast.LENGTH_SHORT).show();
                     }
-                   // Toast.makeText(SettingsActivity.this,"hehe: nyt muutettiin grips: " + timeControls.getGripLaps()  ,Toast.LENGTH_LONG).show();
                 } catch (NumberFormatException nfe)
                 {
                     gripLapsEditText.setText("" + timeControls.getGripLaps());

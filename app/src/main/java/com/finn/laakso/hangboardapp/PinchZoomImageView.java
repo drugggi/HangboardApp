@@ -46,9 +46,6 @@ public class PinchZoomImageView extends ImageView {
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
         public boolean onScale(ScaleGestureDetector detector) {
-           // Log.e("MSCALEFACTOR", "mSF:" + mScaleFactor);
-           // mScaleFactor = mScaleFactor* (float) Math.sqrt((double) detector.getScaleFactor() );
-
             // When the user is panning the image, we make it just slightly bigger and bigger
             if (detector.getScaleFactor() > 1) {
                 mScaleFactor = mScaleFactor + 0.004f;
@@ -56,11 +53,7 @@ public class PinchZoomImageView extends ImageView {
             else {
                 mScaleFactor = mScaleFactor - 0.004f;
             }
-          //  Log.e("SCALEFACTOR: " , "DETECTOR: " + detector.getScaleFactor());
-           // Log.e("SCALEFACTOR: " , "DETECTOR NEW: " + (float) Math.sqrt((double) detector.getScaleFactor()));
             mScaleFactor = Math.max(mMinZoom, Math.min(mMaxZoom,mScaleFactor));
-            //invalidate();
-            //requestLayout();
 
             return super.onScale(detector);
         }
@@ -106,8 +99,6 @@ public class PinchZoomImageView extends ImageView {
             case MotionEvent.ACTION_MOVE:
                 mTranslateX = event.getX() - mStartX;
                 mTranslateY = event.getY() - mStartY;
-                //Log.e("ACTIONMOVE", "MOIVEX: " +event.getX());
-                //Log.e("ACTIONMOVE", "MOIVEY: " +event.getX());
                 break;
             case MotionEvent.ACTION_POINTER_DOWN:
                 mEventState = ZOOM;
@@ -123,7 +114,7 @@ public class PinchZoomImageView extends ImageView {
 
     public void setScale(float scaleFactor) {
         this.mScaleFactor = scaleFactor;
-        //ondraw();
+
     }
 
     public void setTranslateY(float translateY) {
@@ -141,17 +132,6 @@ public class PinchZoomImageView extends ImageView {
 
         canvas.save();
         canvas.scale(mScaleFactor,mScaleFactor);
-       // canvas.scale(mScaleFactor,mScaleFactor,mScaleGestureDetector.getFocusX(),mScaleGestureDetector.getFocusY());
-      /*   if ((mTranslateX * -1) < 0) {
-            mTranslateX = 0;
-        } else if ((mTranslateX *-1) > mImageWidth * mScaleFactor - getWidth()) {
-            mTranslateX = (mImageWidth * mScaleFactor- getWidth()) * -1;
-        }
-        if ((mTranslateY * -1) < 0) {
-            mTranslateY = 0;
-        } else if ((mTranslateY *-1) > mImageHeight * mScaleFactor - getHeight()) {
-            mTranslateY = (mImageHeight * mScaleFactor- getHeight()) * -1;
-        }*/
 
         if ((mTranslateX ) < -50) {
             mTranslateX = -50;}
@@ -163,15 +143,6 @@ public class PinchZoomImageView extends ImageView {
             else if (mTranslateY + mImageHeight*mScaleFactor > getHeight()+ 50) {
             mTranslateY = getHeight() + 50-mImageHeight*mScaleFactor;
         }
-
-/*
-      Log.e("TRANSLATE:","mTX: "+ mTranslateX);
-        Log.e("TRANSLATE:","mTY: "+ mTranslateY);
-        Log.e("IMAGE:" , "imagewidht*scale: "+mImageWidth*mScaleFactor);
-        Log.e("IMAGE:","imageheight*sclae: "+mImageHeight*mScaleFactor);
-        Log.e("PHONE:" , "widht: "+getWidth());
-        Log.e("PHONE:","height: "+getHeight());
-*/
 
         canvas.translate(mTranslateX/mScaleFactor, mTranslateY/mScaleFactor);
         canvas.drawBitmap(mBitmap,0,0,null);
@@ -200,13 +171,9 @@ public class PinchZoomImageView extends ImageView {
 
 
     public void setImageBitmap(Bitmap imageBitmap) {
-        // mBitmap = imageBtimap;
         Bitmap bitmap = imageBitmap;
         float aspectRatio = (float) bitmap.getHeight() / (float) bitmap.getWidth();
-       // Log.e("BITMAP", "X: " + bitmap.getWidth());
-        //Log.e("BITMAP", "Y: " + bitmap.getHeight());
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        //Log.e("DISPLAYMETRICS", "getDM WIDHTPIXELS: " + displayMetrics.widthPixels);
         mImageWidth = displayMetrics.widthPixels;
         mImageHeight = Math.round(mImageWidth * aspectRatio);
         mBitmap = Bitmap.createScaledBitmap(bitmap,mImageWidth, mImageHeight,false);

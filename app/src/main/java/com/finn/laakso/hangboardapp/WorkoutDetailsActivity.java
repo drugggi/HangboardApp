@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -57,7 +56,6 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
         }
 
         if (databasePosition != 0) {
-            Toast.makeText(this,"pos saatiin",Toast.LENGTH_SHORT).show();
             id = dbHandler.lookUpId(databasePosition,isHidden);
             date = dbHandler.lookUpDate(databasePosition,isHidden);
             hangboardName = dbHandler.lookUpHangboard(databasePosition,isHidden);

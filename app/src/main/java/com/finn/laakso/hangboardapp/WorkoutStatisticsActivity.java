@@ -1035,11 +1035,11 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
        int averageDifficulty = 0;
        int averageWorkload = 0;
        int totalDifficultiesSum = 0;
-       int averagePower = 0;
+       float averagePower = 0;
        float averageWorkoutsPerWeek = 1;
-       long firstWorkout = 0;
-       long lastWorkout = 0;
-       long timeDifference = 0;
+       long firstWorkout;
+       long lastWorkout;
+       long timeDifference;
 
        for (int i = 0; i < allCalculatedDetails.size() ; i++) {
            totalHangs += allCalculatedDetails.get(i).getTotalHangs();

@@ -151,9 +151,8 @@ public class WorkoutActivity extends AppCompatActivity {
             timeControls = new TimeControls();
             timeControls.setTimeControls(time_controls);
 
-            // SECURITY CHECK, WILL MAKE SURE IN FUTURE TO NEVER HAPPEN
+            // Security check, should never happen
             if (timeControls.getGripLaps()*2 != workoutHolds.size()) {
-                Toast.makeText(WorkoutActivity.this,timeControls.getGripLaps() + " ERROR!! Griplaps and workoutHolds sizes doesn't match " + workoutHolds.size(), Toast.LENGTH_LONG).show();
                 timeControls.setGripLaps(workoutHolds.size()/2);
             }
             total_s = -s + timeControls.getTotalTime();
@@ -195,14 +194,6 @@ public class WorkoutActivity extends AppCompatActivity {
 
             lapseTimeChrono.start();
         }
-/*
-        hangProgressBar.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Toast.makeText(WorkoutActivity.this,"jes",Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });*/
 
         hangProgressBar.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
             @Override

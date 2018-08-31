@@ -145,7 +145,6 @@ public class MainActivity extends AppCompatActivity {
         repeatersBox = (CheckBox) findViewById(R.id.repeatersCheckBox);
         if (savedInstanceState != null) {
             durationSeekBar.setProgress(savedInstanceState.getInt("mainactivity_durationseekbarprogression"));
-            // Toast.makeText(MainActivity.this, "Page selected " + savedInstanceState.getInt("durationseekbarprogression"), Toast.LENGTH_LONG).show();
             durationSeekBar.setVisibility(savedInstanceState.getInt("mainactivity_durationseekbarvisibility"));
             repeatersBox.setVisibility(savedInstanceState.getInt("mainactivity_repeatersboxvisibility"));
         }
@@ -431,8 +430,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 //timeControls.setProgramBasedOnTime(20 + durationSeekBar.getProgress() * 15);
                 timeControls.setPremadeTimeControls(durationSeekBar.getProgress() );
-
-                // Toast.makeText(MainActivity.this, "onprogresschaged durationSeekBar.getProgress():  " + durationSeekBar.getProgress(), Toast.LENGTH_LONG).show();
 
                 // If the progressBar is "TEST progress" we must sort the holds
                 if (durationSeekBar.getProgress() == 7) {

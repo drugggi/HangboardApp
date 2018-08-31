@@ -39,7 +39,7 @@
             android:layout_marginTop="0dp"
             android:layout_weight="1"
             android:choiceMode="singleChoice"
-            android:listSelector="?attr/colorControlHighlight"
+            android:listSelector="@color/gray"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -137,10 +137,19 @@
                 android:orientation="horizontal"
                 android:paddingTop="0dp">
 
+
+                <Button
+                    android:id="@+id/statsButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="1"
+                    android:text="@string/workout_history" />
+
                 <Button
                     android:id="@+id/timeControlBtn"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="bottom"
                     android:layout_weight="1"
                     android:text="@string/time_controls" />
@@ -148,7 +157,7 @@
                 <Button
                     android:id="@+id/randomizeBtn"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="bottom"
                     android:layout_weight="1"
                     android:text="@string/new_workout" />
@@ -156,17 +165,10 @@
                 <Button
                     android:id="@+id/startWorkoutBtn"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="bottom"
                     android:layout_weight="1"
                     android:text="@string/start_workout" />
-
-                <Button
-                    android:id="@+id/statsButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/workout_history" />
 
             </LinearLayout>
 

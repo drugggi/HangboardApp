@@ -120,7 +120,6 @@ public class TimeControls {
         return grip_laps;
     }
 
-    // PITÄÄ VARMAAN MUUTTAA MYÖS HANGLAPS SECONDSIT JOS MUUTTAA TÄTÄ
     public void setHangLaps(int hang_laps) {
 
         if (hang_laps > 0 && hang_laps <= 20) {
@@ -213,39 +212,6 @@ public class TimeControls {
         return hang_laps*(time_on + time_off);
     }
 
-/*
-    // Pre made workoutprograms, hopefully in future these will be replaced by community standards
-    public void setProgramBasedOnTime(int workout_time) {
-        if (isRepeaters) {
-            if (workout_time < 25) {
-                setTimeControls(new int[]{5, 5, 7, 3, 2, 70, 180}); // 20min program
-            } else if (workout_time < 40) {
-                setTimeControls(new int[]{6, 5, 7, 3, 2, 120, 240}); // 35min program
-            } else if (workout_time < 55) {
-                setTimeControls(new int[]{5, 6, 7, 3, 3, 140, 300}); // 50min program
-            } else if (workout_time < 70) {
-                setTimeControls(new int[]{6, 6, 7, 3, 3, 150, 360}); // default program
-            } else {
-                setTimeControls(new int[]{15, 6, 7, 3, 1, 150, 150}); // TEST grade program
-            }
-        }
-        else {
-            if (workout_time < 25) {
-                setTimeControls(new int[]{12, 1, 10, 0, 2, 40, 90}); // 20min program
-            } else if (workout_time < 40) {
-                setTimeControls(new int[]{19, 1, 10, 0, 2, 45, 120}); // 35min program
-            } else if (workout_time < 55) {
-                setTimeControls(new int[]{16, 1, 10, 0, 3, 50, 120}); // 50min program
-            } else if (workout_time < 70) {
-                setTimeControls(new int[]{21, 1, 10, 0, 3, 50, 150}); // default program
-            } else {
-                setTimeControls(new int[]{15, 1, 10, 0, 1, 50, 50}); // TEST grade program
-            }
-
-        }
-
-    }
-    */
 
     public void setPremadeTimeControls(int progressBarPosition) {
         if (isRepeaters) {
@@ -296,8 +262,6 @@ public class TimeControls {
     }
 
     public int getTotalTime() {
-        // 0 represents workout starts in time
-        // total_s = workout_starts_in + (hang_laps*grip_laps+(grip_laps - 1)*rest) * routine_laps  + (routine_laps - 1)*long_rest;
         return (hang_laps_seconds*grip_laps+(grip_laps - 1)*rest) * routine_laps  + (routine_laps - 1)*long_rest;
     }
 
@@ -320,15 +284,7 @@ public class TimeControls {
         setRoutineLaps(time_controls[4]);
         setRestTime(time_controls[5]);
         setLongRestTime(time_controls[6]);
-        /*
-        hang_laps = time_controls[1];
-        time_on = time_controls[2];
-        time_off = time_controls[3];
-        // time_total = time_on + time_off;
-        routine_laps = time_controls[4];
-        rest = time_controls[5];
-        long_rest = time_controls[6];
-        hang_laps_seconds = hang_laps*(time_on + time_off);*/
+
     }
 
     public int[] getTimeControlsIntArray() {

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 /**
  * Created by Laakso on 27.7.2018.
+ * CalculateWorkoutDetails class calculates extra information from values that are stored in database
+ * Most important is to combine successful hangs (completedHangs) with time and hold variables.
  */
 
 public class CalculateWorkoutDetails {

@@ -263,8 +263,8 @@ public class HangBoard {
     public void randomizeGrips(int grade_position) {
 
 
-        int poista_tama = valueList.size()/2;
-        if (poista_tama == 0) {poista_tama = 6; }
+        int holdsAmount = valueList.size()/2;
+        if (holdsAmount == 0) {holdsAmount = 6; }
 
 
         valueList.clear();
@@ -284,7 +284,7 @@ public class HangBoard {
         int value = 0;
         int i=0;
 
-        while (i < poista_tama ) {
+        while (i < holdsAmount ) {
 
             // Log.e("searchold: ", "GRIP POSITION: " + i);
 
@@ -400,7 +400,7 @@ public class HangBoard {
 
             if (search_point == all_hold_values.length) { search_point = 0; }
             if (tuplakierros > all_hold_values.length) {
-                if (min_value < 1 && max_value > 1000 || max_value < 0) {
+                if (min_value < 1 && max_value > 1000 || max_value <= 0) {
                     return 0;
                 } else {
                     if (min_value < 0 || max_value < 0) {
@@ -431,8 +431,11 @@ public class HangBoard {
             ++search_point;
             ++tuplakierros;
             if (search_point == all_hold_values.length) { search_point = 0; }
+
+            // for some reason max_value went negative in some test cases, those were probably just
+            // illegally created holds but nonetheless, now it wont crash the method anymore
             if (tuplakierros > all_hold_values.length) {
-                if (min_value < 1 && max_value > 1000) {
+                if (min_value < 1 && max_value > 1000 || max_value <= 0) {
                     return 0;
                 } else {
                     if (min_value < 0 || max_value < 0) {
@@ -443,8 +446,7 @@ public class HangBoard {
                 }
             }
         }
-
-
+        Log.e("hold found",all_hold_values[search_point].getHoldNumber() + " " +all_hold_values[search_point].grip_style.toString() + " " + all_hold_values[search_point].getHoldValue() );
         return search_point;
     }
     // initializeHolds method collects from resources all the possible grip types, hold numbers,

@@ -143,9 +143,11 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
            public void onClick(View v) {
 
 
-               TESTcreateNewEntry();
-               TESTeditEntryRandomly();
+               for (int i = 0 ; i < 10 ; i++) {
 
+                   TESTcreateNewEntry();
+                   // TESTeditEntryRandomly();
+               }
                 workoutAdapter.notifyDataSetChanged();
            }
        });
@@ -161,7 +163,6 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                 // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
 
                 if (positionGlobal == 0) {
-                    Toast.makeText(WorkoutHistoryActivity.this,"pos global == 0",Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -201,7 +202,6 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
 
                 if (v.getId() == R.id.workoutHistoryListView) {
-                    //Toast.makeText(EditWorkoutInfoActivity.this, "Context Menu Created ", Toast.LENGTH_SHORT).show();
 
                     boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
 
@@ -244,8 +244,6 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    Toast.makeText(WorkoutHistoryActivity.this,"is checked true, show hidden workouts",Toast.LENGTH_SHORT).show();
-
                     workoutAdapter = new WorkoutHistoryAdapter(WorkoutHistoryActivity.this,dbHandler,isChecked);
 
                     workoutHistoryListView = (ListView) findViewById(R.id.workoutHistoryListView);
@@ -254,8 +252,6 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
                 }
                 else {
-                    Toast.makeText(WorkoutHistoryActivity.this,"is checked false, hide hidden workouts",Toast.LENGTH_SHORT).show();
-
                     workoutAdapter = new WorkoutHistoryAdapter(WorkoutHistoryActivity.this,dbHandler,isChecked);
 
                     workoutHistoryListView = (ListView) findViewById(R.id.workoutHistoryListView);
@@ -275,7 +271,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                 boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
 
                 if (dbHandler.lookUpWorkoutCount(includeHidden) == 0) {
-                    Toast.makeText(WorkoutHistoryActivity.this,"Database empty, cannot show graphs",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WorkoutHistoryActivity.this,"No workouts in list",Toast.LENGTH_SHORT).show();
                 }
                 else {
                     Intent showDatabaseGraphs = new Intent(getApplicationContext(),WorkoutStatisticsActivity.class);
@@ -329,13 +325,10 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
                 workoutAdapter.notifyDataSetChanged();
 
-                //Log.e("millis time"," " + timeInMillis);
-               // Toast.makeText(WorkoutHistoryActivity.this, "date picker set listenr",Toast.LENGTH_LONG).show();
             }
         };
 
 
-        //Log.e("WO statistics","is checked: " + showHiddenWorkoutsCheckBox.isChecked());
 
     }
 
@@ -368,7 +361,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         }
 
         else {
-            Toast.makeText(WorkoutHistoryActivity.this," results not saved",Toast.LENGTH_SHORT).show();
+            Toast.makeText(WorkoutHistoryActivity.this,"results not saved",Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -415,8 +408,6 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         }
         else if (selectedContextMenuItem == 2) {
 
-            Toast.makeText(WorkoutHistoryActivity.this, "EDITING DATE" + positionGlobal, Toast.LENGTH_SHORT).show();
-
             long timeInMillis = dbHandler.lookUpDate(selectedListViewPosition,includeHidden);
 
             Calendar cal = Calendar.getInstance();
@@ -456,7 +447,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                     if (newBoardName.length() > 25) {
                         newBoardName = newBoardName.substring(0,25);
 
-                        Toast.makeText(WorkoutHistoryActivity.this,"Please use under 25 characters to describe hangboard name.",Toast.LENGTH_LONG).show();
+                        Toast.makeText(WorkoutHistoryActivity.this,"Please use under 25 characters to describe a hangboard name.",Toast.LENGTH_LONG).show();
                     }
                     boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
                     dbHandler.updateHangboardName(positionGlobal,newBoardName,includeHidden);
@@ -483,7 +474,6 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
             if (dbHandler.lookUpIsHidden(selectedListViewPosition,includeHidden)) {
                 dbHandler.delete(selectedListViewPosition,includeHidden);
 
-                Toast.makeText(WorkoutHistoryActivity.this, "DELETING: " + positionGlobal, Toast.LENGTH_SHORT).show();
                 workoutAdapter.notifyDataSetChanged();
             }
             else {
@@ -546,8 +536,6 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
     private void TESTcreateNewEntryReallyRandom() {
         long rngTime = System.currentTimeMillis();
-
-        // Toast.makeText(WorkoutHistoryActivity.this, "PIILOTETAAN RANDOMILLA",(int) 10).show();
 
         //TimeControls rngControls = getRandomTimeControls();
         //TimeControls rngControls = getRandomPremadeTimeControls();
