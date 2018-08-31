@@ -144,6 +144,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="bottom"
                     android:layout_weight="1"
+                    android:padding="5dp"
                     android:text="@string/workout_history" />
 
                 <Button
@@ -152,6 +153,8 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="bottom"
                     android:layout_weight="1"
+                    android:padding="3dp"
+                    android:singleLine="true"
                     android:text="@string/time_controls" />
 
                 <Button
@@ -160,7 +163,9 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="bottom"
                     android:layout_weight="1"
-                    android:text="@string/new_workout" />
+                    android:padding="5dp"
+                    android:text="@string/new_workout"
+                    android:textAllCaps="?android:attr/windowSwipeToDismiss" />
 
                 <Button
                     android:id="@+id/startWorkoutBtn"
@@ -168,6 +173,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="bottom"
                     android:layout_weight="1"
+                    android:padding="3dp"
                     android:text="@string/start_workout" />
 
             </LinearLayout>
