@@ -413,9 +413,17 @@ public class WorkoutActivity extends AppCompatActivity {
                         }
                         restProgressBar.setProgress((s+timeControls.getLongRestTime())*100 / timeControls.getLongRestTime() );
 
+                        // Workout has ended
                         if (timeControls.getRoutineLaps() == current_set - 1) {
+                            infoTextView.setText("Workout has ended");
+                            gradeTextView.setText("Workout progress to edit and save workout");
                             lapseTimeChrono.stop();
                             workoutProgressButton.setVisibility(View.VISIBLE);
+                            pauseBtn.setVisibility(View.INVISIBLE);
+                            lapseTimeChrono.setVisibility(View.INVISIBLE);
+                            rightHandImage.setVisibility(View.INVISIBLE);
+                            leftHandImage.setVisibility(View.INVISIBLE);
+
 
                         }
 

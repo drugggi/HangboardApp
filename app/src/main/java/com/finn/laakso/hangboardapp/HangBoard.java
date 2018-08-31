@@ -200,7 +200,7 @@ public class HangBoard {
 
         // No need to change if the size is the same than wanthed size (amount)
 
-        Log.e("setGripAmount","grade pos: "+ grade_position);
+       // Log.e("setGripAmount","grade pos: "+ grade_position);
 
         if (amount*2 < valueList.size() ) {
             while (amount*2 < valueList.size() ) {
@@ -280,7 +280,7 @@ public class HangBoard {
 
         int min_value=getMinValue(grades[grade_position]);
         int max_value=getMaxValue(grades[grade_position]);
-        Log.e("min/max from grades[]",min_value + "/" + max_value);
+       // Log.e("min/max from grades[]",min_value + "/" + max_value);
         int value = 0;
         int i=0;
 
@@ -348,7 +348,7 @@ public class HangBoard {
         // Min and max values of grades which the hold search is based on
         int min_value=getMinValue(grades[grade_position]);
         int max_value=getMaxValue(grades[grade_position]);
-        Log.e("min/max from grades[]",min_value + "/" + max_value);
+       // Log.e("min/max from grades[]",min_value + "/" + max_value);
         if (isAlternate) {
 
 
@@ -386,7 +386,7 @@ public class HangBoard {
     private int getHoldNumberWithValue(int min_value, int max_value, Hold.grip_type wanted_hold) {
 
        // Log.e("get hld nro with value","min/max: "+min_value + "/"+max_value);
-       Log.e("searchhold" , "wanted: " + wanted_hold + " min: " + min_value + " max: " + max_value);
+       // Log.e("searchhold" , "wanted: " + wanted_hold + " min: " + min_value + " max: " + max_value);
 
         Random rng = new Random();
         int search_point = rng.nextInt(all_hold_values.length);
@@ -419,7 +419,11 @@ public class HangBoard {
 
     private int getHoldNumberWithValue(int min_value, int max_value) {
 
-        Log.e("get hld nro with value","min/max: "+min_value + "/"+max_value);
+        // Log.e("get hld nro with value","min/max: "+min_value + "/"+max_value);
+
+        if (max_value <= 0) {
+            Log.e("MAX VALUE ERR","Max value = " + max_value);
+        }
 
         Random rng = new Random();
         int search_point = rng.nextInt(all_hold_values.length);
@@ -442,14 +446,14 @@ public class HangBoard {
                     return 0;
                 } else {
                     if (min_value < 0 || max_value < 0) {
-                        Log.e("searchponit/tuplak",search_point + "/" + tuplakierros);
+                        //Log.e("searchponit/tuplak",search_point + "/" + tuplakierros);
                     }
-                    Log.e("get hld nro with value","min/max: "+min_value + "/"+max_value);
+                    //Log.e("get hld nro with value","min/max: "+min_value + "/"+max_value);
                     return getHoldNumberWithValue(min_value / 2, max_value * 2);
                 }
             }
         }
-        Log.e("hold found",all_hold_values[search_point].getHoldNumber() + " " +all_hold_values[search_point].grip_style.toString() + " " + all_hold_values[search_point].getHoldValue() );
+        //Log.e("hold found",all_hold_values[search_point].getHoldNumber() + " " +all_hold_values[search_point].grip_style.toString() + " " + all_hold_values[search_point].getHoldValue() );
         return search_point;
     }
     // initializeHolds method collects from resources all the possible grip types, hold numbers,

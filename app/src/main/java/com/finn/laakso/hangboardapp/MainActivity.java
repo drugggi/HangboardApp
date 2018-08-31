@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -135,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         registerForContextMenu(holdsListView);
 
         durationTextView = (TextView) findViewById(R.id.durationTextView);
-        String durationText = "Duration: " + timeControls.getTotalTime()/60 + "min";
+        final String durationText = "Duration: " + timeControls.getTotalTime()/60 + "min";
         durationTextView.setText(durationText);
 
         durationSeekBar = (SeekBar) findViewById(R.id.durationSeekBar);
@@ -166,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 // If the new pages is scrolled (not just phone orientation changes) lets initialize
                 // new board and holds
+                Log.e("TC before",timeControls.getTimeControlsAsString());
                 if (hangboard_descr_position != position) {
                     hangboard_descr_position = position;
 
@@ -180,11 +182,12 @@ public class MainActivity extends AppCompatActivity {
                     //holdsAdapter = new ArrayAdapter<String>(MainActivity.this, R.layout.mytextview, everyBoard.setGrips(grade_descr_position));
 
                     holdsListView.setAdapter(hangsAdapter);
-                    durationSeekBar.setProgress(3);
+                    //durationSeekBar.setProgress(3);
 
                     String randomizeText = "New " + everyBoard.getGrade(grade_descr_position) + " Workout";
                     newWorkoutButton.setText(randomizeText);
 
+                    Log.e("TC after",timeControls.getTimeControlsAsString());
 
                 }
             }
@@ -445,6 +448,9 @@ public class MainActivity extends AppCompatActivity {
                 holdsListView.setAdapter(holdsAdapter);
                 */
 
+                String durationText = "Duration: " + timeControls.getTotalTime()/60 + "min";
+
+                durationTextView.setText(durationText);
                 hangsAdapter.notifyDataSetChanged();
 
                 rightFingerImage.setVisibility(View.INVISIBLE);

@@ -35,19 +35,15 @@ import java.util.Random;
 // date and hangboard name with pop up dialogs and other workout data with EditWorkoutInfoActivity activity
 public class WorkoutHistoryActivity extends AppCompatActivity {
 
+    private CheckBox showHiddenWorkoutsCheckBox;
     private Button workoutDetailstButton;
-    private Button resetDBButton;
     private Button showGraphsButton;
-    private Button newEntryButton;
 
     private EditText hangboardNameEditText;
-
-    private CheckBox showHiddenWorkoutsCheckBox;
 
     private DatePickerDialog.OnDateSetListener dateSetListener;
 
     Random rng;
-    int DELETEALLCOUNTER;
 
     // Adapter that manages the workout history with the help of SQLite
     private WorkoutHistoryAdapter workoutAdapter;
@@ -67,21 +63,18 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
         // Random needed for generating random workout data
         rng = new Random();
-        DELETEALLCOUNTER = 3;
 
         workoutDetailstButton = (Button) findViewById(R.id.workoutDetailsButton);
-        resetDBButton = (Button) findViewById(R.id.testButton);
         showGraphsButton = (Button) findViewById(R.id.showGraphsButton);
-        newEntryButton = (Button) findViewById(R.id.newEntryButton);
 
         showHiddenWorkoutsCheckBox = (CheckBox) findViewById(R.id.showHiddenCheckBox);
         showHiddenWorkoutsCheckBox.setChecked(false);
 
         // DBHandler to store workout from Intent.
         dbHandler = new WorkoutDBHandler(getApplicationContext(),null,null,1);
-        // dbHandler.DELETEALL();
 
         // Temporary workout info to generate test workouts
+
         ArrayList<Hold> tempWorkoutHolds = new ArrayList<>();
         TimeControls tempTimeControls = new TimeControls();
         String tempHangboardName = "";
@@ -134,6 +127,8 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                 // Lets add workout information to database straight from the Intent.
                 dbHandler.addHangboardWorkout(time, tempHangboardName, tempTimeControls, tempWorkoutHolds, tempCompleted, workoutDescription);
             }
+
+
 
         }
 
@@ -189,6 +184,8 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         workoutHistoryListView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
             @Override
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+
+                Toast.makeText(WorkoutHistoryActivity.this,"type deleteall to hangboardname, to delete database",Toast.LENGTH_SHORT).show();
 
                 AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
                 int position = info.position + 1;
@@ -284,7 +281,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                 }
             }
         });
-
+/*
         // Reset button for clearing all database entries, for testing purposes right now
         resetDBButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -306,6 +303,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
             }
         });
+        */
 
         // Listener for parsing and updating the date that user selects
         dateSetListener = new DatePickerDialog.OnDateSetListener() {
@@ -453,7 +451,12 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                     boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
                     dbHandler.updateHangboardName(positionGlobal,newBoardName,includeHidden);
 
+                    if (newBoardName.equals("deleteall")) {
+                        dbHandler.DELETEALL();
+                    }
+
                     workoutAdapter.notifyDataSetChanged();
+                    Toast.makeText(WorkoutHistoryActivity.this,"Database entires deleted,",Toast.LENGTH_LONG).show();
 
                 }
             });
