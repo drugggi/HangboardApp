@@ -17,11 +17,14 @@
 -->
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_weight="3"
         android:orientation="vertical"
         android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -140,22 +143,21 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="0dp"
-            android:layout_marginTop="0dp"
-            android:layout_weight="0"
             android:gravity="bottom"
-            android:orientation="horizontal"
-            android:paddingTop="0dp">
+            android:orientation="horizontal">
 
 
             <Button
                 android:id="@+id/statsButton"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="bottom"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:padding="0dp"
+                android:singleLine="true"
                 android:text="@string/workout_history" />
+
             <Button
                 android:id="@+id/timeControlBtn"
                 android:layout_width="wrap_content"
@@ -163,6 +165,8 @@
                 android:layout_gravity="bottom"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:padding="0dp"
+                android:singleLine="true"
                 android:text="@string/time_controls" />
 
             <Button
@@ -172,7 +176,9 @@
                 android:layout_gravity="bottom"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/new_workout" />
+                android:padding="5dp"
+                android:text="@string/new_workout"
+                android:textAllCaps="?android:attr/windowOverscan" />
 
 
             <Button
@@ -182,6 +188,8 @@
                 android:layout_gravity="bottom"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:padding="5dp"
+                android:singleLine="true"
                 android:text="@string/start_workout" />
 
 
