@@ -204,22 +204,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent statsIntent = new Intent(getApplicationContext(), WorkoutHistoryActivity.class);
 
-                // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
-/*
-                statsIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
-                statsIntent.putExtra("com.finn.laakso.hangboardapp.BOARDNAME",everyBoard.getHangboardName() );
-                statsIntent.putExtra("com.finn.laakso.hangboardapp.DESCRIPTION","Pre made timecontrols test");
-                statsIntent.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", everyBoard.getCurrentHoldList());
-
-                int[] completed = new int[timeControls.getGripLaps() * timeControls.getRoutineLaps()];
-
-                for (int i = 0 ; i < completed.length ; i++) {
-                    completed[i] = timeControls.getHangLaps();
-                }
-
-                statsIntent.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS",completed);
-*/
-
                 startActivity(statsIntent);
             }
         });

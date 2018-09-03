@@ -5,11 +5,11 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -131,21 +131,6 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
         }
 
-        // Button just for generating random workout datapoins and testing purposes
-  /*     newEntryButton.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-
-
-               for (int i = 0 ; i < 10 ; i++) {
-
-                   TESTcreateNewEntry();
-                   TESTeditEntryRandomly();
-               }
-                workoutAdapter.notifyDataSetChanged();
-           }
-       });
-*/
 
         // Click listener for editing single workout
         //workoutDetailstButton.setText("show WO details");
@@ -183,6 +168,8 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         workoutHistoryListView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
             @Override
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+
+                Log.e("Remove ME","Warning remove deleteall deltedatabase commands in hangboard name");
 
                 Toast.makeText(WorkoutHistoryActivity.this,"type deleteall to hangboardname, to delete database",Toast.LENGTH_SHORT).show();
 
@@ -410,7 +397,14 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                     dateSetListener,
                     year,month,day);
 
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+            try {
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+
             dialog.show();
 
 
@@ -477,7 +471,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
         return true;
     }
-
+/*
     private void TESTeditEntryRandomly() {
         int doThis = rng.nextInt(6);
         boolean includeHidden = rng.nextBoolean();
@@ -519,7 +513,9 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
         }
     }
+*/
 
+/*
     private void TESTcreateNewEntryReallyRandom() {
         long rngTime = System.currentTimeMillis();
 
@@ -549,7 +545,9 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         );
 
     }
+*/
 
+/*
     private void TESTcreateNewEntry() {
         long rngTime = System.currentTimeMillis();
 
@@ -587,6 +585,10 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                dbHandler.hideWorkoutNumber(pos,includeHidden);
     }
 
+
+*/
+
+/*
     // Randomizers for creating all the data that is neede for testing SQLite database
     // TimeControls, Holds, Dates
     private ArrayList<Hold> getRandomWorkoutHolds(int number_of_holds) {
@@ -606,6 +608,10 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         }
         return newHolds;
     }
+
+*/
+
+/*
 
     public int[] getCompletedALL(TimeControls timeControls) {
 
@@ -760,4 +766,6 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
         return paiva + "-" + kk + "-" + vuosi;
     }
+
+    */
 }

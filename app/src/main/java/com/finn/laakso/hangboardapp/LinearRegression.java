@@ -13,8 +13,17 @@ public class LinearRegression {
 
 
     public LinearRegression(ArrayList<Float> x, ArrayList<Float> y) {
+
+        // Security check, for linear regressiont to work x and y must be same size
+        // If not line is same as x-axis.
         if (x.size() != y.size() ) {
-            throw new IllegalArgumentException("array lengths are not equal");
+            intercept = 0;
+            slope = 0;
+            r2 = 1;
+            svar0 = 1;
+            svar1 = 1;
+            return;
+
         }
         int n = x.size();
 
