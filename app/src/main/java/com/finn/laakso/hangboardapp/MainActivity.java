@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -167,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 // If the new pages is scrolled (not just phone orientation changes) lets initialize
                 // new board and holds
-                Log.e("TC before",timeControls.getTimeControlsAsString());
+
                 if (hangboard_descr_position != position) {
                     hangboard_descr_position = position;
 
@@ -177,18 +176,18 @@ public class MainActivity extends AppCompatActivity {
                     repeatersBox.setVisibility(View.VISIBLE);
 
                     everyBoard.initializeHolds(res, HangboardSwipeAdapter.getHangBoard(hangboard_descr_position));
-                    hangsAdapter = new HangListAdapter(MainActivity.this,everyBoard.getCurrentHoldList());
+
+                  //  hangsAdapter = new HangListAdapter(MainActivity.this,everyBoard.getCurrentHoldList());
                     everyBoard.setGrips(grade_descr_position);
                     //holdsAdapter = new ArrayAdapter<String>(MainActivity.this, R.layout.mytextview, everyBoard.setGrips(grade_descr_position));
 
-                    holdsListView.setAdapter(hangsAdapter);
+                   // holdsListView.setAdapter(hangsAdapter);
                     //durationSeekBar.setProgress(3);
 
                     String randomizeText = "New " + everyBoard.getGrade(grade_descr_position) + " Workout";
                     newWorkoutButton.setText(randomizeText);
 
-                    Log.e("TC after",timeControls.getTimeControlsAsString());
-
+                    hangsAdapter.notifyDataSetChanged();
                 }
             }
 
