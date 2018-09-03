@@ -125,6 +125,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
                 // Lets add workout information to database straight from the Intent.
                 dbHandler.addHangboardWorkout(time, tempHangboardName, tempTimeControls, tempWorkoutHolds, tempCompleted, workoutDescription);
+                Toast.makeText(WorkoutHistoryActivity.this,"new workout saved",Toast.LENGTH_SHORT).show();
             }
 
 
@@ -141,7 +142,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                 Intent workoutDetailsIntent = new Intent(getApplicationContext(), WorkoutDetailsActivity.class);
 
                 // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
-
+                Toast.makeText(WorkoutHistoryActivity.this," THIS NEED SEUCRITY CHECKING",Toast.LENGTH_LONG).show();
                 if (positionGlobal == 0) {
                     return;
                 }
@@ -208,6 +209,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         workoutHistoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(WorkoutHistoryActivity.this," THIS NEED SEUCRITY CHECKING",Toast.LENGTH_LONG).show();
                 positionGlobal = position+1;
             }
         });
@@ -258,29 +260,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                 }
             }
         });
-/*
-        // Reset button for clearing all database entries, for testing purposes right now
-        resetDBButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               // WorkoutDBHandler dbHandler = new WorkoutDBHandler(getApplicationContext(),null,null,1);
-                // dbHandler.DELETEALL();
 
-                if (DELETEALLCOUNTER == 0) {
-                    dbHandler.DELETEALL();
-                    Toast.makeText(WorkoutHistoryActivity.this, "All DELETED, Happy now", Toast.LENGTH_LONG).show();
-                    DELETEALLCOUNTER = 3;
-                }
-                else   {
-                    DELETEALLCOUNTER--;
-                    Toast.makeText(WorkoutHistoryActivity.this, "SOON ALL WILL BE GONE, countdown: " + DELETEALLCOUNTER, Toast.LENGTH_LONG).show();
-                }
-
-                workoutAdapter.notifyDataSetChanged();
-
-            }
-        });
-        */
 
         // Listener for parsing and updating the date that user selects
         dateSetListener = new DatePickerDialog.OnDateSetListener() {
@@ -315,7 +295,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
         // User has updated the completed hangs information lets update that information to database too
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HANGS_COMPLETED) {
-            Toast.makeText(WorkoutHistoryActivity.this," results ok",Toast.LENGTH_SHORT).show();
+            Toast.makeText(WorkoutHistoryActivity.this,"edits saved",Toast.LENGTH_SHORT).show();
 
             boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
 
@@ -337,7 +317,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         }
 
         else {
-            Toast.makeText(WorkoutHistoryActivity.this,"results not saved",Toast.LENGTH_SHORT).show();
+            Toast.makeText(WorkoutHistoryActivity.this,"edits not saved",Toast.LENGTH_SHORT).show();
         }
 
     }

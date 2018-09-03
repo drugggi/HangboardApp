@@ -164,6 +164,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
                 createHangboardDistributionPieChart();
 
 
+
             }
 
         }

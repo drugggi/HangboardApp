@@ -11,7 +11,6 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -494,11 +493,11 @@ public class WorkoutActivity extends AppCompatActivity {
         int index = (current_set - 1 )* timeControls.getGripLaps() + current_lap;
 
         if (index >= 0 && index < completedHangs.length ) {
-            Log.e("called","updateCompletedHangs called set: " + current_set + " lap: " + current_lap);
+
             completedHangs[index] = timeControls.getHangLaps();
         }
         else {
-            Log.e("Out of bounds","updateCompletedHangs index out of bounds set: " + current_set + " lap: " + current_lap);
+
         }
 
     }
@@ -532,7 +531,7 @@ public class WorkoutActivity extends AppCompatActivity {
         }
 
     // MAKE SURE THIS TEST IS USELESS IN THE FUTURE! this method is called when the current lap is not reduced
-       // Log.e("CURRENT LAP" , "size and current_lap: "+ workoutHolds.size() + " / " + current_lap);
+
         if ( current_lap*2 >= workoutHolds.size()-1) {current_lap = 0; }
 
         leftHandImage.setImageResource(workoutHolds.get(current_lap*2 ).getGripImage(true));
