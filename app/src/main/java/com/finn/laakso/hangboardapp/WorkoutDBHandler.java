@@ -366,8 +366,8 @@ public class WorkoutDBHandler extends SQLiteOpenHelper {
         if (newDate < 0) {
             newDate = 0;
         }
-        else if (newDate > 4120720611736l) {
-            newDate = 3120720611736l;
+        else if (newDate > 4120720611736L) {
+            newDate = 3120720611736L;
         }
 
         SQLiteDatabase db = this.getWritableDatabase();

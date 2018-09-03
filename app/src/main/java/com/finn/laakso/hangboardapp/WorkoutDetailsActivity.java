@@ -24,9 +24,6 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
     private String description;
     private CalculateWorkoutDetails calculatedDetails;
 
-    //private LineChart workoutDifficultyPerSecondLineChart;
-    //private BarChart workoutDifficultyPerSecondBarChart;
-
     // workout info that requires calculation usually involving completed matrix
 
     private TextView workoutDetailsTextView;

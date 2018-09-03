@@ -163,6 +163,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
                 createScaledLineChart();
                 createHangboardDistributionPieChart();
 
+
             }
 
         }
@@ -170,7 +171,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
     }
 
     // This method creates Workload bar chart and draws linear regression line over it
-    public void createTotalWorkloadCombinedChart() {
+    private void createTotalWorkloadCombinedChart() {
         totalWorkloadCombinedChart = (CombinedChart) findViewById(R.id.totalWorkloadCombinedChart);
 
         totalWorkloadCombinedChart.getDescription().setText("Total workload for each workout (avg D*TUT)");
@@ -260,7 +261,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
     }
 
     // This method creates Intensity line chart and draws linear regression line
-    public void createWorkoutIntensityLineChart() {
+    private void createWorkoutIntensityLineChart() {
         workoutIntensityLineChart = (LineChart) findViewById(R.id.workoutIntensityChart);
         List<Entry> intensityEntries = new ArrayList<Entry>();
         ArrayList<Entry> linearRegressionEntries = new ArrayList<>();
@@ -333,7 +334,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
     }
 
     // This method creates Average difficutly per hang line chart
-    public void createAverageDifficultyPerHangLineChart() {
+    private void createAverageDifficultyPerHangLineChart() {
         averageDifficultyPerHang = (LineChart) findViewById(R.id.averageDifficultyPerHang);
 
         ArrayList<Entry> difficultyEntries = new ArrayList<>();
@@ -472,7 +473,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
     // and workout power into one chart. Chart is sclaed from 0 to 1, where every variables min value is 0 and
     // max value is 1. With the help of this chart, user can see for examlpe how increasing one workout
     // variable affects the other. It is really hard to have every variable be maximum in a single workout.
-    public void createScaledLineChart() {
+    private void createScaledLineChart() {
         scaledLineChart = (LineChart) findViewById(R.id.scaledLineChart);
 
         ArrayList<Entry> entriesIntensity = new ArrayList<>();
@@ -598,7 +599,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
     }
 
-    public void createWorkoutTUTandWTLineChart() {
+    private void createWorkoutTUTandWTLineChart() {
         workoutTUTandWTLineChart = (LineChart) findViewById(R.id.workoutTUTandWTLineChart);
 
         ArrayList<Entry> entriesTUT = new ArrayList<Entry>();
@@ -649,7 +650,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
     }
 
-    public void createWorkoutDatesBarChart() {
+    private void createWorkoutDatesBarChart() {
         workoutDatesBarChart = (BarChart) findViewById(R.id.workoutDatesBarChart);
 
         //SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
@@ -707,7 +708,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
     }
 
-    public void createSingleHangsOrRepeatersBarChart() {
+    private void createSingleHangsOrRepeatersBarChart() {
 
         singleHangsOrRepeatersBarChart = (HorizontalBarChart) findViewById(R.id.singleHangsOrRepeatersBarChart);
 
@@ -763,7 +764,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
     }
 
-    public void createDifficultyBarChart() {
+    private void createDifficultyBarChart() {
         difficultyBarChart = (BarChart) findViewById(R.id.difficultyBarChart);
         //difficultyBarChart.setDrawBarShadow(true);
 
@@ -852,7 +853,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
     }
 
-    public void createHangboardDistributionPieChart() {
+    private void createHangboardDistributionPieChart() {
         hangboardDistributionPieChart = (PieChart) findViewById(R.id.hangboardDistributionPieChart);
         hangboardDistributionPieChart.setCenterText("Hangboards used");
 
@@ -913,7 +914,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
     }
 
-    public void createGripDistributionPieChart() {
+    private void createGripDistributionPieChart() {
         gripDistributionPieChart = (PieChart) findViewById(R.id.gripDistributionPieChart);
         gripDistributionPieChart.setCenterText("Each grip type used (seconds)");
 
@@ -1116,6 +1117,60 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
 
    }
+/*
+   private void printWorkoutsForTesting() {
+
+       DateFormat dateFormat = SimpleDateFormat.getDateInstance();
+
+        for (int i = 0; i < allCalculatedDetails.size() ; i++ ) {
+            Log.d("Date",dateFormat.format(allDates.get(i) ));
+            Log.d("Hangboard",allHangboards.get(i) );
+            Log.d("TC","" + arrayToString(allTimeControls.get(i).getTimeControlsIntArray() ));
+            Log.d("Holds", getWorkoutHoldsInfo(allWorkoutsHolds.get(i) ));
+            Log.d("completed",getCompletedMatrix(allCompletedHangs.get(i), allTimeControls.get(i) ));
+            Log.d("Desc",dbHandler.lookUpWorkoutDescription(i+1,includeHidden));
+
+        }
+   }
+   private String arrayToString(int[] intArray) {
+        StringBuilder stringArrayBuilder = new StringBuilder();
+
+        for (int i = 0 ; i < intArray.length ; i++){
+            stringArrayBuilder.append(" ").append(intArray[i]);
+        }
+        return stringArrayBuilder.toString();
+   }
+
+    private String getCompletedMatrix(int[] completed,TimeControls tc) {
+        String hangs ="" + tc.getHangLaps();
+        StringBuilder completedBuilder = new StringBuilder();
+
+        for (int i = 0;i < completed.length ; i++) {
+            completedBuilder.append("    " + completed[i] + "/" + hangs);
+
+            if ((i+1) % tc.getGripLaps() == 0) {
+                completedBuilder.append("\n");
+            }
+
+
+        }
+        return  completedBuilder.toString();
+    }
+
+    private String getWorkoutHoldsInfo(ArrayList<Hold> workoutHolds) {
+        StringBuilder holdsInfoBuilder = new StringBuilder();
+        String tempText;
+
+        for( int i = 0; i < workoutHolds.size() ; i = i+2) {
+
+            tempText = workoutHolds.get(i).getHoldInfo(workoutHolds.get(i+1));
+            holdsInfoBuilder.append("    " + tempText.replaceAll("\n",", ") + "\n");
+
+        }
+        return holdsInfoBuilder.toString();
+    }
+
+*/
 
 
 }

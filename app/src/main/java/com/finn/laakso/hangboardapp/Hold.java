@@ -144,7 +144,6 @@ public class Hold implements Comparable<Hold>, Parcelable {
         }
     }
 
-
     // Returns the image that corresponds the grip_type
     public int getGripImage(boolean left_hand) {
 
