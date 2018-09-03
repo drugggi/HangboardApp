@@ -416,7 +416,6 @@ public class WorkoutDBHandler extends SQLiteOpenHelper {
 
                 String query = "UPDATE " + TABLE_WORKOUTS + " SET " + COLUMN_ISHIDDEN + " = \"" + isHidden + "\" WHERE " + COLUMN_ID + " =  \"" + columnID + "\"";
                 db.execSQL(query);
-                // Log.e("Moved to"," " + position);
 
             }
         }finally {
@@ -434,8 +433,6 @@ public class WorkoutDBHandler extends SQLiteOpenHelper {
 
         int isHidden = 0;
         int columnID = 0;
-        Log.e("hideORUNHIDEwoer"," ");
-        Log.e("Move pos"," " + position);
 
         if (cursor.move(position)) {
             isHidden = cursor.getInt(14);
@@ -448,7 +445,7 @@ public class WorkoutDBHandler extends SQLiteOpenHelper {
                 isHidden = 0;
             }
 
-            Log.e("set ishidden to"," " + isHidden);
+
 
             String query = "UPDATE " + TABLE_WORKOUTS + " SET " + COLUMN_ISHIDDEN + " = \"" + isHidden + "\" WHERE " + COLUMN_ID + " =  \"" + columnID + "\"";
             db.execSQL(query);

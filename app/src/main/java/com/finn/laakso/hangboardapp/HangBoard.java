@@ -1,7 +1,6 @@
 package com.finn.laakso.hangboardapp;
 
 import android.content.res.Resources;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -273,13 +272,10 @@ public class HangBoard {
 
         int min_value=getMinValue(grades[grade_position]);
         int max_value=getMaxValue(grades[grade_position]);
-        Log.e("min/max from grades[]","pos" + grade_position + "   "+min_value + "/" + max_value);
         int value = 0;
         int i=0;
 
         while (i < holdsAmount ) {
-
-            // Log.e("searchold: ", "GRIP POSITION: " + i);
 
             if (isAlternate) {
 
@@ -341,20 +337,17 @@ public class HangBoard {
         // Min and max values of grades which the hold search is based on
         int min_value=getMinValue(grades[grade_position]);
         int max_value=getMaxValue(grades[grade_position]);
-       // Log.e("min/max from grades[]",min_value + "/" + max_value);
         if (isAlternate) {
 
 
                 random_nro = getHoldNumberWithValue(min_value/2, (max_value*3)/2 );
                 temp_hold_value = all_hold_values[random_nro].getHoldValue();
-            Log.e("RNG: "," temp_hold_value: " + temp_hold_value + "  min/max " + min_value + "/" +max_value);
 
             min_value = 2*min_value-temp_hold_value;
             if (min_value < 1 ) { min_value = 1; }
             max_value = 2*max_value-temp_hold_value;
             if (max_value < 2 ) { max_value = 2; }
 
-            Log.e("RNG: ","new ones  min/max: " + min_value + "/" +max_value);
 
                 random_nro_alt = getHoldNumberWithValue( min_value, max_value, all_hold_values[random_nro].grip_style);
 
@@ -383,9 +376,6 @@ public class HangBoard {
     // and returns first that if finds. I none is found, it increases the search range and calls itself
     private int getHoldNumberWithValue(int min_value, int max_value, Hold.grip_type wanted_hold) {
 
-        //Log.e("get hld nro with value","min/max: "+min_value + "/"+max_value);
-        Log.e("gHNWV " , "wanted: " + wanted_hold + " min: " + min_value + " max: " + max_value);
-
         Random rng = new Random();
         int search_point = rng.nextInt(all_hold_values.length);
         int tuplakierros = 0;
@@ -399,27 +389,20 @@ public class HangBoard {
 
             if (search_point == all_hold_values.length) { search_point = 0; }
             if (tuplakierros > all_hold_values.length) {
+                // Max value should never be negative anymore, this was a temporary bug fix which allowed new bug
                 if (min_value < 1 && max_value > 1000 || max_value <= 0) {
-                    Log.e("return 0 ","becouse: min/max" + min_value + "/" + max_value);
+
                     return 0;
                 } else {
                     return getHoldNumberWithValue(min_value / 2, max_value * 2, wanted_hold);
                 }
             }
         }
-        Log.e("found","search_point: " + search_point +  "  tuplakierros: " + tuplakierros);
-        Log.e("found", " hold_nro: " + all_hold_values[search_point].getHoldNumber()+" value: " + all_hold_values[search_point].getHoldValue());
         return search_point;
     }
 
 
     private int getHoldNumberWithValue(int min_value, int max_value) {
-
-
-        Log.e("gHNWV " , " min: " + min_value + " max: " + max_value);
-        if (max_value <= 0) {
-            Log.e("MAX VALUE ERR","Max value = " + max_value);
-        }
 
         Random rng = new Random();
         int search_point = rng.nextInt(all_hold_values.length);
@@ -441,16 +424,11 @@ public class HangBoard {
                 if (min_value < 1 && max_value > 1000 || max_value <= 0) {
                     return 0;
                 } else {
-                    if (min_value < 0 || max_value < 0) {
-                        Log.e("return 0 ","becouse: min/max" + min_value + "/" + max_value);
-                    }
-                    //Log.e("get hld nro with value","min/max: "+min_value + "/"+max_value);
                     return getHoldNumberWithValue(min_value / 2, max_value * 2);
                 }
             }
         }
-        Log.e("found","search_point: " + search_point +  "  tuplakierros" + tuplakierros);
-        Log.e("found", " hold_nro: " + all_hold_values[search_point].getHoldNumber()+" value: " + all_hold_values[search_point].getHoldValue());
+
         return search_point;
     }
     // initializeHolds method collects from resources all the possible grip types, hold numbers,

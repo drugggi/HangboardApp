@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -1092,7 +1091,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
        timeDifference = lastWorkout - firstWorkout;
 
        long weeks = timeDifference / (1000*60*60*24*7);
-       Log.e("weeks",""+weeks);
 
        if (totalWorkoutsDone > 1 && weeks != 0) {
            averageWorkoutsPerWeek = (float)totalWorkoutsDone / weeks;

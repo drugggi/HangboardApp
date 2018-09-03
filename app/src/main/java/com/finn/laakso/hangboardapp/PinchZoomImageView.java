@@ -16,6 +16,7 @@ import android.widget.ImageView;
 
 /**
  * Created by Laakso on 10.4.2018.
+ * PinchZoomImageView handles zooming and moving of hangboard image on WorkoutActivity
  */
 
 public class PinchZoomImageView extends ImageView {

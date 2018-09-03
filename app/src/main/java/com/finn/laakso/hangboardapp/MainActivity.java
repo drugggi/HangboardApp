@@ -332,10 +332,6 @@ public class MainActivity extends AppCompatActivity {
 
                 hangsAdapter.notifyDataSetChanged();
 
-               // Log.e("HANGBOARD IMAGE","image WIDTH/HEIGHT:   " +imageView.getWidth()+" / "+imageView.getHeight());
-              ///  Log.e("LEFT HAND" , "X and Y: "+ everyBoard.getCoordLeftX(position)+ " / " + everyBoard.getCoordLeftY(position));
-              //  Log.e("RIGHT HAND" , "X and Y: "+ everyBoard.getCoordRightX(position)+ " / " + everyBoard.getCoordRightY(position));
-
                 /*
                 // THIS IS ONLY FOR TESTING HAND IMAGES POSITION
                float y;

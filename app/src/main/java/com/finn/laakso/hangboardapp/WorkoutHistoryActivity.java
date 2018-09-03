@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -190,15 +189,6 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                 AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
                 int position = info.position + 1;
 
-                if (showHiddenWorkoutsCheckBox.isChecked() != workoutAdapter.getShowHiddenStatus())  {
-                    Log.e("ERR"," error: boolean value showhidden differs");
-                    int h = 1;
-                }
-                else {
-                    Log.e("OK","showHidden value same");
-                }
-
-
                 if (v.getId() == R.id.workoutHistoryListView) {
 
                     boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
@@ -376,7 +366,6 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         int selectedContextMenuItem = item.getItemId();
 
         boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
-        Log.e("WO statistics 2","is checked: " + showHiddenWorkoutsCheckBox.isChecked());
 
         ArrayList<Hold> holds = dbHandler.lookUpWorkoutHolds(selectedListViewPosition,includeHidden);
         //Long date = dbHandler.lookUpDate(selectedListViewPosition, includeHidden);
@@ -494,26 +483,22 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         boolean includeHidden = rng.nextBoolean();
 
         int position = rng.nextInt(dbHandler.lookUpWorkoutCount(includeHidden))+1;
-        Log.e("pos, IH",position + " , " + includeHidden);
 
         if (doThis == 0 ) {
 
             TimeControls tempControls = dbHandler.lookUpTimeControls(position,includeHidden);
             int[] jhfe = getCompletedRandomly(tempControls);
-            Log.e("udCompHangs","int[] length: " + jhfe.length);
             dbHandler.updateCompletedHangs(position,jhfe,includeHidden);
 
         }
         else if (doThis == 1 ) {
             long rngDate = rng.nextLong();
 
-            Log.e("udDate","long: " + rngDate);
             dbHandler.updateDate(position,rngDate,includeHidden);
 
         }
         else if (doThis == 2 ) {
             String rngName = getRandomHangboard();
-            Log.e("udHBName","new name: " + rngName);
             dbHandler.updateHangboardName(position,rngName,includeHidden);
 
         }
@@ -521,18 +506,15 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
 
             String rngDesc = getRandomWorkoutDescription();
-            Log.e("udDesc","new desc: " + rngDesc);
             dbHandler.updateWorkoutDescription(position,rngDesc,includeHidden);
 
         }
         else if (doThis == 4 ){
 
-            Log.e("deleting","pos: " + position + "  is hidden: " + includeHidden);
             dbHandler.delete(position,includeHidden);
 
         }
         else {
-            Log.e("new one","Totally random workout created");
             TESTcreateNewEntryReallyRandom();
 
         }
@@ -653,14 +635,6 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         i_hold_both_info = i_hold_both_info + rng.nextInt(1);
         newHold.setGripTypeAndSingleHang(i_hold_both_info);
 
-        if (showHiddenWorkoutsCheckBox.isChecked() != workoutAdapter.getShowHiddenStatus())  {
-            Log.e("ERR"," error: boolean value showhidden differs");
-            int h = 1;
-        }
-        else {
-            Log.e("OK","showHidden value same");
-        }
-
         return newHold;
     }
 
@@ -720,9 +694,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         // int[] i = {rng.nextInt(30)+1,rng.nextInt(10)+1,rng.nextInt(9)+1,rng.nextInt(5),rng.nextInt(4)+1,rng.nextInt(200)+1,rng.nextInt(500)+1};
 
         TimeControls randomTimeControls = new TimeControls();
-        Log.e("TC rng"," " + grip_laps + " " + hang_laps + " " + time_on + " " + time_off + " " + routine_laps + " " + rest + " " + long_rest);
         randomTimeControls.setTimeControls(i);
-        Log.e("TC real",randomTimeControls.getTimeControlsAsString());
         // rng.nextInt()+1;
         // Log.d("heh: ", "" + i.length);
         return  randomTimeControls;
@@ -759,7 +731,6 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         StringBuilder rngDesc= new StringBuilder("rng: ");
         String[] rngStringList = rngString.split(" ");
         for (int i = rng.nextInt(15)+1 ; i >=0 ; i--) {
-            //Log.e("kierros",": " + i);
 
             int rngIndex = rng.nextInt(rngStringList.length);
 

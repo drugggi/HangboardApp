@@ -452,13 +452,11 @@ public class WorkoutActivity extends AppCompatActivity {
             int index = (current_set - 1 )* timeControls.getGripLaps() + current_lap - 1;
 
             if (index >= 0 && index < completedHangs.length ) {
-                Log.e("called","conContextItemSelected called set: " + current_set + " lap: " + current_lap);
                 if (clicked_position >= 0 && clicked_position <= timeControls.getHangLaps() ) {
                     completedHangs[index] = clicked_position;
                 }
             }
             else {
-                Log.e("Out of bounds","conContextItemSelected index out of bounds set: " + current_set + " lap: " + current_lap);
             }
         }
         else {

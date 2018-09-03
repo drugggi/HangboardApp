@@ -149,11 +149,9 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
             for (int grips = 0; grips < timeControls.getGripLaps(); grips++) {
 
                 for (int hangs = 0; hangs < timeControls.getHangLaps(); hangs++) {
-                    Log.e("laps & grips","laps " + laps + "  grips: " + grips);
-                    Log.e("hang & completed","hangs: " + hangs + "  comp[] = " + completed[(laps)*(grips+1)]  );
+
                     for (int time_on = 0; time_on < timeControls.getTimeON(); time_on++) {
-                        //Log.e("laps & grips","laps " + laps + "  grips: " + grips);
-                       // Log.e("hang & completed","hangs: " + hangs + "  comp[] = " + completed[hangs]  );
+
                         if (hangs < completed[(laps)*(timeControls.getGripLaps()-1 ) + grips] ) {
                             successfulEntries.add(new BarEntry(seconds, holdDifficulties[grips]));
                         }
@@ -179,7 +177,7 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
                 seconds++;
             }
         }
-        Log.e("entries","size: " + successfulEntries.size());
+
 
         ArrayList<IBarDataSet> barDataSets = new ArrayList<>();
         BarDataSet successfulBarDataSet = new BarDataSet(successfulEntries,"Successful hangs");
@@ -256,7 +254,6 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
                     seconds++;
                 }
             }
-        Log.e("entries","size: " + workoutDifficultyEntries.size());
 
         ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
 
