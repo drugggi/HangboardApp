@@ -128,10 +128,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                 Toast.makeText(WorkoutHistoryActivity.this,"new workout saved",Toast.LENGTH_SHORT).show();
             }
 
-
-
         }
-
 
         // Click listener for editing single workout
         //workoutDetailstButton.setText("show WO details");
@@ -142,12 +139,14 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                 Intent workoutDetailsIntent = new Intent(getApplicationContext(), WorkoutDetailsActivity.class);
 
                 // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
-                Toast.makeText(WorkoutHistoryActivity.this," THIS NEED SEUCRITY CHECKING",Toast.LENGTH_LONG).show();
-                if (positionGlobal == 0) {
+                boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
+
+                Log.e("test","pos global: " + positionGlobal + "  lupwocount: " + dbHandler.lookUpWorkoutCount(includeHidden));
+                if (positionGlobal == 0 || positionGlobal > dbHandler.lookUpWorkoutCount(includeHidden)) {
+                    Toast.makeText(WorkoutHistoryActivity.this,"no workout selected",Toast.LENGTH_LONG).show();
                     return;
                 }
 
-                boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
                 boolean isHidden = dbHandler.lookUpIsHidden(positionGlobal,includeHidden);
 
                 workoutDetailsIntent.putExtra("com.finn.laakso.hangboardapp.DBPOSITION",positionGlobal );
@@ -221,6 +220,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    positionGlobal = 0;
                     workoutAdapter = new WorkoutHistoryAdapter(WorkoutHistoryActivity.this,dbHandler,isChecked);
 
                     workoutHistoryListView = (ListView) findViewById(R.id.workoutHistoryListView);
@@ -229,6 +229,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
                 }
                 else {
+                    positionGlobal = 0;
                     workoutAdapter = new WorkoutHistoryAdapter(WorkoutHistoryActivity.this,dbHandler,isChecked);
 
                     workoutHistoryListView = (ListView) findViewById(R.id.workoutHistoryListView);
