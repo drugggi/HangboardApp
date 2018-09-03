@@ -157,16 +157,15 @@ public class MainActivity extends AppCompatActivity {
 
         // ViewPager for showing and swiping different HangBoards.
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
               }
 
             @Override
             public void onPageSelected(int position) {
                 // If the new pages is scrolled (not just phone orientation changes) lets initialize
                 // new board and holds
-
                 if (hangboard_descr_position != position) {
                     hangboard_descr_position = position;
 
@@ -193,8 +192,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
+
         });
 
 

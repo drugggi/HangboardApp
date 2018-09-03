@@ -115,8 +115,6 @@
                 android:layout_width="wrap_content"
 
                 android:layout_height="wrap_content"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="0dp"
                 android:layout_weight="3"
                 android:choiceMode="singleChoice"
                 android:listSelector="@color/colorAccent"
@@ -130,7 +128,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:layout_marginTop="0dp"
                 android:layout_weight="1"
                 android:choiceMode="singleChoice"
                 android:listSelector="@android:color/darker_gray"
@@ -172,7 +169,7 @@
             <Button
                 android:id="@+id/randomizeBtn"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="50dp"
                 android:layout_gravity="bottom"
                 android:layout_weight="1"
                 android:gravity="center"
