@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.widget.TextView;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -62,19 +63,18 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
             description = dbHandler.lookUpWorkoutDescription(databasePosition,isHidden);
 
         }
-
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+        DateFormat dateFormat = SimpleDateFormat.getDateInstance();
         Date resultdate = new Date(date);
 
-        StringBuilder workoutDetailsBuilder = new StringBuilder("ID: " + id + "\n");
-        workoutDetailsBuilder.append("Date: " + sdf.format(resultdate) + "     (" + date + "ms)\n");
-        workoutDetailsBuilder.append("Hangboard Name: " + hangboardName + "\n");
-        workoutDetailsBuilder.append("Time Controls:\n    " + timeControls.getTimeControlsAsString() + "\n");
-        workoutDetailsBuilder.append("Holds:\n" + getWorkoutHoldsInfo(workoutHolds) );
+        StringBuilder workoutDetailsBuilder = new StringBuilder("ID: ").append(id).append("\n");
+        workoutDetailsBuilder.append("Date: ").append(dateFormat.format(resultdate)).append("\n");
+        workoutDetailsBuilder.append("Hangboard Name: ").append( hangboardName).append("\n");
+        workoutDetailsBuilder.append("Time Controls:\n    ").append(timeControls.getTimeControlsAsString() ).append("\n");
+        workoutDetailsBuilder.append("Holds:\n").append(getWorkoutHoldsInfo(workoutHolds) );
 
-        workoutDetailsBuilder.append("Completed Hangs Matrix: \n" +getCompletedMatrix(completed) +  "\n");
-        workoutDetailsBuilder.append("Description: " + description + "\n");
-        workoutDetailsBuilder.append("Hidden workout (warm up, test, etc.): " + isHidden + "\n");
+        workoutDetailsBuilder.append("Completed Hangs Matrix: \n").append(getCompletedMatrix(completed)).append("\n");
+        workoutDetailsBuilder.append("Description: ").append(description).append("\n");
+        workoutDetailsBuilder.append("Hidden workout (warm up, test, etc.): ").append(isHidden).append("\n");
 
         workoutDetailsTextView.setText(workoutDetailsBuilder.toString());
 
@@ -82,17 +82,17 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
 
 
         StringBuilder calculatedDetailsBuilder = new StringBuilder();
-        calculatedDetailsBuilder.append("Workout Time:          " + timeControls.getTotalTime() + "s\n");
-        calculatedDetailsBuilder.append("Workout Time adjusted: " + calculatedDetails.getAdjustedWorkoutTime() + "s\n    (Times of failed hangs at the end of workout are removed. I.e. workout is stopped early.\n");
-        calculatedDetailsBuilder.append("Unused Workout Time: " + calculatedDetails.getUnusedWorkoutTime() + "s\n");
-        calculatedDetailsBuilder.append("Time Under Tension:           " + timeControls.getTimeUnderTension() + "s\n");
-        calculatedDetailsBuilder.append("Time Under Tension adjusted: " + calculatedDetails.getAdjustedTUT() + "s\n    (Times of failed hangs are obviously not part of time under tension\n");
-        calculatedDetailsBuilder.append("Completed Hangs: " + calculatedDetails.getCompletedHangs() + "/" + calculatedDetails.getTotalHangs() + "\n");
-        calculatedDetailsBuilder.append("Successful hang percent: " + calculatedDetails.getSuccessfulHangRate() + "%\n");
-        calculatedDetailsBuilder.append("Average Difficulty per hang: " + calculatedDetails.getAverageDifficutly() + "(avg D)\n");
-        calculatedDetailsBuilder.append("Workout intensity: " +calculatedDetails.getIntensity() +  " (TUT/WT)\n");
-        calculatedDetailsBuilder.append("Total workload: " + calculatedDetails.getWorkload() + " (avg D*TUT)\n");
-        calculatedDetailsBuilder.append("Workout power: " + calculatedDetails.getWorkoutPower() + " (avg D*TUT)/WT\n");
+        calculatedDetailsBuilder.append("Workout Time:          ").append(timeControls.getTotalTime() ).append("s\n");
+        calculatedDetailsBuilder.append("Workout Time adjusted: ").append(calculatedDetails.getAdjustedWorkoutTime() ).append("s\n    (Times of failed hangs at the end of workout are removed. I.e. workout is stopped early.\n");
+        calculatedDetailsBuilder.append("Unused Workout Time: ").append(calculatedDetails.getUnusedWorkoutTime() ).append("s\n");
+        calculatedDetailsBuilder.append("Time Under Tension:           ").append(timeControls.getTimeUnderTension() ).append("s\n");
+        calculatedDetailsBuilder.append("Time Under Tension adjusted: ").append(calculatedDetails.getAdjustedTUT() ).append("s\n    (Times of failed hangs are obviously not part of time under tension\n");
+        calculatedDetailsBuilder.append("Completed Hangs: ").append(calculatedDetails.getCompletedHangs() ).append("/").append(calculatedDetails.getTotalHangs() ).append("\n");
+        calculatedDetailsBuilder.append("Successful hang percent: ").append(calculatedDetails.getSuccessfulHangRate() ).append("%\n");
+        calculatedDetailsBuilder.append("Average Difficulty per hang: ").append(calculatedDetails.getAverageDifficutly() ).append(" (avg D)\n");
+        calculatedDetailsBuilder.append("Workout intensity: ").append(calculatedDetails.getIntensity() ).append(" (TUT/WT)\n");
+        calculatedDetailsBuilder.append("Total workload: ").append(calculatedDetails.getWorkload() ).append(" (avg D*TUT)\n");
+        calculatedDetailsBuilder.append("Workout power: ").append(calculatedDetails.getWorkoutPower() ).append(" (avg D*TUT)/WT\n");
 
         calculatedDetailsTextView.setText(calculatedDetailsBuilder.toString());
     }
@@ -102,7 +102,7 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
         StringBuilder completedBuilder = new StringBuilder();
 
         for (int i = 0;i < completed.length ; i++) {
-            completedBuilder.append("    " + completed[i] + "/" + hangs);
+            completedBuilder.append("    ").append(completed[i]).append("/").append(hangs);
 
             if ((i+1) % timeControls.getGripLaps() == 0) {
                 completedBuilder.append("\n");
@@ -120,7 +120,7 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
         for( int i = 0; i < workoutHolds.size() ; i = i+2) {
 
             tempText = workoutHolds.get(i).getHoldInfo(workoutHolds.get(i+1));
-            holdsInfoBuilder.append("    " + tempText.replaceAll("\n",", ") + "\n");
+            holdsInfoBuilder.append("    ").append(tempText.replaceAll("\n",", ") ).append("\n");
 
         }
         return holdsInfoBuilder.toString();
