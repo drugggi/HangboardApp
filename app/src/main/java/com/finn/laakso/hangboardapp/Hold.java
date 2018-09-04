@@ -103,18 +103,7 @@ public class Hold implements Comparable<Hold>, Parcelable {
         return righthand_coord_x;
     }
     public int getRightCoordY() {return righthand_coord_y;}
-/*
-    public void setLeftCoordX(int lcx) {
-        lefthand_coord_x=lcx;
-    }
-    public void setLeftCoordY(int lcy) {
-        lefthand_coord_y=lcy;
-    }
-    public void setRightCoordX(int rcx) {
-        righthand_coord_x=rcx;
-    }
-    public void setRightCoordY(int rcy) {righthand_coord_y=rcy;}
-*/
+
     public void setHoldCoordinates(int[] coordinates) {
         lefthand_coord_x = coordinates[(hold_number-1)*5+1];
         lefthand_coord_y = coordinates[(hold_number-1)*5+2];
@@ -215,12 +204,6 @@ public class Hold implements Comparable<Hold>, Parcelable {
     public int getHoldValue() {
         return hold_value;
     }
-
-/*
-    public void setAsSingleHold(boolean isSingleHold) {
-        single_hold = isSingleHold;
-    }
-*/
 
     public boolean isSingleHold() {
         return single_hold;

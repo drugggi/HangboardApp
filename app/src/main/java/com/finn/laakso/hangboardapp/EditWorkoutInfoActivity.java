@@ -70,13 +70,7 @@ public class EditWorkoutInfoActivity extends AppCompatActivity {
             int imageResource = HangboardSwipeAdapter.getHangboardResource(hangboardName);
             hangboardImageView.setImageResource(imageResource);
         }
-/*
-        // Hangboard image that user has used in workout, not shown if editing old workout (default bm1000)
-        if (getIntent().hasExtra("com.finn.laakso.hangboardapp.BOARDIMAGE")) {
-            int imageResource = getIntent().getIntExtra("com.finn.laakso.hangboardapp.BOARDIMAGE",0);
 
-        }
-*/
         // Description is users short description of the workout, by default empty
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.DESCRIPTION")) {
             workoutDescription = getIntent().getStringExtra("com.finn.laakso.hangboardapp.DESCRIPTION");
@@ -107,12 +101,11 @@ public class EditWorkoutInfoActivity extends AppCompatActivity {
             completed = getIntent().getExtras().getIntArray("com.finn.laakso.hangboardapp.COMPLETEDHANGS");
         }
 
+        String saveText = "Update workout to database";
         if (isNewWorkout) {
-            saveButton.setText("Save workout to database");
+            saveText = "Save workout to database";
         }
-        else {
-            saveButton.setText("Update workout to database");
-        }
+        saveButton.setText(saveText);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -169,10 +169,6 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
             @Override
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
 
-                Log.e("Remove ME","Warning remove deleteall deltedatabase commands in hangboard name");
-
-                Toast.makeText(WorkoutHistoryActivity.this,"type deleteall to hangboardname, to delete database",Toast.LENGTH_SHORT).show();
-
                 AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
                 int position = info.position + 1;
 
@@ -208,7 +204,6 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         workoutHistoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(WorkoutHistoryActivity.this," THIS NEED SEUCRITY CHECKING",Toast.LENGTH_LONG).show();
                 positionGlobal = position+1;
             }
         });
@@ -415,12 +410,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                     boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
                     dbHandler.updateHangboardName(positionGlobal,newBoardName,includeHidden);
 
-                    if (newBoardName.equals("deleteall")) {
-                        dbHandler.DELETEALL();
-                    }
-
                     workoutAdapter.notifyDataSetChanged();
-                    Toast.makeText(WorkoutHistoryActivity.this,"Database entires deleted,",Toast.LENGTH_LONG).show();
 
                 }
             });
@@ -444,6 +434,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
                 workoutAdapter.notifyDataSetChanged();
             }
+
             else {
                 Toast.makeText(WorkoutHistoryActivity.this, "To delete a Workout you must hide it first", Toast.LENGTH_SHORT).show();
             }

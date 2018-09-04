@@ -155,11 +155,13 @@ public class MainActivity extends AppCompatActivity {
         swipeAdapter = new HangboardSwipeAdapter(this);
         viewPager.setAdapter(swipeAdapter);
 
+
         // ViewPager for showing and swiping different HangBoards.
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
               }
 
             @Override
@@ -176,17 +178,14 @@ public class MainActivity extends AppCompatActivity {
 
                     everyBoard.initializeHolds(res, HangboardSwipeAdapter.getHangBoard(hangboard_descr_position));
 
-                  //  hangsAdapter = new HangListAdapter(MainActivity.this,everyBoard.getCurrentHoldList());
                     everyBoard.setGrips(grade_descr_position);
-                    //holdsAdapter = new ArrayAdapter<String>(MainActivity.this, R.layout.mytextview, everyBoard.setGrips(grade_descr_position));
-
-                   // holdsListView.setAdapter(hangsAdapter);
-                    //durationSeekBar.setProgress(3);
 
                     String randomizeText = "New " + everyBoard.getGrade(grade_descr_position) + " Workout";
                     newWorkoutButton.setText(randomizeText);
 
+                    // This causes huge lag in image transition, could not figure out better way update hanglist
                     hangsAdapter.notifyDataSetChanged();
+
                 }
             }
 
@@ -228,6 +227,7 @@ public class MainActivity extends AppCompatActivity {
                 newWorkoutButton.setText(randomizeText);
 
                 hangsAdapter.setSelectedHangNumber(0);
+
                 hangsAdapter.notifyDataSetChanged();
 
 

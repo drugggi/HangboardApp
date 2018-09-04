@@ -136,41 +136,14 @@ public class WorkoutDBHandler extends SQLiteOpenHelper {
 
     }
 
-    // getListContents returns cursor that helps move around database
-    /*
-    public Cursor getListContents() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
-        return cursor;
-    }*/
-/*
-    public Cursor getSortedContents() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.query(TABLE_WORKOUTS,null,null,null,null,null,COLUMN_DATE + " DESC",null);
-        return cursor;
-    }
-    */
-/*
-    public Cursor getNonHiddenContents() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
-        return cursor;
-    }
-
-    public Cursor getHiddenContents() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.query(TABLE_WORKOUTS,null,null,null,null,null,COLUMN_DATE + " DESC",null);
-        return cursor;
-    }
-    */
-
     // this helps to test database
+    /*
     public void DELETEALL() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DROP TABLE IF EXISTS "+ TABLE_WORKOUTS);
         onCreate(db);
     }
-
+*/
     // Deletes a single workout entry
     // Does not check if COLUMN_ISHIDDEN truly is hidden so it can be deleted
     public void delete(int position,boolean includeHidden) {
@@ -215,20 +188,7 @@ public class WorkoutDBHandler extends SQLiteOpenHelper {
 
         return count;
     }
-/*
-    public int lookUpUnHiddenWorkoutCount() {
 
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
-
-        int workoutEntriesCount = cursor.getCount();
-
-        cursor.close();
-
-        return workoutEntriesCount;
-
-    }
-    */
 
     public int lookUpId(int position, boolean includeHidden) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -303,7 +263,7 @@ public class WorkoutDBHandler extends SQLiteOpenHelper {
             cursor = db.query(TABLE_WORKOUTS, null, null, null, null, null, COLUMN_DATE + " DESC", null);
         }
 
-        String workoutDescription = "Err";
+        String workoutDescription = "Workout description";
 
         try {
             if (cursor.move(position)) {
@@ -424,61 +384,7 @@ public class WorkoutDBHandler extends SQLiteOpenHelper {
         }
 
     }
-/*
-    public void hideOrUnhideWorkoutNumber(int position) {
 
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.query(TABLE_WORKOUTS,null,null,null,null,null,COLUMN_DATE + " DESC",null);
-
-        int isHidden = 0;
-        int columnID = 0;
-
-        if (cursor.move(position)) {
-            isHidden = cursor.getInt(14);
-            columnID = cursor.getInt(0);
-
-            if (isHidden == 0) {
-                isHidden = 1;
-            }
-            else {
-                isHidden = 0;
-            }
-
-
-
-            String query = "UPDATE " + TABLE_WORKOUTS + " SET " + COLUMN_ISHIDDEN + " = \"" + isHidden + "\" WHERE " + COLUMN_ID + " =  \"" + columnID + "\"";
-            db.execSQL(query);
-        }
-
-        db.close();
-
-    }
-    */
-/*
-    public void setIsHidden(int position, int isHidden) {
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        //Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WORKOUTS, null);
-        Cursor cursor = db.query(TABLE_WORKOUTS,null,null,null,null,null,COLUMN_DATE + " DESC",null);
-
-        int columnID;
-
-        if (cursor.move(position)) {
-            columnID = cursor.getInt(0);
-        }
-        else {
-            db.close();
-            return;
-        }
-        String query = "UPDATE " + TABLE_WORKOUTS + " SET " + COLUMN_ISHIDDEN + " = \"" + isHidden + "\" WHERE " + COLUMN_ID + " =  \"" + columnID + "\"";
-
-        db.execSQL(query);
-
-        db.close();
-
-    }
-    */
 
     public boolean lookUpIsHidden(int position, boolean includeHidden) {
         SQLiteDatabase db = this.getWritableDatabase();
