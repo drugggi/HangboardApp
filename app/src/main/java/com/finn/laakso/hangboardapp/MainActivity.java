@@ -293,7 +293,6 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 hangsAdapter.setSelectedHangNumber(position+1);
 
-
                 String randomizeText = (position+1) + ". New "+ everyBoard.getGrade(grade_descr_position) + " Hang";
                 newWorkoutButton.setText(randomizeText);
 

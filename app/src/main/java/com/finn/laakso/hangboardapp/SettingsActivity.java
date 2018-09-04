@@ -111,7 +111,7 @@ public class SettingsActivity extends AppCompatActivity {
         // puts the saved preferences to TextView so that user can see what time controls are saved
         updatePreferenceTextView();
 
-        // puts settings edite text and progressbars into right positions
+        // puts settings editTexts and progressbars into right positions
         updateTimeControlsDisplay();
 
         // put Workout information matrix up to date
@@ -232,7 +232,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 gripLapsEditText.setText("" + (progress+1)*gripMultiplier);
                 timeControls.setGripLaps((progress+1)*gripMultiplier);
-
+               
                 updateProgramDisplay();
             }
 
@@ -594,7 +594,7 @@ public class SettingsActivity extends AppCompatActivity {
         restEditText.setText("" + timeControls.getRestTime());
         longRestEditText.setText("" + timeControls.getLongRestTime());
 
-        gripSeekBar.setProgress(timeControls.getGripLaps()-1);
+        gripSeekBar.setProgress((timeControls.getGripLaps()-1)/gripMultiplier );
         hangSeekBar.setProgress(timeControls.getHangLaps()-1);
         timeONSeekBar.setProgress(timeControls.getTimeON()-1);
         timeOFFSeekBar.setProgress(timeControls.getTimeOFF());
