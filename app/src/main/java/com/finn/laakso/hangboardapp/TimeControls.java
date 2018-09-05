@@ -128,14 +128,17 @@ public class TimeControls {
         else {
             this.hang_laps = 6;
         }
-        hang_laps_seconds = hang_laps * (time_on + time_off);
 
         if (this.hang_laps == 1 ) {
+        // There is no OFF time in single hangs
+            this.time_off = 0;
             isRepeaters = false;
         }
         else {
             isRepeaters = true;
         }
+        hang_laps_seconds = this.hang_laps * (time_on + time_off);
+
     }
     public int getHangLaps() {
         return hang_laps;
@@ -146,22 +149,27 @@ public class TimeControls {
             this.time_on = time_on;
         }
         else {
-            time_on = 7;
+            this.time_on = 7;
         }
-        hang_laps_seconds = hang_laps * (time_on + time_off);
+        hang_laps_seconds = hang_laps * (this.time_on + time_off);
     }
     public int getTimeON() {
         return time_on;
     }
 
     public void setTimeOFF(int time_off) {
+        //Log.e("test","new timeoff: " +time_off + " oldtimeOFF: " + this.time_off + " griplaps: " + this.grip_laps);
+        if (this.hang_laps == 1) {
+            this.time_off = 0;
+            return;
+        }
         if ( time_off >= 0 && time_off <= 200 ) {
             this.time_off = time_off;
         }
         else {
             this.time_off = 3;
         }
-        hang_laps_seconds = hang_laps * (time_on + time_off);
+        hang_laps_seconds = hang_laps * (time_on + this.time_off);
     }
     public int getTimeOFF() {
         return time_off;

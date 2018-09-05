@@ -196,7 +196,9 @@ public class SettingsActivity extends AppCompatActivity {
                     timeOFFSeekBar.setEnabled(true);
                     timeOFFSeekBar.setProgress(3);
                     timeOFFEditText.setText("" + 3);
+                    timeControls.setHangLaps(2);
                     timeControls.setTimeOFF(3);
+                    
                 }
                 else {
                     repeaterSwitch.setText("Repeaters are: OFF");
@@ -232,7 +234,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 gripLapsEditText.setText("" + (progress+1)*gripMultiplier);
                 timeControls.setGripLaps((progress+1)*gripMultiplier);
-               
+
                 updateProgramDisplay();
             }
 
@@ -253,6 +255,20 @@ public class SettingsActivity extends AppCompatActivity {
                 hangLapsEditText.setText("" + (progress+1));
                 timeControls.setHangLaps(progress+1);
                 // mHangsTextView.setText("" + (progress+1) );
+
+                if (timeControls.getHangLaps() == 1 ) {
+                    timeOFFEditText.setVisibility(View.INVISIBLE);
+                    timeOFFSeekBar.setProgress(0);
+                    timeOFFSeekBar.setEnabled(false);
+
+                    repeaterSwitch.setChecked(false);
+                }
+                else {
+                    timeOFFEditText.setVisibility(View.VISIBLE);
+                    timeOFFSeekBar.setEnabled(true);
+                    timeOFFSeekBar.setProgress(timeControls.getTimeOFF() );
+                }
+
                 updateProgramDisplay();
                // if (progress == 0) {mHangsTextView.setText(""); }
             }
