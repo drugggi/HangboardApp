@@ -53,7 +53,14 @@ public class SettingsActivity extends AppCompatActivity {
     private SeekBar restSeekBar;
     private SeekBar longRestSeekBar;
 
-    private int gripMultiplier;
+    //private int gripMultiplier;
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putIntArray("workoutactivity_timecontrolsintarray", timeControls.getTimeControlsIntArray());
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +71,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         // There are a lot more grips in single hangs program than repeaters, gripMultiplier
         // is used so that the grip progressbar is useful in both programs
-        gripMultiplier = 1;
+        // gripMultiplier = 1;
 
         // These TextViews are the visual representation of the hangboard program, which hopefully
         // makes user understand time controls better
@@ -107,16 +114,15 @@ public class SettingsActivity extends AppCompatActivity {
             // timeControls.setTimeControls(time_controls);
             timeControls.setTimeControls(time_controls);
 
+            Log.e("TimeControls","time controls intent: " + timeControls.getTimeControlsAsString());
+
         }
 
-        // puts the saved preferences to TextView so that user can see what time controls are saved
-        updatePreferenceTextView();
+        if (savedInstanceState != null) {
+            timeControls.setTimeControls(savedInstanceState.getIntArray("workoutactivity_timecontrolsintarray"));
+            Log.e("TimeControls","after saveInstanceState: " + timeControls.getTimeControlsAsString());
+        }
 
-        // puts settings editTexts and progressbars into right positions
-        updateTimeControlsDisplay();
-
-        // put Workout information matrix up to date
-        updateProgramDisplay();
 
         savePreferencesButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,7 +171,10 @@ public class SettingsActivity extends AppCompatActivity {
 
                 timeControls.setTimeControls(new int[]{grips, reps, timeON, timeOFF, sets, rest, longRest});
 
+                Log.e("loadPREFERENCES",timeControls.getTimeControlsAsString() );
+
                 updateTimeControlsDisplay();
+
                 updateProgramDisplay();
 
                // Toast.makeText(v.getContext(),statusString,Toast.LENGTH_LONG).show();
@@ -182,7 +191,7 @@ public class SettingsActivity extends AppCompatActivity {
                     timeControls.setTimeON(7);
                     timeControls.setTimeOFF(3);
 
-                    gripMultiplier = 1;
+                    //gripMultiplier = 1;
                     hangLapsEditText.setEnabled(true);
                     hangSeekBar.setEnabled(true);
                     timeOFFEditText.setEnabled(true);
@@ -192,6 +201,7 @@ public class SettingsActivity extends AppCompatActivity {
                     timeONSeekBar.setProgress(6);
                     timeOFFSeekBar.setProgress(3);
                     hangLapsEditText.setText("" + timeControls.getHangLaps() );
+                    timeONEditText.setText(""+timeControls.getTimeON() );
                     timeOFFEditText.setText("" + timeControls.getTimeOFF() );
                     
                 }
@@ -201,12 +211,14 @@ public class SettingsActivity extends AppCompatActivity {
                     timeControls.setTimeON(10);
                     timeControls.setTimeOFF(0);
 
-                    hangLapsEditText.setText("" + timeControls.getHangLaps() );
-                    timeOFFEditText.setText("" + timeControls.getTimeOFF() );
-                    //hangSeekBar.setProgress(0);
+                    hangSeekBar.setProgress(0);
                     timeONSeekBar.setProgress(9);
-                    //timeOFFSeekBar.setProgress(0);
-                    gripMultiplier = 6;
+                    timeOFFSeekBar.setProgress(0);
+
+
+                    hangLapsEditText.setText("" + timeControls.getHangLaps() );
+                    timeONEditText.setText("" + timeControls.getTimeON() );
+                    timeOFFEditText.setText("" + timeControls.getTimeOFF() );
 
                     hangLapsEditText.setEnabled(false);
                     hangSeekBar.setEnabled(false);
@@ -214,7 +226,6 @@ public class SettingsActivity extends AppCompatActivity {
                     timeOFFSeekBar.setEnabled(false);
                 }
                 updateProgramDisplay();
-                Log.e("TimeControls","repeaters Switch: " + timeControls.getTimeControlsAsString());
 
             }
         });
@@ -231,10 +242,12 @@ public class SettingsActivity extends AppCompatActivity {
         gripSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                gripLapsEditText.setText("" + (progress+1)*gripMultiplier);
-                timeControls.setGripLaps((progress+1)*gripMultiplier);
+
+                gripLapsEditText.setText("" + (progress+1));
+                 // timeControls.setGripLaps((progress+1));
 
                 updateProgramDisplay();
+
             }
 
             @Override
@@ -244,17 +257,23 @@ public class SettingsActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                int progress = seekBar.getProgress() + 1;
 
+                timeControls.setGripLaps(progress);
+
+                updateProgramDisplay();
             }
         });
 
         hangSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                hangLapsEditText.setText("" + (progress+2));
-                timeControls.setHangLaps(progress+2);
 
-                updateProgramDisplay();
+                hangLapsEditText.setText("" + (progress+2));
+                // timeControls.setHangLaps(progress+2);
+                mHangsTextView.setText("" + (progress + 2));
+
+                //updateProgramDisplay();
             }
 
             @Override
@@ -264,7 +283,12 @@ public class SettingsActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                // Consider putting timeControls editing here, after user has made the move
+                int progress = seekBar.getProgress() +2 ;
+                Log.e("before change","progress: " + timeControls.getHangLaps());
+                timeControls.setHangLaps(progress);
+                Log.e("after change",": " + timeControls.getHangLaps());
+                updateProgramDisplay();
             }
         });
 
@@ -272,8 +296,10 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 timeONEditText.setText("" + (progress+1));
-                timeControls.setTimeON(progress+1);
-                updateProgramDisplay();
+
+                mTimeONTextView.setText((progress+1)+"on");
+                //timeControls.setTimeON(progress+1);
+                //updateProgramDisplay();
             }
 
             @Override
@@ -283,7 +309,9 @@ public class SettingsActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                int progress = seekBar.getProgress() + 1;
+                timeControls.setTimeON(progress);
+                updateProgramDisplay();
             }
         });
 
@@ -291,9 +319,10 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 timeOFFEditText.setText("" + (progress));
-                timeControls.setTimeOFF(progress);
 
-                updateProgramDisplay();
+                mTimeOFFTextView.setText(progress+ "off");
+
+                //updateProgramDisplay();
             }
 
             @Override
@@ -303,6 +332,10 @@ public class SettingsActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                int progress = seekBar.getProgress();
+                timeControls.setTimeOFF(progress);
+
+                updateProgramDisplay();
 
             }
         });
@@ -310,8 +343,8 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 setsEditText.setText("" + (progress+1));
-                timeControls.setRoutineLaps(progress+1);
-                updateProgramDisplay();
+               // timeControls.setRoutineLaps(progress+1);
+              //  updateProgramDisplay();
             }
 
             @Override
@@ -321,6 +354,10 @@ public class SettingsActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                int progress = seekBar.getProgress() + 1;
+
+                timeControls.setRoutineLaps(progress);
+                updateProgramDisplay();
 
             }
         });
@@ -339,6 +376,9 @@ public class SettingsActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                int progress = (seekBar.getProgress() + 1)  * 10;
+
+                timeControls.setRestTime(progress);
 
             }
         });
@@ -346,8 +386,8 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 longRestEditText.setText("" + (progress+1)*60);
-                timeControls.setLongRestTime((progress+1)*60);
-                updateProgramDisplay();
+               // timeControls.setLongRestTime((progress+1)*60);
+                //updateProgramDisplay();
             }
 
             @Override
@@ -357,6 +397,10 @@ public class SettingsActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                int progress = (seekBar.getProgress()+1)*60;
+
+                timeControls.setLongRestTime(progress);
+                updateProgramDisplay();
 
             }
         });
@@ -394,8 +438,14 @@ public class SettingsActivity extends AppCompatActivity {
                 try {
                     int i = Integer.parseInt(hangLapsEditText.getText().toString());
                     if ( i > 0 && i <= 20 ) {
-                        timeControls.setHangLaps(i);
+                        // single hangs
+                        if (i == 1) {
+                            repeaterSwitch.setChecked(false);
+                        }
+                        else {
 
+                            timeControls.setHangLaps(i);
+                        }
                         updateProgramDisplay();
                     }
                     else { hangLapsEditText.setText("" + timeControls.getHangLaps() );
@@ -525,6 +575,8 @@ public class SettingsActivity extends AppCompatActivity {
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Log.e("APPLIED SETTINGS",timeControls.getTimeControlsAsString() );
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("com.finn.laakso.hangboardapp.SETTINGS", timeControls.getTimeControlsIntArray());
                 setResult(Activity.RESULT_OK, resultIntent);
@@ -549,6 +601,21 @@ public class SettingsActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });*/
+
+        // puts the saved preferences to TextView so that user can see what time controls are saved
+        updatePreferenceTextView();
+
+        Log.e("TimeControls","time controls after preference: " + timeControls.getTimeControlsAsString());
+
+        // puts settings editTexts and progressbars into right positions
+        updateTimeControlsDisplay();
+
+        Log.e("TimeControls","time controls after timecontroldisplay: " + timeControls.getTimeControlsAsString());
+
+        // put Workout information matrix up to date
+        updateProgramDisplay();
+        Log.e("TimeControls","time controls after programdisplay: " + timeControls.getTimeControlsAsString());
+
     }
 
     private void updatePreferenceTextView() {
@@ -572,7 +639,6 @@ public class SettingsActivity extends AppCompatActivity {
         tempTimeControls.setTimeControls(new int[]{grips, reps, timeON, timeOFF, sets, rest, longRest});
         // tempTimeControls.setToRepeaters(isRepeaters);
 
-
         String preferenceText = "Saved preferences: " + tempTimeControls.getTimeControlsAsString();
         preferencesTextView.setText(preferenceText);
 
@@ -587,13 +653,15 @@ public class SettingsActivity extends AppCompatActivity {
 
         // If hang laps are anything but 1, then workoutprogram is set to repeaters
         if (timeControls.getHangLaps() != 1) {
-            repeaterSwitch.setText("Repeaters are: ON");
+            // this will mess mess with initial timeControls
             repeaterSwitch.setChecked(true);
-            gripMultiplier = 1;
+            //gripMultiplier = 1;
+
+            Log.e("tultiin","repeatersiin");
 
             // Changing progressbar position will tricker change listener which will tricker newTimecontrols
             // which will not always be the same as original, thats why we restore them later
-            gripSeekBar.setProgress((timeControls.getGripLaps()-1)/gripMultiplier );
+            gripSeekBar.setProgress((timeControls.getGripLaps()-1) );
             hangSeekBar.setProgress(timeControls.getHangLaps()-2);
             timeONSeekBar.setProgress(timeControls.getTimeON()-1);
             timeOFFSeekBar.setProgress(timeControls.getTimeOFF());
@@ -601,23 +669,35 @@ public class SettingsActivity extends AppCompatActivity {
             restSeekBar.setProgress(timeControls.getRestTime()/10-1);
             longRestSeekBar.setProgress(timeControls.getLongRestTime()/60-1);
 
+            hangLapsEditText.setEnabled(true);
+            hangSeekBar.setEnabled(true);
+            timeOFFEditText.setEnabled(true);
+            timeOFFSeekBar.setEnabled(true);
+
         }
             // If hang laps is set to 1, then workout program is single hangs, and we set off settings
             // that are only used in repeaters mode
         else {
-            repeaterSwitch.setText("Repeaters are: OFF");
+            //this will mess with initial time controls thats why we stored them in int[] tempControls
             repeaterSwitch.setChecked(false);
-            gripMultiplier = 6;
+            // gripMultiplier = 6;
+
+            Log.e("tultiin","single hangsseihin");
 
             // Changing progressbar position will tricker change listener which will tricker newTimecontrols
             // which will not always be the same as original, thats why we restore them later
-            gripSeekBar.setProgress((timeControls.getGripLaps()-1)/gripMultiplier );
-            //hangSeekBar.setProgress(timeControls.getHangLaps()-2);
+            gripSeekBar.setProgress((timeControls.getGripLaps()-1) );
+            hangSeekBar.setProgress(timeControls.getGripLaps()-2);
             timeONSeekBar.setProgress(timeControls.getTimeON()-1);
-            //timeOFFSeekBar.setProgress(timeControls.getTimeOFF());
+            timeOFFSeekBar.setProgress(timeControls.getTimeOFF() );
             setsSeekBar.setProgress(timeControls.getRoutineLaps()-1);
             restSeekBar.setProgress(timeControls.getRestTime()/10-1);
             longRestSeekBar.setProgress(timeControls.getLongRestTime()/60-1);
+
+            hangLapsEditText.setEnabled(false);
+            hangSeekBar.setEnabled(false);
+            timeOFFEditText.setEnabled(false);
+            timeOFFSeekBar.setEnabled(false);
 
         }
         Log.e("TimeControls","uTCD unwanter: " + timeControls.getTimeControlsAsString());
@@ -647,8 +727,8 @@ public class SettingsActivity extends AppCompatActivity {
         // If hang laps is set to 1, then workout program is single hangs, and we set off settings
         // that are only used in repeaters mode
         else {
-            gripMultiplier = 6;
-            gripSeekBar.setProgress((timeControls.getGripLaps()-1)/gripMultiplier);
+            //gripMultiplier = 6;
+            //gripSeekBar.setProgress((timeControls.getGripLaps()-1)/gripMultiplier);
             //timeControls.setToRepeaters(false);
 
             hangSeekBar.setProgress(0);
@@ -675,7 +755,7 @@ public class SettingsActivity extends AppCompatActivity {
         restEditText.setText("" + timeControls.getRestTime());
         longRestEditText.setText("" + timeControls.getLongRestTime());
 
-        gripSeekBar.setProgress((timeControls.getGripLaps()-1)/gripMultiplier );
+        // gripSeekBar.setProgress((timeControls.getGripLaps()-1)/gripMultiplier );
         hangSeekBar.setProgress(timeControls.getHangLaps()-2);
         timeONSeekBar.setProgress(timeControls.getTimeON()-1);
         timeOFFSeekBar.setProgress(timeControls.getTimeOFF());
