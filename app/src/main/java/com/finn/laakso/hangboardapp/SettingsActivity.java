@@ -269,10 +269,17 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-                hangLapsEditText.setText("" + (progress+2));
-                // timeControls.setHangLaps(progress+2);
-                mHangsTextView.setText("" + (progress + 2));
 
+                // Messy, if repeatersSwitch is single hangs mode progress would update wrong number on
+                // text fields,
+                if (repeaterSwitch.isChecked() ) {
+                    hangLapsEditText.setText("" + (progress+2));
+                    mHangsTextView.setText("" + (progress + 2));
+                }
+                else {
+                    hangLapsEditText.setText("" + 1);
+                    mHangsTextView.setText("" + 1);
+                }
                 //updateProgramDisplay();
             }
 
@@ -659,16 +666,6 @@ public class SettingsActivity extends AppCompatActivity {
 
             Log.e("tultiin","repeatersiin");
 
-            // Changing progressbar position will tricker change listener which will tricker newTimecontrols
-            // which will not always be the same as original, thats why we restore them later
-            gripSeekBar.setProgress((timeControls.getGripLaps()-1) );
-            hangSeekBar.setProgress(timeControls.getHangLaps()-2);
-            timeONSeekBar.setProgress(timeControls.getTimeON()-1);
-            timeOFFSeekBar.setProgress(timeControls.getTimeOFF());
-            setsSeekBar.setProgress(timeControls.getRoutineLaps()-1);
-            restSeekBar.setProgress(timeControls.getRestTime()/10-1);
-            longRestSeekBar.setProgress(timeControls.getLongRestTime()/60-1);
-
             hangLapsEditText.setEnabled(true);
             hangSeekBar.setEnabled(true);
             timeOFFEditText.setEnabled(true);
@@ -684,15 +681,6 @@ public class SettingsActivity extends AppCompatActivity {
 
             Log.e("tultiin","single hangsseihin");
 
-            // Changing progressbar position will tricker change listener which will tricker newTimecontrols
-            // which will not always be the same as original, thats why we restore them later
-            gripSeekBar.setProgress((timeControls.getGripLaps()-1) );
-            hangSeekBar.setProgress(timeControls.getGripLaps()-2);
-            timeONSeekBar.setProgress(timeControls.getTimeON()-1);
-            timeOFFSeekBar.setProgress(timeControls.getTimeOFF() );
-            setsSeekBar.setProgress(timeControls.getRoutineLaps()-1);
-            restSeekBar.setProgress(timeControls.getRestTime()/10-1);
-            longRestSeekBar.setProgress(timeControls.getLongRestTime()/60-1);
 
             hangLapsEditText.setEnabled(false);
             hangSeekBar.setEnabled(false);
@@ -702,6 +690,14 @@ public class SettingsActivity extends AppCompatActivity {
         }
         Log.e("TimeControls","uTCD unwanter: " + timeControls.getTimeControlsAsString());
         timeControls.setTimeControls(tempControls);
+
+        gripSeekBar.setProgress((timeControls.getGripLaps()-1) );
+        hangSeekBar.setProgress(timeControls.getHangLaps()-2);
+        timeONSeekBar.setProgress(timeControls.getTimeON()-1);
+        timeOFFSeekBar.setProgress(timeControls.getTimeOFF());
+        setsSeekBar.setProgress(timeControls.getRoutineLaps()-1);
+        restSeekBar.setProgress(timeControls.getRestTime()/10-1);
+        longRestSeekBar.setProgress(timeControls.getLongRestTime()/60-1);
 
         gripLapsEditText.setText("" + timeControls.getGripLaps());
         hangLapsEditText.setText("" + timeControls.getHangLaps());

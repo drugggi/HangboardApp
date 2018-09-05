@@ -139,15 +139,6 @@
 
 
                 <Button
-                    android:id="@+id/statsButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="bottom"
-                    android:layout_weight="1"
-                    android:padding="5dp"
-                    android:text="@string/workout_history" />
-
-                <Button
                     android:id="@+id/timeControlBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -156,6 +147,16 @@
                     android:padding="3dp"
                     android:singleLine="true"
                     android:text="@string/time_controls" />
+
+                <Button
+                    android:id="@+id/statsButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="1"
+                    android:padding="5dp"
+                    android:text="@string/workout_history" />
+
 
                 <Button
                     android:id="@+id/randomizeBtn"
