@@ -37,15 +37,18 @@ public class TimeControls {
     public boolean isRepeaters() {
         return isRepeaters;
     }
+    /*
     public void setToRepeaters(boolean setTo) {
         isRepeaters = setTo;
     }
+*/
 
+    /*
     // Not working very well setToRepeaters is good enough
     public void changeTimeToSingleHangs() {
         isRepeaters = false;
     }
-
+*/
     // getGripMatrix method generates a readable String which represents the hang program and
     // includes grips, rest and long rest
     // Refactor using StingBuilder in the future for good practice

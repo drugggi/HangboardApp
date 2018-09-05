@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -374,6 +375,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 hangsAdapter.notifyDataSetChanged();
+                Log.e("TimeControls",timeControls.getTimeControlsAsString());
 
             }
         });
@@ -397,11 +399,13 @@ public class MainActivity extends AppCompatActivity {
         repeatersBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+
                 if (isChecked) {
-                    timeControls.changeTimeToRepeaters();
+                    timeControls.setHangLaps(2);
 
                 } else {
-                    timeControls.changeTimeToSingleHangs();
+                    timeControls.setHangLaps(1);
 
                 }
                 //timeControls.setProgramBasedOnTime(20 + durationSeekBar.getProgress() * 15);
@@ -419,11 +423,6 @@ public class MainActivity extends AppCompatActivity {
                 if (!isChecked) {
                     everyBoard.setHoldsForSingleHangs();
                 }
-/*
-                holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
-                        R.layout.mytextview , everyBoard.getGrips());
-                holdsListView.setAdapter(holdsAdapter);
-                */
 
                 String durationText = "Duration: " + timeControls.getTotalTime()/60 + "min";
 

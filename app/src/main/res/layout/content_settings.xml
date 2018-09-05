@@ -207,8 +207,7 @@
                     android:layout_weight="0"
                     android:max="10"
                     android:progress="3"
-                    android:progressTint="@android:color/holo_green_light"
-                    android:progressTintMode="src_over" />
+                    android:progressTint="@android:color/holo_green_light" />
             </LinearLayout>
 
 
