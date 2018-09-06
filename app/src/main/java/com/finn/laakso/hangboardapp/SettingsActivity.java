@@ -114,13 +114,11 @@ public class SettingsActivity extends AppCompatActivity {
             // timeControls.setTimeControls(time_controls);
             timeControls.setTimeControls(time_controls);
 
-            Log.e("TimeControls","time controls intent: " + timeControls.getTimeControlsAsString());
 
         }
 
         if (savedInstanceState != null) {
             timeControls.setTimeControls(savedInstanceState.getIntArray("workoutactivity_timecontrolsintarray"));
-            Log.e("TimeControls","after saveInstanceState: " + timeControls.getTimeControlsAsString());
         }
 
 
@@ -170,8 +168,6 @@ public class SettingsActivity extends AppCompatActivity {
                 int longRest =  prefs.getInt("longRestTime",360);
 
                 timeControls.setTimeControls(new int[]{grips, reps, timeON, timeOFF, sets, rest, longRest});
-
-                Log.e("loadPREFERENCES",timeControls.getTimeControlsAsString() );
 
                 updateTimeControlsDisplay();
 
@@ -291,10 +287,9 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 // Consider putting timeControls editing here, after user has made the move
-                int progress = seekBar.getProgress() +2 ;
-                Log.e("before change","progress: " + timeControls.getHangLaps());
+                int progress = seekBar.getProgress() + 2 ;
                 timeControls.setHangLaps(progress);
-                Log.e("after change",": " + timeControls.getHangLaps());
+
                 updateProgramDisplay();
             }
         });
@@ -422,6 +417,11 @@ public class SettingsActivity extends AppCompatActivity {
                     if ( i > 0 && i <= 100 ) {
                         timeControls.setGripLaps(i);
 
+                        //
+                        if (i < 30) {
+                            gripSeekBar.setProgress(i-1);
+                        }
+
                         updateProgramDisplay();
                     }
                     else {
@@ -450,6 +450,9 @@ public class SettingsActivity extends AppCompatActivity {
                             repeaterSwitch.setChecked(false);
                         }
                         else {
+                            if (i < 13) {
+                                hangSeekBar.setProgress(i-2);
+                            }
 
                             timeControls.setHangLaps(i);
                         }
@@ -475,6 +478,10 @@ public class SettingsActivity extends AppCompatActivity {
                     if ( i > 0 && i <= 60 ) {
                         timeControls.setTimeON(i);
 
+                        if ( i < 22 ) {
+                            timeONSeekBar.setProgress(i-1);
+                        }
+
                         updateProgramDisplay();
 
                     }
@@ -498,6 +505,10 @@ public class SettingsActivity extends AppCompatActivity {
                     if ( i >= 0 && i <= 200 ) {
                         timeControls.setTimeOFF(i);
 
+                        if ( i < 11) {
+                            timeOFFSeekBar.setProgress(i);
+                        }
+
                         updateProgramDisplay();
                     }
                     else { timeOFFEditText.setText("" + timeControls.getTimeOFF() );
@@ -519,6 +530,10 @@ public class SettingsActivity extends AppCompatActivity {
                     int i = Integer.parseInt(setsEditText.getText().toString());
                     if ( i > 0 && i <= 50 ) {
                         timeControls.setRoutineLaps(i);
+
+                        if (i < 8) {
+                            setsSeekBar.setProgress(i-1);
+                        }
 
                         updateProgramDisplay();
                     }
@@ -583,7 +598,6 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Log.e("APPLIED SETTINGS",timeControls.getTimeControlsAsString() );
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("com.finn.laakso.hangboardapp.SETTINGS", timeControls.getTimeControlsIntArray());
                 setResult(Activity.RESULT_OK, resultIntent);
@@ -612,19 +626,14 @@ public class SettingsActivity extends AppCompatActivity {
         // puts the saved preferences to TextView so that user can see what time controls are saved
         updatePreferenceTextView();
 
-        Log.e("TimeControls","time controls after preference: " + timeControls.getTimeControlsAsString());
-
         // puts settings editTexts and progressbars into right positions
         updateTimeControlsDisplay();
 
-        Log.e("TimeControls","time controls after timecontroldisplay: " + timeControls.getTimeControlsAsString());
-
         // put Workout information matrix up to date
         updateProgramDisplay();
-        Log.e("TimeControls","time controls after programdisplay: " + timeControls.getTimeControlsAsString());
 
     }
-
+    // puts the saved preferences to TextView so that user can see what time controls are saved
     private void updatePreferenceTextView() {
         //SharedPreferences test = PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this);
@@ -655,7 +664,6 @@ public class SettingsActivity extends AppCompatActivity {
     // time controls that timeControls holds, its a bit tricky becouse setting SeekBar to some place
     // triggers onSeekBarchange listner which also updates information
     private void updateTimeControlsDisplay() {
-        Log.e("TimeControls","uTCD first: " + timeControls.getTimeControlsAsString());
         int[] tempControls = timeControls.getTimeControlsIntArray();
 
         // If hang laps are anything but 1, then workoutprogram is set to repeaters
@@ -664,7 +672,6 @@ public class SettingsActivity extends AppCompatActivity {
             repeaterSwitch.setChecked(true);
             //gripMultiplier = 1;
 
-            Log.e("tultiin","repeatersiin");
 
             hangLapsEditText.setEnabled(true);
             hangSeekBar.setEnabled(true);
@@ -677,10 +684,6 @@ public class SettingsActivity extends AppCompatActivity {
         else {
             //this will mess with initial time controls thats why we stored them in int[] tempControls
             repeaterSwitch.setChecked(false);
-            // gripMultiplier = 6;
-
-            Log.e("tultiin","single hangsseihin");
-
 
             hangLapsEditText.setEnabled(false);
             hangSeekBar.setEnabled(false);
@@ -688,7 +691,7 @@ public class SettingsActivity extends AppCompatActivity {
             timeOFFSeekBar.setEnabled(false);
 
         }
-        Log.e("TimeControls","uTCD unwanter: " + timeControls.getTimeControlsAsString());
+
         timeControls.setTimeControls(tempControls);
 
         gripSeekBar.setProgress((timeControls.getGripLaps()-1) );
@@ -707,57 +710,6 @@ public class SettingsActivity extends AppCompatActivity {
         restEditText.setText("" + timeControls.getRestTime());
         longRestEditText.setText("" + timeControls.getLongRestTime());
 
-        Log.e("TimeControls","uTCD restored: " + timeControls.getTimeControlsAsString());
-
-    }
-
-
-    private void updateTimeControlsDisplay2() {
-
-        // If hang laps are anything but 1, then workoutprogram is set to repeaters
-        if (timeControls.getHangLaps() != 1) {
-            repeaterSwitch.setText("Repeaters are: ON");
-            repeaterSwitch.setChecked(true);
-
-        }
-        // If hang laps is set to 1, then workout program is single hangs, and we set off settings
-        // that are only used in repeaters mode
-        else {
-            //gripMultiplier = 6;
-            //gripSeekBar.setProgress((timeControls.getGripLaps()-1)/gripMultiplier);
-            //timeControls.setToRepeaters(false);
-
-            hangSeekBar.setProgress(0);
-            timeControls.setHangLaps(1);
-            timeControls.setTimeOFF(0);
-            timeOFFSeekBar.setProgress(0);
-            //repeaterSwitch.setText("Repeaters are: OFF");
-            //repeaterSwitch.setChecked(false);
-            hangLapsEditText.setEnabled(false);
-            hangSeekBar.setEnabled(false);
-            timeOFFEditText.setEnabled(false);
-            timeOFFSeekBar.setEnabled(false);
-
-            // timeOFFLinearLayout.setVisibility(0);
-
-        }
-
-
-        gripLapsEditText.setText("" + timeControls.getGripLaps());
-        hangLapsEditText.setText("" + timeControls.getHangLaps());
-        timeONEditText.setText(""+ timeControls.getTimeON());
-        timeOFFEditText.setText("" + timeControls.getTimeOFF());
-        setsEditText.setText("" + timeControls.getRoutineLaps());
-        restEditText.setText("" + timeControls.getRestTime());
-        longRestEditText.setText("" + timeControls.getLongRestTime());
-
-        // gripSeekBar.setProgress((timeControls.getGripLaps()-1)/gripMultiplier );
-        hangSeekBar.setProgress(timeControls.getHangLaps()-2);
-        timeONSeekBar.setProgress(timeControls.getTimeON()-1);
-        timeOFFSeekBar.setProgress(timeControls.getTimeOFF());
-        setsSeekBar.setProgress(timeControls.getRoutineLaps()-1);
-        restSeekBar.setProgress(timeControls.getRestTime()/10-1);
-        longRestSeekBar.setProgress(timeControls.getLongRestTime()/60-1);
 
     }
 
