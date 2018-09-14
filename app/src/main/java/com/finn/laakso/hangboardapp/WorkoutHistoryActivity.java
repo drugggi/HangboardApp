@@ -42,7 +42,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
     private DatePickerDialog.OnDateSetListener dateSetListener;
 
-    Random rng;
+    // Random rng;
 
     // Adapter that manages the workout history with the help of SQLite
     private WorkoutHistoryAdapter workoutAdapter;
@@ -61,7 +61,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_workout_history);
 
         // Random needed for generating random workout data
-        rng = new Random();
+       // rng = new Random();
 
         workoutDetailstButton = (Button) findViewById(R.id.workoutDetailsButton);
         showGraphsButton = (Button) findViewById(R.id.showGraphsButton);
@@ -141,7 +141,6 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                 // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
                 boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
 
-                Log.e("test","pos global: " + positionGlobal + "  lupwocount: " + dbHandler.lookUpWorkoutCount(includeHidden));
                 if (positionGlobal == 0 || positionGlobal > dbHandler.lookUpWorkoutCount(includeHidden)) {
                     Toast.makeText(WorkoutHistoryActivity.this,"no workout selected",Toast.LENGTH_LONG).show();
                     return;

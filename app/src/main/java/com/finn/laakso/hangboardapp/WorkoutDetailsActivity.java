@@ -27,7 +27,7 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
 
     // workout info that requires calculation usually involving completed matrix
 
-    private TextView workoutDetailsTextView;
+    public static TextView workoutDetailsTextView;
     private TextView calculatedDetailsTextView;
 
     @Override
@@ -94,7 +94,11 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
         calculatedDetailsBuilder.append("Total workload: ").append(calculatedDetails.getWorkload() ).append(" (avg D*TUT)\n");
         calculatedDetailsBuilder.append("Workout power: ").append(calculatedDetails.getWorkoutPower() ).append(" (avg D*TUT)/WT\n");
 
-        calculatedDetailsTextView.setText(calculatedDetailsBuilder.toString());
+        // calculatedDetailsTextView.setText(calculatedDetailsBuilder.toString());
+
+        JSONFetcher json = new JSONFetcher();
+        json.execute();
+
     }
 
     private String getCompletedMatrix(int[] completed) {
