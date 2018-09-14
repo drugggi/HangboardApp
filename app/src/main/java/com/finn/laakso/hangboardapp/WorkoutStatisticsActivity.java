@@ -1055,7 +1055,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
            totalUnusedTime += allCalculatedDetails.get(i).getUnusedWorkoutTime();
            averageIntensity += allCalculatedDetails.get(i).getIntensity();
 
-           averageDifficulty += allCalculatedDetails.get(i).getDifficultiesSum();
+           averageDifficulty += allCalculatedDetails.get(i).getAverageDifficutly();
            averageWorkload += allCalculatedDetails.get(i).getWorkload();
            averagePower += allCalculatedDetails.get(i).getWorkoutPower();
 
@@ -1098,11 +1098,11 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
            averageWorkoutsPerWeek = (float)totalWorkoutsDone / weeks;
        }
 
-
-
-       if (totalCompletedHangs != 0) {
-           averageWorkload = totalDifficultiesSum / totalCompletedHangs;
+       if (totalWorkoutsDone != 0) {
+           averageWorkload = averageWorkload / totalWorkoutsDone;
        } else { averageWorkload = 0; }
+
+
        generalInfo.append("Total unused time: ").append(totalUnusedTime).append("min\n");
        generalInfo.append("Average intensity: ").append(String.format(java.util.Locale.US,"%.3f",averageIntensity)).append("\n");
        generalInfo.append("Average difficulty per workout: ").append(averageDifficulty).append("\n");
