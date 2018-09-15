@@ -630,6 +630,208 @@ public class WorkoutDBHandler extends SQLiteOpenHelper {
 
     }
 
+
+    public ArrayList<Integer> lookUpAllWorkoutIDs(boolean includeHidden) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
+        if (includeHidden) {
+            cursor = db.query(TABLE_WORKOUTS, null, null, null, null, null, COLUMN_DATE + " DESC", null);
+        }
+
+        int workoutIDFromDB;
+        ArrayList<Integer> allWorkoutIDs = new ArrayList<>();
+
+        try {
+            int index = cursor.getColumnIndex(COLUMN_ID);
+            while (cursor.moveToNext() ) {
+                workoutIDFromDB = cursor.getInt(index);
+
+                allWorkoutIDs.add(workoutIDFromDB);
+            }
+        } finally {
+            cursor.close();
+            db.close();
+        }
+
+        return allWorkoutIDs;
+
+    }
+
+
+    public ArrayList<String> lookUpAllCompletedAsString(boolean includeHidden) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
+        if (includeHidden) {
+            cursor = db.query(TABLE_WORKOUTS, null, null, null, null, null, COLUMN_DATE + " DESC", null);
+        }
+
+        String hangsCompletedFromDB;
+        ArrayList<String> allCompletedHangs = new ArrayList<>();
+
+        try {
+            int index = cursor.getColumnIndex(COLUMN_HANGSCOMPLETED);
+            while (cursor.moveToNext() ) {
+                hangsCompletedFromDB = cursor.getString(index);
+
+                allCompletedHangs.add(hangsCompletedFromDB);
+            }
+        } finally {
+            cursor.close();
+            db.close();
+        }
+
+        return allCompletedHangs;
+
+    }
+
+
+    public ArrayList<Boolean> lookUpAllWorkoutIsHidden(boolean includeHidden) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
+        if (includeHidden) {
+            cursor = db.query(TABLE_WORKOUTS, null, null, null, null, null, COLUMN_DATE + " DESC", null);
+        }
+
+        int isHidden;
+        ArrayList<Boolean> allWorkoutIsHidden = new ArrayList<>();
+
+        try {
+            int index = cursor.getColumnIndex(COLUMN_ISHIDDEN);
+            while (cursor.moveToNext() ) {
+                isHidden = cursor.getInt(index);
+
+                if (isHidden == 0) {
+                    allWorkoutIsHidden.add(false);
+                }
+                else {
+                    allWorkoutIsHidden.add(true);
+                }
+            }
+        } finally {
+            cursor.close();
+            db.close();
+        }
+
+        return allWorkoutIsHidden;
+
+    }
+
+
+    public ArrayList<String> lookUpAllWorkoutDescriptions(boolean includeHidden) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
+        if (includeHidden) {
+            cursor = db.query(TABLE_WORKOUTS, null, null, null, null, null, COLUMN_DATE + " DESC", null);
+        }
+
+        String workoutDescriptionsFromDB;
+        ArrayList<String> allWorkoutDescriptions = new ArrayList<>();
+
+        try {
+            int index = cursor.getColumnIndex(COLUMN_DESCRIPTION);
+            while (cursor.moveToNext() ) {
+                workoutDescriptionsFromDB = cursor.getString(index);
+
+                allWorkoutDescriptions.add(workoutDescriptionsFromDB);
+            }
+        } finally {
+            cursor.close();
+            db.close();
+        }
+
+        return allWorkoutDescriptions;
+
+    }
+
+
+    public ArrayList<String> lookUpAllWorkoutHoldNumbers(boolean includeHidden) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
+        if (includeHidden) {
+            cursor = db.query(TABLE_WORKOUTS, null, null, null, null, null, COLUMN_DATE + " DESC", null);
+        }
+
+        String holdNumbersFromDB;
+        ArrayList<String> allHoldNumbersFromDB = new ArrayList<>();
+
+
+        try {
+
+            while (cursor.moveToNext()) {
+
+                int indexHoldNumbers = cursor.getColumnIndex(COLUMN_HOLDNUMBERS);
+                holdNumbersFromDB = cursor.getString(indexHoldNumbers);
+
+                allHoldNumbersFromDB.add(holdNumbersFromDB);
+
+            }
+        } finally {
+            db.close();
+            cursor.close();
+        }
+
+        return allHoldNumbersFromDB;
+    }
+
+    public ArrayList<String> lookUpAllWorkoutHoldGripTypes(boolean includeHidden) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
+        if (includeHidden) {
+            cursor = db.query(TABLE_WORKOUTS, null, null, null, null, null, COLUMN_DATE + " DESC", null);
+        }
+
+        String holdGripTypesFromDB;
+        ArrayList<String> allHoldGripTypesFromDB = new ArrayList<>();
+
+
+        try {
+
+            while (cursor.moveToNext()) {
+
+                int indexHoldNumbers = cursor.getColumnIndex(COLUMN_GRIPTYPES);
+                holdGripTypesFromDB = cursor.getString(indexHoldNumbers);
+
+                allHoldGripTypesFromDB.add(holdGripTypesFromDB);
+
+            }
+        } finally {
+            db.close();
+            cursor.close();
+        }
+
+        return allHoldGripTypesFromDB;
+    }
+
+    public ArrayList<String> lookUpAllWorkoutHoldDifficulties(boolean includeHidden) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(TABLE_WORKOUTS,null,COLUMN_ISHIDDEN+"=0",null,null,null,COLUMN_DATE + " DESC",null);
+        if (includeHidden) {
+            cursor = db.query(TABLE_WORKOUTS, null, null, null, null, null, COLUMN_DATE + " DESC", null);
+        }
+
+        String holdDifficultiesFromDB;
+        ArrayList<String> allHoldDifficultiesFromDB = new ArrayList<>();
+
+
+        try {
+
+            while (cursor.moveToNext()) {
+
+                int indexHoldNumbers = cursor.getColumnIndex(COLUMN_DIFFICULTIES);
+                holdDifficultiesFromDB = cursor.getString(indexHoldNumbers);
+
+                allHoldDifficultiesFromDB.add(holdDifficultiesFromDB);
+
+            }
+        } finally {
+            db.close();
+            cursor.close();
+        }
+
+        return allHoldDifficultiesFromDB;
+    }
+
+
     public ArrayList<ArrayList<Hold>> lookUpAllWorkoutHolds(boolean includeHidden) {
 
         SQLiteDatabase db = this.getWritableDatabase();

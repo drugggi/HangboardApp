@@ -272,6 +272,11 @@ public class TimeControls {
                 + time_off + " Sets: " + routine_laps + " rest/long rest: " + rest + "/" + long_rest;
     }
 
+    public String getTimeControlsAsJSONGString() {
+        return grip_laps + "," + hang_laps + "," + time_on + "," + time_off + "," + routine_laps
+                + "," + rest + "," + long_rest;
+    }
+
     public int getTotalTime() {
         return (hang_laps_seconds*grip_laps+(grip_laps - 1)*rest) * routine_laps  + (routine_laps - 1)*long_rest;
     }
