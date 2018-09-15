@@ -78,7 +78,9 @@ public class JSONFetcher extends AsyncTask<Void,Void,Void> {
     @Override
     protected Void doInBackground(Void... voids) {
         try {
-            URL url = new URL("https://api.myjson.com/bins/1b0ybk");
+            //URL url = new URL("https://api.myjson.com/bins/1b0ybk");
+            URL url = new URL("https://api.myjson.com/bins/mfcdk");
+
 
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             InputStream inputStream = httpURLConnection.getInputStream();
@@ -98,10 +100,57 @@ public class JSONFetcher extends AsyncTask<Void,Void,Void> {
 
             for (int i = 0 ; i < JA.length() ; i++) {
                 JSONObject JO = (JSONObject) JA.get(i);
-                String timeControls = "TC: " + JO.get("TimeControls");
-                Log.d("Tc",timeControls);
-            }
+                int ID = (int) JO.getInt("ID");
+                long date = (long) JO.getLong("Date");
+                String hangboardName = (String) JO.getString("Hangboard");
+                String timeControls = (String) JO.getString("Timecontrols");
 
+                String holdNumbers = (String) JO.getString("Holdnumbers");
+                String holdGripTypes = (String) JO.getString("Holdgriptypes");
+                String holdDifficulties = (String) JO.getString("Holddifficulties");
+
+                String completedHangs = (String) JO.getString("Completed");
+                boolean isHidden = (boolean) JO.getBoolean("Ishidden");
+                String description = (String) JO.getString("Description");
+
+
+
+                Log.d("ID",": " + ID );
+                Log.d("Date","" + date );
+                Log.d("Hangboard",hangboardName );
+                Log.d("TC",timeControls );
+
+                Log.d("Numbers",holdNumbers );
+                Log.d("GripTypes", holdGripTypes );
+                Log.d("Difficulties", holdDifficulties );
+
+                Log.d("Completed",completedHangs );
+                Log.d("IsHidden",": " + isHidden );
+                Log.d("Descriptions", description );
+
+                TimeControls tempControls = new TimeControls();
+                tempControls.setTimeControlsFromString(timeControls);
+
+                ArrayList<Hold> tempWorkoutHolds = new ArrayList<>();
+                int[] tempHoldNumbers = parceCompletedHangs(holdNumbers);
+                int[] tempHoldGripTypes = parceCompletedHangs(holdGripTypes);
+                int[] tempHoldDifficulties = parceCompletedHangs(holdDifficulties);
+
+                Hold tempHold;
+                for (int j = 0 ; j < tempHoldNumbers.length ; j++ ) {
+
+                    tempHold = new Hold(tempHoldNumbers[j] );
+                    tempHold.setGripType(tempHoldGripTypes[j] );
+                    tempHold.setHoldValue(tempHoldDifficulties[j] );
+
+                    tempWorkoutHolds.add(tempHold);
+                }
+
+                int[] tempCompleted = parceCompletedHangs(completedHangs);
+
+                dbHandler.addHangboardWorkout(date, hangboardName,tempControls,tempWorkoutHolds,tempCompleted,description);
+
+            }
 
 
 
@@ -122,5 +171,17 @@ public class JSONFetcher extends AsyncTask<Void,Void,Void> {
 
         Log.d("datasite","data: " + data.length() );
         WorkoutDetailsActivity.workoutDetailsTextView.setText(data);
+    }
+
+    public int[] parceCompletedHangs(String completedHangs) {
+        String[] parcedCompletedHangs = completedHangs.split(",");
+
+        int[] completed = new int[parcedCompletedHangs.length];
+
+        for (int i = 0; i < parcedCompletedHangs.length; i++) {
+            completed[i] = Integer.parseInt(parcedCompletedHangs[i]);
+        }
+
+        return completed;
     }
 }

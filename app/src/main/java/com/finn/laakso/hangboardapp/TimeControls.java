@@ -1,5 +1,7 @@
 package com.finn.laakso.hangboardapp;
 
+import android.util.Log;
+
 /**
  * Created by Laakso on 12.1.2018.
  */
@@ -275,6 +277,20 @@ public class TimeControls {
     public String getTimeControlsAsJSONGString() {
         return grip_laps + "," + hang_laps + "," + time_on + "," + time_off + "," + routine_laps
                 + "," + rest + "," + long_rest;
+    }
+
+    public void setTimeControlsFromString(String JSONString) {
+
+        String[] parcedTimeControls = JSONString.split(",");
+
+        int[] timeControlValues = new int[parcedTimeControls.length];
+
+        for (int i = 0; i < parcedTimeControls.length; i++) {
+            timeControlValues[i] = Integer.parseInt(parcedTimeControls[i]);
+        }
+
+        setTimeControls(timeControlValues );
+
     }
 
     public int getTotalTime() {
