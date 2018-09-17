@@ -43,7 +43,7 @@ public class JSONFetcher extends AsyncTask<Void,Void,Void> {
 
 
         ArrayList<Integer> allWorkoutIDs = dbHandler.lookUpAllWorkoutIDs(includeHidden);
-        ArrayList<String> allHanboardNames = dbHandler.lookUpAllHangboards(includeHidden);
+        ArrayList<String> allHangboardNames = dbHandler.lookUpAllHangboards(includeHidden);
         ArrayList<Long> allDates = dbHandler.lookUpAllDates(includeHidden);
         ArrayList<String> allTimeControlsAsString = new ArrayList<>();
 
@@ -55,11 +55,12 @@ public class JSONFetcher extends AsyncTask<Void,Void,Void> {
         ArrayList<Boolean> allWorkoutIsHidden = dbHandler.lookUpAllWorkoutIsHidden(includeHidden);
         ArrayList<String> allDescriptions = dbHandler.lookUpAllWorkoutDescriptions(includeHidden);
 
+        JSONArray jsonArray = new JSONArray();
         for (int i = 0 ; i < allDates.size() ; i++ ) {
             allTimeControlsAsString.add(allTimeControls.get(i).getTimeControlsAsJSONGString() );
             Log.d("ID",": " + allWorkoutIDs.get(i) );
             Log.d("Date","" + allDates.get(i) );
-            Log.d("Hangboard",allHanboardNames.get(i) );
+            Log.d("Hangboard",allHangboardNames.get(i) );
             Log.d("TC",allTimeControlsAsString.get(i) );
 
             Log.d("Numbers",allHoldNumbers.get(i) );
@@ -70,7 +71,28 @@ public class JSONFetcher extends AsyncTask<Void,Void,Void> {
             Log.d("IsHidden",": " + allWorkoutIsHidden.get(i) );
             Log.d("Descriptions",allDescriptions.get(i) );
 
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("ID",allWorkoutIDs.get(i) );
+                jsonObject.put("Date",allDates.get(i) );
+                jsonObject.put("Hangboard",allHangboardNames.get(i) );
+                jsonObject.put("Timecontrols",allTimeControls.get(i) );
+
+                jsonObject.put("Numbers",allHoldNumbers.get(i) );
+                jsonObject.put("Griptypes",allHoldGripTypes.get(i) );
+                jsonObject.put("Difficulties",allHoldDifficulties.get(i) );
+
+                jsonObject.put("Completed",allCompletedHangsAsString.get(i) );
+                jsonObject.put("Ishidden",allWorkoutIsHidden.get(i) );
+                jsonObject.put("Description",allDescriptions.get(i) );
+
+                jsonArray.put(jsonObject);
+            } catch (JSONException jsone) {
+                jsone.printStackTrace();
+            }
         }
+
+        Log.d("JSON","length: " + jsonArray.length() );
 
         // dbHandler.look
     }
@@ -148,7 +170,8 @@ public class JSONFetcher extends AsyncTask<Void,Void,Void> {
 
                 int[] tempCompleted = parceCompletedHangs(completedHangs);
 
-                dbHandler.addHangboardWorkout(date, hangboardName,tempControls,tempWorkoutHolds,tempCompleted,description);
+                // Adding deserialized JSONobject to database
+                // dbHandler.addHangboardWorkout(date, hangboardName,tempControls,tempWorkoutHolds,tempCompleted,description);
 
             }
 
