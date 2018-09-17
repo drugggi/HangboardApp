@@ -183,7 +183,8 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                         menu.add(Menu.NONE, 1, 1, "hide/unhide workout");
                         menu.add(Menu.NONE, 2,2,"edit date");
                         menu.add(Menu.NONE,3,3,"edit hangboard name");
-                        menu.add(Menu.NONE, 4, 4, "delete workout");
+                        menu.add(Menu.NONE,4,4,"redo workout");
+                        menu.add(Menu.NONE, 5, 5, "delete workout");
                     }
                     // Context menu when hidden workout are not shown
                     else {           menu.setHeaderTitle("Choose your edit");
@@ -191,6 +192,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                         menu.add(Menu.NONE, 1, 1, "hide workout");
                         menu.add(Menu.NONE, 2,2,"edit date");
                         menu.add(Menu.NONE,3,3,"edit hangboard name");
+                        menu.add(Menu.NONE,4,4,"redo workout");
                               // Can't delete unhidden workouts
                         // menu.add(Menu.NONE, 4, 4, "delete workout");
                     }
@@ -427,6 +429,26 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         }
 
         else if (selectedContextMenuItem == 4) {
+
+
+            Intent resultCopyWorkoutIntent = new Intent();
+            resultCopyWorkoutIntent.putExtra("com.finn.laakso.hangboardapp.BOARDNAME",hangboardName);
+            resultCopyWorkoutIntent.putExtra("com.finn.laakso.hangboardapp.SETTINGS", timeControls.getTimeControlsIntArray());
+            resultCopyWorkoutIntent.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", holds);
+
+            setResult(Activity.RESULT_OK, resultCopyWorkoutIntent);
+
+            finish();
+            // editWorkout.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
+            // editWorkout.putExtra("com.finn.laakso.hangboardapp.BOARDNAME",hangboardName);
+            // editWorkout.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", holds);
+            // editWorkout.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS",completedHangs);
+            // editWorkout.putExtra("com.finn.laakso.hangboardapp.DESCRIPTION",desc);
+
+            // Toast.makeText(WorkoutHistoryActivity.this,"Copy workout elseif",Toast.LENGTH_SHORT).show();
+        }
+
+        else if (selectedContextMenuItem == 5) {
 
             if (dbHandler.lookUpIsHidden(selectedListViewPosition,includeHidden)) {
                 dbHandler.delete(selectedListViewPosition,includeHidden);

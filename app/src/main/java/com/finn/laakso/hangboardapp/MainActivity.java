@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private static final int REQUEST_TIME_CONTROLS = 0;
+    private static final int REQUEST_COPY_WORKOUT = 1;
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -200,9 +202,12 @@ public class MainActivity extends AppCompatActivity {
         workoutHistoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent statsIntent = new Intent(getApplicationContext(), WorkoutHistoryActivity.class);
+                Intent workoutHistoryIntent = new Intent(getApplicationContext(), WorkoutHistoryActivity.class);
 
-                startActivity(statsIntent);
+                setResult(Activity.RESULT_OK,workoutHistoryIntent);
+
+                // startActivity(statsIntent);
+                startActivityForResult(workoutHistoryIntent, REQUEST_COPY_WORKOUT);
             }
         });
 
@@ -560,6 +565,61 @@ public class MainActivity extends AppCompatActivity {
                 repeatersBox.setVisibility(View.VISIBLE);
                 durationSeekBar.setVisibility(View.VISIBLE);
 
+            }
+
+            if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_COPY_WORKOUT) {
+                Toast.makeText(MainActivity.this, "It seems that copying workout works", Toast.LENGTH_LONG).show();
+
+                int[] timeSettings = data.getIntArrayExtra("com.finn.laakso.hangboardapp.SETTINGS");
+                ArrayList<Hold> newHolds = data.getParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS");
+                String hbname = data.getStringExtra("com.finn.laakso.hangboardapp.BOARDNAME");
+
+                TimeControls temp = new TimeControls();
+                temp.setTimeControls(timeSettings);
+
+//                everyBoard = new HangBoard(getResources() );
+
+/*
+                rightFingerImage.setVisibility(View.INVISIBLE);
+                leftFingerImage.setVisibility(View.INVISIBLE);
+                durationSeekBar.setVisibility(View.VISIBLE);
+                repeatersBox.setVisibility(View.VISIBLE);
+*/
+                int hangBoardNumber = HangboardSwipeAdapter.getHangboardResource(hbname);
+                HangboardSwipeAdapter.hangboard newHangboard = HangboardSwipeAdapter.getHangBoard(hangBoardNumber);
+
+                timeControls.setTimeControls(timeSettings);
+
+                everyBoard.initializeHolds(getResources(), newHangboard);
+
+//                everyBoard.setGripAmount(timeControls.getGripLaps(),0);
+
+                everyBoard.setGrips(newHolds);
+
+
+//                int pagerNumber = swi
+                //hangboard_descr_position = hangBoardNumber;
+                //viewPager.setCurrentItem(hangBoardNumber);
+               // timeControls.setTimeControls(timeSettings);
+                //everyBoard.setGripAmount(timeControls.getGripLaps(),0);
+                //everyBoard.setGrips(newHolds);
+
+                // If Grip laps amount has been changed we have to randomize new grips, otherwise lets
+                // keep the old grips that user has maybe liked
+                /*
+                if (i[0] != timeControls.getGripLaps()) {
+                    timeControls.setTimeControls(i);
+                    everyBoard.setGripAmount(timeControls.getGripLaps(), grade_descr_position);
+
+                    hangsAdapter.notifyDataSetChanged();
+
+                    hangsAdapter.setSelectedHangNumber(0);
+                } else {
+                    timeControls.setTimeControls(i);
+                }
+*/
+
+                hangsAdapter.notifyDataSetChanged();
             }
             String durationText = "Duration: " + timeControls.getTotalTime() / 60 + "min";
             durationTextView.setText(durationText);
