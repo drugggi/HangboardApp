@@ -45,6 +45,24 @@ public class HangboardSwipeAdapter extends PagerAdapter {
         else {return hangboard.BM1000; }
     }
 
+    public static int getHangboardPosition(String HB) {
+
+        if (HB.equals("BM 1000") ) {return 0; }
+        else if (HB.equals("BM 2000") ) {return 1; }
+        else if (HB.equals("Transgression") ) {return 2; }
+        else if (HB.equals("Tension") ) {return 3; }
+        else if (HB.equals("Zlagboard") ) {return 4; }
+        else if (HB.equals("Moonboard hard") ) {return 5; }
+        else if (HB.equals("Moonboard easy") ) {return 6; }
+        else if (HB.equals("Metolius") ) {return 7; }
+        else if (HB.equals("Rock Prodigy") ) {return 8; }
+        else if (HB.equals("Problemsolver") ) {return 9; }
+        else if (HB.equals("Meto. Contact") ) {return 10; }
+        else if (HB.equals("Meto. Wood") ) {return 11; }
+        else if (HB.equals("DRCC") ) {return 12; }
+        else {return 0; }
+    }
+
     // Converts hangboard enum into describing name. Should be somewhere else
     public static String getHangboardName(hangboard HB) {
 

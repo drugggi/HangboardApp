@@ -577,24 +577,29 @@ public class MainActivity extends AppCompatActivity {
                 TimeControls temp = new TimeControls();
                 temp.setTimeControls(timeSettings);
 
-//                everyBoard = new HangBoard(getResources() );
 
-/*
-                rightFingerImage.setVisibility(View.INVISIBLE);
-                leftFingerImage.setVisibility(View.INVISIBLE);
-                durationSeekBar.setVisibility(View.VISIBLE);
-                repeatersBox.setVisibility(View.VISIBLE);
-*/
-                int hangBoardNumber = HangboardSwipeAdapter.getHangboardResource(hbname);
+                int hangBoardNumber = HangboardSwipeAdapter.getHangboardPosition(hbname);
                 HangboardSwipeAdapter.hangboard newHangboard = HangboardSwipeAdapter.getHangBoard(hangBoardNumber);
+
+                hangboard_descr_position = hangBoardNumber;
+                viewPager.setCurrentItem(hangBoardNumber);
 
                 timeControls.setTimeControls(timeSettings);
 
+                Log.d("Hangboard",hbname + " pos: " + hangboard_descr_position);
+                Log.d("TC",timeControls.getTimeControlsAsString() );
+                Log.d("holds","size: " + newHolds.size() );
+
+
                 everyBoard.initializeHolds(getResources(), newHangboard);
 
-//                everyBoard.setGripAmount(timeControls.getGripLaps(),0);
-
                 everyBoard.setGrips(newHolds);
+
+                everyBoard.updateHoldCoordinates();
+
+                hangsAdapter = new HangListAdapter(this, everyBoard.getCurrentHoldList() );
+                holdsListView.setAdapter(hangsAdapter);
+                registerForContextMenu(holdsListView);
 
 
 //                int pagerNumber = swi
@@ -619,7 +624,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 */
 
-                hangsAdapter.notifyDataSetChanged();
+                //hangsAdapter.notifyDataSetChanged();
             }
             String durationText = "Duration: " + timeControls.getTotalTime() / 60 + "min";
             durationTextView.setText(durationText);

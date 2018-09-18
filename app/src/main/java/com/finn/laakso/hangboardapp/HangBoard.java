@@ -113,6 +113,18 @@ public class HangBoard {
         return max;
     }
 
+    public void updateHoldCoordinates() {
+        int holdNumber;
+        Hold.grip_type gripType;
+
+        for (int i = 0 ; i < valueList.size() ; i++ ) {
+            holdNumber = valueList.get(i).getHoldNumber();
+            gripType = valueList.get(i).getGripStyle();
+            valueList.set(i,createCustomHold( holdNumber , gripType ));
+        }
+
+    }
+
     // Creates a custom hold and tries to search if the holds is in stored list, if not
     // especially the hold value is impossible to set, and is put to custom = 0
     private Hold createCustomHold(int holdnumber, Hold.grip_type grip_style) {
