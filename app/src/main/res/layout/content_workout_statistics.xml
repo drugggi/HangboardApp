@@ -71,10 +71,18 @@
             android:layout_width="match_parent"
             android:layout_height="400dp"/>
 
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/scaledBarChart"
+            android:layout_width="match_parent"
+            android:layout_height="400dp" />
+<!--
+
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/scaledLineChart"
             android:layout_width="match_parent"
             android:layout_height="400dp" />
+-->
 
         <TextView
             android:id="@+id/scaledChartExplainedTextView"

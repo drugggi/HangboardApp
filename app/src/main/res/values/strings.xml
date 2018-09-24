@@ -28,9 +28,9 @@
     <string name="apply">Apply</string>
     <string name="save_preferences">Save preferences</string>
     <string name="load_preferences">Load preferences</string>
-    <string name="scaled_line_explanation">Scaled line scales four important workout variables
+    <string name="scaled_line_explanation">Scaled Bars scales four important workout variables
         (Intensity, Average Difficulty, Workload, Power) between 0-1. Zero being the minimum value found
-    in workouts and 1 being the maximum. With this information we can observe how increasing one variable affects
+    in workouts and one being the maximum. With this information we can observe how increasing one variable affects
     the others. For example increasing Intensity usually decreases Difficulty. However it is possible
     to steadily increase every variable over time if progression is achieved.</string>
 

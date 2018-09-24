@@ -14,6 +14,7 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -26,6 +27,7 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
@@ -57,7 +59,8 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
     private LineChart workoutTUTandWTLineChart;
     private LineChart averageDifficultyPerHang;
     private LineChart workoutPowerLineChart;
-    private LineChart scaledLineChart;
+   // private LineChart scaledLineChart;
+    private BarChart scaledBarChart;
 
     // All the workouts details from database are put on these variables
     private ArrayList<ArrayList<Hold>> allWorkoutsHolds;
@@ -160,8 +163,9 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
                 createWorkoutIntensityLineChart();
                 createAverageDifficultyPerHangLineChart();
                 createWorkoutPowerLineChart();
-                createScaledLineChart();
+                // createScaledLineChart();
                 createHangboardDistributionPieChart();
+                createScaledBarChart();
 
 
 
@@ -469,6 +473,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
 
     }
+/*
 
     // This method creates scaled line chart combining and scaling workload, intensity, difficulty per hang
     // and workout power into one chart. Chart is sclaed from 0 to 1, where every variables min value is 0 and
@@ -536,12 +541,12 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         float tempAvgDifficulty;
         for (int i = allCalculatedDetails.size()-1 ; i >= 0 ; i--) {
 
-            tempIntensity = (allCalculatedDetails.get(i).getIntensity() - minIntensity) / maxIntensity;
+            tempIntensity = (allCalculatedDetails.get(i).getIntensity() - minIntensity) / maxIntensity ;
             tempAvgDifficulty = (allCalculatedDetails.get(i).getAverageDifficutly() - minAvgDifficulty) / maxAvgDifficulty;
-            tempWorkload = (allCalculatedDetails.get(i).getWorkload() - minWorkload) / maxWorkload;
-            tempPower = (allCalculatedDetails.get(i).getWorkoutPower() - minPower) / maxPower;
+            tempWorkload = (allCalculatedDetails.get(i).getWorkload() - minWorkload) / maxWorkload ;
+            tempPower = (allCalculatedDetails.get(i).getWorkoutPower() - minPower) / maxPower ;
 
-            entriesIntensity.add(new Entry(xCoord, tempIntensity ));
+            entriesIntensity.add(new Entry(xCoord, tempIntensity));
             entriesAvgDifficulty.add(new Entry(xCoord, tempAvgDifficulty ));
             entriesWorkload.add(new Entry(xCoord, tempWorkload ));
             entriesPower.add(new Entry(xCoord, tempPower));
@@ -596,6 +601,246 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         xAxis.setPosition(XAxis.XAxisPosition.TOP);
 
         scaledLineChart.invalidate();
+        //workoutTUTandWTLineChart.animateX(1500);
+
+    }
+*/
+
+    private void createScaledBarChartTEST() {
+        scaledBarChart = (BarChart) findViewById(R.id.scaledBarChart);
+
+        scaledBarChart.setDrawBarShadow(false);
+        scaledBarChart.setDrawValueAboveBar(true);
+        // scaledBarChart.setDescription("");
+        scaledBarChart.setMaxVisibleValueCount(50);
+        scaledBarChart.setPinchZoom(false);
+        scaledBarChart.setDrawGridBackground(false);
+
+        XAxis xl = scaledBarChart.getXAxis();
+        xl.setGranularity(1f);
+        xl.setCenterAxisLabels(true);
+
+
+        YAxis leftAxis = scaledBarChart.getAxisLeft();
+
+        leftAxis.setDrawGridLines(false);
+        leftAxis.setSpaceTop(30f);
+        leftAxis.setAxisMinValue(0f); // this replaces setStartAtZero(true
+        scaledBarChart.getAxisRight().setEnabled(false);
+
+        //data
+        float groupSpace = 0.04f;
+        float barSpace = 0.02f; // x2 dataset
+        float barWidth = 0.46f; // x2 dataset
+        // (0.46 + 0.02) * 2 + 0.04 = 1.00 -> interval per "group"
+
+        int startYear = 1980;
+        int endYear = 1985;
+
+
+        List<BarEntry> yVals1 = new ArrayList<BarEntry>();
+        List<BarEntry> yVals2 = new ArrayList<BarEntry>();
+
+
+        for (int i = startYear; i < endYear; i++) {
+            yVals1.add(new BarEntry(i, 0.4f));
+        }
+
+        for (int i = startYear; i < endYear; i++) {
+            yVals2.add(new BarEntry(i, 0.7f));
+        }
+
+
+        BarDataSet set1, set2;
+
+        if (scaledBarChart.getData() != null && scaledBarChart.getData().getDataSetCount() > 0) {
+            set1 = (BarDataSet)scaledBarChart.getData().getDataSetByIndex(0);
+            set2 = (BarDataSet)scaledBarChart.getData().getDataSetByIndex(1);
+            set1.setValues(yVals1);
+            set2.setValues(yVals2);
+            scaledBarChart.getData().notifyDataChanged();
+            scaledBarChart.notifyDataSetChanged();
+        } else {
+            // create 2 datasets with different types
+            set1 = new BarDataSet(yVals1, "Company A");
+            set1.setColor(Color.rgb(104, 241, 175));
+            set2 = new BarDataSet(yVals2, "Company B");
+            set2.setColor(Color.rgb(164, 228, 251));
+
+            ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
+            dataSets.add(set1);
+            dataSets.add(set2);
+
+            BarData data = new BarData(dataSets);
+            scaledBarChart.setData(data);
+        }
+
+        scaledBarChart.getBarData().setBarWidth(barWidth);
+        //barChart.getXAxis().setAxisMinValue(startYear);
+        scaledBarChart.groupBars(startYear, groupSpace, barSpace);
+        scaledBarChart.invalidate();
+    }
+
+
+    // This method creates scaled Bar Chart combining and scaling workload, intensity, difficulty per hang
+    // and workout power into one chart. Every bar is sclaed from 0 to 1, where every variables min value is 0 and
+    // max value is 1. With the help of this chart, user can see for examlpe how increasing one workout
+    // variable affects the other. It is really hard to have every variable be maximum in a single workout.
+    private void createScaledBarChart() {
+        scaledBarChart = (BarChart) findViewById(R.id.scaledBarChart);
+
+        scaledBarChart.setDrawBarShadow(false);
+        scaledBarChart.setDrawValueAboveBar(false);
+        // scaledBarChart.setDescription("");
+        scaledBarChart.setMaxVisibleValueCount(5);
+        scaledBarChart.setPinchZoom(false);
+        scaledBarChart.setDrawGridBackground(false);
+
+        XAxis xl = scaledBarChart.getXAxis();
+        xl.setGranularity(1f);
+        xl.setCenterAxisLabels(true);
+        xl.setAxisMinimum(0f);
+        xl.setSpaceMax(0f);
+
+        YAxis leftAxis = scaledBarChart.getAxisLeft();
+
+        leftAxis.setDrawGridLines(false);
+        leftAxis.setSpaceTop(30f);
+        leftAxis.setAxisMinValue(0f); // this replaces setStartAtZero(true
+        scaledBarChart.getAxisRight().setEnabled(false);
+
+        ArrayList<BarEntry> entriesIntensity = new ArrayList<>();
+        ArrayList<BarEntry> entriesAvgDifficulty = new ArrayList<>();
+        ArrayList<BarEntry> entriesWorkload = new ArrayList<>();
+        ArrayList<BarEntry> entriesPower = new ArrayList<>();
+
+        float minIntensity = Float.MAX_VALUE;
+        float maxIntensity = 0;
+        float minAvgDifficulty = Float.MAX_VALUE;
+        float maxAvgDifficulty = 0;
+        float minWorkload = Float.MAX_VALUE;
+        float maxWorkload = 0;
+        float minPower = Float.MAX_VALUE;
+        float maxPower = 0;
+
+        for (int i = 0 ; i < allCalculatedDetails.size() ; i++) {
+            if (minIntensity > allCalculatedDetails.get(i).getIntensity() ) {
+                minIntensity = allCalculatedDetails.get(i).getIntensity();
+            }
+            if (maxIntensity < allCalculatedDetails.get(i).getIntensity() ) {
+                maxIntensity = allCalculatedDetails.get(i).getIntensity();
+            }
+
+            if (minAvgDifficulty > allCalculatedDetails.get(i).getAverageDifficutly() ) {
+                minAvgDifficulty = allCalculatedDetails.get(i).getAverageDifficutly();
+            }
+            if (maxAvgDifficulty < allCalculatedDetails.get(i).getAverageDifficutly() ) {
+                maxAvgDifficulty = allCalculatedDetails.get(i).getAverageDifficutly();
+            }
+
+            if (minWorkload > allCalculatedDetails.get(i).getWorkload() ) {
+                minWorkload = allCalculatedDetails.get(i).getWorkload();
+            }
+            if (maxWorkload < allCalculatedDetails.get(i).getWorkload() ) {
+                maxWorkload = allCalculatedDetails.get(i).getWorkload();
+            }
+
+            if (minPower > allCalculatedDetails.get(i).getWorkoutPower() ) {
+                minPower = allCalculatedDetails.get(i).getWorkoutPower();
+            }
+            if (maxPower < allCalculatedDetails.get(i).getWorkoutPower() ) {
+                maxPower = allCalculatedDetails.get(i).getWorkoutPower();
+            }
+
+
+        }
+
+        maxIntensity = maxIntensity - minIntensity;
+        maxAvgDifficulty = maxAvgDifficulty - minAvgDifficulty;
+        maxWorkload = maxWorkload - minWorkload;
+        maxPower = maxPower - minPower;
+
+        int xCoord = 1;
+
+        float tempIntensity;
+        float tempWorkload;
+        float tempPower;
+        float tempAvgDifficulty;
+
+        // we add this value to every bar so that minBars become visible in graph
+        float outFromZero = 0.01f;
+
+        for (int i = allCalculatedDetails.size()-1 ; i >= 0 ; i--) {
+
+            tempIntensity = (allCalculatedDetails.get(i).getIntensity() - minIntensity) / maxIntensity + outFromZero;
+            tempAvgDifficulty = (allCalculatedDetails.get(i).getAverageDifficutly() - minAvgDifficulty) / maxAvgDifficulty + outFromZero;
+            tempWorkload = (allCalculatedDetails.get(i).getWorkload() - minWorkload) / maxWorkload + outFromZero;
+            tempPower = (allCalculatedDetails.get(i).getWorkoutPower() - minPower) / maxPower + outFromZero;
+
+            entriesIntensity.add(new BarEntry(xCoord, tempIntensity ));
+            entriesAvgDifficulty.add(new BarEntry(xCoord, tempAvgDifficulty ));
+            entriesWorkload.add(new BarEntry(xCoord, tempWorkload ));
+            entriesPower.add(new BarEntry(xCoord, tempPower));
+
+            xCoord++;
+        }
+
+        String[] labels = new String[allCalculatedDetails.size()];
+        for (int i = 0 ; i < labels.length ; i++ ) {
+            labels[i] = "WO: " + (i+1);
+        }
+
+        ArrayList<IBarDataSet> barDataSets = new ArrayList<>();
+
+        BarDataSet barDataSetIntensity = new BarDataSet(entriesIntensity,"Intensity (TUT/WT)");
+        barDataSetIntensity.setColor(Color.MAGENTA);
+        barDataSetIntensity.setDrawValues(false);
+        // barDataSetIntensity.setDrawCircles(false);
+        BarDataSet barDataSetAvgDifficulty = new BarDataSet(entriesAvgDifficulty,"Average Difficulty (avg D)");
+        barDataSetAvgDifficulty.setColors(Color.YELLOW);
+        // lineDataSetAvgDifficulty.setDrawCircles(false);
+        BarDataSet barDataSetWorkload = new BarDataSet(entriesWorkload,"total Workload(avg D*TUT)");
+        barDataSetWorkload.setColors(Color.BLUE);
+        //lineDataSetWorkload.setDrawCircles(false);
+        BarDataSet barDataSetPower = new BarDataSet(entriesPower,"Workout power (avg D*TUT/WT)");
+        barDataSetPower.setColor(Color.CYAN);
+        // lineDataSetPower.setDrawCircles(false);
+
+        //lineDataSetAvgDifficulty.setLineWidth(-1000f);
+        barDataSets.add(barDataSetIntensity);
+        barDataSets.add(barDataSetAvgDifficulty);
+        barDataSets.add(barDataSetWorkload);
+        barDataSets.add(barDataSetPower);
+
+        BarData barData = new BarData(barDataSets);
+        //barData.setDrawValues(false);
+
+        //barData.setValueTextSize(10f);
+        scaledBarChart.setData(barData);
+
+        //data
+        int start = 0;
+        float groupSpace = 0.08f;
+        float barSpace = 0.02f; // x2 dataset
+        float barWidth = 0.21f; // x2 dataset
+        // (0.21 + 0.02) * 4 + 0.04 = 1.00 -> interval per "group"
+
+       /* Description desc = new Description();
+        desc.setText("Important workout parameters scaled between 0-1");
+        desc.setPosition(2f,1f);
+        scaledBarChart.setDescription(desc);
+*/
+
+        XAxis xAxis = scaledBarChart.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        scaledBarChart.getBarData().setBarWidth(barWidth);
+        //barChart.getXAxis().setAxisMinValue(startYear)
+
+        scaledBarChart.groupBars(start,groupSpace,barSpace);
+        scaledBarChart.invalidate();
         //workoutTUTandWTLineChart.animateX(1500);
 
     }
