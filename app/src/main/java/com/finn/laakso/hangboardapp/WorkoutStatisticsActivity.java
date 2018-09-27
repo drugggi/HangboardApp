@@ -825,11 +825,12 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         float barWidth = 0.21f; // x2 dataset
         // (0.21 + 0.02) * 4 + 0.04 = 1.00 -> interval per "group"
 
-       /* Description desc = new Description();
+        // This only removes description ie. not working
+        Description desc = new Description();
         desc.setText("Important workout parameters scaled between 0-1");
-        desc.setPosition(2f,1f);
+        desc.setPosition(0,1.2f);
         scaledBarChart.setDescription(desc);
-*/
+
 
         XAxis xAxis = scaledBarChart.getXAxis();
         xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));

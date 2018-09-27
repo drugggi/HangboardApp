@@ -55,9 +55,35 @@ public class JSONFetcher extends AsyncTask<Void,Void,Void> {
         ArrayList<Boolean> allWorkoutIsHidden = dbHandler.lookUpAllWorkoutIsHidden(includeHidden);
         ArrayList<String> allDescriptions = dbHandler.lookUpAllWorkoutDescriptions(includeHidden);
 
+        StringBuilder jsonStringBuilder = new StringBuilder();
+        jsonStringBuilder.append("[");
+
         JSONArray jsonArray = new JSONArray();
         for (int i = 0 ; i < allDates.size() ; i++ ) {
             allTimeControlsAsString.add(allTimeControls.get(i).getTimeControlsAsJSONGString() );
+
+            jsonStringBuilder.append("{\n");
+
+            jsonStringBuilder.append("\"ID\"").append(" : ").append(allWorkoutIDs.get(i)).append(" ,\n");
+            jsonStringBuilder.append("\"Date\"").append(" : ").append(allDates.get(i) ).append(" ,\n");
+            jsonStringBuilder.append("\"Hangboard\"").append(" : \"").append(allHangboardNames.get(i) ).append("\" ,\n");
+            jsonStringBuilder.append("\"TC\"").append(" : \"").append(allTimeControlsAsString.get(i) ).append("\" ,\n");
+
+            jsonStringBuilder.append("\"Numbers\"").append(" : \"").append(allHoldNumbers.get(i) ).append("\" ,\n");
+            jsonStringBuilder.append("\"GripTypes\"").append(" : \"").append(allHoldGripTypes.get(i) ).append("\" ,\n");
+            jsonStringBuilder.append("\"Difficulties\"").append(" : \"").append(allHoldDifficulties.get(i) ).append("\" ,\n");
+
+            jsonStringBuilder.append("\"Completed\"").append(" : \"").append(allCompletedHangsAsString.get(i) ).append("\" ,\n");
+            jsonStringBuilder.append("\"IsHidden\"").append(" : ").append(allWorkoutIsHidden.get(i) ).append(" ,\n");
+            jsonStringBuilder.append("\"Description\"").append(" : \"").append(allDescriptions.get(i) ).append("\" \n");
+
+            if (i == allDates.size() - 1) {
+                jsonStringBuilder.append("}");
+            }
+            else {
+                jsonStringBuilder.append("},\n");
+            }
+            /*
             Log.d("ID",": " + allWorkoutIDs.get(i) );
             Log.d("Date","" + allDates.get(i) );
             Log.d("Hangboard",allHangboardNames.get(i) );
@@ -69,8 +95,8 @@ public class JSONFetcher extends AsyncTask<Void,Void,Void> {
 
             Log.d("Completed",allCompletedHangsAsString.get(i) );
             Log.d("IsHidden",": " + allWorkoutIsHidden.get(i) );
-            Log.d("Descriptions",allDescriptions.get(i) );
-
+            Log.d("Description",allDescriptions.get(i) );
+*/
             JSONObject jsonObject = new JSONObject();
             try {
                 jsonObject.put("ID",allWorkoutIDs.get(i) );
@@ -92,7 +118,21 @@ public class JSONFetcher extends AsyncTask<Void,Void,Void> {
             }
         }
 
-        Log.d("JSON","length: " + jsonArray.length() );
+        jsonStringBuilder.append("]\n");
+
+        String jsonText = jsonStringBuilder.toString();
+
+        int maxLogSize = 1000;
+        for(int i = 0; i <= jsonText.length() / maxLogSize; i++) {
+            int start = i * maxLogSize;
+            int end = (i+1) * maxLogSize;
+            end = end > jsonText.length() ? jsonText.length() : end;
+            Log.v("json", jsonText.substring(start, end));
+        }
+
+        //Log.d("JsonString",jsonStringBuilder.toString() );
+
+        // Log.d("JSON","length: " + jsonArray.length() );
 
         // dbHandler.look
     }
@@ -101,7 +141,7 @@ public class JSONFetcher extends AsyncTask<Void,Void,Void> {
     protected Void doInBackground(Void... voids) {
         try {
             //URL url = new URL("https://api.myjson.com/bins/1b0ybk");
-            URL url = new URL("https://api.myjson.com/bins/mfcdk");
+            URL url = new URL("https://api.myjson.com/bins/17zfhw");
 
 
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -125,16 +165,18 @@ public class JSONFetcher extends AsyncTask<Void,Void,Void> {
                 int ID = (int) JO.getInt("ID");
                 long date = (long) JO.getLong("Date");
                 String hangboardName = (String) JO.getString("Hangboard");
-                String timeControls = (String) JO.getString("Timecontrols");
+                String timeControls = (String) JO.getString("TC");
 
-                String holdNumbers = (String) JO.getString("Holdnumbers");
-                String holdGripTypes = (String) JO.getString("Holdgriptypes");
-                String holdDifficulties = (String) JO.getString("Holddifficulties");
+                String holdNumbers = (String) JO.getString("Numbers");
+                String holdGripTypes = (String) JO.getString("GripTypes");
+                String holdDifficulties = (String) JO.getString("Difficulties");
 
                 String completedHangs = (String) JO.getString("Completed");
-                boolean isHidden = (boolean) JO.getBoolean("Ishidden");
+                boolean isHidden = (boolean) JO.getBoolean("IsHidden");
                 String description = (String) JO.getString("Description");
 
+
+/*
 
 
                 Log.d("ID",": " + ID );
@@ -149,6 +191,7 @@ public class JSONFetcher extends AsyncTask<Void,Void,Void> {
                 Log.d("Completed",completedHangs );
                 Log.d("IsHidden",": " + isHidden );
                 Log.d("Descriptions", description );
+*/
 
                 TimeControls tempControls = new TimeControls();
                 tempControls.setTimeControlsFromString(timeControls);
@@ -171,7 +214,7 @@ public class JSONFetcher extends AsyncTask<Void,Void,Void> {
                 int[] tempCompleted = parceCompletedHangs(completedHangs);
 
                 // Adding deserialized JSONobject to database
-                // dbHandler.addHangboardWorkout(date, hangboardName,tempControls,tempWorkoutHolds,tempCompleted,description);
+                 dbHandler.addHangboardWorkout(date, hangboardName,tempControls,tempWorkoutHolds,tempCompleted,description);
 
             }
 
@@ -193,7 +236,7 @@ public class JSONFetcher extends AsyncTask<Void,Void,Void> {
         super.onPostExecute(aVoid);
 
         Log.d("datasite","data: " + data.length() );
-        WorkoutDetailsActivity.workoutDetailsTextView.setText(data);
+       //  WorkoutDetailsActivity.workoutDetailsTextView.setText(data);
     }
 
     public int[] parceCompletedHangs(String completedHangs) {

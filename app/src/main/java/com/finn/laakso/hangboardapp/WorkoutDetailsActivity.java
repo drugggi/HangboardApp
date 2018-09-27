@@ -96,12 +96,7 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
 
         // calculatedDetailsTextView.setText(calculatedDetailsBuilder.toString());
 
-        WorkoutDBHandler tempDBHandler = new WorkoutDBHandler(getApplicationContext(),null,null,1);
 
-        JSONFetcher json = new JSONFetcher(tempDBHandler);
-        json.execute();
-
-        json.constructJSONObjects();
 
     }
 
