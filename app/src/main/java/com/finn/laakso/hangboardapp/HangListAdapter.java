@@ -1,5 +1,6 @@
 package com.finn.laakso.hangboardapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -20,6 +21,12 @@ public class HangListAdapter extends BaseAdapter {
 
     // WorkoutHolds seen in a list
     private ArrayList<Hold> workoutHolds;
+
+    static class HangListViewHolder {
+        TextView hangPositionTextView;
+        TextView hangInfoTextView;
+        int position;
+    }
 
 
     public HangListAdapter(Context context,  ArrayList<Hold> holds) {
@@ -56,13 +63,35 @@ public class HangListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View v = mInflator.inflate(R.layout.hanglist,null);
-        TextView hangPositionTextView = (TextView) v.findViewById(R.id.hangPositionTextView);
-        TextView hangInfoTextView = (TextView) v.findViewById(R.id.hangInfoTextView);
+        HangListViewHolder viewHolder;
+
+        if (convertView == null) {
+
+            LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
+
+            convertView = inflater.inflate(R.layout.hanglist,parent,false);
+           viewHolder = new HangListViewHolder();
+           viewHolder.hangInfoTextView = (TextView) convertView.findViewById(R.id.hangInfoTextView);
+           viewHolder.hangPositionTextView = (TextView) convertView.findViewById(R.id.hangPositionTextView);
+
+           viewHolder.position = position;
+
+            convertView.setTag(viewHolder);
+        }
+        else {
+
+            viewHolder = (HangListViewHolder) convertView.getTag();
+    
+        }
+
+
 
         if (selectedHangNumber == position +1 ) {
-            v.setBackgroundColor(Color.GRAY);
+            convertView.setBackgroundColor(Color.GRAY);
+        } else {
+            convertView.setBackgroundColor(0xd3d3d3);
         }
+
 
         Hold leftHandHold = workoutHolds.get(2*position);
         Hold rightHandHold = workoutHolds.get(2*position + 1);
@@ -70,9 +99,10 @@ public class HangListAdapter extends BaseAdapter {
         String test = leftHandHold.getHoldInfo(rightHandHold);
         String positionText = (position+1) + ".";
 
-        hangInfoTextView.setText(test);
-        hangPositionTextView.setText(positionText);
 
-        return v;
+        viewHolder.hangInfoTextView.setText(test);
+        viewHolder.hangPositionTextView.setText(positionText);
+
+        return convertView;
     }
 }

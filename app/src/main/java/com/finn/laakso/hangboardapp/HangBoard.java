@@ -48,19 +48,15 @@ public class HangBoard {
 
     public int getCoordLeftX(int position) {
         return valueList.get(position*2).getLeftCoordX();
-
     }
     public int getCoordLeftY(int position) {
         return valueList.get(position*2).getLeftCoordY();
-
     }
     public int getCoordRightX(int position) {
         return valueList.get(position*2+1).getRightCoordX();
-
     }
     public int getCoordRightY(int position) {
         return valueList.get(position*2+1).getRightCoordY();
-
     }
 
 
