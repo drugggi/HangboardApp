@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class HangListAdapter extends BaseAdapter {
 
-    private LayoutInflater mInflator;
+    //private LayoutInflater mInflator;
     private final Context mContext;
 
     // selected hang number, start from 1, 0 means nothing is selected
@@ -34,7 +34,7 @@ public class HangListAdapter extends BaseAdapter {
         this.workoutHolds = holds;
 
         this.mContext = context;
-        this.mInflator = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        // this.mInflator = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
     }
 
@@ -81,7 +81,7 @@ public class HangListAdapter extends BaseAdapter {
         else {
 
             viewHolder = (HangListViewHolder) convertView.getTag();
-    
+
         }
 
 
