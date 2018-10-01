@@ -599,7 +599,7 @@ public class MainActivity extends AppCompatActivity {
 
                 hangsAdapter = new HangListAdapter(this, everyBoard.getCurrentHoldList() );
                 holdsListView.setAdapter(hangsAdapter);
-                registerForContextMenu(holdsListView);
+                // registerForContextMenu(holdsListView);
 
 
 //                int pagerNumber = swi

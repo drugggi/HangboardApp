@@ -105,10 +105,25 @@ public class Hold implements Comparable<Hold>, Parcelable {
     public int getRightCoordY() {return righthand_coord_y;}
 
     public void setHoldCoordinates(int[] coordinates) {
-        lefthand_coord_x = coordinates[(hold_number-1)*5+1];
-        lefthand_coord_y = coordinates[(hold_number-1)*5+2];
-        righthand_coord_x = coordinates[(hold_number-1)*5+3];
-        righthand_coord_y = coordinates[(hold_number-1)*5+4];
+
+        int coordinateRow = hold_number - 1;
+
+
+        // Security check, it is possible that user manually changes hangboard so that there is no
+        // hold number/ hold coordinates in that hangboard
+        if (coordinateRow*5 + 4 < coordinates.length) {
+            lefthand_coord_x = coordinates[coordinateRow * 5 + 1];
+            lefthand_coord_y = coordinates[coordinateRow * 5 + 2];
+            righthand_coord_x = coordinates[coordinateRow * 5 + 3];
+            righthand_coord_y = coordinates[coordinateRow * 5 + 4];
+        }
+        else {
+            lefthand_coord_x = 0;
+            lefthand_coord_y = 0;
+            righthand_coord_x = 0;
+            righthand_coord_y = 0;
+        }
+
 
     }
 
