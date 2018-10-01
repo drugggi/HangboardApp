@@ -1,5 +1,6 @@
 package com.finn.laakso.hangboardapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -31,6 +32,17 @@ public class WorkoutInfoAdapter extends BaseAdapter {
     private ArrayList<Hold> workoutHolds;
     private int[] hangsCompleted;
 
+
+    static class WorkoutInfoViewHolder {
+
+        TextView hangPosTextView;
+        TextView completedTextView;
+        ImageView leftHandImageView ;
+        ImageView rightHandImageView;
+        int position;
+    }
+
+
     public WorkoutInfoAdapter(Context context, TimeControls timeControls, ArrayList<Hold> holds , int[] completed) {
         this.timeControls = timeControls;
         this.workoutHolds = holds;
@@ -40,6 +52,8 @@ public class WorkoutInfoAdapter extends BaseAdapter {
         this.hangsCompleted = completed;
 
     }
+
+
 
     // Getter to completed matrix that is meant to be edited
     public int[] getCompletedMatrix() {
@@ -73,6 +87,31 @@ public class WorkoutInfoAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+        WorkoutInfoViewHolder viewHolder;
+
+        if (convertView == null) {
+
+            LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
+
+            convertView = inflater.inflate(R.layout.single_hang_info,parent,false);
+            viewHolder = new WorkoutInfoViewHolder();
+
+            viewHolder.hangPosTextView = (TextView) convertView.findViewById(R.id.hangPositionTextView);
+            viewHolder.completedTextView = (TextView) convertView.findViewById(R.id.completedTextView);
+            viewHolder.leftHandImageView = (ImageView) convertView.findViewById(R.id.leftHandImageView);
+            viewHolder.rightHandImageView = (ImageView) convertView.findViewById(R.id.rightHandImageView);
+
+            viewHolder.position = position;
+
+            convertView.setTag(viewHolder);
+        }
+        else {
+
+            viewHolder = (WorkoutInfoViewHolder) convertView.getTag();
+
+        }
+
+        /*
         View v = mInflator.inflate(R.layout.single_hang_info,null);
 
         TextView hangPosTextView = (TextView) v.findViewById(R.id.hangPositionTextView);
@@ -80,42 +119,45 @@ public class WorkoutInfoAdapter extends BaseAdapter {
         ImageView leftHandImageView = (ImageView) v.findViewById(R.id.leftHandImageView);
         ImageView rightHandImageView = (ImageView) v.findViewById(R.id.rightHandImageView);
 
-
+*/
         int set = position/ timeControls.getGripLaps() + 1;
         int hang = position % timeControls.getGripLaps() + 1 ;
 
         int hold_position = hang - 1;
 
         // Lets set the correct grip images to every cell
-        leftHandImageView.setImageResource(workoutHolds.get(2*hold_position).getGripImage(true));
-        rightHandImageView.setImageResource(workoutHolds.get(2*hold_position + 1).getGripImage(false));
+        viewHolder.leftHandImageView.setImageResource(workoutHolds.get(2*hold_position).getGripImage(true));
+        viewHolder.rightHandImageView.setImageResource(workoutHolds.get(2*hold_position + 1).getGripImage(false));
 
-        hangPosTextView.setText(set + ". set (" + hang + "/" + timeControls.getGripLaps()+")");
+        viewHolder.hangPosTextView.setText(set + ". set (" + hang + "/" + timeControls.getGripLaps()+")");
 
         // Bold every other set, so user can more easily distinguish them
         if (set % 2 == 0) {
-            hangPosTextView.setTextColor(Color.argb(255,0,0,0));
+            viewHolder.hangPosTextView.setTextColor(Color.argb(255,0,0,0));
+        }
+        else {
+            viewHolder.hangPosTextView.setTextColor(Color.argb(155,0,0,0));
         }
 
-        completedTextView.setText(hangsCompleted[position] + "/" + timeControls.getHangLaps());
+        viewHolder.completedTextView.setText(hangsCompleted[position] + "/" + timeControls.getHangLaps());
 
         // If the hang was no completed at all, show it as red
         if (hangsCompleted[position] == 0) {
-            completedTextView.setTextColor(Color.RED);
+            viewHolder.completedTextView.setTextColor(Color.RED);
         }
         // other hangs are shown in different shades of green
         else {
 
             int alpha = 100 + (155 * hangsCompleted[position] ) / timeControls.getHangLaps();
 
-            completedTextView.setTextColor(Color.argb(alpha,0,175,0));
+            viewHolder.completedTextView.setTextColor(Color.argb(alpha,0,175,0));
 
             if ( hangsCompleted[position] == timeControls.getHangLaps() ) {
-                completedTextView.setTypeface(Typeface.DEFAULT_BOLD);
+                viewHolder.completedTextView.setTypeface(Typeface.DEFAULT_BOLD);
                 }
             }
 
-        return v;
+        return convertView;
     }
 /*
     public void setCompletedRandomly() {
