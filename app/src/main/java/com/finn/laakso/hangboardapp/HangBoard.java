@@ -1,6 +1,7 @@
 package com.finn.laakso.hangboardapp;
 
 import android.content.res.Resources;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,6 +47,45 @@ public class HangBoard {
         return valueList.get(position*2+1).getGripImage(false);
     }
 
+
+    public int getCoordLeftX(int position) {
+        int holdNumber = valueList.get(position*2).getHoldNumber();
+
+        if (holdNumber*5 <= hold_coordinates.length) {
+            return hold_coordinates[(holdNumber - 1) * 5 + 1];
+        }
+        return 0;
+    }
+    public int getCoordLeftY(int position) {
+        int holdNumber = valueList.get(position*2).getHoldNumber();
+
+        if (holdNumber*5 <= hold_coordinates.length) {
+            return hold_coordinates[(holdNumber - 1) * 5 + 2];
+        }
+        return 0;
+    }
+    public int getCoordRightX(int position) {
+        int holdNumber = valueList.get(position*2+1).getHoldNumber();
+
+        if (holdNumber*5 <= hold_coordinates.length) {
+            return hold_coordinates[(holdNumber - 1) * 5 + 3];
+        }
+        return 0;
+    }
+    public int getCoordRightY(int position) {
+        int holdNumber = valueList.get(position*2+1).getHoldNumber();
+
+        if (holdNumber*5 <= hold_coordinates.length) {
+            return hold_coordinates[(holdNumber - 1) * 5 + 4];
+        }
+        return 0;
+    }
+
+
+
+/*
+
+
     public int getCoordLeftX(int position) {
         return valueList.get(position*2).getLeftCoordX();
     }
@@ -59,6 +99,7 @@ public class HangBoard {
         return valueList.get(position*2+1).getRightCoordY();
     }
 
+*/
 
     public String getGrade(int position) {
         return grades[position];
