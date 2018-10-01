@@ -82,7 +82,6 @@ public class HangBoard {
     }
 
 
-
 /*
 
 
@@ -173,7 +172,7 @@ public class HangBoard {
                 return  all_hold_values[i];
             }
         }
-        customHold.setHoldCoordinates(hold_coordinates);
+        // customHold.setHoldCoordinates(hold_coordinates);
         return customHold;
 
     }
@@ -550,7 +549,7 @@ public class HangBoard {
         while (hold_position/3 < all_hold_values.length) {
             all_hold_values[hold_position/3] = new Hold(hold_values[hold_position]);
             hold_position++;
-            all_hold_values[hold_position/3].setHoldCoordinates(hold_coordinates);
+           // all_hold_values[hold_position/3].setHoldCoordinates(hold_coordinates);
             all_hold_values[hold_position/3].setHoldValue(hold_values[hold_position]);
             hold_position++;
             all_hold_values[hold_position/3].setGripTypeAndSingleHang(hold_values[hold_position]);

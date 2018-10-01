@@ -116,9 +116,9 @@ public class HangboardSwipeAdapter extends PagerAdapter {
     }
 
     // Converts hangboard image resource into describing name. This should be somewhere else.
-    public static String getHangboardName(int HB) {
+    public static String getHangboardName(int HBresource) {
 
-        switch (HB) {
+        switch (HBresource) {
             case R.drawable.lauta1011:
                 return "BM 1000";
             case R.drawable.lauta2002:

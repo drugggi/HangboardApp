@@ -19,10 +19,12 @@ public class Hold implements Comparable<Hold>, Parcelable {
     private int hold_value;
 
     // hold coordinates are based on hold number, left or right hand and currently used hangboard.
+/*
     private int lefthand_coord_x;
     private int lefthand_coord_y;
     private int righthand_coord_x;
     private int righthand_coord_y;
+*/
 
     // grip type describes the fingers used in hanging in a hold
     public enum grip_type {FOUR_FINGER, THREE_FRONT, THREE_BACK, TWO_FRONT, TWO_MIDDLE, TWO_BACK
@@ -47,10 +49,11 @@ public class Hold implements Comparable<Hold>, Parcelable {
     private Hold(Parcel in) {
         hold_number = in.readInt();
         hold_value = in.readInt();
-        lefthand_coord_x = in.readInt();
+ /*       lefthand_coord_x = in.readInt();
         lefthand_coord_y = in.readInt();
         righthand_coord_x = in.readInt();
         righthand_coord_y = in.readInt();
+ */
         boolean[] booleanArr = new boolean[1];
         in.readBooleanArray(booleanArr);
         single_hold = booleanArr[0];
@@ -68,10 +71,11 @@ public class Hold implements Comparable<Hold>, Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(hold_number);
         dest.writeInt(hold_value);
-        dest.writeInt(lefthand_coord_x);
+        /*dest.writeInt(lefthand_coord_x);
         dest.writeInt(lefthand_coord_y);
         dest.writeInt(righthand_coord_x);
         dest.writeInt(righthand_coord_y);
+        */
         dest.writeBooleanArray(new boolean[] {single_hold});
         dest.writeInt(grip_style.ordinal());
 
@@ -92,6 +96,7 @@ public class Hold implements Comparable<Hold>, Parcelable {
     public int compareTo(Hold compareHold) {
             return this.hold_value - compareHold.hold_value;
     }
+/*
 
     public int getLeftCoordX() {
         return lefthand_coord_x;
@@ -126,6 +131,7 @@ public class Hold implements Comparable<Hold>, Parcelable {
 
 
     }
+*/
 
     // Get hold info Takes two holds left(this) and right hand hold and makes String information
     // out of those: Grip type is alternate and hold value is average

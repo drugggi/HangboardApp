@@ -11,6 +11,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,11 +42,13 @@ public class WorkoutActivity extends AppCompatActivity {
 
     private PinchZoomImageView pinchZoomBoardImage;
 
+    private HangBoard workoutHangboard;
     private int boardimageResource;
     private ImageView boardimage;
     private ImageView leftHandImage;
     private ImageView rightHandImage;
     private enum workoutPart {INITIALREST, WORKOUT, REST, LONGREST};
+
 
     private Button pauseBtn;
     private Button workoutProgressButton;
@@ -135,12 +138,24 @@ public class WorkoutActivity extends AppCompatActivity {
             }
         }
 
+
+        workoutHangboard = new HangBoard(getResources() );
         // Hangboard image that user has selected
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.BOARDIMAGE")) {
             boardimageResource = getIntent().getIntExtra("com.finn.laakso.hangboardapp.BOARDIMAGE", 0);
             boardimage.setImageResource(boardimageResource);
             pinchZoomBoardImage.setImageBitmap(BitmapFactory.decodeResource(getResources(),boardimageResource));
             pinchZoomBoardImage.setVisibility(View.VISIBLE);
+
+            String hangboardName = HangboardSwipeAdapter.getHangboardName(boardimageResource);
+            Log.d("hangboardName",hangboardName);
+            int hangboardPosition = HangboardSwipeAdapter.getHangboardPosition(hangboardName);
+            Log.d("hangboardPosition","" + hangboardPosition);
+            HangboardSwipeAdapter.hangboard workoutHB = HangboardSwipeAdapter.getHangBoard(hangboardPosition);
+            Log.d("workoutHB"," " + workoutHB.toString() );
+            workoutHangboard.initializeHolds(getResources() , workoutHB);
+
+            workoutHangboard.setGrips(workoutHolds);
         }
 
         // This Intent brings the time controls to the workout program
@@ -538,11 +553,18 @@ public class WorkoutActivity extends AppCompatActivity {
         rightHandImage.setImageResource(workoutHolds.get(current_lap*2 + 1).getGripImage(false));
 
         // MAYBE TRY TO PUT OFFSETX BEFOR MULTIPLIER LIKE THIS: (workoutHolds.get(current_lap*2 ).getLeftCoordX()+offsetX) * MULTIPLIER_W
+/*
 
         leftHandImage.setX(pinchZoomBoardImage.getImageX() + workoutHolds.get(current_lap*2 ).getLeftCoordX()*multiplier_w+offsetX);
         leftHandImage.setY(pinchZoomBoardImage.getImageY()+ workoutHolds.get(current_lap*2).getLeftCoordY()*multiplier_h-offsetY);
         rightHandImage.setX(pinchZoomBoardImage.getImageX() + workoutHolds.get(current_lap*2 + 1).getRightCoordX()*multiplier_w+offsetX);
         rightHandImage.setY(pinchZoomBoardImage.getImageY() + workoutHolds.get(current_lap*2 + 1).getRightCoordY()*multiplier_h-offsetY);
+*/
+
+        leftHandImage.setX(pinchZoomBoardImage.getImageX() + workoutHangboard.getCoordLeftX(current_lap) *multiplier_w + offsetX);
+        leftHandImage.setY(pinchZoomBoardImage.getImageY()+ workoutHangboard.getCoordLeftY(current_lap) *multiplier_h - offsetY);
+        rightHandImage.setX(pinchZoomBoardImage.getImageX() + workoutHangboard.getCoordRightX(current_lap) *multiplier_w + offsetX);
+        rightHandImage.setY(pinchZoomBoardImage.getImageY() + workoutHangboard.getCoordRightY(current_lap) * multiplier_h - offsetY);
 
 
         // Lets get the correct description to next hold and grip
