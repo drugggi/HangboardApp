@@ -67,7 +67,7 @@ public class EditWorkoutInfoActivity extends AppCompatActivity {
 
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.BOARDNAME")) {
             hangboardName = getIntent().getStringExtra("com.finn.laakso.hangboardapp.BOARDNAME");
-            int imageResource = HangboardSwipeAdapter.getHangboardResource(hangboardName);
+            int imageResource = HangboardResources.getHangboardImageResource(hangboardName);
             hangboardImageView.setImageResource(imageResource);
         }
 

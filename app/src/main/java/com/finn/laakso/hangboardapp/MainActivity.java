@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         final Resources res = getResources();
         everyBoard = new Hangboard(res);
 
-        everyBoard.initializeHolds(res, HangboardSwipeAdapter.getHangBoard(hangboard_descr_position));
+        everyBoard.initializeHolds(res, HangboardResources.getHangboardName(hangboard_descr_position));
 
         timeControls = new TimeControls();
         if (savedInstanceState != null) {
@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
                     durationSeekBar.setVisibility(View.VISIBLE);
                     repeatersBox.setVisibility(View.VISIBLE);
 
-                    everyBoard.initializeHolds(res, HangboardSwipeAdapter.getHangBoard(hangboard_descr_position));
+                    everyBoard.initializeHolds(res, HangboardResources.getHangboardName(hangboard_descr_position));
 
                     everyBoard.setGrips(grade_descr_position);
 
@@ -340,7 +340,7 @@ public class MainActivity extends AppCompatActivity {
                 // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
                 workoutIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
                 // workoutIntent.putExtra("com.finn.laakso.hangboardapp.HANGBOARDNAME",everyBoard.getHangboardName() );
-                workoutIntent.putExtra("com.finn.laakso.hangboardapp.BOARDIMAGE",swipeAdapter.getImageResource(viewPager.getCurrentItem()));
+                workoutIntent.putExtra("com.finn.laakso.hangboardapp.BOARDIMAGE",HangboardResources.getHangboardImageResource(viewPager.getCurrentItem()));
                 workoutIntent.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", everyBoard.getCurrentHoldList());
 
                 startActivity(workoutIntent);
@@ -581,11 +581,11 @@ public class MainActivity extends AppCompatActivity {
                     temp.setTimeControls(timeSettings);
 
 
-                    int hangBoardNumber = HangboardSwipeAdapter.getHangboardPosition(hbname);
-                    HangboardSwipeAdapter.hangboard newHangboard = HangboardSwipeAdapter.getHangBoard(hangBoardNumber);
+                    int hangboardPosition = HangboardResources.getHangboardPosition(hbname);
+                    HangboardResources.hangboardName newHangboard = HangboardResources.getHangboardName(hangboardPosition);
 
-                    hangboard_descr_position = hangBoardNumber;
-                    viewPager.setCurrentItem(hangBoardNumber);
+                    hangboard_descr_position = hangboardPosition;
+                    viewPager.setCurrentItem(hangboardPosition);
 
                     timeControls.setTimeControls(timeSettings);
 

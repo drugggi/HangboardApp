@@ -1,7 +1,6 @@
 package com.finn.laakso.hangboardapp;
 
 import android.content.res.Resources;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,7 +13,7 @@ import java.util.Random;
 public class Hangboard {
 
     private String[] grades;
-    private HangboardSwipeAdapter.hangboard current_board;
+    private HangboardResources.hangboardName currentHangboard;
     private int[] hold_coordinates;
 
     // All possible grip types in a hangboard
@@ -29,7 +28,7 @@ public class Hangboard {
     public Hangboard(Resources res) {
         // starter_grips = res.getStringArray(R.array.beastmaker1000);
         grades = res.getStringArray(R.array.grades);
-        current_board = HangboardSwipeAdapter.hangboard.BM1000;
+        currentHangboard = HangboardResources.hangboardName.BM1000;
 
         valueList = new ArrayList<Hold>();
 
@@ -105,7 +104,7 @@ public class Hangboard {
     }
 
     public String getHangboardName() {
-        return HangboardSwipeAdapter.getHangboardName(current_board);
+        return HangboardResources.getHangboardStringName(currentHangboard);
     }
 
     // Just converts valueLists' Hold descriptions into Array of Strings
@@ -482,8 +481,8 @@ public class Hangboard {
     // initializeHolds method collects from resources all the possible grip types, hold numbers,
     // coordinates and difficulties that a Hangboard can have. Those will be stored in all_hold_values
     // and they are randomized so that when a hold is picked it will be random.
-    public void initializeHolds(Resources res, HangboardSwipeAdapter.hangboard new_board) {
-        current_board = new_board;
+    public void initializeHolds(Resources res, HangboardResources.hangboardName new_board) {
+        currentHangboard = new_board;
 
         int[] hold_values = res.getIntArray(R.array.grip_values_bm1000);
         

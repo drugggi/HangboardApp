@@ -1,19 +1,29 @@
 package com.finn.laakso.hangboardapp;
 
-public class HangboardResources {
+public final class  HangboardResources {
     private static int[] image_resources = {R.drawable.lauta1011, R.drawable.lauta2002, R.drawable.trans,
             R.drawable.tension, R.drawable.zlag, R.drawable.moonhard, R.drawable.mooneasy, R.drawable.meto,
             R.drawable.rockprodigy, R.drawable.problemsolver, R.drawable.meto_contact, R.drawable.meto_wood,
             R.drawable.drcc};
-
-    private hangboardName currentHangboard;
+    private static String[] hangboardStrings = {"BM 1000", "BM 2000", "Transgression","Tension",
+            "Zlagboard","Moonboard hard","Moonboard easy","Metolius","Rock Prodigy","Meto. Contact",
+            "Meto. Wood","DRCC"};
 
     // All supported Hangboards
-            public enum hangboardName {BM1000, BM2000, TRANS, TENSION, ZLAG, MOONHARD, MOONEASY, METO,
+            public  enum hangboardName {BM1000, BM2000, TRANS, TENSION, ZLAG, MOONHARD, MOONEASY, METO,
         ROCKPRODIGY, PROBLEMSOLVER, METO_CONTACT, METO_WOOD, DRCC}
 
-        public HangboardResources(hangboardName newHangboard) {
-        currentHangboard = newHangboard;
+        private HangboardResources() {
+
+        }
+
+    public static hangboardName forInt(int id) {
+        return hangboardName.values()[id-1];
+
+    }
+
+        public static int getHangboardCount() {
+                return image_resources.length;
         }
 
     // Converts PagerAdapter position into hangboard enum.
@@ -32,6 +42,14 @@ public class HangboardResources {
         else if (position == 11) {return hangboardName.METO_WOOD; }
         else if (position == 12) {return hangboardName.DRCC; }
         else {return hangboardName.BM1000; }
+    }
+
+    public static int getHangboardImageResource(int position) {
+
+                if (position < image_resources.length) {
+                    return image_resources[position];
+                }
+                return R.drawable.lauta1011;
     }
 
     public static int getHangboardPosition(String HB) {
@@ -87,13 +105,10 @@ public class HangboardResources {
         }
     }
 
-    public static int getHangboardImageResource(int position) {
-        return image_resources[position];
-    }
 
     // Returns the hangboard picture resource int. Used to get picture when name is known and name
     // is stored into database.
-    public static int getHangboardResource(String hangboardName) {
+    public static int getHangboardImageResource(String hangboardName) {
 
         hangboardName tempHB;
         String tempName;

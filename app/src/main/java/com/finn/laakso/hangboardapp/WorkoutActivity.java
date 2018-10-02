@@ -11,7 +11,6 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -147,12 +146,12 @@ public class WorkoutActivity extends AppCompatActivity {
             pinchZoomBoardImage.setImageBitmap(BitmapFactory.decodeResource(getResources(),boardimageResource));
             pinchZoomBoardImage.setVisibility(View.VISIBLE);
 
-            String hangboardName = HangboardSwipeAdapter.getHangboardName(boardimageResource);
-            Log.d("hangboardName",hangboardName);
-            int hangboardPosition = HangboardSwipeAdapter.getHangboardPosition(hangboardName);
-            Log.d("hangboardPosition","" + hangboardPosition);
-            HangboardSwipeAdapter.hangboard workoutHB = HangboardSwipeAdapter.getHangBoard(hangboardPosition);
-            Log.d("workoutHB"," " + workoutHB.toString() );
+            String hangboardName = HangboardResources.getHangboardStringName(boardimageResource);
+            // Log.d("hangboardName",hangboardName);
+            int hangboardPosition = HangboardResources.getHangboardPosition(hangboardName);
+            // Log.d("hangboardPosition","" + hangboardPosition);
+            HangboardResources.hangboardName workoutHB = HangboardResources.getHangboardName(hangboardPosition);
+            // Log.d("workoutHB"," " + workoutHB.toString() );
             workoutHangboard.initializeHolds(getResources() , workoutHB);
 
             workoutHangboard.setGrips(workoutHolds);
@@ -295,7 +294,7 @@ public class WorkoutActivity extends AppCompatActivity {
                 // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
                 workoutProgress.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
 
-                String hangboardName = HangboardSwipeAdapter.getHangboardName(boardimageResource);
+                String hangboardName = HangboardResources.getHangboardStringName(boardimageResource);
                 workoutProgress.putExtra("com.finn.laakso.hangboardapp.BOARDNAME",hangboardName);
                 workoutProgress.putExtra("com.finn.laakso.hangboardapp.BOARDIMAGE",boardimageResource);
                 workoutProgress.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", workoutHolds);

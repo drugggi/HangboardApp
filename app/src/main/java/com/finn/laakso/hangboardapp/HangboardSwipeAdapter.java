@@ -15,18 +15,24 @@ import android.widget.LinearLayout;
  */
 
 public class HangboardSwipeAdapter extends PagerAdapter {
+/*
     private static int[] image_resources = {R.drawable.lauta1011, R.drawable.lauta2002, R.drawable.trans,
     R.drawable.tension, R.drawable.zlag, R.drawable.moonhard, R.drawable.mooneasy, R.drawable.meto,
     R.drawable.rockprodigy, R.drawable.problemsolver, R.drawable.meto_contact, R.drawable.meto_wood,
     R.drawable.drcc};
-    private Context ctx;
-    private LayoutInflater layoutInflater;
+
     // int[] coordinates;
+
+    private HangboardResources currentHangboardRes;
 
     // All supported Hangboards
     public enum hangboard {BM1000, BM2000, TRANS, TENSION, ZLAG, MOONHARD, MOONEASY, METO,
         ROCKPRODIGY, PROBLEMSOLVER, METO_CONTACT, METO_WOOD, DRCC}
+*/
 
+    private Context ctx;
+    private LayoutInflater layoutInflater;
+  /*
     // Converts PagerAdapter position into hangboard enum.
     public static hangboard getHangBoard(int position) {
         if (position == 0) { return hangboard.BM1000; }
@@ -154,21 +160,29 @@ public class HangboardSwipeAdapter extends PagerAdapter {
     public static int getImageResource(int position) {
         return image_resources[position];
     }
-
+*/
     public HangboardSwipeAdapter(Context ctx) {
         this.ctx = ctx;
     }
 
+/*
     @Override
     public int getCount() {
         return image_resources.length;
     }
+*/
+    @Override
+    public int getCount() {
+        return HangboardResources.getHangboardCount();
+    }
+
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
         return (view==(LinearLayout)object);
     }
 
+/*
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
@@ -182,6 +196,21 @@ public class HangboardSwipeAdapter extends PagerAdapter {
 
         return item_view;
     }
+*/
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+
+        layoutInflater = (LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View item_view = layoutInflater.inflate(R.layout.swipe_layout,container,false);
+        ImageView imageView = (ImageView)item_view.findViewById(R.id.image_view);
+
+        imageView.setImageResource(HangboardResources.getHangboardImageResource(position));
+
+        container.addView(item_view);
+
+        return item_view;
+    }
+
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
