@@ -482,7 +482,7 @@ public class Hangboard {
     // coordinates and difficulties that a Hangboard can have. Those will be stored in all_hold_values
     // and they are randomized so that when a hold is picked it will be random.
     public void initializeHolds(Resources res, HangboardResources.hangboardName new_board) {
-        currentHangboard = new_board;
+ /*       currentHangboard = new_board;
 
         int[] hold_values = res.getIntArray(R.array.grip_values_bm1000);
         
@@ -540,6 +540,16 @@ public class Hangboard {
                 hold_coordinates = res.getIntArray(R.array.drcc_coordinates);
                 break;
         }
+*/
+        currentHangboard = new_board;
+        int[] hold_values;
+
+        int holdValueResources = HangboardResources.getHoldValueResources(currentHangboard);
+        hold_values = res.getIntArray(holdValueResources);
+
+        int holdCoordinateResources = HangboardResources.getHoldCoordinates(currentHangboard);
+        hold_coordinates = res.getIntArray(holdCoordinateResources);
+
 
         // Lets put all the possible holds that hangboard can have into all_hold_values
         int hold_position = 0;
