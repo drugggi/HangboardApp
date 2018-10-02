@@ -25,7 +25,7 @@ public final class  HangboardResources {
 
 
     // All supported Hangboards
-            public  enum hangboardName {BM1000, BM2000, TRANS, TENSION, ZLAG, MOONHARD, MOONEASY, METO,
+            public enum hangboardName {BM1000, BM2000, TRANS, TENSION, ZLAG, MOONHARD, MOONEASY, METO,
         ROCKPRODIGY, PROBLEMSOLVER, METO_CONTACT, METO_WOOD, DRCC}
 
         private HangboardResources() {
