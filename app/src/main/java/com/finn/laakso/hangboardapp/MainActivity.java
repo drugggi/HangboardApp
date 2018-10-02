@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent workoutHistoryIntent = new Intent(getApplicationContext(), WorkoutHistoryActivity.class);
 
-                setResult(Activity.RESULT_OK,workoutHistoryIntent);
+                // setResult(Activity.RESULT_OK,workoutHistoryIntent);
 
                 // startActivity(statsIntent);
                 startActivityForResult(workoutHistoryIntent, REQUEST_COPY_WORKOUT);
@@ -394,7 +394,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent settingsIntent = new Intent(getApplicationContext(),SettingsActivity.class);
                 settingsIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS", timeControls.getTimeControlsIntArray() );
 
-                setResult(Activity.RESULT_OK,settingsIntent);
+                // setResult(Activity.RESULT_OK,settingsIntent);
                 startActivityForResult(settingsIntent, REQUEST_TIME_CONTROLS);
 
             }
@@ -539,94 +539,81 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
 
-            if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_TIME_CONTROLS) {
-                int[] i = data.getIntArrayExtra("com.finn.laakso.hangboardapp.SETTINGS");
+            if (requestCode == REQUEST_TIME_CONTROLS) {
+                if (resultCode == Activity.RESULT_OK ) {
+                    int[] i = data.getIntArrayExtra("com.finn.laakso.hangboardapp.SETTINGS");
 
-                // If Grip laps amount has been changed we have to randomize new grips, otherwise lets
-                // keep the old grips that user has maybe liked
-                if (i[0] != timeControls.getGripLaps()) {
-                    timeControls.setTimeControls(i);
-                    everyBoard.setGripAmount(timeControls.getGripLaps(), grade_descr_position);
+                    // If Grip laps amount has been changed we have to randomize new grips, otherwise lets
+                    // keep the old grips that user has maybe liked
+                    if (i[0] != timeControls.getGripLaps()) {
+                        timeControls.setTimeControls(i);
+                        everyBoard.setGripAmount(timeControls.getGripLaps(), grade_descr_position);
 
-                    hangsAdapter.notifyDataSetChanged();
+                        hangsAdapter.notifyDataSetChanged();
 
-                    hangsAdapter.setSelectedHangNumber(0);
-                } else {
-                    timeControls.setTimeControls(i);
+                        hangsAdapter.setSelectedHangNumber(0);
+                    } else {
+                        timeControls.setTimeControls(i);
+                    }
+
+                    //Disable the slider and check box, so that those are accidentally changed
+                    Toast.makeText(MainActivity.this, "Settings applied, pre made time controls disabled ", Toast.LENGTH_SHORT).show();
+                    repeatersBox.setVisibility(View.INVISIBLE);
+                    durationSeekBar.setVisibility(View.INVISIBLE);
                 }
-
-                //Disable the slider and check box, so that those are accidentally changed
-                Toast.makeText(MainActivity.this, "Settings applied, pre made time controls disabled ", Toast.LENGTH_SHORT).show();
-                repeatersBox.setVisibility(View.INVISIBLE);
-                durationSeekBar.setVisibility(View.INVISIBLE);
+                else {
+                    Toast.makeText(MainActivity.this, "Settings not applied, pre made time controls enabled", Toast.LENGTH_SHORT).show();
+                    repeatersBox.setVisibility(View.VISIBLE);
+                    durationSeekBar.setVisibility(View.VISIBLE);
+                }
 
             } // Enabling them when settings are not saved, in future must be made more intuitive.
-            else {
-                Toast.makeText(MainActivity.this, "Settings not applied, pre made time controls enabled", Toast.LENGTH_SHORT).show();
-                repeatersBox.setVisibility(View.VISIBLE);
-                durationSeekBar.setVisibility(View.VISIBLE);
 
-            }
+            if (requestCode == REQUEST_COPY_WORKOUT) {
+                if (resultCode == Activity.RESULT_OK) {
+                    Toast.makeText(MainActivity.this, "Workout copied", Toast.LENGTH_SHORT).show();
 
-            if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_COPY_WORKOUT) {
-                Toast.makeText(MainActivity.this, "It seems that copying workout works", Toast.LENGTH_LONG).show();
+                    int[] timeSettings = data.getIntArrayExtra("com.finn.laakso.hangboardapp.SETTINGS");
+                    ArrayList<Hold> newHolds = data.getParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS");
+                    String hbname = data.getStringExtra("com.finn.laakso.hangboardapp.BOARDNAME");
 
-                int[] timeSettings = data.getIntArrayExtra("com.finn.laakso.hangboardapp.SETTINGS");
-                ArrayList<Hold> newHolds = data.getParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS");
-                String hbname = data.getStringExtra("com.finn.laakso.hangboardapp.BOARDNAME");
-
-                TimeControls temp = new TimeControls();
-                temp.setTimeControls(timeSettings);
+                    TimeControls temp = new TimeControls();
+                    temp.setTimeControls(timeSettings);
 
 
-                int hangBoardNumber = HangboardSwipeAdapter.getHangboardPosition(hbname);
-                HangboardSwipeAdapter.hangboard newHangboard = HangboardSwipeAdapter.getHangBoard(hangBoardNumber);
+                    int hangBoardNumber = HangboardSwipeAdapter.getHangboardPosition(hbname);
+                    HangboardSwipeAdapter.hangboard newHangboard = HangboardSwipeAdapter.getHangBoard(hangBoardNumber);
 
-                hangboard_descr_position = hangBoardNumber;
-                viewPager.setCurrentItem(hangBoardNumber);
+                    hangboard_descr_position = hangBoardNumber;
+                    viewPager.setCurrentItem(hangBoardNumber);
 
-                timeControls.setTimeControls(timeSettings);
+                    timeControls.setTimeControls(timeSettings);
 
-                Log.d("Hangboard",hbname + " pos: " + hangboard_descr_position);
-                Log.d("TC",timeControls.getTimeControlsAsString() );
-                Log.d("holds","size: " + newHolds.size() );
-
-
-                everyBoard.initializeHolds(getResources(), newHangboard);
-
-                everyBoard.setGrips(newHolds);
-
-                everyBoard.updateHoldCoordinates();
-
-                hangsAdapter = new HangListAdapter(this, everyBoard.getCurrentHoldList() );
-                holdsListView.setAdapter(hangsAdapter);
-                // registerForContextMenu(holdsListView);
+                    Log.d("Hangboard", hbname + " pos: " + hangboard_descr_position);
+                    Log.d("TC", timeControls.getTimeControlsAsString());
+                    Log.d("holds", "size: " + newHolds.size());
 
 
-//                int pagerNumber = swi
-                //hangboard_descr_position = hangBoardNumber;
-                //viewPager.setCurrentItem(hangBoardNumber);
-               // timeControls.setTimeControls(timeSettings);
-                //everyBoard.setGripAmount(timeControls.getGripLaps(),0);
-                //everyBoard.setGrips(newHolds);
+                    everyBoard.initializeHolds(getResources(), newHangboard);
 
-                // If Grip laps amount has been changed we have to randomize new grips, otherwise lets
-                // keep the old grips that user has maybe liked
-                /*
-                if (i[0] != timeControls.getGripLaps()) {
-                    timeControls.setTimeControls(i);
-                    everyBoard.setGripAmount(timeControls.getGripLaps(), grade_descr_position);
+                    everyBoard.setGrips(newHolds);
 
-                    hangsAdapter.notifyDataSetChanged();
+                    everyBoard.updateHoldCoordinates();
 
-                    hangsAdapter.setSelectedHangNumber(0);
-                } else {
-                    timeControls.setTimeControls(i);
+                    hangsAdapter = new HangListAdapter(this, everyBoard.getCurrentHoldList());
+                    holdsListView.setAdapter(hangsAdapter);
+
+                    repeatersBox.setVisibility(View.INVISIBLE);
+                    durationSeekBar.setVisibility(View.INVISIBLE);
                 }
-*/
-
-                //hangsAdapter.notifyDataSetChanged();
+                else {
+                    repeatersBox.setVisibility(View.VISIBLE);
+                    durationSeekBar.setVisibility(View.VISIBLE);
+                }
             }
+
+
+
             String durationText = "Duration: " + timeControls.getTotalTime() / 60 + "min";
             durationTextView.setText(durationText);
 

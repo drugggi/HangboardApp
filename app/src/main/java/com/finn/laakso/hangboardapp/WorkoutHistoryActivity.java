@@ -346,7 +346,8 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
             editWorkout.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS",completedHangs);
             editWorkout.putExtra("com.finn.laakso.hangboardapp.DESCRIPTION",desc);
 
-            setResult(Activity.RESULT_OK,editWorkout);
+            // setResult(Activity.RESULT_OK,editWorkout);
+
             startActivityForResult(editWorkout, REQUEST_HANGS_COMPLETED);
         }
         else if (selectedContextMenuItem == 1) {
