@@ -518,7 +518,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         // Lets set up random hangboard so that holds are real and based on random grade
 
         Resources res = getResources();
-        HangBoard rngHangboard = new HangBoard(res);
+        Hangboard rngHangboard = new Hangboard(res);
         rngHangboard.initializeHolds(res, getRandomHB());
         rngHangboard.setGripAmount(rngControls.getGripLaps(), rng.nextInt(11));
         ArrayList<Hold> holdsFromRNGhangboard = rngHangboard.getCurrentHoldList();
@@ -552,7 +552,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         // Lets set up random hangboard so that holds are real and based on random grade
 
         Resources res = getResources();
-        HangBoard rngHangboard = new HangBoard(res);
+        Hangboard rngHangboard = new Hangboard(res);
         rngHangboard.initializeHolds(res, getRandomHB());
         rngHangboard.setGripAmount(rngControls.getGripLaps(), rng.nextInt(11));
         ArrayList<Hold> holdsFromRNGhangboard = rngHangboard.getCurrentHoldList();

@@ -11,7 +11,7 @@ import java.util.Random;
  * Created by Laakso on 16.11.2017.
  */
 
-public class HangBoard {
+public class Hangboard {
 
     private String[] grades;
     private HangboardSwipeAdapter.hangboard current_board;
@@ -26,7 +26,7 @@ public class HangBoard {
 
     // Grips constructor takes resources so that it can read all the information needed constructing
     // workout and hangs and grips
-    public HangBoard(Resources res) {
+    public Hangboard(Resources res) {
         // starter_grips = res.getStringArray(R.array.beastmaker1000);
         grades = res.getStringArray(R.array.grades);
         current_board = HangboardSwipeAdapter.hangboard.BM1000;

@@ -42,7 +42,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
     private PinchZoomImageView pinchZoomBoardImage;
 
-    private HangBoard workoutHangboard;
+    private Hangboard workoutHangboard;
     private int boardimageResource;
     private ImageView boardimage;
     private ImageView leftHandImage;
@@ -139,7 +139,7 @@ public class WorkoutActivity extends AppCompatActivity {
         }
 
 
-        workoutHangboard = new HangBoard(getResources() );
+        workoutHangboard = new Hangboard(getResources() );
         // Hangboard image that user has selected
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.BOARDIMAGE")) {
             boardimageResource = getIntent().getIntExtra("com.finn.laakso.hangboardapp.BOARDIMAGE", 0);

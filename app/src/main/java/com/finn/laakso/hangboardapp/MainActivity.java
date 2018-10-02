@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private HangboardSwipeAdapter swipeAdapter;
 
-    private HangBoard everyBoard;
+    private Hangboard everyBoard;
     private TimeControls timeControls;
 
 
@@ -103,9 +103,9 @@ public class MainActivity extends AppCompatActivity {
             hangboard_descr_position = savedInstanceState.getInt("mainactivity_hangboardposition");
         }
 
-        // HangBoard class holds all the information about grades and holds and grips
+        // Hangboard class holds all the information about grades and holds and grips
         final Resources res = getResources();
-        everyBoard = new HangBoard(res);
+        everyBoard = new Hangboard(res);
 
         everyBoard.initializeHolds(res, HangboardSwipeAdapter.getHangBoard(hangboard_descr_position));
 
@@ -213,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        // Every time a grade is selected from the grade list, HangBoard generates holds and grips
+        // Every time a grade is selected from the grade list, Hangboard generates holds and grips
         // to the program based on grade difficulty
         gradesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
