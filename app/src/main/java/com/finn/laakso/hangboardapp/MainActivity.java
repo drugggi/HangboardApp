@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("mainactivity_grade_desc_pos",grade_descr_position);
-        outState.putParcelableArrayList("mainactivity_hangboardholds", everyBoard.getCurrentHoldList());
+        outState.putParcelableArrayList("mainactivity_hangboardholds", everyBoard.getCurrentWorkoutHoldList());
         outState.putInt("mainactivity_durationseekbarprogression", durationSeekBar.getProgress());
         outState.putInt("mainactivity_durationseekbarvisibility", durationSeekBar.getVisibility());
         outState.putInt("mainactivity_repeatersboxvisibility",repeatersBox.getVisibility());
@@ -105,9 +105,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Hangboard class holds all the information about grades and holds and grips
         final Resources res = getResources();
-        everyBoard = new Hangboard(res);
+        everyBoard = new Hangboard(res, HangboardResources.getHangboardName(hangboard_descr_position));
 
-        everyBoard.initializeHolds(res, HangboardResources.getHangboardName(hangboard_descr_position));
+        // everyBoard.initializeHolds(res, HangboardResources.getHangboardName(hangboard_descr_position));
 
         timeControls = new TimeControls();
         if (savedInstanceState != null) {
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
         }
         // holdsAdapter = new  ArrayAdapter<String>(this, R.layout.mytextview, everyBoard.getGrips());
 
-        hangsAdapter = new HangListAdapter(this, everyBoard.getCurrentHoldList() );
+        hangsAdapter = new HangListAdapter(this, everyBoard.getCurrentWorkoutHoldList() );
         holdsListView.setAdapter(hangsAdapter);
         registerForContextMenu(holdsListView);
 
@@ -341,7 +341,7 @@ public class MainActivity extends AppCompatActivity {
                 workoutIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
                 // workoutIntent.putExtra("com.finn.laakso.hangboardapp.HANGBOARDNAME",everyBoard.getHangboardName() );
                 workoutIntent.putExtra("com.finn.laakso.hangboardapp.BOARDIMAGE",HangboardResources.getHangboardImageResource(viewPager.getCurrentItem()));
-                workoutIntent.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", everyBoard.getCurrentHoldList());
+                workoutIntent.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", everyBoard.getCurrentWorkoutHoldList());
 
                 startActivity(workoutIntent);
             }
@@ -600,7 +600,7 @@ public class MainActivity extends AppCompatActivity {
 
                     everyBoard.updateHoldCoordinates();
 
-                    hangsAdapter = new HangListAdapter(this, everyBoard.getCurrentHoldList());
+                    hangsAdapter = new HangListAdapter(this, everyBoard.getCurrentWorkoutHoldList());
                     holdsListView.setAdapter(hangsAdapter);
 
                     repeatersBox.setVisibility(View.INVISIBLE);

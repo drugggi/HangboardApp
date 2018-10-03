@@ -138,7 +138,7 @@ public class WorkoutActivity extends AppCompatActivity {
         }
 
 
-        workoutHangboard = new Hangboard(getResources() );
+
         // Hangboard image that user has selected
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.BOARDIMAGE")) {
             boardimageResource = getIntent().getIntExtra("com.finn.laakso.hangboardapp.BOARDIMAGE", 0);
@@ -152,7 +152,8 @@ public class WorkoutActivity extends AppCompatActivity {
             // Log.d("hangboardPosition","" + hangboardPosition);
             HangboardResources.hangboardName workoutHB = HangboardResources.getHangboardName(hangboardPosition);
             // Log.d("workoutHB"," " + workoutHB.toString() );
-            workoutHangboard.initializeHolds(getResources() , workoutHB);
+            workoutHangboard = new Hangboard(getResources() , workoutHB);
+            // workoutHangboard.initializeHolds(getResources() , workoutHB);
 
             workoutHangboard.setGrips(workoutHolds);
         }

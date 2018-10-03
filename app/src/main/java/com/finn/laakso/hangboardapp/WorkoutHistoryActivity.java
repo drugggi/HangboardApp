@@ -521,7 +521,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         Hangboard rngHangboard = new Hangboard(res);
         rngHangboard.initializeHolds(res, getRandomHB());
         rngHangboard.setGripAmount(rngControls.getGripLaps(), rng.nextInt(11));
-        ArrayList<Hold> holdsFromRNGhangboard = rngHangboard.getCurrentHoldList();
+        ArrayList<Hold> holdsFromRNGhangboard = rngHangboard.getCurrentWorkoutHoldList();
 
         ArrayList<Hold> randomHolds = getRandomWorkoutHolds(rngControls.getGripLaps() );
 
@@ -555,7 +555,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         Hangboard rngHangboard = new Hangboard(res);
         rngHangboard.initializeHolds(res, getRandomHB());
         rngHangboard.setGripAmount(rngControls.getGripLaps(), rng.nextInt(11));
-        ArrayList<Hold> holdsFromRNGhangboard = rngHangboard.getCurrentHoldList();
+        ArrayList<Hold> holdsFromRNGhangboard = rngHangboard.getCurrentWorkoutHoldList();
 
         //ArrayList<Hold> randomHolds = getRandomWorkoutHolds(rngControls.getGripLaps() );
 

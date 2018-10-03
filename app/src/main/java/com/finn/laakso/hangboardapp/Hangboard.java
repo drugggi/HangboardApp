@@ -25,16 +25,17 @@ public class Hangboard {
 
     // Grips constructor takes resources so that it can read all the information needed constructing
     // workout and hangs and grips
-    public Hangboard(Resources res) {
-        // starter_grips = res.getStringArray(R.array.beastmaker1000);
+    public Hangboard(Resources res, HangboardResources.hangboardName HB) {
+
         grades = res.getStringArray(R.array.grades);
-        currentHangboard = HangboardResources.hangboardName.BM1000;
 
         workoutHoldList = new ArrayList<Hold>();
 
+        initializeHolds(res,HB);
+
     }
 
-    public ArrayList<Hold> getCurrentHoldList() {
+    public ArrayList<Hold> getCurrentWorkoutHoldList() {
         return workoutHoldList;
     }
 
@@ -82,7 +83,6 @@ public class Hangboard {
 
 
 /*
-
 
     public int getCoordLeftX(int position) {
         return workoutHoldList.get(position*2).getLeftCoordX();
