@@ -1,6 +1,7 @@
 package com.finn.laakso.hangboardapp;
 
 import android.content.res.Resources;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -273,7 +274,7 @@ public class Hangboard {
 
     // setHoldsForSingleHangs method makes sure that if one hang contains different holds for left
     // and right hand, then the next hang will be the opposite. In Repeaters this is not necessary
-    // because the hands alternates repeatedly in a single hang
+    // because the hands alternates repeatedly as time goes on.
     public void setHoldsForSingleHangs() {
         int i = 0;
         while ( i < workoutHoldList.size() - 2 ) {
@@ -326,7 +327,7 @@ public class Hangboard {
                 if (max_value < 2 ) { max_value = 2; }
 
                 // And then search for a hold that could be slightly harder than the first one
-                random_nro_alt = getHoldNumberWithValue(min_value , max_value, allHangboardHolds[random_nro].grip_style);
+                random_nro_alt = getHoldNumberWithGripType(min_value , max_value, allHangboardHolds[random_nro].grip_style);
 
                 min_value=getMinValue(grades[grade_position]);
                 max_value=getMaxValue(grades[grade_position]);
@@ -373,6 +374,7 @@ public class Hangboard {
         // Min and max values of grades which the hold search is based on
         int min_value=getMinValue(grades[grade_position]);
         int max_value=getMaxValue(grades[grade_position]);
+
         if (isAlternate) {
 
 
@@ -385,9 +387,10 @@ public class Hangboard {
             if (max_value < 2 ) { max_value = 2; }
 
 
-                random_nro_alt = getHoldNumberWithValue( min_value, max_value, allHangboardHolds[random_nro].grip_style);
+                random_nro_alt = getHoldNumberWithGripType( min_value, max_value, allHangboardHolds[random_nro].grip_style);
 
                 // Holds should not be the same, if it is lets make sure next if statement is true
+            // and replace the hold
                 if (random_nro == random_nro_alt) { isAlternate = false; }
 
             workoutHoldList.set(hold_nro*2, allHangboardHolds[random_nro]);
@@ -402,15 +405,162 @@ public class Hangboard {
             workoutHoldList.set(hold_nro*2, allHangboardHolds[random_nro]);
             workoutHoldList.set(hold_nro*2 + 1,allHangboardHolds[random_nro]);
 
-
-
             }
             randomizeHoldList();
     }
 
-    // getHoldNumberWithValue searches hold types with given difficulty range and wanted grip type
+    private ArrayList<Hold.grip_type> getGripTypesWithingGrade(int min_value, int max_value) {
+        ArrayList<Hold.grip_type> differentGripTypes = new ArrayList<>();
+
+        int holdValue;
+        for (int i = 0 ; i < allHangboardHolds.length ; i++ ) {
+            holdValue =  allHangboardHolds[i].getHoldValue();
+
+            if (holdValue >= min_value && holdValue <= max_value ) {
+
+                Hold.grip_type newGripType = allHangboardHolds[i].getGripStyle();
+                boolean isUnique = true;
+                for (int j = 0 ; j < differentGripTypes.size() ; j++) {
+                    if (differentGripTypes.get(j) == newGripType) {
+                        isUnique = false;
+                    }
+                }
+                if (isUnique) {
+                    differentGripTypes.add(allHangboardHolds[i].getGripStyle());
+                }
+            }
+
+        }
+
+        for (int i = 0 ; i < differentGripTypes.size() ; i++) {
+            Log.d("GripTypes","different: " + differentGripTypes.get(i) );
+        }
+        return differentGripTypes;
+    }
+
+    // NOT WORKING VERY WELL, POSSIBLE TO GET SINGLE HOLD, FOURFINGER TYPE IS ALWAYS LAST ETC ETC
+    // koitas laittaa four finger randomiin positioon, täytä loput mätsäämään holdamount
+    // ja ettiessä pistä pieni mahdollisuus että sitä otetta ei tuu vaan etitään vanhalla
+
+    public void randomizeNewWorkoutHolds(int grade_position) {
+        int holdsAmount = workoutHoldList.size()/2;
+        if (holdsAmount == 0) {holdsAmount = 6; }
+
+        workoutHoldList.clear();
+        // Random generator that is only used if we are using the same hold or alternating between holds
+        Random rng = new Random();
+        boolean isAlternate = rng.nextBoolean();
+
+        // these ints will be randomized and those represents holds in allHangboardHolds array
+        int random_nro;
+        int random_nro_alt;
+        int temp_hold_value;
+
+        int min_value=getMinValue(grades[grade_position]);
+        int max_value=getMaxValue(grades[grade_position]);
+        // int value = 0;
+        int i=0;
+
+        // Lets see how many different grip types we find within given grade range
+
+        ArrayList<Hold.grip_type> wantedGripTypes = getGripTypesWithingGrade(min_value, max_value);
+
+        // Lets prefer four finger grip by setting one extra at random place
+        random_nro = rng.nextInt(wantedGripTypes.size() );
+        Hold.grip_type randomGripType = wantedGripTypes.get(random_nro);
+        wantedGripTypes.set(random_nro, Hold.grip_type.FOUR_FINGER);
+        wantedGripTypes.add(randomGripType);
+
+        int initialSize = wantedGripTypes.size();
+
+        while (wantedGripTypes.size() < holdsAmount) {
+            random_nro = rng.nextInt(initialSize );
+            randomGripType = wantedGripTypes.get(random_nro);
+
+            wantedGripTypes.add(randomGripType);
+        }
+
+        for (int j = 0 ; j < wantedGripTypes.size() ; j++ ) {
+            Log.d("GripTypes",j + " wanted griptypes: " + wantedGripTypes.get(j) );
+        }
+
+        while (i < holdsAmount ) {
+
+            Hold.grip_type nextGripType;
+            if (i < wantedGripTypes.size() ) {
+                nextGripType = wantedGripTypes.get(i);
+            } else {
+                nextGripType = null;
+            }
+
+            if (isAlternate) {
+
+                // Lets search for a holds that max hardness is half the remaining points for a give grade
+                if (nextGripType != null) {
+                    random_nro = getHoldNumberWithGripType(min_value/2, (max_value*3)/2,nextGripType );
+                } else {
+                    Log.e("oli PRKL","nextgriptype NULL!!!");
+                    random_nro = getHoldNumberWithValue(min_value / 2, (max_value * 3) / 2);
+                }
+
+                temp_hold_value = allHangboardHolds[random_nro].getHoldValue();
+
+                min_value = 2*min_value-temp_hold_value;
+                if (min_value < 1 ) { min_value = 1; }
+                max_value = 2*max_value-temp_hold_value;
+                if (max_value < 2 ) { max_value = 2; }
+
+                // And then search for a hold that could be slightly harder than the first one
+
+                random_nro_alt = getHoldNumberWithGripType(min_value , max_value, allHangboardHolds[random_nro].grip_style);
+
+                min_value=getMinValue(grades[grade_position]);
+                max_value=getMaxValue(grades[grade_position]);
+
+                // Holds should not be the same, if it is lets just find one hold ie. jump to else statement
+                if (random_nro == random_nro_alt) {
+                    Log.e("Single hold Alternative","täytyy ettiä uus paremmall tekniikalla: " + i);
+                    isAlternate = false;
+                    continue; }
+
+            }
+
+            else {
+                // Lets search for a hold that max hardness is half the remaining points for a give grade
+                if (nextGripType != null) {
+                    random_nro = getHoldNumberWithGripType(min_value, max_value, nextGripType);
+                    // it's possible to get single hold for getholdnumberwithgriptype method
+                    if (allHangboardHolds[random_nro].isSingleHold() ) {
+                        Log.e("Single hold löyty","täytyy ettiä uus paremmall tekniikalla: " +i);
+                        random_nro = getHoldNumberWithValue(min_value,max_value);
+                    } else {
+                        // 25% percent change we dont set the preferrec griptype
+                        if (rng.nextInt(100) < 25) {
+
+                            random_nro = getHoldNumberWithValue(min_value,max_value);
+                            Log.e("25%","Mahkulla laitettiin ote: " + i + ": griptype" +allHangboardHolds[random_nro].getGripStyle() );
+                        }
+                    }
+                } else {
+                    Log.e("oli PRKL","nextgriptype NULL!!!: " + i );
+                    random_nro = getHoldNumberWithValue(min_value,max_value);
+                }
+                // value = value + allHangboardHolds[random_nro].getHoldValue();
+            random_nro_alt = random_nro;
+            }
+            workoutHoldList.add(allHangboardHolds[random_nro]);
+            workoutHoldList.add(allHangboardHolds[random_nro_alt]);
+
+            isAlternate = rng.nextBoolean();
+            ++i;
+        }
+
+        randomizeHoldList();
+    }
+
+    // getHoldNumberWithGripType searches hold types with given difficulty range and wanted grip type
     // and returns first that if finds. I none is found, it increases the search range and calls itself
-    private int getHoldNumberWithValue(int min_value, int max_value, Hold.grip_type wanted_hold) {
+    private int getHoldNumberWithGripType(int min_value, int max_value, Hold.grip_type wanted_hold) {
 
         Random rng = new Random();
         int search_point = rng.nextInt(allHangboardHolds.length);
@@ -423,6 +573,7 @@ public class Hangboard {
             ++search_point;
             ++tuplakierros;
 
+
             if (search_point == allHangboardHolds.length) { search_point = 0; }
             if (tuplakierros > allHangboardHolds.length) {
                 // Max value should never be negative anymore, this was a temporary bug fix which allowed new bug
@@ -430,7 +581,7 @@ public class Hangboard {
 
                     return 0;
                 } else {
-                    return getHoldNumberWithValue(min_value / 2, max_value * 2, wanted_hold);
+                    return getHoldNumberWithGripType(min_value / 2, max_value * 2, wanted_hold);
                 }
             }
         }

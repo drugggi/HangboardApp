@@ -357,7 +357,8 @@ public class MainActivity extends AppCompatActivity {
 
                 // when 0, grip is not selected and we can randomize all grips
                 if ( hangsAdapter.getSelectedHangNumber() == 0 ) {
-                    everyBoard.randomizeGrips(grade_descr_position);
+                     // everyBoard.randomizeGrips(grade_descr_position);
+                    everyBoard.randomizeNewWorkoutHolds(grade_descr_position);
 
                     if (!repeatersBox.isChecked()) {
                         everyBoard.setHoldsForSingleHangs();
