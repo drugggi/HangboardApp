@@ -155,7 +155,7 @@ public class WorkoutActivity extends AppCompatActivity {
             workoutHangboard = new Hangboard(getResources() , workoutHB);
             // workoutHangboard.initializeHolds(getResources() , workoutHB);
 
-            workoutHangboard.setGrips(workoutHolds);
+            workoutHangboard.setNewWorkoutHolds(workoutHolds);
         }
 
         // This Intent brings the time controls to the workout program
@@ -561,10 +561,10 @@ public class WorkoutActivity extends AppCompatActivity {
         rightHandImage.setY(pinchZoomBoardImage.getImageY() + workoutHolds.get(current_lap*2 + 1).getRightCoordY()*multiplier_h-offsetY);
 */
 
-        leftHandImage.setX(pinchZoomBoardImage.getImageX() + workoutHangboard.getCoordLeftX(current_lap) *multiplier_w + offsetX);
-        leftHandImage.setY(pinchZoomBoardImage.getImageY()+ workoutHangboard.getCoordLeftY(current_lap) *multiplier_h - offsetY);
-        rightHandImage.setX(pinchZoomBoardImage.getImageX() + workoutHangboard.getCoordRightX(current_lap) *multiplier_w + offsetX);
-        rightHandImage.setY(pinchZoomBoardImage.getImageY() + workoutHangboard.getCoordRightY(current_lap) * multiplier_h - offsetY);
+        leftHandImage.setX(pinchZoomBoardImage.getImageX() + workoutHangboard.getCoordLefthandX(current_lap) *multiplier_w + offsetX);
+        leftHandImage.setY(pinchZoomBoardImage.getImageY()+ workoutHangboard.getCoordLefthandY(current_lap) *multiplier_h - offsetY);
+        rightHandImage.setX(pinchZoomBoardImage.getImageX() + workoutHangboard.getCoordRighthandX(current_lap) *multiplier_w + offsetX);
+        rightHandImage.setY(pinchZoomBoardImage.getImageY() + workoutHangboard.getCoordRighthandY(current_lap) * multiplier_h - offsetY);
 
 
         // Lets get the correct description to next hold and grip

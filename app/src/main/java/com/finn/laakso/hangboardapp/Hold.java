@@ -187,7 +187,7 @@ public class Hold implements Comparable<Hold>, Parcelable {
     }
 
     // XY, X is the grip type and Y is 1 if it is single hold and 0 if not
-    public void setGripTypeAndSingleHang(int i_hold_both_info) {
+    public void setGripTypeAndSingleHold(int i_hold_both_info) {
         if (i_hold_both_info % 10 == 1) {single_hold = true; }
 
         i_hold_both_info = i_hold_both_info / 10;

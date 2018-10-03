@@ -35,11 +35,7 @@ public class Hangboard {
 
     }
 
-    public ArrayList<Hold> getCurrentWorkoutHoldList() {
-        return workoutHoldList;
-    }
-
-    // Coordinates getters for hand image positioning
+    // Hold class knows the image resources for hand images
     public int getLeftFingerImage(int position) {
         return workoutHoldList.get(position*2).getGripImage(true);
     }
@@ -48,7 +44,9 @@ public class Hangboard {
     }
 
 
-    public int getCoordLeftX(int position) {
+    // Coordinates getters for hand image positioning, it is possible to request hold number that
+    // does not exist in hold_coordinates
+    public int getCoordLefthandX(int position) {
         int holdNumber = workoutHoldList.get(position*2).getHoldNumber();
 
         if (holdNumber*5 <= hold_coordinates.length) {
@@ -56,7 +54,7 @@ public class Hangboard {
         }
         return 0;
     }
-    public int getCoordLeftY(int position) {
+    public int getCoordLefthandY(int position) {
         int holdNumber = workoutHoldList.get(position*2).getHoldNumber();
 
         if (holdNumber*5 <= hold_coordinates.length) {
@@ -64,7 +62,7 @@ public class Hangboard {
         }
         return 0;
     }
-    public int getCoordRightX(int position) {
+    public int getCoordRighthandX(int position) {
         int holdNumber = workoutHoldList.get(position*2+1).getHoldNumber();
 
         if (holdNumber*5 <= hold_coordinates.length) {
@@ -72,7 +70,7 @@ public class Hangboard {
         }
         return 0;
     }
-    public int getCoordRightY(int position) {
+    public int getCoordRighthandY(int position) {
         int holdNumber = workoutHoldList.get(position*2+1).getHoldNumber();
 
         if (holdNumber*5 <= hold_coordinates.length) {
@@ -82,22 +80,6 @@ public class Hangboard {
     }
 
 
-/*
-
-    public int getCoordLeftX(int position) {
-        return workoutHoldList.get(position*2).getLeftCoordX();
-    }
-    public int getCoordLeftY(int position) {
-        return workoutHoldList.get(position*2).getLeftCoordY();
-    }
-    public int getCoordRightX(int position) {
-        return workoutHoldList.get(position*2+1).getRightCoordX();
-    }
-    public int getCoordRightY(int position) {
-        return workoutHoldList.get(position*2+1).getRightCoordY();
-    }
-
-*/
 
     public String getGrade(int position) {
         return grades[position];
@@ -107,19 +89,18 @@ public class Hangboard {
         return HangboardResources.getHangboardStringName(currentHangboard);
     }
 
-    // Just converts workoutHoldLists' Hold descriptions into Array of Strings
-    public String[] getGrips() {
-            ArrayList<String> tempList = new ArrayList<String>();
 
-        for (int i = 0; i < workoutHoldList.size()/2; i++) {
-                tempList.add((i+1) + ". " + workoutHoldList.get(2*i).getHoldInfo( workoutHoldList.get(2*i+1) ) );
-
-        }
-        return tempList.toArray(new String[tempList.size()]);
+    public ArrayList<Hold> getCurrentWorkoutHoldList() {
+        return workoutHoldList;
     }
 
-    // WHAT TEHESE TWO SETGRIPS DO?!?!??!?! EXPLAIN!!!!
-    public void setGrips(ArrayList<Hold> newList) {
+
+    public int getCurrentHoldListSize() {
+        return workoutHoldList.size();
+    }
+
+
+    public void setNewWorkoutHolds(ArrayList<Hold> newList) {
         if (newList.size() != 0) {
             workoutHoldList = newList;
 
@@ -128,26 +109,33 @@ public class Hangboard {
     }
 
     // Sets holdList to match those info in String[] grips
-    public String[] setGrips(int position) {
+/*
+    public void setNewWorkoutHolds(int position) {
         randomizeGrips(position);
-        return getGrips();
+        // return getGrips();
 
     }
+*/
 
-    public int getCurrentHoldListSize() {
-        return workoutHoldList.size();
-    }
 
+// For every hold there must be four corresponding coordinates so
     public int getMaxHoldNumber() {
+        return hold_coordinates.length / 5;
+/*
         int max = 0;
         for (int i=0; i < allHangboardHolds.length; i++) {
             if (allHangboardHolds[i].getHoldNumber() > max) {
                 max = allHangboardHolds[i].getHoldNumber();
             }
         }
+
+        Log.e("maxhold Number","max / testMax " + max + "/" + test_max);
         return max;
+        */
     }
 
+/*
+    // Probably deprecated becouse coordinates responsibility was moved from Hold to Hangboard/HangboardResources
     public void updateHoldCoordinates() {
         int holdNumber;
         Hold.grip_type gripType;
@@ -159,6 +147,7 @@ public class Hangboard {
         }
 
     }
+*/
 
     // Creates a custom hold and tries to search if the holds is in stored list, if not
     // especially the hold value is impossible to set, and is put to custom = 0
@@ -561,11 +550,16 @@ public class Hangboard {
            // allHangboardHolds[hold_position/3].setHoldCoordinates(hold_coordinates);
             allHangboardHolds[hold_position/3].setHoldValue(hold_values[hold_position]);
             hold_position++;
-            allHangboardHolds[hold_position/3].setGripTypeAndSingleHang(hold_values[hold_position]);
+            allHangboardHolds[hold_position/3].setGripTypeAndSingleHold(hold_values[hold_position]);
             hold_position++;
         }
         // The positions must be randomized so that GiveHoldWithValue method
         // doesn't favor one hold above the other (next)
+
+        // When new board is set, lets make new hold list with grade 0 -> 5A
+        randomizeGrips(0);
+        randomizeHoldList();
+/*
         Hold temp;
         int index;
         Random random = new Random();
@@ -575,8 +569,8 @@ public class Hangboard {
             temp = allHangboardHolds[index];
             allHangboardHolds[index] = allHangboardHolds[i];
             allHangboardHolds[i] = temp;
-        }
-        setGrips(0);
+        }*/
+        // setNewWorkoutHolds(0);
     }
 
 

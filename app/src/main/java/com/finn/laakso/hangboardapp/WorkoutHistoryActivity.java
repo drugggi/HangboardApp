@@ -631,7 +631,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
 
         i_hold_both_info = i_hold_both_info + rng.nextInt(1);
-        newHold.setGripTypeAndSingleHang(i_hold_both_info);
+        newHold.setGripTypeAndSingleHold(i_hold_both_info);
 
         return newHold;
     }

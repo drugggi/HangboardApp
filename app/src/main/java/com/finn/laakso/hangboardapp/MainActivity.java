@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState != null) {
             ArrayList<Hold> holds = savedInstanceState.getParcelableArrayList("mainactivity_hangboardholds");
-            everyBoard.setGrips(holds);
+            everyBoard.setNewWorkoutHolds(holds);
         }
         // holdsAdapter = new  ArrayAdapter<String>(this, R.layout.mytextview, everyBoard.getGrips());
 
@@ -180,7 +180,9 @@ public class MainActivity extends AppCompatActivity {
 
                     everyBoard.initializeHolds(res, HangboardResources.getHangboardName(hangboard_descr_position));
 
-                    everyBoard.setGrips(grade_descr_position);
+                    //everyBoard.setNewWorkoutHolds(grade_descr_position);
+
+                    everyBoard.randomizeGrips(grade_descr_position);
 
                     String randomizeText = "New " + everyBoard.getGrade(grade_descr_position) + " Workout";
                     newWorkoutButton.setText(randomizeText);
@@ -310,12 +312,12 @@ public class MainActivity extends AppCompatActivity {
                 Float multiplyer_h = imageView.getHeight() / 150F;
 
                 leftFingerImage.setImageResource(everyBoard.getLeftFingerImage(position));
-                leftFingerImage.setX(everyBoard.getCoordLeftX(position)* multiplyer_w);
-                leftFingerImage.setY(everyBoard.getCoordLeftY(position)* multiplyer_h);
+                leftFingerImage.setX(everyBoard.getCoordLefthandX(position)* multiplyer_w);
+                leftFingerImage.setY(everyBoard.getCoordLefthandY(position)* multiplyer_h);
 
                 rightFingerImage.setImageResource(everyBoard.getRightFingerImage(position));
-                rightFingerImage.setX(everyBoard.getCoordRightX(position)*multiplyer_w);
-                rightFingerImage.setY(everyBoard.getCoordRightY(position)*multiplyer_h);
+                rightFingerImage.setX(everyBoard.getCoordRighthandX(position)*multiplyer_w);
+                rightFingerImage.setY(everyBoard.getCoordRighthandY(position)*multiplyer_h);
 
                 hangsAdapter.notifyDataSetChanged();
 
@@ -371,12 +373,12 @@ public class MainActivity extends AppCompatActivity {
                     Float multiplyer_h = imageView.getHeight() / 150F;
 
                     leftFingerImage.setImageResource(everyBoard.getLeftFingerImage(hangPosition));
-                    leftFingerImage.setX(everyBoard.getCoordLeftX(hangPosition)* multiplyer_w);
-                    leftFingerImage.setY(everyBoard.getCoordLeftY(hangPosition)* multiplyer_h);
+                    leftFingerImage.setX(everyBoard.getCoordLefthandX(hangPosition)* multiplyer_w);
+                    leftFingerImage.setY(everyBoard.getCoordLefthandY(hangPosition)* multiplyer_h);
 
                     rightFingerImage.setImageResource(everyBoard.getRightFingerImage(hangPosition));
-                    rightFingerImage.setX(everyBoard.getCoordRightX(hangPosition)*multiplyer_w);
-                    rightFingerImage.setY(everyBoard.getCoordRightY(hangPosition)*multiplyer_h);
+                    rightFingerImage.setX(everyBoard.getCoordRighthandX(hangPosition)*multiplyer_w);
+                    rightFingerImage.setY(everyBoard.getCoordRighthandY(hangPosition)*multiplyer_h);
                 }
 
                 hangsAdapter.notifyDataSetChanged();
@@ -522,12 +524,12 @@ public class MainActivity extends AppCompatActivity {
         Float multiplyer_h = imageView.getHeight() / 150F;
 
         leftFingerImage.setImageResource(everyBoard.getLeftFingerImage(menuItemIndex));
-        leftFingerImage.setX(everyBoard.getCoordLeftX(menuItemIndex)* multiplyer_w);
-        leftFingerImage.setY(everyBoard.getCoordLeftY(menuItemIndex)* multiplyer_h);
+        leftFingerImage.setX(everyBoard.getCoordLefthandX(menuItemIndex)* multiplyer_w);
+        leftFingerImage.setY(everyBoard.getCoordLefthandY(menuItemIndex)* multiplyer_h);
 
         rightFingerImage.setImageResource(everyBoard.getRightFingerImage(menuItemIndex));
-        rightFingerImage.setX(everyBoard.getCoordRightX(menuItemIndex)*multiplyer_w);
-        rightFingerImage.setY(everyBoard.getCoordRightY(menuItemIndex)*multiplyer_h);
+        rightFingerImage.setX(everyBoard.getCoordRighthandX(menuItemIndex)*multiplyer_w);
+        rightFingerImage.setY(everyBoard.getCoordRighthandY(menuItemIndex)*multiplyer_h);
 
         return true;
 
@@ -596,9 +598,9 @@ public class MainActivity extends AppCompatActivity {
 
                     everyBoard.initializeHolds(getResources(), newHangboard);
 
-                    everyBoard.setGrips(newHolds);
+                    everyBoard.setNewWorkoutHolds(newHolds);
 
-                    everyBoard.updateHoldCoordinates();
+                    // everyBoard.updateHoldCoordinates();
 
                     hangsAdapter = new HangListAdapter(this, everyBoard.getCurrentWorkoutHoldList());
                     holdsListView.setAdapter(hangsAdapter);
