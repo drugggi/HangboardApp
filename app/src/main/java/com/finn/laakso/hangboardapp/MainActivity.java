@@ -1,9 +1,10 @@
 package com.finn.laakso.hangboardapp;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     private Hangboard everyBoard;
     private TimeControls timeControls;
 
+    private long animationDuration = 500;
 
     private static final int REQUEST_TIME_CONTROLS = 0;
     private static final int REQUEST_COPY_WORKOUT = 1;
@@ -234,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
                 selectColor.setAlpha(90+position*15);
                 gradesListView.setSelector(selectColor);
 
-                // rightFingerImage.setVisibility(View.INVISIBLE);
+                rightFingerImage.setVisibility(View.INVISIBLE);
                 leftFingerImage.setVisibility(View.INVISIBLE);
 
                 grade_descr_position = gradesListView.getPositionForView(view);
@@ -246,10 +248,12 @@ public class MainActivity extends AppCompatActivity {
 
                 hangsAdapter.notifyDataSetChanged();
 
+
+                /*
                 rightFingerImage.setImageResource(R.drawable.testanim);
                 AnimationDrawable testAnimation = (AnimationDrawable) rightFingerImage.getDrawable();
 
-                testAnimation.start();
+                testAnimation.start();*/
 /*
                 // THIS IS ONLY FOR TESTING HAND IMAGES POSITION PURPOSES
                 float x;
@@ -315,13 +319,10 @@ public class MainActivity extends AppCompatActivity {
                 String randomizeText = (position+1) + ". New "+ everyBoard.getGrade(grade_descr_position) + " Hang";
                 newWorkoutButton.setText(randomizeText);
 
-                rightFingerImage.setVisibility(View.VISIBLE);
-                leftFingerImage.setVisibility(View.VISIBLE);
-                ImageView imageView = (ImageView) findViewById(R.id.image_view);
+                animateHandImagesToPosition(position);
 
-                // Hopefully this multiplier works in every android device
-                Float multiplyer_w = imageView.getWidth() / 350F;
-                Float multiplyer_h = imageView.getHeight() / 150F;
+                hangsAdapter.notifyDataSetChanged();
+/*
 
                 leftFingerImage.setImageResource(everyBoard.getLeftFingerImage(position));
                 leftFingerImage.setX(everyBoard.getCoordLefthandX(position)* multiplyer_w);
@@ -332,6 +333,7 @@ public class MainActivity extends AppCompatActivity {
                 rightFingerImage.setY(everyBoard.getCoordRighthandY(position)*multiplyer_h);
 
                 hangsAdapter.notifyDataSetChanged();
+*/
 
                 /*
                 // THIS IS ONLY FOR TESTING HAND IMAGES POSITION
@@ -381,6 +383,8 @@ public class MainActivity extends AppCompatActivity {
                     int hangPosition = hangsAdapter.getSelectedHangNumber() - 1;
                     everyBoard.randomizeGrip(grade_descr_position,hangPosition);
 
+                    animateHandImagesToPosition(hangPosition);
+/*
                     ImageView imageView = (ImageView) findViewById(R.id.image_view);
                     Float multiplyer_w = imageView.getWidth() / 350F;
                     Float multiplyer_h = imageView.getHeight() / 150F;
@@ -391,7 +395,7 @@ public class MainActivity extends AppCompatActivity {
 
                     rightFingerImage.setImageResource(everyBoard.getRightFingerImage(hangPosition));
                     rightFingerImage.setX(everyBoard.getCoordRighthandX(hangPosition)*multiplyer_w);
-                    rightFingerImage.setY(everyBoard.getCoordRighthandY(hangPosition)*multiplyer_h);
+                    rightFingerImage.setY(everyBoard.getCoordRighthandY(hangPosition)*multiplyer_h);*/
                 }
 
                 hangsAdapter.notifyDataSetChanged();
@@ -633,6 +637,45 @@ public class MainActivity extends AppCompatActivity {
             durationTextView.setText(durationText);
 
     }
+
+    public void animateHandImagesToPosition(int position) {
+
+        rightFingerImage.setVisibility(View.VISIBLE);
+        leftFingerImage.setVisibility(View.VISIBLE);
+        leftFingerImage.setImageResource(everyBoard.getLeftFingerImage(position));
+        rightFingerImage.setImageResource(everyBoard.getRightFingerImage(position));
+
+
+        ImageView imageView = (ImageView) findViewById(R.id.image_view);
+        // Hopefully this multiplier works in every android device
+        Float multiplier_width = imageView.getWidth() / 350F;
+        Float multiplier_height = imageView.getHeight() / 150F;
+
+        Float newLeftHandCoordX = everyBoard.getCoordLefthandX(position) * multiplier_width;
+        Float newLeftHandCoordY = everyBoard.getCoordLefthandY(position) * multiplier_height;
+        Float newRightHandCoordX = everyBoard.getCoordRighthandX(position) * multiplier_width;
+        Float newRightHandCoordY = everyBoard.getCoordRighthandY(position) * multiplier_height;
+
+
+        ObjectAnimator leftHandAnimatorX = ObjectAnimator.ofFloat(leftFingerImage,"x",newLeftHandCoordX);
+        ObjectAnimator leftHandAnimatorY = ObjectAnimator.ofFloat(leftFingerImage,"y",newLeftHandCoordY);
+        ObjectAnimator rightHandAnimatorX = ObjectAnimator.ofFloat(rightFingerImage,"x",newRightHandCoordX);
+        ObjectAnimator rightHandAnimatorY = ObjectAnimator.ofFloat(rightFingerImage,"y",newRightHandCoordY);
+
+        leftHandAnimatorX.setDuration(animationDuration);
+        leftHandAnimatorY.setDuration(animationDuration);
+        rightHandAnimatorX.setDuration(animationDuration);
+        rightHandAnimatorY.setDuration(animationDuration);
+
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(leftHandAnimatorX);
+        animatorSet.playTogether(leftHandAnimatorY);
+        animatorSet.playTogether(rightHandAnimatorX);
+        animatorSet.playTogether(rightHandAnimatorY);
+
+        animatorSet.start();
+    }
+
 /*
     private void testMethod() {
         Random rng = new Random();
