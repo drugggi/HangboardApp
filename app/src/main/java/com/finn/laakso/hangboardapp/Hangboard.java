@@ -482,26 +482,29 @@ public class Hangboard {
 
         for (int j = 0 ; j < wantedGripTypes.size() ; j++ ) {
             Log.d("GripTypes",j + " wanted griptypes: " + wantedGripTypes.get(j) );
+
+            if (wantedGripTypes.size() < holdsAmount) {
+                Log.e("ERR", "HOLDSAMOUNT > WANTEDGRIPTYPES SIZE");
+            }
         }
+
+
 
         while (i < holdsAmount ) {
 
+            randomGripType = wantedGripTypes.get(i);
+    /*
             Hold.grip_type nextGripType;
             if (i < wantedGripTypes.size() ) {
                 nextGripType = wantedGripTypes.get(i);
             } else {
                 nextGripType = null;
             }
-
+*/
             if (isAlternate) {
 
                 // Lets search for a holds that max hardness is half the remaining points for a give grade
-                if (nextGripType != null) {
-                    random_nro = getHoldNumberWithGripType(min_value/2, (max_value*3)/2,nextGripType );
-                } else {
-                    Log.e("oli PRKL","nextgriptype NULL!!!");
-                    random_nro = getHoldNumberWithValue(min_value / 2, (max_value * 3) / 2);
-                }
+                random_nro = getHoldNumberWithGripType(min_value/2, (max_value*3)/2,randomGripType );
 
                 temp_hold_value = allHangboardHolds[random_nro].getHoldValue();
 
@@ -511,7 +514,6 @@ public class Hangboard {
                 if (max_value < 2 ) { max_value = 2; }
 
                 // And then search for a hold that could be slightly harder than the first one
-
                 random_nro_alt = getHoldNumberWithGripType(min_value , max_value, allHangboardHolds[random_nro].grip_style);
 
                 min_value=getMinValue(grades[grade_position]);
@@ -527,27 +529,24 @@ public class Hangboard {
 
             else {
                 // Lets search for a hold that max hardness is half the remaining points for a give grade
-                if (nextGripType != null) {
-                    random_nro = getHoldNumberWithGripType(min_value, max_value, nextGripType);
+
+                    random_nro = getHoldNumberWithGripType(min_value, max_value, randomGripType);
                     // it's possible to get single hold for getholdnumberwithgriptype method
                     if (allHangboardHolds[random_nro].isSingleHold() ) {
-                        Log.e("Single hold löyty","täytyy ettiä uus paremmall tekniikalla: " +i);
-                        random_nro = getHoldNumberWithValue(min_value,max_value);
-                    } else {
+                        Log.e("Single hold löyty", "täytyy ettiä uus paremmall tekniikalla: " + i +": " +allHangboardHolds[random_nro].getGripStyle());
+                        random_nro = getHoldNumberWithValue(min_value, max_value);
+                    }
                         // 25% percent change we dont set the preferrec griptype
-                        if (rng.nextInt(100) < 25) {
+                    if (rng.nextInt(100) < 25) {
 
                             random_nro = getHoldNumberWithValue(min_value,max_value);
                             Log.e("25%","Mahkulla laitettiin ote: " + i + ": griptype" +allHangboardHolds[random_nro].getGripStyle() );
                         }
-                    }
-                } else {
-                    Log.e("oli PRKL","nextgriptype NULL!!!: " + i );
-                    random_nro = getHoldNumberWithValue(min_value,max_value);
+
+
+                // Same hold for both hands ie. not alteranating hold
+                random_nro_alt = random_nro;
                 }
-                // value = value + allHangboardHolds[random_nro].getHoldValue();
-            random_nro_alt = random_nro;
-            }
             workoutHoldList.add(allHangboardHolds[random_nro]);
             workoutHoldList.add(allHangboardHolds[random_nro_alt]);
 
