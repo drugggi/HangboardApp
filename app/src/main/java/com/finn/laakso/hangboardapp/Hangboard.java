@@ -431,18 +431,35 @@ public class Hangboard {
             }
 
         }
-
+/*
         for (int i = 0 ; i < differentGripTypes.size() ; i++) {
             Log.d("GripTypes","different: " + differentGripTypes.get(i) );
-        }
+        }*/
         return differentGripTypes;
     }
 
-    // NOT WORKING VERY WELL, POSSIBLE TO GET SINGLE HOLD, FOURFINGER TYPE IS ALWAYS LAST ETC ETC
-    // koitas laittaa four finger randomiin positioon, täytä loput mätsäämään holdamount
-    // ja ettiessä pistä pieni mahdollisuus että sitä otetta ei tuu vaan etitään vanhalla
+    private static int getScaledHoldValue(int value,TimeControls timeControls) {
+        int TUT = timeControls.getTimeUnderTension();
+        int WT = timeControls.getTotalTime();
+        float intensity = (float) TUT / WT;
 
-    public void randomizeNewWorkoutHolds(int grade_position) {
+        // 300 and 0.25 are just some base values
+        int workload = value * 500;
+        float power = value * 0.20f;
+
+        float newValueBasedOnWorkload = (float) workload / TUT;
+        float newValueBasedOnPower = power / intensity;
+
+        Log.d("Values", "value: " + value + "   valueWorkload/valuePower: " + newValueBasedOnWorkload + "/"+newValueBasedOnPower);
+
+        int newValue = (int) ((newValueBasedOnWorkload + newValueBasedOnPower) / 2);
+
+        if (newValue < 1) {return 1; }
+        else if (newValue > 500) {return 500; }
+        else {return newValue; }
+
+    }
+    public void randomizeNewWorkoutHolds(int grade_position, TimeControls timeControls) {
         int holdsAmount = workoutHoldList.size()/2;
         if (holdsAmount == 0) {holdsAmount = 6; }
 
@@ -455,22 +472,53 @@ public class Hangboard {
         int random_nro;
         int random_nro_alt;
         int temp_hold_value;
+/*
 
-        int min_value=getMinValue(grades[grade_position]);
-        int max_value=getMaxValue(grades[grade_position]);
-        // int value = 0;
+        TimeControls tempControls = new TimeControls();
+
+            for (int j = 0 ; j< 7 ; j++) {
+                tempControls.setPremadeTimeControls(j);
+                Log.d("TC",tempControls.getTimeControlsAsString() );
+                for (int value = 1 ; value < 50 ; value+= 5) {
+                    Log.d("VALUE", "Old/New  " + value + "/" + getScaledHoldValue(value, tempControls));
+                }
+            }
+            tempControls.setHangLaps(1);
+        for (int j = 0 ; j< 7 ; j++) {
+            tempControls.setPremadeTimeControls(j);
+            Log.d("TC",tempControls.getTimeControlsAsString() );
+            for (int value = 1 ; value < 50 ; value+= 5) {
+                Log.d("VALUE", "Old/New  " + value + "/" + getScaledHoldValue(value, tempControls));
+            }
+        }
+
+*/
+
+
+        int min_value=getScaledHoldValue(getMinValue(grades[grade_position]),timeControls);
+        int max_value=getScaledHoldValue(getMaxValue(grades[grade_position]),timeControls);
+
+        Log.d("MinValue" , "Old/New  " + getMinValue(grades[grade_position] ) + "/" + min_value );
+        Log.d("MaxValue","Old/New   " +  getMaxValue(grades[grade_position]) + "/" + max_value );
+
         int i=0;
 
         // Lets see how many different grip types we find within given grade range
 
         ArrayList<Hold.grip_type> wantedGripTypes = getGripTypesWithingGrade(min_value, max_value);
 
+        Hold.grip_type randomGripType;
         // Lets prefer four finger grip by setting one extra at random place
-        random_nro = rng.nextInt(wantedGripTypes.size() );
-        Hold.grip_type randomGripType = wantedGripTypes.get(random_nro);
-        wantedGripTypes.set(random_nro, Hold.grip_type.FOUR_FINGER);
-        wantedGripTypes.add(randomGripType);
-
+        if (wantedGripTypes.size() != 0) {
+            random_nro = rng.nextInt(wantedGripTypes.size());
+            randomGripType = wantedGripTypes.get(random_nro);
+            wantedGripTypes.set(random_nro, Hold.grip_type.FOUR_FINGER);
+            wantedGripTypes.add(randomGripType);
+        }
+        else {
+            Log.e("ERR","WantedGrypTypes size was 0!!!");
+            wantedGripTypes.add(Hold.grip_type.FOUR_FINGER);
+        }
         int initialSize = wantedGripTypes.size();
 
         while (wantedGripTypes.size() < holdsAmount) {
@@ -479,6 +527,7 @@ public class Hangboard {
 
             wantedGripTypes.add(randomGripType);
         }
+/*
 
         for (int j = 0 ; j < wantedGripTypes.size() ; j++ ) {
             Log.d("GripTypes",j + " wanted griptypes: " + wantedGripTypes.get(j) );
@@ -488,6 +537,7 @@ public class Hangboard {
             }
         }
 
+*/
 
 
         while (i < holdsAmount ) {
@@ -508,20 +558,22 @@ public class Hangboard {
 
                 temp_hold_value = allHangboardHolds[random_nro].getHoldValue();
 
-                min_value = 2*min_value-temp_hold_value;
-                if (min_value < 1 ) { min_value = 1; }
-                max_value = 2*max_value-temp_hold_value;
-                if (max_value < 2 ) { max_value = 2; }
+                int adjustedMinValue = 2*min_value-temp_hold_value;
+                if (adjustedMinValue < 1 ) { adjustedMinValue = 1; }
+                int adjustedMaxValue = 2*max_value-temp_hold_value;
+                if (adjustedMaxValue < 2 ) { adjustedMaxValue = 2; }
 
                 // And then search for a hold that could be slightly harder than the first one
-                random_nro_alt = getHoldNumberWithGripType(min_value , max_value, allHangboardHolds[random_nro].grip_style);
+                random_nro_alt = getHoldNumberWithGripType(adjustedMinValue , adjustedMaxValue, allHangboardHolds[random_nro].grip_style);
+/*
 
                 min_value=getMinValue(grades[grade_position]);
                 max_value=getMaxValue(grades[grade_position]);
+*/
 
                 // Holds should not be the same, if it is lets just find one hold ie. jump to else statement
                 if (random_nro == random_nro_alt) {
-                    Log.e("Single hold Alternative","täytyy ettiä uus paremmall tekniikalla: " + i);
+                  //  Log.e("Single hold Alternative","täytyy ettiä uus paremmall tekniikalla: " + i);
                     isAlternate = false;
                     continue; }
 
@@ -533,14 +585,14 @@ public class Hangboard {
                     random_nro = getHoldNumberWithGripType(min_value, max_value, randomGripType);
                     // it's possible to get single hold for getholdnumberwithgriptype method
                     if (allHangboardHolds[random_nro].isSingleHold() ) {
-                        Log.e("Single hold löyty", "täytyy ettiä uus paremmall tekniikalla: " + i +": " +allHangboardHolds[random_nro].getGripStyle());
+                       // Log.e("Single hold löyty", "täytyy ettiä uus paremmall tekniikalla: " + i +": " +allHangboardHolds[random_nro].getGripStyle());
                         random_nro = getHoldNumberWithValue(min_value, max_value);
                     }
                         // 25% percent change we dont set the preferrec griptype
                     if (rng.nextInt(100) < 25) {
 
                             random_nro = getHoldNumberWithValue(min_value,max_value);
-                            Log.e("25%","Mahkulla laitettiin ote: " + i + ": griptype" +allHangboardHolds[random_nro].getGripStyle() );
+                           // Log.e("25%","Mahkulla laitettiin ote: " + i + ": griptype" +allHangboardHolds[random_nro].getGripStyle() );
                         }
 
 
