@@ -3,6 +3,7 @@ package com.finn.laakso.hangboardapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -233,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
                 selectColor.setAlpha(90+position*15);
                 gradesListView.setSelector(selectColor);
 
-                rightFingerImage.setVisibility(View.INVISIBLE);
+                // rightFingerImage.setVisibility(View.INVISIBLE);
                 leftFingerImage.setVisibility(View.INVISIBLE);
 
                 grade_descr_position = gradesListView.getPositionForView(view);
@@ -245,7 +246,10 @@ public class MainActivity extends AppCompatActivity {
 
                 hangsAdapter.notifyDataSetChanged();
 
+                rightFingerImage.setImageResource(R.drawable.testanim);
+                AnimationDrawable testAnimation = (AnimationDrawable) rightFingerImage.getDrawable();
 
+                testAnimation.start();
 /*
                 // THIS IS ONLY FOR TESTING HAND IMAGES POSITION PURPOSES
                 float x;
