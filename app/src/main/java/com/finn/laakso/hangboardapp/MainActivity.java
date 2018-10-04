@@ -206,10 +206,18 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent workoutHistoryIntent = new Intent(getApplicationContext(), WorkoutHistoryActivity.class);
 
-                // setResult(Activity.RESULT_OK,workoutHistoryIntent);
-
-                // startActivity(statsIntent);
                 startActivityForResult(workoutHistoryIntent, REQUEST_COPY_WORKOUT);
+
+/*                Intent workoutHistoryTestIntent = new Intent(getApplicationContext(), WorkoutHistoryActivity.class);
+
+                // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
+                workoutHistoryTestIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
+                 workoutHistoryTestIntent.putExtra("com.finn.laakso.hangboardapp.BOARDNAME",everyBoard.getHangboardName() );
+               // workoutHistoryTestIntent.putExtra("com.finn.laakso.hangboardapp.BOARDIMAGE",HangboardResources.getHangboardImageResource(viewPager.getCurrentItem()));
+                workoutHistoryTestIntent.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", everyBoard.getCurrentWorkoutHoldList());
+                workoutHistoryTestIntent.putExtra("com.finn.laakso.hangboardapp.DESCRIPTION","selityselitys");
+
+                startActivity(workoutHistoryTestIntent);*/
             }
         });
 

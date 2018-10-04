@@ -105,7 +105,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                 tempCompleted = new int[tempTimeControls.getGripLaps() * tempTimeControls.getRoutineLaps()];
 
                 for (int i = 0; i < tempCompleted.length; i++) {
-                    tempCompleted[i] = 0;
+                    tempCompleted[i] = tempTimeControls.getHangLaps();
                 }
 
             }

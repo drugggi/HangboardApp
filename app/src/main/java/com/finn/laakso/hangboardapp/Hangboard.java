@@ -450,7 +450,7 @@ public class Hangboard {
         float newValueBasedOnWorkload = (float) workload / TUT;
         float newValueBasedOnPower = power / intensity;
 
-        Log.d("Values", "value: " + value + "   valueWorkload/valuePower: " + newValueBasedOnWorkload + "/"+newValueBasedOnPower);
+        // Log.d("Values", "value: " + value + "   valueWorkload/valuePower: " + newValueBasedOnWorkload + "/"+newValueBasedOnPower);
 
         int newValue = (int) ((newValueBasedOnWorkload + newValueBasedOnPower) / 2);
 
@@ -498,8 +498,8 @@ public class Hangboard {
         int min_value=getScaledHoldValue(getMinValue(grades[grade_position]),timeControls);
         int max_value=getScaledHoldValue(getMaxValue(grades[grade_position]),timeControls);
 
-        Log.d("MinValue" , "Old/New  " + getMinValue(grades[grade_position] ) + "/" + min_value );
-        Log.d("MaxValue","Old/New   " +  getMaxValue(grades[grade_position]) + "/" + max_value );
+       // Log.d("MinValue" , "Old/New  " + getMinValue(grades[grade_position] ) + "/" + min_value );
+       // Log.d("MaxValue","Old/New   " +  getMaxValue(grades[grade_position]) + "/" + max_value );
 
         int i=0;
 
