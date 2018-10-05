@@ -80,7 +80,7 @@
                     android:id="@+id/rightFingerImageView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/test_01"
+                    app:srcCompat="@drawable/animation_fourfinger_01"
                     android:alpha="0.9"
                     android:contentDescription="@string/finger_image" />
 

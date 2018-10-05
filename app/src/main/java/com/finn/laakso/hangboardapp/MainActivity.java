@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -29,7 +31,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Animation.AnimationListener {
 
     private ListView gradesListView;
     private ListView holdsListView;
@@ -176,8 +178,10 @@ public class MainActivity extends AppCompatActivity {
                 if (hangboard_descr_position != position) {
                     hangboard_descr_position = position;
 
+/*
                     rightFingerImage.setVisibility(View.INVISIBLE);
                     leftFingerImage.setVisibility(View.INVISIBLE);
+                    */
                     durationSeekBar.setVisibility(View.VISIBLE);
                     repeatersBox.setVisibility(View.VISIBLE);
 
@@ -190,8 +194,15 @@ public class MainActivity extends AppCompatActivity {
                     String randomizeText = "New " + everyBoard.getGrade(grade_descr_position) + " Workout";
                     newWorkoutButton.setText(randomizeText);
 
+                    Log.d("HDP",": " + hangsAdapter.getSelectedHangNumber() );
+                    if (hangsAdapter.getSelectedHangNumber() != 0) {
+                        animateHandImagesToPosition(hangsAdapter.getSelectedHangNumber() - 1);
+                    }
                     // This causes huge lag in image transition, could not figure out better way update hanglist
+                    // Figured out it was because i wasn using ViewHolder in Adapters
                     hangsAdapter.notifyDataSetChanged();
+
+
 
                 }
             }
@@ -645,7 +656,6 @@ public class MainActivity extends AppCompatActivity {
         leftFingerImage.setImageResource(everyBoard.getLeftFingerImage(position));
         rightFingerImage.setImageResource(everyBoard.getRightFingerImage(position));
 
-
         ImageView imageView = (ImageView) findViewById(R.id.image_view);
         // Hopefully this multiplier works in every android device
         Float multiplier_width = imageView.getWidth() / 350F;
@@ -673,7 +683,54 @@ public class MainActivity extends AppCompatActivity {
         animatorSet.playTogether(rightHandAnimatorX);
         animatorSet.playTogether(rightHandAnimatorY);
 
+
         animatorSet.start();
+
+
+        rightFingerImage.setImageResource(AnimationBuilder.getHandTransitionStart(Hold.grip_type.FOUR_FINGER) );
+        leftFingerImage.setImageResource(AnimationBuilder.getHandTransitionStart(Hold.grip_type.FOUR_FINGER) );
+        // rightFingerImage.setImageResource(R)
+
+         AnimationDrawable handAnimation = (AnimationDrawable) rightFingerImage.getDrawable();
+         AnimationDrawable leftHandAnimation = (AnimationDrawable) leftFingerImage.getDrawable();
+
+        handAnimation = AnimationBuilder.getHandTransitionAnimation(handAnimation,getResources(), Hold.grip_type.FOUR_FINGER, Hold.grip_type.FOUR_FINGER);
+        leftHandAnimation = AnimationBuilder.getHandTransitionAnimation(leftHandAnimation,getResources(), Hold.grip_type.FOUR_FINGER, Hold.grip_type.FOUR_FINGER);
+       //rightFingerImage.setBackgroundResource();
+       //  AnimationDrawable handAnimation = AnimationBuilder.getHandTransitionAnimation(getResources(), Hold.grip_type.FOUR_FINGER, Hold.grip_type.FOUR_FINGER);
+
+/*
+
+        AnimationDrawable testAnimation = (AnimationDrawable) rightFingerImage.getDrawable();
+
+        Drawable jes = getResources().getDrawable(R.drawable.animation_fourfinger_01);
+
+        testAnimation.addFrame(rightFingerImage.getDrawable(),250);
+        testAnimation.addFrame(getResources().getDrawable(R.drawable.animation_fourfinger_01),50);
+        testAnimation.addFrame(getResources().getDrawable(R.drawable.animation_fourfinger_02),50);
+        testAnimation.addFrame(getResources().getDrawable(R.drawable.animation_fourfinger_03),50);
+        testAnimation.addFrame(getResources().getDrawable(R.drawable.animation_fourfinger_04),50);
+        testAnimation.addFrame(getResources().getDrawable(R.drawable.animation_fourfinger_05),50);
+*/
+
+        handAnimation.start();
+        leftHandAnimation.start();
+
+    }
+
+    @Override
+    public void onAnimationStart(Animation animation) {
+        Toast.makeText(MainActivity.this, "Animation started" , Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onAnimationEnd(Animation animation) {
+        Toast.makeText(MainActivity.this, "Animation ended" , Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onAnimationRepeat(Animation animation) {
+        Toast.makeText(MainActivity.this, "Animation repeated" , Toast.LENGTH_SHORT).show();
     }
 
 /*
