@@ -374,7 +374,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // RandomizeButton listener that randomizes hold or holds that user wants
+        // RnewWorkoutButton listener that randomizes hold or holds that user wants
         newWorkoutButton = (Button) findViewById(R.id.randomizeBtn);
         newWorkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -475,6 +475,7 @@ public class MainActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
                 String durationText;
+                hangsAdapter.setSelectedHangNumber(0);
                 // In "TEST progression" case we must sort the holds by their difficulty
                 if (progress == 7) {
                     gradesListView.setVisibility(View.INVISIBLE);
@@ -501,6 +502,9 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }
+
+                String randomizeText = "New " + everyBoard.getGrade(grade_descr_position) + " Workout";
+                newWorkoutButton.setText(randomizeText);
 
                 durationTextView.setText(durationText);
                 rightFingerImage.setVisibility(View.INVISIBLE);
