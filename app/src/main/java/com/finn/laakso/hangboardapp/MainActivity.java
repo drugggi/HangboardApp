@@ -705,6 +705,7 @@ public class MainActivity extends AppCompatActivity {
         if ( animationResourcesLeftHand == 0 ) { animationResourcesLeftHand = R.drawable.animation_left_3b_to_3f; return;}
         if ( animationResourecesRightHand == 0 ) { animationResourecesRightHand = R.drawable.animation_right_3b_to_3f; return;}
 
+
         rightFingerImage.setImageResource(animationResourecesRightHand);
         leftFingerImage.setImageResource(animationResourcesLeftHand );
         // rightFingerImage.setImageResource(R)
