@@ -272,6 +272,17 @@ public class Hangboard {
         }
     }
 
+    public Hold.grip_type getLeftHandGripType(int position) {
+        if (position < 0 || position*2 +1  >= workoutHoldList.size() )
+        {return Hold.grip_type.MIDDLE_FINGER; }
+        return workoutHoldList.get(position*2).getGripStyle();
+    }
+    public Hold.grip_type getRightHandGripType(int position) {
+        if (position < 0 || position*2 +1  >= workoutHoldList.size() )
+        {return Hold.grip_type.MIDDLE_FINGER; }
+        return workoutHoldList.get(position*2+1).getGripStyle();
+    }
+
     // setHoldsForSingleHangs method makes sure that if one hang contains different holds for left
     // and right hand, then the next hang will be the opposite. In Repeaters this is not necessary
     // because the hands alternates repeatedly as time goes on.

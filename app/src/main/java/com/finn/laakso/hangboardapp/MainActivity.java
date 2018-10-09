@@ -17,7 +17,6 @@ import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -31,7 +30,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements Animation.AnimationListener {
+public class MainActivity extends AppCompatActivity {
 
     private ListView gradesListView;
     private ListView holdsListView;
@@ -196,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements Animation.Animati
 
                     Log.d("HDP",": " + hangsAdapter.getSelectedHangNumber() );
                     if (hangsAdapter.getSelectedHangNumber() != 0) {
-                        animateHandImagesToPosition(hangsAdapter.getSelectedHangNumber() - 1);
+                        animateHandImagesToPosition(0,hangsAdapter.getSelectedHangNumber() - 1);
                     }
                     // This causes huge lag in image transition, could not figure out better way update hanglist
                     // Figured out it was because i wasn using ViewHolder in Adapters
@@ -325,12 +324,13 @@ public class MainActivity extends AppCompatActivity implements Animation.Animati
         holdsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                int lastPosition = hangsAdapter.getSelectedHangNumber() - 1;
                 hangsAdapter.setSelectedHangNumber(position+1);
 
                 String randomizeText = (position+1) + ". New "+ everyBoard.getGrade(grade_descr_position) + " Hang";
                 newWorkoutButton.setText(randomizeText);
 
-                animateHandImagesToPosition(position);
+                animateHandImagesToPosition(lastPosition, position);
 
                 hangsAdapter.notifyDataSetChanged();
 /*
@@ -394,7 +394,7 @@ public class MainActivity extends AppCompatActivity implements Animation.Animati
                     int hangPosition = hangsAdapter.getSelectedHangNumber() - 1;
                     everyBoard.randomizeGrip(grade_descr_position,hangPosition);
 
-                    animateHandImagesToPosition(hangPosition);
+                    animateHandImagesToPosition(0,hangPosition);
 /*
                     ImageView imageView = (ImageView) findViewById(R.id.image_view);
                     Float multiplyer_w = imageView.getWidth() / 350F;
@@ -649,22 +649,24 @@ public class MainActivity extends AppCompatActivity implements Animation.Animati
 
     }
 
-    public void animateHandImagesToPosition(int position) {
+    public void animateHandImagesToPosition(int lastPosition, int newPosition) {
+
+        // SECURITY CHECK ON THESE!!
 
         rightFingerImage.setVisibility(View.VISIBLE);
         leftFingerImage.setVisibility(View.VISIBLE);
-        leftFingerImage.setImageResource(everyBoard.getLeftFingerImage(position));
-        rightFingerImage.setImageResource(everyBoard.getRightFingerImage(position));
+        leftFingerImage.setImageResource(everyBoard.getLeftFingerImage(newPosition));
+        rightFingerImage.setImageResource(everyBoard.getRightFingerImage(newPosition));
 
         ImageView imageView = (ImageView) findViewById(R.id.image_view);
         // Hopefully this multiplier works in every android device
         Float multiplier_width = imageView.getWidth() / 350F;
         Float multiplier_height = imageView.getHeight() / 150F;
 
-        Float newLeftHandCoordX = everyBoard.getCoordLefthandX(position) * multiplier_width;
-        Float newLeftHandCoordY = everyBoard.getCoordLefthandY(position) * multiplier_height;
-        Float newRightHandCoordX = everyBoard.getCoordRighthandX(position) * multiplier_width;
-        Float newRightHandCoordY = everyBoard.getCoordRighthandY(position) * multiplier_height;
+        Float newLeftHandCoordX = everyBoard.getCoordLefthandX(newPosition) * multiplier_width;
+        Float newLeftHandCoordY = everyBoard.getCoordLefthandY(newPosition) * multiplier_height;
+        Float newRightHandCoordX = everyBoard.getCoordRighthandX(newPosition) * multiplier_width;
+        Float newRightHandCoordY = everyBoard.getCoordRighthandY(newPosition) * multiplier_height;
 
 
         ObjectAnimator leftHandAnimatorX = ObjectAnimator.ofFloat(leftFingerImage,"x",newLeftHandCoordX);
@@ -686,16 +688,34 @@ public class MainActivity extends AppCompatActivity implements Animation.Animati
 
         animatorSet.start();
 
+        Log.d("post vs size"," " + lastPosition + "/" + everyBoard.getCurrentHoldListSize() );
+        if (lastPosition < 0 || (lastPosition+1)*2 > everyBoard.getCurrentHoldListSize() ||
+                newPosition < 0 || (newPosition+1)*2 > everyBoard.getCurrentHoldListSize() ) {return; }
 
-        rightFingerImage.setImageResource(AnimationBuilder.getHandTransitionStart(Hold.grip_type.FOUR_FINGER) );
-        leftFingerImage.setImageResource(AnimationBuilder.getHandTransitionStart(Hold.grip_type.FOUR_FINGER) );
+        Hold.grip_type fromGripLeftHand = everyBoard.getLeftHandGripType(lastPosition);
+        Hold.grip_type newGripLeftHand = everyBoard.getLeftHandGripType(newPosition);
+        Hold.grip_type fromGripRightHand;
+        Hold.grip_type newGripRightHand;
+
+        Log.d("positions","last/new   " + lastPosition + "/"+newPosition);
+
+        int animationResourcesLeftHand = AnimationBuilder.getHandTransitionStart(fromGripLeftHand,newGripLeftHand,true);
+        int animationResourecesRightHand = AnimationBuilder.getHandTransitionStart(fromGripLeftHand,newGripLeftHand,false);
+
+        if ( animationResourcesLeftHand == 0 ) { animationResourcesLeftHand = R.drawable.animation_left_3b_to_3f; return;}
+        if ( animationResourecesRightHand == 0 ) { animationResourecesRightHand = R.drawable.animation_right_3b_to_3f; return;}
+
+        rightFingerImage.setImageResource(animationResourecesRightHand);
+        leftFingerImage.setImageResource(animationResourcesLeftHand );
         // rightFingerImage.setImageResource(R)
 
-         AnimationDrawable handAnimation = (AnimationDrawable) rightFingerImage.getDrawable();
+         AnimationDrawable rightHandAnimation = (AnimationDrawable) rightFingerImage.getDrawable();
          AnimationDrawable leftHandAnimation = (AnimationDrawable) leftFingerImage.getDrawable();
 
-        handAnimation = AnimationBuilder.getHandTransitionAnimation(handAnimation,getResources(), Hold.grip_type.FOUR_FINGER, Hold.grip_type.FOUR_FINGER);
-        leftHandAnimation = AnimationBuilder.getHandTransitionAnimation(leftHandAnimation,getResources(), Hold.grip_type.FOUR_FINGER, Hold.grip_type.FOUR_FINGER);
+
+
+        //handAnimation = AnimationBuilder.getHandTransitionAnimation(handAnimation,getResources(), Hold.grip_type.FOUR_FINGER, Hold.grip_type.FOUR_FINGER);
+        //leftHandAnimation = AnimationBuilder.getHandTransitionAnimation(leftHandAnimation,getResources(), Hold.grip_type.FOUR_FINGER, Hold.grip_type.FOUR_FINGER);
        //rightFingerImage.setBackgroundResource();
        //  AnimationDrawable handAnimation = AnimationBuilder.getHandTransitionAnimation(getResources(), Hold.grip_type.FOUR_FINGER, Hold.grip_type.FOUR_FINGER);
 
@@ -713,25 +733,11 @@ public class MainActivity extends AppCompatActivity implements Animation.Animati
         testAnimation.addFrame(getResources().getDrawable(R.drawable.animation_fourfinger_05),50);
 */
 
-        handAnimation.start();
+        rightHandAnimation.start();
         leftHandAnimation.start();
 
     }
 
-    @Override
-    public void onAnimationStart(Animation animation) {
-        Toast.makeText(MainActivity.this, "Animation started" , Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onAnimationEnd(Animation animation) {
-        Toast.makeText(MainActivity.this, "Animation ended" , Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onAnimationRepeat(Animation animation) {
-        Toast.makeText(MainActivity.this, "Animation repeated" , Toast.LENGTH_SHORT).show();
-    }
 
 /*
     private void testMethod() {
