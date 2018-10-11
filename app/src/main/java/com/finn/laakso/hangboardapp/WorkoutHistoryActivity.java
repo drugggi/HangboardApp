@@ -58,6 +58,11 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_workout_history);
 
+        Long startTime = System.currentTimeMillis();
+
+        Long timeNow;
+
+
         // Random needed for generating random workout data
        // rng = new Random();
 
@@ -69,7 +74,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
         // DBHandler to store workout from Intent.
         dbHandler = new WorkoutDBHandler(getApplicationContext(),null,null,1);
-
+        
         // Temporary workout info to generate test workouts
 
         ArrayList<Hold> tempWorkoutHolds = new ArrayList<>();
@@ -161,7 +166,6 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         workoutHistoryListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         workoutHistoryListView.setAdapter(workoutAdapter);
         registerForContextMenu(workoutHistoryListView);
-
 
         workoutHistoryListView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
             @Override
@@ -298,8 +302,6 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
             }
         };
-
-
 
     }
 
