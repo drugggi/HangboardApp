@@ -58,11 +58,6 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_workout_history);
 
-        Long startTime = System.currentTimeMillis();
-
-        Long timeNow;
-
-
         // Random needed for generating random workout data
        // rng = new Random();
 

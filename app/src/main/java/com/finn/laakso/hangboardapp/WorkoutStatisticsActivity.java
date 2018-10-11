@@ -1275,7 +1275,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         if (twofront != 0) {yValues.add(new PieEntry(twofront,"Two front"));
             barColors.add(Color.argb(255,251,140,0));
         }
-        if (twomiddle != 0) {yValues.add(new PieEntry(twofront,"Two middle"));
+        if (twomiddle != 0) {yValues.add(new PieEntry(twomiddle,"Two middle"));
             barColors.add(Color.argb(255,255,112,67));
         }
         if (twoback != 0) {
