@@ -3,7 +3,6 @@ package com.finn.laakso.hangboardapp;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +52,7 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
             selectedAmount++;
         }
 
-        Log.d("Selected amount" ,  ": " + selectedAmount );
+        // Log.d("Selected amount" ,  ": " + selectedAmount );
 /*        for (int i = 0 ; i < selectedWorkouts.length ; i++) {
             Log.d("t or F" , i + ": " + selectedWorkouts[i] );
         }*/
@@ -76,7 +75,7 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
 
         selectedWorkouts = new boolean[getCount()];
         selectedAmount = 0;
-        Log.d("boolean","count: " + selectedWorkouts.length);
+        // Log.d("boolean","count: " + selectedWorkouts.length);
     }
 
     public boolean getShowHiddenStatus() {

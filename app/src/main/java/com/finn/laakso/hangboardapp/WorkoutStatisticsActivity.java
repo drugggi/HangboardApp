@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -180,10 +179,12 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
                 tempDetails = new CalculateWorkoutDetails(allTimeControls.get(i), allWorkoutsHolds.get(i), allCompletedHangs.get(i));
                 allCalculatedDetails.add(tempDetails);
             }
+/*
 
             for (int i = 0; i < workoutNumbers.length ; i++) {
                 Log.d("Labels","WO nro: " +workoutNumbers[i] );
             }
+*/
 
             return null;
         }
@@ -255,12 +256,14 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
         linearRegressionEntries.add(new Entry(0,workloadRegression.predict(0)));
         linearRegressionEntries.add(new Entry(xCoord-1,workloadRegression.predict(xCoord-1)));
+/*
 
         String[] labels = new String[allCalculatedDetails.size()-1];
         for (int i = 0 ; i < labels.length ; i++ ) {
             labels[i] = "WO: " + (i+1);
 
         }
+*/
 
         float adjustment;
         float currentWorkload ;
@@ -332,11 +335,13 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
         linearRegressionEntries.add(new Entry(0,intensityRegression.predict(0)));
         linearRegressionEntries.add(new Entry(xCoord-1,intensityRegression.predict(xCoord-1)));
+/*
 
         String[] labels = new String[allCalculatedDetails.size()-1];
         for (int i = 0 ; i < labels.length ; i++ ) {
             labels[i] = "WO: " + (i+1);
         }
+*/
 
         String slope = "positive";
         if ( intensityRegression.slope() < 0 ) {
@@ -375,7 +380,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         workoutIntensityLineChart.setDescription(desc);
 
         XAxis xAxis = workoutIntensityLineChart.getXAxis();
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(workoutNumbers));
 
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
 
@@ -406,11 +411,11 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
         linearRegressionEntries.add(new Entry(0,powerRegressionLine.predict(0)));
         linearRegressionEntries.add(new Entry(xCoord - 1,powerRegressionLine.predict(xCoord-1)));
-
+/*
         String[] labels = new String[allCalculatedDetails.size()-1];
         for (int i = 0 ; i < labels.length ; i++ ) {
             labels[i] = "WO: " + (i+1);
-        }
+        }*/
 
         String slope = "positive";
         if (powerRegressionLine.slope() < 0) {
@@ -443,7 +448,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         averageDifficultyPerHang.setDescription(desc);
 
         XAxis xAxis = averageDifficultyPerHang.getXAxis();
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(workoutNumbers));
 
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
 
@@ -472,11 +477,13 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
         linearRegressionEntries.add(new Entry(0,powerRegressionLine.predict(0)));
         linearRegressionEntries.add(new Entry(xCoord - 1,powerRegressionLine.predict(xCoord-1)));
+/*
 
         String[] labels = new String[allCalculatedDetails.size()-1];
         for (int i = 0 ; i < labels.length ; i++ ) {
             labels[i] = "WO: " + (i+1);
         }
+*/
 
         String regressionLabel = "Progression line: positive";
         if (powerRegressionLine.slope() < 0 ) {
@@ -510,7 +517,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         workoutPowerLineChart.setDescription(desc);
 
         XAxis xAxis = workoutPowerLineChart.getXAxis();
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(workoutNumbers));
 
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
 
@@ -905,10 +912,12 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
             xCoord++;
         }
 
+/*
         String[] labels = new String[allCalculatedDetails.size()-1];
         for (int i = 0 ; i < labels.length ; i++ ) {
             labels[i] = "WO: " + (i+1);
         }
+*/
 
         ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
 
@@ -931,7 +940,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         workoutTUTandWTLineChart.setDescription(desc);
 
         XAxis xAxis = workoutTUTandWTLineChart.getXAxis();
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(workoutNumbers));
 
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
 
@@ -974,24 +983,24 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         workoutDatesBarChart.setData(barData);
 
         // Lets populate the x axis with day numbers from first workout day
-        String[] labels = new String[dayDifferences.get(0) + 1];
-        for (int i = 0 ; i < labels.length ; i++ ) {
-            labels[i] = "day: " + i;
+        String[] labelsDays = new String[dayDifferences.get(0) + 1];
+        for (int i = 0 ; i < labelsDays.length ; i++ ) {
+            labelsDays[i] = "day: " + i;
         }
 
-        labels[labels.length-1] = dateFormatTest.format(allDates.get(allDates.size()-1));
-        labels[0] = dateFormatTest.format(allDates.get(0));
+        labelsDays[labelsDays.length-1] = dateFormatTest.format(allDates.get(allDates.size()-1));
+        labelsDays[0] = dateFormatTest.format(allDates.get(0));
 
         for (int i = 0 ; i < dayDifferences.size()  ; i++) {
 
-            labels[dayDifferences.get(i)] = dateFormatTest.format(allDates.get(i));
+            labelsDays[dayDifferences.get(i)] = dateFormatTest.format(allDates.get(i));
         }
         Description desc = new Description();
         desc.setText("Workout day number");
 
         workoutDatesBarChart.setDescription(desc);
         XAxis xAxis = workoutDatesBarChart.getXAxis();
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labelsDays));
         xAxis.setGranularity(1f);
         //xAxis.setGranularityEnabled(true);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -1029,11 +1038,11 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         bardataset.setColors(ColorTemplate.VORDIPLOM_COLORS);
 
 
-        String[] labels = new String[3];
+        String[] labelsWorkoutType = new String[3];
 
-        labels[0] = " ";
-        labels[1] = "Single hangs: " + singleHangsAmount;
-        labels[2] = "Repeaters: " + repeatersAmount;
+        labelsWorkoutType[0] = " ";
+        labelsWorkoutType[1] = "Single hangs: " + singleHangsAmount;
+        labelsWorkoutType[2] = "Repeaters: " + repeatersAmount;
        // labels[3] = "total: " + (singleHangsAmount + repeatersAmount);
         BarData theData = new BarData(bardataset);
 
@@ -1046,7 +1055,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         singleHangsOrRepeatersBarChart.setDescription(desc);
 
         XAxis xAxis = singleHangsOrRepeatersBarChart.getXAxis();
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labelsWorkoutType));
         xAxis.setGranularity(1f);
         xAxis.setGranularityEnabled(true);
         xAxis.setPosition(XAxis.XAxisPosition.TOP_INSIDE);
