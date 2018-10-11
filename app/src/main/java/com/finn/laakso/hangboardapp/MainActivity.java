@@ -29,6 +29,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -385,6 +387,8 @@ public class MainActivity extends AppCompatActivity {
                      // everyBoard.randomizeGrips(grade_descr_position);
                     everyBoard.randomizeNewWorkoutHolds(grade_descr_position,timeControls);
 
+                    //testAndCollectDataRandomizeNewWorkoutHolds(grade_descr_position,timeControls);
+
                     if (!repeatersBox.isChecked()) {
                         everyBoard.setHoldsForSingleHangs();
                     }
@@ -717,6 +721,8 @@ public class MainActivity extends AppCompatActivity {
          AnimationDrawable rightHandAnimation = (AnimationDrawable) rightFingerImage.getDrawable();
          AnimationDrawable leftHandAnimation = (AnimationDrawable) leftFingerImage.getDrawable();
 
+        rightHandAnimation.start();
+        leftHandAnimation.start();
 
 
         //handAnimation = AnimationBuilder.getHandTransitionAnimation(handAnimation,getResources(), Hold.grip_type.FOUR_FINGER, Hold.grip_type.FOUR_FINGER);
@@ -738,8 +744,69 @@ public class MainActivity extends AppCompatActivity {
         testAnimation.addFrame(getResources().getDrawable(R.drawable.animation_fourfinger_05),50);
 */
 
-        rightHandAnimation.start();
-        leftHandAnimation.start();
+    }
+
+    private void testAndCollectDataRandomizeNewWorkoutHolds(int grade_descr_position,TimeControls timeControls) {
+
+        int datapoints = 100;
+
+        ArrayList<Hold> tempHoldList ;
+        ArrayList<Integer> holdDifficulties = new ArrayList<>();
+        TreeMap<Hold.grip_type,Integer> holdTypeMap = new TreeMap<Hold.grip_type, Integer>();
+        TreeMap<Integer,Integer> holdNumberMap = new TreeMap<Integer, Integer>();
+
+        int totalHoldAmount = timeControls.getGripLaps()*2* datapoints;
+
+        for (int i = 0 ; i < datapoints ; i++) {
+            everyBoard.randomizeNewWorkoutHolds(grade_descr_position, timeControls);
+
+            tempHoldList = everyBoard.getCurrentWorkoutHoldList();
+
+            for (int j = 0 ; j < tempHoldList.size() ; j++) {
+                holdDifficulties.add(tempHoldList.get(j).getHoldValue() );
+
+                if (holdTypeMap.containsKey( tempHoldList.get(j).getGripStyle() ) ) {
+                    holdTypeMap.put(tempHoldList.get(j).getGripStyle(), holdTypeMap.get(tempHoldList.get(j).getGripStyle() ) +1 );
+                }
+                else {
+                    holdTypeMap.put(tempHoldList.get(j).getGripStyle(),1);
+                }
+
+                if (holdNumberMap.containsKey( tempHoldList.get(j).getHoldNumber() ) ) {
+                    holdNumberMap.put(tempHoldList.get(j).getHoldNumber(), holdNumberMap.get(tempHoldList.get(j).getHoldNumber() ) +1 );
+                }
+                else {
+                    holdNumberMap.put(tempHoldList.get(j).getHoldNumber(),1);
+                }
+
+            }
+
+        }
+
+        for(Map.Entry<Hold.grip_type,Integer> entry: holdTypeMap.entrySet()) {
+            Hold.grip_type key = entry.getKey();
+            int value = entry.getValue();
+
+            if ( value == 0) {continue;} // custom hold
+
+            Log.d("Grip types",key + ": " + value + "  avg: " +value*100/totalHoldAmount);
+
+        }
+
+        for(Map.Entry<Integer,Integer> entry: holdNumberMap.entrySet()) {
+            int key = entry.getKey();
+            int value = entry.getValue();
+
+            if ( value == 0) {continue;} // custom hold
+
+            Log.d("Hold Numbers","hold:" +key + " : " + value+ "  avg: " +value*100/totalHoldAmount);
+
+        }
+        int total = 0;
+        for (int i = 0 ; i < holdDifficulties.size() ; i++ ) {
+            total += holdDifficulties.get(i);
+        }
+        Log.d("hold difficulties","avg: " + (float)total/totalHoldAmount );
 
     }
 
