@@ -3,6 +3,7 @@ package com.finn.laakso.hangboardapp;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,8 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
     // Database Handler to help put items correctly on a view
     private WorkoutDBHandler dbHandler;
 
+    private boolean[] selectedWorkouts;
+
     private boolean showHidden;
     // private Cursor dbCursor;
 
@@ -37,12 +40,25 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
         int position;
     }
 
+    public void workoutClicked(int position) {
+        if (selectedWorkouts[position] ) {
+            selectedWorkouts[position] = false;
+        } else {
+            selectedWorkouts[position] = true;
+        }
+        for (int i = 0 ; i < selectedWorkouts.length ; i++) {
+            Log.d("t or F" , i + ": " + selectedWorkouts[i] );
+        }
+    }
 
     public WorkoutHistoryAdapter(Context c, WorkoutDBHandler dbHandler, boolean showHidden) {
         this.dbHandler = dbHandler;
         this.showHidden = showHidden;
         //this.mInflator = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.mContext = c;
+
+        selectedWorkouts = new boolean[getCount()];
+        Log.d("boolean","count: " + selectedWorkouts.length);
     }
 
     public boolean getShowHiddenStatus() {
@@ -119,7 +135,13 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
         workoutTime += "Time: " + timeControls.getTotalTime()/60 + "min\n" +
                 "TUT: " +  timeControls.getTimeUnderTension()/60+"min";
 
-
+        position--;
+        if (selectedWorkouts[position] ) {
+            // viewHolder.workoutNumberTextView.setBackgroundColor(Color.RED);
+            convertView.setBackgroundColor(Color.GRAY);
+        } else {
+            convertView.setBackgroundColor(Color.DKGRAY);
+        }
 
 
         if (showHidden) {

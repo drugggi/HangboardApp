@@ -158,6 +158,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         workoutAdapter = new WorkoutHistoryAdapter(this,dbHandler,includeHidden);
 
         workoutHistoryListView = (ListView) findViewById(R.id.workoutHistoryListView);
+        workoutHistoryListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         workoutHistoryListView.setAdapter(workoutAdapter);
         registerForContextMenu(workoutHistoryListView);
 
@@ -203,7 +204,10 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         workoutHistoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                workoutAdapter.workoutClicked(position);
                 positionGlobal = position+1;
+                workoutAdapter.notifyDataSetChanged();
+                // workoutAdapter.notifyDataSetChanged();
             }
         });
 

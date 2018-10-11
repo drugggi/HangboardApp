@@ -9,11 +9,11 @@ public final class AnimationBuilder {
             R.drawable.animation_left_3f_to_4,0,R.drawable.animation_left_3f_to_3b,0,R.drawable.animation_left_3f_to_2m,0};
 
     private static int[] leftHand_3b_to_x = {
-            R.drawable.animation_left_3b_to_4,R.drawable.animation_left_3b_to_3f,0,0,0,0};
+            R.drawable.animation_left_3b_to_4,R.drawable.animation_left_3b_to_3f,0,0,R.drawable.animation_left_3b_to_2m,0};
 
     private static int[] leftHand_2f_to_x = {0,0,0,0,0,0};
 
-    private static int[] leftHand_2m_to_x = {R.drawable.animation_left_2m_to_4,R.drawable.animation_left_2m_to_3f,0,0,0,0};
+    private static int[] leftHand_2m_to_x = {R.drawable.animation_left_2m_to_4,R.drawable.animation_left_2m_to_3f,R.drawable.animation_left_2m_to_3b,0,0,0};
 
     private static int[] leftHand_2b_to_x = {0,0,0,0,0,0};
 
@@ -30,11 +30,11 @@ public final class AnimationBuilder {
             R.drawable.animation_right_3f_to_4,0,R.drawable.animation_right_3f_to_3b,0,R.drawable.animation_right_3f_to_2m,0};
 
     private static int[] rightHand_3b_to_x = {
-            R.drawable.animation_right_3b_to_4,R.drawable.animation_right_3b_to_3f,0,0,0,0};
+            R.drawable.animation_right_3b_to_4,R.drawable.animation_right_3b_to_3f,0,0,R.drawable.animation_right_3b_to_2m,0};
 
     private static int[] rightHand_2f_to_x = {0,0,0,0,0,0};
 
-    private static int[] rightHand_2m_to_x = {R.drawable.animation_right_2m_to_4,R.drawable.animation_right_2m_to_3f,0,0,0,0};
+    private static int[] rightHand_2m_to_x = {R.drawable.animation_right_2m_to_4,R.drawable.animation_right_2m_to_3f,R.drawable.animation_right_2m_to_3b,0,0,0};
 
     private static int[] rightHand_2b_to_x = {0,0,0,0,0,0};
 

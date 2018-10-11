@@ -707,7 +707,7 @@ public class MainActivity extends AppCompatActivity {
         int animationResourecesRightHand = AnimationBuilder.getHandTransitionStart(fromGripLeftHand,newGripLeftHand,false);
 
         if ( animationResourcesLeftHand == 0 ) { animationResourcesLeftHand = R.drawable.animation_left_3b_to_3f; return;}
-        if ( animationResourecesRightHand == 0 ) { animationResourecesRightHand = R.drawable.animation_right_3b_to_3f; return;}
+        if ( animationResourecesRightHand == 0 ) { animationResourecesRightHand = R.drawable.animation_right_3b_to_3f; return; }
 
 
         rightFingerImage.setImageResource(animationResourecesRightHand);
