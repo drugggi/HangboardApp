@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -69,6 +70,8 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
     private ArrayList<int[]> allCompletedHangs;
     private ArrayList<String> allHangboards;
 
+    private String[] workoutNumbers;
+
     // Extra calculations are need, and we use CalculateWorkoutDetails class.
     private ArrayList<CalculateWorkoutDetails> allCalculatedDetails;
 
@@ -127,17 +130,59 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
             allCalculatedDetails = new ArrayList<CalculateWorkoutDetails>();
 
-            allDates = dbHandler.lookUpAllDates(includeHidden);
-            allHangboards = dbHandler.lookUpAllHangboards(includeHidden);
-            allTimeControls = dbHandler.lookUpAllTimeControls(includeHidden);
-            allWorkoutsHolds = dbHandler.lookUpAllWorkoutHolds(includeHidden);
-            allCompletedHangs = dbHandler.lookUpAllCompletedHangs(includeHidden);
+            boolean[] selectedWorkouts;
+            if (getIntent().hasExtra("com.finn.laakso.hangboardapp.SELECTEDWORKOUTS")) {
+                selectedWorkouts = getIntent().getExtras().getBooleanArray("com.finn.laakso.hangboardapp.SELECTEDWORKOUTS");
+
+                ArrayList<String> tempWorkoutLabels = new ArrayList<>();
+
+                int amountOfWorkouts = dbHandler.lookUpWorkoutCount(includeHidden);
+                for (int i = 0 ; i < selectedWorkouts.length ; i++ ) {
+                    int dbIndex = i+1;
+                    if (selectedWorkouts[i]) {
+                        allDates.add(dbHandler.lookUpDate(dbIndex,includeHidden));
+                        allHangboards.add(dbHandler.lookUpHangboard(dbIndex,includeHidden));
+                        allTimeControls.add(dbHandler.lookUpTimeControls(dbIndex,includeHidden));
+                        allWorkoutsHolds.add(dbHandler.lookUpWorkoutHolds(dbIndex,includeHidden));
+                        allCompletedHangs.add(dbHandler.lookUpCompletedHangs(dbIndex,includeHidden));
+
+                        tempWorkoutLabels.add("WO: " + (amountOfWorkouts-i) );
+                    }
+                }
+
+                workoutNumbers = new String[allDates.size()];
+
+                int index = workoutNumbers.length - 1;
+                for (int i = 0; i < workoutNumbers.length ; i++) {
+                    workoutNumbers[i] = tempWorkoutLabels.get(index);
+                    index--;
+                }
+
+            }
+            else {
+                allDates = dbHandler.lookUpAllDates(includeHidden);
+                allHangboards = dbHandler.lookUpAllHangboards(includeHidden);
+                allTimeControls = dbHandler.lookUpAllTimeControls(includeHidden);
+                allWorkoutsHolds = dbHandler.lookUpAllWorkoutHolds(includeHidden);
+                allCompletedHangs = dbHandler.lookUpAllCompletedHangs(includeHidden);
+
+                workoutNumbers = new String[allDates.size()];
+
+                for (int i = 0 ; i < workoutNumbers.length ; i++ ) {
+                    workoutNumbers[i] = "WO: " + (i+1);
+                }
+
+            }
 
             CalculateWorkoutDetails tempDetails;
             for( int i = 0; i < allDates.size() ; i++) {
 
                 tempDetails = new CalculateWorkoutDetails(allTimeControls.get(i), allWorkoutsHolds.get(i), allCompletedHangs.get(i));
                 allCalculatedDetails.add(tempDetails);
+            }
+
+            for (int i = 0; i < workoutNumbers.length ; i++) {
+                Log.d("Labels","WO nro: " +workoutNumbers[i] );
             }
 
             return null;
@@ -256,7 +301,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         }
 
         XAxis xAxis = totalWorkloadCombinedChart.getXAxis();
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(workoutNumbers));
         xAxis.setGranularity(1f);
         //xAxis.setGranularityEnabled(true);
         xAxis.setPosition(XAxis.XAxisPosition.TOP);
@@ -833,7 +878,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
 
         XAxis xAxis = scaledBarChart.getXAxis();
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(workoutNumbers));
 
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 

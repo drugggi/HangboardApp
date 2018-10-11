@@ -217,6 +217,14 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         showHiddenWorkoutsCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                positionGlobal = 0;
+                workoutAdapter = new WorkoutHistoryAdapter(WorkoutHistoryActivity.this,dbHandler,isChecked);
+
+                workoutHistoryListView = (ListView) findViewById(R.id.workoutHistoryListView);
+                workoutHistoryListView.setAdapter(workoutAdapter);
+                //registerForContextMenu(workoutHistoryListView);
+/*
                 if (isChecked) {
                     positionGlobal = 0;
                     workoutAdapter = new WorkoutHistoryAdapter(WorkoutHistoryActivity.this,dbHandler,isChecked);
@@ -234,11 +242,11 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                     workoutHistoryListView.setAdapter(workoutAdapter);
                    // registerForContextMenu(workoutHistoryListView);
 
-                }
+                }*/
             }
         });
 
-        // The whole point storing the workouts in database is to build beautifully useless graphs
+        // The whole point of storing the workouts in database is to build beautifully useless graphs
         // hopefully this will be one of the main attraction of this app
         showGraphsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -255,7 +263,15 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                     boolean showHidden = showHiddenWorkoutsCheckBox.isChecked();
                     showDatabaseGraphs.putExtra("com.finn.laakso.hangboardapp.SHOWHIDDEN",showHidden );
 
+                    if (workoutAdapter.getSelectedWorkoutsAmount() == 0 ||
+                            workoutAdapter.getSelectedWorkoutsAmount() == dbHandler.lookUpWorkoutCount(includeHidden)) {
                     startActivity(showDatabaseGraphs);
+                    }
+                    else {
+                        showDatabaseGraphs.putExtra("com.finn.laakso.hangboardapp.SELECTEDWORKOUTS",workoutAdapter.getSelectedWorkouts() );
+                        startActivity(showDatabaseGraphs);
+
+                    }
                 }
             }
         });
@@ -358,6 +374,8 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
             dbHandler.hideWorkoutNumber(selectedListViewPosition,includeHidden);
 
+            workoutAdapter.clearSelectedWorkouts();
+
             workoutAdapter.notifyDataSetChanged();
 
         }
@@ -455,6 +473,8 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
             if (dbHandler.lookUpIsHidden(selectedListViewPosition,includeHidden)) {
                 dbHandler.delete(selectedListViewPosition,includeHidden);
+
+                workoutAdapter.clearSelectedWorkouts();
 
                 workoutAdapter.notifyDataSetChanged();
             }

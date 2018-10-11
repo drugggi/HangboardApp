@@ -21,6 +21,9 @@ import java.text.SimpleDateFormat;
 
 public class WorkoutHistoryAdapter extends BaseAdapter {
 
+    private static final int COLOR_DARKERGRAY = Color.argb(200,96,96,96);
+    private static final int COLOR_GRAY = Color.argb(66,169,169,169);
+
     //private LayoutInflater mInflator;
     private Context mContext;
 
@@ -28,6 +31,7 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
     private WorkoutDBHandler dbHandler;
 
     private boolean[] selectedWorkouts;
+    private static int selectedAmount;
 
     private boolean showHidden;
     // private Cursor dbCursor;
@@ -43,12 +47,25 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
     public void workoutClicked(int position) {
         if (selectedWorkouts[position] ) {
             selectedWorkouts[position] = false;
+            selectedAmount--;
         } else {
             selectedWorkouts[position] = true;
+            selectedAmount++;
         }
-        for (int i = 0 ; i < selectedWorkouts.length ; i++) {
+
+        Log.d("Selected amount" ,  ": " + selectedAmount );
+/*        for (int i = 0 ; i < selectedWorkouts.length ; i++) {
             Log.d("t or F" , i + ": " + selectedWorkouts[i] );
-        }
+        }*/
+    }
+
+    public int getSelectedWorkoutsAmount() {
+        return selectedAmount;
+    }
+
+    public void clearSelectedWorkouts() {
+        selectedWorkouts = new boolean[getCount()];
+        selectedAmount = 0;
     }
 
     public WorkoutHistoryAdapter(Context c, WorkoutDBHandler dbHandler, boolean showHidden) {
@@ -58,11 +75,16 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
         this.mContext = c;
 
         selectedWorkouts = new boolean[getCount()];
+        selectedAmount = 0;
         Log.d("boolean","count: " + selectedWorkouts.length);
     }
 
     public boolean getShowHiddenStatus() {
         return this.showHidden;
+    }
+
+    public boolean[] getSelectedWorkouts() {
+        return selectedWorkouts;
     }
 
     @Override
@@ -137,10 +159,13 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
 
         position--;
         if (selectedWorkouts[position] ) {
+            int Gray = Color.argb(255,96,96,96);
             // viewHolder.workoutNumberTextView.setBackgroundColor(Color.RED);
-            convertView.setBackgroundColor(Color.GRAY);
+            convertView.setBackgroundColor(COLOR_DARKERGRAY);
         } else {
-            convertView.setBackgroundColor(Color.DKGRAY);
+
+            int darkerGray = Color.argb(66,169,169,169);
+            convertView.setBackgroundColor(COLOR_GRAY);
         }
 
 
