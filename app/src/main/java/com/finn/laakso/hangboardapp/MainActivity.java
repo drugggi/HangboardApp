@@ -696,7 +696,7 @@ public class MainActivity extends AppCompatActivity {
 
         animatorSet.start();
 
-        Log.d("post vs size"," " + lastPosition + "/" + everyBoard.getCurrentHoldListSize() );
+       // Log.d("post vs size"," " + lastPosition + "/" + everyBoard.getCurrentHoldListSize() );
         if (lastPosition < 0 || (lastPosition+1)*2 > everyBoard.getCurrentHoldListSize() ||
                 newPosition < 0 || (newPosition+1)*2 > everyBoard.getCurrentHoldListSize() ) {return; }
 
@@ -705,13 +705,13 @@ public class MainActivity extends AppCompatActivity {
         Hold.grip_type fromGripRightHand;
         Hold.grip_type newGripRightHand;
 
-        Log.d("positions","last/new   " + lastPosition + "/"+newPosition);
+       // Log.d("positions","last/new   " + lastPosition + "/"+newPosition);
 
         int animationResourcesLeftHand = AnimationBuilder.getHandTransitionStart(fromGripLeftHand,newGripLeftHand,true);
         int animationResourecesRightHand = AnimationBuilder.getHandTransitionStart(fromGripLeftHand,newGripLeftHand,false);
 
-        if ( animationResourcesLeftHand == 0 ) { animationResourcesLeftHand = R.drawable.animation_left_3b_to_3f; return;}
-        if ( animationResourecesRightHand == 0 ) { animationResourecesRightHand = R.drawable.animation_right_3b_to_3f; return; }
+        if ( animationResourcesLeftHand == 0 ) {  return;}
+        if ( animationResourecesRightHand == 0 ) { return; }
 
 
         rightFingerImage.setImageResource(animationResourecesRightHand);

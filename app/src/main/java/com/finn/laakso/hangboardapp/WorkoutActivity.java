@@ -1,5 +1,7 @@
 package com.finn.laakso.hangboardapp;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -16,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Chronometer;
@@ -98,8 +101,10 @@ public class WorkoutActivity extends AppCompatActivity {
         final MediaPlayer playFinishSound = MediaPlayer.create(this,R.raw.finish_tick);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
-        s = -30;
         total_s = 0;
+
+        s = -5;
+        Toast.makeText(WorkoutActivity.this,"seconds changed to: " + s,Toast.LENGTH_SHORT).show();
 
         // Major inconsistency during the program current_lap starts from 0 mainly because it is used to pick
         // correct hold information from workoutHold array.
@@ -311,8 +316,9 @@ public class WorkoutActivity extends AppCompatActivity {
             }
         });
 
-        // Progress our program for every tick that lapseTimeChrono produces
 
+
+        // Progress our program for every tick that lapseTimeChrono produces
         lapseTimeChrono.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override
             public void onChronometerTick(Chronometer chronometer) {
@@ -329,7 +335,8 @@ public class WorkoutActivity extends AppCompatActivity {
                         .append(timeControls.getGripLaps() ).append(") ");
                 infoTextView.setText(timeTextBuilder.toString() );
 
-                updateGripDisplay();
+                //updateGripDisplay();
+                animateHandImagesToPosition();
 
                 switch (nowDoing) {
                     case INITIALREST:
@@ -339,7 +346,8 @@ public class WorkoutActivity extends AppCompatActivity {
                             leftHandImage.setImageResource(R.drawable.threebackleft);
                             rightHandImage.setImageResource(R.drawable.twomiddleright);
 
-                            updateGripDisplay();
+                            //updateGripDisplay();
+                            animateHandImagesToPosition();
                         }
                         if (s == -1) {nowDoing = workoutPart.WORKOUT;}
 
@@ -355,7 +363,9 @@ public class WorkoutActivity extends AppCompatActivity {
                             nowDoing = workoutPart.REST;
                             updateCompletedHangs();
 
+
                              if (timeControls.getTimeOFF() == 0 ) { playFinishSound.start(); }
+
                             hangProgressBar.setProgress(0);
                             restProgressBar.setProgress(0);
                             current_lap++;
@@ -373,10 +383,18 @@ public class WorkoutActivity extends AppCompatActivity {
                         if ( s%timeControls.getTimeONandOFF()  < timeControls.getTimeON() ) {
                             restProgressBar.setProgress(0);
                             playSound.start();
-                            //hangProgressBar.setProgress(( (s%timeControls.getTimeONandOFF())*100) / timeControls.getTimeONandOFF());
+
                             hangProgressBar.setProgressTintList(ColorStateList.valueOf(Color.RED));
-                           // hangProgressBar.setProgress(( ((s%timeControls.getTimeONandOFF()) %timeControls.getTimeON())*100) / timeControls.getTimeON());
-                            hangProgressBar.setProgress( (s%timeControls.getTimeONandOFF()) * 100 / timeControls.getTimeON());
+                            // hangProgressBar.setProgress( (s%timeControls.getTimeONandOFF()) * 100 / timeControls.getTimeON());
+
+                            if (s%timeControls.getTimeONandOFF() == 0) {
+                                restProgressBar.setProgress(0);
+                                ObjectAnimator animation = ObjectAnimator.ofInt(hangProgressBar, "progress", 0, 100);
+                                animation.setDuration(timeControls.getTimeON() * 1000);
+                                animation.setInterpolator(new LinearInterpolator());
+                                animation.start();
+
+                            }
                             lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.RED));
                         }
 
@@ -387,12 +405,30 @@ public class WorkoutActivity extends AppCompatActivity {
                                 Hold tempHold = workoutHolds.get(current_lap*2);
                                 workoutHolds.set(current_lap*2, workoutHolds.get(current_lap*2+1));
                                 workoutHolds.set(current_lap*2+1,tempHold);
-                                updateGripDisplay();
+                                //updateGripDisplay();
+                                animateHandImagesToPosition();
+
+                                // int testiaika = timeControls.getHangLaps() * timeControls.getTimeONandOFF() - timeControls.getTimeOFF();
+                                // Log.d("vertail","s: " + s + "  hanglaps: " + timeControls.getHangLaps() + "  testi aika: " + testiaika );
+                                if ( s >= timeControls.getHangLaps() * timeControls.getTimeONandOFF() - timeControls.getTimeOFF() ) {
+                                    // We have to make hand images invisible to indicate that current repeaters has ended
+                                    leftHandImage.setVisibility(View.INVISIBLE);
+                                    rightHandImage.setVisibility(View.INVISIBLE);
+                                }
+
+
+                                    ObjectAnimator restProgressBarAnimation = ObjectAnimator.ofInt(restProgressBar, "progress", 0, 100);
+                                    // Not 1000 because animation would be still playing when onTickListener is called
+                                // and restProgressbar.setProgress(0) would be ignored and thus 1 second late
+                                    restProgressBarAnimation.setDuration(timeControls.getTimeOFF() * 990);
+                                    restProgressBarAnimation.setInterpolator(new LinearInterpolator());
+                                    restProgressBarAnimation.start();
+
                             }
                              hangProgressBar.setProgressTintList(ColorStateList.valueOf(Color.GREEN));
                             hangProgressBar.setProgress(100);
 
-                            restProgressBar.setProgress( ((s%timeControls.getTimeONandOFF())-timeControls.getTimeON())*100 / timeControls.getTimeOFF() );
+                            // restProgressBar.setProgress( ((s%timeControls.getTimeONandOFF())-timeControls.getTimeON())*100 / timeControls.getTimeOFF() );
                             lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
                         }
 
@@ -401,12 +437,16 @@ public class WorkoutActivity extends AppCompatActivity {
 
                         // This if statement will be called only once because s is positive and will be negative thereafter
                         if (s >= timeControls.getHangLapsSeconds()) {
+                            leftHandImage.setVisibility(View.VISIBLE);
+                            rightHandImage.setVisibility(View.VISIBLE);
+
                             hangProgressBar.setProgress(0);
                             restProgressBar.setProgress(0);
                             lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
                             s = -timeControls.getRestTime();
-                            updateGripDisplay();
 
+                            //updateGripDisplay();
+                            animateHandImagesToPosition();
                              }
                         restProgressBar.setProgress((s+timeControls.getRestTime())*100 / timeControls.getRestTime() );
 
@@ -416,12 +456,17 @@ public class WorkoutActivity extends AppCompatActivity {
                     case LONGREST:
                         // This if statmenet will be called once becouse s is positive and will be negative
                         if (s >= timeControls.getHangLapsSeconds()) {
+                            leftHandImage.setVisibility(View.VISIBLE);
+                            rightHandImage.setVisibility(View.VISIBLE);
+
                             current_set++;
                             current_lap = 0;
                             hangProgressBar.setProgress(0);
                             restProgressBar.setProgress(0);
                             lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
-                            updateGripDisplay();
+
+                            // updateGripDisplay();
+                            animateHandImagesToPosition();
                             s = -timeControls.getLongRestTime();
 
                         }
@@ -573,6 +618,118 @@ public class WorkoutActivity extends AppCompatActivity {
         gradeTextView.setText(texti);
 
     }
+
+    public void animateHandImagesToPosition() {
+
+        Float scaleFactor = pinchZoomBoardImage.getScaleFactor();
+
+        // 0.5912f comes from scaling nexus 5 width to 1050, different phones different values
+        float scaleto1050 = 1050f/pinchZoomBoardImage.getWidth();
+
+        // offsetX is very bad way to re calculate coordinates in workoutactivity from mainactivity coordinates
+        Float offsetX = -60+100*scaleFactor;
+        offsetX = offsetX/scaleto1050;
+
+        scaleFactor = scaleFactor  / scaleto1050;
+        Float multiplier_w = 3f*scaleFactor;
+        Float multiplier_h = 3f*scaleFactor;
+
+        Float imagewidth = pinchZoomBoardImage.getImageWidth();
+        Float imageheight = pinchZoomBoardImage.getImageHeight();
+
+        Float offsetY = (0.4286f*imagewidth - imageheight)/2;
+
+        // OffsetY and offsetX are just arbitary values to correct hold coordinates that are stored badly
+        // Hopefully in future better way is achieved somehow
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ) {
+            offsetX = offsetX - 20f;
+
+        }
+
+        // MAKE SURE THIS TEST IS USELESS IN THE FUTURE! this method is called when the current lap is not reduced
+        if ( current_lap*2 >= workoutHolds.size()-1) {current_lap = 0; }
+
+        leftHandImage.setImageResource(workoutHolds.get(current_lap*2 ).getGripImage(true));
+        rightHandImage.setImageResource(workoutHolds.get(current_lap*2 + 1).getGripImage(false));
+/*
+        leftHandImage.setX(pinchZoomBoardImage.getImageX() + workoutHangboard.getCoordLefthandX(current_lap) *multiplier_w + offsetX);
+        leftHandImage.setY(pinchZoomBoardImage.getImageY()+ workoutHangboard.getCoordLefthandY(current_lap) *multiplier_h - offsetY);
+        rightHandImage.setX(pinchZoomBoardImage.getImageX() + workoutHangboard.getCoordRighthandX(current_lap) *multiplier_w + offsetX);
+        rightHandImage.setY(pinchZoomBoardImage.getImageY() + workoutHangboard.getCoordRighthandY(current_lap) * multiplier_h - offsetY);
+
+
+        leftHandImage.setImageResource(workoutHangboard.getLeftFingerImage(newPosition));
+        rightHandImage.setImageResource(workoutHangboard.getRightFingerImage(newPosition));
+*/
+
+        Float newLeftHandCoordX = pinchZoomBoardImage.getImageX() + workoutHangboard.getCoordLefthandX(current_lap) *multiplier_w + offsetX;
+        Float newLeftHandCoordY = pinchZoomBoardImage.getImageY()+ workoutHangboard.getCoordLefthandY(current_lap) *multiplier_h - offsetY;
+        Float newRightHandCoordX = pinchZoomBoardImage.getImageX() + workoutHangboard.getCoordRighthandX(current_lap) *multiplier_w + offsetX;
+        Float newRightHandCoordY = pinchZoomBoardImage.getImageY() + workoutHangboard.getCoordRighthandY(current_lap) * multiplier_h - offsetY;
+
+
+        ObjectAnimator leftHandAnimatorX = ObjectAnimator.ofFloat(leftHandImage,"x",newLeftHandCoordX);
+        ObjectAnimator leftHandAnimatorY = ObjectAnimator.ofFloat(leftHandImage,"y",newLeftHandCoordY);
+        ObjectAnimator rightHandAnimatorX = ObjectAnimator.ofFloat(rightHandImage,"x",newRightHandCoordX);
+        ObjectAnimator rightHandAnimatorY = ObjectAnimator.ofFloat(rightHandImage,"y",newRightHandCoordY);
+
+        leftHandAnimatorX.setDuration(500);
+        leftHandAnimatorY.setDuration(500);
+        rightHandAnimatorX.setDuration(500);
+        rightHandAnimatorY.setDuration(500);
+
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(leftHandAnimatorX);
+        animatorSet.playTogether(leftHandAnimatorY);
+        animatorSet.playTogether(rightHandAnimatorX);
+        animatorSet.playTogether(rightHandAnimatorY);
+
+        // Lets get the correct description to next hold and grip
+        String texti =workoutHolds.get(2*current_lap).getHoldInfo(workoutHolds.get(2*current_lap+1));
+        texti = texti.replaceAll("\n",", ");
+        gradeTextView.setText(texti);
+
+        animatorSet.start();
+
+/*
+        int lastPosition = current_lap*2-2;
+        int newPosition = current_lap*2;
+        // Log.d("post vs size"," " + lastPosition + "/" + everyBoard.getCurrentHoldListSize() );
+        if (lastPosition < 0 || (lastPosition+1)*2 > workoutHangboard.getCurrentHoldListSize() ) {
+            lastPosition = 0;
+        }
+        if (newPosition < 0 || (newPosition+1)*2 > workoutHangboard.getCurrentHoldListSize() ) {
+            newPosition = 0;
+        }
+
+        // left and right hand has always the same grip
+        Hold.grip_type fromGripLeftHand = workoutHangboard.getLeftHandGripType(lastPosition);
+        Hold.grip_type newGripLeftHand = workoutHangboard.getLeftHandGripType(newPosition);
+
+
+        // Log.d("positions","last/new   " + lastPosition + "/"+newPosition);
+
+        int animationResourcesLeftHand = AnimationBuilder.getHandTransitionStart(fromGripLeftHand,newGripLeftHand,true);
+        int animationResourecesRightHand = AnimationBuilder.getHandTransitionStart(fromGripLeftHand,newGripLeftHand,false);
+
+        if ( animationResourcesLeftHand == 0 ) {  return;}
+        if ( animationResourecesRightHand == 0 ) { return; }
+
+
+        rightHandImage.setImageResource(animationResourecesRightHand);
+        leftHandImage.setImageResource(animationResourcesLeftHand );
+        // rightHandImage.setImageResource(R)
+
+        AnimationDrawable rightHandAnimation = (AnimationDrawable) rightHandImage.getDrawable();
+        AnimationDrawable leftHandAnimation = (AnimationDrawable) leftHandImage.getDrawable();
+
+        rightHandAnimation.start();
+        leftHandAnimation.start();*/
+
+
+
+    }
+
 
 
 }
