@@ -103,8 +103,8 @@ public class WorkoutActivity extends AppCompatActivity {
 
         total_s = 0;
 
-        s = -5;
-        Toast.makeText(WorkoutActivity.this,"seconds changed to: " + s,Toast.LENGTH_SHORT).show();
+        s = -30;
+        // Toast.makeText(WorkoutActivity.this,"seconds changed to: " + s,Toast.LENGTH_SHORT).show();
 
         // Major inconsistency during the program current_lap starts from 0 mainly because it is used to pick
         // correct hold information from workoutHold array.
