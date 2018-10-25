@@ -1,7 +1,5 @@
 package com.finn.laakso.hangboardapp;
 
-import android.util.Log;
-
 /**
  * Created by Laakso on 12.1.2018.
  */
@@ -11,15 +9,15 @@ public class TimeControls {
     // In future I will refactor TimeControls class to keep track with current lap
     // private int current_lap=0;
 
-    private int grip_laps=6;
-    private int hang_laps=6;
-    private int hang_laps_seconds=60;
-    private int time_on = 7;
-    private int time_off= 3;
-    private int routine_laps=3;
+    private int grip_laps;
+    private int hang_laps;
+    private int hang_laps_seconds;
+    private int time_on ;
+    private int time_off;
+    private int routine_laps;
     // private int time_total = time_on + time_off;
-    private int rest = 150;
-    private int long_rest = 360;
+    private int rest;
+    private int long_rest ;
     private boolean isRepeaters = true;
 
 

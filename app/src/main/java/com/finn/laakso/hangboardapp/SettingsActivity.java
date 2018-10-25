@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -345,6 +344,17 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 setsEditText.setText("" + (progress+1));
+
+                if (progress == 0) {
+                    longRestEditText.setEnabled(false);
+                    longRestSeekBar.setEnabled(false);
+
+                }
+                else  {
+                    longRestEditText.setEnabled(true);
+                    longRestSeekBar.setEnabled(true);
+                }
+
                // timeControls.setRoutineLaps(progress+1);
               //  updateProgramDisplay();
             }
@@ -359,6 +369,7 @@ public class SettingsActivity extends AppCompatActivity {
                 int progress = seekBar.getProgress() + 1;
 
                 timeControls.setRoutineLaps(progress);
+
                 updateProgramDisplay();
 
             }
@@ -661,8 +672,8 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     // updateTimeControlsDisplay sets all the EditTexts and SeekBars on right status based on
-    // time controls that timeControls holds, its a bit tricky becouse setting SeekBar to some place
-    // triggers onSeekBarchange listner which also updates information
+    // time controls that timeControls holds, its a bit tricky because setting SeekBar to some place
+    // triggers onSeekBarchange listener which also updates information
     private void updateTimeControlsDisplay() {
         int[] tempControls = timeControls.getTimeControlsIntArray();
 

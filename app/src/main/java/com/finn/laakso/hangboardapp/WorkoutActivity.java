@@ -363,7 +363,7 @@ public class WorkoutActivity extends AppCompatActivity {
                             nowDoing = workoutPart.REST;
                             updateCompletedHangs();
                             lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
-                            
+
                              if (timeControls.getTimeOFF() == 0 ) { playFinishSound.start(); }
 
                             hangProgressBar.setProgress(0);
