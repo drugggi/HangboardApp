@@ -272,7 +272,9 @@ public class Hangboard {
         }
     }
 
+    // Left and right hand should have same grip type, thats why only lefthand method is usually used
     public Hold.grip_type getLeftHandGripType(int position) {
+
         if (position < 0 || position*2 +1  >= workoutHoldList.size() )
         {return Hold.grip_type.MIDDLE_FINGER; }
         return workoutHoldList.get(position*2).getGripStyle();

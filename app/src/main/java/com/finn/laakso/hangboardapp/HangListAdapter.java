@@ -41,6 +41,15 @@ public class HangListAdapter extends BaseAdapter {
     public void setSelectedHangNumber(int position) {
         this.selectedHangNumber = position;
     }
+
+/*    public Hold.grip_type getSelectedGripType() {
+        if (selectedHangNumber > 0 && selectedHangNumber < workoutHolds.size() ) {
+            return workoutHolds.get(selectedHangNumber*2).getGripStyle();
+        }
+        return Hold.grip_type.FOUR_FINGER;
+
+    }*/
+
     public int getSelectedHangNumber() {
         return this.selectedHangNumber;
     }
