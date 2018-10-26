@@ -710,8 +710,8 @@ public class WorkoutActivity extends AppCompatActivity {
 
         // Log.d("positions","last/new   " + lastPosition + "/"+newPosition);
 
-        int animationResourcesLeftHand = AnimationBuilder.getHandTransitionStart(fromGripLeftHand,newGripLeftHand,true);
-        int animationResourecesRightHand = AnimationBuilder.getHandTransitionStart(fromGripLeftHand,newGripLeftHand,false);
+        int animationResourcesLeftHand = FingerAnimationBuilder.getHandTransitionStart(fromGripLeftHand,newGripLeftHand,true);
+        int animationResourecesRightHand = FingerAnimationBuilder.getHandTransitionStart(fromGripLeftHand,newGripLeftHand,false);
 
         if ( animationResourcesLeftHand == 0 ) {  return;}
         if ( animationResourecesRightHand == 0 ) { return; }

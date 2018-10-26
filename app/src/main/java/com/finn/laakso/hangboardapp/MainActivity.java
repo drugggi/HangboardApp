@@ -712,8 +712,8 @@ public class MainActivity extends AppCompatActivity {
 
        // Log.d("positions","last/new   " + lastPosition + "/"+newPosition);
 
-        int animationResourcesLeftHand = AnimationBuilder.getHandTransitionStart(fromGripType,newGripType,true);
-        int animationResourecesRightHand = AnimationBuilder.getHandTransitionStart(fromGripType,newGripType,false);
+        int animationResourcesLeftHand = FingerAnimationBuilder.getHandTransitionStart(fromGripType,newGripType,true);
+        int animationResourecesRightHand = FingerAnimationBuilder.getHandTransitionStart(fromGripType,newGripType,false);
 
         if ( animationResourcesLeftHand == 0 ) {  return;}
         if ( animationResourecesRightHand == 0 ) { return; }
@@ -730,10 +730,10 @@ public class MainActivity extends AppCompatActivity {
         leftHandAnimation.start();
 
 
-        //handAnimation = AnimationBuilder.getHandTransitionAnimation(handAnimation,getResources(), Hold.grip_type.FOUR_FINGER, Hold.grip_type.FOUR_FINGER);
-        //leftHandAnimation = AnimationBuilder.getHandTransitionAnimation(leftHandAnimation,getResources(), Hold.grip_type.FOUR_FINGER, Hold.grip_type.FOUR_FINGER);
+        //handAnimation = FingerAnimationBuilder.getHandTransitionAnimation(handAnimation,getResources(), Hold.grip_type.FOUR_FINGER, Hold.grip_type.FOUR_FINGER);
+        //leftHandAnimation = FingerAnimationBuilder.getHandTransitionAnimation(leftHandAnimation,getResources(), Hold.grip_type.FOUR_FINGER, Hold.grip_type.FOUR_FINGER);
        //rightFingerImage.setBackgroundResource();
-       //  AnimationDrawable handAnimation = AnimationBuilder.getHandTransitionAnimation(getResources(), Hold.grip_type.FOUR_FINGER, Hold.grip_type.FOUR_FINGER);
+       //  AnimationDrawable handAnimation = FingerAnimationBuilder.getHandTransitionAnimation(getResources(), Hold.grip_type.FOUR_FINGER, Hold.grip_type.FOUR_FINGER);
 
 /*
 
