@@ -163,7 +163,7 @@ public class Hold implements Comparable<Hold>, Parcelable {
           else if (grip_style == grip_type.THREE_BACK) {return R.drawable.animation_left_4_to_3b_10;}
           else if (grip_style == grip_type.TWO_FRONT) {return R.drawable.animation_left_4_to_2f_10;}
           else if (grip_style == grip_type.TWO_MIDDLE) {return R.drawable.animation_left_4_to_2m_10;}
-          else if (grip_style == grip_type.TWO_BACK) {return R.drawable.twobackleft;}
+          else if (grip_style == grip_type.TWO_BACK) {return R.drawable.animation_left_4_to_2b_10;}
           else if (grip_style == grip_type.INDEX_FINGER) {return R.drawable.indexleft;}
           else if (grip_style == grip_type.MIDDLE_FINGER) {return R.drawable.middleleft;}
           else if (grip_style == grip_type.RING_FINGER) {return R.drawable.ringleft;}
@@ -176,7 +176,7 @@ public class Hold implements Comparable<Hold>, Parcelable {
           else if (grip_style == grip_type.THREE_BACK) {return R.drawable.animation_right_4_to_3b_10;}
           else if (grip_style == grip_type.TWO_FRONT) {return R.drawable.animation_right_4_to_2f_10;}
           else if (grip_style == grip_type.TWO_MIDDLE) {return R.drawable.animation_right_4_to_2m_10;}
-          else if (grip_style == grip_type.TWO_BACK) {return R.drawable.twobackright;}
+          else if (grip_style == grip_type.TWO_BACK) {return R.drawable.animation_right_4_to_2b_10;}
           else if (grip_style == grip_type.INDEX_FINGER) {return R.drawable.indexright;}
           else if (grip_style == grip_type.MIDDLE_FINGER) {return R.drawable.middleright;}
           else if (grip_style == grip_type.RING_FINGER) {return R.drawable.ringright;}
