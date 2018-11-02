@@ -10,9 +10,9 @@ public final class FingerAnimationBuilder {
 
     private static int[] leftHand_2f_to_x = {R.drawable.animation_left_2f_to_4,R.drawable.animation_left_2f_to_3f,R.drawable.animation_left_2f_to_3b,0,R.drawable.animation_left_2f_to_2m,R.drawable.animation_left_2f_to_2b};
 
-    private static int[] leftHand_2m_to_x = {R.drawable.animation_left_2m_to_4,R.drawable.animation_left_2m_to_3f,R.drawable.animation_left_2m_to_3b,R.drawable.animation_left_2m_to_2f,0,0};
+    private static int[] leftHand_2m_to_x = {R.drawable.animation_left_2m_to_4,R.drawable.animation_left_2m_to_3f,R.drawable.animation_left_2m_to_3b,R.drawable.animation_left_2m_to_2f,0,R.drawable.animation_left_2m_to_2b};
 
-    private static int[] leftHand_2b_to_x = {R.drawable.animation_left_2b_to_4,R.drawable.animation_left_2b_to_3f,R.drawable.animation_left_2b_to_3b,R.drawable.animation_left_2b_to_2f,0,0};
+    private static int[] leftHand_2b_to_x = {R.drawable.animation_left_2b_to_4,R.drawable.animation_left_2b_to_3f,R.drawable.animation_left_2b_to_3b,R.drawable.animation_left_2b_to_2f,R.drawable.animation_left_2b_to_2m,0};
 
 
 
@@ -24,9 +24,9 @@ public final class FingerAnimationBuilder {
 
     private static int[] rightHand_2f_to_x = {R.drawable.animation_right_2f_to_4,R.drawable.animation_right_2f_to_3f,R.drawable.animation_right_2f_to_3b,0,R.drawable.animation_right_2f_to_2m,R.drawable.animation_right_2f_to_2b};
 
-    private static int[] rightHand_2m_to_x = {R.drawable.animation_right_2m_to_4,R.drawable.animation_right_2m_to_3f,R.drawable.animation_right_2m_to_3b,R.drawable.animation_right_2m_to_2f,0,0};
+    private static int[] rightHand_2m_to_x = {R.drawable.animation_right_2m_to_4,R.drawable.animation_right_2m_to_3f,R.drawable.animation_right_2m_to_3b,R.drawable.animation_right_2m_to_2f,0,R.drawable.animation_right_2m_to_2b};
 
-    private static int[] rightHand_2b_to_x = {R.drawable.animation_right_2b_to_4,R.drawable.animation_right_2b_to_3f,R.drawable.animation_right_2b_to_3b,R.drawable.animation_right_2b_to_2f,0,0};
+    private static int[] rightHand_2b_to_x = {R.drawable.animation_right_2b_to_4,R.drawable.animation_right_2b_to_3f,R.drawable.animation_right_2b_to_3b,R.drawable.animation_right_2b_to_2f,R.drawable.animation_right_2b_to_2m,0};
 
 
 
