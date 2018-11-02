@@ -550,29 +550,22 @@ public class MainActivity extends AppCompatActivity {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
 
         int menuItemIndex = info.position;
+        int itemId = item.getItemId();
+
+        // Log.d("contextItemSelected","ItemIndex/itemId: " + menuItemIndex + "/" + itemId);
 
         // with item.getItemId() we can extract the data which hand hold or grip type was selected
         // not very elegant way at all
-        everyBoard.addCustomHold(item.getItemId(),info.position);
+        Hold.grip_type fromGripType = everyBoard.getLeftHandGripType(hangsAdapter.getSelectedHangNumber() -1 );
+        everyBoard.addCustomHold(itemId,menuItemIndex);
 
-        /*
-        holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
-                R.layout.mytextview , everyBoard.getGrips());
-        holdsListView.setAdapter(holdsAdapter);
-*/
+        // Log.d("FROM GRIPTYPE",""+fromGripType.toString());
+        
+        if (hangsAdapter.getSelectedHangNumber() == menuItemIndex + 1) {
+            animateHandImagesToPosition(fromGripType, menuItemIndex);
+        }
         hangsAdapter.notifyDataSetChanged();
 
-        ImageView imageView = (ImageView) findViewById(R.id.image_view);
-        Float multiplyer_w = imageView.getWidth() / 350F;
-        Float multiplyer_h = imageView.getHeight() / 150F;
-
-        leftFingerImage.setImageResource(everyBoard.getLeftFingerImage(menuItemIndex));
-        leftFingerImage.setX(everyBoard.getCoordLefthandX(menuItemIndex)* multiplyer_w);
-        leftFingerImage.setY(everyBoard.getCoordLefthandY(menuItemIndex)* multiplyer_h);
-
-        rightFingerImage.setImageResource(everyBoard.getRightFingerImage(menuItemIndex));
-        rightFingerImage.setX(everyBoard.getCoordRighthandX(menuItemIndex)*multiplyer_w);
-        rightFingerImage.setY(everyBoard.getCoordRighthandY(menuItemIndex)*multiplyer_h);
 
         return true;
 
