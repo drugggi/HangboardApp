@@ -560,10 +560,11 @@ public class MainActivity extends AppCompatActivity {
         everyBoard.addCustomHold(itemId,menuItemIndex);
 
         // Log.d("FROM GRIPTYPE",""+fromGripType.toString());
-        
-        if (hangsAdapter.getSelectedHangNumber() == menuItemIndex + 1) {
-            animateHandImagesToPosition(fromGripType, menuItemIndex);
-        }
+
+        // Animate fingers only if changed hang
+        hangsAdapter.setSelectedHangNumber(menuItemIndex +1);
+        animateHandImagesToPosition(fromGripType, menuItemIndex);
+
         hangsAdapter.notifyDataSetChanged();
 
 
