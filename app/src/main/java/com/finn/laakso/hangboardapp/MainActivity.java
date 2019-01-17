@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,8 +28,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.TreeMap;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -627,11 +624,13 @@ public class MainActivity extends AppCompatActivity {
                     viewPager.setCurrentItem(hangboardPosition);
 
                     timeControls.setTimeControls(timeSettings);
+/*
 
                     Log.d("Hangboard", hbname + " pos: " + hangboard_descr_position);
                     Log.d("TC", timeControls.getTimeControlsAsString());
                     Log.d("holds", "size: " + newHolds.size());
 
+*/
 
                     everyBoard.initializeHolds(getResources(), newHangboard);
 
@@ -744,6 +743,7 @@ public class MainActivity extends AppCompatActivity {
 */
 
     }
+/*
 
     private void testAndCollectDataRandomizeNewWorkoutHolds(int grade_descr_position,TimeControls timeControls) {
 
@@ -788,7 +788,7 @@ public class MainActivity extends AppCompatActivity {
 
             if ( value == 0) {continue;} // custom hold
 
-            Log.d("Grip types",key + ": " + value + "  avg: " +value*100/totalHoldAmount);
+           // Log.d("Grip types",key + ": " + value + "  avg: " +value*100/totalHoldAmount);
 
         }
 
@@ -798,17 +798,18 @@ public class MainActivity extends AppCompatActivity {
 
             if ( value == 0) {continue;} // custom hold
 
-            Log.d("Hold Numbers","hold:" +key + " : " + value+ "  avg: " +value*100/totalHoldAmount);
+           // Log.d("Hold Numbers","hold:" +key + " : " + value+ "  avg: " +value*100/totalHoldAmount);
 
         }
         int total = 0;
         for (int i = 0 ; i < holdDifficulties.size() ; i++ ) {
             total += holdDifficulties.get(i);
         }
-        Log.d("hold difficulties","avg: " + (float)total/totalHoldAmount );
+        // Log.d("hold difficulties","avg: " + (float)total/totalHoldAmount );
 
     }
 
+*/
 
 /*
     private void testMethod() {

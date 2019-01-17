@@ -657,6 +657,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
     }
 */
+/*
 
     private void createScaledBarChartTEST() {
         scaledBarChart = (BarChart) findViewById(R.id.scaledBarChart);
@@ -733,6 +734,7 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         scaledBarChart.invalidate();
     }
 
+*/
 
     // This method creates scaled Bar Chart combining and scaling workload, intensity, difficulty per hang
     // and workout power into one chart. Every bar is sclaed from 0 to 1, where every variables min value is 0 and

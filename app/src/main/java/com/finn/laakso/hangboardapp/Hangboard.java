@@ -1,7 +1,6 @@
 package com.finn.laakso.hangboardapp;
 
 import android.content.res.Resources;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -529,7 +528,7 @@ public class Hangboard {
             wantedGripTypes.add(randomGripType);
         }
         else {
-            Log.e("ERR","WantedGrypTypes size was 0!!!");
+           // Log.e("ERR","WantedGrypTypes size was 0!!!");
             wantedGripTypes.add(Hold.grip_type.FOUR_FINGER);
         }
         int initialSize = wantedGripTypes.size();

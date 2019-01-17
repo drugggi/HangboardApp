@@ -101,13 +101,11 @@ public class HangListAdapter extends BaseAdapter {
             convertView.setBackgroundColor(0xd3d3d3);
         }
 
-
         Hold leftHandHold = workoutHolds.get(2*position);
         Hold rightHandHold = workoutHolds.get(2*position + 1);
 
         String test = leftHandHold.getHoldInfo(rightHandHold);
         String positionText = (position+1) + ".";
-
 
         viewHolder.hangInfoTextView.setText(test);
         viewHolder.hangPositionTextView.setText(positionText);
