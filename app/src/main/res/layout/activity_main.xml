@@ -105,17 +105,16 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
             android:baselineAligned="false"
             android:orientation="horizontal">
 
             <ListView
                 android:id="@+id/gradeListView"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
 
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
                 android:choiceMode="singleChoice"
                 android:listSelector="@color/colorAccent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -125,10 +124,9 @@
 
             <ListView
                 android:id="@+id/holdsListView"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:layout_weight="1"
                 android:choiceMode="singleChoice"
                 android:listSelector="@android:color/darker_gray"
                 app:layout_constraintStart_toStartOf="parent"

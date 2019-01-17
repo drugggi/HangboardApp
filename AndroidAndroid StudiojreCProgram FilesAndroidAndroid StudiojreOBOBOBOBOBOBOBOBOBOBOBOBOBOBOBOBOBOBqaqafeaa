@@ -1,0 +1,39 @@
+[1mdiff --git a/app/src/main/java/com/example/laakso/hangboardapp/Hold.java b/app/src/main/java/com/example/laakso/hangboardapp/Hold.java[m
+[1mindex 6562e95..56d99c1 100644[m
+[1m--- a/app/src/main/java/com/example/laakso/hangboardapp/Hold.java[m
+[1m+++ b/app/src/main/java/com/example/laakso/hangboardapp/Hold.java[m
+[36m@@ -109,7 +109,7 @@[m [mpublic class Hold implements Comparable<Hold>, Parcelable {[m
+         }[m
+         else {[m
+             return "HOLD: " + hold_number + "/" + rightHandHold.getHoldNumber() + "\nGRIP: " + getHoldText()[m
+[31m-                    + " Alternate\nDifficulty: " + hold_value; }[m
+[32m+[m[32m                    + " Alternate\nDifficulty: " + (hold_value + rightHandHold.getHoldValue())/2; }[m
+         }[m
+ [m
+ [m
+[1mdiff --git a/app/src/main/java/com/example/laakso/hangboardapp/WorkoutActivity.java b/app/src/main/java/com/example/laakso/hangboardapp/WorkoutActivity.java[m
+[1mindex e74f9dc..401d4b5 100644[m
+[1m--- a/app/src/main/java/com/example/laakso/hangboardapp/WorkoutActivity.java[m
+[1m+++ b/app/src/main/java/com/example/laakso/hangboardapp/WorkoutActivity.java[m
+[36m@@ -200,7 +200,7 @@[m [mpublic class WorkoutActivity extends AppCompatActivity {[m
+                             current_lap = 0;[m
+                             hangProgressBar.setProgress(0);[m
+                             lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));[m
+[31m-[m
+[32m+[m[32m                            updateGripDisplay();[m
+                             s = -timeControls.getLongRestTime();[m
+                             // gradeTextView.setText(workoutInfo.get(current_lap));[m
+                         }[m
+[1mdiff --git a/app/src/main/res/layout/activity_main.xml b/app/src/main/res/layout/activity_main.xml[m
+[1mindex 0cc1f97..98dd427 100644[m
+[1m--- a/app/src/main/res/layout/activity_main.xml[m
+[1m+++ b/app/src/main/res/layout/activity_main.xml[m
+[36m@@ -41,7 +41,7 @@[m
+         <LinearLayout[m
+             android:id="@+id/linearLayout"[m
+             android:layout_width="350dp"[m
+[31m-            android:layout_height="wrap_content"[m
+[32m+[m[32m            android:layout_height="match_parent"[m
+             android:layout_weight="3"[m
+             android:orientation="vertical"[m
+             android:visibility="visible"[m

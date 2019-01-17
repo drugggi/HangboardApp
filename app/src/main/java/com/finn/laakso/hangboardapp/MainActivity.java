@@ -1,8 +1,11 @@
 package com.finn.laakso.hangboardapp;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -26,6 +29,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,9 +60,10 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private HangboardSwipeAdapter swipeAdapter;
 
-    private HangBoard everyBoard;
+    private Hangboard everyBoard;
     private TimeControls timeControls;
 
+    private long animationDuration = 500;
 
     private static final int REQUEST_TIME_CONTROLS = 0;
     private static final int REQUEST_COPY_WORKOUT = 1;
@@ -66,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("mainactivity_grade_desc_pos",grade_descr_position);
-        outState.putParcelableArrayList("mainactivity_hangboardholds", everyBoard.getCurrentHoldList());
+        outState.putParcelableArrayList("mainactivity_hangboardholds", everyBoard.getCurrentWorkoutHoldList());
         outState.putInt("mainactivity_durationseekbarprogression", durationSeekBar.getProgress());
         outState.putInt("mainactivity_durationseekbarvisibility", durationSeekBar.getVisibility());
         outState.putInt("mainactivity_repeatersboxvisibility",repeatersBox.getVisibility());
@@ -103,11 +109,11 @@ public class MainActivity extends AppCompatActivity {
             hangboard_descr_position = savedInstanceState.getInt("mainactivity_hangboardposition");
         }
 
-        // HangBoard class holds all the information about grades and holds and grips
+        // Hangboard class holds all the information about grades and holds and grips
         final Resources res = getResources();
-        everyBoard = new HangBoard(res);
+        everyBoard = new Hangboard(res, HangboardResources.getHangboardName(hangboard_descr_position));
 
-        everyBoard.initializeHolds(res, HangboardSwipeAdapter.getHangBoard(hangboard_descr_position));
+        // everyBoard.initializeHolds(res, HangboardResources.getHangboardName(hangboard_descr_position));
 
         timeControls = new TimeControls();
         if (savedInstanceState != null) {
@@ -128,11 +134,11 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState != null) {
             ArrayList<Hold> holds = savedInstanceState.getParcelableArrayList("mainactivity_hangboardholds");
-            everyBoard.setGrips(holds);
+            everyBoard.setNewWorkoutHolds(holds);
         }
         // holdsAdapter = new  ArrayAdapter<String>(this, R.layout.mytextview, everyBoard.getGrips());
 
-        hangsAdapter = new HangListAdapter(this, everyBoard.getCurrentHoldList() );
+        hangsAdapter = new HangListAdapter(this, everyBoard.getCurrentWorkoutHoldList() );
         holdsListView.setAdapter(hangsAdapter);
         registerForContextMenu(holdsListView);
 
@@ -173,20 +179,31 @@ public class MainActivity extends AppCompatActivity {
                 if (hangboard_descr_position != position) {
                     hangboard_descr_position = position;
 
+/*
                     rightFingerImage.setVisibility(View.INVISIBLE);
                     leftFingerImage.setVisibility(View.INVISIBLE);
+                    */
                     durationSeekBar.setVisibility(View.VISIBLE);
                     repeatersBox.setVisibility(View.VISIBLE);
 
-                    everyBoard.initializeHolds(res, HangboardSwipeAdapter.getHangBoard(hangboard_descr_position));
+                    everyBoard.initializeHolds(res, HangboardResources.getHangboardName(hangboard_descr_position));
 
-                    everyBoard.setGrips(grade_descr_position);
+                    //everyBoard.setNewWorkoutHolds(grade_descr_position);
+
+                    everyBoard.randomizeGrips(grade_descr_position);
 
                     String randomizeText = "New " + everyBoard.getGrade(grade_descr_position) + " Workout";
                     newWorkoutButton.setText(randomizeText);
 
+                    Log.d("HDP",": " + hangsAdapter.getSelectedHangNumber() );
+                    if (hangsAdapter.getSelectedHangNumber() != 0) {
+                        animateHandImagesToPosition(0,hangsAdapter.getSelectedHangNumber() - 1);
+                    }
                     // This causes huge lag in image transition, could not figure out better way update hanglist
+                    // Figured out it was because i wasn using ViewHolder in Adapters
                     hangsAdapter.notifyDataSetChanged();
+
+
 
                 }
             }
@@ -204,16 +221,24 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent workoutHistoryIntent = new Intent(getApplicationContext(), WorkoutHistoryActivity.class);
 
-                setResult(Activity.RESULT_OK,workoutHistoryIntent);
-
-                // startActivity(statsIntent);
                 startActivityForResult(workoutHistoryIntent, REQUEST_COPY_WORKOUT);
+
+/*                Intent workoutHistoryTestIntent = new Intent(getApplicationContext(), WorkoutHistoryActivity.class);
+
+                // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
+                workoutHistoryTestIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
+                 workoutHistoryTestIntent.putExtra("com.finn.laakso.hangboardapp.BOARDNAME",everyBoard.getHangboardName() );
+               // workoutHistoryTestIntent.putExtra("com.finn.laakso.hangboardapp.BOARDIMAGE",HangboardResources.getHangboardImageResource(viewPager.getCurrentItem()));
+                workoutHistoryTestIntent.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", everyBoard.getCurrentWorkoutHoldList());
+                workoutHistoryTestIntent.putExtra("com.finn.laakso.hangboardapp.DESCRIPTION","selityselitys");
+
+                startActivity(workoutHistoryTestIntent);*/
             }
         });
 
 
 
-        // Every time a grade is selected from the grade list, HangBoard generates holds and grips
+        // Every time a grade is selected from the grade list, Hangboard generates holds and grips
         // to the program based on grade difficulty
         gradesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -236,6 +261,11 @@ public class MainActivity extends AppCompatActivity {
                 hangsAdapter.notifyDataSetChanged();
 
 
+                /*
+                rightFingerImage.setImageResource(R.drawable.testanim);
+                AnimationDrawable testAnimation = (AnimationDrawable) rightFingerImage.getDrawable();
+
+                testAnimation.start();*/
 /*
                 // THIS IS ONLY FOR TESTING HAND IMAGES POSITION PURPOSES
                 float x;
@@ -296,28 +326,27 @@ public class MainActivity extends AppCompatActivity {
         holdsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                int lastPosition = hangsAdapter.getSelectedHangNumber() - 1;
                 hangsAdapter.setSelectedHangNumber(position+1);
 
                 String randomizeText = (position+1) + ". New "+ everyBoard.getGrade(grade_descr_position) + " Hang";
                 newWorkoutButton.setText(randomizeText);
 
-                rightFingerImage.setVisibility(View.VISIBLE);
-                leftFingerImage.setVisibility(View.VISIBLE);
-                ImageView imageView = (ImageView) findViewById(R.id.image_view);
-
-                // Hopefully this multiplier works in every android device
-                Float multiplyer_w = imageView.getWidth() / 350F;
-                Float multiplyer_h = imageView.getHeight() / 150F;
-
-                leftFingerImage.setImageResource(everyBoard.getLeftFingerImage(position));
-                leftFingerImage.setX(everyBoard.getCoordLeftX(position)* multiplyer_w);
-                leftFingerImage.setY(everyBoard.getCoordLeftY(position)* multiplyer_h);
-
-                rightFingerImage.setImageResource(everyBoard.getRightFingerImage(position));
-                rightFingerImage.setX(everyBoard.getCoordRightX(position)*multiplyer_w);
-                rightFingerImage.setY(everyBoard.getCoordRightY(position)*multiplyer_h);
+                animateHandImagesToPosition(lastPosition, position);
 
                 hangsAdapter.notifyDataSetChanged();
+/*
+
+                leftFingerImage.setImageResource(everyBoard.getLeftFingerImage(position));
+                leftFingerImage.setX(everyBoard.getCoordLefthandX(position)* multiplyer_w);
+                leftFingerImage.setY(everyBoard.getCoordLefthandY(position)* multiplyer_h);
+
+                rightFingerImage.setImageResource(everyBoard.getRightFingerImage(position));
+                rightFingerImage.setX(everyBoard.getCoordRighthandX(position)*multiplyer_w);
+                rightFingerImage.setY(everyBoard.getCoordRighthandY(position)*multiplyer_h);
+
+                hangsAdapter.notifyDataSetChanged();
+*/
 
                 /*
                 // THIS IS ONLY FOR TESTING HAND IMAGES POSITION
@@ -340,14 +369,14 @@ public class MainActivity extends AppCompatActivity {
                 // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
                 workoutIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
                 // workoutIntent.putExtra("com.finn.laakso.hangboardapp.HANGBOARDNAME",everyBoard.getHangboardName() );
-                workoutIntent.putExtra("com.finn.laakso.hangboardapp.BOARDIMAGE",swipeAdapter.getImageResource(viewPager.getCurrentItem()));
-                workoutIntent.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", everyBoard.getCurrentHoldList());
+                workoutIntent.putExtra("com.finn.laakso.hangboardapp.BOARDIMAGE",HangboardResources.getHangboardImageResource(viewPager.getCurrentItem()));
+                workoutIntent.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", everyBoard.getCurrentWorkoutHoldList());
 
                 startActivity(workoutIntent);
             }
         });
 
-        // RandomizeButton listener that randomizes hold or holds that user wants
+        // RnewWorkoutButton listener that randomizes hold or holds that user wants
         newWorkoutButton = (Button) findViewById(R.id.randomizeBtn);
         newWorkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -355,7 +384,10 @@ public class MainActivity extends AppCompatActivity {
 
                 // when 0, grip is not selected and we can randomize all grips
                 if ( hangsAdapter.getSelectedHangNumber() == 0 ) {
-                    everyBoard.randomizeGrips(grade_descr_position);
+                     // everyBoard.randomizeGrips(grade_descr_position);
+                    everyBoard.randomizeNewWorkoutHolds(grade_descr_position,timeControls);
+
+                    //testAndCollectDataRandomizeNewWorkoutHolds(grade_descr_position,timeControls);
 
                     if (!repeatersBox.isChecked()) {
                         everyBoard.setHoldsForSingleHangs();
@@ -366,17 +398,19 @@ public class MainActivity extends AppCompatActivity {
                     int hangPosition = hangsAdapter.getSelectedHangNumber() - 1;
                     everyBoard.randomizeGrip(grade_descr_position,hangPosition);
 
+                    animateHandImagesToPosition(0,hangPosition);
+/*
                     ImageView imageView = (ImageView) findViewById(R.id.image_view);
                     Float multiplyer_w = imageView.getWidth() / 350F;
                     Float multiplyer_h = imageView.getHeight() / 150F;
 
                     leftFingerImage.setImageResource(everyBoard.getLeftFingerImage(hangPosition));
-                    leftFingerImage.setX(everyBoard.getCoordLeftX(hangPosition)* multiplyer_w);
-                    leftFingerImage.setY(everyBoard.getCoordLeftY(hangPosition)* multiplyer_h);
+                    leftFingerImage.setX(everyBoard.getCoordLefthandX(hangPosition)* multiplyer_w);
+                    leftFingerImage.setY(everyBoard.getCoordLefthandY(hangPosition)* multiplyer_h);
 
                     rightFingerImage.setImageResource(everyBoard.getRightFingerImage(hangPosition));
-                    rightFingerImage.setX(everyBoard.getCoordRightX(hangPosition)*multiplyer_w);
-                    rightFingerImage.setY(everyBoard.getCoordRightY(hangPosition)*multiplyer_h);
+                    rightFingerImage.setX(everyBoard.getCoordRighthandX(hangPosition)*multiplyer_w);
+                    rightFingerImage.setY(everyBoard.getCoordRighthandY(hangPosition)*multiplyer_h);*/
                 }
 
                 hangsAdapter.notifyDataSetChanged();
@@ -394,7 +428,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent settingsIntent = new Intent(getApplicationContext(),SettingsActivity.class);
                 settingsIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS", timeControls.getTimeControlsIntArray() );
 
-                setResult(Activity.RESULT_OK,settingsIntent);
+                // setResult(Activity.RESULT_OK,settingsIntent);
                 startActivityForResult(settingsIntent, REQUEST_TIME_CONTROLS);
 
             }
@@ -445,6 +479,7 @@ public class MainActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
                 String durationText;
+                hangsAdapter.setSelectedHangNumber(0);
                 // In "TEST progression" case we must sort the holds by their difficulty
                 if (progress == 7) {
                     gradesListView.setVisibility(View.INVISIBLE);
@@ -471,6 +506,9 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }
+
+                String randomizeText = "New " + everyBoard.getGrade(grade_descr_position) + " Workout";
+                newWorkoutButton.setText(randomizeText);
 
                 durationTextView.setText(durationText);
                 rightFingerImage.setVisibility(View.INVISIBLE);
@@ -522,12 +560,12 @@ public class MainActivity extends AppCompatActivity {
         Float multiplyer_h = imageView.getHeight() / 150F;
 
         leftFingerImage.setImageResource(everyBoard.getLeftFingerImage(menuItemIndex));
-        leftFingerImage.setX(everyBoard.getCoordLeftX(menuItemIndex)* multiplyer_w);
-        leftFingerImage.setY(everyBoard.getCoordLeftY(menuItemIndex)* multiplyer_h);
+        leftFingerImage.setX(everyBoard.getCoordLefthandX(menuItemIndex)* multiplyer_w);
+        leftFingerImage.setY(everyBoard.getCoordLefthandY(menuItemIndex)* multiplyer_h);
 
         rightFingerImage.setImageResource(everyBoard.getRightFingerImage(menuItemIndex));
-        rightFingerImage.setX(everyBoard.getCoordRightX(menuItemIndex)*multiplyer_w);
-        rightFingerImage.setY(everyBoard.getCoordRightY(menuItemIndex)*multiplyer_h);
+        rightFingerImage.setX(everyBoard.getCoordRighthandX(menuItemIndex)*multiplyer_w);
+        rightFingerImage.setY(everyBoard.getCoordRighthandY(menuItemIndex)*multiplyer_h);
 
         return true;
 
@@ -539,98 +577,240 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
 
-            if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_TIME_CONTROLS) {
-                int[] i = data.getIntArrayExtra("com.finn.laakso.hangboardapp.SETTINGS");
+            if (requestCode == REQUEST_TIME_CONTROLS) {
+                if (resultCode == Activity.RESULT_OK ) {
+                    int[] i = data.getIntArrayExtra("com.finn.laakso.hangboardapp.SETTINGS");
 
-                // If Grip laps amount has been changed we have to randomize new grips, otherwise lets
-                // keep the old grips that user has maybe liked
-                if (i[0] != timeControls.getGripLaps()) {
-                    timeControls.setTimeControls(i);
-                    everyBoard.setGripAmount(timeControls.getGripLaps(), grade_descr_position);
+                    // If Grip laps amount has been changed we have to randomize new grips, otherwise lets
+                    // keep the old grips that user has maybe liked
+                    if (i[0] != timeControls.getGripLaps()) {
+                        timeControls.setTimeControls(i);
+                        everyBoard.setGripAmount(timeControls.getGripLaps(), grade_descr_position);
 
-                    hangsAdapter.notifyDataSetChanged();
+                        hangsAdapter.notifyDataSetChanged();
 
-                    hangsAdapter.setSelectedHangNumber(0);
-                } else {
-                    timeControls.setTimeControls(i);
+                        hangsAdapter.setSelectedHangNumber(0);
+                    } else {
+                        timeControls.setTimeControls(i);
+                    }
+
+                    //Disable the slider and check box, so that those are accidentally changed
+                    Toast.makeText(MainActivity.this, "Settings applied, pre made time controls disabled ", Toast.LENGTH_SHORT).show();
+                    repeatersBox.setVisibility(View.INVISIBLE);
+                    durationSeekBar.setVisibility(View.INVISIBLE);
                 }
-
-                //Disable the slider and check box, so that those are accidentally changed
-                Toast.makeText(MainActivity.this, "Settings applied, pre made time controls disabled ", Toast.LENGTH_SHORT).show();
-                repeatersBox.setVisibility(View.INVISIBLE);
-                durationSeekBar.setVisibility(View.INVISIBLE);
+                else {
+                    Toast.makeText(MainActivity.this, "Settings not applied, pre made time controls enabled", Toast.LENGTH_SHORT).show();
+                    repeatersBox.setVisibility(View.VISIBLE);
+                    durationSeekBar.setVisibility(View.VISIBLE);
+                }
 
             } // Enabling them when settings are not saved, in future must be made more intuitive.
-            else {
-                Toast.makeText(MainActivity.this, "Settings not applied, pre made time controls enabled", Toast.LENGTH_SHORT).show();
-                repeatersBox.setVisibility(View.VISIBLE);
-                durationSeekBar.setVisibility(View.VISIBLE);
 
-            }
+            if (requestCode == REQUEST_COPY_WORKOUT) {
+                if (resultCode == Activity.RESULT_OK) {
+                    Toast.makeText(MainActivity.this, "Workout copied", Toast.LENGTH_SHORT).show();
 
-            if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_COPY_WORKOUT) {
-                Toast.makeText(MainActivity.this, "It seems that copying workout works", Toast.LENGTH_LONG).show();
+                    int[] timeSettings = data.getIntArrayExtra("com.finn.laakso.hangboardapp.SETTINGS");
+                    ArrayList<Hold> newHolds = data.getParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS");
+                    String hbname = data.getStringExtra("com.finn.laakso.hangboardapp.BOARDNAME");
 
-                int[] timeSettings = data.getIntArrayExtra("com.finn.laakso.hangboardapp.SETTINGS");
-                ArrayList<Hold> newHolds = data.getParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS");
-                String hbname = data.getStringExtra("com.finn.laakso.hangboardapp.BOARDNAME");
-
-                TimeControls temp = new TimeControls();
-                temp.setTimeControls(timeSettings);
+                    TimeControls temp = new TimeControls();
+                    temp.setTimeControls(timeSettings);
 
 
-                int hangBoardNumber = HangboardSwipeAdapter.getHangboardPosition(hbname);
-                HangboardSwipeAdapter.hangboard newHangboard = HangboardSwipeAdapter.getHangBoard(hangBoardNumber);
+                    int hangboardPosition = HangboardResources.getHangboardPosition(hbname);
+                    HangboardResources.hangboardName newHangboard = HangboardResources.getHangboardName(hangboardPosition);
 
-                hangboard_descr_position = hangBoardNumber;
-                viewPager.setCurrentItem(hangBoardNumber);
+                    hangboard_descr_position = hangboardPosition;
+                    viewPager.setCurrentItem(hangboardPosition);
 
-                timeControls.setTimeControls(timeSettings);
+                    timeControls.setTimeControls(timeSettings);
 
-                Log.d("Hangboard",hbname + " pos: " + hangboard_descr_position);
-                Log.d("TC",timeControls.getTimeControlsAsString() );
-                Log.d("holds","size: " + newHolds.size() );
-
-
-                everyBoard.initializeHolds(getResources(), newHangboard);
-
-                everyBoard.setGrips(newHolds);
-
-                everyBoard.updateHoldCoordinates();
-
-                hangsAdapter = new HangListAdapter(this, everyBoard.getCurrentHoldList() );
-                holdsListView.setAdapter(hangsAdapter);
-                // registerForContextMenu(holdsListView);
+                    Log.d("Hangboard", hbname + " pos: " + hangboard_descr_position);
+                    Log.d("TC", timeControls.getTimeControlsAsString());
+                    Log.d("holds", "size: " + newHolds.size());
 
 
-//                int pagerNumber = swi
-                //hangboard_descr_position = hangBoardNumber;
-                //viewPager.setCurrentItem(hangBoardNumber);
-               // timeControls.setTimeControls(timeSettings);
-                //everyBoard.setGripAmount(timeControls.getGripLaps(),0);
-                //everyBoard.setGrips(newHolds);
+                    everyBoard.initializeHolds(getResources(), newHangboard);
 
-                // If Grip laps amount has been changed we have to randomize new grips, otherwise lets
-                // keep the old grips that user has maybe liked
-                /*
-                if (i[0] != timeControls.getGripLaps()) {
-                    timeControls.setTimeControls(i);
-                    everyBoard.setGripAmount(timeControls.getGripLaps(), grade_descr_position);
+                    everyBoard.setNewWorkoutHolds(newHolds);
 
-                    hangsAdapter.notifyDataSetChanged();
+                    // everyBoard.updateHoldCoordinates();
 
-                    hangsAdapter.setSelectedHangNumber(0);
-                } else {
-                    timeControls.setTimeControls(i);
+                    hangsAdapter = new HangListAdapter(this, everyBoard.getCurrentWorkoutHoldList());
+                    holdsListView.setAdapter(hangsAdapter);
+
+                    repeatersBox.setVisibility(View.INVISIBLE);
+                    durationSeekBar.setVisibility(View.INVISIBLE);
                 }
-*/
-
-                //hangsAdapter.notifyDataSetChanged();
+                else {
+                    repeatersBox.setVisibility(View.VISIBLE);
+                    durationSeekBar.setVisibility(View.VISIBLE);
+                }
             }
+
+
+
             String durationText = "Duration: " + timeControls.getTotalTime() / 60 + "min";
             durationTextView.setText(durationText);
 
     }
+
+    public void animateHandImagesToPosition(int lastPosition, int newPosition) {
+
+        // SECURITY CHECK ON THESE!!
+
+        rightFingerImage.setVisibility(View.VISIBLE);
+        leftFingerImage.setVisibility(View.VISIBLE);
+        leftFingerImage.setImageResource(everyBoard.getLeftFingerImage(newPosition));
+        rightFingerImage.setImageResource(everyBoard.getRightFingerImage(newPosition));
+
+        ImageView imageView = (ImageView) findViewById(R.id.image_view);
+        // Hopefully this multiplier works in every android device
+        Float multiplier_width = imageView.getWidth() / 350F;
+        Float multiplier_height = imageView.getHeight() / 150F;
+
+        Float newLeftHandCoordX = everyBoard.getCoordLefthandX(newPosition) * multiplier_width;
+        Float newLeftHandCoordY = everyBoard.getCoordLefthandY(newPosition) * multiplier_height;
+        Float newRightHandCoordX = everyBoard.getCoordRighthandX(newPosition) * multiplier_width;
+        Float newRightHandCoordY = everyBoard.getCoordRighthandY(newPosition) * multiplier_height;
+
+
+        ObjectAnimator leftHandAnimatorX = ObjectAnimator.ofFloat(leftFingerImage,"x",newLeftHandCoordX);
+        ObjectAnimator leftHandAnimatorY = ObjectAnimator.ofFloat(leftFingerImage,"y",newLeftHandCoordY);
+        ObjectAnimator rightHandAnimatorX = ObjectAnimator.ofFloat(rightFingerImage,"x",newRightHandCoordX);
+        ObjectAnimator rightHandAnimatorY = ObjectAnimator.ofFloat(rightFingerImage,"y",newRightHandCoordY);
+
+        leftHandAnimatorX.setDuration(animationDuration);
+        leftHandAnimatorY.setDuration(animationDuration);
+        rightHandAnimatorX.setDuration(animationDuration);
+        rightHandAnimatorY.setDuration(animationDuration);
+
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(leftHandAnimatorX);
+        animatorSet.playTogether(leftHandAnimatorY);
+        animatorSet.playTogether(rightHandAnimatorX);
+        animatorSet.playTogether(rightHandAnimatorY);
+
+
+        animatorSet.start();
+
+       // Log.d("post vs size"," " + lastPosition + "/" + everyBoard.getCurrentHoldListSize() );
+        if (lastPosition < 0 || (lastPosition+1)*2 > everyBoard.getCurrentHoldListSize() ||
+                newPosition < 0 || (newPosition+1)*2 > everyBoard.getCurrentHoldListSize() ) {return; }
+
+        Hold.grip_type fromGripLeftHand = everyBoard.getLeftHandGripType(lastPosition);
+        Hold.grip_type newGripLeftHand = everyBoard.getLeftHandGripType(newPosition);
+        Hold.grip_type fromGripRightHand;
+        Hold.grip_type newGripRightHand;
+
+       // Log.d("positions","last/new   " + lastPosition + "/"+newPosition);
+
+        int animationResourcesLeftHand = AnimationBuilder.getHandTransitionStart(fromGripLeftHand,newGripLeftHand,true);
+        int animationResourecesRightHand = AnimationBuilder.getHandTransitionStart(fromGripLeftHand,newGripLeftHand,false);
+
+        if ( animationResourcesLeftHand == 0 ) {  return;}
+        if ( animationResourecesRightHand == 0 ) { return; }
+
+
+        rightFingerImage.setImageResource(animationResourecesRightHand);
+        leftFingerImage.setImageResource(animationResourcesLeftHand );
+        // rightFingerImage.setImageResource(R)
+
+         AnimationDrawable rightHandAnimation = (AnimationDrawable) rightFingerImage.getDrawable();
+         AnimationDrawable leftHandAnimation = (AnimationDrawable) leftFingerImage.getDrawable();
+
+        rightHandAnimation.start();
+        leftHandAnimation.start();
+
+
+        //handAnimation = AnimationBuilder.getHandTransitionAnimation(handAnimation,getResources(), Hold.grip_type.FOUR_FINGER, Hold.grip_type.FOUR_FINGER);
+        //leftHandAnimation = AnimationBuilder.getHandTransitionAnimation(leftHandAnimation,getResources(), Hold.grip_type.FOUR_FINGER, Hold.grip_type.FOUR_FINGER);
+       //rightFingerImage.setBackgroundResource();
+       //  AnimationDrawable handAnimation = AnimationBuilder.getHandTransitionAnimation(getResources(), Hold.grip_type.FOUR_FINGER, Hold.grip_type.FOUR_FINGER);
+
+/*
+
+        AnimationDrawable testAnimation = (AnimationDrawable) rightFingerImage.getDrawable();
+
+        Drawable jes = getResources().getDrawable(R.drawable.animation_fourfinger_01);
+
+        testAnimation.addFrame(rightFingerImage.getDrawable(),250);
+        testAnimation.addFrame(getResources().getDrawable(R.drawable.animation_fourfinger_01),50);
+        testAnimation.addFrame(getResources().getDrawable(R.drawable.animation_fourfinger_02),50);
+        testAnimation.addFrame(getResources().getDrawable(R.drawable.animation_fourfinger_03),50);
+        testAnimation.addFrame(getResources().getDrawable(R.drawable.animation_fourfinger_04),50);
+        testAnimation.addFrame(getResources().getDrawable(R.drawable.animation_fourfinger_05),50);
+*/
+
+    }
+
+    private void testAndCollectDataRandomizeNewWorkoutHolds(int grade_descr_position,TimeControls timeControls) {
+
+        int datapoints = 100;
+
+        ArrayList<Hold> tempHoldList ;
+        ArrayList<Integer> holdDifficulties = new ArrayList<>();
+        TreeMap<Hold.grip_type,Integer> holdTypeMap = new TreeMap<Hold.grip_type, Integer>();
+        TreeMap<Integer,Integer> holdNumberMap = new TreeMap<Integer, Integer>();
+
+        int totalHoldAmount = timeControls.getGripLaps()*2* datapoints;
+
+        for (int i = 0 ; i < datapoints ; i++) {
+            everyBoard.randomizeNewWorkoutHolds(grade_descr_position, timeControls);
+
+            tempHoldList = everyBoard.getCurrentWorkoutHoldList();
+
+            for (int j = 0 ; j < tempHoldList.size() ; j++) {
+                holdDifficulties.add(tempHoldList.get(j).getHoldValue() );
+
+                if (holdTypeMap.containsKey( tempHoldList.get(j).getGripStyle() ) ) {
+                    holdTypeMap.put(tempHoldList.get(j).getGripStyle(), holdTypeMap.get(tempHoldList.get(j).getGripStyle() ) +1 );
+                }
+                else {
+                    holdTypeMap.put(tempHoldList.get(j).getGripStyle(),1);
+                }
+
+                if (holdNumberMap.containsKey( tempHoldList.get(j).getHoldNumber() ) ) {
+                    holdNumberMap.put(tempHoldList.get(j).getHoldNumber(), holdNumberMap.get(tempHoldList.get(j).getHoldNumber() ) +1 );
+                }
+                else {
+                    holdNumberMap.put(tempHoldList.get(j).getHoldNumber(),1);
+                }
+
+            }
+
+        }
+
+        for(Map.Entry<Hold.grip_type,Integer> entry: holdTypeMap.entrySet()) {
+            Hold.grip_type key = entry.getKey();
+            int value = entry.getValue();
+
+            if ( value == 0) {continue;} // custom hold
+
+            Log.d("Grip types",key + ": " + value + "  avg: " +value*100/totalHoldAmount);
+
+        }
+
+        for(Map.Entry<Integer,Integer> entry: holdNumberMap.entrySet()) {
+            int key = entry.getKey();
+            int value = entry.getValue();
+
+            if ( value == 0) {continue;} // custom hold
+
+            Log.d("Hold Numbers","hold:" +key + " : " + value+ "  avg: " +value*100/totalHoldAmount);
+
+        }
+        int total = 0;
+        for (int i = 0 ; i < holdDifficulties.size() ; i++ ) {
+            total += holdDifficulties.get(i);
+        }
+        Log.d("hold difficulties","avg: " + (float)total/totalHoldAmount );
+
+    }
+
+
 /*
     private void testMethod() {
         Random rng = new Random();

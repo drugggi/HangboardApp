@@ -69,7 +69,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
         // DBHandler to store workout from Intent.
         dbHandler = new WorkoutDBHandler(getApplicationContext(),null,null,1);
-
+        
         // Temporary workout info to generate test workouts
 
         ArrayList<Hold> tempWorkoutHolds = new ArrayList<>();
@@ -105,7 +105,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                 tempCompleted = new int[tempTimeControls.getGripLaps() * tempTimeControls.getRoutineLaps()];
 
                 for (int i = 0; i < tempCompleted.length; i++) {
-                    tempCompleted[i] = 0;
+                    tempCompleted[i] = tempTimeControls.getHangLaps();
                 }
 
             }
@@ -158,9 +158,9 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         workoutAdapter = new WorkoutHistoryAdapter(this,dbHandler,includeHidden);
 
         workoutHistoryListView = (ListView) findViewById(R.id.workoutHistoryListView);
+        workoutHistoryListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         workoutHistoryListView.setAdapter(workoutAdapter);
         registerForContextMenu(workoutHistoryListView);
-
 
         workoutHistoryListView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
             @Override
@@ -203,7 +203,10 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         workoutHistoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                workoutAdapter.workoutClicked(position);
                 positionGlobal = position+1;
+                workoutAdapter.notifyDataSetChanged();
+                // workoutAdapter.notifyDataSetChanged();
             }
         });
 
@@ -213,6 +216,14 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         showHiddenWorkoutsCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                positionGlobal = 0;
+                workoutAdapter = new WorkoutHistoryAdapter(WorkoutHistoryActivity.this,dbHandler,isChecked);
+
+                workoutHistoryListView = (ListView) findViewById(R.id.workoutHistoryListView);
+                workoutHistoryListView.setAdapter(workoutAdapter);
+                //registerForContextMenu(workoutHistoryListView);
+/*
                 if (isChecked) {
                     positionGlobal = 0;
                     workoutAdapter = new WorkoutHistoryAdapter(WorkoutHistoryActivity.this,dbHandler,isChecked);
@@ -230,11 +241,11 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                     workoutHistoryListView.setAdapter(workoutAdapter);
                    // registerForContextMenu(workoutHistoryListView);
 
-                }
+                }*/
             }
         });
 
-        // The whole point storing the workouts in database is to build beautifully useless graphs
+        // The whole point of storing the workouts in database is to build beautifully useless graphs
         // hopefully this will be one of the main attraction of this app
         showGraphsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -251,7 +262,15 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                     boolean showHidden = showHiddenWorkoutsCheckBox.isChecked();
                     showDatabaseGraphs.putExtra("com.finn.laakso.hangboardapp.SHOWHIDDEN",showHidden );
 
+                    if (workoutAdapter.getSelectedWorkoutsAmount() == 0 ||
+                            workoutAdapter.getSelectedWorkoutsAmount() == dbHandler.lookUpWorkoutCount(includeHidden)) {
                     startActivity(showDatabaseGraphs);
+                    }
+                    else {
+                        showDatabaseGraphs.putExtra("com.finn.laakso.hangboardapp.SELECTEDWORKOUTS",workoutAdapter.getSelectedWorkouts() );
+                        startActivity(showDatabaseGraphs);
+
+                    }
                 }
             }
         });
@@ -278,8 +297,6 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
             }
         };
-
-
 
     }
 
@@ -346,12 +363,15 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
             editWorkout.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS",completedHangs);
             editWorkout.putExtra("com.finn.laakso.hangboardapp.DESCRIPTION",desc);
 
-            setResult(Activity.RESULT_OK,editWorkout);
+            // setResult(Activity.RESULT_OK,editWorkout);
+
             startActivityForResult(editWorkout, REQUEST_HANGS_COMPLETED);
         }
         else if (selectedContextMenuItem == 1) {
 
             dbHandler.hideWorkoutNumber(selectedListViewPosition,includeHidden);
+
+            workoutAdapter.clearSelectedWorkouts();
 
             workoutAdapter.notifyDataSetChanged();
 
@@ -451,6 +471,8 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
             if (dbHandler.lookUpIsHidden(selectedListViewPosition,includeHidden)) {
                 dbHandler.delete(selectedListViewPosition,includeHidden);
 
+                workoutAdapter.clearSelectedWorkouts();
+
                 workoutAdapter.notifyDataSetChanged();
             }
 
@@ -517,10 +539,10 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         // Lets set up random hangboard so that holds are real and based on random grade
 
         Resources res = getResources();
-        HangBoard rngHangboard = new HangBoard(res);
+        Hangboard rngHangboard = new Hangboard(res);
         rngHangboard.initializeHolds(res, getRandomHB());
         rngHangboard.setGripAmount(rngControls.getGripLaps(), rng.nextInt(11));
-        ArrayList<Hold> holdsFromRNGhangboard = rngHangboard.getCurrentHoldList();
+        ArrayList<Hold> holdsFromRNGhangboard = rngHangboard.getCurrentWorkoutHoldList();
 
         ArrayList<Hold> randomHolds = getRandomWorkoutHolds(rngControls.getGripLaps() );
 
@@ -551,10 +573,10 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         // Lets set up random hangboard so that holds are real and based on random grade
 
         Resources res = getResources();
-        HangBoard rngHangboard = new HangBoard(res);
+        Hangboard rngHangboard = new Hangboard(res);
         rngHangboard.initializeHolds(res, getRandomHB());
         rngHangboard.setGripAmount(rngControls.getGripLaps(), rng.nextInt(11));
-        ArrayList<Hold> holdsFromRNGhangboard = rngHangboard.getCurrentHoldList();
+        ArrayList<Hold> holdsFromRNGhangboard = rngHangboard.getCurrentWorkoutHoldList();
 
         //ArrayList<Hold> randomHolds = getRandomWorkoutHolds(rngControls.getGripLaps() );
 
@@ -630,7 +652,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
 
         i_hold_both_info = i_hold_both_info + rng.nextInt(1);
-        newHold.setGripTypeAndSingleHang(i_hold_both_info);
+        newHold.setGripTypeAndSingleHold(i_hold_both_info);
 
         return newHold;
     }

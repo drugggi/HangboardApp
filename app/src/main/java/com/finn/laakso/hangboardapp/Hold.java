@@ -158,11 +158,11 @@ public class Hold implements Comparable<Hold>, Parcelable {
     public int getGripImage(boolean left_hand) {
 
       if (left_hand) {
-          if (grip_style == grip_type.FOUR_FINGER) {return R.drawable.fourfingerleft;}
-          else if (grip_style == grip_type.THREE_FRONT) {return R.drawable.threefrontleft;}
-          else if (grip_style == grip_type.THREE_BACK) {return R.drawable.threebackleft;}
+          if (grip_style == grip_type.FOUR_FINGER) {return R.drawable.animation_left_4_to_3b_01;}
+          else if (grip_style == grip_type.THREE_FRONT) {return R.drawable.animation_left_4_to_3f_10;}
+          else if (grip_style == grip_type.THREE_BACK) {return R.drawable.animation_left_4_to_3b_10;}
           else if (grip_style == grip_type.TWO_FRONT) {return R.drawable.twofrontleft;}
-          else if (grip_style == grip_type.TWO_MIDDLE) {return R.drawable.twomiddleleft;}
+          else if (grip_style == grip_type.TWO_MIDDLE) {return R.drawable.animation_left_4_to_2m_10;}
           else if (grip_style == grip_type.TWO_BACK) {return R.drawable.twobackleft;}
           else if (grip_style == grip_type.INDEX_FINGER) {return R.drawable.indexleft;}
           else if (grip_style == grip_type.MIDDLE_FINGER) {return R.drawable.middleleft;}
@@ -171,11 +171,11 @@ public class Hold implements Comparable<Hold>, Parcelable {
 
       }
         else {
-          if (grip_style == grip_type.FOUR_FINGER) {return R.drawable.fourfingerright;}
-          else if (grip_style == grip_type.THREE_FRONT) {return R.drawable.threefrontright;}
-          else if (grip_style == grip_type.THREE_BACK) {return R.drawable.threebackright;}
+          if (grip_style == grip_type.FOUR_FINGER) {return R.drawable.animation_right_4_to_3b_01;}
+          else if (grip_style == grip_type.THREE_FRONT) {return R.drawable.animation_right_4_to_3f_10;}
+          else if (grip_style == grip_type.THREE_BACK) {return R.drawable.animation_right_4_to_3b_10;}
           else if (grip_style == grip_type.TWO_FRONT) {return R.drawable.twofrontright;}
-          else if (grip_style == grip_type.TWO_MIDDLE) {return R.drawable.twomiddleright;}
+          else if (grip_style == grip_type.TWO_MIDDLE) {return R.drawable.animation_right_4_to_2m_10;}
           else if (grip_style == grip_type.TWO_BACK) {return R.drawable.twobackright;}
           else if (grip_style == grip_type.INDEX_FINGER) {return R.drawable.indexright;}
           else if (grip_style == grip_type.MIDDLE_FINGER) {return R.drawable.middleright;}
@@ -187,7 +187,7 @@ public class Hold implements Comparable<Hold>, Parcelable {
     }
 
     // XY, X is the grip type and Y is 1 if it is single hold and 0 if not
-    public void setGripTypeAndSingleHang(int i_hold_both_info) {
+    public void setGripTypeAndSingleHold(int i_hold_both_info) {
         if (i_hold_both_info % 10 == 1) {single_hold = true; }
 
         i_hold_both_info = i_hold_both_info / 10;

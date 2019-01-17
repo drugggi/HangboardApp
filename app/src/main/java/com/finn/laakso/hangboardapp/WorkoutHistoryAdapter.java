@@ -20,11 +20,19 @@ import java.text.SimpleDateFormat;
 
 public class WorkoutHistoryAdapter extends BaseAdapter {
 
+    private static final int COLOR_DARKERGRAY = Color.argb(200,96,96,96);
+    private static final int COLOR_GRAY = Color.argb(66,169,169,169);
+    private static final int COLOR_HIDDENCOLOR = Color.argb(255,102,24,51);
+    private static final int COLOR_BLACK = Color.BLACK;
+
     //private LayoutInflater mInflator;
     private Context mContext;
 
     // Database Handler to help put items correctly on a view
     private WorkoutDBHandler dbHandler;
+
+    private boolean[] selectedWorkouts;
+    private static int selectedAmount;
 
     private boolean showHidden;
     // private Cursor dbCursor;
@@ -37,16 +45,47 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
         int position;
     }
 
+    public void workoutClicked(int position) {
+        if (selectedWorkouts[position] ) {
+            selectedWorkouts[position] = false;
+            selectedAmount--;
+        } else {
+            selectedWorkouts[position] = true;
+            selectedAmount++;
+        }
+
+        // Log.d("Selected amount" ,  ": " + selectedAmount );
+/*        for (int i = 0 ; i < selectedWorkouts.length ; i++) {
+            Log.d("t or F" , i + ": " + selectedWorkouts[i] );
+        }*/
+    }
+
+    public int getSelectedWorkoutsAmount() {
+        return selectedAmount;
+    }
+
+    public void clearSelectedWorkouts() {
+        selectedWorkouts = new boolean[getCount()];
+        selectedAmount = 0;
+    }
 
     public WorkoutHistoryAdapter(Context c, WorkoutDBHandler dbHandler, boolean showHidden) {
         this.dbHandler = dbHandler;
         this.showHidden = showHidden;
         //this.mInflator = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.mContext = c;
+
+        selectedWorkouts = new boolean[getCount()];
+        selectedAmount = 0;
+        // Log.d("boolean","count: " + selectedWorkouts.length);
     }
 
     public boolean getShowHiddenStatus() {
         return this.showHidden;
+    }
+
+    public boolean[] getSelectedWorkouts() {
+        return selectedWorkouts;
     }
 
     @Override
@@ -120,42 +159,41 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
                 "TUT: " +  timeControls.getTimeUnderTension()/60+"min";
 
 
+        if (selectedWorkouts[position-1] ) {
+
+            convertView.setBackgroundColor(COLOR_DARKERGRAY);
+        } else {
+            convertView.setBackgroundColor(COLOR_GRAY);
+        }
 
 
         if (showHidden) {
 
             if (dbHandler.lookUpIsHidden(position, showHidden) ) {
 
-                int hiddenColor = Color.argb(255,102,24,51);
-
-                viewHolder.dateTextView.setTextColor(hiddenColor);
-                viewHolder.workoutTimeTextView.setTextColor(hiddenColor);
-                viewHolder.workoutDescriptionTextView.setTextColor(hiddenColor);
-                viewHolder.workoutNumberTextView.setTextColor(hiddenColor);
+                viewHolder.dateTextView.setTextColor(COLOR_HIDDENCOLOR);
+                viewHolder.workoutTimeTextView.setTextColor(COLOR_HIDDENCOLOR);
+                viewHolder.workoutDescriptionTextView.setTextColor(COLOR_HIDDENCOLOR);
+                viewHolder.workoutNumberTextView.setTextColor(COLOR_HIDDENCOLOR);
 
                 // convertView.setBackgroundColor(hiddenColor);
             }
 
             else {
 
-
-                int normalColor = Color.BLACK;
-
-                viewHolder.dateTextView.setTextColor(normalColor);
-                viewHolder.workoutTimeTextView.setTextColor(normalColor);
-                viewHolder.workoutDescriptionTextView.setTextColor(normalColor);
-                viewHolder.workoutNumberTextView.setTextColor(normalColor);
+                viewHolder.dateTextView.setTextColor(COLOR_BLACK);
+                viewHolder.workoutTimeTextView.setTextColor(COLOR_BLACK);
+                viewHolder.workoutDescriptionTextView.setTextColor(COLOR_BLACK);
+                viewHolder.workoutNumberTextView.setTextColor(COLOR_BLACK);
                 //convertView.setBackgroundColor(normalColor);
             }
 
         }
         else {
-            int normalColor = Color.BLACK;
-
-            viewHolder.dateTextView.setTextColor(normalColor);
-            viewHolder.workoutTimeTextView.setTextColor(normalColor);
-            viewHolder.workoutDescriptionTextView.setTextColor(normalColor);
-            viewHolder.workoutNumberTextView.setTextColor(normalColor);
+            viewHolder.dateTextView.setTextColor(COLOR_BLACK);
+            viewHolder.workoutTimeTextView.setTextColor(COLOR_BLACK);
+            viewHolder.workoutDescriptionTextView.setTextColor(COLOR_BLACK);
+            viewHolder.workoutNumberTextView.setTextColor(COLOR_BLACK);
             //convertView.setBackgroundColor(normalColor);
 
         }
