@@ -41,6 +41,15 @@ public class HangListAdapter extends BaseAdapter {
     public void setSelectedHangNumber(int position) {
         this.selectedHangNumber = position;
     }
+
+/*    public Hold.grip_type getSelectedGripType() {
+        if (selectedHangNumber > 0 && selectedHangNumber < workoutHolds.size() ) {
+            return workoutHolds.get(selectedHangNumber*2).getGripStyle();
+        }
+        return Hold.grip_type.FOUR_FINGER;
+
+    }*/
+
     public int getSelectedHangNumber() {
         return this.selectedHangNumber;
     }
@@ -92,13 +101,11 @@ public class HangListAdapter extends BaseAdapter {
             convertView.setBackgroundColor(0xd3d3d3);
         }
 
-
         Hold leftHandHold = workoutHolds.get(2*position);
         Hold rightHandHold = workoutHolds.get(2*position + 1);
 
         String test = leftHandHold.getHoldInfo(rightHandHold);
         String positionText = (position+1) + ".";
-
 
         viewHolder.hangInfoTextView.setText(test);
         viewHolder.hangPositionTextView.setText(positionText);

@@ -5,7 +5,7 @@
     <string name="update_workout_to_database">Update workout to database</string>
     <string name="hangboard_image">Hangboard image</string>
     <string name="time_controls">Settings</string>
-    <string name="new_workout">New 5A workout</string>
+    <string name="new_workout">New 5A\nWorkout</string>
     <string name="start_workout">Start</string>
     <string name="workout_history">Logbook</string>
     <string name="repeaters">Repeaters</string>
@@ -876,7 +876,13 @@
 
     </integer-array>
 
-
+    <!-- three items, four numbers in one grip balue -->
+    <!-- first one is the hold number in hangboard picture -->
+    <!-- second one is how hard it is hang in that hold given the grip type used-->
+    <!-- third one is what kind of grip type to use -->
+    <!-- fourth one is included in a third number, 0 means there are two holds of the same kind
+    allowing for two hands to be used, 1 means there is only one and requires different hold for the
+    other hand -->
     <integer-array name="grip_values_bm1000">
         <item>1</item>
         <item>1</item>
@@ -924,6 +930,12 @@
         <item>5</item>
         <item>13</item>
         <item>30</item> <!-- griptype and single hold -->
+        <item>5</item>
+        <item>25</item>
+        <item>40</item>
+        <item>5</item>
+        <item>19</item>
+        <item>50</item>
 
         <item>6</item>
         <item>2</item>
@@ -934,6 +946,12 @@
         <item>6</item>
         <item>8</item>
         <item>30</item> <!-- griptype and single hold -->
+        <item>6</item>
+        <item>22</item>
+        <item>40</item>
+        <item>6</item>
+        <item>18</item>
+        <item>50</item>
 
         <item>7</item>
         <item>17</item>
@@ -971,6 +989,12 @@
         <item>10</item>
         <item>22</item>
         <item>30</item> <!-- griptype and single hold -->
+        <item>10</item>
+        <item>69</item>
+        <item>40</item>
+        <item>10</item>
+        <item>40</item>
+        <item>50</item>
 
         <item>11</item>
         <item>55</item>
@@ -989,6 +1013,9 @@
         <item>19</item>
         <item>30</item> <!-- three back -->
     </integer-array>
+
+
+
     <integer-array name="grip_values_bm2000">
         <item>1</item>
         <item>100</item>

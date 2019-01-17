@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,8 +28,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.TreeMap;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -186,18 +183,19 @@ public class MainActivity extends AppCompatActivity {
                     durationSeekBar.setVisibility(View.VISIBLE);
                     repeatersBox.setVisibility(View.VISIBLE);
 
-                    everyBoard.initializeHolds(res, HangboardResources.getHangboardName(hangboard_descr_position));
+                    Hold.grip_type lastGripType = everyBoard.getLeftHandGripType(hangsAdapter.getSelectedHangNumber() - 1 );
 
-                    //everyBoard.setNewWorkoutHolds(grade_descr_position);
+                    everyBoard.initializeHolds(res, HangboardResources.getHangboardName(hangboard_descr_position));
 
                     everyBoard.randomizeGrips(grade_descr_position);
 
-                    String randomizeText = "New " + everyBoard.getGrade(grade_descr_position) + " Workout";
+                    String randomizeText = "New " + everyBoard.getGrade(grade_descr_position) + "\nWorkout";
                     newWorkoutButton.setText(randomizeText);
 
-                    Log.d("HDP",": " + hangsAdapter.getSelectedHangNumber() );
+                    // Log.d("HDP",": " + hangsAdapter.getSelectedHangNumber() );
                     if (hangsAdapter.getSelectedHangNumber() != 0) {
-                        animateHandImagesToPosition(0,hangsAdapter.getSelectedHangNumber() - 1);
+
+                        animateHandImagesToPosition(lastGripType,hangsAdapter.getSelectedHangNumber() - 1);
                     }
                     // This causes huge lag in image transition, could not figure out better way update hanglist
                     // Figured out it was because i wasn using ViewHolder in Adapters
@@ -253,7 +251,7 @@ public class MainActivity extends AppCompatActivity {
 
                 grade_descr_position = gradesListView.getPositionForView(view);
 
-                String randomizeText = "New "+ everyBoard.getGrade(grade_descr_position)+ " Workout";
+                String randomizeText = "New "+ everyBoard.getGrade(grade_descr_position)+ "\nWorkout";
                 newWorkoutButton.setText(randomizeText);
 
                 hangsAdapter.setSelectedHangNumber(0);
@@ -327,12 +325,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 int lastPosition = hangsAdapter.getSelectedHangNumber() - 1;
+
                 hangsAdapter.setSelectedHangNumber(position+1);
 
-                String randomizeText = (position+1) + ". New "+ everyBoard.getGrade(grade_descr_position) + " Hang";
+                String randomizeText = "New " + everyBoard.getGrade(grade_descr_position) + "\nHang to " + (position +1 ) + ".";
                 newWorkoutButton.setText(randomizeText);
 
-                animateHandImagesToPosition(lastPosition, position);
+                Hold.grip_type lastGripType = everyBoard.getLeftHandGripType(lastPosition);
+
+                animateHandImagesToPosition(lastGripType, position);
 
                 hangsAdapter.notifyDataSetChanged();
 /*
@@ -396,9 +397,12 @@ public class MainActivity extends AppCompatActivity {
                 // randomize a single grip
                 else {
                     int hangPosition = hangsAdapter.getSelectedHangNumber() - 1;
+
+                    Hold.grip_type oldGripType = everyBoard.getLeftHandGripType(hangPosition);
+
                     everyBoard.randomizeGrip(grade_descr_position,hangPosition);
 
-                    animateHandImagesToPosition(0,hangPosition);
+                    animateHandImagesToPosition(oldGripType,hangPosition);
 /*
                     ImageView imageView = (ImageView) findViewById(R.id.image_view);
                     Float multiplyer_w = imageView.getWidth() / 350F;
@@ -543,29 +547,23 @@ public class MainActivity extends AppCompatActivity {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
 
         int menuItemIndex = info.position;
+        int itemId = item.getItemId();
+
+        // Log.d("contextItemSelected","ItemIndex/itemId: " + menuItemIndex + "/" + itemId);
 
         // with item.getItemId() we can extract the data which hand hold or grip type was selected
         // not very elegant way at all
-        everyBoard.addCustomHold(item.getItemId(),info.position);
+        Hold.grip_type fromGripType = everyBoard.getLeftHandGripType(hangsAdapter.getSelectedHangNumber() -1 );
+        everyBoard.addCustomHold(itemId,menuItemIndex);
 
-        /*
-        holdsAdapter = new  ArrayAdapter<String>(MainActivity.this ,
-                R.layout.mytextview , everyBoard.getGrips());
-        holdsListView.setAdapter(holdsAdapter);
-*/
+        // Log.d("FROM GRIPTYPE",""+fromGripType.toString());
+
+        // Animate fingers only if changed hang
+        hangsAdapter.setSelectedHangNumber(menuItemIndex +1);
+        animateHandImagesToPosition(fromGripType, menuItemIndex);
+
         hangsAdapter.notifyDataSetChanged();
 
-        ImageView imageView = (ImageView) findViewById(R.id.image_view);
-        Float multiplyer_w = imageView.getWidth() / 350F;
-        Float multiplyer_h = imageView.getHeight() / 150F;
-
-        leftFingerImage.setImageResource(everyBoard.getLeftFingerImage(menuItemIndex));
-        leftFingerImage.setX(everyBoard.getCoordLefthandX(menuItemIndex)* multiplyer_w);
-        leftFingerImage.setY(everyBoard.getCoordLefthandY(menuItemIndex)* multiplyer_h);
-
-        rightFingerImage.setImageResource(everyBoard.getRightFingerImage(menuItemIndex));
-        rightFingerImage.setX(everyBoard.getCoordRighthandX(menuItemIndex)*multiplyer_w);
-        rightFingerImage.setY(everyBoard.getCoordRighthandY(menuItemIndex)*multiplyer_h);
 
         return true;
 
@@ -626,11 +624,13 @@ public class MainActivity extends AppCompatActivity {
                     viewPager.setCurrentItem(hangboardPosition);
 
                     timeControls.setTimeControls(timeSettings);
+/*
 
                     Log.d("Hangboard", hbname + " pos: " + hangboard_descr_position);
                     Log.d("TC", timeControls.getTimeControlsAsString());
                     Log.d("holds", "size: " + newHolds.size());
 
+*/
 
                     everyBoard.initializeHolds(getResources(), newHangboard);
 
@@ -657,12 +657,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void animateHandImagesToPosition(int lastPosition, int newPosition) {
+    public void animateHandImagesToPosition(Hold.grip_type fromGripType, int newPosition) {
 
         // SECURITY CHECK ON THESE!!
 
         rightFingerImage.setVisibility(View.VISIBLE);
         leftFingerImage.setVisibility(View.VISIBLE);
+
         leftFingerImage.setImageResource(everyBoard.getLeftFingerImage(newPosition));
         rightFingerImage.setImageResource(everyBoard.getRightFingerImage(newPosition));
 
@@ -697,18 +698,15 @@ public class MainActivity extends AppCompatActivity {
         animatorSet.start();
 
        // Log.d("post vs size"," " + lastPosition + "/" + everyBoard.getCurrentHoldListSize() );
-        if (lastPosition < 0 || (lastPosition+1)*2 > everyBoard.getCurrentHoldListSize() ||
-                newPosition < 0 || (newPosition+1)*2 > everyBoard.getCurrentHoldListSize() ) {return; }
+        if ( newPosition < 0 || (newPosition+1)*2 > everyBoard.getCurrentHoldListSize() ) {return; }
 
-        Hold.grip_type fromGripLeftHand = everyBoard.getLeftHandGripType(lastPosition);
-        Hold.grip_type newGripLeftHand = everyBoard.getLeftHandGripType(newPosition);
-        Hold.grip_type fromGripRightHand;
-        Hold.grip_type newGripRightHand;
+        Hold.grip_type newGripType = everyBoard.getLeftHandGripType(newPosition);
+
 
        // Log.d("positions","last/new   " + lastPosition + "/"+newPosition);
 
-        int animationResourcesLeftHand = AnimationBuilder.getHandTransitionStart(fromGripLeftHand,newGripLeftHand,true);
-        int animationResourecesRightHand = AnimationBuilder.getHandTransitionStart(fromGripLeftHand,newGripLeftHand,false);
+        int animationResourcesLeftHand = FingerAnimationBuilder.getHandTransitionStart(fromGripType,newGripType,true);
+        int animationResourecesRightHand = FingerAnimationBuilder.getHandTransitionStart(fromGripType,newGripType,false);
 
         if ( animationResourcesLeftHand == 0 ) {  return;}
         if ( animationResourecesRightHand == 0 ) { return; }
@@ -725,10 +723,10 @@ public class MainActivity extends AppCompatActivity {
         leftHandAnimation.start();
 
 
-        //handAnimation = AnimationBuilder.getHandTransitionAnimation(handAnimation,getResources(), Hold.grip_type.FOUR_FINGER, Hold.grip_type.FOUR_FINGER);
-        //leftHandAnimation = AnimationBuilder.getHandTransitionAnimation(leftHandAnimation,getResources(), Hold.grip_type.FOUR_FINGER, Hold.grip_type.FOUR_FINGER);
+        //handAnimation = FingerAnimationBuilder.getHandTransitionAnimation(handAnimation,getResources(), Hold.grip_type.FOUR_FINGER, Hold.grip_type.FOUR_FINGER);
+        //leftHandAnimation = FingerAnimationBuilder.getHandTransitionAnimation(leftHandAnimation,getResources(), Hold.grip_type.FOUR_FINGER, Hold.grip_type.FOUR_FINGER);
        //rightFingerImage.setBackgroundResource();
-       //  AnimationDrawable handAnimation = AnimationBuilder.getHandTransitionAnimation(getResources(), Hold.grip_type.FOUR_FINGER, Hold.grip_type.FOUR_FINGER);
+       //  AnimationDrawable handAnimation = FingerAnimationBuilder.getHandTransitionAnimation(getResources(), Hold.grip_type.FOUR_FINGER, Hold.grip_type.FOUR_FINGER);
 
 /*
 
@@ -745,6 +743,7 @@ public class MainActivity extends AppCompatActivity {
 */
 
     }
+/*
 
     private void testAndCollectDataRandomizeNewWorkoutHolds(int grade_descr_position,TimeControls timeControls) {
 
@@ -789,7 +788,7 @@ public class MainActivity extends AppCompatActivity {
 
             if ( value == 0) {continue;} // custom hold
 
-            Log.d("Grip types",key + ": " + value + "  avg: " +value*100/totalHoldAmount);
+           // Log.d("Grip types",key + ": " + value + "  avg: " +value*100/totalHoldAmount);
 
         }
 
@@ -799,17 +798,18 @@ public class MainActivity extends AppCompatActivity {
 
             if ( value == 0) {continue;} // custom hold
 
-            Log.d("Hold Numbers","hold:" +key + " : " + value+ "  avg: " +value*100/totalHoldAmount);
+           // Log.d("Hold Numbers","hold:" +key + " : " + value+ "  avg: " +value*100/totalHoldAmount);
 
         }
         int total = 0;
         for (int i = 0 ; i < holdDifficulties.size() ; i++ ) {
             total += holdDifficulties.get(i);
         }
-        Log.d("hold difficulties","avg: " + (float)total/totalHoldAmount );
+        // Log.d("hold difficulties","avg: " + (float)total/totalHoldAmount );
 
     }
 
+*/
 
 /*
     private void testMethod() {

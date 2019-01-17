@@ -362,7 +362,7 @@ public class WorkoutActivity extends AppCompatActivity {
                         if ( s == timeControls.getHangLapsSeconds() ) {
                             nowDoing = workoutPart.REST;
                             updateCompletedHangs();
-
+                            lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
 
                              if (timeControls.getTimeOFF() == 0 ) { playFinishSound.start(); }
 
@@ -442,7 +442,8 @@ public class WorkoutActivity extends AppCompatActivity {
 
                             hangProgressBar.setProgress(0);
                             restProgressBar.setProgress(0);
-                            lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
+                            // lapseTimeChrono.setTextColor(ColorStateList.valueOf(Color.GREEN));
+
                             s = -timeControls.getRestTime();
 
                             //updateGripDisplay();
@@ -709,8 +710,8 @@ public class WorkoutActivity extends AppCompatActivity {
 
         // Log.d("positions","last/new   " + lastPosition + "/"+newPosition);
 
-        int animationResourcesLeftHand = AnimationBuilder.getHandTransitionStart(fromGripLeftHand,newGripLeftHand,true);
-        int animationResourecesRightHand = AnimationBuilder.getHandTransitionStart(fromGripLeftHand,newGripLeftHand,false);
+        int animationResourcesLeftHand = FingerAnimationBuilder.getHandTransitionStart(fromGripLeftHand,newGripLeftHand,true);
+        int animationResourecesRightHand = FingerAnimationBuilder.getHandTransitionStart(fromGripLeftHand,newGripLeftHand,false);
 
         if ( animationResourcesLeftHand == 0 ) {  return;}
         if ( animationResourecesRightHand == 0 ) { return; }

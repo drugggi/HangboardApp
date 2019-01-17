@@ -1,7 +1,6 @@
 package com.finn.laakso.hangboardapp;
 
 import android.content.res.Resources;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -122,33 +121,9 @@ public class Hangboard {
 // For every hold there must be four corresponding coordinates so
     public int getMaxHoldNumber() {
         return hold_coordinates.length / 5;
-/*
-        int max = 0;
-        for (int i=0; i < allHangboardHolds.length; i++) {
-            if (allHangboardHolds[i].getHoldNumber() > max) {
-                max = allHangboardHolds[i].getHoldNumber();
-            }
-        }
-
-        Log.e("maxhold Number","max / testMax " + max + "/" + test_max);
-        return max;
-        */
-    }
-
-/*
-    // Probably deprecated becouse coordinates responsibility was moved from Hold to Hangboard/HangboardResources
-    public void updateHoldCoordinates() {
-        int holdNumber;
-        Hold.grip_type gripType;
-
-        for (int i = 0 ; i < workoutHoldList.size() ; i++ ) {
-            holdNumber = workoutHoldList.get(i).getHoldNumber();
-            gripType = workoutHoldList.get(i).getGripStyle();
-            workoutHoldList.set(i,createCustomHold( holdNumber , gripType ));
-        }
 
     }
-*/
+
 
     // Creates a custom hold and tries to search if the holds is in stored list, if not
     // especially the hold value is impossible to set, and is put to custom = 0
@@ -272,7 +247,9 @@ public class Hangboard {
         }
     }
 
+    // Left and right hand should have same grip type, thats why only lefthand method is usually used
     public Hold.grip_type getLeftHandGripType(int position) {
+
         if (position < 0 || position*2 +1  >= workoutHoldList.size() )
         {return Hold.grip_type.MIDDLE_FINGER; }
         return workoutHoldList.get(position*2).getGripStyle();
@@ -449,6 +426,7 @@ public class Hangboard {
         return differentGripTypes;
     }
 
+    // getScaledHoldValue scales the base grade values depending how hard timeControls are
     private static int getScaledHoldValue(int value,TimeControls timeControls) {
         int TUT = timeControls.getTimeUnderTension();
         int WT = timeControls.getTotalTime();
@@ -527,7 +505,7 @@ public class Hangboard {
             wantedGripTypes.add(randomGripType);
         }
         else {
-            Log.e("ERR","WantedGrypTypes size was 0!!!");
+           // Log.e("ERR","WantedGrypTypes size was 0!!!");
             wantedGripTypes.add(Hold.grip_type.FOUR_FINGER);
         }
         int initialSize = wantedGripTypes.size();

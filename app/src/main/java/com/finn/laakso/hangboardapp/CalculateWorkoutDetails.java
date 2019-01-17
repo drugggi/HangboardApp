@@ -16,7 +16,7 @@ public class CalculateWorkoutDetails {
     private int successfulHangRate;
     private int holdDifficultiesSum;
     private int unusedWorkoutTime;
-    private float averageDifficutly;
+    private float averageDifficulty;
     private float intensity;
     private float workload;
     private float power;
@@ -83,16 +83,16 @@ public class CalculateWorkoutDetails {
         }
 
         if (completedHangs != 0) {
-            averageDifficutly = (float) holdDifficultiesSum / completedHangs;
+            averageDifficulty = (float) holdDifficultiesSum / completedHangs;
         } else {
-            averageDifficutly = 0;
+            averageDifficulty = 0;
         }
 
 
-        workload = averageDifficutly * adjustedTUT;
+        workload = averageDifficulty * adjustedTUT;
 
         if (adjustedWorkoutTime != 0 ) {
-            power = averageDifficutly * adjustedTUT / adjustedWorkoutTime;
+            power = averageDifficulty * adjustedTUT / adjustedWorkoutTime;
         } else {
             power = 0;
         }
@@ -126,7 +126,7 @@ public class CalculateWorkoutDetails {
         return this.intensity;
     }
     public float getAverageDifficutly() {
-        return this.averageDifficutly;
+        return this.averageDifficulty;
     }
     public float getWorkload() {
         return this.workload;
