@@ -53,7 +53,7 @@ public class CalculateWorkoutDetails {
         for (int i = completed.length -1; i >= 0 && completed[i] == 0 ; i--) {
 
             // If completed matrix is zero matrix i.e. not a single successful hangs were done
-            // we dont erase rest time
+            // we don't erase rest time
             // This is not common in actual use, but in test cases, really common situation
             if (i == 0) {
                 unusedWorkoutTime += timeControls.getHangLaps()*( timeControls.getTimeON() + timeControls.getTimeOFF() );

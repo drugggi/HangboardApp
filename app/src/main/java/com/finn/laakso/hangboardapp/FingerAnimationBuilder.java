@@ -1,5 +1,7 @@
 package com.finn.laakso.hangboardapp;
 
+// FingerAnimationBuilder stores xml and png files need for finger animations. And picks the right
+
 public final class FingerAnimationBuilder {
 
     private static int[] leftHand_4_to_x = {0,R.drawable.animation_left_4_to_3f,R.drawable.animation_left_4_to_3b,R.drawable.animation_left_4_to_2f,R.drawable.animation_left_4_to_2m,R.drawable.animation_left_4_to_2b};
@@ -38,108 +40,25 @@ public final class FingerAnimationBuilder {
             rightHand_2f_to_x,rightHand_2m_to_x,rightHand_2b_to_x };
 
 
-
     private FingerAnimationBuilder() {
 
     }
 
 
-public static int getHandTransitionStart(Hold.grip_type fromThisGrip, Hold.grip_type toThisGrip, boolean leftHand) {
+    // getHandTransitionStart returns the right animation when start and end grip type is known
+    public static int getHandTransitionStart(Hold.grip_type fromThisGrip, Hold.grip_type toThisGrip, boolean leftHand) {
 
-    int x = fromThisGrip.ordinal();
-    int y = toThisGrip.ordinal();
+        int x = fromThisGrip.ordinal();
+        int y = toThisGrip.ordinal();
 
-  //  Log.d("From Grip","" + fromThisGrip + "   valueof: x: " +  fromThisGrip.ordinal() );
-  //  Log.d("To Grip","" + toThisGrip+ "   valueof: y: " + toThisGrip.ordinal() );
-
-
-    if (x >= leftHandAnimations.length) {return 0; }
-    if (y >= leftHandAnimations.length) {return 0; }
-
-    if (leftHand) {
-    //    Log.d("leftanimationvalue",":  " + leftHandAnimations[x][y]);
-        return leftHandAnimations[x][y];
-    }
-    else   {
-
-    //    Log.d("rightanimationvalue",":  " + rightHandAnimations[x][y]);
-        return rightHandAnimations[x][y];
-    }
-}
- /*   public static int getHandTransitionStartOldVersion(Hold.grip_type fromThisGrip, Hold.grip_type toThisGrip, boolean leftHand) {
-
-
-        Log.d("From Grip","" + fromThisGrip + "   valueof: " +  fromThisGrip.ordinal() );
-        Log.d("To Grip","" + toThisGrip+ "   valueof: " + toThisGrip.ordinal() );
-
-
+        if (x >= leftHandAnimations.length) {return 0; }
+        if (y >= leftHandAnimations.length) {return 0; }
 
         if (leftHand) {
-
-            switch (fromThisGrip) {
-                case FOUR_FINGER:
-
-                    if (toThisGrip == Hold.grip_type.THREE_FRONT) {
-                        return R.drawable.animation_left_4_to_3f;
-                    } else if (toThisGrip == Hold.grip_type.THREE_BACK) {
-                        return R.drawable.animation_left_4_to_3b;
-                    } else {
-
-
-                        return 0;
-                    }
-                case THREE_FRONT:
-                    if (toThisGrip == Hold.grip_type.FOUR_FINGER) {
-                        return R.drawable.animation_left_3f_to_4;
-                    } else if (toThisGrip == Hold.grip_type.THREE_BACK) {
-                        return R.drawable.animation_left_3f_to_3b;
-                    } else {
-                        return 0;
-                    }
-                case THREE_BACK:
-                    if (toThisGrip == Hold.grip_type.FOUR_FINGER) {
-                        return R.drawable.animation_left_3b_to_4;
-                    } else if (toThisGrip == Hold.grip_type.THREE_FRONT) {
-                        return R.drawable.animation_left_3b_to_3f;
-                    } else {
-                        return 0;
-                    }
-                default:
-                    return 0;
-            }
-
-
-        } else { // rightHand
-            switch (fromThisGrip) {
-                case FOUR_FINGER:
-
-                    if (toThisGrip == Hold.grip_type.THREE_FRONT) {
-                        return R.drawable.animation_right_4_to_3f;
-                    } else if (toThisGrip == Hold.grip_type.THREE_BACK) {
-                        return R.drawable.animation_right_4_to_3b;
-                    } else {
-                        return 0;
-                    }
-                case THREE_FRONT:
-                    if (toThisGrip == Hold.grip_type.FOUR_FINGER) {
-                        return R.drawable.animation_right_3f_to_4;
-                    } else if (toThisGrip == Hold.grip_type.THREE_BACK) {
-                        return R.drawable.animation_right_3f_to_3b;
-                    } else {
-                        return 0;
-                    }
-                case THREE_BACK:
-                    if (toThisGrip == Hold.grip_type.FOUR_FINGER) {
-                        return R.drawable.animation_right_3b_to_4;
-                    } else if (toThisGrip == Hold.grip_type.THREE_FRONT) {
-                        return R.drawable.animation_right_3b_to_3f;
-                    } else {
-                        return 0;
-                    }
-                default:
-                    return 0;
-            }
+            return leftHandAnimations[x][y];
+        }
+        else   {
+            return rightHandAnimations[x][y];
         }
     }
-*/
 }
