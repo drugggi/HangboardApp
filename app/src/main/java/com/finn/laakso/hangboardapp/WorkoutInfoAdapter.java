@@ -32,7 +32,6 @@ public class WorkoutInfoAdapter extends BaseAdapter {
     private ArrayList<Hold> workoutHolds;
     private int[] hangsCompleted;
 
-
     static class WorkoutInfoViewHolder {
 
         TextView hangPosTextView;
@@ -50,10 +49,7 @@ public class WorkoutInfoAdapter extends BaseAdapter {
         this.mContext = context;
         this.mInflator = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.hangsCompleted = completed;
-
     }
-
-
 
     // Getter to completed matrix that is meant to be edited
     public int[] getCompletedMatrix() {
@@ -111,15 +107,6 @@ public class WorkoutInfoAdapter extends BaseAdapter {
 
         }
 
-        /*
-        View v = mInflator.inflate(R.layout.single_hang_info,null);
-
-        TextView hangPosTextView = (TextView) v.findViewById(R.id.hangPositionTextView);
-        TextView completedTextView = (TextView) v.findViewById(R.id.completedTextView);
-        ImageView leftHandImageView = (ImageView) v.findViewById(R.id.leftHandImageView);
-        ImageView rightHandImageView = (ImageView) v.findViewById(R.id.rightHandImageView);
-
-*/
         int set = position/ timeControls.getGripLaps() + 1;
         int hang = position % timeControls.getGripLaps() + 1 ;
 

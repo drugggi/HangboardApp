@@ -42,8 +42,6 @@ public class PinchZoomImageView extends ImageView {
     private float mPreviousTranslateX = 0;
     private float mPreviousTranslateY = 0;
 
-
-
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
         public boolean onScale(ScaleGestureDetector detector) {
@@ -59,8 +57,6 @@ public class PinchZoomImageView extends ImageView {
             return super.onScale(detector);
         }
     }
-
-
 
     public PinchZoomImageView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);

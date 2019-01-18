@@ -77,9 +77,10 @@ public class WorkoutDBHandler extends SQLiteOpenHelper {
     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        /*
         db.execSQL("DROP TABLE IF EXISTS "+ TABLE_WORKOUTS);
         onCreate(db);
-
+        */
     }
 
     // addHangboardWorkout puts single workout into database int values hangsComlpeted, hold number,
@@ -169,8 +170,6 @@ public class WorkoutDBHandler extends SQLiteOpenHelper {
         }
 
     }
-
-
 
     // Checks how many workouts there are in database
     protected int lookUpWorkoutCount(boolean includeHidden) {

@@ -179,16 +179,8 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
                 tempDetails = new CalculateWorkoutDetails(allTimeControls.get(i), allWorkoutsHolds.get(i), allCompletedHangs.get(i));
                 allCalculatedDetails.add(tempDetails);
             }
-/*
-
-            for (int i = 0; i < workoutNumbers.length ; i++) {
-                Log.d("Labels","WO nro: " +workoutNumbers[i] );
-            }
-*/
-
             return null;
         }
-
 
         // When the details are gathered and calculated we draw the graphs
         protected void onPostExecute(Object objects) {
@@ -212,8 +204,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
                 // createScaledLineChart();
                 createHangboardDistributionPieChart();
                 createScaledBarChart();
-
-
 
             }
 
@@ -256,14 +246,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
         linearRegressionEntries.add(new Entry(0,workloadRegression.predict(0)));
         linearRegressionEntries.add(new Entry(xCoord-1,workloadRegression.predict(xCoord-1)));
-/*
-
-        String[] labels = new String[allCalculatedDetails.size()-1];
-        for (int i = 0 ; i < labels.length ; i++ ) {
-            labels[i] = "WO: " + (i+1);
-
-        }
-*/
 
         float adjustment;
         float currentWorkload ;
@@ -335,13 +317,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
         linearRegressionEntries.add(new Entry(0,intensityRegression.predict(0)));
         linearRegressionEntries.add(new Entry(xCoord-1,intensityRegression.predict(xCoord-1)));
-/*
-
-        String[] labels = new String[allCalculatedDetails.size()-1];
-        for (int i = 0 ; i < labels.length ; i++ ) {
-            labels[i] = "WO: " + (i+1);
-        }
-*/
 
         String slope = "positive";
         if ( intensityRegression.slope() < 0 ) {
@@ -411,11 +386,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
         linearRegressionEntries.add(new Entry(0,powerRegressionLine.predict(0)));
         linearRegressionEntries.add(new Entry(xCoord - 1,powerRegressionLine.predict(xCoord-1)));
-/*
-        String[] labels = new String[allCalculatedDetails.size()-1];
-        for (int i = 0 ; i < labels.length ; i++ ) {
-            labels[i] = "WO: " + (i+1);
-        }*/
 
         String slope = "positive";
         if (powerRegressionLine.slope() < 0) {
@@ -477,13 +447,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
         linearRegressionEntries.add(new Entry(0,powerRegressionLine.predict(0)));
         linearRegressionEntries.add(new Entry(xCoord - 1,powerRegressionLine.predict(xCoord-1)));
-/*
-
-        String[] labels = new String[allCalculatedDetails.size()-1];
-        for (int i = 0 ; i < labels.length ; i++ ) {
-            labels[i] = "WO: " + (i+1);
-        }
-*/
 
         String regressionLabel = "Progression line: positive";
         if (powerRegressionLine.slope() < 0 ) {
@@ -805,8 +768,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
             if (maxPower < allCalculatedDetails.get(i).getWorkoutPower() ) {
                 maxPower = allCalculatedDetails.get(i).getWorkoutPower();
             }
-
-
         }
 
         maxIntensity = maxIntensity - minIntensity;
@@ -849,27 +810,20 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         BarDataSet barDataSetIntensity = new BarDataSet(entriesIntensity,"Intensity (TUT/WT)");
         barDataSetIntensity.setColor(Color.MAGENTA);
         barDataSetIntensity.setDrawValues(false);
-        // barDataSetIntensity.setDrawCircles(false);
         BarDataSet barDataSetAvgDifficulty = new BarDataSet(entriesAvgDifficulty,"Average Difficulty (avg D)");
         barDataSetAvgDifficulty.setColors(Color.YELLOW);
-        // lineDataSetAvgDifficulty.setDrawCircles(false);
         BarDataSet barDataSetWorkload = new BarDataSet(entriesWorkload,"total Workload(avg D*TUT)");
         barDataSetWorkload.setColors(Color.BLUE);
-        //lineDataSetWorkload.setDrawCircles(false);
         BarDataSet barDataSetPower = new BarDataSet(entriesPower,"Workout power (avg D*TUT/WT)");
         barDataSetPower.setColor(Color.CYAN);
-        // lineDataSetPower.setDrawCircles(false);
 
-        //lineDataSetAvgDifficulty.setLineWidth(-1000f);
         barDataSets.add(barDataSetIntensity);
         barDataSets.add(barDataSetAvgDifficulty);
         barDataSets.add(barDataSetWorkload);
         barDataSets.add(barDataSetPower);
 
         BarData barData = new BarData(barDataSets);
-        //barData.setDrawValues(false);
 
-        //barData.setValueTextSize(10f);
         scaledBarChart.setData(barData);
 
         //data
@@ -913,13 +867,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
             entriesWT.add(new Entry(xCoord, ((float) allCalculatedDetails.get(i).getAdjustedWorkoutTime()) ));
             xCoord++;
         }
-
-/*
-        String[] labels = new String[allCalculatedDetails.size()-1];
-        for (int i = 0 ; i < labels.length ; i++ ) {
-            labels[i] = "WO: " + (i+1);
-        }
-*/
 
         ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
 
@@ -1045,7 +992,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         labelsWorkoutType[0] = " ";
         labelsWorkoutType[1] = "Single hangs: " + singleHangsAmount;
         labelsWorkoutType[2] = "Repeaters: " + repeatersAmount;
-       // labels[3] = "total: " + (singleHangsAmount + repeatersAmount);
         BarData theData = new BarData(bardataset);
 
         theData.setValueTextSize(0f);
@@ -1098,7 +1044,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
             // lets put both in TreeMap, so that same difficulty level is only once and seconds is summed in that level
             for (int j = 0; j < grip_difficulties.length ; j++) {
-                // entries.add(new BarEntry(grip_difficulties[j],completed_seconds[j]));
 
                 if (difficultyMap.containsKey(grip_difficulties[j])) {
                     difficultyMap.put(grip_difficulties[j], difficultyMap.get(grip_difficulties[j]) + completed_seconds[j]);
@@ -1152,7 +1097,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
         difficultyBarChart.invalidate();
         difficultyBarChart.animateY(3000);
-
 
     }
 
@@ -1214,7 +1158,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         hangboardDistributionPieChart.setDescription(desc);
         hangboardDistributionPieChart.invalidate();
 
-
     }
 
     private void createGripDistributionPieChart() {
@@ -1263,7 +1206,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         ArrayList<Integer> barColors = new ArrayList<Integer>();
         if (fourfinger != 0) {
             yValues.add(new PieEntry(fourfinger,"Four fingers"));
-            //barColors.add(Color.argb(255,200,0,0));
             barColors.add(Color.argb(255,104,159,56));
         }
         if (threefront != 0) {
@@ -1297,7 +1239,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
 
         dataSet.setSliceSpace(3f);
         dataSet.setSelectionShift(5f);
-        //dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
         dataSet.setColors(barColors);
         PieData data = new PieData(dataSet);
 
@@ -1308,7 +1249,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
         gripDistributionPieChart.setHoleColor(android.R.color.darker_gray);
         Description desc = new Description();
         desc.setText("Grip distribution (seconds)");
-        //desc.setTextColor(Color.argb(255,104,159,56));
         desc.setTextSize(15f);
 
         gripDistributionPieChart.setDescription(desc);
@@ -1416,8 +1356,6 @@ public class WorkoutStatisticsActivity extends AppCompatActivity {
        // generalInfo.append("Average workouts per week: ").append("\n");
 
        generalInfoTextView.setText(generalInfo.toString() );
-
-
 
    }
 /*
