@@ -171,8 +171,6 @@ public class WorkoutDBHandler extends SQLiteOpenHelper {
 
     }
 
-
-
     // Checks how many workouts there are in database
     protected int lookUpWorkoutCount(boolean includeHidden) {
 

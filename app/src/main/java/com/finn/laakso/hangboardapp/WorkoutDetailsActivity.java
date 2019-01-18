@@ -40,7 +40,6 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
         workoutDetailsTextView = (TextView) findViewById(R.id.workoutDetailsTextView);
         calculatedDetailsTextView = (TextView) findViewById(R.id.calculatedDetailsTextView);
 
-
         dbHandler = new WorkoutDBHandler(getApplicationContext(),null,null,1);
 
         int databasePosition=0;
@@ -94,10 +93,6 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
         calculatedDetailsBuilder.append("Total workload: ").append(calculatedDetails.getWorkload() ).append(" (avg D*TUT)\n");
         calculatedDetailsBuilder.append("Workout power: ").append(calculatedDetails.getWorkoutPower() ).append(" (avg D*TUT)/WT\n");
 
-        // calculatedDetailsTextView.setText(calculatedDetailsBuilder.toString());
-
-
-
     }
 
     private String getCompletedMatrix(int[] completed) {
@@ -110,7 +105,6 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
             if ((i+1) % timeControls.getGripLaps() == 0) {
                 completedBuilder.append("\n");
             }
-
 
         }
         return  completedBuilder.toString();

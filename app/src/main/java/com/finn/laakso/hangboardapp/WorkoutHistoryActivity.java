@@ -206,7 +206,6 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                 workoutAdapter.workoutClicked(position);
                 positionGlobal = position+1;
                 workoutAdapter.notifyDataSetChanged();
-                // workoutAdapter.notifyDataSetChanged();
             }
         });
 
@@ -222,26 +221,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
                 workoutHistoryListView = (ListView) findViewById(R.id.workoutHistoryListView);
                 workoutHistoryListView.setAdapter(workoutAdapter);
-                //registerForContextMenu(workoutHistoryListView);
-/*
-                if (isChecked) {
-                    positionGlobal = 0;
-                    workoutAdapter = new WorkoutHistoryAdapter(WorkoutHistoryActivity.this,dbHandler,isChecked);
 
-                    workoutHistoryListView = (ListView) findViewById(R.id.workoutHistoryListView);
-                    workoutHistoryListView.setAdapter(workoutAdapter);
-                    //registerForContextMenu(workoutHistoryListView);
-
-                }
-                else {
-                    positionGlobal = 0;
-                    workoutAdapter = new WorkoutHistoryAdapter(WorkoutHistoryActivity.this,dbHandler,isChecked);
-
-                    workoutHistoryListView = (ListView) findViewById(R.id.workoutHistoryListView);
-                    workoutHistoryListView.setAdapter(workoutAdapter);
-                   // registerForContextMenu(workoutHistoryListView);
-
-                }*/
             }
         });
 
@@ -275,7 +255,6 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
             }
         });
 
-
         // Listener for parsing and updating the date that user selects
         dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -290,7 +269,6 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                 Long timeInMillis = cal.getTimeInMillis();
 
                 boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
-
                 dbHandler.updateDate(positionGlobal,timeInMillis,includeHidden);
 
                 workoutAdapter.notifyDataSetChanged();
@@ -299,7 +277,6 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         };
 
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -314,7 +291,6 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
             if (data.hasExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS")) {
 
                 int[] completed = data.getIntArrayExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS");
-
 
                 dbHandler.updateCompletedHangs(positionGlobal,completed,includeHidden);
             }
@@ -363,8 +339,6 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
             editWorkout.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS",completedHangs);
             editWorkout.putExtra("com.finn.laakso.hangboardapp.DESCRIPTION",desc);
 
-            // setResult(Activity.RESULT_OK,editWorkout);
-
             startActivityForResult(editWorkout, REQUEST_HANGS_COMPLETED);
         }
         else if (selectedContextMenuItem == 1) {
@@ -391,8 +365,6 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                     android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                     dateSetListener,
                     year,month,day);
-
-
             try {
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
@@ -447,8 +419,6 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         }
 
         else if (selectedContextMenuItem == 4) {
-
-
             Intent resultCopyWorkoutIntent = new Intent();
             resultCopyWorkoutIntent.putExtra("com.finn.laakso.hangboardapp.BOARDNAME",hangboardName);
             resultCopyWorkoutIntent.putExtra("com.finn.laakso.hangboardapp.SETTINGS", timeControls.getTimeControlsIntArray());
@@ -457,13 +427,6 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
             setResult(Activity.RESULT_OK, resultCopyWorkoutIntent);
 
             finish();
-            // editWorkout.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
-            // editWorkout.putExtra("com.finn.laakso.hangboardapp.BOARDNAME",hangboardName);
-            // editWorkout.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", holds);
-            // editWorkout.putExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS",completedHangs);
-            // editWorkout.putExtra("com.finn.laakso.hangboardapp.DESCRIPTION",desc);
-
-            // Toast.makeText(WorkoutHistoryActivity.this,"Copy workout elseif",Toast.LENGTH_SHORT).show();
         }
 
         else if (selectedContextMenuItem == 5) {
