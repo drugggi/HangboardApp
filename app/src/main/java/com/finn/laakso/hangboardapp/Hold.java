@@ -18,14 +18,6 @@ public class Hold implements Comparable<Hold>, Parcelable {
     // hold value tries to measure the difficulty to hang in each hold number with the different grip types
     private int hold_value;
 
-    // hold coordinates are based on hold number, left or right hand and currently used hangboard.
-/*
-    private int lefthand_coord_x;
-    private int lefthand_coord_y;
-    private int righthand_coord_x;
-    private int righthand_coord_y;
-*/
-
     // grip type describes the fingers used in hanging in a hold
     public enum grip_type {FOUR_FINGER, THREE_FRONT, THREE_BACK, TWO_FRONT, TWO_MIDDLE, TWO_BACK
         , INDEX_FINGER,MIDDLE_FINGER, RING_FINGER, LITTLE_FINGER}
@@ -49,16 +41,11 @@ public class Hold implements Comparable<Hold>, Parcelable {
     private Hold(Parcel in) {
         hold_number = in.readInt();
         hold_value = in.readInt();
- /*       lefthand_coord_x = in.readInt();
-        lefthand_coord_y = in.readInt();
-        righthand_coord_x = in.readInt();
-        righthand_coord_y = in.readInt();
- */
+
         boolean[] booleanArr = new boolean[1];
         in.readBooleanArray(booleanArr);
         single_hold = booleanArr[0];
         grip_style = grip_type.values()[in.readInt()];
-        // single_hold = in.readBooleanArray();
 
     }
 
@@ -71,11 +58,6 @@ public class Hold implements Comparable<Hold>, Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(hold_number);
         dest.writeInt(hold_value);
-        /*dest.writeInt(lefthand_coord_x);
-        dest.writeInt(lefthand_coord_y);
-        dest.writeInt(righthand_coord_x);
-        dest.writeInt(righthand_coord_y);
-        */
         dest.writeBooleanArray(new boolean[] {single_hold});
         dest.writeInt(grip_style.ordinal());
 
@@ -96,42 +78,7 @@ public class Hold implements Comparable<Hold>, Parcelable {
     public int compareTo(Hold compareHold) {
             return this.hold_value - compareHold.hold_value;
     }
-/*
 
-    public int getLeftCoordX() {
-        return lefthand_coord_x;
-    }
-    public int getLeftCoordY() {
-        return lefthand_coord_y;
-    }
-    public int getRightCoordX() {
-        return righthand_coord_x;
-    }
-    public int getRightCoordY() {return righthand_coord_y;}
-
-    public void setHoldCoordinates(int[] coordinates) {
-
-        int coordinateRow = hold_number - 1;
-
-
-        // Security check, it is possible that user manually changes hangboard so that there is no
-        // hold number/ hold coordinates in that hangboard
-        if (coordinateRow*5 + 4 < coordinates.length) {
-            lefthand_coord_x = coordinates[coordinateRow * 5 + 1];
-            lefthand_coord_y = coordinates[coordinateRow * 5 + 2];
-            righthand_coord_x = coordinates[coordinateRow * 5 + 3];
-            righthand_coord_y = coordinates[coordinateRow * 5 + 4];
-        }
-        else {
-            lefthand_coord_x = 0;
-            lefthand_coord_y = 0;
-            righthand_coord_x = 0;
-            righthand_coord_y = 0;
-        }
-
-
-    }
-*/
 
     // Get hold info Takes two holds left(this) and right hand hold and makes String information
     // out of those: Grip type is alternate and hold value is average

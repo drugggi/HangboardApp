@@ -42,13 +42,6 @@ public class HangListAdapter extends BaseAdapter {
         this.selectedHangNumber = position;
     }
 
-/*    public Hold.grip_type getSelectedGripType() {
-        if (selectedHangNumber > 0 && selectedHangNumber < workoutHolds.size() ) {
-            return workoutHolds.get(selectedHangNumber*2).getGripStyle();
-        }
-        return Hold.grip_type.FOUR_FINGER;
-
-    }*/
 
     public int getSelectedHangNumber() {
         return this.selectedHangNumber;
@@ -73,7 +66,6 @@ public class HangListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         HangListViewHolder viewHolder;
-
         if (convertView == null) {
 
             LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
@@ -92,8 +84,6 @@ public class HangListAdapter extends BaseAdapter {
             viewHolder = (HangListViewHolder) convertView.getTag();
 
         }
-
-
 
         if (selectedHangNumber == position +1 ) {
             convertView.setBackgroundColor(Color.GRAY);

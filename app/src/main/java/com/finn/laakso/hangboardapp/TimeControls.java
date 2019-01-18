@@ -2,20 +2,17 @@ package com.finn.laakso.hangboardapp;
 
 /**
  * Created by Laakso on 12.1.2018.
+ * Class TimeControls tries to hide a lot of time control parameters that are confusing to follow
  */
 
-// Class TimeControls tries to hide a lot of time control parameters that are confusing to follow
 public class TimeControls {
-    // In future I will refactor TimeControls class to keep track with current lap
-    // private int current_lap=0;
 
     private int grip_laps;
     private int hang_laps;
     private int hang_laps_seconds;
     private int time_on ;
     private int time_off;
-    private int routine_laps;
-    // private int time_total = time_on + time_off;
+    private int sets;
     private int rest;
     private int long_rest ;
     private boolean isRepeaters = true;
@@ -27,8 +24,7 @@ public class TimeControls {
 
         this.time_on = 7;
         this.time_off = 3;
-        this.routine_laps = 3;
-        /// time_total = time_on + time_off;
+        this.sets = 3;
         this.rest = 150;
         this.long_rest = 360;
         this.hang_laps_seconds = hang_laps * (time_on + time_off);
@@ -37,18 +33,7 @@ public class TimeControls {
     public boolean isRepeaters() {
         return isRepeaters;
     }
-    /*
-    public void setToRepeaters(boolean setTo) {
-        isRepeaters = setTo;
-    }
-*/
 
-    /*
-    // Not working very well setToRepeaters is good enough
-    public void changeTimeToSingleHangs() {
-        isRepeaters = false;
-    }
-*/
     // getGripMatrix method generates a readable String which represents the hang program and
     // includes grips, rest and long rest
     // Refactor using StingBuilder in the future for good practice
@@ -57,7 +42,7 @@ public class TimeControls {
 
         // if showTimeInfo is true lets print grips and rests in seconds
         if (showTimeInfo) {
-            String grip_time= "[ "+ hang_laps_seconds+"s ]";
+            // String grip_time= "[ "+ hang_laps_seconds+"s ]";
             String grips = "[ "+ hang_laps_seconds+"s ]";
 
             // Lets generate a single set string
@@ -67,7 +52,7 @@ public class TimeControls {
             }
             // no paste that single set string as many times as there are sets
             matrix = "1. SET:  " + grips;
-            for (int i=2; i<=routine_laps; i++) {
+            for (int i=2; i<=sets; i++) {
                 matrix = matrix + "  LONG REST( " + long_rest + "s )\n";
                 matrix = matrix + i + ". SET:  " + grips;
             }
@@ -85,7 +70,7 @@ public class TimeControls {
         }
 
         matrix = "1. SET:  " + grips;
-        for (int i=2; i <= routine_laps; i++) {
+        for (int i=2; i <= sets; i++) {
             matrix = matrix + "  LONG REST( " + long_rest + "s )\n";
             matrix = matrix + i + ". SET:  " + grips;
         }
@@ -96,8 +81,9 @@ public class TimeControls {
 
     // Time under thesion is the time that user actually hangs on those grips
     public int getTimeUnderTension() {
-        return routine_laps*grip_laps*hang_laps*time_on;
+        return sets*grip_laps*hang_laps*time_on;
     }
+/*
 
     public void changeTimeToRepeaters() {
         isRepeaters = true;
@@ -105,11 +91,12 @@ public class TimeControls {
         this.hang_laps = 6;
         this.time_on = 7;
         this.time_off = 3;
-        this.routine_laps = 3;
+        this.sets = 3;
         this.rest = 150;
         this.long_rest = 360;
         this.hang_laps_seconds = hang_laps * (time_on + time_off);
     }
+*/
 
     public void setGripLaps(int grip_laps) {
         if (grip_laps > 0 && grip_laps <= 100) {
@@ -161,7 +148,6 @@ public class TimeControls {
     }
 
     public void setTimeOFF(int time_off) {
-        //Log.e("test","new timeoff: " +time_off + " oldtimeOFF: " + this.time_off + " griplaps: " + this.grip_laps);
         if (this.hang_laps == 1) {
             this.time_off = 0;
             return;
@@ -178,17 +164,17 @@ public class TimeControls {
         return time_off;
     }
 
-    public void setRoutineLaps(int routine_laps) {
-        if (routine_laps > 0 && routine_laps <= 50) {
-            this.routine_laps = routine_laps;
+    public void setRoutineLaps(int sets) {
+        if (sets > 0 && sets <= 50) {
+            this.sets = sets;
         }
         else {
-            this.routine_laps = 3;
+            this.sets = 3;
         }
 
     }
     public int getRoutineLaps() {
-        return  routine_laps;
+        return  sets;
     }
 
     public void setRestTime(int rest) {
@@ -224,6 +210,7 @@ public class TimeControls {
     }
 
 
+    // Premade time controls that are found decent via trial and error
     public void setPremadeTimeControls(int progressBarPosition) {
         if (isRepeaters) {
             if (progressBarPosition == 0) {
@@ -269,11 +256,11 @@ public class TimeControls {
 
     public String getTimeControlsAsString() {
         return "Grips: " + grip_laps + " Hangs: " + hang_laps + " Time on/off: " + time_on + "/"
-                + time_off + " Sets: " + routine_laps + " rest/long rest: " + rest + "/" + long_rest;
+                + time_off + " Sets: " + sets + " rest/long rest: " + rest + "/" + long_rest;
     }
 
     public String getTimeControlsAsJSONGString() {
-        return grip_laps + "," + hang_laps + "," + time_on + "," + time_off + "," + routine_laps
+        return grip_laps + "," + hang_laps + "," + time_on + "," + time_off + "," + sets
                 + "," + rest + "," + long_rest;
     }
 
@@ -292,7 +279,7 @@ public class TimeControls {
     }
 
     public int getTotalTime() {
-        return (hang_laps_seconds*grip_laps+(grip_laps - 1)*rest) * routine_laps  + (routine_laps - 1)*long_rest;
+        return (hang_laps_seconds*grip_laps+(grip_laps - 1)*rest) * sets  + (sets - 1)*long_rest;
     }
 
     public void setTimeControls(int[] time_controls) {
@@ -318,8 +305,7 @@ public class TimeControls {
     }
 
     public int[] getTimeControlsIntArray() {
-        int[] timecontrols = {grip_laps, hang_laps,  time_on, time_off, routine_laps , rest, long_rest};
-        return timecontrols;
+        return new int[] {grip_laps, hang_laps,  time_on, time_off, sets , rest, long_rest};
     }
 
 
