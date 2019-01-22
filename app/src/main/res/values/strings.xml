@@ -875,7 +875,7 @@
         <item>80</item>
 
     </integer-array>
-    <integer-array name="concept_coordinates">
+    <integer-array name="solution_coordinates">
         <!--                        LEFT  HAND                          RIGHT   HAND      -->
         <!--hold number     X coord         Y coord                 X coord        Y coord    -->
         <item>1</item>
@@ -2660,7 +2660,7 @@
 
     </integer-array>
 
-    <integer-array name="grip_values_concept">
+    <integer-array name="grip_values_solution">
     <item>1</item>
     <item>100</item>
     <item>10</item> <!-- griptype: four fingers-->
