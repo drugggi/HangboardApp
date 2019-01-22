@@ -27,7 +27,7 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
 
     // workout info that requires calculation usually involving completed matrix
 
-    public static TextView workoutDetailsTextView;
+    private TextView workoutDetailsTextView;
     private TextView calculatedDetailsTextView;
 
     @Override
@@ -82,17 +82,17 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
 
         StringBuilder calculatedDetailsBuilder = new StringBuilder();
         calculatedDetailsBuilder.append("Workout Time:          ").append(timeControls.getTotalTime() ).append("s\n");
-        calculatedDetailsBuilder.append("Workout Time adjusted: ").append(calculatedDetails.getAdjustedWorkoutTime() ).append("s\n    (Times of failed hangs at the end of workout are removed. I.e. workout is stopped early.\n");
+        calculatedDetailsBuilder.append("Workout Time adjusted: ").append(calculatedDetails.getAdjustedWorkoutTime() ).append("s\n    (Times of failed hangs at the end of workout are removed. I.e. workout is stopped early.)\n");
         calculatedDetailsBuilder.append("Unused Workout Time: ").append(calculatedDetails.getUnusedWorkoutTime() ).append("s\n");
         calculatedDetailsBuilder.append("Time Under Tension:           ").append(timeControls.getTimeUnderTension() ).append("s\n");
-        calculatedDetailsBuilder.append("Time Under Tension adjusted: ").append(calculatedDetails.getAdjustedTUT() ).append("s\n    (Times of failed hangs are obviously not part of time under tension\n");
+        calculatedDetailsBuilder.append("Time Under Tension adjusted: ").append(calculatedDetails.getAdjustedTUT() ).append("s\n    (Times of failed hangs are obviously not part of time under tension)\n");
         calculatedDetailsBuilder.append("Completed Hangs: ").append(calculatedDetails.getCompletedHangs() ).append("/").append(calculatedDetails.getTotalHangs() ).append("\n");
         calculatedDetailsBuilder.append("Successful hang percent: ").append(calculatedDetails.getSuccessfulHangRate() ).append("%\n");
         calculatedDetailsBuilder.append("Average Difficulty per hang: ").append(calculatedDetails.getAverageDifficutly() ).append(" (avg D)\n");
         calculatedDetailsBuilder.append("Workout intensity: ").append(calculatedDetails.getIntensity() ).append(" (TUT/WT)\n");
         calculatedDetailsBuilder.append("Total workload: ").append(calculatedDetails.getWorkload() ).append(" (avg D*TUT)\n");
-        calculatedDetailsBuilder.append("Workout power: ").append(calculatedDetails.getWorkoutPower() ).append(" (avg D*TUT)/WT\n");
-
+        calculatedDetailsBuilder.append("Workout power: ").append(calculatedDetails.getWorkoutPower() ).append(" (avg D*TUT)/WT)\n");
+        calculatedDetailsTextView.setText(calculatedDetailsBuilder.toString() );
     }
 
     private String getCompletedMatrix(int[] completed) {

@@ -127,6 +127,7 @@ public class JSONFetcher extends AsyncTask<Void,Void,Void> {
             int start = i * maxLogSize;
             int end = (i+1) * maxLogSize;
             end = end > jsonText.length() ? jsonText.length() : end;
+
             Log.v("json", jsonText.substring(start, end));
         }
 
@@ -141,8 +142,7 @@ public class JSONFetcher extends AsyncTask<Void,Void,Void> {
     protected Void doInBackground(Void... voids) {
         try {
             //URL url = new URL("https://api.myjson.com/bins/1b0ybk");
-            URL url = new URL("https://api.myjson.com/bins/17zfhw");
-
+            URL url = new URL("https://api.myjson.com/bins/fha8c");
 
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             InputStream inputStream = httpURLConnection.getInputStream();

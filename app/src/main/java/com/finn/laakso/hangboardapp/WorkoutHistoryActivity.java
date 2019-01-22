@@ -128,6 +128,11 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
         }
 
+        //dbHandler.DELETEALL();
+
+        // JSONFetcher myWorkoutHistory = new JSONFetcher(dbHandler);
+        // myWorkoutHistory.execute();
+
         // Click listener for editing single workout
         //workoutDetailstButton.setText("show WO details");
         workoutDetailstButton.setOnClickListener(new View.OnClickListener() {
@@ -149,7 +154,10 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                 workoutDetailsIntent.putExtra("com.finn.laakso.hangboardapp.DBPOSITION",positionGlobal );
                 workoutDetailsIntent.putExtra("com.finn.laakso.hangboardapp.ISHIDDEN",isHidden );
 
-                startActivity(workoutDetailsIntent);
+               // JSONFetcher myWorkoutHistory = new JSONFetcher(dbHandler);
+                //myWorkoutHistory.constructJSONObjects();
+
+                 startActivity(workoutDetailsIntent);
 
             }
         });
