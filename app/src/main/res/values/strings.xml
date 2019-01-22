@@ -878,11 +878,7 @@
     <integer-array name="solution_coordinates">
         <!--                        LEFT  HAND                          RIGHT   HAND      -->
         <!--hold number     X coord         Y coord                 X coord        Y coord    -->
-        <item>1</item>
-        <item>20</item>
-        <item>13</item>
-        <item>257</item>
-        <item>13</item>
+        <item>1</item><item>0</item><item>0</item><item>0</item><item>0</item>
         <item>2</item>
         <item>70</item>
         <item>8</item>
@@ -954,6 +950,66 @@
         <item>1</item>
         <item>1</item>
 
+    </integer-array>
+
+    <integer-array name="edge_coordinates">
+        <!--                        LEFT  HAND                          RIGHT   HAND      -->
+        <!--hold number     X coord         Y coord                 X coord        Y coord    -->
+        <item>1</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>2</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>3</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>4</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>5</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>6</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>7</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>8</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>9</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>10</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>11</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>12</item><item>0</item><item>0</item><item>0</item><item>0</item>
+    </integer-array>
+
+    <integer-array name="soillboost_coordinates">
+        <!--                        LEFT  HAND                          RIGHT   HAND      -->
+        <!--hold number     X coord         Y coord                 X coord        Y coord    -->
+        <item>1</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>2</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>3</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>4</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>5</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>6</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>7</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>8</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>9</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>10</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>11</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>12</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>13</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>14</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>15</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>16</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>17</item><item>0</item><item>0</item><item>0</item><item>0</item>
+    </integer-array>
+
+    <integer-array name="ultimate_coordinates">
+        <!--                        LEFT  HAND                          RIGHT   HAND      -->
+        <!--hold number     X coord         Y coord                 X coord        Y coord    -->
+        <item>1</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>2</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>3</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>4</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>5</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>6</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>7</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>8</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>9</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>10</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>11</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>12</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>13</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>14</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>15</item><item>0</item><item>0</item><item>0</item><item>0</item>
+        <item>16</item><item>0</item><item>0</item><item>0</item><item>0</item>
     </integer-array>
     <!-- three items, four numbers in one grip balue -->
     <!-- first one is the hold number in hangboard picture -->
@@ -1092,8 +1148,6 @@
         <item>19</item>
         <item>30</item> <!-- three back -->
     </integer-array>
-
-
 
     <integer-array name="grip_values_bm2000">
         <item>1</item>
@@ -2804,6 +2858,460 @@
     <item>15</item>
     <item>16</item>
     <item>31</item> <!-- griptype and single hold -->
+    </integer-array>
+
+    <integer-array name="grip_values_edge">
+        <item>1</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>10</item> <!-- griptype and single hold -->
+        <item>1</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>20</item> <!-- griptype and single hold -->
+        <item>1</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>30</item> <!-- griptype and single hold -->
+
+        <item>2</item>
+        <item>0</item>
+        <item>10</item> <!-- griptype and single hold -->
+        <item>2</item>
+        <item>0</item>
+        <item>20</item> <!-- griptype and single hold -->
+        <item>2</item>
+        <item>0</item>
+        <item>30</item> <!-- griptype and single hold -->
+
+        <item>3</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>10</item> <!-- griptype and single hold -->
+        <item>3</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>20</item> <!-- griptype and single hold -->
+        <item>3</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>30</item> <!-- griptype and single hold -->
+
+        <item>4</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>10</item> <!-- griptype and single hold -->
+        <item>4</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>20</item> <!-- griptype and single hold -->
+        <item>4</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>30</item> <!-- griptype and single hold -->
+
+        <item>5</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>10</item> <!-- griptype and single hold -->
+        <item>5</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>20</item> <!-- griptype and single hold -->
+        <item>6</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>30</item> <!-- griptype and single hold -->
+
+        <item>7</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>10</item> <!-- griptype and single hold -->
+        <item>7</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>20</item> <!-- griptype and single hold -->
+        <item>7</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>30</item> <!-- griptype and single hold -->
+
+        <item>8</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>10</item> <!-- griptype and single hold -->
+        <item>8</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>20</item> <!-- griptype and single hold -->
+        <item>8</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>30</item> <!-- griptype and single hold -->
+
+        <item>9</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>10</item> <!-- griptype and single hold -->
+        <item>9</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>20</item> <!-- griptype and single hold -->
+        <item>9</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>30</item> <!-- griptype and single hold -->
+
+        <item>10</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>10</item> <!-- griptype and single hold -->
+        <item>10</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>20</item> <!-- griptype and single hold -->
+        <item>10</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>30</item> <!-- griptype and single hold -->
+
+        <item>11</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>10</item> <!-- griptype and single hold -->
+        <item>11</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>20</item> <!-- griptype and single hold -->
+        <item>11</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>30</item> <!-- griptype and single hold -->
+
+        <item>12</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>10</item> <!-- griptype and single hold -->
+        <item>12</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>20</item> <!-- griptype and single hold -->
+        <item>12</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>30</item> <!-- griptype and single hold -->
+    </integer-array>
+
+    <integer-array name="grip_values_soillboost">
+        <item>1</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>10</item> <!-- griptype and single hold -->
+        <item>1</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>20</item> <!-- griptype and single hold -->
+        <item>1</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>30</item> <!-- griptype and single hold -->
+
+        <item>2</item>
+        <item>0</item>
+        <item>10</item> <!-- griptype and single hold -->
+        <item>2</item>
+        <item>0</item>
+        <item>20</item> <!-- griptype and single hold -->
+        <item>2</item>
+        <item>0</item>
+        <item>30</item> <!-- griptype and single hold -->
+
+        <item>3</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>10</item> <!-- griptype and single hold -->
+        <item>3</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>20</item> <!-- griptype and single hold -->
+        <item>3</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>30</item> <!-- griptype and single hold -->
+
+        <item>4</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>10</item> <!-- griptype and single hold -->
+        <item>4</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>20</item> <!-- griptype and single hold -->
+        <item>4</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>30</item> <!-- griptype and single hold -->
+
+        <item>5</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>70</item> <!-- griptype and single hold -->
+        <item>5</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>80</item> <!-- griptype and single hold -->
+        <item>5</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>90</item> <!-- griptype and single hold -->
+        <item>5</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>100</item> <!-- griptype and single hold -->
+
+        <item>6</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>10</item> <!-- griptype and single hold -->
+        <item>6</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>20</item> <!-- griptype and single hold -->
+        <item>6</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>30</item> <!-- griptype and single hold -->
+
+        <item>7</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>10</item> <!-- griptype and single hold -->
+        <item>7</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>20</item> <!-- griptype and single hold -->
+        <item>7</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>30</item> <!-- griptype and single hold -->
+
+        <item>8</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>70</item> <!-- griptype and single hold -->
+        <item>8</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>80</item> <!-- griptype and single hold -->
+        <item>8</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>90</item> <!-- griptype and single hold -->
+        <item>8</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>100</item> <!-- griptype and single hold -->
+
+        <item>9</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>10</item> <!-- griptype and single hold -->
+        <item>9</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>20</item> <!-- griptype and single hold -->
+        <item>9</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>30</item> <!-- griptype and single hold -->
+
+        <item>10</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>21</item> <!-- griptype and single hold -->
+        <item>10</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>31</item> <!-- griptype and single hold -->
+
+        <item>11</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>10</item> <!-- griptype and single hold -->
+        <item>11</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>20</item> <!-- griptype and single hold -->
+        <item>11</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>30</item> <!-- griptype and single hold -->
+
+        <item>12</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>40</item> <!-- griptype and single hold -->
+        <item>12</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>50</item> <!-- griptype and single hold -->
+        <item>12</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>60</item> <!-- griptype and single hold -->
+
+        <item>13</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>70</item> <!-- griptype and single hold -->
+        <item>13</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>80</item> <!-- griptype and single hold -->
+        <item>13</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>90</item> <!-- griptype and single hold -->
+        <item>13</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>100</item> <!-- griptype and single hold -->
+
+        <item>14</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>11</item> <!-- griptype and single hold -->
+        <item>14</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>21</item> <!-- griptype and single hold -->
+        <item>14</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>31</item> <!-- griptype and single hold -->
+
+        <item>15</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>10</item> <!-- griptype and single hold -->
+        <item>15</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>20</item> <!-- griptype and single hold -->
+        <item>15</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>30</item> <!-- griptype and single hold -->
+
+        <item>16</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>10</item> <!-- griptype and single hold -->
+        <item>16</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>20</item> <!-- griptype and single hold -->
+        <item>16</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>30</item> <!-- griptype and single hold -->
+
+        <item>17</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>20</item> <!-- griptype and single hold -->
+        <item>17</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>30</item> <!-- griptype and single hold -->
+    </integer-array>
+
+    <integer-array name="grip_values_ultimate">
+        <item>1</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>10</item> <!-- griptype and single hold -->
+        <item>1</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>20</item> <!-- griptype and single hold -->
+        <item>1</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>30</item> <!-- griptype and single hold -->
+
+        <item>2</item>
+        <item>0</item>
+        <item>10</item> <!-- griptype and single hold -->
+        <item>2</item>
+        <item>0</item>
+        <item>20</item> <!-- griptype and single hold -->
+        <item>2</item>
+        <item>0</item>
+        <item>30</item> <!-- griptype and single hold -->
+
+        <item>3</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>10</item> <!-- griptype and single hold -->
+        <item>3</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>20</item> <!-- griptype and single hold -->
+        <item>3</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>30</item> <!-- griptype and single hold -->
+
+        <item>4</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>10</item> <!-- griptype and single hold -->
+        <item>4</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>20</item> <!-- griptype and single hold -->
+        <item>4</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>30</item> <!-- griptype and single hold -->
+
+        <item>5</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>11</item> <!-- griptype and single hold -->
+        <item>5</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>21</item> <!-- griptype and single hold -->
+        <item>5</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>31</item> <!-- griptype and single hold -->
+
+        <item>6</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>10</item> <!-- griptype and single hold -->
+        <item>6</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>20</item> <!-- griptype and single hold -->
+        <item>6</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>30</item> <!-- griptype and single hold -->
+
+        <item>7</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>11</item> <!-- griptype and single hold -->
+        <item>7</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>21</item> <!-- griptype and single hold -->
+        <item>7</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>31</item> <!-- griptype and single hold -->
+
+        <item>8</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>10</item> <!-- griptype and single hold -->
+        <item>8</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>20</item> <!-- griptype and single hold -->
+        <item>8</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>30</item> <!-- griptype and single hold -->
+
+        <item>9</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>11</item> <!-- griptype and single hold -->
+        <item>9</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>21</item> <!-- griptype and single hold -->
+        <item>9</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>31</item> <!-- griptype and single hold -->
+
+        <item>10</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>10</item> <!-- griptype and single hold -->
+        <item>10</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>20</item> <!-- griptype and single hold -->
+        <item>10</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>30</item> <!-- griptype and single hold -->
+
+        <item>11</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>11</item> <!-- griptype and single hold -->
+        <item>11</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>21</item> <!-- griptype and single hold -->
+        <item>11</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>31</item> <!-- griptype and single hold -->
+
+        <item>12</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>10</item> <!-- griptype and single hold -->
+        <item>12</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>20</item> <!-- griptype and single hold -->
+        <item>12</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>30</item> <!-- griptype and single hold -->
+
+        <item>13</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>40</item> <!-- griptype and single hold -->
+        <item>13</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>50</item> <!-- griptype and single hold -->
+        <item>13</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>60</item> <!-- griptype and single hold -->
+
+        <item>14</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>40</item> <!-- griptype and single hold -->
+        <item>14</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>50</item> <!-- griptype and single hold -->
+        <item>14</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>60</item> <!-- griptype and single hold -->
+
+        <item>15</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>40</item> <!-- griptype and single hold -->
+        <item>15</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>50</item> <!-- griptype and single hold -->
+        <item>15</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>60</item> <!-- griptype and single hold -->
+
+        <item>16</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>70</item> <!-- griptype and single hold -->
+        <item>16</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>80</item> <!-- griptype and single hold -->
+        <item>16</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>90</item> <!-- griptype and single hold -->
+        <item>16</item>  <!-- hold number -->
+        <item>0</item>  <!-- hold value -->
+        <item>100</item> <!-- griptype and single hold -->
+
+
     </integer-array>
 
     <string-array name="grades">
