@@ -6,8 +6,8 @@ android {
         applicationId "com.finn.laakso.hangboardapp"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 4
-        versionName "2.5"
+        versionCode 5
+        versionName "2.5.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
