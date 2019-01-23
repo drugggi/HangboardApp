@@ -9,7 +9,8 @@ public final class  HangboardResources {
     private static int[] image_resources = {R.drawable.lauta1011, R.drawable.lauta2002, R.drawable.trans,
             R.drawable.tension, R.drawable.zlag, R.drawable.moonhard, R.drawable.mooneasy, R.drawable.meto,
             R.drawable.rockprodigy, R.drawable.problemsolver, R.drawable.meto_contact, R.drawable.meto_wood,
-            R.drawable.drcc,R.drawable.solution, R.drawable.edge, R.drawable.soillboost, R.drawable.ultimate};
+            R.drawable.drcc,R.drawable.solution, R.drawable.edge, R.drawable.soillboost, R.drawable.ultimate,
+            R.drawable.grill, R.drawable.grillto};
 
 
     private static int[] coordinate_resources = {R.array.bm1000_coordinates, R.array.bm2000_coordinates,
@@ -17,24 +18,29 @@ public final class  HangboardResources {
             R.array.mooneasy_coordinates, R.array.meto_coordinates, R.array.rockprodigy_coordinates,
             R.array.problemsolver_coordinates, R.array.meto_contact_coordinates, R.array.meto_wood_coordinates,
             R.array.drcc_coordinates, R.array.solution_coordinates, R.array.edge_coordinates, R.array.soillboost_coordinates,
-            R.array.ultimate_coordinates};
+            R.array.ultimate_coordinates, R.array.grill_coordinates, R.array.grillto_coordinates};
 
     private static int[] hold_resources = {R.array.grip_values_bm1000, R.array.grip_values_bm2000,
             R.array.grip_values_trans, R.array.grip_values_tension, R.array.grip_values_zlag, R.array.grip_values_moonhard,
             R.array.grip_values_mooneasy, R.array.grip_values_meto, R.array.grip_values_rockprodigy,
             R.array.grip_values_problemsolver, R.array.grip_values_meto_contact, R.array.grip_values_meto_wood,
             R.array.grip_values_drcc, R.array.grip_values_solution, R.array.grip_values_edge, R.array.grip_values_soillboost,
-            R.array.grip_values_ultimate};
+            R.array.grip_values_ultimate, R.array.grip_values_grill, R.array.grip_values_grillto};
 
     private static String[] hangboardStrings = {"BM 1000", "BM 2000", "Transgression","Tension",
             "Zlagboard","Moonboard hard","Moonboard easy","Metolius","Rock Prodigy","problemsolver","Meto. Contact",
-            "Meto. Wood","DRCC","Solution","Edge", "So iLL Boost","Ultimate"};
+            "Meto. Wood","DRCC","Solution","Edge", "So iLL Boost","Ultimate", "Grill", "Grillto"};
 
 
     // All supported Hangboards
             public enum hangboardName {BM1000, BM2000, TRANS, TENSION, ZLAG, MOONHARD, MOONEASY, METO,
-        ROCKPRODIGY, PROBLEMSOLVER, METO_CONTACT, METO_WOOD, DRCC, SOLUTION, EDGE, SOILLBOOST, ULTIMATE}
+        ROCKPRODIGY, PROBLEMSOLVER, METO_CONTACT, METO_WOOD, DRCC, SOLUTION, EDGE, SOILLBOOST, ULTIMATE,
+            GRILL, GRILLTO}
+          /*
+            public static void TESTallHangboardResourcesMethods() {
 
+            }
+*/
         private HangboardResources() {
 
         }
