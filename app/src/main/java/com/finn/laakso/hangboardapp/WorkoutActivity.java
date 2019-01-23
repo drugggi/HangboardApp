@@ -100,6 +100,8 @@ public class WorkoutActivity extends AppCompatActivity {
         // Sound files that will be played for every second that user hangs, and at the end finish sound
         final MediaPlayer playSound = MediaPlayer.create(this,R.raw.tick);
         final MediaPlayer playFinishSound = MediaPlayer.create(this,R.raw.finish_tick);
+        final MediaPlayer playTenSound = MediaPlayer.create(this,R.raw.ten);
+        final MediaPlayer play321Sound = MediaPlayer.create(this,R.raw.threetwoone);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         total_s = 0;
@@ -311,6 +313,13 @@ public class WorkoutActivity extends AppCompatActivity {
                 s++;
                 total_s--;
 
+                if (s == -11) {
+                    playTenSound.start();
+                }
+                else if ( s == -4 ) {
+                    play321Sound.start();
+                }
+
                 StringBuilder timeTextBuilder = new StringBuilder();
                 timeTextBuilder.append(Math.abs(s));
                 lapseTimeChrono.setText(timeTextBuilder.toString() );
@@ -322,6 +331,8 @@ public class WorkoutActivity extends AppCompatActivity {
                 infoTextView.setText(timeTextBuilder.toString() );
 
                 animateHandImagesToPosition();
+
+
 
                 switch (nowDoing) {
                     case INITIALREST:

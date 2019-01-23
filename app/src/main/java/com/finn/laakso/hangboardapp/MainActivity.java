@@ -362,7 +362,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("FINGER COORD","X:" + fingerImage.getX() + "   Y:" + fingerImage.getY() );
                 Log.e("FINGER COORD","X:" + fingerImage.getX()/1.5 + "   Y:" + fingerImage.getY()/1.5 );
 
-          /*      Intent workoutIntent = new Intent(getApplicationContext(), WorkoutActivity.class);
+                Intent workoutIntent = new Intent(getApplicationContext(), WorkoutActivity.class);
 
                 // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
                 workoutIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
@@ -371,7 +371,7 @@ public class MainActivity extends AppCompatActivity {
                 workoutIntent.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS",
                         everyBoard.getCurrentWorkoutHoldList());
 
-                startActivity(workoutIntent);*/
+                startActivity(workoutIntent);
 
             }
         });
