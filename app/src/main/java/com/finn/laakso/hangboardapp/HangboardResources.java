@@ -36,18 +36,40 @@ public final class  HangboardResources {
             public enum hangboardName {BM1000, BM2000, TRANS, TENSION, ZLAG, MOONHARD, MOONEASY, METO,
         ROCKPRODIGY, PROBLEMSOLVER, METO_CONTACT, METO_WOOD, DRCC, SOLUTION, EDGE, SOILLBOOST, ULTIMATE,
             GRILL, GRILLTO}
-          /*
+
             public static void TESTallHangboardResourcesMethods() {
 
+                hangboardName enumName;
+                String stringName;
+                int imageResource;
+                int holdResources;
+                int coordResources;
+
+                for (int i = -2 ; i < getHangboardCount() + 1 ; i++) {
+                    enumName = getHangboardName(i);
+                    imageResource = getHangboardImageResource(i);
+                    stringName = getHangboardStringName(enumName);
+                    holdResources = getHoldValueResources(enumName);
+                    coordResources = getHoldValueResources(enumName);
+
+                    if (imageResource != getHangboardImageResource(stringName)) {
+                        Log.e("ERROR","IMAGERESOURCE DIFFERENT");
+                    }
+                    Log.d("TESThangboardresources","i: " + i + " enum: " + enumName.toString() + " string: " + stringName
+                            + " imgRes: " + imageResource + " holdRes: " + holdResources + " coordRes: " + coordResources);
+                }
+
             }
-*/
-        private HangboardResources() {
+
+     private HangboardResources() {
+
+
 
         }
 
         public static int getHoldValueResources(hangboardName hangboard) {
                 int position = hangboard.ordinal();
-                Log.d("HoldValueResources","HANGBOARD: " +hangboard.toString() + "  pos: " + position);
+              //  Log.d("HoldValueResources","HANGBOARD: " +hangboard.toString() + "  pos: " + position);
                 if (position >= 0 && position < hold_resources.length) {
                     return hold_resources[position];
                 }
@@ -57,7 +79,7 @@ public final class  HangboardResources {
 
         public static int getHoldCoordinates(hangboardName hangboard) {
                 int position = hangboard.ordinal();
-                Log.d("HoldCoordinates","HANGBOARD: " +hangboard.toString() + "  pos: " + position);
+              //  Log.d("HoldCoordinates","HANGBOARD: " +hangboard.toString() + "  pos: " + position);
                 if(position >= 0 && position < coordinate_resources.length) {
                     return coordinate_resources[position];
                 }
@@ -71,8 +93,8 @@ public final class  HangboardResources {
     }
 
         public static int getHangboardCount() {
-                Log.d("ALL SIZES","  " + image_resources.length + "   " + hangboardStrings.length + "   "
-                        + hangboardName.values().length +  "  " + hold_resources.length  + "   " + coordinate_resources.length );
+              //  Log.d("ALL SIZES","  " + image_resources.length + "   " + hangboardStrings.length + "   "
+               //         + hangboardName.values().length +  "  " + hold_resources.length  + "   " + coordinate_resources.length );
                 return image_resources.length;
         }
 
@@ -81,7 +103,7 @@ public final class  HangboardResources {
 
 
                 if (position >= 0 && position < hangboardName.values().length ) {
-                    Log.d("getHnagboardName","HANGBOARD: " +hangboardName.values()[position].toString() +  "   pos: " + position);
+                   // Log.d("getHnagboardName","HANGBOARD: " +hangboardName.values()[position].toString() +  "   pos: " + position);
                     return hangboardName.values()[position];
                 }
                 Log.e("ERR","ERROR getHangboardName");
@@ -113,10 +135,10 @@ public final class  HangboardResources {
 
                 int position = HB.ordinal();
                 if (position >= 0 && position < hangboardStrings.length ) {
-                    Log.d("hangboardstringname","HANGBOARD: " + HB.toString() + "   stringname: " + hangboardStrings[position] + "  pos: " + position);
+                  //  Log.d("hangboardstringname","HANGBOARD: " + HB.toString() + "   stringname: " + hangboardStrings[position] + "  pos: " + position);
                     return hangboardStrings[position];
                 }
-                Log.e("ERR","ERROR gethangboardstringname");
+               // Log.e("ERR","ERROR gethangboardstringname");
                 return hangboardStrings[0];
 
     }

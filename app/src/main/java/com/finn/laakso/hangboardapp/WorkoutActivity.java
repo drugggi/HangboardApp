@@ -100,7 +100,7 @@ public class WorkoutActivity extends AppCompatActivity {
         // Sound files that will be played for every second that user hangs, and at the end finish sound
         final MediaPlayer playSound = MediaPlayer.create(this,R.raw.tick);
         final MediaPlayer playFinishSound = MediaPlayer.create(this,R.raw.finish_tick);
-        final MediaPlayer playTenSound = MediaPlayer.create(this,R.raw.ten);
+        final MediaPlayer playGetreadySound = MediaPlayer.create(this,R.raw.getready);
         final MediaPlayer play321Sound = MediaPlayer.create(this,R.raw.threetwoone);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
@@ -313,8 +313,8 @@ public class WorkoutActivity extends AppCompatActivity {
                 s++;
                 total_s--;
 
-                if (s == -11) {
-                    playTenSound.start();
+                if (s == -10) {
+                    playGetreadySound.start();
                 }
                 else if ( s == -4 ) {
                     play321Sound.start();
