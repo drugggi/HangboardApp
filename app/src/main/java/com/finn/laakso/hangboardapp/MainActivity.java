@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -53,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageView leftFingerImage;
     private ImageView rightFingerImage;
-    private ImageView fingerImage;
+    //private ImageView fingerTESTImage;
 
     private ViewPager viewPager;
     private HangboardSwipeAdapter swipeAdapter;
@@ -95,10 +94,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         leftFingerImage = (ImageView) findViewById(R.id.leftFingerImageView);
         rightFingerImage = (ImageView) findViewById(R.id.rightFingerImageView);
+/*
 
-        fingerImage = (ImageView) findViewById(R.id.templateFingerImageView);
-        fingerImage.setVisibility(View.VISIBLE);
-        fingerImage.setImageResource(R.drawable.finger_template);
+        fingerTESTImage = (ImageView) findViewById(R.id.templateFingerImageView);
+        fingerTESTImage.setVisibility(View.VISIBLE);
+        fingerTESTImage.setImageResource(R.drawable.finger_template);
+*/
 
         if (savedInstanceState != null) {
             grade_descr_position = savedInstanceState.getInt("mainactivity_grade_desc_pos");
@@ -158,8 +159,6 @@ public class MainActivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         swipeAdapter = new HangboardSwipeAdapter(this);
         viewPager.setAdapter(swipeAdapter);
-
-        HangboardResources.TESTallHangboardResourcesMethods();
 
         // ViewPager for showing and swiping different HangBoards.
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -253,13 +252,13 @@ public class MainActivity extends AppCompatActivity {
                 hangsAdapter.setSelectedHangNumber(0);
                 hangsAdapter.notifyDataSetChanged();
 
-
+/*
                 // THIS IS ONLY FOR TESTING HAND IMAGES POSITION PURPOSES
                 float x;
                 if (position % 2 != 0) {
-                x = fingerImage.getX() + position * 3; }
-                else { x = fingerImage.getX() - position * 3; }
-                fingerImage.setX(x+5);
+                x = fingerTESTImage.getX() + position * 3; }
+                else { x = fingerTESTImage.getX() - position * 3; }
+                fingerImage.setX(x+5);*/
             }
         });
 
@@ -323,19 +322,9 @@ public class MainActivity extends AppCompatActivity {
                 animateHandImagesToPosition(lastGripType, position);
 
                 hangsAdapter.notifyDataSetChanged();
+
+
 /*
-
-                leftFingerImage.setImageResource(everyBoard.getLeftFingerImage(position));
-                leftFingerImage.setX(everyBoard.getCoordLefthandX(position)* multiplyer_w);
-                leftFingerImage.setY(everyBoard.getCoordLefthandY(position)* multiplyer_h);
-
-                rightFingerImage.setImageResource(everyBoard.getRightFingerImage(position));
-                rightFingerImage.setX(everyBoard.getCoordRighthandX(position)*multiplyer_w);
-                rightFingerImage.setY(everyBoard.getCoordRighthandY(position)*multiplyer_h);
-
-                hangsAdapter.notifyDataSetChanged();
-*/
-
 
                 // THIS IS ONLY FOR TESTING HAND IMAGES POSITION
                 // REMEMBER RIGHT DEVICE NEXUS S APU 27, AND TO DIVIDE X AND Y BY 1.5
@@ -343,12 +332,16 @@ public class MainActivity extends AppCompatActivity {
                 // REMEMBER ALSO PHONE ORIENTATION. FINGERIMAGE MUST BE DECLARET IN BOTH LANDSCAPE AND PORTRAIT MODE
                float y;
                 if (position % 2 != 0) {
-                y = fingerImage.getY() + position*3; }
-                else {y = fingerImage.getY() - position*3; }
-                fingerImage.setY(y+5);
+                y = fingerTESTImage.getY() + position*3; }
+                else {y = fingerTESTImage.getY() - position*3; }
+                fingerTESTImage.setY(y+5);
+
+                 Log.d("FINGER COORD","X:" + fingerTESTImage.getX() + "   Y:" + fingerTESTImage.getY() );
+                Log.e("FINGER COORD","X:" + fingerTESTImage.getX()/1.5 + "   Y:" + fingerTESTImage.getY()/1.5 );
                 //rightFingerImage.setVisibility(View.INVISIBLE);
                 // leftFingerImage.setVisibility(View.INVISIBLE);
 
+*/
 
             }
         });
@@ -358,10 +351,6 @@ public class MainActivity extends AppCompatActivity {
         startWorkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //Log.e("FINGER COORD","X:" + leftFingerImage.getX() + "   Y:" + leftFingerImage.getY() );
-                Log.d("FINGER COORD","X:" + fingerImage.getX() + "   Y:" + fingerImage.getY() );
-                Log.e("FINGER COORD","X:" + fingerImage.getX()/1.5 + "   Y:" + fingerImage.getY()/1.5 );
 
                 Intent workoutIntent = new Intent(getApplicationContext(), WorkoutActivity.class);
 

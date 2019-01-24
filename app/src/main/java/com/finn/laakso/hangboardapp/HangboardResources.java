@@ -3,8 +3,6 @@ package com.finn.laakso.hangboardapp;
 // HangboardResources manages Hangboard images, image resources, hold values and coordinates
 // name conversion between enums and strings etc.
 
-import android.util.Log;
-
 public final class  HangboardResources {
 /*
     // Some base values for holds based on millimeter depth from 6mm - 40mm and jug
@@ -173,6 +171,7 @@ private static final int[] gripValuesSolution = {
     public enum hangboardName {BM1000, BM2000, TRANS, TENSION, ZLAG, MOONHARD, MOONEASY, METO,
         ROCKPRODIGY, PROBLEMSOLVER, METO_CONTACT, METO_WOOD, DRCC, SOLUTION, EDGE, SOILLBOOST, ULTIMATE,
             GRILL, GRILLTO}
+/*
 
             public static void TESTallHangboardResourcesMethods() {
 
@@ -197,6 +196,7 @@ private static final int[] gripValuesSolution = {
                 }
 
             }
+*/
 
      private HangboardResources() {
 
@@ -210,7 +210,7 @@ private static final int[] gripValuesSolution = {
                 if (position >= 0 && position < hold_resources.length) {
                     return hold_resources[position];
                 }
-            Log.e("ERR","ERROR getholdvalueresources");
+           // Log.e("ERR","ERROR getholdvalueresources");
                 return hold_resources[0];
         }
 
@@ -220,7 +220,7 @@ private static final int[] gripValuesSolution = {
                 if(position >= 0 && position < coordinate_resources.length) {
                     return coordinate_resources[position];
                 }
-            Log.e("ERR","ERROR getholdcoordinates");
+           // Log.e("ERR","ERROR getholdcoordinates");
                 return coordinate_resources[0];
         }
 
@@ -243,7 +243,7 @@ private static final int[] gripValuesSolution = {
                    // Log.d("getHnagboardName","HANGBOARD: " +hangboardName.values()[position].toString() +  "   pos: " + position);
                     return hangboardName.values()[position];
                 }
-                Log.e("ERR","ERROR getHangboardName");
+                //Log.e("ERR","ERROR getHangboardName");
                 return hangboardName.BM1000;
     }
 
@@ -252,7 +252,7 @@ private static final int[] gripValuesSolution = {
                 if (position >= 0 && position < image_resources.length) {
                     return image_resources[position];
                 }
-                Log.e("ERR","ERROR gethangboardimageresources");
+               // Log.e("ERR","ERROR gethangboardimageresources");
                 return R.drawable.lauta1011;
     }
 
