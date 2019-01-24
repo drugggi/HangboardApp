@@ -138,13 +138,15 @@ public class WorkoutDBHandler extends SQLiteOpenHelper {
     }
 
     // this helps to test database
-    /*
+/*
+
     public void DELETEALL() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DROP TABLE IF EXISTS "+ TABLE_WORKOUTS);
         onCreate(db);
     }
 */
+
     // Deletes a single workout entry
     // Does not check if COLUMN_ISHIDDEN truly is hidden so it can be deleted
     public void delete(int position,boolean includeHidden) {
