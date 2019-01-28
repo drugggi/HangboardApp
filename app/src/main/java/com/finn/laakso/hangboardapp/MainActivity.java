@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -60,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
     private Hangboard everyBoard;
     private TimeControls timeControls;
 
+    android.support.v7.app.ActionBar actionBar;
+
     private static final long ANIMATION_DURATION = 500;
     private static final int REQUEST_TIME_CONTROLS = 0;
     private static final int REQUEST_COPY_WORKOUT = 1;
@@ -77,16 +80,57 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId() ) {
+            case R.id.action_about:
+                Toast.makeText(this,"about",Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.action_version:
+                Toast.makeText(this,"version",Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.action_favorite:
+                Toast.makeText(this,"favourite",Toast.LENGTH_SHORT).show();
+
+                Intent workoutHistoryIntent = new Intent(getApplicationContext(), WorkoutHistoryActivity.class);
+
+                startActivityForResult(workoutHistoryIntent, REQUEST_COPY_WORKOUT);
+
+                break;
+            case R.id.action_settings:
+                Toast.makeText(this,"settings",Toast.LENGTH_SHORT).show();
+
+                Intent settingsIntent = new Intent(getApplicationContext(),SettingsActivity.class);
+                settingsIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS", timeControls.getTimeControlsIntArray() );
+
+                startActivityForResult(settingsIntent, REQUEST_TIME_CONTROLS);
+
+                break;
+            default:
+
+        }
+        return true;
+    }
+
+    @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Setting the ActionBar icon and text. Must be a better way to do this
+
         try {
             android.support.v7.app.ActionBar actionBar = getSupportActionBar();
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setTitle(Html.fromHtml("<font color='#3E0E1F'>Grips & Grades</font>"));
             actionBar.setLogo(R.drawable.gripgrading48x);
             actionBar.setDisplayUseLogoEnabled(true);
+
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
