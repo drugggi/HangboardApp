@@ -6,25 +6,27 @@
 
 
     <item
-        android:id="@+id/action_favorite"
-        android:icon="@drawable/gripgrading48x"
-        android:title="@string/start_workout"
+        android:id="@+id/action_logbook"
+        android:icon="@drawable/logbook_icon"
+        android:title="@string/logbook"
         app:showAsAction="always"/>
 
     <item android:id="@+id/action_settings"
-        android:icon="@drawable/settings"
+        android:icon="@drawable/settings_icon"
         android:title="@string/action_settings"
         app:showAsAction="always"/>
 
 
 
-    <item android:id="@+id/action_version"
-        android:title="@string/version"
-        app:showAsAction="never"
+    <item android:id="@+id/action_benchmark"
+        android:icon="@drawable/benchmark_icon"
+        android:title="@string/benchmark"
+        app:showAsAction="ifRoom"
         />
 
     <item android:id="@+id/action_about"
         android:title="about"
+        app:showAsAction="never"
         />
 
 

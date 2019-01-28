@@ -92,11 +92,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_about:
                 Toast.makeText(this,"about",Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.action_version:
-                Toast.makeText(this,"version",Toast.LENGTH_SHORT).show();
+            case R.id.action_benchmark:
+                Toast.makeText(this,"Bechmarks",Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.action_favorite:
-                Toast.makeText(this,"favourite",Toast.LENGTH_SHORT).show();
+            case R.id.action_logbook:
+                Toast.makeText(this,"Logbook",Toast.LENGTH_SHORT).show();
 
                 Intent workoutHistoryIntent = new Intent(getApplicationContext(), WorkoutHistoryActivity.class);
 
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
                 break;
             case R.id.action_settings:
-                Toast.makeText(this,"settings",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"Settings",Toast.LENGTH_SHORT).show();
 
                 Intent settingsIntent = new Intent(getApplicationContext(),SettingsActivity.class);
                 settingsIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS", timeControls.getTimeControlsIntArray() );
