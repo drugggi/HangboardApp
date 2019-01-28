@@ -239,7 +239,7 @@ public class JSONFetcher extends AsyncTask<Void,Void,Void> {
        //  WorkoutDetailsActivity.workoutDetailsTextView.setText(data);
     }
 
-    public int[] parceCompletedHangs(String completedHangs) {
+    public static int[] parceCompletedHangs(String completedHangs) {
         String[] parcedCompletedHangs = completedHangs.split(",");
 
         int[] completed = new int[parcedCompletedHangs.length];

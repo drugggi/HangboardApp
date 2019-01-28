@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.finn.laakso.hangboardapp">
-<!--
-
-    <uses-permission android:name="android.permission.INTERNET" />
--->
 
     <application
         android:allowBackup="true"
@@ -13,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".BenchmarkActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" /> <!-- to remove google indexable error -->
@@ -32,7 +29,7 @@
             android:name=".WorkoutStatisticsActivity"
             android:label="@string/title_activity_workout_database_graphs"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".WorkoutDetailsActivity"></activity>
+        <activity android:name=".WorkoutDetailsActivity" />
     </application>
 
 </manifest>

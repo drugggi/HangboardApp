@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     private static final long ANIMATION_DURATION = 500;
     private static final int REQUEST_TIME_CONTROLS = 0;
     private static final int REQUEST_COPY_WORKOUT = 1;
+    private static final int REQUEST_COPY_BENCHMARK = 2;
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -93,7 +94,9 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this,"about",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.action_benchmark:
-                Toast.makeText(this,"Bechmarks",Toast.LENGTH_SHORT).show();
+
+                Intent benchmarkIntent = new Intent(getApplicationContext(), BenchmarkActivity.class);
+                startActivityForResult(benchmarkIntent, REQUEST_COPY_BENCHMARK);
                 break;
             case R.id.action_logbook:
                 Toast.makeText(this,"Logbook",Toast.LENGTH_SHORT).show();

@@ -141,6 +141,22 @@ private static final int[] gripValuesSolution = {
           12,35,FF, 12,49,F3, 12,59,B3
   };
 
+
+
+    private static final int[] bm1000coordinates = {
+             1 , 12 , 15 , 279 , 15 ,
+         2 , 67 , 32 , 214 , 32 ,
+         3 , 119 , 27 , 165 , 27 ,
+         4 , 5 , 52 , 279 , 52 ,
+         5 , 115 , 52 , 165 , 52 ,
+         6 , 3 , 73 , 283 , 73 ,
+         7 , 47 , 73 , 233 , 73 ,
+         8 , 88 , 73 , 195 , 73 ,
+         9 , 142 , 73 , 141 , 73 ,
+         10 , 31 , 102 , 251 , 102 ,
+         11 , 80 , 102 , 203 , 102 ,
+         12 , 119 , 102 , 162 , 102 ,
+};
 */
     private static int[] image_resources = {R.drawable.lauta1011, R.drawable.lauta2002, R.drawable.trans,
             R.drawable.tension, R.drawable.zlag, R.drawable.moonhard, R.drawable.mooneasy, R.drawable.meto,
@@ -166,6 +182,18 @@ private static final int[] gripValuesSolution = {
             "Zlagboard","Moonboard hard","Moonboard easy","Metolius","Rock Prodigy","problemsolver","Meto. Contact",
             "Meto. Wood","DRCC","Solution","Edge", "So iLL Boost","Ultimate", "Grill", "Grillto"};
 
+    public static String[] getHangboardNames() {
+        String[] hangboardNames = new String[hangboardStrings.length];
+
+        System.arraycopy(hangboardStrings,0,hangboardNames,0,hangboardStrings.length);
+/*
+        for (int i = 0 ; i < hangboardNames.length ; i++) {
+            hangboardNames[i] = hangboardStrings[i];
+        }
+
+        */
+        return hangboardNames;
+    }
 
     // All supported Hangboards
     public enum hangboardName {BM1000, BM2000, TRANS, TENSION, ZLAG, MOONHARD, MOONEASY, METO,
