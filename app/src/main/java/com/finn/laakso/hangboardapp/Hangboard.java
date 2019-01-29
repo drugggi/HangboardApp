@@ -601,7 +601,7 @@ public class Hangboard {
         int[] hold_values;
 
         int holdValueResources = HangboardResources.getHoldValueResources(currentHangboard);
-        hold_values = res.getIntArray(holdValueResources);
+        hold_values = HangboardResources.getGripValues(currentHangboard,res);
 
         int holdCoordinateResources = HangboardResources.getHoldCoordinates(currentHangboard);
         hold_coordinates = HangboardResources.getHoldCoordinates(currentHangboard,res);

@@ -3255,7 +3255,7 @@
         <item>5</item>  <!-- hold number -->
         <item>11</item>  <!-- hold value -->
         <item>20</item> <!-- griptype and single hold -->
-        <item>6</item>  <!-- hold number -->
+        <item>5</item>  <!-- hold number -->
         <item>13</item>  <!-- hold value -->
         <item>30</item> <!-- griptype and single hold -->
         <item>5</item>  <!-- hold number -->
@@ -3264,7 +3264,7 @@
         <item>5</item>  <!-- hold number -->
         <item>28</item>  <!-- hold value -->
         <item>50</item> <!-- griptype and single hold -->
-        <item>6</item>  <!-- hold number -->
+        <item>5</item>  <!-- hold number -->
         <item>69</item>  <!-- hold value -->
         <item>60</item> <!-- griptype and single hold -->
 
@@ -3508,7 +3508,7 @@
         <item>25</item>  <!-- hold value -->
         <item>20</item> <!-- griptype and single hold -->
         <item>15</item>  <!-- hold number -->
-        <item>27</item>  <!-- hold value -->
+        <item>29</item>  <!-- hold value -->
         <item>30</item> <!-- griptype and single hold -->
 
         <item>16</item>  <!-- hold number -->
