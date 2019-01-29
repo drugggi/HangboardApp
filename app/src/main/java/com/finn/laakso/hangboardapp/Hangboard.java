@@ -604,7 +604,7 @@ public class Hangboard {
         hold_values = res.getIntArray(holdValueResources);
 
         int holdCoordinateResources = HangboardResources.getHoldCoordinates(currentHangboard);
-        hold_coordinates = res.getIntArray(holdCoordinateResources);
+        hold_coordinates = HangboardResources.getHoldCoordinates(currentHangboard,res);
 
         // Lets put all the possible holds that hangboard can have into allHangboardHolds
         int hold_position = 0;
