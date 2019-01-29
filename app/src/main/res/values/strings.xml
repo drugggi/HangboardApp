@@ -4,6 +4,8 @@
     <string name="settings">Settings</string>
     <string name="benchmark">Benchmark</string>
     <string name="about">About</string>
+    <string name="copy_workout">Copy workout</string>
+    <string name="randomize_grips">Randomize grip order</string>
     <string name="app_name">Grips and Grades</string>
     <string name="workout_description_hint">Optional short description about the workout</string>
     <string name="save_workout_to_database">Save workout to database</string>
@@ -41,11 +43,78 @@
 
 
     <string-array name="bm1000_benchmarks">
-        <item>Test benchmark program</item>
-        <item>6,6,7,3,150,360</item>
-        <item>1,2,3,4,5,6</item>
-        <item>1,2,3,4,5,6</item>
+        <item>Test benchmark program and long ass text to see where it goes, goes, goes goes goes goes</item> <!-- Benchmark Description -->
+        <item>6,6,7,3,3,150,360</item> <!-- time controls -->
+        <item>1,1,2,2,3,3,4,4,5,5,6,6</item> <!-- hold numbers -->
+        <item>1,1,2,2,3,3,4,4,5,5,6,6</item> <!-- grip types -->
 
+        <item>5B Benchmark for repeaters</item>
+        <item>3,6,7,3,3,150,300</item>
+        <item>6,6,3,3,3,6</item>
+        <item>1,1,1,1,1,1</item>
+
+        <item>5C Benchmark repeaters for basic grips</item>
+        <item>5,6,7,3,2,150,300</item>
+        <item>6,10,6,6,3,10,8,8,8,8</item>
+        <item>1,1,1,1,1,1,2,2,3,3</item>
+
+        <item>6A Benchmark repeaters for basic grips</item>
+        <item>6,6,7,3,2,150,300</item>
+        <item>10,10,6,10,3,10,8,8,5,8,5,8</item>
+        <item>1,1,1,1,1,1,2,2,2,2,3,3</item>
+
+        <item>6B Benchmark repeaters for wide range of grips</item>
+        <item>6,6,7,3,2,140,300</item>
+        <item>10,10,3,2,5,5,8,10,5,5,7,7</item>
+        <item>1,1,1,1,2,2,2,2,3,3,5,5</item>
+
+        <item>6C Benchmark repeaters for wide range of grips</item>
+        <item>6,6,7,3,2,130,300</item>
+        <item>10,4,10,4,5,12,5,12,7,7,7,11</item>
+        <item>1,1,1,1,2,2,3,3,4,4,5,5</item>
+
+        <item>7A Benchmark repeaters for wide range of grips</item>
+        <item>6,6,7,3,2,120,240</item>
+        <item>4,4,10,2,10,12,12,12,7,8,7,10</item>
+        <item>1,1,1,1,2,2,3,3,4,4,5,5</item>
+
+        <item>7B Benchmark repeaters for wide range of grips</item>
+        <item>6,6,7,3,2,110,240</item>
+        <item>4,2,4,4,10,10,10,12,11,7,11,11</item>
+        <item>1,1,1,1,2,2,3,3,4,4,5,5</item>
+
+        <item>7C Benchmark repeaters for wide range of grips</item>
+        <item>6,6,7,3,2,100,240</item>
+        <item>2,2,10,4,10,4,11,11,5,5,7,7</item>
+        <item>1,1,2,2,3,3,4,4,5,5,6,6</item>
+
+        <item>8A Benchmark repeaters for wide range of grips</item>
+        <item>12,6,7,3,1,90,1</item>
+        <item>2,2,4,4,2,10,4,4,4,10,11,11,11,10,10,10,10,11,7,7,7,8,7,7</item>
+        <item>1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,6,6,6,6,8,8</item>
+        <!--
+
+        <item>6B Benchmark</item>
+        <item>5,6,7,3,2,150,300</item>
+        <item></item>
+        <item></item>
+-->
+
+    </string-array>
+
+    <string-array name="bm2000_benchmarks">
+        <item>Test benchmark for bm 2000</item> <!-- Benchmark Description -->
+        <item>6,6,7,3,3,150,360</item> <!-- time controls -->
+        <item>1,1,2,2,3,3,4,4,5,5,6,6</item> <!-- hold numbers -->
+        <item>1,1,2,2,3,3,4,4,5,5,6,6</item> <!-- grip types -->
+
+    </string-array>
+
+    <string-array name="noBenchmarks">
+        <item>There are currently no benchmark programs in this hangboard</item>
+        <item>6,6,7,3,150,360</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
 
     </string-array>
 

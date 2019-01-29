@@ -2931,6 +2931,8 @@ private static final int[] gripValuesSolution = {
             soillboostCoordinates, ultimateCoordinates, grillCoordinates, grilltoCoordinates
     };
 
+    private static int[] benchmark_resources = {R.array.bm1000_benchmarks, R.array.bm2000_benchmarks};
+
     private static int[] image_resources = {R.drawable.lauta1011, R.drawable.lauta2002, R.drawable.trans,
             R.drawable.tension, R.drawable.zlag, R.drawable.moonhard, R.drawable.mooneasy, R.drawable.meto,
             R.drawable.rockprodigy, R.drawable.problemsolver, R.drawable.meto_contact, R.drawable.meto_wood,
@@ -2954,6 +2956,37 @@ private static final int[] gripValuesSolution = {
     private static String[] hangboardStrings = {"BM 1000", "BM 2000", "Transgression","Tension",
             "Zlagboard","Moonboard hard","Moonboard easy","Metolius","Rock Prodigy","problemsolver","Meto. Contact",
             "Meto. Wood","DRCC","Solution","Edge", "So iLL Boost","Ultimate", "Grill", "Grillto"};
+
+    public static int getHoldDifficulty(Hold hold, String hbName) {
+        int position = getHangboardPosition(hbName);
+
+        int[] holdResources = hangboardsGripValues[position];
+
+        for (int i = 0 ; i < holdResources.length ; i++) {
+            Hold tempHold = new Hold(holdResources[i] );
+            i++;
+            tempHold.setHoldValue(holdResources[i]);
+            i++;
+            tempHold.setGripTypeAndSingleHold(holdResources[i] );
+            //Log.d("TempHold",tempHold.getHoldNumber() + " " + tempHold.getGripStyleInt() );
+            //Log.d("hold",hold.getHoldNumber() + " " + hold.getGripStyleInt() );
+
+            if (tempHold.isEqual(hold)) {
+                // Log.d("hold found",tempHold.getHoldNumber()+ " " + tempHold.getGripStyle() + " " + tempHold.getHoldValue());
+                return  tempHold.getHoldValue();
+            }
+        }
+        return 0;
+
+
+    }
+
+    public static int getBenchmarkResources(int position) {
+        if (position >= 0 && position < benchmark_resources.length) {
+            return benchmark_resources[position];
+        }
+        return R.array.noBenchmarks;
+    }
 
     public static String[] getHangboardNames() {
         String[] hangboardNames = new String[hangboardStrings.length];

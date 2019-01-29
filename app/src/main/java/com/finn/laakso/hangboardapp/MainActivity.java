@@ -662,6 +662,39 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
+        // If user has copied workout from workout history database
+        if (requestCode == REQUEST_COPY_BENCHMARK) {
+            if (resultCode == Activity.RESULT_OK) {
+                Toast.makeText(MainActivity.this, "Benchmark copied", Toast.LENGTH_SHORT).show();
+
+                int[] timeSettings = data.getIntArrayExtra("com.finn.laakso.hangboardapp.SETTINGS");
+                ArrayList<Hold> newHolds = data.getParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS");
+                String hbname = data.getStringExtra("com.finn.laakso.hangboardapp.BOARDNAME");
+
+                TimeControls temp = new TimeControls();
+                temp.setTimeControls(timeSettings);
+
+                int hangboardPosition = HangboardResources.getHangboardPosition(hbname);
+                HangboardResources.hangboardName newHangboard = HangboardResources.getHangboardName(hangboardPosition);
+
+                hangboard_descr_position = hangboardPosition;
+                viewPager.setCurrentItem(hangboardPosition);
+                timeControls.setTimeControls(timeSettings);
+                everyBoard.initializeHolds(getResources(), newHangboard);
+                everyBoard.setNewWorkoutHolds(newHolds);
+
+                hangsAdapter = new HangListAdapter(this, everyBoard.getCurrentWorkoutHoldList());
+                holdsListView.setAdapter(hangsAdapter);
+
+                repeatersBox.setVisibility(View.INVISIBLE);
+                durationSeekBar.setVisibility(View.INVISIBLE);
+            }
+            else {
+                repeatersBox.setVisibility(View.VISIBLE);
+                durationSeekBar.setVisibility(View.VISIBLE);
+            }
+        }
+
 
             String durationText = "Duration: " + timeControls.getTotalTime() / 60 + "min";
             durationTextView.setText(durationText);

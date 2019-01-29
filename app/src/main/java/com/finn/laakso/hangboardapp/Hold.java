@@ -2,6 +2,7 @@ package com.finn.laakso.hangboardapp;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 /**
  * Created by Laakso on 20.11.2017.
@@ -22,8 +23,13 @@ public class Hold implements Comparable<Hold>, Parcelable {
     public enum grip_type {FOUR_FINGER, THREE_FRONT, THREE_BACK, TWO_FRONT, TWO_MIDDLE, TWO_BACK
         , INDEX_FINGER,MIDDLE_FINGER, RING_FINGER, LITTLE_FINGER}
     grip_type grip_style;
-    public static grip_type forInt(int id) {
-        return grip_type.values()[id-1];
+    public static grip_type forInt(int id)
+    {
+        if (id >= 0 && id < grip_type.values().length ) {
+            return grip_type.values()[id - 1];
+        }
+        Log.e("forINT","OUT OF BOUNDS AT HOLD line 31 id= " + id);
+        return grip_type.FOUR_FINGER;
     }
 
     // Single holds dont have a pair with same measurements in the hangboard
