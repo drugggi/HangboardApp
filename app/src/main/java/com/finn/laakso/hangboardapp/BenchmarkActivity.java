@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class BenchmarkActivity extends AppCompatActivity {
 
@@ -86,14 +87,6 @@ public class BenchmarkActivity extends AppCompatActivity {
         copyBenchmarkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if (randomizeGripsCheckBox.isChecked() ) {
-                    Toast.makeText(BenchmarkActivity.this, "copy benchmark and randomize grips ", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Toast.makeText(BenchmarkActivity.this, "copy benchmark", Toast.LENGTH_SHORT).show();
-
-                }
                 int i = selectedBenchmark;
                 Log.d("DESC",benchmarkDescriptions.get(i) );
                 Log.d("TC",benchmarkTimeControls.get(i).getTimeControlsAsJSONGString() );
@@ -106,16 +99,58 @@ public class BenchmarkActivity extends AppCompatActivity {
                     Log.d("HOLDS",benchmarkWorkoutHolds.get(i).get(j).getHoldInfo( benchmarkWorkoutHolds.get(i).get(j+1) ).replace("\n"," ") );
 
                 }
+
                 Log.d("HANGS",holds +  "   " +grips + "    " + diffis);
 
-                Intent resultCopyBenchmarkIntent = new Intent();
-                resultCopyBenchmarkIntent.putExtra("com.finn.laakso.hangboardapp.BOARDNAME",hangboardNames[hangboardPosition]);
-                resultCopyBenchmarkIntent.putExtra("com.finn.laakso.hangboardapp.SETTINGS", benchmarkTimeControls.get(selectedBenchmark).getTimeControlsIntArray());
-                resultCopyBenchmarkIntent.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", benchmarkWorkoutHolds.get(selectedBenchmark));
+                if (randomizeGripsCheckBox.isChecked() ) {
+                    Toast.makeText(BenchmarkActivity.this, "copy benchmark and randomize grips ", Toast.LENGTH_SHORT).show();
 
-                setResult(Activity.RESULT_OK, resultCopyBenchmarkIntent);
+                    Hold tempLeftHand;
+                    Hold tempRightHand;
+                    int index;
+                    Random random = new Random();
+                    int totalGrips = benchmarkWorkoutHolds.get(selectedBenchmark).size()/2;
+                    Log.d("totalGrips",": " + totalGrips);
 
-                finish();
+                    ArrayList<Hold> randomizedHolds = new ArrayList<>();
+
+                    for (int rng = totalGrips - 1; rng >= 0; rng--)
+                    {
+                        index = random.nextInt(rng + 1);
+
+                        randomizedHolds.add( benchmarkWorkoutHolds.get(selectedBenchmark).get(2*index) );
+                        benchmarkWorkoutHolds.get(selectedBenchmark).remove(2*index);
+
+                        randomizedHolds.add( benchmarkWorkoutHolds.get(selectedBenchmark).get(2*index) );
+                        benchmarkWorkoutHolds.get(selectedBenchmark).remove(2*index);
+
+                    }
+                        Log.d("RNGHOLD","SIZE: " + randomizedHolds.size() + "  BMSIZE " + benchmarkWorkoutHolds.get(selectedBenchmark).size() ) ;
+                    for (int j = 0 ; j < randomizedHolds.size() ; j = j+2) {
+                        Log.d("HOLDS",randomizedHolds.get(j).getHoldInfo( randomizedHolds.get(j+1) ).replace("\n"," ") );
+                    }
+                    Intent resultCopyBenchmarkIntent = new Intent();
+                    resultCopyBenchmarkIntent.putExtra("com.finn.laakso.hangboardapp.BOARDNAME", hangboardNames[hangboardPosition]);
+                    resultCopyBenchmarkIntent.putExtra("com.finn.laakso.hangboardapp.SETTINGS", benchmarkTimeControls.get(selectedBenchmark).getTimeControlsIntArray());
+                    resultCopyBenchmarkIntent.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", randomizedHolds);
+
+                    setResult(Activity.RESULT_OK, resultCopyBenchmarkIntent);
+
+                    finish();
+
+                }
+                else {
+                    Toast.makeText(BenchmarkActivity.this, "copy benchmark", Toast.LENGTH_SHORT).show();
+
+                    Intent resultCopyBenchmarkIntent = new Intent();
+                    resultCopyBenchmarkIntent.putExtra("com.finn.laakso.hangboardapp.BOARDNAME", hangboardNames[hangboardPosition]);
+                    resultCopyBenchmarkIntent.putExtra("com.finn.laakso.hangboardapp.SETTINGS", benchmarkTimeControls.get(selectedBenchmark).getTimeControlsIntArray());
+                    resultCopyBenchmarkIntent.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", benchmarkWorkoutHolds.get(selectedBenchmark));
+
+                    setResult(Activity.RESULT_OK, resultCopyBenchmarkIntent);
+
+                    finish();
+                }
             }
         });
     }
