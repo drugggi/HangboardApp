@@ -25,7 +25,7 @@ public class Hold implements Comparable<Hold>, Parcelable {
     grip_type grip_style;
     public static grip_type forInt(int id)
     {
-        if (id >= 0 && id < grip_type.values().length ) {
+        if (id > 0 && id <= grip_type.values().length ) {
             return grip_type.values()[id - 1];
         }
         Log.e("forINT","OUT OF BOUNDS AT HOLD line 31 id= " + id);

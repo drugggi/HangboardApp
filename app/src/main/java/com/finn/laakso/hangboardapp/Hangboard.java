@@ -232,6 +232,7 @@ public class Hangboard {
         Hold temp;
         int index;
         Random random = new Random();
+        // why not guarantee index = 0 with i >= 0, does not matter tho
         for (int i = allHangboardHolds.length - 1; i > 0; i--)
         {
             index = random.nextInt(i + 1);
