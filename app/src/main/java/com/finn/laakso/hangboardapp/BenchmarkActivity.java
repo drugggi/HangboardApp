@@ -3,20 +3,19 @@ package com.finn.laakso.hangboardapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -27,6 +26,7 @@ public class BenchmarkActivity extends AppCompatActivity {
 
     private ListView hangboardNamesListView;
     private ListView benchmarksListView;
+    private TextView benchmarkInfoTextView;
 
     private ListAdapter hangboardNamesAdapter;
     private ListAdapter benchmarksAdapter;
@@ -47,10 +47,11 @@ public class BenchmarkActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_benchmark);
 
-        Toast.makeText(BenchmarkActivity.this,"Benchmark Activity (beta)", Toast.LENGTH_SHORT).show();
+        Toast.makeText(BenchmarkActivity.this,"Benchmark workouts (beta test)", Toast.LENGTH_SHORT).show();
 
         hangboardNamesListView = findViewById(R.id.hangboardsListView);
         benchmarksListView = findViewById(R.id.benchmarksListView);
+        benchmarkInfoTextView = findViewById(R.id.benchmarkInfoTextView);
         copyBenchmarkButton = findViewById(R.id.copyBenchmarkWorkout);
         randomizeGripsCheckBox = findViewById(R.id.randomizeGrips);
 
@@ -81,6 +82,8 @@ public class BenchmarkActivity extends AppCompatActivity {
                 
                 selectedBenchmark = i;
                 Toast.makeText(BenchmarkActivity.this,"position selected: " + i,Toast.LENGTH_SHORT).show();
+
+                changeBenchmarkInfoText();
             }
         });
 
@@ -105,8 +108,6 @@ public class BenchmarkActivity extends AppCompatActivity {
                 if (randomizeGripsCheckBox.isChecked() ) {
                     Toast.makeText(BenchmarkActivity.this, "copy benchmark and randomize grips ", Toast.LENGTH_SHORT).show();
 
-                    Hold tempLeftHand;
-                    Hold tempRightHand;
                     int index;
                     Random random = new Random();
                     int totalGrips = benchmarkWorkoutHolds.get(selectedBenchmark).size()/2;
@@ -155,6 +156,48 @@ public class BenchmarkActivity extends AppCompatActivity {
         });
     }
 
+    private void changeBenchmarkInfoText() {
+
+        TimeControls tempControls = benchmarkTimeControls.get(selectedBenchmark);
+
+        int gripLaps = tempControls.getGripLaps();
+        int sets = tempControls.getRoutineLaps();
+        int hangs = tempControls.getHangLaps();
+
+        int[] tempCompleted = new int[gripLaps * sets];
+
+        for (int i = 0 ; i < tempCompleted.length ;  i++) {
+            tempCompleted[i] = hangs;
+        }
+
+        CalculateWorkoutDetails benchmarkDetails = new CalculateWorkoutDetails(tempControls,
+                benchmarkWorkoutHolds.get(selectedBenchmark),tempCompleted);
+
+        String benchmarkInfo = "";
+        String repeaters;
+        if (tempControls.isRepeaters() ) { repeaters = "Repeaters"; }
+        else {repeaters = "Single hangs"; }
+
+        String intensity = "0." + (int)(100 * benchmarkDetails.getIntensity());
+        String workoutPower = (int) benchmarkDetails.getWorkoutPower() + ".";
+        workoutPower += (int) (100 * (benchmarkDetails.getWorkoutPower() - (int) benchmarkDetails.getWorkoutPower() ) );
+
+        String workload = "" + (int) benchmarkDetails.getWorkload();
+
+        benchmarkInfo += repeaters + "\n";
+        benchmarkInfo += "Total time: " + tempControls.getTotalTime()/60 + "min\n";
+        benchmarkInfo += "TUT: " + tempControls.getTimeUnderTension() + "s\n";
+        benchmarkInfo += "Intensity: " + intensity +"\n";
+        benchmarkInfo += "avg Difficulty: " + (int)benchmarkDetails.getAverageDifficutly() + "\n";
+        benchmarkInfo += "Power: " + workoutPower + "\n";
+        benchmarkInfo += "Workload: " + workload + "\n";
+        benchmarkInfo += "Time Controls: \n" + tempControls.getTimeControlsAsJSONGString();
+
+        benchmarkInfoTextView.setText(benchmarkInfo );
+
+
+    }
+
     private void parceBenchmarkPrograms(int selectedHangboardPosition) {
 
         hangboardNames = HangboardResources.getHangboardNames();
@@ -180,9 +223,9 @@ public class BenchmarkActivity extends AppCompatActivity {
 
             i++;
             ArrayList<Hold> tempWorkoutHolds = new ArrayList<>();
-            int[] tempHoldNumbers = JSONFetcher.parceCompletedHangs(allBenchmarks[i]);
+            int[] tempHoldNumbers = parceStringToInt(allBenchmarks[i]);
             i++;
-            int[] tempHoldGripTypes = JSONFetcher.parceCompletedHangs(allBenchmarks[i]);
+            int[] tempHoldGripTypes = parceStringToInt(allBenchmarks[i]);
 
             if (tempControls.getGripLaps()*2 != tempHoldNumbers.length ||
                     tempControls.getGripLaps()*2 != tempHoldGripTypes.length ) {
@@ -227,5 +270,17 @@ public class BenchmarkActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    public static int[] parceStringToInt(String arrayIntLine) {
+        String[] parcedCompletedHangs = arrayIntLine.split(",");
+
+        int[] completed = new int[parcedCompletedHangs.length];
+
+        for (int i = 0; i < parcedCompletedHangs.length; i++) {
+            completed[i] = Integer.parseInt(parcedCompletedHangs[i]);
+        }
+
+        return completed;
     }
 }
