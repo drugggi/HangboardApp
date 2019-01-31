@@ -85,12 +85,12 @@
 
         <item>6C+ Benchmark repeaters for wide range of grips</item>
         <item>6,6,7,3,2,120,300</item>
-        <item>10,4,10,4,5,12,5,12,7,7,7,11</item>
+        <item>10,4,10,4,5,12,5,12,7,6,7,6</item>
         <item>1,1,1,1,2,2,3,3,4,4,5,5</item>
 
         <item>7A Benchmark repeaters for wide range of grips</item>
         <item>6,6,7,3,2,120,240</item>
-        <item>4,4,10,2,10,12,12,12,7,6,7,10</item>
+        <item>4,4,10,2,10,12,12,12,7,6,7,11</item>
         <item>1,1,1,1,2,2,3,3,4,4,5,5</item>
 
         <item>7A+ Benchmark repeaters for wide range of grips</item>
@@ -148,9 +148,19 @@
         <item>10,11,6,15,3,3,6,15,4,6,4,6</item>
         <item>1,1,1,1,1,1,1,1,2,2,3,3</item>
 
+        <item>6A+ Benchmark repeaters for basic grips</item>
+        <item>6,6,7,3,2,140,300</item>
+        <item>10,11,6,15,3,15,6,15,4,6,4,6</item>
+        <item>1,1,1,1,1,1,1,1,2,2,3,3</item>
+
         <item>6B Benchmark repeaters for wide range of grips</item>
         <item>6,6,7,3,2,140,300</item>
         <item>10,11,3,11,6,15,11,3,15,6,4,6</item>
+        <item>1,1,1,1,1,1,1,1,2,2,3,3</item>
+
+        <item>6B+ Benchmark repeaters for wide range of grips</item>
+        <item>6,6,7,3,2,130,300</item>
+        <item>10,11,3,11,6,11,11,3,15,6,4,6</item>
         <item>1,1,1,1,1,1,1,1,2,2,3,3</item>
 
         <item>6C Benchmark repeaters for wide range of grips</item>
@@ -158,26 +168,47 @@
         <item>11,11,15,11,3,2,6,3,6,15,8,8</item>
         <item>1,1,1,1,1,1,2,2,3,3,5,5</item>
 
-   <!--     <item>7A Benchmark repeaters for wide range of grips</item>
+        <item>6C+ Benchmark repeaters for wide range of grips</item>
+        <item>6,6,7,3,2,120,300</item>
+        <item>11,11,15,11,3,2,6,5,6,15,8,8</item>
+        <item>1,1,1,1,1,1,2,2,3,3,5,5</item>
+
+        <item>7A Benchmark repeaters for wide range of grips</item>
         <item>6,6,7,3,2,120,240</item>
-        <item></item>
-        <item></item>
+        <item>6,2,15,2,6,15,4,11,8,8,8,9</item>
+        <item>1,1,1,1,2,2,3,3,4,4,5,5</item>
+
+        <item>7A+ Benchmark repeaters for wide range of grips</item>
+        <item>6,6,7,3,2,110,240</item>
+        <item>6,2,15,2,6,11,4,11,8,8,8,9</item>
+        <item>1,1,1,1,2,2,3,3,4,4,5,5</item>
 
         <item>7B Benchmark repeaters for wide range of grips</item>
         <item>6,6,7,3,2,110,240</item>
-        <item></item>
-        <item></item>
+        <item>11,2,15,2,5,11,4,11,8,9,8,13</item>
+        <item>1,1,1,1,2,2,3,3,4,4,5,5</item>
+
+        <item>7B+ Benchmark repeaters for wide range of grips</item>
+        <item>6,6,7,3,2,110,240</item>
+        <item>11,2,15,2,5,11,5,11,8,9,8,13</item>
+        <item>1,1,1,1,2,2,3,3,4,4,5,5</item>
 
         <item>7C Benchmark repeaters for wide range of grips</item>
         <item>6,6,7,3,2,100,180</item>
-        <item></item>
-        <item></item>
+        <item>2,2,15,11,5,11,9,9,9,13,8,8</item>
+        <item>1,1,2,2,3,3,4,4,5,5,6,6</item>
+
+        <item>7C+ Benchmark repeaters for wide range of grips</item>
+        <item>6,6,7,3,2,90,180</item>
+        <item>2,2,11,11,5,11,9,9,9,13,8,8</item>
+        <item>1,1,2,2,3,3,4,4,5,5,6,6</item>
 
         <item>8A Benchmark repeaters for wide range of grips</item>
         <item>12,6,7,3,1,90,1</item>
-        <item></item>
-        <item></item>
--->
+        <item>11,11,2,1,15,1,11,2,5,11,11,15,11,11,9,13,14,8,13,13,8,9,7,7</item>
+        <item>1,1,1,1,1,1,2,2,2,2,3,3,3,3,4,4,5,5,5,5,6,6,8,8,</item>
+
+
         <item>8C Benchmark for repeaters and mastering all grips!</item>
         <item>10,6,7,3,1,80,1</item>
         <item>1,1,5,2,11,2,9,13,14,13,9,9,12,7,12,12,7,7,7,7</item>
