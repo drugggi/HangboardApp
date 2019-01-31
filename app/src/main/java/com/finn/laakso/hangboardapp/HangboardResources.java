@@ -7,10 +7,33 @@ import android.util.Log;
 
 public final class  HangboardResources {
     // Some base values for holds based on millimeter depth from 6mm - 40mm and jug
-    private static final int JUG = 1, MM40 = 2, MM35 = 3, MM32 = 4,MM30 = 5, MM28 = 6, MM25= 7,
+    private static final int JUG = 1,JUG3F = 2, JUG3B= 2,
+            MM40 = 2 ,MM40F3 = 6 , MM40B3=8,
+            MM35 = 3, MM35F3 = 8 , MM35B3 = 10,
+            MM32 = 4,
+            MM30 = 5, MM30F3 = 12, MM30B3 = 14, MM30F2 = 45, MM30M2 = 32, MM30B2 = 75,
+            MM28 = 6,
+            MM25= 7, MM25F3 = 14, MM25B3 = 16,
+            MM23= 8,
+            MM22 = 9, MM22F3 = 18, MM22B3 = 20,
+            MM21 = 9,
+            MM20 = 10, MM20F3 = 19, MM20B3 = 21,
+            MM18= 12,
+            MM16 = 14,
+            MM15=16, MM15F3 = 29, MM15B3 = 35,
+            MM14 = 17,
+            MM12 = 18,
+            MM11 = 20,
+            MM10= 24,
+            MM9=35,
+            MM8 = 50,
+            MM7= 60,
+            MM6=100;
+
+    /*    MM40 = 2, MM35 = 3, MM32 = 4,MM30 = 5, MM28 = 6, MM25= 7,
             MM23= 8, MM21 = 9, MM20 = 10, MM18= 12,MM16 = 14,MM15=16, MM14 = 17, MM12 = 18, MM11 = 20,
             MM10= 24, MM9=35, MM8 = 50, MM7= 60, MM6=100;
-
+    */
     // Two finger pockets
     private static final int TWO45mm = 12,TWO35mm = 15, TWO30mm = 21, TWO25mm = 27, TWO20mm = 33;
 
@@ -25,18 +48,18 @@ public final class  HangboardResources {
             MIS = 81, RIS = 91, LIS = 101;
 
 private static final int[] gripValuesBM1000 = {
-         1 , JUG , FF , 1 , 2 , F3 , 1 , 2 , B3 ,
+         1 , JUG , FF , 1 , JUG3F , F3 , 1 , 2 , B3 ,
          2 , 23 , FF , 2 , 70 , F3 , 2 , 75 , B3 ,
          3 , 3 , FF , 3 , 12 , F3 , 3 , 8 , B3 ,
          4 , 20 , FF , 4 , 50 , F3 ,4 , 60 , B3 ,
-        5 , 11 , F3 , 5 , 13 , B3 , 5 , 35 , F2 , 5 , 25 , M2 ,
-        6 , 2 , FF , 6 , 5 , F3 , 6 , 8 , B3 , 6 , 22 , F2 , 6 , 18 , M2 , 6 ,50 ,B2 ,
+         5 , 11 , F3 , 5 , 13 , B3 , 5 , 35 , F2 , 5 , 25 , M2 ,
+         6 , 2 , FF , 6 , 5 , F3 , 6 , 8 , B3 , 6 , 22 , F2 , 6 , 18 , M2 , 6 ,50 ,B2 ,
          7 , 17 , F2 , 7 , 12 , M2 , 7 , 40 , B2 , 7 , 100 ,IN , 7 ,80 ,MI ,
          8 ,4 , F3 ,      8 , 5 , B3 ,
-        9 , 2 , FFS , 9 , 4 , F3S , 9 , 7 , B3S ,
+         9 , 2 , FFS , 9 , 4 , F3S , 9 , 7 , B3S ,
          10 , 10 , FF , 10 , 20 , F3 , 10 , 22 , B3 , 10 , 69 , F2 , 10 , 40 , M2 ,
-        11 ,55 ,F2 , 11 , 33 , M2 , 11 , 100 , B2 ,
-        12 , 17 , F3 , 12 , 19 , B3 ,
+         11 ,55 ,F2 , 11 , 33 , M2 , 11 , 100 , B2 ,
+         12 , 17 , F3 , 12 , 19 , B3 ,
 };
 
     private static final int[] gripValuesBM2000 = {
@@ -73,15 +96,15 @@ private static final int[] gripValuesBM1000 = {
         };
 
     private static final int[] gripValuesTension = {
-            1, 1, 10, 1, 2, 20, 1, 2, 30, 1, 17, 40, 1, 14, 50, 1, 25, 60,
-            2, 3, 10, 2, 8, 20, 2, 10, 30, 2, 25, 40, 2, 18, 50, 2, 35, 60,
-            3, 2, 11, 3, 4, 21, 3, 5, 31,
-            4, 5, 10, 4, 12, 20, 4, 14, 30,
-            5, 7, 10, 5, 13, 20, 5, 15, 30,
-            6, 2, 11, 6, 4, 21, 6, 6, 31, 6, 21, 41, 6, 17, 51, 6, 35, 61,
-            7, 10, 10, 7, 19, 20, 7, 21, 30,
-            8, 15, 10, 8, 25, 20, 8, 29, 30,
-            9, 9, 11, 9, 18, 21, 9, 20, 31,
+            1, JUG, FF, 1, JUG3F, F3, 1, JUG3B, B3, 1, 17, F2, 1, 14, M2, 1, 25, B2,
+            2, MM35, FF, 2, MM35F3, F3, 2, MM35B3, B3, 2, 25, F2, 2, 18, M2, 2, 35, B2,
+            3, 2, FFS, 3, 4, F3S, 3, 5, B3S,
+            4, MM30, FF, 4, MM30F3, F3, 4, MM30B3, B3, 4, MM30F2, F2, 4 , MM30M2, M2, 4, MM30B2 , B2,
+            5, MM25, FF, 5, MM25F3, F3, 5, MM25B3, B3,
+            6, 2, FFS, 6, 4, F3S, 6, 6, B3S, 6, 21, F2S, 6, 17, M2S, 6, 35, B2S,
+            7, MM20, FF, 7, MM20F3, F3, 7, MM20B3, B3,
+            8, MM15, FF, 8, MM15F3, F3, 8, MM15B3, B3,
+            9, MM22, FFS, 9, MM22F3, F3S, 9, MM22B3, B3S,
 
     };
 
@@ -89,17 +112,17 @@ private static final int[] gripValuesBM1000 = {
             1, JUG, 10, 1, 2, 20, 1, 2, 30, 1, 16, 40, 1, 14, 50, 1, 35, 60,
             2, 13, 10, 2, 30, 20, 2, 35, 30,
             3, 3, 11, 3, 8, 21, 3, 9, 31,
-            4, MM30, 10, 4, 11, 20, 4, 12, 30,
+            4, MM30, 10, 4, MM30F3, 20, 4, MM30B3, 30,
             5, 23, 20, 5, 26, 30,
             6, MM30-1, 11, 6, 10, 21, 6, 11, 31,
-            7, MM20, 10, 7, 20, 20, 7, 22, 30,
+            7, MM20, 10, 7, MM20F3+1, 20, 7, MM20B3+1, 30,
             8, 350, 70, 8, 300, 80, 8, 450, 90,
             9, 50, 40, 9, TWO30mm+15, 50, 9, 90, 60,
-            11, MM20, 11, 11, 14, 21, 11, 15, 31,
+            11, MM20, 11, 11, MM20F3, 21, 11, MM20B3, 31,
             12, MM10, 10, 12, 63, 20, 12, 70,30,
             13, 150, 70, 13, 80, 80, 13, 300, 90,
             14, 150, 40, 14, 100, 50, 14, 300, 60,
-            15, MM15+2, FFS, 15, 35, 21, 15, 45, 31,
+            15, MM15+2, FFS, 15, MM15F3, F3S, 15, MM15B3, B3S,
     };
 
     private static final int[] gripValuesMoonhard = {
