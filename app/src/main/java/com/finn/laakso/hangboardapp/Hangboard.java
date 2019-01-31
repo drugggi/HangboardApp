@@ -601,11 +601,11 @@ public class Hangboard {
         currentHangboard = new_board;
         int[] hold_values;
 
-        int holdValueResources = HangboardResources.getHoldValueResources(currentHangboard);
-        hold_values = HangboardResources.getGripValues(currentHangboard,res);
+       // int holdValueResources = HangboardResources.getHoldValueResources(currentHangboard);
+        hold_values = HangboardResources.getGripValues(currentHangboard);
 
-        int holdCoordinateResources = HangboardResources.getHoldCoordinates(currentHangboard);
-        hold_coordinates = HangboardResources.getHoldCoordinates(currentHangboard,res);
+       // int holdCoordinateResources = HangboardResources.getHoldCoordinates(currentHangboard);
+        hold_coordinates = HangboardResources.getHoldCoordinates(currentHangboard);
 
         // Lets put all the possible holds that hangboard can have into allHangboardHolds
         int hold_position = 0;

@@ -3,14 +3,17 @@ package com.finn.laakso.hangboardapp;
 // HangboardResources manages Hangboard images, image resources, hold values and coordinates
 // name conversion between enums and strings etc.
 
-import android.content.res.Resources;
 import android.util.Log;
 
 public final class  HangboardResources {
     // Some base values for holds based on millimeter depth from 6mm - 40mm and jug
     private static final int JUG = 1, MM40 = 2, MM35 = 3, MM32 = 4,MM30 = 5, MM28 = 6, MM25= 7,
-            MM23= 8, MM21 = 9, MM20 = 10, MM18= 12,MM16 = 16, MM14 = 16, MM12 = 18, MM11 = 20,
+            MM23= 8, MM21 = 9, MM20 = 10, MM18= 12,MM16 = 14,MM15=16, MM14 = 17, MM12 = 18, MM11 = 20,
             MM10= 24, MM9=35, MM8 = 50, MM7= 60, MM6=100;
+
+    // Two finger pockets
+    private static final int TWO45mm = 12,TWO35mm = 15, TWO30mm = 21, TWO25mm = 27, TWO20mm = 33;
+
 
     // Sloper difficulties based on angle degrees
     private static final int S20d = 3, S35d = 23, S45d = 100;
@@ -20,38 +23,20 @@ public final class  HangboardResources {
     private static final int FF = 10, F3=20, B3 = 30, F2= 40, M2 = 50, B2 = 60, IN = 70, MI = 80, RI = 90, LI = 100;
     private static final int FFS = 11, F3S=21, B3S = 31, F2S= 41, M2S =51, B2S = 61, INS = 71,
             MIS = 81, RIS = 91, LIS = 101;
-/*
 
-    private static final int[] gripValues = {
-            1,,FF, 1,,F3, 1,,B3, 1,,F2, 1,,M2, 1,,B2,
-            2,,FF, 2,,F3, 2,,B3, 2,,F2, 2,,M2, 2,,B2,
-            3,,FF, 3,,F3, 3,,B3, 3,,F2, 3,,M2, 3,,B2,
-            4,,FF, 4,,F3, 4,,B3, 4,,F2, 4,,M2, 4,,B2,
-            5,,FF, 5,,F3, 5,,B3, 5,,F2, 5,,M2, 5,,B2,
-            6,,FF, 6,,F3, 6,,B3, 6,,F2, 6,,M2, 6,,B2,
-            7,,FF, 7,,F3, 7,,B3, 7,,F2, 7,,M2, 7,,B2,
-            8,,FF, 8,,F3, 8,,B3, 8,,F2, 8,,M2, 8,,B2,
-            9,,FF, 9,,F3, 9,,B3, 9,,F2, 9,,M2, 9,,B2,
-            10,,FF, 10,,F3, 10,,B3, 10,,F2, 10,,M2, 10,,B2,
-            11,,FF, 11,,F3, 11,,B3, 11,,F2, 11,,M2, 11,,B2,
-            12,,FF, 12,,F3, 12,,B3, 12,,F2, 12,,M2, 12,,B2,
-            13,,FF, 13,,F3, 13,,B3, 13,,F2, 13,,M2, 13,,B2,
-
-    };
-*/
 private static final int[] gripValuesBM1000 = {
-         1 , 1 , 10 , 1 , 2 , 20 , 1 , 2 , 30 ,
-         2 , 23 , 10 , 2 , 70 , 20 , 2 , 75 , 30 ,
-         3 , 3 , 10 , 3 , 12 , 20 , 3 , 8 , 30 ,
-         4 , 20 , 10 , 4 , 50 , 20 ,4 , 60 , 30 ,
-        5 , 11 , 20 , 5 , 13 , 30 , 5 , 35 , 40 , 5 , 25 , 50 ,
-        6 , 2 , 10 , 6 , 5 , 20 , 6 , 8 , 30 , 6 , 22 , 40 , 6 , 18 , 50 , 6 ,50 ,60 ,
-         7 , 17 , 40 , 7 , 12 , 50 , 7 , 40 , 60 , 7 , 100 ,70 , 7 ,80 ,80 ,
-         8 ,4 , 20 ,      8 , 5 , 30 ,
-        9 , 2 , 11 , 9 , 4 , 21 , 9 , 7 , 31 ,
-         10 , 10 , 10 , 10 , 20 , 20 , 10 , 22 , 30 , 10 , 69 , 40 , 10 , 40 , 50 ,
-        11 ,55 ,40 , 11 , 33 , 50 , 11 , 100 , 60 ,
-        12 , 17 , 20 , 12 , 19 , 30 ,
+         1 , JUG , FF , 1 , 2 , F3 , 1 , 2 , B3 ,
+         2 , 23 , FF , 2 , 70 , F3 , 2 , 75 , B3 ,
+         3 , 3 , FF , 3 , 12 , F3 , 3 , 8 , B3 ,
+         4 , 20 , FF , 4 , 50 , F3 ,4 , 60 , B3 ,
+        5 , 11 , F3 , 5 , 13 , B3 , 5 , 35 , F2 , 5 , 25 , M2 ,
+        6 , 2 , FF , 6 , 5 , F3 , 6 , 8 , B3 , 6 , 22 , F2 , 6 , 18 , M2 , 6 ,50 ,B2 ,
+         7 , 17 , F2 , 7 , 12 , M2 , 7 , 40 , B2 , 7 , 100 ,IN , 7 ,80 ,MI ,
+         8 ,4 , F3 ,      8 , 5 , B3 ,
+        9 , 2 , FFS , 9 , 4 , F3S , 9 , 7 , B3S ,
+         10 , 10 , FF , 10 , 20 , F3 , 10 , 22 , B3 , 10 , 69 , F2 , 10 , 40 , B2 ,
+        11 ,55 ,F2 , 11 , 33 , M2 , 11 , 100 , B2 ,
+        12 , 17 , F3 , 12 , 19 , B3 ,
 };
 
     private static final int[] gripValuesBM2000 = {
@@ -63,7 +48,7 @@ private static final int[] gripValuesBM1000 = {
          6, 3, 10, 6, 9, 20, 6, 11, 30,
          7, 139, 70, 7, 69, 80, 7, 150, 90, 7, 195, 100,
          8, 19, 40, 8, 15, 50, 8, 40, 60,
-         9, 25, 40, 9, 18, 50, 9, 69, 60,
+         9, 25, 40, 9, 21, 50, 9, 69, 60,
             10, 2, 11, 10, 4, 21, 10, 5, 31,
          11, 14, 10, 11, 22, 20, 11, 25, 30,
          12, 170, 70, 12, 125, 80, 12, 350, 90, 12, 450, 100,
@@ -101,20 +86,20 @@ private static final int[] gripValuesBM1000 = {
     };
 
     private static final int[] gripValuesZlag = {
-        1, 1, 10, 1, 2, 20, 1, 2, 30, 1, 16, 40, 1, 14, 50, 1, 35, 60,
+            1, JUG, 10, 1, 2, 20, 1, 2, 30, 1, 16, 40, 1, 14, 50, 1, 35, 60,
             2, 13, 10, 2, 30, 20, 2, 35, 30,
-            3, 4, 11, 3, 8, 21, 3, 9, 31,
-            4, 4, 10, 4, 9, 20, 4, 11, 30,
+            3, 3, 11, 3, 8, 21, 3, 9, 31,
+            4, MM30, 10, 4, 11, 20, 4, 12, 30,
             5, 23, 20, 5, 26, 30,
-            6, 3, 11, 6, 6, 21, 6, 8, 31,
-            7, 10, 10, 7, 14, 20, 7, 16, 30,
+            6, MM30-1, 11, 6, 10, 21, 6, 11, 31,
+            7, MM20, 10, 7, 20, 20, 7, 22, 30,
             8, 350, 70, 8, 300, 80, 8, 450, 90,
-            9, 50, 40, 9, 45, 50, 9, 90, 60,
-            11, 10, 11, 11, 14, 21, 11, 15, 31,
-            12, 23, 10, 12, 63, 20, 12, 70,30,
+            9, 50, 40, 9, TWO30mm+15, 50, 9, 90, 60,
+            11, MM20, 11, 11, 14, 21, 11, 15, 31,
+            12, MM10, 10, 12, 63, 20, 12, 70,30,
             13, 150, 70, 13, 80, 80, 13, 300, 90,
             14, 150, 40, 14, 100, 50, 14, 300, 60,
-            15, 18, 11, 15, 35, 21, 15, 45, 31,
+            15, MM15+2, FFS, 15, 35, 21, 15, 45, 31,
     };
 
     private static final int[] gripValuesMoonhard = {
@@ -679,13 +664,16 @@ private static final int[] gripValuesSolution = {
             soillboostCoordinates, ultimateCoordinates, grillCoordinates, grilltoCoordinates
     };
 
-    private static int[] benchmark_resources = {R.array.bm1000_benchmarks, R.array.bm2000_benchmarks};
+    private static int[] benchmark_resources = {R.array.bm1000_benchmarks, R.array.bm2000_benchmarks,
+            R.array.trans_benchmarks, R.array.tension_benchmarks,R.array.zlag_benchmarks
+    };
 
     private static int[] image_resources = {R.drawable.lauta1011, R.drawable.lauta2002, R.drawable.trans,
             R.drawable.tension, R.drawable.zlag, R.drawable.moonhard, R.drawable.mooneasy, R.drawable.meto,
             R.drawable.rockprodigy, R.drawable.problemsolver, R.drawable.meto_contact, R.drawable.meto_wood,
             R.drawable.drcc,R.drawable.solution, R.drawable.edge, R.drawable.soillboost, R.drawable.ultimate,
             R.drawable.grill, R.drawable.grillto};
+/*
 
     private static int[] coordinate_resources = {R.array.bm1000_coordinates, R.array.bm2000_coordinates,
     R.array.trans_coordinates, R.array.tension_coordinates, R.array.zlag_coordinates, R.array.moonhard_coordinates,
@@ -700,6 +688,7 @@ private static final int[] gripValuesSolution = {
             R.array.grip_values_problemsolver, R.array.grip_values_meto_contact, R.array.grip_values_meto_wood,
             R.array.grip_values_drcc, R.array.grip_values_solution, R.array.grip_values_edge, R.array.grip_values_soillboost,
             R.array.grip_values_ultimate, R.array.grip_values_grill, R.array.grip_values_grillto};
+*/
 
     private static String[] hangboardStrings = {"BM 1000", "BM 2000", "Transgression","Tension",
             "Zlagboard","Moonboard hard","Moonboard easy","Metolius","Rock Prodigy","problemsolver","Meto. Contact",
@@ -785,6 +774,7 @@ private static final int[] gripValuesSolution = {
 
 
         }
+/*
 
         public static int getHoldValueResources(hangboardName hangboard) {
                 int position = hangboard.ordinal();
@@ -795,8 +785,10 @@ private static final int[] gripValuesSolution = {
            // Log.e("ERR","ERROR getholdvalueresources");
                 return hold_resources[0];
         }
+*/
 
-        public static int[] getHoldCoordinates(hangboardName hangboard, Resources res) {
+        public static int[] getHoldCoordinates(hangboardName hangboard) {
+/*
 
             int holdCoordinateResources = HangboardResources.getHoldCoordinates(hangboard);
             int[] testHoldCoordinates = res.getIntArray(holdCoordinateResources);
@@ -804,24 +796,25 @@ private static final int[] gripValuesSolution = {
                 Log.e("SIZE","resource arrays not the same size");
             }
             TESTisArraysTheSame(hangboardsHoldCoordinates[hangboard.ordinal()], testHoldCoordinates);
+*/
 
             int position = hangboard.ordinal();
-            if ( position >= 0 && position < coordinate_resources.length) {
+            if ( position >= 0 && position < hangboardsHoldCoordinates.length) {
                 return hangboardsHoldCoordinates[position];
             }
             return hangboardsHoldCoordinates[0];
         }
 
-        public static int[] getGripValues(hangboardName hangboard, Resources res) {
-            int gripValueResources = HangboardResources.getHoldValueResources(hangboard);
+        public static int[] getGripValues(hangboardName hangboard) {
+  /*          int gripValueResources = HangboardResources.getHoldValueResources(hangboard);
             int[] testGripValues = res.getIntArray(gripValueResources);
             if (hangboardsGripValues.length != hold_resources.length ) {
                 Log.e("SIZE","grip resource arrays not the same size");
             }
             TESTisArraysTheSame(hangboardsGripValues[hangboard.ordinal()], testGripValues);
-
+*/
             int position = hangboard.ordinal();
-            if ( position >= 0 && position < hold_resources.length) {
+            if ( position >= 0 && position < hangboardsGripValues.length) {
                 return hangboardsGripValues[position];
             }
 
@@ -847,6 +840,7 @@ private static final int[] gripValuesSolution = {
          }
 
         }
+/*
 
         public static int getHoldCoordinates(hangboardName hangboard) {
                 int position = hangboard.ordinal();
@@ -857,6 +851,7 @@ private static final int[] gripValuesSolution = {
            // Log.e("ERR","ERROR getholdcoordinates");
                 return coordinate_resources[0];
         }
+*/
 
     public static hangboardName forInt(int id) {
         return hangboardName.values()[id-1];
