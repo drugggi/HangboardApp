@@ -227,9 +227,22 @@ public class BenchmarkActivity extends AppCompatActivity {
             i++;
             int[] tempHoldGripTypes = parceStringToInt(allBenchmarks[i]);
 
+
             if (tempControls.getGripLaps()*2 != tempHoldNumbers.length ||
                     tempControls.getGripLaps()*2 != tempHoldGripTypes.length ) {
+
                 Log.e("ERR","timecontrols griplaps different size than needed workoutholds at: " + i);
+                Toast.makeText(this,"ERROr PARCE SIZES",Toast.LENGTH_LONG).show();
+               //Log.d("DESC",benchmarkDescriptions.get(i));
+                Log.d("time controls",tempControls.getTimeControlsAsJSONGString() );
+                Log.d("Hold numbers",": " + tempHoldNumbers.length);
+                Log.d("grip types",": " + tempHoldGripTypes.length);
+
+                StringBuilder griptypes = new StringBuilder();
+                for (int j = 0 ; j < tempHoldNumbers.length ; j++) {
+                    griptypes.append("1,");
+                }
+                Log.d("wanted grip types",griptypes.toString() );
 
             }
 
@@ -247,10 +260,10 @@ public class BenchmarkActivity extends AppCompatActivity {
 
             benchmarkWorkoutHolds.add(tempWorkoutHolds);
 
-            Log.d("benchmark","data line: " + i + " = " +allBenchmarks[i]);
+          //   Log.d("benchmark","data line: " + i + " = " +allBenchmarks[i]);
         }
 
-        for (int i = 0 ; i <benchmarkDescriptions.size() ; i++) {
+     /*   for (int i = 0 ; i <benchmarkDescriptions.size() ; i++) {
             Log.d("DESC",benchmarkDescriptions.get(i) );
             Log.d("TC",benchmarkTimeControls.get(i).getTimeControlsAsJSONGString() );
 
@@ -260,16 +273,16 @@ public class BenchmarkActivity extends AppCompatActivity {
             for (int j = 0 ; j < benchmarkWorkoutHolds.get(i).size() ; j=j+2) {
 
                 Log.d("HOLDS",benchmarkWorkoutHolds.get(i).get(j).getHoldInfo( benchmarkWorkoutHolds.get(i).get(j+1) ).replace("\n"," ") );
-                /*
-                holds += benchmarkWorkoutHolds.get(i).get(j).getHoldNumber() + "";
-                grips += benchmarkWorkoutHolds.get(i).get(j).getGripStyleInt() + "";
-                diffis += benchmarkWorkoutHolds.get(i).get(j).getHoldValue() + "";
-*/
+
+             //   holds += benchmarkWorkoutHolds.get(i).get(j).getHoldNumber() + "";
+              //  grips += benchmarkWorkoutHolds.get(i).get(j).getGripStyleInt() + "";
+              //  diffis += benchmarkWorkoutHolds.get(i).get(j).getHoldValue() + "";
+
             }
             Log.d("HANGS",holds +  "   " +grips + "    " + diffis);
 
         }
-
+*/
     }
 
     public static int[] parceStringToInt(String arrayIntLine) {

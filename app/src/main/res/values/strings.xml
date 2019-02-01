@@ -43,6 +43,7 @@
 
 
     <string-array name="zlag_benchmarks">
+
         <item>5B Benchmark for repeaters. Only Jugs (hold 1)</item>
         <item>3,6,7,3,3,150,300</item>
         <item>1,1,1,6,1,4</item>
@@ -115,6 +116,76 @@
     </string-array>
 
     <string-array name="bm1000_benchmarks">
+        <item>5B Benchmark (Single hangs)</item>
+        <item>6,1,10,0,3,50,120</item>
+        <item>6,10,10,6,3,10,10,3,8,8,8,8</item>
+        <item>1,1,1,1,1,1,1,1,2,2,3,3</item>
+
+        <item>5C Benchmark (Single hangs)</item>
+        <item>6,1,10,0,3,50,120</item>
+        <item>10,10,3,10,10,3,8,5,5,8,8,8</item>
+        <item>1,1,1,1,1,1,2,2,2,2,3,3</item>
+
+        <item>6A Benchmark (Single hangs)</item>
+        <item>6,1,10,0,3,50,120</item>
+        <item>10,10,3,10,10,3,8,5,5,8,8,8</item>
+        <item>1,1,1,1,1,1,2,2,2,2,3,3</item>
+
+        <item>6A+ Benchmark (Single hangs)</item>
+        <item>6,1,10,0,3,45,120</item>
+        <item>10,10,10,10,8,5,5,8,5,6,6,5</item>
+        <item>1,1,1,1,2,2,2,2,3,3,3,3</item>
+
+        <item>6B Benchmark (Single hangs)</item>
+        <item>7,1,10,0,3,45,100</item>
+        <item>10,4,4,10,5,12,12,5,8,10,10,8,7,7</item>
+        <item>1,1,1,1,2,2,2,2,3,3,3,3,5,5</item>
+
+        <item>6B+ Benchmark (Single hangs)</item>
+        <item>7,1,10,0,3,40,100</item>
+        <item>10,4,4,10,5,10,10,5,5,12,12,5,7,7</item>
+        <item>1,1,1,1,2,2,2,2,3,3,3,3,5,5</item>
+
+        <item>6C Benchmark (Single hangs)</item>
+        <item>8,1,10,0,3,40,100</item>
+        <item>4,4,2,10,10,2,12,12,12,12,7,7,7,11,11,7</item>
+        <item>1,1,1,1,1,1,2,2,3,3,4,4,5,5,5,5</item>
+
+        <item>6C+ Benchmark (Single hangs)</item>
+        <item>8,1,10,0,3,40,80</item>
+        <item>4,4,2,10,10,2,12,10,10,12,12,12,7,11,11,7</item>
+        <item>1,1,1,1,1,1,2,2,2,2,3,3,5,5,5,5</item>
+
+        <item>7A Benchmark (Single hangs)</item>
+        <item>12,1,10,0,2,40,80</item>
+        <item>4,4,4,4,2,4,4,2,2,2,10,10,10,12,12,10,7,11,11,7,7,10,10,7</item>
+        <item>1,1,1,1,1,1,1,1,1,1,2,2,3,3,3,3,4,4,4,4,5,5,5,5</item>
+
+        <item>7A+ Benchmark (Single hangs)</item>
+        <item>12,1,10,0,2,35,80</item>
+        <item>4,4,4,4,2,4,4,2,2,2,10,10,10,10,10,10,7,11,11,7,7,10,10,7</item>
+        <item>1,1,1,1,1,1,1,1,1,1,2,2,3,3,3,3,4,4,4,4,5,5,5,5</item>
+
+        <item>7B Benchmark (Single hangs)</item>
+        <item>9,1,10,0,3,35,80</item>
+        <item>2,2,2,2,4,10,10,4,10,10,7,10,10,7,10,10,7,7</item>
+        <item>1,1,1,1,2,2,2,2,3,3,4,4,4,4,5,5,6,6</item>
+
+        <item>7B+ Benchmark (Single hangs)</item>
+        <item>10,1,10,0,3,30,80</item>
+        <item>2,2,2,2,4,10,10,4,10,4,4,10,7,10,10,7,10,10,7,7</item>
+        <item>1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,6,6</item>
+
+        <item>7C Benchmark (Single hangs)</item>
+        <item>9,1,10,0,3,30,60</item>
+        <item>4,4,4,4,4,4,4,10,10,4,11,11,10,10,7,11,11,7</item>
+        <item>2,2,2,2,3,3,3,3,3,3,4,4,5,5,6,6,6,6</item>
+
+        <item>7C+ Benchmark (Single hangs)</item>
+        <item>9,1,10,0,3,30,60</item>
+        <item>4,4,4,2,2,4,4,4,4,2,2,4,11,11,10,10,11,11</item>
+        <item>2,2,2,2,2,2,3,3,3,3,3,3,4,4,5,5,6,6</item>
+
         <item>5B Benchmark for repeaters. Only four finger grip</item>
         <item>3,6,7,3,3,150,300</item>
         <item>6,6,3,3,3,6</item>
@@ -126,34 +197,34 @@
         <item>1,1,1,1,1,1,2,2,3,3</item>
 
         <item>6A Benchmark for repeaters</item>
-        <item>6,6,7,3,2,150,300</item>
-        <item>10,10,6,10,3,10,8,8,5,8,5,8</item>
-        <item>1,1,1,1,1,1,2,2,2,2,3,3</item>
+        <item>5,6,7,3,2,150,300</item>
+        <item>6,10,3,10,8,8,5,8,5,8</item>
+        <item>1,1,1,1,2,2,2,2,3,3</item>
 
         <item>6A+ Benchmark for repeaters</item>
-        <item>6,6,7,3,2,140,300</item>
-        <item>10,10,6,10,3,10,5,8,5,8,8,6</item>
-        <item>1,1,1,1,1,1,2,2,3,3,3,3</item>
+        <item>5,6,7,3,2,140,300</item>
+        <item>6,10,3,10,5,8,5,8,8,6</item>
+        <item>1,1,1,1,2,2,3,3,3,3</item>
 
         <item>6B Benchmark for repeaters. Two finger pocket included</item>
-        <item>6,6,7,3,2,140,300</item>
-        <item>10,10,3,2,5,5,8,10,5,6,7,7</item>
-        <item>1,1,1,1,2,2,2,2,3,3,5,5</item>
+        <item>5,6,7,3,2,140,300</item>
+        <item>10,10,3,2,5,5,5,6,7,7</item>
+        <item>1,1,1,1,2,2,3,3,5,5</item>
 
         <item>6B+ Benchmark for repeaters.</item>
-        <item>6,6,7,3,2,130,300</item>
-        <item>10,10,3,2,5,5,8,10,5,5,7,7</item>
-        <item>1,1,1,1,2,2,2,2,3,3,5,5</item>
+        <item>5,6,7,3,2,130,300</item>
+        <item>10,10,3,2,5,5,5,5,7,7</item>
+        <item>1,1,1,1,2,2,3,3,5,5</item>
 
         <item>6C Benchmark for repeaters</item>
-        <item>6,6,7,3,2,130,300</item>
-        <item>10,4,10,4,5,12,5,12,7,7,7,6</item>
-        <item>1,1,1,1,2,2,3,3,4,4,5,5</item>
+        <item>5,6,7,3,2,130,300</item>
+        <item>10,4,5,12,5,12,7,7,7,6</item>
+        <item>1,1,2,2,3,3,4,4,5,5</item>
 
         <item>6C+ Benchmark for repeaters</item>
-        <item>6,6,7,3,2,120,300</item>
-        <item>10,4,10,4,5,12,5,12,7,6,7,6</item>
-        <item>1,1,1,1,2,2,3,3,4,4,5,5</item>
+        <item>5,6,7,3,2,120,300</item>
+        <item>10,4,5,12,5,12,7,6,7,6</item>
+        <item>1,1,2,2,3,3,4,4,5,5</item>
 
         <item>7A Benchmark for repeaters</item>
         <item>6,6,7,3,2,120,240</item>
@@ -189,11 +260,13 @@
         <item>12,6,7,3,1,90,1</item>
         <item>2,2,2,4,4,4,2,10,4,4,4,10,11,11,11,10,10,10,10,11,7,7,7,6</item>
         <item>1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,6,6,6,6</item>
+<!--
 
         <item>6C Benchmark. Master of four finger grip, every combination of four finger grip excluding Jug </item>
         <item>20,1,10,0,1,40,1</item>
         <item>9,6,9,3,9,10,9,4,9,2,6,6,6,3,6,10,6,4,6,2,3,3,3,10,3,4,3,2,10,10,10,4,10,2,4,4,4,2,2,2</item>
         <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
+-->
 
         <!--
 
