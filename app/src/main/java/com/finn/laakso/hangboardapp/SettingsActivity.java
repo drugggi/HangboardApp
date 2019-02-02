@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -65,8 +66,8 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // setSupportActionBar(toolbar);
 
         // There are a lot more grips in single hangs program than repeaters, gripMultiplier
         // is used so that the grip progressbar is useful in both programs
@@ -650,7 +651,7 @@ public class SettingsActivity extends AppCompatActivity {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this);
         // String statusString = prefs.getString("savePreferences","No preferences saved yet");
 
-        boolean isRepeaters = prefs.getBoolean("isRepeaters", true);
+        //boolean isRepeaters = prefs.getBoolean("isRepeaters", true);
 
         int grips = prefs.getInt("grips",6);
         int reps = prefs.getInt("repetitions",6);
@@ -713,6 +714,8 @@ public class SettingsActivity extends AppCompatActivity {
         restSeekBar.setProgress(timeControls.getRestTime()/10-1);
         longRestSeekBar.setProgress(timeControls.getLongRestTime()/60-1);
 
+        timeControls.setTimeControls(tempControls);
+
         gripLapsEditText.setText("" + timeControls.getGripLaps());
         hangLapsEditText.setText("" + timeControls.getHangLaps());
         timeONEditText.setText(""+ timeControls.getTimeON());
@@ -720,7 +723,6 @@ public class SettingsActivity extends AppCompatActivity {
         setsEditText.setText("" + timeControls.getRoutineLaps());
         restEditText.setText("" + timeControls.getRestTime());
         longRestEditText.setText("" + timeControls.getLongRestTime());
-
 
     }
 
