@@ -21,6 +21,8 @@ import java.util.Random;
 
 public class BenchmarkActivity extends AppCompatActivity {
 
+    private BenchmarkWorkoutsAdapter benchmarkWorkoutsAdapter;
+
     private Button copyBenchmarkButton;
     private CheckBox randomizeGripsCheckBox;
 
@@ -65,25 +67,42 @@ public class BenchmarkActivity extends AppCompatActivity {
         hangboardNamesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
                 hangboardPosition = i;
                 selectedBenchmark = 0;
-                parceBenchmarkPrograms(hangboardPosition);
+                // parceBenchmarkPrograms(hangboardPosition);
 
-                benchmarksAdapter = new ArrayAdapter<String>(BenchmarkActivity.this,android.R.layout.simple_list_item_1,benchmarkDescriptions);
+                Resources res = getResources();
 
-                benchmarksListView.setAdapter(benchmarksAdapter);
+                String[] benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(hangboardPosition));
+
+                benchmarkWorkoutsAdapter = new BenchmarkWorkoutsAdapter(BenchmarkActivity.this,hangboardPosition,benchmarkResources);
+                benchmarksListView.setAdapter(benchmarkWorkoutsAdapter);
+
+                // benchmarksAdapter = new ArrayAdapter<String>(BenchmarkActivity.this,android.R.layout.simple_list_item_1,benchmarkDescriptions);
+                // benchmarksListView.setAdapter(benchmarksAdapter);
 
             }
         });
+        Resources res = getResources();
+
+        String[] benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(hangboardPosition));
+
+        benchmarkWorkoutsAdapter = new BenchmarkWorkoutsAdapter(this,0,benchmarkResources);
+        benchmarksListView.setAdapter(benchmarkWorkoutsAdapter);
+        registerForContextMenu(benchmarksListView);
+
 
         benchmarksListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 
                 selectedBenchmark = i;
-                Toast.makeText(BenchmarkActivity.this,"position selected: " + i,Toast.LENGTH_SHORT).show();
+                // Toast.makeText(BenchmarkActivity.this,"position selected: " + i,Toast.LENGTH_SHORT).show();
 
-                changeBenchmarkInfoText();
+                String benchmarkInfo = benchmarkWorkoutsAdapter.getBenchmarkInfoText(selectedBenchmark);
+                benchmarkInfoTextView.setText(benchmarkInfo);
+                // changeBenchmarkInfoText();
             }
         });
 

@@ -7,20 +7,19 @@
     android:background="@android:color/darker_gray"
     tools:context=".BenchmarkActivity">
 
-        <ListView
-            android:id="@+id/hangboardsListView"
-            android:layout_width="150dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:choiceMode="singleChoice"
-            android:clickable="true"
-            android:focusable="true"
-            android:listSelector="@color/gray"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+    <ListView
+        android:id="@+id/hangboardsListView"
+        android:layout_width="150dp"
+        android:layout_height="match_parent"
+        android:choiceMode="singleChoice"
+        android:clickable="true"
+        android:focusable="true"
+        android:listSelector="@color/gray"
+        android:textAlignment="viewStart"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        </ListView>
+    </ListView>
 
 
     <ListView
@@ -65,8 +64,6 @@
                 android:id="@+id/randomizeGrips"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_marginEnd="8dp"
                 android:text="@string/randomize_grips"
                 app:layout_constraintBottom_toTopOf="@+id/copyBenchmarkWorkout"
                 app:layout_constraintEnd_toEndOf="parent" />
