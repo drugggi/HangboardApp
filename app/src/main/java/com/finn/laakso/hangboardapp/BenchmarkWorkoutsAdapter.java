@@ -103,6 +103,65 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
         return convertView;
     }
 
+    public String getAnimationInfoText(int previousPosition,int selectedPosition) {
+        int totalTimeChange = benchmarkTimeControls.get(previousPosition).getTotalTime()
+                - benchmarkTimeControls.get(selectedPosition).getTotalTime();
+        int TUTChange = benchmarkTimeControls.get(previousPosition).getTimeUnderTension()
+                - benchmarkTimeControls.get(selectedPosition).getTimeUnderTension();
+
+        int prevGripLaps = benchmarkTimeControls.get(previousPosition).getGripLaps();
+        int prevSets = benchmarkTimeControls.get(previousPosition).getRoutineLaps();
+        int prevHangs = benchmarkTimeControls.get(previousPosition).getHangLaps();
+
+        int[] prevTempCompleted = new int[prevGripLaps * prevGripLaps];
+
+        for (int i = 0 ; i < prevTempCompleted.length ;  i++) {
+            prevTempCompleted[i] = prevHangs;
+        }
+
+        int selectedGripLaps = benchmarkTimeControls.get(selectedPosition).getGripLaps();
+        int selectedSets = benchmarkTimeControls.get(selectedPosition).getRoutineLaps();
+        int selectedHangs = benchmarkTimeControls.get(selectedPosition).getHangLaps();
+
+        int[] selectedTempCompleted = new int[selectedGripLaps * selectedSets];
+
+        for (int i = 0 ; i < selectedTempCompleted.length ;  i++) {
+            selectedTempCompleted[i] = selectedHangs;
+        }
+
+        CalculateWorkoutDetails prevDetails = new CalculateWorkoutDetails(benchmarkTimeControls.get(previousPosition),
+                benchmarkWorkoutHolds.get(previousPosition) , prevTempCompleted);
+        CalculateWorkoutDetails selectedDetails = new CalculateWorkoutDetails(benchmarkTimeControls.get(selectedPosition),
+                benchmarkWorkoutHolds.get(selectedPosition) , selectedTempCompleted);
+
+        int intensityChange = (int) (100 * (prevDetails.getIntensity() - selectedDetails.getIntensity()) );
+        int avgDChange = (int) (prevDetails.getAverageDifficutly() - selectedDetails.getAverageDifficutly() );
+        int powerChange = (int) (10* (prevDetails.getWorkoutPower() - selectedDetails.getWorkoutPower()) );
+        int workloadChange =(int) (prevDetails.getWorkload() - selectedDetails.getWorkload());
+
+        String totalTime = ""+totalTimeChange/60;
+        String TUT = "" + TUTChange;
+        String intensity = "0." + intensityChange;
+        String avgD = "" + avgDChange;
+        String power = "" + powerChange;
+        String workload = "" + workloadChange;
+
+        if (totalTimeChange == 0) {
+            totalTime = "";
+        }
+        if (TUTChange == 0) {
+            TUT = "";
+        }
+        if (intensityChange == 0) {
+            intensity = "";
+        }
+
+
+        return "\n" + totalTime+ "\n" + TUT + "\n" + intensity +
+                "\n" + avgD + "\n" + power + "\n" + workload + "\n\n";
+
+    }
+
     public String getBenchmarkInfoText(int selectedBenchmark) {
 
         if (selectedBenchmark < 0 || selectedBenchmark >= benchmarkTimeControls.size() ) {

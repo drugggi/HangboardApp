@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -29,6 +31,7 @@ public class BenchmarkActivity extends AppCompatActivity {
     private ListView hangboardNamesListView;
     private ListView benchmarksListView;
     private TextView benchmarkInfoTextView;
+    private TextView animationTextView;
 
     private ListAdapter hangboardNamesAdapter;
     private ListAdapter benchmarksAdapter;
@@ -56,6 +59,7 @@ public class BenchmarkActivity extends AppCompatActivity {
         benchmarkInfoTextView = findViewById(R.id.benchmarkInfoTextView);
         copyBenchmarkButton = findViewById(R.id.copyBenchmarkWorkout);
         randomizeGripsCheckBox = findViewById(R.id.randomizeGrips);
+        animationTextView = findViewById(R.id.animationTextView);
 
         parceBenchmarkPrograms(hangboardPosition);
         hangboardNamesAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, hangboardNames);
@@ -92,17 +96,30 @@ public class BenchmarkActivity extends AppCompatActivity {
         benchmarksListView.setAdapter(benchmarkWorkoutsAdapter);
         registerForContextMenu(benchmarksListView);
 
-
+        String benchmarkInfo = benchmarkWorkoutsAdapter.getBenchmarkInfoText(selectedBenchmark);
+        benchmarkInfoTextView.setText(benchmarkInfo);
         benchmarksListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                
+
+                // RunAnimation2();
+                // animationText needs to know former selected Benchmark position
+                String animationChangeText = benchmarkWorkoutsAdapter.getAnimationInfoText(selectedBenchmark,i);
+
                 selectedBenchmark = i;
-                // Toast.makeText(BenchmarkActivity.this,"position selected: " + i,Toast.LENGTH_SHORT).show();
 
                 String benchmarkInfo = benchmarkWorkoutsAdapter.getBenchmarkInfoText(selectedBenchmark);
                 benchmarkInfoTextView.setText(benchmarkInfo);
+
+                animationTextView.setText(animationChangeText);
+
+
+               RunAnimation();
+                // Animation animation = AnimationUtils.loadAnimation()
+
                 // changeBenchmarkInfoText();
+
+
             }
         });
 
@@ -314,5 +331,23 @@ public class BenchmarkActivity extends AppCompatActivity {
         }
 
         return completed;
+    }
+
+    private void RunAnimation2()
+    {
+        Animation a = AnimationUtils.loadAnimation(this, R.anim.test_animation2);
+        a.reset();
+        TextView tv = (TextView) findViewById(R.id.benchmarkInfoTextView);
+        tv.clearAnimation();
+        tv.startAnimation(a);
+    }
+
+    private void RunAnimation()
+    {
+        Animation a = AnimationUtils.loadAnimation(this, R.anim.test_animation);
+        a.reset();
+        TextView tv = (TextView) findViewById(R.id.animationTextView);
+        tv.clearAnimation();
+        tv.startAnimation(a);
     }
 }
