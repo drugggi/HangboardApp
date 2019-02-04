@@ -39,7 +39,7 @@
         android:layout_height="match_parent"
         android:contentDescription="@string/hangboard_image"
         android:visibility="visible"
-        app:srcCompat="@drawable/beast1000" />
+        app:srcCompat="@drawable/lauta1011" />
 
     <ImageView
         android:id="@+id/leftHandImageView"

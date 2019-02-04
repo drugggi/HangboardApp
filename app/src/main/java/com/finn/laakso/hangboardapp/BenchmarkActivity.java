@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListAdapter;
@@ -23,7 +22,8 @@ import java.util.Random;
 
 public class BenchmarkActivity extends AppCompatActivity {
 
-    private BenchmarkWorkoutsAdapter benchmarkWorkoutsAdapter;
+    private BenchmarkWorkoutsAdapter workoutsAdapter;
+    private BenchmarkHangboardAdapter hangboardAdapter;
 
     private Button copyBenchmarkButton;
     private CheckBox randomizeGripsCheckBox;
@@ -62,11 +62,14 @@ public class BenchmarkActivity extends AppCompatActivity {
         animationTextView = findViewById(R.id.animationTextView);
 
         parceBenchmarkPrograms(hangboardPosition);
-        hangboardNamesAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, hangboardNames);
-        benchmarksAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,benchmarkDescriptions);
+        // hangboardNamesAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, hangboardNames);
+        //benchmarksAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,benchmarkDescriptions);
 
-        hangboardNamesListView.setAdapter(hangboardNamesAdapter);
-        benchmarksListView.setAdapter(benchmarksAdapter);
+        //hangboardNamesListView.setAdapter(hangboardNamesAdapter);
+        // benchmarksListView.setAdapter(benchmarksAdapter);
+
+        hangboardAdapter = new BenchmarkHangboardAdapter(this);
+        hangboardNamesListView.setAdapter(hangboardAdapter);
 
         hangboardNamesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -80,8 +83,11 @@ public class BenchmarkActivity extends AppCompatActivity {
 
                 String[] benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(hangboardPosition));
 
-                benchmarkWorkoutsAdapter = new BenchmarkWorkoutsAdapter(BenchmarkActivity.this,hangboardPosition,benchmarkResources);
-                benchmarksListView.setAdapter(benchmarkWorkoutsAdapter);
+                workoutsAdapter = new BenchmarkWorkoutsAdapter(BenchmarkActivity.this,hangboardPosition,benchmarkResources);
+                benchmarksListView.setAdapter(workoutsAdapter);
+
+                hangboardAdapter.setSelectedHangboard(hangboardPosition);
+                hangboardAdapter.notifyDataSetChanged();
 
                 // benchmarksAdapter = new ArrayAdapter<String>(BenchmarkActivity.this,android.R.layout.simple_list_item_1,benchmarkDescriptions);
                 // benchmarksListView.setAdapter(benchmarksAdapter);
@@ -92,11 +98,11 @@ public class BenchmarkActivity extends AppCompatActivity {
 
         String[] benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(hangboardPosition));
 
-        benchmarkWorkoutsAdapter = new BenchmarkWorkoutsAdapter(this,0,benchmarkResources);
-        benchmarksListView.setAdapter(benchmarkWorkoutsAdapter);
+        workoutsAdapter = new BenchmarkWorkoutsAdapter(this,0,benchmarkResources);
+        benchmarksListView.setAdapter(workoutsAdapter);
         registerForContextMenu(benchmarksListView);
 
-        String benchmarkInfo = benchmarkWorkoutsAdapter.getBenchmarkInfoText(selectedBenchmark);
+        String benchmarkInfo = workoutsAdapter.getBenchmarkInfoText(selectedBenchmark);
         benchmarkInfoTextView.setText(benchmarkInfo);
         benchmarksListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -104,11 +110,11 @@ public class BenchmarkActivity extends AppCompatActivity {
 
                 // RunAnimation2();
                 // animationText needs to know former selected Benchmark position
-                String animationChangeText = benchmarkWorkoutsAdapter.getAnimationInfoText(selectedBenchmark,i);
+                String animationChangeText = workoutsAdapter.getAnimationInfoText(selectedBenchmark,i);
 
                 selectedBenchmark = i;
 
-                String benchmarkInfo = benchmarkWorkoutsAdapter.getBenchmarkInfoText(selectedBenchmark);
+                String benchmarkInfo = workoutsAdapter.getBenchmarkInfoText(selectedBenchmark);
                 benchmarkInfoTextView.setText(benchmarkInfo);
 
                 animationTextView.setText(animationChangeText);
