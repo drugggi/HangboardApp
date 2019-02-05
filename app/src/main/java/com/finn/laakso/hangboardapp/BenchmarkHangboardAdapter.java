@@ -38,6 +38,14 @@ public class BenchmarkHangboardAdapter extends BaseAdapter {
         this.mInflator = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
+    public String getHangboardName(int position) {
+        if (position > 0 && position < hangboardNames.length ) {
+            return hangboardNames[position];
+        } else {
+            return "Error: hangboard name";
+        }
+    }
+
     public void setSelectedHangboard(int position) {
         selectedHangboard = position;
     }

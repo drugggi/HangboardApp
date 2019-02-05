@@ -61,29 +61,28 @@
 
     <TextView
         android:id="@+id/benchmarkInfoTextView"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="TextView"
         android:textAlignment="textStart"
         android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@+id/benchmarksListView"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/hangboardsListView"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/animationTextView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="-8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:text="TextView"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/randomizeGrips"
+        app:layout_constraintBottom_toTopOf="@+id/benchmarksListView"
         app:layout_constraintStart_toEndOf="@+id/benchmarkInfoTextView"
         app:layout_constraintTop_toTopOf="parent" />
 

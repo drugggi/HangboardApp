@@ -32,9 +32,24 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
         TextView benchmarkDescriptionTextView;
         ImageView benchmarkGradeImageView;
         int position;
-
     }
 
+    public ArrayList<Hold> getWorkoutHolds(int position) {
+        if (position > 0 && position < benchmarkWorkoutHolds.size() ) {
+            return benchmarkWorkoutHolds.get(position);
+        }
+        else {
+            return benchmarkWorkoutHolds.get(0);
+        }
+    }
+
+    public TimeControls getWorkoutTimeControls(int position) {
+        if (position > 0 && position < benchmarkTimeControls.size() ) {
+            return benchmarkTimeControls.get(position);
+        } else {
+            return benchmarkTimeControls.get(0);
+        }
+    }
 
     public BenchmarkWorkoutsAdapter(Context context,int selectedHangboard,String[] benchmarkResources) {
 
@@ -96,24 +111,24 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
         Random rng = new Random();
 
         if (rng.nextBoolean() ) {
-            viewHolder.benchmarkGradeImageView.setImageResource(R.drawable.grade_logo_test);
+            viewHolder.benchmarkGradeImageView.setImageResource(R.drawable.sixplus);
         } else {
-            viewHolder.benchmarkGradeImageView.setImageResource(R.drawable.benchmark_icon);
+            viewHolder.benchmarkGradeImageView.setImageResource(R.drawable.sixaplus);
         }
         return convertView;
     }
 
     public String getAnimationInfoText(int previousPosition,int selectedPosition) {
-        int totalTimeChange = benchmarkTimeControls.get(previousPosition).getTotalTime()
-                - benchmarkTimeControls.get(selectedPosition).getTotalTime();
-        int TUTChange = benchmarkTimeControls.get(previousPosition).getTimeUnderTension()
-                - benchmarkTimeControls.get(selectedPosition).getTimeUnderTension();
+        int totalTimeChange =benchmarkTimeControls.get(selectedPosition).getTotalTime() -
+                benchmarkTimeControls.get(previousPosition).getTotalTime();
+        int TUTChange =benchmarkTimeControls.get(selectedPosition).getTimeUnderTension() -
+                benchmarkTimeControls.get(previousPosition).getTimeUnderTension();
 
         int prevGripLaps = benchmarkTimeControls.get(previousPosition).getGripLaps();
         int prevSets = benchmarkTimeControls.get(previousPosition).getRoutineLaps();
         int prevHangs = benchmarkTimeControls.get(previousPosition).getHangLaps();
 
-        int[] prevTempCompleted = new int[prevGripLaps * prevGripLaps];
+        int[] prevTempCompleted = new int[prevGripLaps * prevSets];
 
         for (int i = 0 ; i < prevTempCompleted.length ;  i++) {
             prevTempCompleted[i] = prevHangs;
@@ -131,20 +146,37 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
 
         CalculateWorkoutDetails prevDetails = new CalculateWorkoutDetails(benchmarkTimeControls.get(previousPosition),
                 benchmarkWorkoutHolds.get(previousPosition) , prevTempCompleted);
+
         CalculateWorkoutDetails selectedDetails = new CalculateWorkoutDetails(benchmarkTimeControls.get(selectedPosition),
                 benchmarkWorkoutHolds.get(selectedPosition) , selectedTempCompleted);
 
-        int intensityChange = (int) (100 * (prevDetails.getIntensity() - selectedDetails.getIntensity()) );
-        int avgDChange = (int) (prevDetails.getAverageDifficutly() - selectedDetails.getAverageDifficutly() );
-        int powerChange = (int) (10* (prevDetails.getWorkoutPower() - selectedDetails.getWorkoutPower()) );
-        int workloadChange =(int) (prevDetails.getWorkload() - selectedDetails.getWorkload());
+        float intensityChange = (selectedDetails.getIntensity()- prevDetails.getIntensity()  );
+        int avgDChange = (int) (selectedDetails.getAverageDifficutly() - prevDetails.getAverageDifficutly());
+        float powerChange =  (selectedDetails.getWorkoutPower() - prevDetails.getWorkoutPower() );
+        int workloadChange =(int) ( selectedDetails.getWorkload() - prevDetails.getWorkload());
 
-        String totalTime = ""+totalTimeChange/60;
-        String TUT = "" + TUTChange;
-        String intensity = "0." + intensityChange;
-        String avgD = "" + avgDChange;
-        String power = "" + powerChange;
-        String workload = "" + workloadChange;
+        String totalTime = ""+totalTimeChange + "s";
+        String TUT = "" + TUTChange+ "s";
+        String intensity;
+        String avgD;
+        String power;
+        String workload;
+
+        if (intensityChange < 0) {
+            intensity = ""+  String.format(java.util.Locale.US,"%.2f",intensityChange);
+        } else if (intensityChange > 0) {
+            intensity = "+" +  String.format(java.util.Locale.US,"%.2f",intensityChange);
+        } else {
+            intensity = "";
+        }
+
+        if (avgDChange < 0 ) {
+            avgD = ""+avgDChange;
+        } else if (avgDChange > 0) {
+            avgD = "+" + avgDChange;
+        } else {
+            avgD = "";
+        }
 
         if (totalTimeChange == 0) {
             totalTime = "";
@@ -152,8 +184,21 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
         if (TUTChange == 0) {
             TUT = "";
         }
-        if (intensityChange == 0) {
-            intensity = "";
+
+        if (powerChange < 0) {
+            power = ""+  String.format(java.util.Locale.US,"%.2f",powerChange);
+        } else if (powerChange > 0) {
+            power = "+" +  String.format(java.util.Locale.US,"%.2f",powerChange);
+        } else {
+            power = "";
+        }
+
+        if (workloadChange > 0) {
+            workload = "+" + workloadChange;
+        } else if (workloadChange < 0 ) {
+            workload = "" + workloadChange;
+        } else {
+            workload = "";
         }
 
 
