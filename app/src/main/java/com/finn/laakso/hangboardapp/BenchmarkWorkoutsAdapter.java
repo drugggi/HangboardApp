@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class BenchmarkWorkoutsAdapter extends BaseAdapter {
 
@@ -21,6 +20,7 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
     private ArrayList<String> benchmarkDescriptions;
     private ArrayList<TimeControls> benchmarkTimeControls;
     private ArrayList<ArrayList<Hold>> benchmarkWorkoutHolds;
+    private int[] benchmarkGradeImageResources;
 
     private String[] hangboardNames;
 
@@ -56,6 +56,11 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
         hangboardNames = HangboardResources.getHangboardNames();
         allBenchmarks = benchmarkResources;
         parceBenchmarkPrograms(selectedHangboard);
+        benchmarkGradeImageResources = new int[benchmarkTimeControls.size()];
+
+        for (int i = 0 ; i < benchmarkDescriptions.size() ; i++ ) {
+            benchmarkGradeImageResources[i] = getImageResources(benchmarkDescriptions.get(i).substring(0,3));
+        }
 
         Log.d("Sizes",benchmarkWorkoutHolds.size() + " " + benchmarkDescriptions.size() + " " );
 
@@ -107,15 +112,66 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
 
         viewHolder.benchmarkDescriptionTextView.setText(benchmarkDescriptions.get(position) );
         viewHolder.benchmarkTitleTextView.setText("Benchmark (Single hangs)");
-
+        viewHolder.benchmarkGradeImageView.setImageResource(benchmarkGradeImageResources[position]);
+/*
         Random rng = new Random();
 
+        int imageResources = getImageResources(benchmarkDescriptions.get(position).substring(0,3));
+
         if (rng.nextBoolean() ) {
-            viewHolder.benchmarkGradeImageView.setImageResource(R.drawable.sixplus);
+            viewHolder.benchmarkGradeImageView.setImageResource(R.drawable.fiveb);
         } else {
-            viewHolder.benchmarkGradeImageView.setImageResource(R.drawable.sixaplus);
-        }
+            viewHolder.benchmarkGradeImageView.setImageResource(imageResources);
+        }*/
         return convertView;
+    }
+
+    private int getImageResources(String grade) {
+        if (grade.equals("5A " )) {
+            return R.drawable.fivea;
+        } else if (grade.equals("5B ") ) {
+            return R.drawable.fiveb;
+        } else if (grade.equals("5C ") ) {
+            return R.drawable.fivec;
+        } else if (grade.equals("6A ")) {
+            return R.drawable.sixa;
+        } else if (grade.equals("6A+")) {
+            return R.drawable.sixaplus;
+        } else if (grade.equals("6B " )) {
+            return R.drawable.sixb;
+        } else if (grade.equals("6B+")) {
+            return R.drawable.sixbplus;
+        } else if (grade.equals("6C ")) {
+            return R.drawable.sixc;
+        } else if (grade.equals("6C+")) {
+            return R.drawable.sixcplus;
+        } else if (grade.equals("7A ")) {
+            return R.drawable.sevena;
+        } else if (grade.equals("7A+")) {
+            return R.drawable.sevenaplus;
+        } else if (grade.equals("7B ")) {
+            return R.drawable.sevenb;
+        } else if (grade.equals("7B+")) {
+            return R.drawable.sevenbplus;
+        } else if (grade.equals("7C ")) {
+            return R.drawable.sevenc;
+        } else if (grade.equals("7C+")) {
+            return R.drawable.sevencplus;
+        }else if (grade.equals("8A ")) {
+            return R.drawable.eighta;
+        } else if (grade.equals("8A+")) {
+            return R.drawable.eightaplus;
+        } else if (grade.equals("8B ")) {
+            return R.drawable.eightb;
+        } else if (grade.equals("8B+")) {
+            return R.drawable.eightbplus;
+        } else if (grade.equals("8C ")) {
+            return R.drawable.eightc;
+        }
+        else {
+            return R.drawable.questiongrade;
+        }
+
     }
 
     public String getAnimationInfoText(int previousPosition,int selectedPosition) {

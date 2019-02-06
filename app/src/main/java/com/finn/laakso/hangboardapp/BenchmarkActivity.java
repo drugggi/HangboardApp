@@ -56,6 +56,10 @@ public class BenchmarkActivity extends AppCompatActivity {
         randomizeGripsCheckBox = findViewById(R.id.randomizeGrips);
         animationTextView = findViewById(R.id.animationTextView);
 
+        benchmarkInfoTextView.setVisibility(View.INVISIBLE);
+        animationTextView.setVisibility(View.INVISIBLE);
+
+
        //  parceBenchmarkPrograms(hangboardPosition);
 
         hangboardAdapter = new BenchmarkHangboardAdapter(this);
@@ -86,7 +90,11 @@ public class BenchmarkActivity extends AppCompatActivity {
                 hangboardAdapter.setSelectedHangboard(hangboardPosition);
                 hangboardAdapter.notifyDataSetChanged();
 
-                benchmarkInfoTextView.setVisibility(View.INVISIBLE);
+
+                if (benchmarkInfoTextView.getVisibility() == View.VISIBLE) {
+                    hideTextViewAnimation();
+                    benchmarkInfoTextView.setVisibility(View.INVISIBLE);
+                }
                 animationTextView.setVisibility(View.INVISIBLE);
                 // benchmarksAdapter = new ArrayAdapter<String>(BenchmarkActivity.this,android.R.layout.simple_list_item_1,benchmarkDescriptions);
                 // benchmarksListView.setAdapter(benchmarksAdapter);
@@ -119,6 +127,7 @@ public class BenchmarkActivity extends AppCompatActivity {
                    // animationTextView.setVisibility(View.VISIBLE);
                 } else {
                     animationChangeText = "";
+                    runAnimation2();
 
                 }
                 selectedBenchmark = i;
@@ -129,7 +138,7 @@ public class BenchmarkActivity extends AppCompatActivity {
                 animationTextView.setText(animationChangeText);
 
 
-               RunAnimation();
+               runAnimation();
                 // Animation animation = AnimationUtils.loadAnimation()
 
                 // changeBenchmarkInfoText();
@@ -202,6 +211,32 @@ public class BenchmarkActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void hideTextViewAnimation() {
+        Animation a = AnimationUtils.loadAnimation(this, R.anim.hide_benchmark_textview);
+        a.reset();
+        TextView tv = (TextView) findViewById(R.id.benchmarkInfoTextView);
+        tv.clearAnimation();
+        tv.startAnimation(a);
+    }
+
+    private void runAnimation2()
+    {
+        Animation a = AnimationUtils.loadAnimation(this, R.anim.popup_benchmark_textview);
+        a.reset();
+        TextView tv = (TextView) findViewById(R.id.benchmarkInfoTextView);
+        tv.clearAnimation();
+        tv.startAnimation(a);
+    }
+
+    private void runAnimation()
+    {
+        Animation a = AnimationUtils.loadAnimation(this, R.anim.animate_benchmark_difference);
+        a.reset();
+        TextView tv = (TextView) findViewById(R.id.animationTextView);
+        tv.clearAnimation();
+        tv.startAnimation(a);
     }
 /*
     private void changeBenchmarkInfoText() {
@@ -327,21 +362,5 @@ public class BenchmarkActivity extends AppCompatActivity {
     }
 */
 
-    private void RunAnimation2()
-    {
-        Animation a = AnimationUtils.loadAnimation(this, R.anim.test_animation2);
-        a.reset();
-        TextView tv = (TextView) findViewById(R.id.benchmarkInfoTextView);
-        tv.clearAnimation();
-        tv.startAnimation(a);
-    }
 
-    private void RunAnimation()
-    {
-        Animation a = AnimationUtils.loadAnimation(this, R.anim.test_animation);
-        a.reset();
-        TextView tv = (TextView) findViewById(R.id.animationTextView);
-        tv.clearAnimation();
-        tv.startAnimation(a);
-    }
 }

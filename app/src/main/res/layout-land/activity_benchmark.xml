@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="-8dp"
                 android:layout_marginBottom="8dp"
-                android:text="TextView"
+                android:text=""
                 android:textSize="12sp"
                 app:layout_constraintBottom_toTopOf="@+id/randomizeGrips"
                 app:layout_constraintStart_toEndOf="@+id/benchmarkInfoTextView"
