@@ -77,8 +77,12 @@ public class BenchmarkActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                hangboardPosition = i;
                 selectedBenchmark = -1;
+                if (i == hangboardPosition) {
+                    return;
+                }
+
+                hangboardPosition = i;
                 // parceBenchmarkPrograms(hangboardPosition);
 
                 Resources res = getResources();
@@ -119,6 +123,10 @@ public class BenchmarkActivity extends AppCompatActivity {
                 // RunAnimation2();
                 // animationText needs to know former selected Benchmark position
 
+                if (selectedBenchmark == i) {
+                    return;
+                }
+
 
                 benchmarkInfoTextView.setVisibility(View.VISIBLE);
                 String animationChangeText;
@@ -133,12 +141,13 @@ public class BenchmarkActivity extends AppCompatActivity {
                 selectedBenchmark = i;
 
                 String benchmarkInfo = workoutsAdapter.getBenchmarkInfoText(selectedBenchmark);
-                benchmarkInfoTextView.setText(benchmarkInfo);
 
                 animationTextView.setText(animationChangeText);
 
 
-               runAnimation();
+                runAnimation();
+
+                benchmarkInfoTextView.setText(benchmarkInfo);
                 // Animation animation = AnimationUtils.loadAnimation()
 
                 // changeBenchmarkInfoText();

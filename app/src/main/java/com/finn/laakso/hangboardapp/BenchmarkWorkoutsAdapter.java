@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -113,6 +115,10 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
         viewHolder.benchmarkDescriptionTextView.setText(benchmarkDescriptions.get(position) );
         viewHolder.benchmarkTitleTextView.setText("Benchmark (Single hangs)");
         viewHolder.benchmarkGradeImageView.setImageResource(benchmarkGradeImageResources[position]);
+
+        Animation animation = AnimationUtils.loadAnimation(mContext,R.anim.fade_in);
+        convertView.startAnimation(animation);
+
 /*
         Random rng = new Random();
 

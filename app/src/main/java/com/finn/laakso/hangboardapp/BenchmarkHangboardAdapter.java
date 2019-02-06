@@ -5,6 +5,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -94,10 +96,16 @@ public class BenchmarkHangboardAdapter extends BaseAdapter {
         viewHolder.hangboardNameTextView.setText(hangboardNames[position] );
         if (selectedHangboard == position) {
             viewHolder.hangboardImageView.setImageResource(HangboardResources.getHangboardImageResource(position));
+            Animation animation = AnimationUtils.loadAnimation(mContext,R.anim.fade_in);
+            viewHolder.hangboardImageView.startAnimation(animation);
         }
         else {
             viewHolder.hangboardImageView.setImageResource(0);
         }
+
+       // Animation animation = AnimationUtils.loadAnimation(mContext,R.anim.fade_in);
+       // convertView.startAnimation(animation);
+
         //viewHolder.hangboardImageView.setImageResource(HangboardResources.getHangboardImageResource(position));
         return convertView;
     }

@@ -33,12 +33,12 @@
         android:listSelector="@color/gray"
         app:layout_constraintEnd_toStartOf="@+id/infoLayout"
         app:layout_constraintStart_toEndOf="@+id/hangboardsListView"
-        tools:layout_editor_absoluteY="8dp"/>
+        tools:layout_editor_absoluteY="8dp" />
 
 
     <LinearLayout
         android:id="@+id/infoLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="match_parent"
         android:layout_marginEnd="8dp"
         android:gravity="bottom|end"
