@@ -5,7 +5,7 @@
     <string name="benchmark">Benchmark</string>
     <string name="about">About</string>
     <string name="copy_workout">Copy workout</string>
-    <string name="randomize_grips">Randomize grip order</string>
+    <string name="randomize_grips">Random grip order</string>
     <string name="app_name">Grips and Grades</string>
     <string name="workout_description_hint">Optional short description about the workout</string>
     <string name="save_workout_to_database">Save workout to database</string>
@@ -183,15 +183,10 @@
     </string-array>
 
     <string-array name="bm1000_benchmarks">
-        <item>5B Benchmark (Single hangs)</item>
+        <item>5C Benchmark (Single hangs)</item>
         <item>6,1,10,0,3,50,120</item>
         <item>6,10,10,6,3,10,10,3,8,8,8,8</item>
         <item>1,1,1,1,1,1,1,1,2,2,3,3</item>
-
-        <item>5C Benchmark (Single hangs)</item>
-        <item>6,1,10,0,3,50,120</item>
-        <item>10,10,3,10,10,3,8,5,5,8,8,8</item>
-        <item>1,1,1,1,1,1,2,2,2,2,3,3</item>
 
         <item>6A Benchmark (Single hangs)</item>
         <item>6,1,10,0,3,50,120</item>
