@@ -37,34 +37,33 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
     }
 
     public ArrayList<Hold> getWorkoutHolds(int position) {
-        if (position > 0 && position < benchmarkWorkoutHolds.size() ) {
+        if (position > 0 && position < benchmarkWorkoutHolds.size()) {
             return benchmarkWorkoutHolds.get(position);
-        }
-        else {
+        } else {
             return benchmarkWorkoutHolds.get(0);
         }
     }
 
     public TimeControls getWorkoutTimeControls(int position) {
-        if (position > 0 && position < benchmarkTimeControls.size() ) {
+        if (position > 0 && position < benchmarkTimeControls.size()) {
             return benchmarkTimeControls.get(position);
         } else {
             return benchmarkTimeControls.get(0);
         }
     }
 
-    public BenchmarkWorkoutsAdapter(Context context,int selectedHangboard,String[] benchmarkResources) {
+    public BenchmarkWorkoutsAdapter(Context context, int selectedHangboard, String[] benchmarkResources) {
 
         hangboardNames = HangboardResources.getHangboardNames();
         allBenchmarks = benchmarkResources;
         parceBenchmarkPrograms(selectedHangboard);
         benchmarkGradeImageResources = new int[benchmarkTimeControls.size()];
 
-        for (int i = 0 ; i < benchmarkDescriptions.size() ; i++ ) {
-            benchmarkGradeImageResources[i] = getImageResources(benchmarkDescriptions.get(i).substring(0,3));
+        for (int i = 0; i < benchmarkDescriptions.size(); i++) {
+            benchmarkGradeImageResources[i] = getImageResources(benchmarkDescriptions.get(i).substring(0, 3));
         }
 
-        Log.d("Sizes",benchmarkWorkoutHolds.size() + " " + benchmarkDescriptions.size() + " " );
+        Log.d("Sizes", benchmarkWorkoutHolds.size() + " " + benchmarkDescriptions.size() + " ");
 
         this.mContext = context;
         this.mInflator = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -90,13 +89,13 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-       BenchmarkInfoViewHolder viewHolder;
+        BenchmarkInfoViewHolder viewHolder;
 
         if (convertView == null) {
 
             LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
 
-            convertView = inflater.inflate(R.layout.benchmark_listview,parent,false);
+            convertView = inflater.inflate(R.layout.benchmark_listview, parent, false);
             viewHolder = new BenchmarkInfoViewHolder();
 
             viewHolder.benchmarkGradeImageView = (ImageView) convertView.findViewById(R.id.benchmarkGradeImageView);
@@ -105,18 +104,17 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
             viewHolder.position = position;
 
             convertView.setTag(viewHolder);
-        }
-        else {
+        } else {
 
             viewHolder = (BenchmarkInfoViewHolder) convertView.getTag();
 
         }
 
-        viewHolder.benchmarkDescriptionTextView.setText(benchmarkDescriptions.get(position) );
+        viewHolder.benchmarkDescriptionTextView.setText(benchmarkDescriptions.get(position));
         viewHolder.benchmarkTitleTextView.setText("Benchmark (Single hangs)");
         viewHolder.benchmarkGradeImageView.setImageResource(benchmarkGradeImageResources[position]);
 
-        Animation animation = AnimationUtils.loadAnimation(mContext,R.anim.fade_in);
+        Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
         convertView.startAnimation(animation);
 
 /*
@@ -133,17 +131,17 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
     }
 
     private int getImageResources(String grade) {
-        if (grade.equals("5A " )) {
+        if (grade.equals("5A ")) {
             return R.drawable.fivea;
-        } else if (grade.equals("5B ") ) {
+        } else if (grade.equals("5B ")) {
             return R.drawable.fiveb;
-        } else if (grade.equals("5C ") ) {
+        } else if (grade.equals("5C ")) {
             return R.drawable.fivec;
         } else if (grade.equals("6A ")) {
             return R.drawable.sixa;
         } else if (grade.equals("6A+")) {
             return R.drawable.sixaplus;
-        } else if (grade.equals("6B " )) {
+        } else if (grade.equals("6B ")) {
             return R.drawable.sixb;
         } else if (grade.equals("6B+")) {
             return R.drawable.sixbplus;
@@ -163,7 +161,7 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
             return R.drawable.sevenc;
         } else if (grade.equals("7C+")) {
             return R.drawable.sevencplus;
-        }else if (grade.equals("8A ")) {
+        } else if (grade.equals("8A ")) {
             return R.drawable.eighta;
         } else if (grade.equals("8A+")) {
             return R.drawable.eightaplus;
@@ -173,17 +171,16 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
             return R.drawable.eightbplus;
         } else if (grade.equals("8C ")) {
             return R.drawable.eightc;
-        }
-        else {
+        } else {
             return R.drawable.questiongrade;
         }
 
     }
 
-    public String getAnimationInfoText(int previousPosition,int selectedPosition) {
-        int totalTimeChange =benchmarkTimeControls.get(selectedPosition).getTotalTime() -
+    public String getAnimationInfoText(int previousPosition, int selectedPosition) {
+        int totalTimeChange = benchmarkTimeControls.get(selectedPosition).getTotalTime() -
                 benchmarkTimeControls.get(previousPosition).getTotalTime();
-        int TUTChange =benchmarkTimeControls.get(selectedPosition).getTimeUnderTension() -
+        int TUTChange = benchmarkTimeControls.get(selectedPosition).getTimeUnderTension() -
                 benchmarkTimeControls.get(previousPosition).getTimeUnderTension();
 
         int prevGripLaps = benchmarkTimeControls.get(previousPosition).getGripLaps();
@@ -192,7 +189,7 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
 
         int[] prevTempCompleted = new int[prevGripLaps * prevSets];
 
-        for (int i = 0 ; i < prevTempCompleted.length ;  i++) {
+        for (int i = 0; i < prevTempCompleted.length; i++) {
             prevTempCompleted[i] = prevHangs;
         }
 
@@ -202,38 +199,38 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
 
         int[] selectedTempCompleted = new int[selectedGripLaps * selectedSets];
 
-        for (int i = 0 ; i < selectedTempCompleted.length ;  i++) {
+        for (int i = 0; i < selectedTempCompleted.length; i++) {
             selectedTempCompleted[i] = selectedHangs;
         }
 
         CalculateWorkoutDetails prevDetails = new CalculateWorkoutDetails(benchmarkTimeControls.get(previousPosition),
-                benchmarkWorkoutHolds.get(previousPosition) , prevTempCompleted);
+                benchmarkWorkoutHolds.get(previousPosition), prevTempCompleted);
 
         CalculateWorkoutDetails selectedDetails = new CalculateWorkoutDetails(benchmarkTimeControls.get(selectedPosition),
-                benchmarkWorkoutHolds.get(selectedPosition) , selectedTempCompleted);
+                benchmarkWorkoutHolds.get(selectedPosition), selectedTempCompleted);
 
-        float intensityChange = (selectedDetails.getIntensity()- prevDetails.getIntensity()  );
+        float intensityChange = (selectedDetails.getIntensity() - prevDetails.getIntensity());
         int avgDChange = (int) (selectedDetails.getAverageDifficutly() - prevDetails.getAverageDifficutly());
-        float powerChange =  (selectedDetails.getWorkoutPower() - prevDetails.getWorkoutPower() );
-        int workloadChange =(int) ( selectedDetails.getWorkload() - prevDetails.getWorkload());
+        float powerChange = (selectedDetails.getWorkoutPower() - prevDetails.getWorkoutPower());
+        int workloadChange = (int) (selectedDetails.getWorkload() - prevDetails.getWorkload());
 
-        String totalTime = ""+totalTimeChange + "s";
-        String TUT = "" + TUTChange+ "s";
+        String totalTime = "" + totalTimeChange + "s";
+        String TUT = "" + TUTChange + "s";
         String intensity;
         String avgD;
         String power;
         String workload;
 
         if (intensityChange < 0) {
-            intensity = ""+  String.format(java.util.Locale.US,"%.2f",intensityChange);
+            intensity = "" + String.format(java.util.Locale.US, "%.2f", intensityChange);
         } else if (intensityChange > 0) {
-            intensity = "+" +  String.format(java.util.Locale.US,"%.2f",intensityChange);
+            intensity = "+" + String.format(java.util.Locale.US, "%.2f", intensityChange);
         } else {
             intensity = "";
         }
 
-        if (avgDChange < 0 ) {
-            avgD = ""+avgDChange;
+        if (avgDChange < 0) {
+            avgD = "" + avgDChange;
         } else if (avgDChange > 0) {
             avgD = "+" + avgDChange;
         } else {
@@ -248,30 +245,30 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
         }
 
         if (powerChange < 0) {
-            power = ""+  String.format(java.util.Locale.US,"%.2f",powerChange);
+            power = "" + String.format(java.util.Locale.US, "%.2f", powerChange);
         } else if (powerChange > 0) {
-            power = "+" +  String.format(java.util.Locale.US,"%.2f",powerChange);
+            power = "+" + String.format(java.util.Locale.US, "%.2f", powerChange);
         } else {
             power = "";
         }
 
         if (workloadChange > 0) {
             workload = "+" + workloadChange;
-        } else if (workloadChange < 0 ) {
+        } else if (workloadChange < 0) {
             workload = "" + workloadChange;
         } else {
             workload = "";
         }
 
 
-        return "\n" + totalTime+ "\n" + TUT + "\n" + intensity +
+        return "\n" + totalTime + "\n" + TUT + "\n" + intensity +
                 "\n" + avgD + "\n" + power + "\n" + workload + "\n\n";
 
     }
 
     public String getBenchmarkInfoText(int selectedBenchmark) {
 
-        if (selectedBenchmark < 0 || selectedBenchmark >= benchmarkTimeControls.size() ) {
+        if (selectedBenchmark < 0 || selectedBenchmark >= benchmarkTimeControls.size()) {
             return "ERROR";
         }
 
@@ -283,29 +280,32 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
 
         int[] tempCompleted = new int[gripLaps * sets];
 
-        for (int i = 0 ; i < tempCompleted.length ;  i++) {
+        for (int i = 0; i < tempCompleted.length; i++) {
             tempCompleted[i] = hangs;
         }
 
         CalculateWorkoutDetails benchmarkDetails = new CalculateWorkoutDetails(tempControls,
-                benchmarkWorkoutHolds.get(selectedBenchmark),tempCompleted);
+                benchmarkWorkoutHolds.get(selectedBenchmark), tempCompleted);
 
         String benchmarkInfo = "";
         String repeaters;
-        if (tempControls.isRepeaters() ) { repeaters = "Repeaters"; }
-        else {repeaters = "Single hangs"; }
+        if (tempControls.isRepeaters()) {
+            repeaters = "Repeaters";
+        } else {
+            repeaters = "Single hangs";
+        }
 
-        String intensity = "0." + (int)(100 * benchmarkDetails.getIntensity());
+        String intensity = "0." + (int) (100 * benchmarkDetails.getIntensity());
         String workoutPower = (int) benchmarkDetails.getWorkoutPower() + ".";
-        workoutPower += (int) (100 * (benchmarkDetails.getWorkoutPower() - (int) benchmarkDetails.getWorkoutPower() ) );
+        workoutPower += (int) (100 * (benchmarkDetails.getWorkoutPower() - (int) benchmarkDetails.getWorkoutPower()));
 
         String workload = "" + (int) benchmarkDetails.getWorkload();
 
         benchmarkInfo += repeaters + "\n";
-        benchmarkInfo += "Total time: " + tempControls.getTotalTime()/60 + "min\n";
+        benchmarkInfo += "Total time: " + tempControls.getTotalTime() / 60 + "min\n";
         benchmarkInfo += "TUT: " + tempControls.getTimeUnderTension() + "s\n";
-        benchmarkInfo += "Intensity: " + intensity +"\n";
-        benchmarkInfo += "avg Difficulty: " + (int)benchmarkDetails.getAverageDifficutly() + "\n";
+        benchmarkInfo += "Intensity: " + intensity + "\n";
+        benchmarkInfo += "avg Difficulty: " + (int) benchmarkDetails.getAverageDifficutly() + "\n";
         benchmarkInfo += "Power: " + workoutPower + "\n";
         benchmarkInfo += "Workload: " + workload + "\n";
         benchmarkInfo += "Time Controls: \n" + tempControls.getTimeControlsAsJSONGString();
@@ -322,11 +322,11 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
         benchmarkTimeControls = new ArrayList<>();
         benchmarkWorkoutHolds = new ArrayList<>();
 
-  // currentHangboard = new Hangboard(res,HangboardResources.getHangboardName(0));
+        // currentHangboard = new Hangboard(res,HangboardResources.getHangboardName(0));
         // currentHangboard.setGripAmount;
 
 
-        for (int i = 0 ; i < allBenchmarks.length ; i++) {
+        for (int i = 0; i < allBenchmarks.length; i++) {
             benchmarkDescriptions.add(allBenchmarks[i]);
 
             i++;
@@ -341,31 +341,31 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
             int[] tempHoldGripTypes = parceStringToInt(allBenchmarks[i]);
 
 
-            if (tempControls.getGripLaps()*2 != tempHoldNumbers.length ||
-                    tempControls.getGripLaps()*2 != tempHoldGripTypes.length ) {
+            if (tempControls.getGripLaps() * 2 != tempHoldNumbers.length ||
+                    tempControls.getGripLaps() * 2 != tempHoldGripTypes.length) {
 
-                Log.e("ERR","timecontrols griplaps different size than needed workoutholds at: " + i);
-               //  Toast.makeText(this,"ERROr PARCE SIZES",Toast.LENGTH_LONG).show();
+                Log.e("ERR", "timecontrols griplaps different size than needed workoutholds at: " + i);
+                //  Toast.makeText(this,"ERROr PARCE SIZES",Toast.LENGTH_LONG).show();
                 //Log.d("DESC",benchmarkDescriptions.get(i));
-                Log.d("time controls",tempControls.getTimeControlsAsJSONGString() );
-                Log.d("Hold numbers",": " + tempHoldNumbers.length);
-                Log.d("grip types",": " + tempHoldGripTypes.length);
+                Log.d("time controls", tempControls.getTimeControlsAsJSONGString());
+                Log.d("Hold numbers", ": " + tempHoldNumbers.length);
+                Log.d("grip types", ": " + tempHoldGripTypes.length);
 
                 StringBuilder griptypes = new StringBuilder();
-                for (int j = 0 ; j < tempHoldNumbers.length ; j++) {
+                for (int j = 0; j < tempHoldNumbers.length; j++) {
                     griptypes.append("1,");
                 }
-                Log.d("wanted grip types",griptypes.toString() );
+                Log.d("wanted grip types", griptypes.toString());
 
             }
 
             Hold tempHold;
-            for (int j = 0 ; j < tempHoldNumbers.length ; j++ ) {
+            for (int j = 0; j < tempHoldNumbers.length; j++) {
 
-                tempHold = new Hold(tempHoldNumbers[j] );
-                tempHold.setGripType(tempHoldGripTypes[j] );
+                tempHold = new Hold(tempHoldNumbers[j]);
+                tempHold.setGripType(tempHoldGripTypes[j]);
 
-                int holdDifficulty = HangboardResources.getHoldDifficulty(tempHold,hangboardNames[selectedHangboardPosition] );
+                int holdDifficulty = HangboardResources.getHoldDifficulty(tempHold, hangboardNames[selectedHangboardPosition]);
                 tempHold.setHoldValue(holdDifficulty);
 
                 tempWorkoutHolds.add(tempHold);
@@ -409,5 +409,94 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
         }
 
         return completed;
+    }
+
+    public static void TESTaddBenchmarksIntoDatabase(WorkoutDBHandler dbHandler, String[] benchmarkResources, int testHangboardNumber) {
+
+        long time = System.currentTimeMillis() - 1000*24*60*60*1000L;
+
+        ArrayList<String> testBenchmarkDescriptions = new ArrayList<>();
+        ArrayList<TimeControls> testBenchmarkTimeControls = new ArrayList<>();
+        ArrayList<ArrayList<Hold>> testBenchmarkWorkoutHolds = new ArrayList<>();
+
+        String[] testHangboardNames = HangboardResources.getHangboardNames();
+        String[] testAllBenchmarks = benchmarkResources;
+
+        //testHangboardNames = HangboardResources.getHangboardNames();
+        /// testAllBenchmarks = benchmarkResources;
+
+
+        for (int i = 0; i < testAllBenchmarks.length; i++) {
+            testBenchmarkDescriptions.add(testAllBenchmarks[i]);
+
+            i++;
+            TimeControls tempControls = new TimeControls();
+            tempControls.setTimeControlsFromString(testAllBenchmarks[i]);
+            testBenchmarkTimeControls.add(tempControls);
+
+            i++;
+            ArrayList<Hold> tempWorkoutHolds = new ArrayList<>();
+            int[] tempHoldNumbers = parceStringToInt(testAllBenchmarks[i]);
+            i++;
+            int[] tempHoldGripTypes = parceStringToInt(testAllBenchmarks[i]);
+
+
+            if (tempControls.getGripLaps() * 2 != tempHoldNumbers.length ||
+                    tempControls.getGripLaps() * 2 != tempHoldGripTypes.length) {
+
+                Log.e("ERR", "timecontrols griplaps different size than needed workoutholds at: " + i);
+                //  Toast.makeText(this,"ERROr PARCE SIZES",Toast.LENGTH_LONG).show();
+                //Log.d("DESC",benchmarkDescriptions.get(i));
+                Log.d("time controls", tempControls.getTimeControlsAsJSONGString());
+                Log.d("Hold numbers", ": " + tempHoldNumbers.length);
+                Log.d("grip types", ": " + tempHoldGripTypes.length);
+
+                StringBuilder griptypes = new StringBuilder();
+                for (int j = 0; j < tempHoldNumbers.length; j++) {
+                    griptypes.append("1,");
+                }
+                Log.d("wanted grip types", griptypes.toString());
+
+            }
+
+            Hold tempHold;
+            for (int j = 0; j < tempHoldNumbers.length; j++) {
+
+                tempHold = new Hold(tempHoldNumbers[j]);
+                tempHold.setGripType(tempHoldGripTypes[j]);
+
+                int holdDifficulty = HangboardResources.getHoldDifficulty(tempHold, testHangboardNames[testHangboardNumber]);
+                tempHold.setHoldValue(holdDifficulty);
+
+                tempWorkoutHolds.add(tempHold);
+            }
+
+            testBenchmarkWorkoutHolds.add(tempWorkoutHolds);
+
+        }
+
+        for (int  i = 0 ; i < testBenchmarkTimeControls.size() ; i ++) {
+
+            time += 24*60*60*1000L;
+
+            TimeControls tempControls = testBenchmarkTimeControls.get(i);
+
+            int gripLaps = tempControls.getGripLaps();
+            int sets = tempControls.getRoutineLaps();
+            int hangs = tempControls.getHangLaps();
+
+            int[] tempCompleted = new int[gripLaps * sets];
+
+            for (int j = 0; j < tempCompleted.length; j++) {
+                tempCompleted[j] = hangs;
+            }
+
+            dbHandler.addHangboardWorkout(time,
+                    testHangboardNames[testHangboardNumber],
+                    testBenchmarkTimeControls.get(i),
+                    testBenchmarkWorkoutHolds.get(i),
+                    tempCompleted,
+                    testBenchmarkDescriptions.get(i));
+        }
     }
 }

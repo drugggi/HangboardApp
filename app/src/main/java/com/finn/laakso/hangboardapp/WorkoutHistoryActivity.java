@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -128,7 +129,11 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
         }
 
-        //dbHandler.DELETEALL();
+        Toast.makeText(this,"DB HANDLER DELETEALL ENABLED",Toast.LENGTH_SHORT).show();
+        dbHandler.DELETEALL();
+        Resources res = getResources();
+        String[] benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(1));
+        BenchmarkWorkoutsAdapter.TESTaddBenchmarksIntoDatabase(dbHandler,benchmarkResources,1);
 
         // JSONFetcher myWorkoutHistory = new JSONFetcher(dbHandler);
         // myWorkoutHistory.execute();
