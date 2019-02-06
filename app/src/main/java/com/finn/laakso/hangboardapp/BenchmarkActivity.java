@@ -47,7 +47,7 @@ public class BenchmarkActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_benchmark);
 
-        Toast.makeText(BenchmarkActivity.this,"Benchmark workouts (beta test)", Toast.LENGTH_SHORT).show();
+        Toast.makeText(BenchmarkActivity.this,"Pre made workouts (beta test)", Toast.LENGTH_SHORT).show();
 
         hangboardNamesListView = findViewById(R.id.hangboardsListView);
         benchmarksListView = findViewById(R.id.benchmarksListView);
@@ -81,7 +81,7 @@ public class BenchmarkActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 
                 selectedBenchmark = i;
-                Toast.makeText(BenchmarkActivity.this,"position selected: " + i,Toast.LENGTH_SHORT).show();
+               // Toast.makeText(BenchmarkActivity.this,"position selected: " + i,Toast.LENGTH_SHORT).show();
 
                 changeBenchmarkInfoText();
             }
@@ -106,7 +106,7 @@ public class BenchmarkActivity extends AppCompatActivity {
                 Log.d("HANGS",holds +  "   " +grips + "    " + diffis);
 
                 if (randomizeGripsCheckBox.isChecked() ) {
-                    Toast.makeText(BenchmarkActivity.this, "copy benchmark and randomize grips ", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(BenchmarkActivity.this, "copy benchmark and randomize grips ", Toast.LENGTH_SHORT).show();
 
                     int index;
                     Random random = new Random();
@@ -141,7 +141,7 @@ public class BenchmarkActivity extends AppCompatActivity {
 
                 }
                 else {
-                    Toast.makeText(BenchmarkActivity.this, "copy benchmark", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(BenchmarkActivity.this, "copy benchmark", Toast.LENGTH_SHORT).show();
 
                     Intent resultCopyBenchmarkIntent = new Intent();
                     resultCopyBenchmarkIntent.putExtra("com.finn.laakso.hangboardapp.BOARDNAME", hangboardNames[hangboardPosition]);
