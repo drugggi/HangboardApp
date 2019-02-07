@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(benchmarkIntent, REQUEST_COPY_BENCHMARK);
                 break;
             case R.id.action_logbook:
-                Toast.makeText(this,"Logbook",Toast.LENGTH_SHORT).show();
+                // Toast.makeText(this,"Logbook",Toast.LENGTH_SHORT).show();
 
                 Intent workoutHistoryIntent = new Intent(getApplicationContext(), WorkoutHistoryActivity.class);
 
@@ -107,12 +107,19 @@ public class MainActivity extends AppCompatActivity {
 
                 break;
             case R.id.action_settings:
-                Toast.makeText(this,"Settings",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this,"Settings",Toast.LENGTH_SHORT).show();
 
-                Intent settingsIntent = new Intent(getApplicationContext(),SettingsActivity.class);
-                settingsIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS", timeControls.getTimeControlsIntArray() );
+                everyBoard.clearWorkoutHoldList();
+                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.FOUR_FINGER);
+                everyBoard.sortWorkoutHoldList();
 
-                startActivityForResult(settingsIntent, REQUEST_TIME_CONTROLS);
+                hangsAdapter.notifyDataSetChanged();
+
+
+                //Intent settingsIntent = new Intent(getApplicationContext(),SettingsActivity.class);
+                //settingsIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS", timeControls.getTimeControlsIntArray() );
+
+                //startActivityForResult(settingsIntent, REQUEST_TIME_CONTROLS);
 
                 break;
             default:

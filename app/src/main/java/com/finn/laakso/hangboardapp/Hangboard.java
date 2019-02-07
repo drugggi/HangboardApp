@@ -1,6 +1,7 @@
 package com.finn.laakso.hangboardapp;
 
 import android.content.res.Resources;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -104,6 +105,7 @@ public class Hangboard {
 
 
     public void setNewWorkoutHolds(ArrayList<Hold> newList) {
+
         if (newList.size() != 0) {
             workoutHoldList = newList;
 
@@ -534,7 +536,7 @@ public class Hangboard {
     }
 
     // getHoldNumberWithGripType searches hold types with given difficulty range and wanted grip type
-    // and returns first that if finds. I none is found, it increases the search range and calls itself
+    // and returns first that it finds. If none is found, it increases the search range and calls itself
     private int getHoldNumberWithGripType(int min_value, int max_value, Hold.grip_type wanted_hold) {
 
         Random rng = new Random();
@@ -657,6 +659,79 @@ public class Hangboard {
         else if (grade.equals("8A")) {return 200;}
         else if (grade.equals("8B")) {return 500;}
         else {return 1; }
+    }
+
+    public void clearWorkoutHoldList() {
+        workoutHoldList.clear();
+    }
+
+    public void sortWorkoutHoldList() {
+        Hold[] tempHoldList = new Hold[workoutHoldList.size() ];
+
+        for (int i = 0 ; i < workoutHoldList.size() ; i++ ) {
+            tempHoldList[i] = workoutHoldList.get(i);
+        }
+
+        clearWorkoutHoldList();
+
+        //Arrays.sort(tempHoldList);
+
+        boolean placeFound = false;
+        for (int i = 0; i < tempHoldList.length ; i = i + 2) {
+            float tempHoldValue = 0.5f * (float) (tempHoldList[i].getHoldValue() + tempHoldList[i+1].getHoldValue() );
+
+            for (int j = 0; j < workoutHoldList.size() ; j = j + 2) {
+                float listHoldValue = 0.5f * (float) (workoutHoldList.get(j).getHoldValue() + workoutHoldList.get(j+1).getHoldValue() );
+
+                if (tempHoldValue < listHoldValue) {
+                    Log.d("float values","temp: " + tempHoldValue + " < " + listHoldValue + "  :list");
+                    workoutHoldList.add(j,tempHoldList[i]);
+                    workoutHoldList.add(j+1,tempHoldList[i+1]);
+                    placeFound = true;
+                    break;
+                }
+
+            }
+            if (placeFound) {
+                placeFound = false;
+                continue;
+            }
+            workoutHoldList.add(tempHoldList[i]);
+            workoutHoldList.add(tempHoldList[i+1]);
+        }
+
+
+    }
+
+    public void addEveryGripTypeCompinationToWorkoutList(Hold.grip_type wantedGripType) {
+        Arrays.sort(allHangboardHolds);
+
+        //ArrayList<Hold> gripTypeWorkoutList = new ArrayList<>();
+        for (int i = 0 ; i < allHangboardHolds.length ; i++) {
+
+            if (allHangboardHolds[i].grip_style == wantedGripType) {
+                for (int j = 0 ; j < allHangboardHolds.length ; j++) {
+
+                    if (allHangboardHolds[i].isSingleHold() && allHangboardHolds[j].isSingleHold() &&
+                            allHangboardHolds[i].getHoldNumber() == allHangboardHolds[j].getHoldNumber()
+                    ) {
+                        continue;
+                    }
+
+                    if (allHangboardHolds[j].grip_style == wantedGripType) {
+                        workoutHoldList.add(allHangboardHolds[i]);
+                        workoutHoldList.add(allHangboardHolds[j]);
+                    }
+
+                }
+
+            }
+
+        }
+       // workoutHoldList = gripTypeWorkoutList;
+       // Log.d("size",""+gripTypeWorkoutList.size() );
+
+
     }
 
 }
