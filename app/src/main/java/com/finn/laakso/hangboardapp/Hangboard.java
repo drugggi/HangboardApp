@@ -1,7 +1,6 @@
 package com.finn.laakso.hangboardapp;
 
 import android.content.res.Resources;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -684,7 +683,7 @@ public class Hangboard {
                 float listHoldValue = 0.5f * (float) (workoutHoldList.get(j).getHoldValue() + workoutHoldList.get(j+1).getHoldValue() );
 
                 if (tempHoldValue < listHoldValue) {
-                    Log.d("float values","temp: " + tempHoldValue + " < " + listHoldValue + "  :list");
+                   // Log.d("float values","temp: " + tempHoldValue + " < " + listHoldValue + "  :list");
                     workoutHoldList.add(j,tempHoldList[i]);
                     workoutHoldList.add(j+1,tempHoldList[i+1]);
                     placeFound = true;
@@ -698,6 +697,32 @@ public class Hangboard {
             }
             workoutHoldList.add(tempHoldList[i]);
             workoutHoldList.add(tempHoldList[i+1]);
+        }
+
+
+    }
+
+    public void setDifficultyLimits(int lowerBound, int upperBound) {
+
+        Hold[] tempHoldList = new Hold[workoutHoldList.size() ];
+
+        for (int i = 0 ; i < workoutHoldList.size() ; i++ ) {
+            tempHoldList[i] = workoutHoldList.get(i);
+        }
+
+        clearWorkoutHoldList();
+
+// Log.d("tempholdlist size","" + tempHoldList.length );
+        for (int i = 0 ; i < tempHoldList.length ; i= i +2) {
+
+            int holdValue = (tempHoldList[i].getHoldValue() + tempHoldList[i+1].getHoldValue() ) / 2;
+
+            // Log.d("hodlValue","" + holdValue);
+
+            if (holdValue >= lowerBound && holdValue <= upperBound) {
+                workoutHoldList.add(tempHoldList[i]);
+                workoutHoldList.add(tempHoldList[i+1]);
+            }
         }
 
 
