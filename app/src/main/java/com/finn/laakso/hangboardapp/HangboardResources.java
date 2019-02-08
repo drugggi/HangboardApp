@@ -87,11 +87,11 @@ private static final int[] gripValuesBM1000 = {
             2, MM18-6, FF, 2, MM18F3-10, F3, 2, MM18-10, B3, 2, 55, F2, 2, 39, M2, 2, 75, B2, 2, 150, 70, 2, 100, 80,
             3, MM14-12, FF, 3, MM14F3-20, F3, 3, MM14B3-22, B3, 3, 95, F2, 3, 75, M2, 3, 125, B2,
             4, MM12-10, FF, 4, MM12F3-30, F3, 4, MM12B3-30, B3, 4, 90, F2, 4, 70, M2, 4, 150, B2,
-            5, MM10, FF, 5, MM10F3, F3, 5, MM10B3, B3, 5, 160, F2, 5, 100, M2, 5, 300, B2,
-            6, MM9, FF, 6, MM9F3, F3, 6, MM9B3, B3, 6, 250, F2, 6, 150, M2, 6, 500, B2,
-            7, MM8, FF, 7, MM8F3, F3, 7, MM8B3, B3, 7, 400, F2,
-            8, MM7, FF, 8, MM7F3, F3, 8, MM7B3, B3,
-            9, MM6, FF, 9, MM6F3, F3, 9, MM6B3, B3,
+            5, MM10-10, FF, 5, MM10F3-30, F3, 5, MM10B3-35, B3, 5, 160, F2, 5, 100, M2, 5, 300, B2,
+            6, MM9-7, FF, 6, MM9F3-30, F3, 6, MM9B3-35, B3, 6, 250, F2, 6, 150, M2, 6, 500, B2,
+            7, MM8-5, FF, 7, MM8F3-30, F3, 7, MM8B3-35, B3, 7, 400, F2,
+            8, MM7-5, FF, 8, MM7F3-30, F3, 8, MM7B3-35, B3,
+            9, MM6-5, FF, 9, MM6F3-30, F3, 9, MM6B3-35, B3,
 
 
         };
@@ -287,18 +287,18 @@ private static final int[] gripValuesGrill = {
 
 
 private static final int[] gripValuesUltimate = {
-        1,1,FF, 1,2,F3, 1,3,B3,
-        2,2,FF, 2,3,F3, 2,4,B3,
+        1,JUG,FF, 1,JUG3F+1,F3, 1,JUG3B+2,B3,
+        2,2,FF, 2,4,F3, 2,6,B3,
         3,9,FF, 3,21,F3, 3,25,B3,
-        4,5,FF, 4,11,F3, 4,13,B3, 4,40,F2, 4,25,M2, 4,60,B2,
-        5,2,FFS, 5,3,F3S, 5,4,B3S, 5,21,F2S, 5,17,M2S, 5,35,B2S,
-        6,10,FF, 6,17,F3, 6,20,B3, 6,80,F2, 6,50,M2, 6,90,B2,
-        7,3,FFS, 7,5,F3S, 7,7,B3S, 7,26,F2S, 7,20,M2S, 7,45,B2S,
-        8,19,FF, 8,43,F3, 8,46,B3,
-        9,4,FFS, 9,10,F3S, 9,11,B3S, 9,35,F2S, 9,23,M2S, 9,55,B2S,
-        10,50,FF, 10,95,F3, 10,105,B3,
-        11,18,FFS, 11,40,F3S, 11,44,B3S,
-        12,100,FF, 12,195,F3, 12,250,B3,
+        4,MM20-5,FF, 4,MM20F3-11,F3, 4,MM20B3-11,B3, 4,40,F2, 4,25,M2, 4,60,B2, // Easier than wood 20mm
+        5,MM40,FFS, 5,MM40F3-1,F3S, 5,MM40B3-2,B3S, 5,MM40F2,F2S, 5,MM40M2,M2S, 5,MM40B2,B2S,
+        6,MM14-12,FF, 6,MM14F3-20,F3, 6,MM14B3-22,B3, 6,80,F2, 6,50,M2, 6,90,B2,
+        7,MM30-1,FFS, 7,MM30F3-5,F3S, 7,MM30B3-5,B3S, 7,26,F2S, 7,20,M2S, 7,45,B2S,
+        8,MM10-10,FF, 8,MM10F3-30,F3, 8,MM10B3-35,B3,
+        9,MM20-6,FFS, 9,MM20F3-12,F3S, 9,MM20B3-12,B3S, 9,35,F2S, 9,23,M2S, 9,55,B2S,
+        10,MM8-5,FF, 10,MM8F3-30,F3, 10,MM8B3-35,B3,
+        11,MM10-11,FFS, 11,MM10F3-33,F3S, 11,MM10B3-40,B3S,
+        12,MM6-5,FF, 12,MM6F3-30,F3, 12,MM6B3-35,B3,
          13,19,F2, 13,14,M2, 13,29,B2,
          14,23,F2, 14,18,M2, 14,37,B2,
          15,35,F2, 15,25,M2, 15,55,B2,
@@ -689,7 +689,12 @@ private static final int[] gripValuesSolution = {
     };
 
     private static int[] benchmark_resources = {R.array.bm1000_benchmarks, R.array.bm2000_benchmarks,
-            R.array.trans_benchmarks, R.array.tension_benchmarks,R.array.zlag_benchmarks
+            R.array.trans_benchmarks, R.array.tension_benchmarks,R.array.zlag_benchmarks,
+            R.array.moonhard_benchmarks, R.array.mooneasy_benchmarks, R.array.meto_benchmarks,
+            R.array.rockprodigy_benchmarks, R.array.problemsolver_benchmarks,
+            R.array.meto_contact_benchmarks, R.array.meto_wood_benchmarks, R.array.drcc_benchmarks,
+            R.array.solution_benchmarks, R.array.edge_benchmarks, R.array.soillboost_benchmarks,
+            R.array.ultimate_benchmarks, R.array.grill_benchmarks, R.array.grillto_benchmarks
     };
 
     private static int[] image_resources = {R.drawable.lauta1011, R.drawable.lauta2002, R.drawable.trans,

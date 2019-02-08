@@ -380,15 +380,31 @@
     </string-array>
 
     <string-array name="trans_benchmarks">
-        <item>5B Benchmark for repeaters. Four finger grip only</item>
-        <item>3,6,7,3,3,150,300</item>
-        <item>1,1,1,6,1,4</item>
-        <item>1,1,1,1,1,1</item>
+        <item>6A+ Progress with four finger grip vol 1</item>
+        <item>12,1,10,0,1,50,1</item>
+        <item>2,2,2,3,3,2,3,3,2,4,4,2,3,4,4,3,2,5,5,2,3,5,5,3</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
 
-        <item>6A Benchmark for repeaters</item>
-        <item>6,6,7,3,2,150,300</item>
-        <item>1,6,1,4,4,4,4,6,1,4,1,6</item>
-        <item>1,1,1,1,1,1,1,1,2,2,3,3</item>
+        <item>6C Progress with four finger grip vol 2</item>
+        <item>12,1,10,0,1,50,1</item>
+        <item>4,4,4,5,5,4,2,6,6,2,5,5,3,6,6,3,4,6,6,4,2,7,7,2</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
+
+        <item>7A Progress with four finger grip vol 3</item>
+        <item>13,1,10,0,1,50,1</item>
+        <item>5,6,6,5,3,7,7,3,4,7,7,4,7,5,5,7,6,6,2,8,8,2,3,8,8,3</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
+
+        <item>7B Progress with four finger grip vol 4</item>
+        <item>13,1,10,0,1,50,1</item>
+        <item>6,7,7,6,4,8,8,4,5,8,8,5,7,7,6,8,8,6,2,9,9,2,3,9,9,3</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
+
+        <item>7C Progress with four finger grip vol 5</item>
+        <item>14,1,10,0,1,50,1</item>
+        <item>7,8,8,7,4,9,9,4,5,9,9,5,9,6,6,9,8,8,7,9,9,7,8,9,9,8,9,9</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
+
     </string-array>
 
     <string-array name="tension_benchmarks">
@@ -660,6 +676,128 @@
         <item>6,6,7,3,2,90,300</item>
         <item>12,12,12,2,12,15,9,14,14,14,13,13</item>
         <item>1,1,2,2,3,3,4,4,5,5,8,8</item>
+    </string-array>
+
+    <string-array name="moonhard_benchmarks">
+        <item>There are currently no benchmark programs in this hangboard</item>
+        <item>6,6,7,3,150,360</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+    </string-array>
+
+    <string-array name="mooneasy_benchmarks">
+        <item>There are currently no benchmark programs in this hangboard</item>
+        <item>6,6,7,3,150,360</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+    </string-array>
+
+    <string-array name="meto_benchmarks">
+        <item>There are currently no benchmark programs in this hangboard</item>
+        <item>6,6,7,3,150,360</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+    </string-array>
+
+    <string-array name="rockprodigy_benchmarks">
+        <item>There are currently no benchmark programs in this hangboard</item>
+        <item>6,6,7,3,150,360</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+    </string-array>
+
+
+    <string-array name="problemsolver_benchmarks">
+        <item>There are currently no benchmark programs in this hangboard</item>
+        <item>6,6,7,3,150,360</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+    </string-array>
+
+    <string-array name="meto_contact_benchmarks">
+        <item>There are currently no benchmark programs in this hangboard</item>
+        <item>6,6,7,3,150,360</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+    </string-array>
+
+
+    <string-array name="meto_wood_benchmarks">
+        <item>There are currently no benchmark programs in this hangboard</item>
+        <item>6,6,7,3,150,360</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+    </string-array>
+
+    <string-array name="drcc_benchmarks">
+        <item>There are currently no benchmark programs in this hangboard</item>
+        <item>6,6,7,3,150,360</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+    </string-array>
+
+
+    <string-array name="solution_benchmarks">
+        <item>There are currently no benchmark programs in this hangboard</item>
+        <item>6,6,7,3,150,360</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+    </string-array>
+
+    <string-array name="edge_benchmarks">
+        <item>There are currently no benchmark programs in this hangboard</item>
+        <item>6,6,7,3,150,360</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+    </string-array>
+
+    <string-array name="soillboost_benchmarks">
+        <item>There are currently no benchmark programs in this hangboard</item>
+        <item>6,6,7,3,150,360</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+    </string-array>
+
+    <string-array name="ultimate_benchmarks">
+        <item>5C Progress with four finger grip vol 1</item>
+        <item>15,1,10,0,1,50,1</item>
+        <item>5,4,4,5,7,4,4,7,9,4,4,9,4,4,5,6,6,5,7,6,6,7,9,6,6,9,6,4,4,6</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
+
+        <item>6A Progress with four finger grip vol 1</item>
+        <item>15,1,10,0,1,50,1</item>
+        <item>6,6,5,8,8,5,7,8,8,7,9,8,8,9,4,11,11,4,8,7,7,8,8,9,9,8,4,8,8,4</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
+
+        <item>6C Progress with four finger grip vol 1</item>
+        <item>13,1,10,0,1,50,1</item>
+        <item>6,11,11,6,6,8,8,6,11,8,8,11,8,8,5,10,10,5,7,10,10,7,9,10,10,9</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
+
+        <item>7A+ Progress with four finger grip vol 1</item>
+        <item>13,1,10,0,1,50,1</item>
+        <item>4,10,10,4,6,10,10,6,11,10,10,11,8,10,10,8,10,10,5,12,12,5,7,12,12,7</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
+
+        <item>7C Progress with four finger grip vol 1</item>
+        <item>13,1,10,0,1,50,1</item>
+        <item>9,12,12,9,4,12,12,4,6,12,12,6,11,12,12,11,8,12,12,8,10,12,12,10,12,12</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
+    </string-array>
+
+    <string-array name="grill_benchmarks">
+        <item>There are currently no benchmark programs in this hangboard</item>
+        <item>6,6,7,3,150,360</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+    </string-array>
+
+
+    <string-array name="grillto_benchmarks">
+        <item>There are currently no benchmark programs in this hangboard</item>
+        <item>6,6,7,3,150,360</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
     </string-array>
 
 
