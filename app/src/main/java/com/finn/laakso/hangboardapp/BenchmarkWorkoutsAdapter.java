@@ -16,9 +16,10 @@ import java.util.ArrayList;
 
 public class BenchmarkWorkoutsAdapter extends BaseAdapter {
 
-    private LayoutInflater mInflator;
+    //private LayoutInflater mInflator;
     private final Context mContext;
 
+    private ArrayList<String> benchmarkTitle;
     private ArrayList<String> benchmarkDescriptions;
     private ArrayList<TimeControls> benchmarkTimeControls;
     private ArrayList<ArrayList<Hold>> benchmarkWorkoutHolds;
@@ -60,13 +61,22 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
         benchmarkGradeImageResources = new int[benchmarkTimeControls.size()];
 
         for (int i = 0; i < benchmarkDescriptions.size(); i++) {
-            benchmarkGradeImageResources[i] = getImageResources(benchmarkDescriptions.get(i).substring(0, 3));
+            benchmarkGradeImageResources[i] = getImageResources(benchmarkTitle.get(i).substring(0, 3));
+            if (benchmarkGradeImageResources[i] != R.drawable.questiongrade ) {
+
+                if (benchmarkTitle.get(i).charAt(0) == ' ') {
+                    benchmarkTitle.set(i, benchmarkTitle.get(i).substring(4));
+                } else {
+                    benchmarkTitle.set(i, benchmarkTitle.get(i).substring(3));
+                }
+
+            }
         }
 
-        Log.d("Sizes", benchmarkWorkoutHolds.size() + " " + benchmarkDescriptions.size() + " ");
+        // Log.d("Sizes", benchmarkWorkoutHolds.size() + " " + benchmarkDescriptions.size() + " ");
 
         this.mContext = context;
-        this.mInflator = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        // LayoutInflater mInflator = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     // this is the same as hangsCompleted.length
@@ -111,7 +121,7 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
         }
 
         viewHolder.benchmarkDescriptionTextView.setText(benchmarkDescriptions.get(position));
-        viewHolder.benchmarkTitleTextView.setText("Benchmark (Single hangs)");
+        viewHolder.benchmarkTitleTextView.setText(benchmarkTitle.get(position));
         viewHolder.benchmarkGradeImageView.setImageResource(benchmarkGradeImageResources[position]);
 
         Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
@@ -318,6 +328,7 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
 
         hangboardNames = HangboardResources.getHangboardNames();
 
+        benchmarkTitle = new ArrayList<>();
         benchmarkDescriptions = new ArrayList<>();
         benchmarkTimeControls = new ArrayList<>();
         benchmarkWorkoutHolds = new ArrayList<>();
@@ -327,9 +338,13 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
 
 
         for (int i = 0; i < allBenchmarks.length; i++) {
-            benchmarkDescriptions.add(allBenchmarks[i]);
 
+            benchmarkTitle.add(allBenchmarks[i]);
             i++;
+
+            benchmarkDescriptions.add(allBenchmarks[i]);
+            i++;
+
             TimeControls tempControls = new TimeControls();
             tempControls.setTimeControlsFromString(allBenchmarks[i]);
             benchmarkTimeControls.add(tempControls);
