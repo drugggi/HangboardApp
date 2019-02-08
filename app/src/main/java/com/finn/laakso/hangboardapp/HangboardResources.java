@@ -13,9 +13,9 @@ public final class  HangboardResources {
             MM30 = 5, MM30F3 = 12, MM30B3 = 14, MM30F2 = 45, MM30M2 = 32, MM30B2 = 75,
             MM25= 7, MM25F3 = 14, MM25B3 = 16, MM25F2 = 58, MM25M2 = 41, MM25B2 = 86,
             MM23 = 8, MM23F3 = 16, MM23B3 = 18,
-            MM22 = 9, MM22F3 = 18, MM22B3 = 20,
+            MM22 = 9, MM22F3 = 18, MM22B3 = 20, MM22F2 = 65, MM22M2 = 55, MM22B2 = 95,
             MM21 = 9, MM21F3 = 20, MM21B3 = 22,
-            MM20 = 10, MM20F3 = 22, MM20B3 = 24,
+            MM20 = 10, MM20F3 = 22, MM20B3 = 24,MM20F2 = 75, MM20M2 = 65, MM20B2 = 115,
             MM19 = 11, MM19F3 = 23, MM19B3 = 25,
             MM18 = 12, MM18F3 = 25, MM18B3 = 28,
             MM17 = 14, MM17F3 = 28, MM17B3 = 32,
@@ -345,17 +345,17 @@ private static final int[] gripValuesSolution = {
 
   private static final int[] gripValuesEdge = {
           1,30,FF, 1,45,F3, 1,51,B3,
-          2,18,10, 2,28,20, 2,32,30,
+          2,18,FF, 2,28,F3, 2,32,B3,
           3,8,FF, 3,18,F3, 3,23,B3,
-          4,2,FF, 4,5,F3, 4,7,B3, 4,23,F2, 4,19,M2, 4,29,B2,
-          5,8,FF, 5,11,F3, 5,13,B3, 5,35,F2, 5,28,M2, 5,69,B2,
-          6,10,FF, 6,13,F3, 6,15,B3,
-          7,11,FF, 7,14,F3, 7,16,B3,
-          8,13,FF, 8,16,F3, 8,18,B3,
-          9,15,FF, 9,17,F3, 9,20,B3,
-          10,19,FF, 10,24,F3, 10,27,B3,
-          11,22,FF, 11,28,F3, 11,30,B3,
-          12,35,FF, 12,49,F3, 12,59,B3
+          4,MM35,FF, 4,MM35F3,F3, 4,MM35B3,B3, 4,MM35F2,F2, 4,MM35M2,M2, 4,MM35B2,B2,
+          5,MM25,FF, 5,MM25F3,F3, 5,MM25B3,B3, 5,MM25F2,F2, 5,MM25M2,M2, 5,MM25B2,B2,
+          6,MM20,FF, 6,MM20F3,F3, 6,MM20B3,B3, 6,MM20F2,F2, 6,MM20M2,M2, 6,MM20B2,B2,
+          7,MM18,FF, 7,MM18F3,F3, 7,MM18B3,B3,
+          8,MM16,FF, 8,MM16F3,F3, 8,MM16B3,B3,
+          9,MM14,FF, 9,MM14F3,F3, 9,MM14B3,B3,
+          10,MM12,FF, 10,MM12F3,F3, 10,MM12B3,B3,
+          11,MM10,FF, 11,MM10F3,F3, 11,MM10B3,B3,
+          12,MM8,FF, 12,MM8F3,F3, 12,MM8B3,B3
   };
 
 
