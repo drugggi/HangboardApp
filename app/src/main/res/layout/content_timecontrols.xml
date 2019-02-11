@@ -7,7 +7,7 @@
     android:background="@color/ceramic"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.finn.laakso.hangboardapp.TimeControlsActivity"
-    tools:showIn="@layout/activity_settings">
+    tools:showIn="@layout/activity_timecontrols">
 
     <LinearLayout
         android:layout_width="match_parent"

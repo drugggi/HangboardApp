@@ -17,6 +17,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -306,8 +308,10 @@ public class MainActivity extends AppCompatActivity {
                 selectColor.setAlpha(90+position*15);
                 gradesListView.setSelector(selectColor);
 
-                rightFingerImage.setVisibility(View.INVISIBLE);
-                leftFingerImage.setVisibility(View.INVISIBLE);
+                animateFingerImagesToInvisible();
+
+                //rightFingerImage.setVisibility(View.INVISIBLE);
+                //leftFingerImage.setVisibility(View.INVISIBLE);
 
                 grade_descr_position = gradesListView.getPositionForView(view);
 
@@ -523,8 +527,10 @@ public class MainActivity extends AppCompatActivity {
                 durationTextView.setText(durationText);
                 hangsAdapter.notifyDataSetChanged();
 
-                rightFingerImage.setVisibility(View.INVISIBLE);
-                leftFingerImage.setVisibility(View.INVISIBLE);
+                animateFingerImagesToInvisible();
+
+                // rightFingerImage.setVisibility(View.INVISIBLE);
+                // leftFingerImage.setVisibility(View.INVISIBLE);
 
             }
         });
@@ -566,8 +572,11 @@ public class MainActivity extends AppCompatActivity {
                 newWorkoutButton.setText(randomizeText);
 
                 durationTextView.setText(durationText);
-                rightFingerImage.setVisibility(View.INVISIBLE);
-                leftFingerImage.setVisibility(View.INVISIBLE);
+
+                animateFingerImagesToInvisible();
+
+                // rightFingerImage.setVisibility(View.INVISIBLE);
+                // leftFingerImage.setVisibility(View.INVISIBLE);
 
                 hangsAdapter.notifyDataSetChanged();
 
@@ -682,7 +691,10 @@ public class MainActivity extends AppCompatActivity {
         // If user has copied workout from workout history database
         if (requestCode == REQUEST_COPY_BENCHMARK) {
             if (resultCode == Activity.RESULT_OK) {
-                Toast.makeText(MainActivity.this, "Benchmark copied", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Pre made workout copied", Toast.LENGTH_SHORT).show();
+
+
+                Hold.grip_type oldGripType = everyBoard.getLeftHandGripType(hangsAdapter.getSelectedHangNumber() );
 
                 int[] timeSettings = data.getIntArrayExtra("com.finn.laakso.hangboardapp.SETTINGS");
                 ArrayList<Hold> newHolds = data.getParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS");
@@ -701,7 +713,11 @@ public class MainActivity extends AppCompatActivity {
                 everyBoard.setNewWorkoutHolds(newHolds);
 
                 hangsAdapter = new HangListAdapter(this, everyBoard.getCurrentWorkoutHoldList());
+                hangsAdapter.setSelectedHangNumber(0);
+
                 holdsListView.setAdapter(hangsAdapter);
+
+                animateHandImagesToPosition(oldGripType,hangsAdapter.getSelectedHangNumber() );
 
                 repeatersBox.setVisibility(View.INVISIBLE);
                 durationSeekBar.setVisibility(View.INVISIBLE);
@@ -718,17 +734,34 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void animateHandImagesToPosition(Hold.grip_type fromGripType, int newPosition) {
+    private void animateHandImagesToPosition(Hold.grip_type fromGripType, int newPosition) {
 
-        // SECURITY CHECK ON THESE!!
-        rightFingerImage.setVisibility(View.VISIBLE);
-        leftFingerImage.setVisibility(View.VISIBLE);
+        ImageView imageView = (ImageView) findViewById(R.id.image_view);
 
+        if (leftFingerImage.getVisibility() == View.INVISIBLE || rightFingerImage.getVisibility() == View.INVISIBLE) {
+
+            Animation leftFingerFadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in300ms);
+            Animation rightFingerFadeIn = AnimationUtils.loadAnimation(this,R.anim.fade_in300ms);
+            leftFingerFadeIn.reset();
+            rightFingerFadeIn.reset();
+            ImageView leftAnim = (ImageView) findViewById(R.id.leftFingerImageView);
+            ImageView rightAnim = (ImageView) findViewById(R.id.rightFingerImageView);
+            leftAnim.clearAnimation();
+            rightAnim.clearAnimation();
+            leftAnim.startAnimation(leftFingerFadeIn);
+            rightAnim.startAnimation(rightFingerFadeIn);
+
+            leftFingerImage.setVisibility(View.VISIBLE);
+            rightFingerImage.setVisibility(View.VISIBLE);
+
+            leftFingerImage.setY(leftFingerImage.getY() + 50);
+            rightFingerImage.setY(rightFingerImage.getY() + 50);
+
+        }
 
         leftFingerImage.setImageResource(everyBoard.getLeftFingerImage(newPosition));
         rightFingerImage.setImageResource(everyBoard.getRightFingerImage(newPosition));
 
-        ImageView imageView = (ImageView) findViewById(R.id.image_view);
         // Hopefully this multiplier works in every android device
         Float multiplier_width = imageView.getWidth() / 350F;
         Float multiplier_height = imageView.getHeight() / 150F;
@@ -776,6 +809,28 @@ public class MainActivity extends AppCompatActivity {
         leftHandAnimation.start();
 
 
+
+    }
+
+    private void animateFingerImagesToInvisible() {
+
+        if (leftFingerImage.getVisibility() == View.VISIBLE ||rightFingerImage.getVisibility() == View.VISIBLE) {
+
+            Animation leftFingerFadeIn = AnimationUtils.loadAnimation(this, R.anim.hide_fingerimages);
+            Animation rightFingerFadeIn = AnimationUtils.loadAnimation(this,R.anim.hide_fingerimages);
+            leftFingerFadeIn.reset();
+            rightFingerFadeIn.reset();
+            ImageView leftAnim = (ImageView) findViewById(R.id.leftFingerImageView);
+            ImageView rightAnim = (ImageView) findViewById(R.id.rightFingerImageView);
+            leftAnim.clearAnimation();
+            rightAnim.clearAnimation();
+            leftAnim.startAnimation(leftFingerFadeIn);
+            rightAnim.startAnimation(rightFingerFadeIn);
+
+            leftFingerImage.setVisibility(View.INVISIBLE);
+            rightFingerImage.setVisibility(View.INVISIBLE);
+
+        }
 
     }
 

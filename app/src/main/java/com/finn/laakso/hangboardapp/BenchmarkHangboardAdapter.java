@@ -96,14 +96,14 @@ public class BenchmarkHangboardAdapter extends BaseAdapter {
         viewHolder.hangboardNameTextView.setText(hangboardNames[position] );
         if (selectedHangboard == position) {
             viewHolder.hangboardImageView.setImageResource(HangboardResources.getHangboardImageResource(position));
-            Animation animation = AnimationUtils.loadAnimation(mContext,R.anim.fade_in);
+            Animation animation = AnimationUtils.loadAnimation(mContext,R.anim.fade_in500ms);
             viewHolder.hangboardImageView.startAnimation(animation);
         }
         else {
             viewHolder.hangboardImageView.setImageResource(0);
         }
 
-       // Animation animation = AnimationUtils.loadAnimation(mContext,R.anim.fade_in);
+       // Animation animation = AnimationUtils.loadAnimation(mContext,R.anim.fade_in500ms);
        // convertView.startAnimation(animation);
 
         //viewHolder.hangboardImageView.setImageResource(HangboardResources.getHangboardImageResource(position));

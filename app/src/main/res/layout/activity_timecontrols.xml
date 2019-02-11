@@ -116,6 +116,6 @@ app:layout_scrollFlags="scroll|exitUntilCollapsed"
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_settings" />
+    <include layout="@layout/content_timecontrols" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -124,7 +124,7 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
         viewHolder.benchmarkTitleTextView.setText(benchmarkTitle.get(position));
         viewHolder.benchmarkGradeImageView.setImageResource(benchmarkGradeImageResources[position]);
 
-        Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
+        Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.fade_in500ms);
         convertView.startAnimation(animation);
 
 /*

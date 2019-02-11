@@ -209,7 +209,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                         menu.add(Menu.NONE, 1, 1, "hide/unhide workout");
                         menu.add(Menu.NONE, 2,2,"edit date");
                         menu.add(Menu.NONE,3,3,"edit hangboard name");
-                        menu.add(Menu.NONE,4,4,"redo workout");
+                        menu.add(Menu.NONE,4,4,"copy workout");
                         menu.add(Menu.NONE, 5, 5, "delete workout");
                     }
                     // Context menu when hidden workout are not shown
@@ -218,7 +218,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                         menu.add(Menu.NONE, 1, 1, "hide workout");
                         menu.add(Menu.NONE, 2,2,"edit date");
                         menu.add(Menu.NONE,3,3,"edit hangboard name");
-                        menu.add(Menu.NONE,4,4,"redo workout");
+                        menu.add(Menu.NONE,4,4,"copy workout");
                               // Can't delete unhidden workouts
                         // menu.add(Menu.NONE, 4, 4, "delete workout");
                     }

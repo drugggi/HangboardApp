@@ -21,7 +21,7 @@
         <activity android:name=".WorkoutActivity" />
         <activity
             android:name=".TimeControlsActivity"
-            android:label="@string/title_activity_settings"
+            android:label="@string/title_activity_timecontrols"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".WorkoutHistoryActivity" />
         <activity android:name=".EditWorkoutInfoActivity" />

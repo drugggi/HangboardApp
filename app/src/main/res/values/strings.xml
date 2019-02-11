@@ -958,9 +958,14 @@
         <item>little finger</item>
     </string-array>
 
+
+    <string name="title_activity_timecontrols">TimeControlsActivity</string>
+    <string name="action_timecontrols">TimeControls</string>
+    <string name="title_activity_workout_database_graphs">workoutDatabaseGraphs</string>
+    <!--
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_workout_database_graphs">workoutDatabaseGraphs</string>
-
+-->
 
 </resources>
