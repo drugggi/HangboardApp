@@ -6,8 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -18,7 +16,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SettingsActivity extends AppCompatActivity {
+public class TimeControlsActivity extends AppCompatActivity {
 
     private Switch repeaterSwitch;
     private Switch timeInfoSwitch;
@@ -141,7 +139,7 @@ public class SettingsActivity extends AppCompatActivity {
                 editor.putInt("restTime",timeControls.getRestTime() );
                 editor.putInt("longRestTime", timeControls.getLongRestTime() );
 
-                String preferenceText = "Saved preferences: " + timeControls.getTimeControlsAsString();
+                String preferenceText = "Saved time controls: " + timeControls.getTimeControlsAsString();
 
                 preferencesTextView.setText(preferenceText );
 
@@ -154,7 +152,7 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(v.getContext());
-                String statusString = prefs.getString("savePreferences","No preferences saved yet");
+                String statusString = prefs.getString("save time controls","No time controls saved yet");
 
                 boolean isRepeaters = prefs.getBoolean("isRepeaters", true);
 
@@ -438,12 +436,12 @@ public class SettingsActivity extends AppCompatActivity {
                     }
                     else {
                         gripLapsEditText.setText("" + timeControls.getGripLaps() );
-                        Toast.makeText(SettingsActivity.this,"Number out of bounds, changes reverted",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(TimeControlsActivity.this,"Number out of bounds, changes reverted",Toast.LENGTH_SHORT).show();
                     }
                 } catch (NumberFormatException nfe)
                 {
                     gripLapsEditText.setText("" + timeControls.getGripLaps());
-                    Toast.makeText(SettingsActivity.this,"Illegal number, changes reverted" ,Toast.LENGTH_LONG).show();
+                    Toast.makeText(TimeControlsActivity.this,"Illegal number, changes reverted" ,Toast.LENGTH_LONG).show();
                 }
                 return false;
             }
@@ -471,12 +469,12 @@ public class SettingsActivity extends AppCompatActivity {
                         updateProgramDisplay();
                     }
                     else { hangLapsEditText.setText("" + timeControls.getHangLaps() );
-                        Toast.makeText(SettingsActivity.this,"Number out of bounds, changes reverted",Toast.LENGTH_SHORT).show();}
+                        Toast.makeText(TimeControlsActivity.this,"Number out of bounds, changes reverted",Toast.LENGTH_SHORT).show();}
 
                 } catch (NumberFormatException nfe)
                 {
                     hangLapsEditText.setText("" + timeControls.getHangLaps());
-                    Toast.makeText(SettingsActivity.this,"Illegal number, changes reverted",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TimeControlsActivity.this,"Illegal number, changes reverted",Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
@@ -498,12 +496,12 @@ public class SettingsActivity extends AppCompatActivity {
 
                     }
                     else { timeONEditText.setText("" + timeControls.getTimeON() );
-                        Toast.makeText(SettingsActivity.this,"Number out of bounds, changes reverted",Toast.LENGTH_SHORT).show();}
+                        Toast.makeText(TimeControlsActivity.this,"Number out of bounds, changes reverted",Toast.LENGTH_SHORT).show();}
 
                 } catch (NumberFormatException nfe)
                 {
                     timeONEditText.setText("" + timeControls.getTimeON());
-                    Toast.makeText(SettingsActivity.this,"Illegal number, changes reverted",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TimeControlsActivity.this,"Illegal number, changes reverted",Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
@@ -524,12 +522,12 @@ public class SettingsActivity extends AppCompatActivity {
                         updateProgramDisplay();
                     }
                     else { timeOFFEditText.setText("" + timeControls.getTimeOFF() );
-                        Toast.makeText(SettingsActivity.this,"Number out of bounds, changes reverted",Toast.LENGTH_SHORT).show();}
+                        Toast.makeText(TimeControlsActivity.this,"Number out of bounds, changes reverted",Toast.LENGTH_SHORT).show();}
 
                 } catch (NumberFormatException nfe)
                 {
                     timeOFFEditText.setText("" + timeControls.getTimeOFF());
-                    Toast.makeText(SettingsActivity.this,"Illegal number, changes reverted",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TimeControlsActivity.this,"Illegal number, changes reverted",Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
@@ -550,12 +548,12 @@ public class SettingsActivity extends AppCompatActivity {
                         updateProgramDisplay();
                     }
                     else { setsEditText.setText("" + timeControls.getRoutineLaps() );
-                        Toast.makeText(SettingsActivity.this,"Number out of bounds, changes reverted",Toast.LENGTH_SHORT).show();}
+                        Toast.makeText(TimeControlsActivity.this,"Number out of bounds, changes reverted",Toast.LENGTH_SHORT).show();}
 
                 } catch (NumberFormatException nfe)
                 {
                     setsEditText.setText("" + timeControls.getRoutineLaps());
-                    Toast.makeText(SettingsActivity.this,"Illegal number, changes reverted",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TimeControlsActivity.this,"Illegal number, changes reverted",Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
@@ -572,12 +570,12 @@ public class SettingsActivity extends AppCompatActivity {
                         updateProgramDisplay();
                     }
                     else { restEditText.setText("" + timeControls.getRestTime() );
-                        Toast.makeText(SettingsActivity.this,"Number out of bounds, changes reverted",Toast.LENGTH_SHORT).show();}
+                        Toast.makeText(TimeControlsActivity.this,"Number out of bounds, changes reverted",Toast.LENGTH_SHORT).show();}
 
                 } catch (NumberFormatException nfe)
                 {
                     restEditText.setText("" + timeControls.getRestTime());
-                    Toast.makeText(SettingsActivity.this,"Illegal number, changes reverted",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TimeControlsActivity.this,"Illegal number, changes reverted",Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
@@ -594,12 +592,12 @@ public class SettingsActivity extends AppCompatActivity {
 
                     }
                     else { longRestEditText.setText("" + timeControls.getLongRestTime() );
-                        Toast.makeText(SettingsActivity.this,"Number out of bounds, changes reverted",Toast.LENGTH_SHORT).show();}
+                        Toast.makeText(TimeControlsActivity.this,"Number out of bounds, changes reverted",Toast.LENGTH_SHORT).show();}
 
                 } catch (NumberFormatException nfe)
                 {
                     longRestEditText.setText("" + timeControls.getLongRestTime());
-                    Toast.makeText(SettingsActivity.this,"Illegal number, changes reverted",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TimeControlsActivity.this,"Illegal number, changes reverted",Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
@@ -647,8 +645,8 @@ public class SettingsActivity extends AppCompatActivity {
     }
     // puts the saved preferences to TextView so that user can see what time controls are saved
     private void updatePreferenceTextView() {
-        //SharedPreferences test = PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this);
+        //SharedPreferences test = PreferenceManager.getDefaultSharedPreferences(TimeControlsActivity.this);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(TimeControlsActivity.this);
         // String statusString = prefs.getString("savePreferences","No preferences saved yet");
 
         //boolean isRepeaters = prefs.getBoolean("isRepeaters", true);
@@ -667,7 +665,7 @@ public class SettingsActivity extends AppCompatActivity {
         tempTimeControls.setTimeControls(new int[]{grips, reps, timeON, timeOFF, sets, rest, longRest});
         // tempTimeControls.setToRepeaters(isRepeaters);
 
-        String preferenceText = "Saved preferences: " + tempTimeControls.getTimeControlsAsString();
+        String preferenceText = "Saved time controls: " + tempTimeControls.getTimeControlsAsString();
         preferencesTextView.setText(preferenceText);
 
     }

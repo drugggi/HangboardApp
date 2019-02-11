@@ -91,7 +91,24 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId() ) {
             case R.id.action_about:
-                Toast.makeText(this,"about",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"about and grip types sort",Toast.LENGTH_SHORT).show();
+
+                everyBoard.clearWorkoutHoldList();
+                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.FOUR_FINGER);
+                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.THREE_FRONT);
+                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.THREE_BACK);
+                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.TWO_FRONT);
+                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.TWO_MIDDLE);
+
+              /*  everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.TWO_BACK);
+                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.INDEX_FINGER);
+                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.MIDDLE_FINGER);*/
+                everyBoard.setDifficultyLimits(1,50);
+
+                everyBoard.sortWorkoutHoldList();
+
+                hangsAdapter.notifyDataSetChanged();
+
                 break;
             case R.id.action_benchmark:
 
@@ -109,24 +126,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_settings:
                 //Toast.makeText(this,"Settings",Toast.LENGTH_SHORT).show();
 
-                everyBoard.clearWorkoutHoldList();
-                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.FOUR_FINGER);
-               everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.THREE_FRONT);
-                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.THREE_BACK);
-                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.TWO_FRONT);
-                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.TWO_MIDDLE);
-
-              /*  everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.TWO_BACK);
-                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.INDEX_FINGER);
-                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.MIDDLE_FINGER);*/
-                everyBoard.setDifficultyLimits(1,50);
-
-                everyBoard.sortWorkoutHoldList();
-
-                hangsAdapter.notifyDataSetChanged();
-
-
-                //Intent settingsIntent = new Intent(getApplicationContext(),SettingsActivity.class);
+                //Intent settingsIntent = new Intent(getApplicationContext(),TimeControlsActivity.class);
                 //settingsIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS", timeControls.getTimeControlsIntArray() );
 
                 //startActivityForResult(settingsIntent, REQUEST_TIME_CONTROLS);
@@ -482,7 +482,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent settingsIntent = new Intent(getApplicationContext(),SettingsActivity.class);
+                Intent settingsIntent = new Intent(getApplicationContext(), TimeControlsActivity.class);
                 settingsIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS", timeControls.getTimeControlsIntArray() );
 
                 startActivityForResult(settingsIntent, REQUEST_TIME_CONTROLS);

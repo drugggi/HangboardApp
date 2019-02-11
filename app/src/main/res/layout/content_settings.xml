@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/ceramic"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.finn.laakso.hangboardapp.SettingsActivity"
+    tools:context="com.finn.laakso.hangboardapp.TimeControlsActivity"
     tools:showIn="@layout/activity_settings">
 
     <LinearLayout
