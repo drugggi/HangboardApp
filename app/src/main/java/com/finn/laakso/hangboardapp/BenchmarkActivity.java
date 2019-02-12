@@ -48,7 +48,7 @@ public class BenchmarkActivity extends AppCompatActivity {
         setContentView(R.layout.activity_benchmark);
 
         Toast.makeText(BenchmarkActivity.this,"Pre made workouts (beta test)", Toast.LENGTH_SHORT).show();
-
+        Toast.makeText(BenchmarkActivity.this,"Lisää häivytys lautakuviin", Toast.LENGTH_SHORT).show();
         hangboardNamesListView = findViewById(R.id.hangboardsListView);
         benchmarksListView = findViewById(R.id.benchmarksListView);
         benchmarkInfoTextView = findViewById(R.id.benchmarkInfoTextView);
