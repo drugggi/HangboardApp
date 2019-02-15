@@ -128,10 +128,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_settings:
                 //Toast.makeText(this,"Settings",Toast.LENGTH_SHORT).show();
 
-                //Intent settingsIntent = new Intent(getApplicationContext(),TimeControlsActivity.class);
+                Intent settingsIntent = new Intent(getApplicationContext(),SettingsActivity.class);
                 //settingsIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS", timeControls.getTimeControlsIntArray() );
-
-                //startActivityForResult(settingsIntent, REQUEST_TIME_CONTROLS);
+                startActivity(settingsIntent);
 
                 break;
             default:

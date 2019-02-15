@@ -64,8 +64,8 @@ public class TimeControlsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timecontrols);
-        // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        // setSupportActionBar(toolbar);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
 
         // There are a lot more grips in single hangs program than repeaters, gripMultiplier
         // is used so that the grip progressbar is useful in both programs
@@ -143,7 +143,7 @@ public class TimeControlsActivity extends AppCompatActivity {
 
                 preferencesTextView.setText(preferenceText );
 
-                editor.commit();
+                editor.apply();
                 // Toast.makeText(v.getContext(),"Preferences Saved",Toast.LENGTH_SHORT).show();
             }
         });
