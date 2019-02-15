@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
     private Button startWorkoutButton;
     private Button newWorkoutButton;
     private Button settingsButton;
-    private Button workoutHistoryButton;
 
     private CheckBox repeatersBox;
     private TextView durationTextView;
@@ -112,6 +111,19 @@ public class MainActivity extends AppCompatActivity {
                 everyBoard.sortWorkoutHoldList();
 
                 hangsAdapter.notifyDataSetChanged();
+
+                // This is for testing WorkoutHistoryActivity, with these we can simulate completed workouts
+                // by simply marking current workout as done without going through start workout
+/*                Intent workoutHistoryTestIntent = new Intent(getApplicationContext(), WorkoutHistoryActivity.class);
+
+                // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
+                workoutHistoryTestIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
+                 workoutHistoryTestIntent.putExtra("com.finn.laakso.hangboardapp.BOARDNAME",everyBoard.getHangboardName() );
+               // workoutHistoryTestIntent.putExtra("com.finn.laakso.hangboardapp.BOARDIMAGE",HangboardResources.getHangboardImageResource(viewPager.getCurrentItem()));
+                workoutHistoryTestIntent.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", everyBoard.getCurrentWorkoutHoldList());
+                workoutHistoryTestIntent.putExtra("com.finn.laakso.hangboardapp.DESCRIPTION","selityselitys");
+
+                startActivity(workoutHistoryTestIntent);*/
 
                 break;
             case R.id.action_benchmark:
@@ -272,32 +284,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-
-
-        workoutHistoryButton = (Button) findViewById(R.id.statsButton);
-        workoutHistoryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent workoutHistoryIntent = new Intent(getApplicationContext(), WorkoutHistoryActivity.class);
-
-                startActivityForResult(workoutHistoryIntent, REQUEST_COPY_WORKOUT);
-
-
-                // This is for testing WorkoutHistoryActivity, with these we can simulate completed workouts
-                // by simply marking current workout as done without going through start workout
-/*                Intent workoutHistoryTestIntent = new Intent(getApplicationContext(), WorkoutHistoryActivity.class);
-
-                // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
-                workoutHistoryTestIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
-                 workoutHistoryTestIntent.putExtra("com.finn.laakso.hangboardapp.BOARDNAME",everyBoard.getHangboardName() );
-               // workoutHistoryTestIntent.putExtra("com.finn.laakso.hangboardapp.BOARDIMAGE",HangboardResources.getHangboardImageResource(viewPager.getCurrentItem()));
-                workoutHistoryTestIntent.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", everyBoard.getCurrentWorkoutHoldList());
-                workoutHistoryTestIntent.putExtra("com.finn.laakso.hangboardapp.DESCRIPTION","selityselitys");
-
-                startActivity(workoutHistoryTestIntent);*/
-            }
-        });
-
 
         // Every time a grade is selected from the grade list, Hangboard generates holds and grips
         // to the program based on grade difficulty
