@@ -458,7 +458,7 @@ public class WorkoutActivity extends AppCompatActivity {
                         restProgressBar.setProgress((s+timeControls.getRestTime())*100 / timeControls.getRestTime() );
 
                         // show helpful not obvious tip only once at the start of workout
-                        if (s == -40 && current_lap == 1 && current_set == 1 &&
+                        if (s == -41 && current_lap == 1 && current_set == 1 &&
                                 PreferenceManager.getDefaultSharedPreferences(WorkoutActivity.this)
                                         .getBoolean("helpSwitch",true) ) {
                             Toast.makeText(WorkoutActivity.this,"To edit unsuccessful hangs," +
@@ -658,8 +658,8 @@ public class WorkoutActivity extends AppCompatActivity {
     private void animateHandImagesToVisible() {
         if (leftHandImage.getVisibility() == View.INVISIBLE || rightHandImage.getVisibility() == View.INVISIBLE) {
 
-            Animation leftFingerFadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in500ms);
-            Animation rightFingerFadeIn = AnimationUtils.loadAnimation(this,R.anim.fade_in500ms);
+            Animation leftFingerFadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in1000ms);
+            Animation rightFingerFadeIn = AnimationUtils.loadAnimation(this,R.anim.fade_in1000ms);
             leftFingerFadeIn.reset();
             rightFingerFadeIn.reset();
             ImageView leftAnim = (ImageView) findViewById(R.id.leftHandImageView);

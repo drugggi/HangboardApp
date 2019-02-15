@@ -339,15 +339,23 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
 
         for (int i = 0; i < allBenchmarks.length; i++) {
 
+            //String title = allBenchmarks[i];
             benchmarkTitle.add(allBenchmarks[i]);
             i++;
 
-            benchmarkDescriptions.add(allBenchmarks[i]);
+            String desc = allBenchmarks[i];
+            //benchmarkDescriptions.add(allBenchmarks[i]);
             i++;
 
             TimeControls tempControls = new TimeControls();
             tempControls.setTimeControlsFromString(allBenchmarks[i]);
             benchmarkTimeControls.add(tempControls);
+
+            if (tempControls.isRepeaters() ) {
+                benchmarkDescriptions.add(desc+"  (repeaters)");
+            } else {
+                benchmarkDescriptions.add(desc+"  (single hangs)");
+            }
 
             i++;
             ArrayList<Hold> tempWorkoutHolds = new ArrayList<>();

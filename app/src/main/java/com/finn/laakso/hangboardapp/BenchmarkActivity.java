@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.animation.Animation;
@@ -46,9 +47,9 @@ public class BenchmarkActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
         setContentView(R.layout.activity_benchmark);
-
-        Toast.makeText(BenchmarkActivity.this,"Pre made workouts (beta test)", Toast.LENGTH_SHORT).show();
-
+        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("helpSwitch",true)) {
+            Toast.makeText(BenchmarkActivity.this, "Pre made workouts (beta test)", Toast.LENGTH_SHORT).show();
+        }
         hangboardNamesListView = findViewById(R.id.hangboardsListView);
         benchmarksListView = findViewById(R.id.benchmarksListView);
         benchmarkInfoTextView = findViewById(R.id.benchmarkInfoTextView);
@@ -135,7 +136,7 @@ public class BenchmarkActivity extends AppCompatActivity {
                    // animationTextView.setVisibility(View.VISIBLE);
                 } else {
                     animationChangeText = "";
-                    runAnimation2();
+                    popupTextViewAnimation();
 
                 }
                 selectedBenchmark = i;
@@ -145,7 +146,7 @@ public class BenchmarkActivity extends AppCompatActivity {
                 animationTextView.setText(animationChangeText);
 
 
-                runAnimation();
+                benchmarkDifferenceAnimation();
 
                 benchmarkInfoTextView.setText(benchmarkInfo);
                 // Animation animation = AnimationUtils.loadAnimation()
@@ -228,7 +229,7 @@ public class BenchmarkActivity extends AppCompatActivity {
         tv.startAnimation(a);
     }
 
-    private void runAnimation2()
+    private void popupTextViewAnimation()
     {
         Animation a = AnimationUtils.loadAnimation(this, R.anim.popup_benchmark_textview);
         a.reset();
@@ -237,7 +238,7 @@ public class BenchmarkActivity extends AppCompatActivity {
         tv.startAnimation(a);
     }
 
-    private void runAnimation()
+    private void benchmarkDifferenceAnimation()
     {
         Animation a = AnimationUtils.loadAnimation(this, R.anim.animate_benchmark_difference);
         a.reset();

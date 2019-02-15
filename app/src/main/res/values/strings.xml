@@ -179,7 +179,7 @@
         <item>Grips &amp; Grades test</item>
         <item>5,6,7,3,2,110,240</item>
         <item>4,4,10,12,12,10,7,6,7,10</item>
-        <item>1,1,1,1,2,2,3,3,4,4,5,5</item>
+        <item>1,1,2,2,3,3,4,4,5,5</item>
 
         <item>7B Benchmark</item>
         <item>Grips &amp; Grades test</item>
@@ -216,6 +216,18 @@
         <item>20,1,10,0,1,40,1</item>
         <item>9,6,9,3,9,10,9,4,9,2,6,6,6,3,6,10,6,4,6,2,3,3,3,10,3,4,3,2,10,10,10,4,10,2,4,4,4,2,2,2</item>
         <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
+
+        <item>6C Intensity insanity</item>
+        <item>Test your intensity game. Spend more time hanging than resting vol 1. Unusual time controls!</item>
+        <item>6,6,8,2,1,40,1</item>
+        <item>3,6,6,10,3,10,6,9,8,5,9,6</item>
+        <item>1,1,1,1,1,1,2,2,2,2,3,3</item>
+
+        <item>7B Intensity insanity</item>
+        <item>Test your intensity game. Spend more time hanging than resting vol 2. Unusual time controls!</item>
+        <item>7,6,8,2,1,40,1</item>
+        <item>10,10,6,4,9,2,6,10,8,12,7,7,6,7</item>
+        <item>1,1,1,1,1,1,2,2,3,3,4,4,5,5</item>
 
 
     </string-array>

@@ -649,8 +649,9 @@ public class MainActivity extends AppCompatActivity {
             // If user has copied workout from workout history database
             if (requestCode == REQUEST_COPY_WORKOUT) {
                 if (resultCode == Activity.RESULT_OK) {
-                    Toast.makeText(MainActivity.this, "Workout copied", Toast.LENGTH_SHORT).show();
-
+                    if (prefs.getBoolean("helpSwitch",true) ) {
+                        Toast.makeText(MainActivity.this, "Workout copied", Toast.LENGTH_SHORT).show();
+                    }
                     int[] timeSettings = data.getIntArrayExtra("com.finn.laakso.hangboardapp.SETTINGS");
                     ArrayList<Hold> newHolds = data.getParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS");
                     String hbname = data.getStringExtra("com.finn.laakso.hangboardapp.BOARDNAME");
@@ -683,9 +684,9 @@ public class MainActivity extends AppCompatActivity {
         // If user has copied workout from workout history database
         if (requestCode == REQUEST_COPY_BENCHMARK) {
             if (resultCode == Activity.RESULT_OK) {
-                Toast.makeText(MainActivity.this, "Pre made workout copied", Toast.LENGTH_SHORT).show();
-
-
+                if (prefs.getBoolean("helpSwitch",true) ) {
+                    Toast.makeText(MainActivity.this, "Pre made workout copied", Toast.LENGTH_SHORT).show();
+                }
                 Hold.grip_type oldGripType = everyBoard.getLeftHandGripType(hangsAdapter.getSelectedHangNumber() );
 
                 int[] timeSettings = data.getIntArrayExtra("com.finn.laakso.hangboardapp.SETTINGS");
@@ -720,7 +721,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-
             String durationText = "Duration: " + timeControls.getTotalTime() / 60 + "min";
             durationTextView.setText(durationText);
 
@@ -732,8 +732,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (leftFingerImage.getVisibility() == View.INVISIBLE || rightFingerImage.getVisibility() == View.INVISIBLE) {
 
-            Animation leftFingerFadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in300ms);
-            Animation rightFingerFadeIn = AnimationUtils.loadAnimation(this,R.anim.fade_in300ms);
+            Animation leftFingerFadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in500ms);
+            Animation rightFingerFadeIn = AnimationUtils.loadAnimation(this,R.anim.fade_in500ms);
             leftFingerFadeIn.reset();
             rightFingerFadeIn.reset();
             ImageView leftAnim = (ImageView) findViewById(R.id.leftFingerImageView);
