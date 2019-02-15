@@ -5,9 +5,11 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -310,10 +312,15 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        //if ( PreferenceManager.getDefaultSharedPreferences(this).getBoolean("helpSwitch",true)) {
+
         // User has updated the completed hangs information lets update that information to database too
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HANGS_COMPLETED) {
-            Toast.makeText(WorkoutHistoryActivity.this,"edits saved",Toast.LENGTH_SHORT).show();
-
+            if (prefs.getBoolean("helpSwitch",true)) {
+                Toast.makeText(WorkoutHistoryActivity.this, "edits saved", Toast.LENGTH_SHORT).show();
+            }
             boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
 
             if (data.hasExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS")) {
@@ -333,7 +340,9 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         }
 
         else {
-            Toast.makeText(WorkoutHistoryActivity.this,"edits not saved",Toast.LENGTH_SHORT).show();
+            if (prefs.getBoolean("helpSwitch",true)) {
+                Toast.makeText(WorkoutHistoryActivity.this, "edits not saved", Toast.LENGTH_SHORT).show();
+            }
         }
 
     }

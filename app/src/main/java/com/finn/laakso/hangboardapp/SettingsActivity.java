@@ -6,13 +6,18 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 
 public class SettingsActivity extends AppCompatActivity {
 
     private Button resetButton;
     private Switch helpSwitch;
+
+    private SharedPreferences prefSettings;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +37,30 @@ public class SettingsActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_settings);
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefSettings = PreferenceManager.getDefaultSharedPreferences(this);
 
-        boolean helpSwitchPosition = prefs.getBoolean("helpSwitch",true);
+        boolean helpSwitchPosition = prefSettings.getBoolean("helpSwitch",true);
 
         resetButton = findViewById(R.id.resetButton);
         helpSwitch = findViewById(R.id.helpSwitch);
 
         helpSwitch.setChecked(helpSwitchPosition);
+
+        helpSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SharedPreferences.Editor editor = prefSettings.edit();
+                editor.putBoolean("helpSwitch",isChecked);
+                editor.apply();
+            }
+        });
+
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                helpSwitch.setChecked(true);
+            }
+        });
 
     }
 }

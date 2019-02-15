@@ -4,10 +4,12 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -621,7 +623,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             if (requestCode == REQUEST_TIME_CONTROLS) {
                 if (resultCode == Activity.RESULT_OK ) {
                     int[] i = data.getIntArrayExtra("com.finn.laakso.hangboardapp.SETTINGS");
@@ -640,12 +642,17 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     //Disable the slider and check box, so that those are accidentally changed
-                    Toast.makeText(MainActivity.this, "Settings applied, pre made time controls disabled ", Toast.LENGTH_SHORT).show();
+                    //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+                     if (prefs.getBoolean("helpSwitch",true) ) {
+                         Toast.makeText(MainActivity.this, "Settings applied, pre made time controls disabled ", Toast.LENGTH_SHORT).show();
+                     }
                     repeatersBox.setVisibility(View.INVISIBLE);
                     durationSeekBar.setVisibility(View.INVISIBLE);
                 }
                 else {
-                    Toast.makeText(MainActivity.this, "Settings not applied, pre made time controls enabled", Toast.LENGTH_SHORT).show();
+                    if (prefs.getBoolean("helpSwitch",true) ) {
+                        Toast.makeText(MainActivity.this, "Settings not applied, pre made time controls enabled", Toast.LENGTH_SHORT).show();
+                    }
                     repeatersBox.setVisibility(View.VISIBLE);
                     durationSeekBar.setVisibility(View.VISIBLE);
                 }

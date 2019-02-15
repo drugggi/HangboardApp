@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.ContextMenu;
@@ -197,8 +198,9 @@ public class WorkoutActivity extends AppCompatActivity {
 
             lapseTimeChrono.stop();
             pauseBtn.setText("resume");
-            Toast.makeText(this,"Paused",Toast.LENGTH_SHORT).show();
-
+            if ( PreferenceManager.getDefaultSharedPreferences(this).getBoolean("helpSwitch",true)) {
+                Toast.makeText(this, "Paused", Toast.LENGTH_SHORT).show();
+            }
             workoutProgressButton.setVisibility(View.VISIBLE);
 
         }
@@ -221,14 +223,29 @@ public class WorkoutActivity extends AppCompatActivity {
                         Toast.makeText(WorkoutActivity.this, "Only the last hang can be edited, no hangs completed yet.", Toast.LENGTH_LONG).show();
                     }
                     else {
+                        //". set (").append(current_lap+1).append("/")
+                         //       .append(timeControls.getGripLaps() ).append(") ");
+                        String title;
                         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
                         if (timeControls.getHangLaps() == 1) {
-                            String title = "Did you do hang: (" + (current_lap + 1) + "/" + timeControls.getHangLaps() + ")";
+
+                            if (current_lap == 0) {
+                                title ="Did you do hang: (" + timeControls.getGripLaps() + "/" + timeControls.getGripLaps() + ")";
+                            } else {
+                                title ="Did you do hang: (" + (current_lap) + "/" + timeControls.getGripLaps() + ")";
+
+                            }
+
                             menu.setHeaderTitle(title);
                             menu.add(Menu.NONE, 0, 0, "No  (0/1)");
                             menu.add(Menu.NONE, 1, 1, "Yes (1/1)");
                         } else {
-                            String title = "Edit hang: (" + (current_lap + 1) + "/" + timeControls.getHangLaps() + ")";
+                            if (current_lap == 0) {
+                                title = "Edit hang: (" + timeControls.getGripLaps() + "/" + timeControls.getGripLaps() + ")";
+                            } else {
+                                title = "Edit hang: (" + (current_lap) + "/" + timeControls.getGripLaps() + ")";
+                            }
+
                             menu.setHeaderTitle(title);
 
                             for (int i = 0; i <= timeControls.getHangLaps(); i++) {
@@ -437,7 +454,17 @@ public class WorkoutActivity extends AppCompatActivity {
 
                             animateHandImagesToPosition();
                              }
+
                         restProgressBar.setProgress((s+timeControls.getRestTime())*100 / timeControls.getRestTime() );
+
+                        // show helpful not obvious tip only once at the start of workout
+                        if (s == -40 && current_lap == 1 && current_set == 1 &&
+                                PreferenceManager.getDefaultSharedPreferences(WorkoutActivity.this)
+                                        .getBoolean("helpSwitch",true) ) {
+                            Toast.makeText(WorkoutActivity.this,"To edit unsuccessful hangs," +
+                                    " long press left progressbar.", Toast.LENGTH_LONG).show();
+
+                             }
 
                         if (s == -1) {nowDoing = workoutPart.WORKOUT;}
 
@@ -499,11 +526,28 @@ public class WorkoutActivity extends AppCompatActivity {
 
             if (index >= 0 && index < completedHangs.length ) {
                 if (clicked_position >= 0 && clicked_position <= timeControls.getHangLaps() ) {
+
+                    if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("helpSwitch",true) ) {
+                        String toastMessage;
+                        if (current_lap == 0) {
+                            toastMessage = (current_set - 1) + " Set. Hang (" + timeControls.getGripLaps() +
+                                    "/" + timeControls.getGripLaps() + ") Edited: " + completedHangs[index] +
+                                    "/" + timeControls.getHangLaps() + " -> " + clicked_position +
+                                    "/" + timeControls.getHangLaps();
+                        } else {
+                            toastMessage = current_set + " Set. Hang (" + (current_lap) +
+                                    "/" + timeControls.getGripLaps() + ") Edited: " + completedHangs[index] +
+                                    "/" + timeControls.getHangLaps() + " -> " + clicked_position +
+                                    "/" + timeControls.getHangLaps();
+                        }
+
+                        Toast.makeText(WorkoutActivity.this, toastMessage, Toast.LENGTH_LONG).show();
+                    }
+
                     completedHangs[index] = clicked_position;
                 }
             }
-            else {
-            }
+
         }
         else {
             DisplayMetrics metrics;
