@@ -10,6 +10,7 @@ public final class  HangboardResources {
     private static final int JUG = 1,JUG3F = 2, JUG3B= 2,
             MM40 = 2 ,MM40F3 = 6 , MM40B3 = 8, MM40F2 = 22, MM40M2 = 18, MM40B2 = 50,
             MM35 = 3, MM35F3 = 8 , MM35B3 = 10, MM35F2 = 32, MM35M2 = 24, MM35B2 = 60,
+            MM32 = 4, MM32F3 = 10, MM32B3 = 12, Mm32F2 = 39, MM32M2 = 29, MM32B2 = 69,
             MM30 = 5, MM30F3 = 12, MM30B3 = 14, MM30F2 = 45, MM30M2 = 32, MM30B2 = 75,
             MM28 = 6, MM28F3 = 13, MM28B3 = 15, MM28F2 = 50, MM28M2 = 35, MM28B2 = 80,
             MM25= 7, MM25F3 = 14, MM25B3 = 16, MM25F2 = 58, MM25M2 = 41, MM25B2 = 86,
@@ -31,6 +32,31 @@ public final class  HangboardResources {
             MM8 = 50, MM8F3 = 150, MM8B3 = 225,
             MM7 = 70, MM7F3 = 275, MM7B3 = 350,
             MM6 =100, MM6F3 = 450, MM6B3 = 500;
+
+    // underscore before the hold depth description means that it is a pocket, which instead means
+    // that it is easier hold than flat holds with same depths. This is mainly because friction and
+    // surface area increases on fingers
+    private static final int
+    _MM40F3 = 4 , _MM40B3 = 5, _MM40F2 = 22, _MM40M2 = 14, _MM40B2 = 40,
+     _MM35F3 = 6 , _MM35B3 = 8, _MM35F2 = 24, _MM35M2 = 19, _MM35B2 = 48,
+     _MM32F3 = 8, _MM32B3 = 10, _Mm32F2 = 33, _MM32M2 = 24, _MM32B2 = 57,
+     _MM30F3 = 9, _MM30B3 = 11, _MM30F2 = 38, _MM30M2 = 27, _MM30B2 = 68,
+     _MM28F3 = 10, _MM28B3 = 12, _MM28F2 = 45, _MM28M2 = 31, _MM28B2 = 75,
+     _MM25F3 = 11, _MM25B3 = 14, _MM25F2 = 52, _MM25M2 = 35, _MM25B2 = 80,
+    _MM23F3 = 13, _MM23B3 = 16,
+     _MM22F3 = 16, _MM22B3 = 18, _MM22F2 = 57, _MM22M2 = 45, _MM22B2 = 90,
+    _MM21F3 = 18, _MM21B3 = 20,
+     _MM20F3 = 20, _MM20B3 = 21, _MM20F2 = 69, _MM20M2 = 55, _MM20B2 = 105,
+     _MM19F3 = 21, _MM19B3 = 23,
+     _MM18F3 = 23, _MM18B3 = 25,
+     _MM17F3 = 26, _MM17B3 = 28,
+     _MM16F3 = 28, _MM16B3 = 32,
+            _MM15F3 = 32, _MM15B3 = 35,
+     _MM14F3 = 36, _MM14B3 = 40,
+     _MM13F3 = 40, _MM13B3 = 50,
+     _MM12F3 = 50, _MM12B3 = 60,
+     _MM11F3 = 60, _MM11B3 = 70,
+     _MM10F3 = 70, _MM10B3 = 80;
 
     /*    MM40 = 2, MM35 = 3, MM32 = 4,MM30 = 5, MM28 = 6, MM25= 7,
             MM23= 8, MM21 = 9, MM20 = 10, MM18= 12,MM16 = 14,MM15=16, MM14 = 17, MM12 = 18, MM11 = 20,
@@ -111,18 +137,22 @@ private static final int[] gripValuesBM1000 = {
     };
 
     private static final int[] gripValuesTensionPro = {
-            1, JUG, FF, 1, JUG3F, F3, 1, JUG3B, B3, 1, 17, F2, 1, 14, M2, 1, 25, B2,
-            2, MM35, FF, 2, MM35F3, F3, 2, MM35B3, B3, 2, MM35F2, F2, 2, MM35M2, M2, 2, MM35B2, B2,
-            3, JUG, FFS, 3, JUG3F+1, F3S, 3, JUG3B+2, B3S, // JUG
-            4, MM30, FF, 4, MM30F3, F3, 4, MM30B3, B3, 4, MM30F2, F2, 4 , MM30M2, M2, 4, MM30B2 , B2,
-            5, MM25, FF, 5, MM25F3, F3, 5, MM25B3, B3, 5, MM25F2, F2, 5 , MM25M2, M2, 5, MM25B2, B2,
-            6, 100, 70, 6, 100, 80, 6, 100 ,90, 6 , 100, 100,
-            7, 50, 40, 7 , 50, 50, 7 , 50 , 60,
+            1, JUG, FF, 1, JUG3F, F3, 1, JUG3B, B3,
+            2, MM40, FF, 2, MM40F3, F3, 2, MM40B3, B3,
 
-            8, MM40, FFS, 6, MM40F3-1, F3S, 6, MM40B3-1, B3S, 6, 21, F2S, 6, 17, M2S, 6, 35, B2S,  // 50mm hold
-            9, MM20, FF, 7, MM20F3, F3, 7, MM20B3, B3,
-            10, MM15, FF, 8, MM15F3, F3, 8, MM15B3, B3,
-            11, MM22, FFS, 9, MM22F3, F3S, 9, MM22B3, B3S,
+            3, MM8, FF, 3, MM8F3, F3, 3, MM8B3, B3, // incut 7mm crimp -> maybe 8mm values
+            4, MM35, FF, 4, MM35F3, F3, 4, MM35B3, B3, 4, MM35F2, F2, 4 , MM35M2, M2, 4, MM35B2 , B2,
+
+            5, MM20, FF, 5, MM20F3, F3, 5, MM20B3, B3, 5, MM20F2, F2, 5 , MM20M2, M2, 5, MM20B2, B2,
+            6, 139, 70, 6, 69, 80, 6, 150, 90, 6, 195, 100, // Same as BM2000 monos
+            7, 39, F2, 7, 28, M2, 7, 85, B2,
+
+            8, MM30, FFS, 8, MM30F3, F3S, 8, MM30B3, B3S, 8, MM30F2, F2S, 8, MM30M2, M2S, 8, MM30B2, B2S,
+
+            9, MM15, FF, 9, MM15F3, F3, 9, MM15B3, B3,
+            10, MM10, FF, 10, MM10F3, F3, 10, MM10B3, B3,
+
+            11, MM22, FFS, 11, MM22F3, F3S, 11, MM22B3, B3S,
 
     };
 
@@ -258,27 +288,27 @@ private static final int[] gripValuesBM1000 = {
     };
 
     private static final int[] gripValuesMetoWoodDeluxe = {
-            1, 1, 10, 1, 2, 20, 1, 2, 30, 1, 24, 40, 1, 16, 50, 1, 34, 60,
-            2, 3, 10, 2, 18, 20, 2, 24, 30,
-            3,10, 10, 3, 13, 20, 3, 15, 30,
+            1, JUG, FF, 1, JUG3F, F3, 1, JUG3B, B3,
+            2, 15, FF, 2,45 , F3, 2,55 , B3,
+            3,10, FF, 3,33 , F3, 3,43 , B3,
 
-            4, 39, 10, 4, 20, 20, 4, 59, 30,
-            5, 11, 20, 5, 13, 30,
+            4, MM30, FF, 4, MM30F3, F3, 4, MM30B3, B3,
+            5, MM32F3-1, F3, 5, MM32B3-1, B3, // three finger pocktes thus -1 reduction
 
-            6, 50, 40, 6, 50 , 50, 6, 50, 60,
-            7, 10, 10, 7, 15, 20, 7, 18, 30,
+            6, MM35F2, F2, 6, MM35M2 , M2, 6, MM35B2, B2, // probably same dimension as hold 7
+            7, MM32, FFS, 7, MM32F3, F3S, 7, MM32B3, B3S, // same dimension as hold 4 but wanted to make this easier
 
-            8, 39, 10, 4, 20, 20, 4, 59, 30,
-            9, 11, 20, 5, 13, 30,
+            8, MM13, FF, 8, MM13F3, F3, 8, MM13B3, B3,
+            9, MM19F3-5, F3, 9, MM19B3-5, B3, // three finger pocket thus -5 reduction
 
-            10, 50, 40, 6, 50 , 50, 6, 50, 60,
-            11, 10, 10, 7, 15, 20, 7, 18, 30,
+            10, MM20F2-10, F2, 10, MM20M2 -10, M2, 10, MM20B2-10, B2,
+            11, MM19, FFS, 11, MM19F3, F3S, 11, MM19B3, B3S,
 
-            12, 39, 10, 4, 20, 20, 4, 59, 30,
-            13, 11, 20, 5, 13, 30,
+            12, MM10, FF, 12, MM10F3, F3, 12, MM10B3, B3, // I guessed 10mm depth
+            13, MM15F3-5 , F3, 13, MM15B3-5, B3,
 
-            14, 50, 40, 6, 50 , 50, 6, 50, 60,
-            15, 10, 10, 7, 15, 20, 7, 18, 30,
+            14, 85, F2, 6, 75, M2, 6, 115, B2,
+            15, MM15, FFS, 15, MM15F3, F3S, 15, MM15B3, B3S, // I guessed 15mm depth
 
 
     };
@@ -332,23 +362,23 @@ private static final int[] gripValuesBM1000 = {
     };
 
     private static final int[] gripValuesMatrix = {
-            1,3,FF, 1,7,F3, 1,9,B3,
-            2,3,FF, 2,7,F3, 2,9,B3,
+            1,12,FF, 1,33,F3, 1,39,B3,
+            2,MM40,FF, 2,MM40F3+2,F3, 2,MM40B3+3,B3, // flat edge
 
-            3,3,FF, 3,7,F3, 3,9,B3,
-            4,3,FF, 4,7,F3, 4,9,B3,
-            5,3,FFS, 5,7,F3S, 5,9,B3S,
+            3,MM10,FF, 3,MM10F3,F3, 3,MM10B3,B3,
+            4,MM15,FF, 4,MM15F3,F3, 4,MM15B3,B3,
+            5,MM35,FFS, 5,MM35F3,F3S, 5,MM35B3,B3S,
 
-            6,3,FF, 6,7,F3, 6,9,B3,
-            7,27,F2, 7,24,M2, 7,45,B2,
-            8,7,F3, 8,9,B3,
-            9,3,FFS, 9,7,F3S, 9,9,B3S,
+            6,MM40,FF, 6,MM40F3,F3, 6,MM40B3,B3,
+            7,19,F2, 7,13,M2, 7,40,B2,
+            8,MM28F3-1,F3, 8,MM28B3-1,B3,
+            9,MM25,FFS, 9,MM25,F3S, 9,MM25B3,B3S,
 
-            10,3,FF, 10,7,F3, 10,9,B3,
-            11,27,F2, 11,24,M2, 11,45,B2,
-            12,95,IN, 12,85,MI, 12,165,RI, 12,220,LI,
-            13,27,F2, 13,24,M2, 13,45,B2,
-            14,3,FFS, 14,7,F3S, 14,9,B3S,
+            10,MM18,FF, 10,MM18F3,F3, 10,MM18B3,B3,
+            11,40,F2, 11,25,M2, 11,75,B2,
+            12,105,IN, 12,95,MI, 12,185,RI, 12,235,LI,
+            13,55,F2, 13,33,M2, 13,100,B2,
+            14,MM22,FFS, 14,MM22F3,F3S, 14,MM22B3,B3S,
     };
 
     private static final int[] gripValuesCore = {
