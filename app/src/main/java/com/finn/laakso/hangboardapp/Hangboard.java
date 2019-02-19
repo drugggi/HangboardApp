@@ -715,6 +715,12 @@ public class Hangboard {
 // Log.d("tempholdlist size","" + tempHoldList.length );
         for (int i = 0 ; i < tempHoldList.length ; i= i +2) {
 
+            // Trying to exclude hold compinations where one hold is too easy (JUG)
+            if (tempHoldList[i].getHoldValue() <= 2 ||
+            tempHoldList[i+1].getHoldValue() <= 2) {
+                continue;
+            }
+
             int holdValue = (tempHoldList[i].getHoldValue() + tempHoldList[i+1].getHoldValue() ) / 2;
 
             // Log.d("hodlValue","" + holdValue);

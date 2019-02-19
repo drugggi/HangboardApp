@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
               /*  everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.TWO_BACK);
                 everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.INDEX_FINGER);
                 everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.MIDDLE_FINGER);*/
-                everyBoard.setDifficultyLimits(1,50);
+                everyBoard.setDifficultyLimits(9,100);
 
                 everyBoard.sortWorkoutHoldList();
 
