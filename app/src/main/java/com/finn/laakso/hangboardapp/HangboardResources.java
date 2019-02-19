@@ -359,14 +359,14 @@ private static final int[] gripValuesBM1000 = {
             5,MM35,FFS, 5,MM35F3,F3S, 5,MM35B3,B3S,
 
             6,MM40,FF, 6,MM40F3,F3, 6,MM40B3,B3,
-            7,19,F2, 7,13,M2, 7,40,B2,
-            8,MM28F3-1,F3, 8,MM28B3-1,B3,
+            7,_MM45F2,F2, 7,_MM45M2,M2, 7,_MM45B2,B2,
+            8,_MM28F3,F3, 8,_MM28B3,B3,
             9,MM25,FFS, 9,MM25,F3S, 9,MM25B3,B3S,
 
             10,MM18,FF, 10,MM18F3,F3, 10,MM18B3,B3,
-            11,40,F2, 11,25,M2, 11,75,B2,
+            11,_MM25F2,F2, 11,_MM25M2,M2, 11,_MM25B2,B2,
             12,105,IN, 12,95,MI, 12,185,RI, 12,235,LI,
-            13,55,F2, 13,33,M2, 13,100,B2,
+            13,_MM20F2,F2, 13,_MM20M2,M2, 13,_MM20B2,B2,
             14,MM22,FFS, 14,MM22F3,F3S, 14,MM22B3,B3S,
     };
 

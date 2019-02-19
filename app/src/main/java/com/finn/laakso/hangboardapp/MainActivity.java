@@ -102,11 +102,12 @@ public class MainActivity extends AppCompatActivity {
                 everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.THREE_BACK);
                 everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.TWO_FRONT);
                 everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.TWO_MIDDLE);
+                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.TWO_BACK);
 
-              /*  everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.TWO_BACK);
-                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.INDEX_FINGER);
+
+              /*  everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.INDEX_FINGER);
                 everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.MIDDLE_FINGER);*/
-                everyBoard.setDifficultyLimits(9,100);
+                everyBoard.setDifficultyLimits(1,100);
 
                 everyBoard.sortWorkoutHoldList();
 
