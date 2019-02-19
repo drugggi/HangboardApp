@@ -633,17 +633,17 @@ public class Hangboard {
     // Arbitrary grade values, what hold_values to search in a give grade
     // For example grade 6c consist of holds that are between 7 and 18 in difficulty
     private static int getMinValue(String grade) {
-        if (grade.equals("5A")) {return 1;}
-        else if (grade.equals("5B")) {return 2;}
-        else if (grade.equals("5C")) {return 3;}
-        else if (grade.equals("6A")) {return 4;}
-        else if (grade.equals("6B")) {return 5;}
-        else if (grade.equals("6C")) {return 7;}
-        else if (grade.equals("7A")) {return 9;}
-        else if (grade.equals("7B")) {return 14;}
-        else if (grade.equals("7C")) {return 18;}
-        else if (grade.equals("8A")) {return 29;}
-        else if (grade.equals("8B")) {return 49;}
+        if (grade.equals("5A")) {return 1;} // 1 - 2		1
+        else if (grade.equals("5B")) {return 2;} // 2 - 5	3
+        else if (grade.equals("5C")) {return 3;} // 3 - 7	5
+        else if (grade.equals("6A")) {return 4;} // 4 - 10	8
+        else if (grade.equals("6B")) {return 5;} // 5 - 15	10
+        else if (grade.equals("6C")) {return 7;} // 7 - 18	14
+        else if (grade.equals("7A")) {return 9;} // 9 - 25	18
+        else if (grade.equals("7B")) {return 14;}// 14 - 35	25
+        else if (grade.equals("7C")) {return 18;}// 18 - 120	40
+        else if (grade.equals("8A")) {return 29;}// 29 - 200	80
+        else if (grade.equals("8B")) {return 49;}// 49 - 500	100
         else {return 1; }
     }
     private static int getMaxValue(String grade) {

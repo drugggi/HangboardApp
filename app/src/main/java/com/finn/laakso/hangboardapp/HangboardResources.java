@@ -886,7 +886,7 @@ private static final int[] gripValuesSoillboost = {
 
     private static String[] hangboardStrings = {"BM 1000", "BM 2000", "Transgression","Tension","Tension Pro",
             "Zlagboard","Moonboard hard","Moonboard easy","Metolius","Rock Prodigy","problemsolver","Meto. Contact",
-            "Meto. Wood", "Meto. Wood Deluxe","DRCC","Solution","Edge","Matrix","Core",
+            "Meto. Wood", "Meto. Deluxe","DRCC","Solution","Edge","Matrix","Core",
             "So iLL Boost","Ultimate", "Grill", "Grillto"};
 
     public static int getHoldDifficulty(Hold hold, String hbName) {
