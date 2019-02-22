@@ -50,7 +50,7 @@ public final class  HangboardResources {
             _MM23F3 = 14, _MM23B3 = 16, _MM22F3 = 15, _MM22B3 = 17, _MM21F3 = 17, _MM21B3 = 19,
             _MM20F3 = 20, _MM20B3 = 21, _MM20F2 = 55, _MM20M2 = 33, _MM20B2 = 100,
             _MM19F3 = 21, _MM19B3 = 23, _MM18F3 = 23, _MM18B3 = 25, _MM17F3 = 26, _MM17B3 = 28, _MM16F3 = 28, _MM16B3 = 32,
-            _MM15F3 = 32, _MM15B3 = 35, _MM15F2 = 100, _MM15M2 = 55, _MM15B2 = 200,
+            _MM15F3 = 32, _MM15B3 = 35, _MM15F2 = 85, _MM15M2 = 55, _MM15B2 = 130,
             _MM14F3 = 36, _MM14B3 = 40, _MM13F3 = 40, _MM13B3 = 50, _MM12F3 = 50, _MM12B3 = 60, _MM11F3 = 60, _MM11B3 = 70, _MM10F3 = 70, _MM10B3 = 80;
 
     // Sloper difficulties based on angle degrees
@@ -282,21 +282,21 @@ private static final int[] gripValuesBM1000 = {
             3,10, FF, 3,33 , F3, 3,43 , B3,
 
             4, MM30, FF, 4, MM30F3, F3, 4, MM30B3, B3,
-            5, MM32F3-1, F3, 5, MM32B3-1, B3, // three finger pocktes thus -1 reduction
+            5, _MM32F3, F3, 5, _MM32B3, B3, // three finger pocktes thus -1 reduction
 
-            6, MM35F2, F2, 6, MM35M2 , M2, 6, MM35B2, B2, // probably same dimension as hold 7
+            6, _MM35F2, F2, 6, _MM35M2 , M2, 6, _MM35B2, B2, // probably same dimension as hold 7
             7, MM32, FFS, 7, MM32F3, F3S, 7, MM32B3, B3S, // same dimension as hold 4 but wanted to make this easier
 
             8, MM13, FF, 8, MM13F3, F3, 8, MM13B3, B3,
-            9, MM19F3-5, F3, 9, MM19B3-5, B3, // three finger pocket thus -5 reduction
+            9, _MM19F3, F3, 9, _MM19B3, B3, // three finger pocket thus -5 reduction
 
-            10, MM20F2-10, F2, 10, MM20M2 -10, M2, 10, MM20B2-10, B2,
+            10, _MM20F2, F2, 10, _MM20M2, M2, 10, _MM20B2, B2,
             11, MM19, FFS, 11, MM19F3, F3S, 11, MM19B3, B3S,
 
             12, MM10, FF, 12, MM10F3, F3, 12, MM10B3, B3, // I guessed 10mm depth
-            13, MM15F3-5 , F3, 13, MM15B3-5, B3,
+            13, _MM15F3 , F3, 13, _MM15B3, B3,
 
-            14, 85, F2, 6, 75, M2, 6, 115, B2,
+            14, _MM15F2, F2, 14, _MM15M2, M2, 14, _MM15B2, B2,
             15, MM15, FFS, 15, MM15F3, F3S, 15, MM15B3, B3S, // I guessed 15mm depth
 
 
