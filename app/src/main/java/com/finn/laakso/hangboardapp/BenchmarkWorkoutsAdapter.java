@@ -450,10 +450,12 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
 
 
         for (int i = 0; i < testAllBenchmarks.length; i++) {
-            testBenchmarkDescriptions.add(testAllBenchmarks[i]);
-
+            // i++; // skip Title
+            testBenchmarkDescriptions.add(testAllBenchmarks[i]+"\n" + testAllBenchmarks[i+1]);
+            i++;
             i++;
             TimeControls tempControls = new TimeControls();
+            // Log.d("timecontrols",testAllBenchmarks[i]);
             tempControls.setTimeControlsFromString(testAllBenchmarks[i]);
             testBenchmarkTimeControls.add(tempControls);
 

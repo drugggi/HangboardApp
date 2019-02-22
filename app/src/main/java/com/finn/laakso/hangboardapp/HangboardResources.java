@@ -12,7 +12,7 @@ public final class  HangboardResources {
             MM45 = 2 ,MM45F3 = 5 , MM45B3 = 7, MM45F2 = 20, MM45M2 = 16, MM45B2 = 45,
             MM40 = 2 ,MM40F3 = 6 , MM40B3 = 8, MM40F2 = 22, MM40M2 = 18, MM40B2 = 50,
             MM35 = 3, MM35F3 = 8 , MM35B3 = 10, MM35F2 = 32, MM35M2 = 24, MM35B2 = 60,
-            MM32 = 4, MM32F3 = 10, MM32B3 = 12, Mm32F2 = 39, MM32M2 = 29, MM32B2 = 69,
+            MM32 = 4, MM32F3 = 10, MM32B3 = 12, MM32F2 = 39, MM32M2 = 29, MM32B2 = 69,
             MM30 = 5, MM30F3 = 12, MM30B3 = 14, MM30F2 = 45, MM30M2 = 32, MM30B2 = 75,
             MM28 = 6, MM28F3 = 13, MM28B3 = 15, MM28F2 = 50, MM28M2 = 35, MM28B2 = 80,
             MM25= 7, MM25F3 = 14, MM25B3 = 16, MM25F2 = 58, MM25M2 = 41, MM25B2 = 86,
@@ -43,9 +43,9 @@ public final class  HangboardResources {
             _MM45F3 = 3 , _MM45B3 = 4, _MM45F2 = 17, _MM45M2 = 12, _MM45B2 = 40,
             _MM40F3 = 4 , _MM40B3 = 5, _MM40F2 = 19, _MM40M2 = 15, _MM40B2 = 45,
             _MM35F3 = 6 , _MM35B3 = 8, _MM35F2 = 23, _MM35M2 = 19, _MM35B2 = 50,
-            _MM32F3 = 8, _MM32B3 = 10,
+            _MM32F3 = 8, _MM32B3 = 10, _MM32F2 = 26, _MM32M2 = 21, _MM32B2 = 53,
             _MM30F3 = 9, _MM30B3 = 11, _MM30F2 = 30, _MM30M2 = 22, _MM30B2 = 55,
-            _MM28F3 = 10, _MM28B3 = 12,
+            _MM28F3 = 10, _MM28B3 = 12, _MM28F2 = 34, _MM28M2 = 25, _MM28B2 = 60,
             _MM25F3 = 12, _MM25B3 = 14, _MM25F2 = 39, _MM25M2 = 28, _MM25B2 = 65,
             _MM23F3 = 14, _MM23B3 = 16, _MM22F3 = 15, _MM22B3 = 17, _MM21F3 = 17, _MM21B3 = 19,
             _MM20F3 = 20, _MM20B3 = 21, _MM20F2 = 55, _MM20M2 = 33, _MM20B2 = 100,
@@ -189,21 +189,21 @@ private static final int[] gripValuesBM1000 = {
             1, JUG, FF, 1, JUG3F, F3, 1, JUG3B, B3, 1, 19, 40, 1, 23, 50, 1, 35, 60,
             2, 5, FF,
             3, 4, FF,
-            4, 13, F3, 4, 15, B3, // 25mm
+            4, _MM23F3, F3, 4, _MM23B3, B3, // 25mm, looks worse than Hold 17
             5, MM20, FF, 5, MM20F3, F3, 5, MM20B3, B3, // 19mm
             6, MM17, FF, 6, MM17F3, F3, 6, MM17B3, B3, // 13mm
             7, MM40, FF, 7, MM40F3, F3, 7, MM40B3, B3, // 38 mm
-            8, 19, F3, 8, 21, B3, // 13 mm
-            9, 10, F3, 9, 12, B3, // 32 mm
-            10, 20, F3, 10, 23, B3, // 13 mm
+            8, _MM15F3, F3, 8, _MM15B3, B3, // 13 mm
+            9, _MM32F3, F3, 9, _MM32B3, B3, // 32 mm
+            10, _MM19F3, F3, 10, _MM19B3, B3, // 13 mm seems deeper thatn 13mm/ hold 8
             11, MM15, FF, 11, MM15F3, F3, 11, MM15B3, B3, // 13 mm
-            12, 25, 40, 12, 22, 50, 12, 39, 60, // 32 mm
-            13, 79, 40, 13, 65, 50, 13, 111, 60, // 13 mm
-            14, 1, FFS, 14, 2, F3S, 14, 2, B3S, // JUG
-            15, 3, F3S, 15, 4, B3S, // 45mm
-            16, 11, F3S, 16, 13, B3S,// 32 mm
-            17, 14, F3S, 17, 16, B3S,// 25 mm
-            18, 35, 41, 18, 27, 51, 18, 85, 61,// 29 mm
+            12, _MM32F2, F2, 12, _MM32M2, M2, 12, _MM32B2, B2, // 32 mm
+            13, _MM20F2, F2, 13, _MM20M2, M2, 13, _MM20B2, B2, // 13 mm
+            14, JUG, FFS, 14, JUG3F, F3S, 14, JUG3B, B3S, // JUG
+            15, _MM45F3, F3S, 15, _MM45B3, B3S, // 45mm
+            16, _MM35F3, F3S, 16, _MM35B3, B3S,// 32 mm
+            17, _MM25F3, F3S, 17, _MM25B3, B3S,// 25 mm
+            18, _MM28F2, F2S, 18, _MM28M2, M2S, 18, _MM28B2, B2S,// 29 mm
 
 
         };

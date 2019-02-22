@@ -1,7 +1,6 @@
 package com.finn.laakso.hangboardapp;
 
 import android.content.res.Resources;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -720,7 +719,7 @@ public class Hangboard {
             if (tempHoldList[i].getHoldValue() <= tempHoldList[i+1].getHoldValue() / 3 ||
             tempHoldList[i+1].getHoldValue() <= tempHoldList[i].getHoldValue() / 3 ) {
 
-                Log.d("Ignored holds" , "left/right value: "+ tempHoldList[i].getHoldValue() + "/" + tempHoldList[i+1].getHoldValue());
+                // Log.d("Ignored holds" , "left/right value: "+ tempHoldList[i].getHoldValue() + "/" + tempHoldList[i+1].getHoldValue());
                // Log.d("Ignored holds" , "left/right value/3: "+ tempHoldList[i].getHoldValue()/3 + "/" + tempHoldList[i+1].getHoldValue()/3);
                 continue;
             }
