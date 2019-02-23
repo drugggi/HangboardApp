@@ -6,11 +6,15 @@ package com.finn.laakso.hangboardapp;
 import android.util.Log;
 
 public final class  HangboardResources {
-    // Some base values for holds based on millimeter depth from 6mm - 40mm and jug
+    // Some base difficulty values based on holds' depths (6mm - 40mm and jug)
     private static final int JUG = 1,JUG3F = 2, JUG3B= 2,
+            MM50 = 2 , MM50F3 = 4 , MM50B3 = 6 , MM50F2 = 18, MM50M2 = 14, MM50B2 = 40,
+            MM45 = 2 ,MM45F3 = 5 , MM45B3 = 7, MM45F2 = 20, MM45M2 = 16, MM45B2 = 45,
             MM40 = 2 ,MM40F3 = 6 , MM40B3 = 8, MM40F2 = 22, MM40M2 = 18, MM40B2 = 50,
             MM35 = 3, MM35F3 = 8 , MM35B3 = 10, MM35F2 = 32, MM35M2 = 24, MM35B2 = 60,
+            MM32 = 4, MM32F3 = 10, MM32B3 = 12, MM32F2 = 39, MM32M2 = 29, MM32B2 = 69,
             MM30 = 5, MM30F3 = 12, MM30B3 = 14, MM30F2 = 45, MM30M2 = 32, MM30B2 = 75,
+            MM28 = 6, MM28F3 = 13, MM28B3 = 15, MM28F2 = 50, MM28M2 = 35, MM28B2 = 80,
             MM25= 7, MM25F3 = 14, MM25B3 = 16, MM25F2 = 58, MM25M2 = 41, MM25B2 = 86,
             MM23 = 8, MM23F3 = 16, MM23B3 = 18,
             MM22 = 9, MM22F3 = 18, MM22B3 = 20, MM22F2 = 65, MM22M2 = 55, MM22B2 = 95,
@@ -27,58 +31,68 @@ public final class  HangboardResources {
             MM11 = 28, MM11F3 = 67, MM11B3 = 78,
             MM10 = 30, MM10F3 = 77, MM10B3 = 85,
             MM9 = 40, MM9F3 = 95, MM9B3 = 120,
-            MM8 = 50, MM8F3 = 150, MM8B3 = 225,
-            MM7 = 70, MM7F3 = 275, MM7B3 = 350,
-            MM6 =100, MM6F3 = 450, MM6B3 = 500;
+            MM8 = 50, MM8F3 = 120, MM8B3 = 140,
+            MM7 = 70, MM7F3 = 170, MM7B3 = 200,
+            MM6 =100, MM6F3 = 250, MM6B3 = 300;
 
-    /*    MM40 = 2, MM35 = 3, MM32 = 4,MM30 = 5, MM28 = 6, MM25= 7,
-            MM23= 8, MM21 = 9, MM20 = 10, MM18= 12,MM16 = 14,MM15=16, MM14 = 17, MM12 = 18, MM11 = 20,
-            MM10= 24, MM9=35, MM8 = 50, MM7= 60, MM6=100;
-    */
-    // Two finger pockets
-    private static final int TWO45mm = 12,TWO35mm = 15, TWO30mm = 21, TWO25mm = 27, TWO20mm = 33;
-
+    // underscore before the hold depth description means that it is a pocket, which instead means
+    // that it is easier hold than flat holds with same depths. This is mainly because friction and
+    // surface area increases on fingers
+    private static final int
+            _MM50F3 = 3 , _MM50B3 = 4, _MM50F2 = 15, _MM50M2 = 10, _MM50B2 = 35,
+            _MM45F3 = 3 , _MM45B3 = 4, _MM45F2 = 17, _MM45M2 = 12, _MM45B2 = 40,
+            _MM40F3 = 4 , _MM40B3 = 5, _MM40F2 = 19, _MM40M2 = 15, _MM40B2 = 45,
+            _MM35F3 = 6 , _MM35B3 = 8, _MM35F2 = 23, _MM35M2 = 19, _MM35B2 = 50,
+            _MM32F3 = 8, _MM32B3 = 10, _MM32F2 = 26, _MM32M2 = 21, _MM32B2 = 53,
+            _MM30F3 = 9, _MM30B3 = 11, _MM30F2 = 30, _MM30M2 = 22, _MM30B2 = 55,
+            _MM28F3 = 10, _MM28B3 = 12, _MM28F2 = 34, _MM28M2 = 25, _MM28B2 = 60,
+            _MM25F3 = 12, _MM25B3 = 14, _MM25F2 = 39, _MM25M2 = 28, _MM25B2 = 65,
+            _MM23F3 = 14, _MM23B3 = 16, _MM22F3 = 15, _MM22B3 = 17, _MM21F3 = 17, _MM21B3 = 19,
+            _MM20F3 = 20, _MM20B3 = 21, _MM20F2 = 55, _MM20M2 = 33, _MM20B2 = 100,
+            _MM19F3 = 21, _MM19B3 = 23, _MM18F3 = 23, _MM18B3 = 25, _MM17F3 = 26, _MM17B3 = 28, _MM16F3 = 28, _MM16B3 = 32,
+            _MM15F3 = 32, _MM15B3 = 35, _MM15F2 = 85, _MM15M2 = 55, _MM15B2 = 130,
+            _MM14F3 = 36, _MM14B3 = 40, _MM13F3 = 40, _MM13B3 = 50, _MM12F3 = 50, _MM12B3 = 60, _MM11F3 = 60, _MM11B3 = 70, _MM10F3 = 70, _MM10B3 = 80;
 
     // Sloper difficulties based on angle degrees
     private static final int S20d = 3, S35d = 23, S45d = 100;
 
         // finger representation four finger, front three, back three, front two, middle two, back two, index
-        // middle, ring, index and little finger
+        // middle, ring, index and little finger. S at the end means Single hold ( only one hold at the hangboard)
     private static final int FF = 10, F3=20, B3 = 30, F2= 40, M2 = 50, B2 = 60, IN = 70, MI = 80, RI = 90, LI = 100;
     private static final int FFS = 11, F3S=21, B3S = 31, F2S= 41, M2S =51, B2S = 61, INS = 71,
             MIS = 81, RIS = 91, LIS = 101;
 
 private static final int[] gripValuesBM1000 = {
          1 , JUG , FF , 1 , JUG3F , F3 , 1 , 2 , B3 ,
-         2 , 23 , FF , 2 , 70 , F3 , 2 , 75 , B3 ,
-         3 , 3 , FF , 3 , 12 , F3 , 3 , 8 , B3 ,
+         2 , 23 , FF , 2 , 70 , F3 , 2 , 75 , B3 ,  // 35 degrees
+         3 , 3 , FF , 3 , 12 , F3 , 3 , 8 , B3 ,    // 20 degrees
          4 , MM15 , FF , 4 , MM15F3 , F3 ,4 , MM15B3 , B3 ,
-         5 , 11 , F3 , 5 , 13 , B3 , 5 , 35 , F2 , 5 , 25 , M2 ,
+         5 , _MM30F3 , F3 , 5 , _MM30B3 , B3 , 5 , MM30F2 , F2 , 5 , MM30M2 , M2 , // 30mm
          6 , MM40 , FF , 6 , MM40F3 , F3 , 6 , MM40B3 , B3 , 6 , MM40F2 , F2 , 6 , MM40M2 , M2 , 6 ,MM40B2 ,B2 ,
-         7 , 17 , F2 , 7 , 12 , M2 , 7 , 40 , B2 , 7 , 100 ,IN , 7 ,80 ,MI ,
-         8 ,4 , F3 , 8 , 5 , B3 ,
-         9 , 2 , FFS , 9 , 4 , F3S , 9 , 7 , B3S ,
-         10 , MM20 , FF , 10 , MM20F3 , F3 , 10 , MM20B3 , B3 , 10 , 69 , F2 , 10 , 40 , M2 ,
-         11 ,55 ,F2 , 11 , 33 , M2 , 11 , 100 , B2 ,
-         12 , 17 , F3 , 12 , 19 , B3 ,
+         7 , _MM45F2 , F2 , 7 , _MM45M2 , M2 , 7 , _MM45B2 , B2 , 7 , 100 ,IN , 7 ,80 ,MI , //45-50mm
+         8 , _MM40F3 , F3 , 8 , _MM40B3 , B3 ,
+         9 , MM50 , FFS , 9 , MM50F3 , F3S , 9 , MM50B3 , B3S , // 50mm
+         10 , MM20 , FF , 10 , MM20F3 , F3 , 10 , MM20B3 , B3 , 10 , 69 , F2 , 10 , 40 , M2 , // 15-20mm
+         11 ,_MM20F2 ,F2 , 11 , _MM20M2 , M2 , 11 , _MM20B2 , B2 , // ~20mm
+         12 , _MM20F3 , F3 , 12 , _MM20B3 , B3 , // 15-20mm
 };
 
     private static final int[] gripValuesBM2000 = {
-            1, 100, 10,
-            2, 23, 10, 2, 70, 20, 2, 75, 30,
-         3, 3, 10, 3, 12, 20, 3, 8, 30,
-         4, 4, 21, 4, 5, 31,
-         5, 17, 21, 5, 19, 31,
-         6, 3, 10, 6, 9, 20, 6, 11, 30,
-         7, 139, 70, 7, 69, 80, 7, 150, 90, 7, 195, 100,
-         8, 19, F2, 8, 15, M2, 8, 40, B2, 8, 155, IN, 8 , 87, MI, 8 , 200, RI,8 , 250, RI, 8 , 350, LI,
-         9, 25, 40, 9, 21, 50, 9, 69, 60,
-            10, 2, 11, 10, 4, 21, 10, 5, 31,
-         11, 14, 10, 11, 22, 20, 11, 25, 30,
-         12, 170, 70, 12, 125, 80, 12, 350, 90, 12, 450, 100,
-            13, 60, 40, 13, 35, 50, 13, 110, 60,
-            14, 250, 40, 14, 170, 50, 14, 500, 60,
-         15, 8, 11, 15,18,21, 15,20,31,
+            1, 100, FF, // 45 degrees
+            2, 23, FF, 2, 70, F3, 2, 75, B3, // 35 degrees
+            3, 3, FF, 3, 12, F3, 3, 8, B3,  // 20 degrees
+            4, _MM40F3, F3S, 4, _MM40B3, B3S, // 40mm
+            5, _MM20F3, F3S, 5, _MM20B3, B3S, // 20mm
+            6, MM35, FF, 6, MM35F3+1 , F3, 6, MM35B3+1, B3, // 33mm
+            7, 139, IN, 7, 69, MI, 7, 150, RI, 7, 195, LI,
+            8, _MM40F2, F2, 8, _MM40M2, M2, 8, _MM40B2, B2, 8, 155, IN, 8 , 87, MI, 8 , 200, RI,8 , 250, RI, 8 , 350, LI, // 35mm (48) deeper hole for one finger hangs
+            9, _MM30F2, F2, 9, _MM30M2, M2, 9, _MM30B2, B2, // 30mm
+            10, MM40, FFS, 10, MM40F3-1, F3S, 10, MM40B3-1, B3S,
+            11, MM17, FF, 11, MM17F3 , F3, 11, MM17B3, B3, // ~15mm
+            12, 170, IN, 12, 125, MI, 12, 350, RI, 12, 450, LI, // 25mm
+            13, _MM20F2, F2, 13, _MM20M2, M2, 13, _MM20B2, B2, // 20mm
+            14, 170, F2, 14, 100, M2, 14, 225, B2, // 18mm
+            15, MM23, FFS, 15,MM23F3,F3S, 15,MM23B3,B3S, // 23mm
 
     };
 
@@ -109,24 +123,45 @@ private static final int[] gripValuesBM1000 = {
 
     };
 
+    private static final int[] gripValuesTensionPro = {
+            1, JUG, FF, 1, JUG3F, F3, 1, JUG3B, B3,
+            2, MM40, FF, 2, MM40F3, F3, 2, MM40B3, B3,
+
+            3, MM8, FF, 3, MM8F3, F3, 3, MM8B3, B3, // incut 7mm crimp -> maybe 8mm values
+            4, MM35, FF, 4, MM35F3, F3, 4, MM35B3, B3, 4, MM35F2, F2, 4 , MM35M2, M2, 4, MM35B2 , B2,
+
+            5, MM20, FF, 5, MM20F3, F3, 5, MM20B3, B3, 5, MM20F2, F2, 5 , MM20M2, M2, 5, MM20B2, B2,
+            6, 139, 70, 6, 69, 80, 6, 150, 90, 6, 195, 100, // Same as BM2000 monos
+            7, _MM25F2, F2, 7, _MM25M2, M2, 7, _MM25B2, B2, // 20mm
+
+            8, MM30, FFS, 8, MM30F3, F3S, 8, MM30B3, B3S, 8, MM30F2, F2S, 8, MM30M2, M2S, 8, MM30B2, B2S,
+
+            9, MM15, FF, 9, MM15F3, F3, 9, MM15B3, B3,
+            10, MM10, FF, 10, MM10F3, F3, 10, MM10B3, B3,
+
+            11, MM22, FFS, 11, MM22F3, F3S, 11, MM22B3, B3S, 11,MM22F2, F2S, 11 , MM22M2 , M2S, 11 , MM22B2, B2S,
+
+    };
+
     private static final int[] gripValuesZlag = {
-            1, JUG, 10, 1, 2, 20, 1, 2, 30, 1, 16, 40, 1, 14, 50, 1, 35, 60,
-            2, 13, 10, 2, 30, 20, 2, 35, 30,
+            1, JUG, FF, 1, 2, F3, 1, 2, B3, 1, 16, 40, 1, 14, 50, 1, 35, 60,
+            2, 13, FF, 2, 30, F3, 2, 35, B3,
             3, 3, 11, 3, 8, 21, 3, 9, 31,
-            4, MM30, 10, 4, MM30F3, 20, 4, MM30B3, 30,
-            5, 23, 20, 5, 26, 30,
+            4, MM30, FF, 4, MM30F3, F3, 4, MM30B3, B3,
+            5, _MM20F3+2, F3, 5, _MM20B3+2, B3, // 20mm +2 for no good reason
             6, MM30-1, 11, 6, 10, 21, 6, 11, 31,
-            7, MM20, 10, 7, MM20F3+1, 20, 7, MM20B3+1, 30,
+            7, MM20, FF, 7, MM20F3+1, F3, 7, MM20B3+1, B3,
             8, 350, 70, 8, 300, 80, 8, 450, 90,
-            9, 39, 40, 9, TWO30mm+15, 50, 9, 65, 60,
+            9, _MM30F2, F2, 9, _MM30M2, M2, 9, _MM30B2, B2, // 30mm
             11, MM20, 11, 11, MM20F3, 21, 11, MM20B3, 31,
             12, MM10, FF, 12, MM10F3, F3, 12, MM10B3,B3,
             13, 150, 70, 13, 80, 80, 13, 300, 90,
-            14, 150, 40, 14, 100, 50, 14, 300, 60,
+            14, _MM15F2, F2, 14, _MM15M2, M2, 14, _MM15B2, B2, // 15mm
             15, MM15+2, FFS, 15, MM15F3, F3S, 15, MM15B3, B3S,
     };
 
     private static final int[] gripValuesMoonhard = {
+
             1, 5, FF, 1, 15, F3, 1, 17, B3, 1, 80, F2, 1, 68, M2, 1, 134, B2,
             2, 45, FF,
             3, 9, FF, 3, 20, F3, 3, 23, B3,
@@ -149,39 +184,41 @@ private static final int[] gripValuesBM1000 = {
 
     };
 
+    // Depths are probably wrong ( too difficult ) becaus material is not wood and roundness are
+    // not measured which should add to real depth value
     private static final int[] gripValuesMeto = {
-            1, 1, 10, 1, 2, 20, 1, 2, 30, 1, 19, 40, 1, 23, 50, 1, 35, 60,
-            2, 5, 10,
-            3, 4, 10,
-            4, 13, 20, 4, 15, 30,
-            5, 10, 10, 5, 16, 20, 5, 18, 30,
-            6, 15, 10, 6, 19, 20, 6, 21, 30,
-            7, 2, 10, 7, 5, 20, 7, 6, 30,
-            8, 19, 20, 8, 21, 30,
-            9, 10, 20, 9, 12, 30,
-            10, 20, 20, 10, 23, 30,
-            11, 17, 10, 11, 23, 20, 11, 26, 30,
-            12, 25, 40, 12, 22, 50, 12, 39, 60,
-            13, 79, 40, 13, 65, 50, 13, 111, 60,
-            14, 1, 11, 14, 2, 21, 14, 2, 31,
-            15, 3, 21, 15, 4, 31,
-            16, 11, 21, 16, 13, 31,
-            17, 14, 21, 17, 16, 31,
-            18, 35, 41, 18, 27, 51, 18, 85, 61,
+            1, JUG, FF, 1, JUG3F, F3, 1, JUG3B, B3, 1, 19, 40, 1, 23, 50, 1, 35, 60,
+            2, 5, FF,
+            3, 4, FF,
+            4, _MM23F3, F3, 4, _MM23B3, B3, // 25mm, looks worse than Hold 17
+            5, MM20, FF, 5, MM20F3, F3, 5, MM20B3, B3, // 19mm
+            6, MM17, FF, 6, MM17F3, F3, 6, MM17B3, B3, // 13mm
+            7, MM40, FF, 7, MM40F3, F3, 7, MM40B3, B3, // 38 mm
+            8, _MM15F3, F3, 8, _MM15B3, B3, // 13 mm
+            9, _MM32F3, F3, 9, _MM32B3, B3, // 32 mm
+            10, _MM19F3, F3, 10, _MM19B3, B3, // 13 mm seems deeper thatn 13mm/ hold 8
+            11, MM15, FF, 11, MM15F3, F3, 11, MM15B3, B3, // 13 mm
+            12, _MM32F2, F2, 12, _MM32M2, M2, 12, _MM32B2, B2, // 32 mm
+            13, _MM20F2, F2, 13, _MM20M2, M2, 13, _MM20B2, B2, // 13 mm
+            14, JUG, FFS, 14, JUG3F, F3S, 14, JUG3B, B3S, // JUG
+            15, _MM45F3, F3S, 15, _MM45B3, B3S, // 45mm
+            16, _MM35F3, F3S, 16, _MM35B3, B3S,// 32 mm
+            17, _MM25F3, F3S, 17, _MM25B3, B3S,// 25 mm
+            18, _MM28F2, F2S, 18, _MM28M2, M2S, 18, _MM28B2, B2S,// 29 mm
 
 
         };
 
     private static final int[] gripValuesRockprodigy = {
-            2, 4, 10, 2, 13, 20, 2, 17, 30,
-            3, 1, 10, 3, 2, 20, 3, 2, 30,
-            4, 14, 10, 4, 22, 20, 4, 25, 30,
-            5, 5, 10, 5, 11, 20, 5, 13, 30,
-            6, 23, 10, 6, 63, 20, 6, 70, 30,
-            7, 11, 10, 7, 16, 20, 7, 19, 30,
-            8, 27, 10, 8, 69, 20, 8, 89, 30,
-            9, 2, 10, 9, 5, 20, 9, 7, 30,
-            10, 16, 20, 10, 19, 30, 10, 27, 40, 10, 18, 50, 10, 39, 60,
+            2, 4, FF, 2, 13, F3, 2, 17, B3,
+            3, 1, FF, 3, 2, F3, 3, 2, B3,
+            4, 14, FF, 4, 22, F3, 4, 25, B3,
+            5, 5, FF, 5, 11, F3, 5, 13, B3,
+            6, 23, FF, 6, 63, F3, 6, 70, B3,
+            7, 11, FF, 7, 16, F3, 7, 19, B3,
+            8, 27, FF, 8, 69, F3, 8, 89, B3,
+            9, 2, FF, 9, 5, F3, 9, 7, B3,
+            10, 16, F3, 10, 19, B3, 10, 27, 40, 10, 18, 50, 10, 39, 60,
             11, 37, 40, 11, 29, 50, 11, 55, 60,
             12, 37, 40, 12, 29, 50, 12, 55, 60,
             13, 77, 40, 13, 69, 50, 13, 105, 60,
@@ -190,68 +227,171 @@ private static final int[] gripValuesBM1000 = {
 
     private static final int[] gripValuesProblemsolver = {
 
- 1, 1, 10, 1, 2, 20, 1, 2, 30, 1, 19, 40, 1, 14, 50, 1, 29, 60,
-            2, 10, 10, 2, 17, 20, 2, 19, 30, 2, 39, 40, 2, 27, 50, 2, 67, 60,
-            3, 15, 10, 3, 22, 20, 3, 26, 30,
-            4, 29, 10, 4, 49, 20, 4, 75, 30,
-            5, 11, 10, 5, 18, 20, 5, 20, 30,
+ 1, 1, FF, 1, 2, F3, 1, 2, B3, 1, 19, 40, 1, 14, 50, 1, 29, 60,
+            2, 10, FF, 2, 17, F3, 2, 19, B3, 2, 39, 40, 2, 27, 50, 2, 67, 60,
+            3, 15, FF, 3, 22, F3, 3, 26, B3,
+            4, 29, FF, 4, 49, F3, 4, 75, B3,
+            5, 11, FF, 5, 18, F3, 5, 20, B3,
             6, 14, 11, 6, 21, 21, 6, 25, 31,
-            7, 24, 10, 7, 35, 20, 7, 40, 30,
-            8, 35, 10, 8, 79, 20, 8, 99, 30,
-            9, 13, 10, 9, 20, 20, 9, 23, 30,
+            7, 24, FF, 7, 35, F3, 7, 40, B3,
+            8, 35, FF, 8, 79, F3, 8, 99, B3,
+            9, 13, FF, 9, 20, F3, 9, 23, B3,
             10, 18, 11, 10, 25, 21, 10, 30, 31,
 
     };
 
     private static final int[] gripValuesMetocontact = {
-            1, 1, 10, 1, 2, 20, 1, 2, 30,
-            2, 5, 10,
-            3, 7, 10,
-            4, 15, 10, 4, 22, 20, 4, 26, 30,
-            5, 5, 10, 5, 10, 20, 5, 12, 30,
+            1, 1, FF, 1, 2, F3, 1, 2, B3,
+            2, 5, FF,
+            3, 7, FF,
+            4, 15, FF, 4, 22, F3, 4, 26, B3,
+            5, 5, FF, 5, 10, F3, 5, 12, B3,
             6, 19, 40, 6, 16, 50, 6, 29, 60,
-            7, 3, 10, 7, 8, 20, 7, 10, 30,
-            8, 17, 20, 8, 19, 30,
-            9, 4, 10, 9, 9, 20, 9, 11, 30,
+            7, 3, FF, 7, 8, F3, 7, 10, B3,
+            8, 17, F3, 8, 19, B3,
+            9, 4, FF, 9, 9, F3, 9, 11, B3,
             10, 31, 40, 10, 24, 50, 10, 45, 60,
-            11, 7, 10, 11, 13, 20, 11, 15, 30,
-            12, 10, 10, 12, 15, 20, 12, 18, 30,
-            13, 14, 20,
-            13, 16, 30,
+            11, 7, FF, 11, 13, F3, 11, 15, B3,
+            12, 10, FF, 12, 15, F3, 12, 18, B3,
+            13, 14, F3,
+            13, 16, B3,
             14, 51, 40, 14, 34, 50, 14, 75, 60,
-            16, 18, 10, 16, 25, 20, 16, 30, 30,
-            17, 19, 20, 17, 22, 30,
+            16, 18, FF, 16, 25, F3, 16, 30, B3,
+            17, 19, F3, 17, 22, B3,
             18, 71, 40, 18, 49, 50, 18, 105, 60,
-            19, 9, 10, 19, 14, 20, 19, 17, 30,
+            19, 9, FF, 19, 14, F3, 19, 17, B3,
 
     };
 
     private static final int[] gripValuesMetowood = {
- 1, 1, 10, 1, 2, 20, 1, 2, 30, 1, 24, 40, 1, 16, 50, 1, 34, 60,
- 2, 3, 10, 2, 18, 20, 2, 24, 30,
- 3, 13, 20, 3, 15, 30,
+ 1, 1, FF, 1, 2, F3, 1, 2, B3, 1, 24, 40, 1, 16, 50, 1, 34, 60,
+ 2, 3, FF, 2, 18, F3, 2, 24, B3,
+ 3, 13, F3, 3, 15, B3,
  4, 39, 40, 4, 21, 50, 4, 59, 60,
- 5, 11, 20, 5, 13, 30,
- 6, 8, 20, 6, 10, 30,
- 7, 10, 10, 7, 15, 20, 7, 18, 30,
- 8, 19, 20, 8, 22, 30,
- 9, 15, 10, 9, 21, 20, 9, 23, 30,
- 10, 20, 10, 10, 25, 20, 10, 29, 30,
+ 5, 11, F3, 5, 13, B3,
+ 6, 8, F3, 6, 10, B3,
+ 7, 10, FF, 7, 15, F3, 7, 18, B3,
+ 8, 19, F3, 8, 22, B3,
+ 9, 15, FF, 9, 21, F3, 9, 23, B3,
+ 10, 20, FF, 10, 25, F3, 10, 29, B3,
+
+    };
+
+    private static final int[] gripValuesMetoWoodDeluxe = {
+            1, JUG, FF, 1, JUG3F, F3, 1, JUG3B, B3,
+            2, 15, FF, 2,45 , F3, 2,55 , B3,
+            3,10, FF, 3,33 , F3, 3,43 , B3,
+
+            4, MM30, FF, 4, MM30F3, F3, 4, MM30B3, B3,
+            5, _MM32F3, F3, 5, _MM32B3, B3, // three finger pocktes thus -1 reduction
+
+            6, _MM35F2, F2, 6, _MM35M2 , M2, 6, _MM35B2, B2, // probably same dimension as hold 7
+            7, MM32, FFS, 7, MM32F3, F3S, 7, MM32B3, B3S, // same dimension as hold 4 but wanted to make this easier
+
+            8, MM13, FF, 8, MM13F3, F3, 8, MM13B3, B3,
+            9, _MM19F3, F3, 9, _MM19B3, B3, // three finger pocket thus -5 reduction
+
+            10, _MM20F2, F2, 10, _MM20M2, M2, 10, _MM20B2, B2,
+            11, MM19, FFS, 11, MM19F3, F3S, 11, MM19B3, B3S,
+
+            12, MM10, FF, 12, MM10F3, F3, 12, MM10B3, B3, // I guessed 10mm depth
+            13, _MM15F3 , F3, 13, _MM15B3, B3,
+
+            14, _MM15F2, F2, 14, _MM15M2, M2, 14, _MM15B2, B2,
+            15, MM15, FFS, 15, MM15F3, F3S, 15, MM15B3, B3S, // I guessed 15mm depth
+
 
     };
 
     private static final int[] gripValuesDrcc = {
- 1, 1, 10, 1, 2, 20, 1, 2, 30, 1, 25, 40, 1, 15, 50, 1, 49, 60,
- 2, 2, 10, 2, 3, 20, 2, 4, 30,
- 3, 3, 10, 3, 11, 20, 3, 13, 30,
- 4, 2, 10, 4, 3, 20, 4, 3, 30, 4, 29, 40, 4, 19, 50, 4, 69, 60,
- 5, 8, 10, 5, 13, 20, 5, 15, 30, 5, 45, 40, 5, 25, 50, 5, 79, 60,
- 6, 21, 10, 6, 45, 20, 6, 55, 30,
+ 1, 1, FF, 1, 2, F3, 1, 2, B3, 1, 25, 40, 1, 15, 50, 1, 49, 60,
+ 2, 2, FF, 2, 3, F3, 2, 4, B3,
+ 3, 3, FF, 3, 11, F3, 3, 13, B3,
+ 4, 2, FF, 4, 3, F3, 4, 3, B3, 4, 29, 40, 4, 19, 50, 4, 69, 60,
+ 5, 8, FF, 5, 13, F3, 5, 15, B3, 5, 45, 40, 5, 25, 50, 5, 79, 60,
+ 6, 21, FF, 6, 45, F3, 6, 55, B3,
             // 7
- 8, 13, 10, 8, 19, 20, 8, 23, 30,
-            9, 20, 10, 9, 50, 20, 9, 60, 30,
- 10, 18, 10, 10, 45, 20, 10, 55, 30,
+ 8, 13, FF, 8, 19, F3, 8, 23, B3,
+            9, 20, FF, 9, 50, F3, 9, 60, B3,
+ 10, 18, 10, 10, 45, F3, 10, 55, B3,
 
+    };
+
+    private static final int[] gripValuesSolution = {
+            1,1,FF, 1,2,F3, 1,3,B3,
+            2,25,FF, 2,35,F3, 2,39,B3,
+            3,55,FF, 3,75,F3, 3,85,B3,
+            4,39,F2, 4,30,M2, 4,55,B2,
+            5,150,IN, 5,80,MI, 5,200,RI, 5,250,LI,
+            6,15,FF, 6,28,F3, 6,32,B3,
+            7,38,F2, 7,49,M2, 7,70,B2,
+            8,23,F2S, 8,18,M2S, 8,37,B2S,
+            9,MM28,FF, 9,MM28F3,F3, 9,MM28B3,B3,
+            10,21,F2, 10,16,M2, 10,33,B2,
+            11,MM18,FF, 11,MM18F3,F3, 11,MM18B3,B3,
+            12,MM7,FF, 12,MM7F3,F3, 12,MM7B3,B3,
+            13,110,IN, 13,65,MI, 13,130,RI, 13,175,LI,
+            14,MM10,FF, 14,MM10F3,F3, 14,MM10B3,B3,
+            15,MM22,FFS, 15,MM22F3,F3S, 15,MM22B3,B3S
+
+    };
+
+    private static final int[] gripValuesEdge = {
+            1,30,FF, 1,45,F3, 1,51,B3,
+            2,18,FF, 2,28,F3, 2,32,B3,
+            3,8,FF, 3,18,F3, 3,23,B3,
+            4,MM35,FF, 4,MM35F3,F3, 4,MM35B3,B3, 4,MM35F2,F2, 4,MM35M2,M2, 4,MM35B2,B2,
+            5,MM25,FF, 5,MM25F3,F3, 5,MM25B3,B3, 5,MM25F2,F2, 5,MM25M2,M2, 5,MM25B2,B2,
+            6,MM20,FF, 6,MM20F3,F3, 6,MM20B3,B3, 6,MM20F2,F2, 6,MM20M2,M2, 6,MM20B2,B2,
+            7,MM18,FF, 7,MM18F3,F3, 7,MM18B3,B3,
+            8,MM16,FF, 8,MM16F3,F3, 8,MM16B3,B3,
+            9,MM14,FF, 9,MM14F3,F3, 9,MM14B3,B3,
+            10,MM12,FF, 10,MM12F3,F3, 10,MM12B3,B3,
+            11,MM10,FF, 11,MM10F3,F3, 11,MM10B3,B3,
+            12,MM8,FF, 12,MM8F3,F3, 12,MM8B3,B3
+    };
+
+    private static final int[] gripValuesMatrix = {
+            1,12,FF, 1,33,F3, 1,39,B3,
+            2,MM40,FF, 2,MM40F3+2,F3, 2,MM40B3+3,B3, // flat edge
+
+            3,MM10,FF, 3,MM10F3,F3, 3,MM10B3,B3,
+            4,MM15,FF, 4,MM15F3,F3, 4,MM15B3,B3,
+            5,MM35,FFS, 5,MM35F3,F3S, 5,MM35B3,B3S,
+
+            6,MM40,FF, 6,MM40F3,F3, 6,MM40B3,B3,
+            7,_MM45F2,F2, 7,_MM45M2,M2, 7,_MM45B2,B2,
+            8,_MM28F3,F3, 8,_MM28B3,B3,
+            9,MM25,FFS, 9,MM25,F3S, 9,MM25B3,B3S,
+
+            10,MM18,FF, 10,MM18F3,F3, 10,MM18B3,B3,
+            11,_MM25F2,F2, 11,_MM25M2,M2, 11,_MM25B2,B2,
+            12,105,IN, 12,95,MI, 12,185,RI, 12,235,LI,
+            13,_MM20F2,F2, 13,_MM20M2,M2, 13,_MM20B2,B2,
+            14,MM22,FFS, 14,MM22F3,F3S, 14,MM22B3,B3S,
+    };
+
+    private static final int[] gripValuesCore = {
+            1,3,FF, 1,7,F3, 1,9,B3,
+            2,3,FF, 2,7,F3, 2,9,B3,
+            3,3,FFS, 3,7,F3S, 3,9,B3S,
+
+            4,3,FF, 4,7,F3, 4,9,B3,
+            5,3,FF, 5,7,F3, 5,9,B3,
+            6,3,FFS, 6,7,F3S, 6,9,B3S,
+
+            7,3,FF, 7,7,F3, 7,9,B3,
+            8,3,FF, 8,7,F3, 8,9,B3,
+            9,3,FFS, 9,7,F3S, 9,9,B3S,
+
+            10,3,FF, 10,7,F3, 10,9,B3,
+            11,3,FF, 11,7,F3, 11,9,B3,
+            12,3,FFS, 12,7,F3S, 12,9,B3S,
+
+            13,3,FF, 13,7,F3, 13,9,B3,
+            14,27,F2, 14,24,M2, 14,45,B2,
+            15,7,F3, 15,9,B3,
+            16,3,FFS, 16,7,F3S, 16,9,B3S,
     };
     
 private static final int[] gripValuesGrillto = {
@@ -324,39 +464,7 @@ private static final int[] gripValuesSoillboost = {
         16,14,FF, 16,23,F3, 16,27,B3,
          17,55,F2, 17,45,M2, 17,78,B2
 };
-private static final int[] gripValuesSolution = {
-        1,1,FF, 1,2,F3, 1,3,B3,
-        2,25,FF, 2,35,F3, 2,39,B3,
-        3,55,FF, 3,75,F3, 3,85,B3,
-            4,39,F2, 4,30,M2, 4,55,B2,
-        5,150,IN, 5,80,MI, 5,200,RI, 5,250,LI,
-        6,15,FF, 6,28,F3, 6,32,B3,
-            7,38,F2, 7,49,M2, 7,70,B2,
-            8,23,F2S, 8,18,M2S, 8,37,B2S,
-        9,6,FF, 9,8,F3, 9,9,B3,
-            10,21,F2, 10,16,M2, 10,33,B2,
-        11,10,FF, 11,15,F3, 11,18,B3,
-        12,65,FF, 12,85,F3, 12,95,B3,
-            13,110,IN, 13,65,MI, 13,130,RI, 13,175,LI,
-        14,20,FF, 14,27,F3, 14,30,B3,
-        15,8,FFS, 15,13,F3S, 15,16,B3S
 
-};
-
-  private static final int[] gripValuesEdge = {
-          1,30,FF, 1,45,F3, 1,51,B3,
-          2,18,FF, 2,28,F3, 2,32,B3,
-          3,8,FF, 3,18,F3, 3,23,B3,
-          4,MM35,FF, 4,MM35F3,F3, 4,MM35B3,B3, 4,MM35F2,F2, 4,MM35M2,M2, 4,MM35B2,B2,
-          5,MM25,FF, 5,MM25F3,F3, 5,MM25B3,B3, 5,MM25F2,F2, 5,MM25M2,M2, 5,MM25B2,B2,
-          6,MM20,FF, 6,MM20F3,F3, 6,MM20B3,B3, 6,MM20F2,F2, 6,MM20M2,M2, 6,MM20B2,B2,
-          7,MM18,FF, 7,MM18F3,F3, 7,MM18B3,B3,
-          8,MM16,FF, 8,MM16F3,F3, 8,MM16B3,B3,
-          9,MM14,FF, 9,MM14F3,F3, 9,MM14B3,B3,
-          10,MM12,FF, 10,MM12F3,F3, 10,MM12B3,B3,
-          11,MM10,FF, 11,MM10F3,F3, 11,MM10B3,B3,
-          12,MM8,FF, 12,MM8F3,F3, 12,MM8B3,B3
-  };
 
 
     private static final int[] bm1000Coordinates = {
@@ -419,6 +527,20 @@ private static final int[] gripValuesSolution = {
  9 , 139 , 102 , 139 , 102 ,
 
         };
+
+    private static final int[] tensionProCoordinates = {
+            1 , 8 , 7,273 , 7,
+            2 , 72, 8,205, 8,
+            3 , 8, 31, 273, 31,
+            4 , 72, 30,205, 30,
+            5 , 8, 65,205 , 65,
+            6 , 51 , 65,251 , 65,
+            7 , 85, 65, 285, 65,
+            8 , 137, 65, 137, 65,
+            9 , 8, 104, 204 , 104,
+            10, 72, 104, 272, 104,
+            11, 137, 105, 137,105
+    };
 
     private static final int[] zlagCoordinates = {
  1 , 4 , 24 , 278 , 24 ,
@@ -553,6 +675,25 @@ private static final int[] gripValuesSolution = {
 
         };
 
+    private static final int[] metoWoodDeluxeCoordinates = {
+            1 , -3 , 5  , 283 , 5 ,
+            2 , 53 , 9 , 227 , 9 ,
+            3 , 111 , 9 , 169 , 9 ,
+            4 , 4 , 47 , 271 , 47 ,
+            5 , 53 , 47 , 224 , 47 ,
+            6 , 93 , 47 , 189 , 47 ,
+            7 , 140 , 47 , 140 , 47 ,
+            8 , 12 , 80 , 268 , 80 ,
+            9 , 61 , 80 , 219 , 80 ,
+            10 , 95 , 80 , 183 , 80 ,
+            11 , 140 , 80 , 140 , 80 ,
+            12 , 16 , 113 , 259 , 113 ,
+            13 , 63 , 113 , 215 , 113 ,
+            14 , 97 , 113 , 181 , 113 ,
+            15 , 139 , 113 , 139 , 113 ,
+
+    };
+
     private static final int[] drccCoordinates = {
  1 , 20 , 13 , 257 , 13 ,
  2 , 70 , 8 , 206 , 8 ,
@@ -601,7 +742,44 @@ private static final int[] gripValuesSolution = {
  12 , 101 , 109 , 281 , 109 ,
 
     };
+    private static final int[] matrixCoordinates = {
+            1 , 9 , 19 , 271 , 19 ,
+            2 , 89 , 10 , 200 , 10 ,
+            3 , 1 , 49 , 285 , 49 ,
+            4 , 76 , 50 , 213 , 50 ,
+            5 , 147 , 50 , 147 , 50 ,
+            6 , 7 , 73 , 278 , 73 ,
+            7 , 45 , 73 , 242 , 73 ,
+            8 , 79 , 73 , 208 , 73 ,
+            9 , 147 , 75 , 147 , 75 ,
+            10 , 7 , 99 , 277 , 97 ,
+            11 , 42 , 99 , 242 , 97 ,
+            12 , 66 , 99 , 221 , 97 ,
+            13 , 89 , 99 , 200 , 97 ,
+            14 , 147 , 99 , 147 , 97 ,
 
+    };
+
+    private static final int[] coreCoordinates = {
+            1 , 9 , 1 , 273 , 1 ,
+            2 , 81 , 17 , 201 , 17 ,
+            3 , 142 , 4 , 142 , 4 ,
+            4 , -12 ,33  , 293 , 33 ,
+            5 , 60 , 33 , 225 , 33 ,
+            6 , 142 , 33 , 142 , 33 ,
+            7 , 31 , 61 , 257 , 61 ,
+            8 , 71 , 63 , 217 , 63 ,
+            9 , 143 , 55 , 143 , 55 ,
+            10 , -8 , 79 , 295 , 79 ,
+            11 , 34 , 87 , 252 , 87 ,
+            12 , 143 , 77 , 143 , 77 ,
+            13 , 3 , 106 , 283 , 106 ,
+            14 , 50 , 115 , 233 , 115 ,
+            15 , 83 , 100 , 203 , 100 ,
+            16 , 143 , 96 , 143 , 96 ,
+
+
+    };
     private static final int[] soillboostCoordinates = {
  1 , 10 , 0 , 273 , 0 ,
  2 , 56 , 0 , 227 , 0 ,
@@ -674,54 +852,43 @@ private static final int[] gripValuesSolution = {
     };
 
     private static int[][] hangboardsGripValues = { gripValuesBM1000, gripValuesBM2000, gripValuesTrans,
-            gripValuesTension, gripValuesZlag, gripValuesMoonhard, gripValuesMooneasy, gripValuesMeto,
-            gripValuesRockprodigy, gripValuesProblemsolver, gripValuesMetocontact, gripValuesMetowood,
-            gripValuesDrcc, gripValuesSolution, gripValuesEdge, gripValuesSoillboost, gripValuesUltimate,
-            gripValuesGrill, gripValuesGrillto
+            gripValuesTension,gripValuesTensionPro, gripValuesZlag, gripValuesMoonhard, gripValuesMooneasy, gripValuesMeto,
+            gripValuesRockprodigy, gripValuesProblemsolver, gripValuesMetocontact, gripValuesMetowood, gripValuesMetoWoodDeluxe,
+            gripValuesDrcc, gripValuesSolution, gripValuesEdge, gripValuesMatrix ,gripValuesCore,
+            gripValuesSoillboost, gripValuesUltimate, gripValuesGrill, gripValuesGrillto,
             
     };
     
     private static int[][] hangboardsHoldCoordinates = {bm1000Coordinates,bm2000Coordinates,transCoordinates,
-            tensionCoordinates, zlagCoordinates, moonhardCoordinates, mooneasyCoordinates, metoCoordinates,
+            tensionCoordinates, tensionProCoordinates, zlagCoordinates, moonhardCoordinates, mooneasyCoordinates, metoCoordinates,
             rockprodigyCoordinates, problemsolverCoordinates,
-            metocontactCoordinates, metowoodCoordinates, drccCoordinates, solutionCoordinates, edgeCoordinates,
+            metocontactCoordinates, metowoodCoordinates, metoWoodDeluxeCoordinates, drccCoordinates,
+            solutionCoordinates, edgeCoordinates, matrixCoordinates, coreCoordinates,
             soillboostCoordinates, ultimateCoordinates, grillCoordinates, grilltoCoordinates
     };
 
     private static int[] benchmark_resources = {R.array.bm1000_benchmarks, R.array.bm2000_benchmarks,
-            R.array.trans_benchmarks, R.array.tension_benchmarks,R.array.zlag_benchmarks,
+            R.array.trans_benchmarks, R.array.tension_benchmarks,R.array.tension_pro_benchmarks, R.array.zlag_benchmarks,
             R.array.moonhard_benchmarks, R.array.mooneasy_benchmarks, R.array.meto_benchmarks,
             R.array.rockprodigy_benchmarks, R.array.problemsolver_benchmarks,
-            R.array.meto_contact_benchmarks, R.array.meto_wood_benchmarks, R.array.drcc_benchmarks,
-            R.array.solution_benchmarks, R.array.edge_benchmarks, R.array.soillboost_benchmarks,
+            R.array.meto_contact_benchmarks, R.array.meto_wood_benchmarks, R.array.meto_wood_deluxe_benchmarks, R.array.drcc_benchmarks,
+            R.array.solution_benchmarks, R.array.edge_benchmarks, R.array.matrix_benchmarks, R.array.core_benchmarks, R.array.soillboost_benchmarks,
             R.array.ultimate_benchmarks, R.array.grill_benchmarks, R.array.grillto_benchmarks
     };
 
     private static int[] image_resources = {R.drawable.lauta1011, R.drawable.lauta2002, R.drawable.trans,
-            R.drawable.tension, R.drawable.zlag, R.drawable.moonhard, R.drawable.mooneasy, R.drawable.meto,
+            R.drawable.tension, R.drawable.tension_pro, R.drawable.zlag, R.drawable.moonhard, R.drawable.mooneasy, R.drawable.meto,
             R.drawable.rockprodigy, R.drawable.problemsolver, R.drawable.meto_contact, R.drawable.meto_wood,
-            R.drawable.drcc,R.drawable.solution, R.drawable.edge, R.drawable.soillboost, R.drawable.ultimate,
+            R.drawable.meto_wood_deluxe,
+            R.drawable.drcc,R.drawable.solution, R.drawable.edge, R.drawable.matrix,
+            R.drawable.core, R.drawable.soillboost, R.drawable.ultimate,
             R.drawable.grill, R.drawable.grillto};
-/*
 
-    private static int[] coordinate_resources = {R.array.bm1000_coordinates, R.array.bm2000_coordinates,
-    R.array.trans_coordinates, R.array.tension_coordinates, R.array.zlag_coordinates, R.array.moonhard_coordinates,
-            R.array.mooneasy_coordinates, R.array.meto_coordinates, R.array.rockprodigy_coordinates,
-            R.array.problemsolver_coordinates, R.array.meto_contact_coordinates, R.array.meto_wood_coordinates,
-            R.array.drcc_coordinates, R.array.solution_coordinates, R.array.edge_coordinates, R.array.soillboost_coordinates,
-            R.array.ultimate_coordinates, R.array.grill_coordinates, R.array.grillto_coordinates};
 
-    private static int[] hold_resources = {R.array.grip_values_bm1000, R.array.grip_values_bm2000,
-            R.array.grip_values_trans, R.array.grip_values_tension, R.array.grip_values_zlag, R.array.grip_values_moonhard,
-            R.array.grip_values_mooneasy, R.array.grip_values_meto, R.array.grip_values_rockprodigy,
-            R.array.grip_values_problemsolver, R.array.grip_values_meto_contact, R.array.grip_values_meto_wood,
-            R.array.grip_values_drcc, R.array.grip_values_solution, R.array.grip_values_edge, R.array.grip_values_soillboost,
-            R.array.grip_values_ultimate, R.array.grip_values_grill, R.array.grip_values_grillto};
-*/
-
-    private static String[] hangboardStrings = {"BM 1000", "BM 2000", "Transgression","Tension",
+    private static String[] hangboardStrings = {"BM 1000", "BM 2000", "Transgression","Tension","Tension Pro",
             "Zlagboard","Moonboard hard","Moonboard easy","Metolius","Rock Prodigy","problemsolver","Meto. Contact",
-            "Meto. Wood","DRCC","Solution","Edge", "So iLL Boost","Ultimate", "Grill", "Grillto"};
+            "Meto. Wood", "Meto. Deluxe","DRCC","Solution","Edge","Matrix","Core",
+            "So iLL Boost","Ultimate", "Grill", "Grillto"};
 
     public static int getHoldDifficulty(Hold hold, String hbName) {
         int position = getHangboardPosition(hbName);
@@ -768,9 +935,9 @@ private static final int[] gripValuesSolution = {
     }
 
     // All supported Hangboards
-    public enum hangboardName {BM1000, BM2000, TRANS, TENSION, ZLAG, MOONHARD, MOONEASY, METO,
-        ROCKPRODIGY, PROBLEMSOLVER, METO_CONTACT, METO_WOOD, DRCC, SOLUTION, EDGE, SOILLBOOST, ULTIMATE,
-            GRILL, GRILLTO}
+    public enum hangboardName {BM1000, BM2000, TRANS, TENSION, TENSIONPRO, ZLAG, MOONHARD, MOONEASY, METO,
+        ROCKPRODIGY, PROBLEMSOLVER, METO_CONTACT, METO_WOOD, METO_WOOD_DELUXE, DRCC, SOLUTION, EDGE,
+        MATRIX,CORE, SOILLBOOST, ULTIMATE, GRILL, GRILLTO}
 /*
 
             public static void TESTallHangboardResourcesMethods() {

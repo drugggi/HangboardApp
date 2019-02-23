@@ -124,7 +124,7 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
         viewHolder.benchmarkTitleTextView.setText(benchmarkTitle.get(position));
         viewHolder.benchmarkGradeImageView.setImageResource(benchmarkGradeImageResources[position]);
 
-        Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
+        Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.fade_in500ms);
         convertView.startAnimation(animation);
 
 /*
@@ -339,15 +339,23 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
 
         for (int i = 0; i < allBenchmarks.length; i++) {
 
+            //String title = allBenchmarks[i];
             benchmarkTitle.add(allBenchmarks[i]);
             i++;
 
-            benchmarkDescriptions.add(allBenchmarks[i]);
+            String desc = allBenchmarks[i];
+            //benchmarkDescriptions.add(allBenchmarks[i]);
             i++;
 
             TimeControls tempControls = new TimeControls();
             tempControls.setTimeControlsFromString(allBenchmarks[i]);
             benchmarkTimeControls.add(tempControls);
+
+            if (tempControls.isRepeaters() ) {
+                benchmarkDescriptions.add(desc+"  (repeaters)");
+            } else {
+                benchmarkDescriptions.add(desc+"  (single hangs)");
+            }
 
             i++;
             ArrayList<Hold> tempWorkoutHolds = new ArrayList<>();
@@ -442,10 +450,12 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
 
 
         for (int i = 0; i < testAllBenchmarks.length; i++) {
-            testBenchmarkDescriptions.add(testAllBenchmarks[i]);
-
+            // i++; // skip Title
+            testBenchmarkDescriptions.add(testAllBenchmarks[i]+"\n" + testAllBenchmarks[i+1]);
+            i++;
             i++;
             TimeControls tempControls = new TimeControls();
+            // Log.d("timecontrols",testAllBenchmarks[i]);
             tempControls.setTimeControlsFromString(testAllBenchmarks[i]);
             testBenchmarkTimeControls.add(tempControls);
 

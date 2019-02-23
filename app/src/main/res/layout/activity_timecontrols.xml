@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.finn.laakso.hangboardapp.TimeControlsActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_bar_height"
+        android:background="@color/slate"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="@color/ceramic"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            <!--
+app:layout_scrollFlags="scroll|exitUntilCollapsed"
+ -->
+
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView15"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="["
+                        android:textColor="@color/ceramic"
+                        android:textSize="100sp" />
+
+                    <TextView
+                        android:id="@+id/mHangsTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="6"
+                        android:textColor="@color/coffee"
+                        android:textSize="80sp" />
+
+                    <TextView
+                        android:id="@+id/textView16"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="*"
+                        android:textColor="@color/coffee"
+                        android:textSize="50sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/mTimeONTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="bottom"
+                            android:text="7on"
+                            android:textColor="@android:color/holo_red_dark"
+                            android:textSize="45sp" />
+
+                        <TextView
+                            android:id="@+id/mTimeOFFTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="top"
+                            android:text="3off"
+                            android:textColor="@android:color/holo_green_light"
+                            android:textSize="45sp" />
+
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/textView13"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="]"
+                        android:textColor="@color/ceramic"
+                        android:textSize="100sp" />
+
+                    <TextView
+                        android:id="@+id/matrixTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="sans-serif"
+                        android:gravity="center_vertical"
+                        android:text="Matriisi"
+                        android:textColor="@color/ceramic" />
+
+                </LinearLayout>
+            </HorizontalScrollView>
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <include layout="@layout/content_timecontrols" />
+
+</android.support.design.widget.CoordinatorLayout>

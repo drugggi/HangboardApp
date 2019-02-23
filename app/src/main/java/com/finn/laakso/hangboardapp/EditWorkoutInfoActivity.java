@@ -3,6 +3,7 @@ package com.finn.laakso.hangboardapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
@@ -221,9 +222,11 @@ public class EditWorkoutInfoActivity extends AppCompatActivity {
                 String text =workoutHolds.get(2*hold_position).getHoldInfo(workoutHolds.get(2*hold_position+1));
                 text = text.replaceAll("\n",", ");
 
-                String temp = text + "\n" + "Long click to edit hangs.";
-
-                Toast.makeText(EditWorkoutInfoActivity.this,temp,Toast.LENGTH_LONG).show();
+                if ( PreferenceManager.getDefaultSharedPreferences(EditWorkoutInfoActivity.this)
+                        .getBoolean("helpSwitch",true)) {
+                    text = text + "\n" + "Long click to edit hangs.";
+                }
+                Toast.makeText(EditWorkoutInfoActivity.this,text,Toast.LENGTH_LONG).show();
 
             }
         });

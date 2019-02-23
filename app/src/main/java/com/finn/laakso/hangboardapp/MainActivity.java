@@ -4,10 +4,12 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +19,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -45,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
     private Button startWorkoutButton;
     private Button newWorkoutButton;
     private Button settingsButton;
-    private Button workoutHistoryButton;
 
     private CheckBox repeatersBox;
     private TextView durationTextView;
@@ -91,7 +94,38 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId() ) {
             case R.id.action_about:
-                Toast.makeText(this,"about",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"about and grip types sort",Toast.LENGTH_SHORT).show();
+
+                everyBoard.clearWorkoutHoldList();
+                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.FOUR_FINGER);
+                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.THREE_FRONT);
+                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.THREE_BACK);
+                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.TWO_FRONT);
+                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.TWO_MIDDLE);
+                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.TWO_BACK);
+
+
+              /*  everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.INDEX_FINGER);
+                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.MIDDLE_FINGER);*/
+                everyBoard.setDifficultyLimits(1,100);
+
+                everyBoard.sortWorkoutHoldList();
+
+                hangsAdapter.notifyDataSetChanged();
+
+                // This is for testing WorkoutHistoryActivity, with these we can simulate completed workouts
+                // by simply marking current workout as done without going through start workout
+/*                Intent workoutHistoryTestIntent = new Intent(getApplicationContext(), WorkoutHistoryActivity.class);
+
+                // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
+                workoutHistoryTestIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
+                 workoutHistoryTestIntent.putExtra("com.finn.laakso.hangboardapp.BOARDNAME",everyBoard.getHangboardName() );
+               // workoutHistoryTestIntent.putExtra("com.finn.laakso.hangboardapp.BOARDIMAGE",HangboardResources.getHangboardImageResource(viewPager.getCurrentItem()));
+                workoutHistoryTestIntent.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", everyBoard.getCurrentWorkoutHoldList());
+                workoutHistoryTestIntent.putExtra("com.finn.laakso.hangboardapp.DESCRIPTION","selityselitys");
+
+                startActivity(workoutHistoryTestIntent);*/
+
                 break;
             case R.id.action_benchmark:
 
@@ -109,27 +143,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_settings:
                 //Toast.makeText(this,"Settings",Toast.LENGTH_SHORT).show();
 
-                everyBoard.clearWorkoutHoldList();
-              //  everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.FOUR_FINGER);
-               everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.THREE_FRONT);
-                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.THREE_BACK);
-                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.TWO_FRONT);
-                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.TWO_MIDDLE);
+                Intent settingsIntent = new Intent(getApplicationContext(),SettingsActivity.class);
 
-              /*  everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.TWO_BACK);
-                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.INDEX_FINGER);
-                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.MIDDLE_FINGER);*/
-                everyBoard.setDifficultyLimits(20,150);
-
-                everyBoard.sortWorkoutHoldList();
-
-                hangsAdapter.notifyDataSetChanged();
-
-
-                //Intent settingsIntent = new Intent(getApplicationContext(),SettingsActivity.class);
                 //settingsIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS", timeControls.getTimeControlsIntArray() );
-
-                //startActivityForResult(settingsIntent, REQUEST_TIME_CONTROLS);
+                startActivity(settingsIntent);
 
                 break;
             default:
@@ -164,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
         fingerTESTImage.setVisibility(View.VISIBLE);
         fingerTESTImage.setImageResource(R.drawable.finger_template);
 */
+
 
         if (savedInstanceState != null) {
             grade_descr_position = savedInstanceState.getInt("mainactivity_grade_desc_pos");
@@ -270,32 +288,6 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-
-        workoutHistoryButton = (Button) findViewById(R.id.statsButton);
-        workoutHistoryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent workoutHistoryIntent = new Intent(getApplicationContext(), WorkoutHistoryActivity.class);
-
-                startActivityForResult(workoutHistoryIntent, REQUEST_COPY_WORKOUT);
-
-
-                // This is for testing WorkoutHistoryActivity, with these we can simulate completed workouts
-                // by simply marking current workout as done without going through start workout
-/*                Intent workoutHistoryTestIntent = new Intent(getApplicationContext(), WorkoutHistoryActivity.class);
-
-                // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
-                workoutHistoryTestIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
-                 workoutHistoryTestIntent.putExtra("com.finn.laakso.hangboardapp.BOARDNAME",everyBoard.getHangboardName() );
-               // workoutHistoryTestIntent.putExtra("com.finn.laakso.hangboardapp.BOARDIMAGE",HangboardResources.getHangboardImageResource(viewPager.getCurrentItem()));
-                workoutHistoryTestIntent.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", everyBoard.getCurrentWorkoutHoldList());
-                workoutHistoryTestIntent.putExtra("com.finn.laakso.hangboardapp.DESCRIPTION","selityselitys");
-
-                startActivity(workoutHistoryTestIntent);*/
-            }
-        });
-
-
         // Every time a grade is selected from the grade list, Hangboard generates holds and grips
         // to the program based on grade difficulty
         gradesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -305,6 +297,8 @@ public class MainActivity extends AppCompatActivity {
                 Drawable selectColor = gradesListView.getSelector();
                 selectColor.setAlpha(90+position*15);
                 gradesListView.setSelector(selectColor);
+
+                animateFingerImagesToInvisible();
 
                 rightFingerImage.setVisibility(View.INVISIBLE);
                 leftFingerImage.setVisibility(View.INVISIBLE);
@@ -316,13 +310,14 @@ public class MainActivity extends AppCompatActivity {
                 hangsAdapter.setSelectedHangNumber(0);
                 hangsAdapter.notifyDataSetChanged();
 
-/*
                 // THIS IS ONLY FOR TESTING HAND IMAGES POSITION PURPOSES
-                float x;
+                /*float x;
                 if (position % 2 != 0) {
-                x = fingerTESTImage.getX() + position * 3; }
+                    x = fingerTESTImage.getX() + position * 3; }
                 else { x = fingerTESTImage.getX() - position * 3; }
-                fingerImage.setX(x+5);*/
+                fingerTESTImage.setX(x+5);
+                Log.e("FINGER COORD","X:" + fingerTESTImage.getX()/1.5 + "   Y:" + fingerTESTImage.getY()/1.5 );
+                */
             }
         });
 
@@ -374,6 +369,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+
                 int lastPosition = hangsAdapter.getSelectedHangNumber() - 1;
 
                 hangsAdapter.setSelectedHangNumber(position+1);
@@ -382,30 +378,31 @@ public class MainActivity extends AppCompatActivity {
                 newWorkoutButton.setText(randomizeText);
 
                 Hold.grip_type lastGripType = everyBoard.getLeftHandGripType(lastPosition);
-
                 animateHandImagesToPosition(lastGripType, position);
+
 
                 hangsAdapter.notifyDataSetChanged();
 
 
-/*
 
                 // THIS IS ONLY FOR TESTING HAND IMAGES POSITION
-                // REMEMBER RIGHT DEVICE NEXUS S APU 27, AND TO DIVIDE X AND Y BY 1.5
+                // REMEMBER RIGHT DEVICE NEXUS S AP/ 27, AND TO DIVIDE X AND Y BY 1.5
                 // you can compare coord values to values that device puts and figure out relation, its 1.5 on nexus s api 27
                 // REMEMBER ALSO PHONE ORIENTATION. FINGERIMAGE MUST BE DECLARET IN BOTH LANDSCAPE AND PORTRAIT MODE
+ /*
                float y;
                 if (position % 2 != 0) {
                 y = fingerTESTImage.getY() + position*3; }
                 else {y = fingerTESTImage.getY() - position*3; }
                 fingerTESTImage.setY(y+5);
 
-                 Log.d("FINGER COORD","X:" + fingerTESTImage.getX() + "   Y:" + fingerTESTImage.getY() );
-                Log.e("FINGER COORD","X:" + fingerTESTImage.getX()/1.5 + "   Y:" + fingerTESTImage.getY()/1.5 );
                 //rightFingerImage.setVisibility(View.INVISIBLE);
-                // leftFingerImage.setVisibility(View.INVISIBLE);
+                //leftFingerImage.setVisibility(View.INVISIBLE);
 
+                // Log.d("FINGER COORD","X:" + fingerTESTImage.getX() + "   Y:" + fingerTESTImage.getY() );
+                Log.e("FINGER COORD","X:" + fingerTESTImage.getX()/1.5 + "   Y:" + fingerTESTImage.getY()/1.5 );
 */
+
 
             }
         });
@@ -482,7 +479,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent settingsIntent = new Intent(getApplicationContext(),SettingsActivity.class);
+                Intent settingsIntent = new Intent(getApplicationContext(), TimeControlsActivity.class);
                 settingsIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS", timeControls.getTimeControlsIntArray() );
 
                 startActivityForResult(settingsIntent, REQUEST_TIME_CONTROLS);
@@ -523,8 +520,10 @@ public class MainActivity extends AppCompatActivity {
                 durationTextView.setText(durationText);
                 hangsAdapter.notifyDataSetChanged();
 
-                rightFingerImage.setVisibility(View.INVISIBLE);
-                leftFingerImage.setVisibility(View.INVISIBLE);
+                animateFingerImagesToInvisible();
+
+                // rightFingerImage.setVisibility(View.INVISIBLE);
+                // leftFingerImage.setVisibility(View.INVISIBLE);
 
             }
         });
@@ -566,8 +565,11 @@ public class MainActivity extends AppCompatActivity {
                 newWorkoutButton.setText(randomizeText);
 
                 durationTextView.setText(durationText);
-                rightFingerImage.setVisibility(View.INVISIBLE);
-                leftFingerImage.setVisibility(View.INVISIBLE);
+
+                animateFingerImagesToInvisible();
+
+                // rightFingerImage.setVisibility(View.INVISIBLE);
+                // leftFingerImage.setVisibility(View.INVISIBLE);
 
                 hangsAdapter.notifyDataSetChanged();
 
@@ -613,7 +615,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             if (requestCode == REQUEST_TIME_CONTROLS) {
                 if (resultCode == Activity.RESULT_OK ) {
                     int[] i = data.getIntArrayExtra("com.finn.laakso.hangboardapp.SETTINGS");
@@ -632,12 +634,17 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     //Disable the slider and check box, so that those are accidentally changed
-                    Toast.makeText(MainActivity.this, "Settings applied, pre made time controls disabled ", Toast.LENGTH_SHORT).show();
+                    //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+                     if (prefs.getBoolean("helpSwitch",true) ) {
+                         Toast.makeText(MainActivity.this, "Settings applied, pre made time controls disabled ", Toast.LENGTH_SHORT).show();
+                     }
                     repeatersBox.setVisibility(View.INVISIBLE);
                     durationSeekBar.setVisibility(View.INVISIBLE);
                 }
                 else {
-                    Toast.makeText(MainActivity.this, "Settings not applied, pre made time controls enabled", Toast.LENGTH_SHORT).show();
+                    if (prefs.getBoolean("helpSwitch",true) ) {
+                        Toast.makeText(MainActivity.this, "Settings not applied, pre made time controls enabled", Toast.LENGTH_SHORT).show();
+                    }
                     repeatersBox.setVisibility(View.VISIBLE);
                     durationSeekBar.setVisibility(View.VISIBLE);
                 }
@@ -648,8 +655,9 @@ public class MainActivity extends AppCompatActivity {
             // If user has copied workout from workout history database
             if (requestCode == REQUEST_COPY_WORKOUT) {
                 if (resultCode == Activity.RESULT_OK) {
-                    Toast.makeText(MainActivity.this, "Workout copied", Toast.LENGTH_SHORT).show();
-
+                    if (prefs.getBoolean("helpSwitch",true) ) {
+                        Toast.makeText(MainActivity.this, "Workout copied", Toast.LENGTH_SHORT).show();
+                    }
                     int[] timeSettings = data.getIntArrayExtra("com.finn.laakso.hangboardapp.SETTINGS");
                     ArrayList<Hold> newHolds = data.getParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS");
                     String hbname = data.getStringExtra("com.finn.laakso.hangboardapp.BOARDNAME");
@@ -682,7 +690,10 @@ public class MainActivity extends AppCompatActivity {
         // If user has copied workout from workout history database
         if (requestCode == REQUEST_COPY_BENCHMARK) {
             if (resultCode == Activity.RESULT_OK) {
-                Toast.makeText(MainActivity.this, "Benchmark copied", Toast.LENGTH_SHORT).show();
+                if (prefs.getBoolean("helpSwitch",true) ) {
+                    Toast.makeText(MainActivity.this, "Pre made workout copied", Toast.LENGTH_SHORT).show();
+                }
+                Hold.grip_type oldGripType = everyBoard.getLeftHandGripType(hangsAdapter.getSelectedHangNumber() );
 
                 int[] timeSettings = data.getIntArrayExtra("com.finn.laakso.hangboardapp.SETTINGS");
                 ArrayList<Hold> newHolds = data.getParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS");
@@ -701,7 +712,11 @@ public class MainActivity extends AppCompatActivity {
                 everyBoard.setNewWorkoutHolds(newHolds);
 
                 hangsAdapter = new HangListAdapter(this, everyBoard.getCurrentWorkoutHoldList());
+                hangsAdapter.setSelectedHangNumber(0);
+
                 holdsListView.setAdapter(hangsAdapter);
+
+                animateHandImagesToPosition(oldGripType,hangsAdapter.getSelectedHangNumber() );
 
                 repeatersBox.setVisibility(View.INVISIBLE);
                 durationSeekBar.setVisibility(View.INVISIBLE);
@@ -712,23 +727,39 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-
             String durationText = "Duration: " + timeControls.getTotalTime() / 60 + "min";
             durationTextView.setText(durationText);
 
     }
 
-    public void animateHandImagesToPosition(Hold.grip_type fromGripType, int newPosition) {
+    private void animateHandImagesToPosition(Hold.grip_type fromGripType, int newPosition) {
 
-        // SECURITY CHECK ON THESE!!
-        rightFingerImage.setVisibility(View.VISIBLE);
-        leftFingerImage.setVisibility(View.VISIBLE);
+        ImageView imageView = (ImageView) findViewById(R.id.image_view);
 
+        if (leftFingerImage.getVisibility() == View.INVISIBLE || rightFingerImage.getVisibility() == View.INVISIBLE) {
+
+            Animation leftFingerFadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in500ms);
+            Animation rightFingerFadeIn = AnimationUtils.loadAnimation(this,R.anim.fade_in500ms);
+            leftFingerFadeIn.reset();
+            rightFingerFadeIn.reset();
+            ImageView leftAnim = (ImageView) findViewById(R.id.leftFingerImageView);
+            ImageView rightAnim = (ImageView) findViewById(R.id.rightFingerImageView);
+            leftAnim.clearAnimation();
+            rightAnim.clearAnimation();
+            leftAnim.startAnimation(leftFingerFadeIn);
+            rightAnim.startAnimation(rightFingerFadeIn);
+
+            leftFingerImage.setVisibility(View.VISIBLE);
+            rightFingerImage.setVisibility(View.VISIBLE);
+
+            leftFingerImage.setY(leftFingerImage.getY() + 50);
+            rightFingerImage.setY(rightFingerImage.getY() + 50);
+
+        }
 
         leftFingerImage.setImageResource(everyBoard.getLeftFingerImage(newPosition));
         rightFingerImage.setImageResource(everyBoard.getRightFingerImage(newPosition));
 
-        ImageView imageView = (ImageView) findViewById(R.id.image_view);
         // Hopefully this multiplier works in every android device
         Float multiplier_width = imageView.getWidth() / 350F;
         Float multiplier_height = imageView.getHeight() / 150F;
@@ -776,6 +807,28 @@ public class MainActivity extends AppCompatActivity {
         leftHandAnimation.start();
 
 
+
+    }
+
+    private void animateFingerImagesToInvisible() {
+
+        if (leftFingerImage.getVisibility() == View.VISIBLE ||rightFingerImage.getVisibility() == View.VISIBLE) {
+
+            Animation leftFingerFadeIn = AnimationUtils.loadAnimation(this, R.anim.hide_fingerimages);
+            Animation rightFingerFadeIn = AnimationUtils.loadAnimation(this,R.anim.hide_fingerimages);
+            leftFingerFadeIn.reset();
+            rightFingerFadeIn.reset();
+            ImageView leftAnim = (ImageView) findViewById(R.id.leftFingerImageView);
+            ImageView rightAnim = (ImageView) findViewById(R.id.rightFingerImageView);
+            leftAnim.clearAnimation();
+            rightAnim.clearAnimation();
+            leftAnim.startAnimation(leftFingerFadeIn);
+            rightAnim.startAnimation(rightFingerFadeIn);
+
+            leftFingerImage.setVisibility(View.INVISIBLE);
+            rightFingerImage.setVisibility(View.INVISIBLE);
+
+        }
 
     }
 

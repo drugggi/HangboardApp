@@ -5,9 +5,12 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -130,26 +133,31 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
 
         Toast.makeText(this,"DB HANDLER DELETEALL ENABLED",Toast.LENGTH_SHORT).show();
-      /*  dbHandler.DELETEALL();
+      dbHandler.DELETEALL();
         Resources res = getResources();
         String[] benchmarkResources;
-        int HBpos = HangboardResources.getHangboardPosition("Edge");
-        Log.d("pos","" + HBpos);
-        benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(HBpos));
-        BenchmarkWorkoutsAdapter.TESTaddBenchmarksIntoDatabase(dbHandler,benchmarkResources,HBpos);
+       // int HBpos = HangboardResources.getHangboardPosition("Edge");
+        //Log.d("pos","" + HBpos);
 
-        
-        benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(4));
-        BenchmarkWorkoutsAdapter.TESTaddBenchmarksIntoDatabase(dbHandler,benchmarkResources,4);
-        benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(0));
+       // benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(HBpos));
+        //BenchmarkWorkoutsAdapter.TESTaddBenchmarksIntoDatabase(dbHandler,benchmarkResources,HBpos);
+
+        benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(8));
+        BenchmarkWorkoutsAdapter.TESTaddBenchmarksIntoDatabase(dbHandler,benchmarkResources,8);
+
+        benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(13));
+        BenchmarkWorkoutsAdapter.TESTaddBenchmarksIntoDatabase(dbHandler,benchmarkResources,13);
+  /*      benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(0));
         BenchmarkWorkoutsAdapter.TESTaddBenchmarksIntoDatabase(dbHandler,benchmarkResources,0);
         benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(1));
-        BenchmarkWorkoutsAdapter.TESTaddBenchmarksIntoDatabase(dbHandler,benchmarkResources,1);
-        benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(4));
-        BenchmarkWorkoutsAdapter.TESTaddBenchmarksIntoDatabase(dbHandler,benchmarkResources,4);*/
-
-
-
+         BenchmarkWorkoutsAdapter.TESTaddBenchmarksIntoDatabase(dbHandler,benchmarkResources,1);
+       benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(3));
+        BenchmarkWorkoutsAdapter.TESTaddBenchmarksIntoDatabase(dbHandler,benchmarkResources,3);
+       benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(4));
+        BenchmarkWorkoutsAdapter.TESTaddBenchmarksIntoDatabase(dbHandler,benchmarkResources,4);
+        benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(5));
+        BenchmarkWorkoutsAdapter.TESTaddBenchmarksIntoDatabase(dbHandler,benchmarkResources,5);
+*/
         // JSONFetcher myWorkoutHistory = new JSONFetcher(dbHandler);
         // myWorkoutHistory.execute();
 
@@ -209,7 +217,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                         menu.add(Menu.NONE, 1, 1, "hide/unhide workout");
                         menu.add(Menu.NONE, 2,2,"edit date");
                         menu.add(Menu.NONE,3,3,"edit hangboard name");
-                        menu.add(Menu.NONE,4,4,"redo workout");
+                        menu.add(Menu.NONE,4,4,"copy workout");
                         menu.add(Menu.NONE, 5, 5, "delete workout");
                     }
                     // Context menu when hidden workout are not shown
@@ -218,7 +226,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                         menu.add(Menu.NONE, 1, 1, "hide workout");
                         menu.add(Menu.NONE, 2,2,"edit date");
                         menu.add(Menu.NONE,3,3,"edit hangboard name");
-                        menu.add(Menu.NONE,4,4,"redo workout");
+                        menu.add(Menu.NONE,4,4,"copy workout");
                               // Can't delete unhidden workouts
                         // menu.add(Menu.NONE, 4, 4, "delete workout");
                     }
@@ -310,10 +318,15 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        //if ( PreferenceManager.getDefaultSharedPreferences(this).getBoolean("helpSwitch",true)) {
+
         // User has updated the completed hangs information lets update that information to database too
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HANGS_COMPLETED) {
-            Toast.makeText(WorkoutHistoryActivity.this,"edits saved",Toast.LENGTH_SHORT).show();
-
+            if (prefs.getBoolean("helpSwitch",true)) {
+                Toast.makeText(WorkoutHistoryActivity.this, "edits saved", Toast.LENGTH_SHORT).show();
+            }
             boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
 
             if (data.hasExtra("com.finn.laakso.hangboardapp.COMPLETEDHANGS")) {
@@ -333,7 +346,9 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         }
 
         else {
-            Toast.makeText(WorkoutHistoryActivity.this,"edits not saved",Toast.LENGTH_SHORT).show();
+            if (prefs.getBoolean("helpSwitch",true)) {
+                Toast.makeText(WorkoutHistoryActivity.this, "edits not saved", Toast.LENGTH_SHORT).show();
+            }
         }
 
     }
