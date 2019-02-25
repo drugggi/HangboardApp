@@ -1219,22 +1219,50 @@
     </string-array>
 
     <string-array name="rockprodigy_benchmarks">
-        <item>no programs</item>
-        <item>Grips &amp; Grades test</item>
-        <item>6,6,7,3,150,360</item>
-        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
-        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+        <item>Four finger fun</item>
+        <item>Progress with four finger grip vol 1</item>
+        <item>12,1,10,0,1,50,1</item>
+        <item>3,3,3,9,9,3,9,9,9,2,2,9,3,5,5,3,2,2,2,5,5,2,5,5</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
+
+        <item>Four finger fun</item>
+        <item>Progress with four finger grip vol 2</item>
+        <item>14,1,10,0,1,50,1</item>
+        <item>7,2,2,7,5,7,7,5,3,4,4,3,2,4,4,2,5,4,4,5,7,7,7,4,4,7,4,4</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
+
+        <item>Four finger fun</item>
+        <item>Progress with four finger grip vol 3</item>
+        <item>12,1,10,0,1,50,1</item>
+        <item>7,6,6,7,4,6,6,4,7,8,8,7,4,8,8,4,6,6,6,8,8,6,8,8</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
+
     </string-array>
 
 
     <string-array name="problemsolver_benchmarks">
-        <item>no programs</item>
-        <item>Grips &amp; Grades test</item>
-        <item>6,6,7,3,150,360</item>
-        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
-        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+        <item>Four finger fun</item>
+        <item>Progress with four finger grip vol 1</item>
+        <item>9,1,10,0,1,50,1</item>
+        <item>1,1,1,2,2,1,2,2,1,5,5,1,2,5,5,2,5,5</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
+
+        <item>Four finger fun</item>
+        <item>Progress with four finger grip vol 2</item>
+        <item>9,1,10,0,1,50,1</item>
+        <item>2,3,3,2,2,9,9,2,5,3,3,5,5,9,9,5,3,3</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
+
+        <item>Four finger fun</item>
+        <item>Progress with four finger grip vol 3</item>
+        <item>9,1,10,0,1,50,1</item>
+        <item>2,7,7,2,5,7,7,5,3,7,7,3,9,7,7,9,7,7</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
+
     </string-array>
 
+
+    <!-- Progress programs for four three and two finger grips -->
     <string-array name="meto_contact_benchmarks">
         <item>no programs</item>
         <item>Grips &amp; Grades test</item>
@@ -1243,7 +1271,7 @@
         <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
     </string-array>
 
-
+<!-- Basic Grips and Grades test -->
     <string-array name="meto_wood_benchmarks">
         <item>no programs</item>
         <item>Grips &amp; Grades test</item>
@@ -1420,6 +1448,7 @@
 
     </string-array>
 
+    <!-- Four finger fun -->
     <string-array name="drcc_benchmarks">
         <item>no programs</item>
         <item>Grips &amp; Grades test</item>
@@ -1428,7 +1457,7 @@
         <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
     </string-array>
 
-
+<!-- Progress four three and two finger workouts -->
     <string-array name="solution_benchmarks">
         <item>no programs</item>
         <item>Grips &amp; Grades test</item>
@@ -1764,6 +1793,7 @@
         <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
     </string-array>
 
+    <!-- Progress with four three and two finger grips -->
     <string-array name="soillboost_benchmarks">
         <item>no programs</item>
         <item>Grips &amp; Grades test</item>
@@ -1804,6 +1834,7 @@
         <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
     </string-array>
 
+    <!-- really basic programs -->
     <string-array name="grill_benchmarks">
         <item>no programs</item>
         <item>Desc</item>
@@ -1812,7 +1843,7 @@
         <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
     </string-array>
 
-
+    <!-- really basic programs -->
     <string-array name="grillto_benchmarks">
         <item>no programs</item>
         <item>Desc</item>

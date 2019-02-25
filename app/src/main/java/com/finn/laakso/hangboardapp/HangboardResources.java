@@ -66,13 +66,13 @@ private static final int[] gripValuesBM1000 = {
          1 , JUG , FF , 1 , JUG3F , F3 , 1 , 2 , B3 ,
          2 , 23 , FF , 2 , 70 , F3 , 2 , 75 , B3 ,  // 35 degrees
          3 , 3 , FF , 3 , 12 , F3 , 3 , 8 , B3 ,    // 20 degrees
-         4 , MM15 , FF , 4 , MM15F3 , F3 ,4 , MM15B3 , B3 ,
+         4 , MM15 , FF , 4 , MM15F3 , F3 ,4 , MM15B3 , B3 , // 15mm
          5 , _MM30F3 , F3 , 5 , _MM30B3 , B3 , 5 , MM30F2 , F2 , 5 , MM30M2 , M2 , // 30mm
          6 , MM40 , FF , 6 , MM40F3 , F3 , 6 , MM40B3 , B3 , 6 , MM40F2 , F2 , 6 , MM40M2 , M2 , 6 ,MM40B2 ,B2 ,
          7 , _MM45F2 , F2 , 7 , _MM45M2 , M2 , 7 , _MM45B2 , B2 , 7 , 100 ,IN , 7 ,80 ,MI , //45-50mm
          8 , _MM40F3 , F3 , 8 , _MM40B3 , B3 ,
          9 , MM50 , FFS , 9 , MM50F3 , F3S , 9 , MM50B3 , B3S , // 50mm
-         10 , MM20 , FF , 10 , MM20F3 , F3 , 10 , MM20B3 , B3 , 10 , 69 , F2 , 10 , 40 , M2 , // 15-20mm
+         10 , MM20 , FF , 10 , MM20F3 , F3 , 10 , MM20B3 , B3 , 10 , 69 , F2 , 10 , 40 , M2 , // 15-20mm, 20mm really sloping edges
          11 ,_MM20F2 ,F2 , 11 , _MM20M2 , M2 , 11 , _MM20B2 , B2 , // ~20mm
          12 , _MM20F3 , F3 , 12 , _MM20B3 , B3 , // 15-20mm
 };
@@ -88,7 +88,7 @@ private static final int[] gripValuesBM1000 = {
             8, _MM40F2, F2, 8, _MM40M2, M2, 8, _MM40B2, B2, 8, 155, IN, 8 , 87, MI, 8 , 200, RI,8 , 250, RI, 8 , 350, LI, // 35mm (48) deeper hole for one finger hangs
             9, _MM30F2, F2, 9, _MM30M2, M2, 9, _MM30B2, B2, // 30mm
             10, MM40, FFS, 10, MM40F3-1, F3S, 10, MM40B3-1, B3S,
-            11, MM17, FF, 11, MM17F3 , F3, 11, MM17B3, B3, // ~15mm
+            11, MM17, FF, 11, MM17F3 , F3, 11, MM17B3, B3, // ~15mm, a bit harder than BM1000 hold 4
             12, 170, IN, 12, 125, MI, 12, 350, RI, 12, 450, LI, // 25mm
             13, _MM20F2, F2, 13, _MM20M2, M2, 13, _MM20B2, B2, // 20mm
             14, 170, F2, 14, 100, M2, 14, 225, B2, // 18mm
@@ -212,11 +212,11 @@ private static final int[] gripValuesBM1000 = {
     private static final int[] gripValuesRockprodigy = {
             2, 4, FF, 2, 13, F3, 2, 17, B3,
             3, 1, FF, 3, 2, F3, 3, 2, B3,
-            4, 14, FF, 4, 22, F3, 4, 25, B3,
-            5, 5, FF, 5, 11, F3, 5, 13, B3,
-            6, 23, FF, 6, 63, F3, 6, 70, B3,
-            7, 11, FF, 7, 16, F3, 7, 19, B3,
-            8, 27, FF, 8, 69, F3, 8, 89, B3,
+            4, 14, FF, 4, 22, F3, 4, 25, B3, // from hold 5 to 4 (1 1/4)" -> 3/4" 32mm -> 19mm
+            5, 5, FF, 5, 11, F3, 5, 13, B3, // This is 1 1/4 = 32mm
+            6, 23, FF, 6, 63, F3, 6, 70, B3, // from hold 7 to 6 7/8" -> 1/4" 22mm -> 7mm
+            7, 11, FF, 7, 16, F3, 7, 19, B3, // this is 7/8" 22mm
+            8, 27, FF, 8, 69, F3, 8, 89, B3, //  6mm?
             9, 2, FF, 9, 5, F3, 9, 7, B3,
             10, 16, F3, 10, 19, B3, 10, 27, 40, 10, 18, 50, 10, 39, 60,
             11, 37, 40, 11, 29, 50, 11, 55, 60,
@@ -228,15 +228,15 @@ private static final int[] gripValuesBM1000 = {
     private static final int[] gripValuesProblemsolver = {
 
  1, 1, FF, 1, 2, F3, 1, 2, B3, 1, 19, 40, 1, 14, 50, 1, 29, 60,
-            2, 10, FF, 2, 17, F3, 2, 19, B3, 2, 39, 40, 2, 27, 50, 2, 67, 60,
-            3, 15, FF, 3, 22, F3, 3, 26, B3,
-            4, 29, FF, 4, 49, F3, 4, 75, B3,
-            5, 11, FF, 5, 18, F3, 5, 20, B3,
-            6, 14, 11, 6, 21, 21, 6, 25, 31,
-            7, 24, FF, 7, 35, F3, 7, 40, B3,
-            8, 35, FF, 8, 79, F3, 8, 99, B3,
-            9, 13, FF, 9, 20, F3, 9, 23, B3,
-            10, 18, 11, 10, 25, 21, 10, 30, 31,
+            2, MM20, FF, 2, MM20F3, F3, 2, MM20B3, B3, 2, MM20F2, F2, 2, MM20M2, M2, 2, MM20B2, B2, // 19mm
+            3, MM14, FF, 3, MM14F3, F3, 3, MM14B3, B3, //13mm
+            4, MM11, FF, 4, MM11F3, F3, 4, MM11B3, B3, // 13mm - 3mm
+            5, MM18, FF, 5, MM18F3, F3, 5, MM18B3, B3, // 17mm
+            6, MM15, FFS, 6, MM15F3, F3S, 6, MM15B3, B3S, // 17mm-3mm
+            7, MM12, FF, 7, MM12F3, F3, 7, MM12B3, B3, // 11mm
+            8, MM9, FF, 8, MM9F3, F3, 8, MM9B3, B3, // 11mm - 3mm
+            9, MM16, FF, 9, MM16F3, F3, 9, MM16B3, B3, // 15mm
+            10, MM13, FFS, 10, MM13F3, F3S, 10, MM13B3, B3S, // 15mm - 3mm
 
     };
 
