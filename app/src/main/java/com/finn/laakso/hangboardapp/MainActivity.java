@@ -97,15 +97,14 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this,"about and grip types sort",Toast.LENGTH_SHORT).show();
 
                 everyBoard.clearWorkoutHoldList();
-                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.FOUR_FINGER);
-/*
+  //              everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.FOUR_FINGER);
+
                 everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.THREE_FRONT);
                 everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.THREE_BACK);
-                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.TWO_FRONT);
-                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.TWO_MIDDLE);
-                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.TWO_BACK);
+//                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.TWO_FRONT);
+  //              everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.TWO_MIDDLE);
+    //            everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.TWO_BACK);
 
-*/
 
               /*  everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.INDEX_FINGER);
                 everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.MIDDLE_FINGER);*/
