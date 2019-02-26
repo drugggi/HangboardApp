@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -737,6 +738,12 @@ public class MainActivity extends AppCompatActivity {
 
         ImageView imageView = (ImageView) findViewById(R.id.image_view);
 
+        // For some reason if phone orientation was changed when on child activity, it causes
+        // imageView to be null. Not understanding this fully yet as of 20.2.2019
+        if (imageView == null) {
+            Log.e("Image View null","return early from animate method");
+            return;
+        }
         if (leftFingerImage.getVisibility() == View.INVISIBLE || rightFingerImage.getVisibility() == View.INVISIBLE) {
 
             Animation leftFingerFadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in500ms);
@@ -762,8 +769,9 @@ public class MainActivity extends AppCompatActivity {
         rightFingerImage.setImageResource(everyBoard.getRightFingerImage(newPosition));
 
         // Hopefully this multiplier works in every android device
-        Float multiplier_width = imageView.getWidth() / 350F;
-        Float multiplier_height = imageView.getHeight() / 150F;
+
+        Float    multiplier_width = imageView.getWidth() / 350F;
+        Float    multiplier_height = imageView.getHeight() / 150F;
 
         Float newLeftHandCoordX = everyBoard.getCoordLefthandX(newPosition) * multiplier_width;
         Float newLeftHandCoordY = everyBoard.getCoordLefthandY(newPosition) * multiplier_height;
