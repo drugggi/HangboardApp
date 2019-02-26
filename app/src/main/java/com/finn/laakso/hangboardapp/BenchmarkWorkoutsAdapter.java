@@ -457,7 +457,6 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
             return new int[] {1,1};
         }
 
-        Log.d("trim test",arrayIntLine.trim());
         String[] parcedCompletedHangs = arrayIntLine.replaceAll("\\s+","").split(",");
 
         int[] completed = new int[parcedCompletedHangs.length];

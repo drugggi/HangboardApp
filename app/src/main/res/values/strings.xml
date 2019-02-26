@@ -211,7 +211,7 @@
         <item>2,2,2,4,4,4,2,10,4,4,4,10,11,11,11,10,10,10,10,11,7,7,7,6</item>
         <item>1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,6,6,6,6</item>
 
-        <item>6C Four finger fun</item>
+        <item>6C Four finger progress</item>
         <item>Master of four finger grip, every combination of four finger grip excluding Jug </item>
         <item>20,1,10,0,1,40,1</item>
         <item>9,6,9,3,9,10,9,4,9,2,6,6,6,3,6,10,6,4,6,2,3,3,3,10,3,4,3,2,10,10,10,4,10,2,4,4,4,2,2,2</item>
@@ -441,31 +441,31 @@
     </string-array>
 
     <string-array name="trans_benchmarks">
-        <item>6A+ Four finger fun</item>
+        <item>6A+ Four finger progress</item>
         <item>Progress with four finger grip vol 1</item>
         <item>12,1,10,0,1,50,1</item>
         <item>2,2,2,3,3,2,3,3,2,4,4,2,3,4,4,3,2,5,5,2,3,5,5,3</item>
         <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
 
-        <item>6C Four finger fun</item>
+        <item>6C Four finger progress</item>
         <item>Progress with four finger grip vol 2</item>
         <item>12,1,10,0,1,50,1</item>
         <item>4,4,4,5,5,4,2,6,6,2,5,5,3,6,6,3,4,6,6,4,2,7,7,2</item>
         <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
 
-        <item>7A Four finger fun</item>
+        <item>7A Four finger progress</item>
         <item>Progress with four finger grip vol 3</item>
         <item>13,1,10,0,1,50,1</item>
         <item>5,6,6,5,3,7,7,3,4,7,7,4,7,5,5,7,6,6,2,8,8,2,3,8,8,3</item>
         <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
 
-        <item>7B Four finger fun</item>
+        <item>7B Four finger progress</item>
         <item>Progress with four finger grip vol 4</item>
         <item>13,1,10,0,1,50,1</item>
         <item>6,7,7,6,4,8,8,4,5,8,8,5,7,7,6,8,8,6,2,9,9,2,3,9,9,3</item>
         <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
 
-        <item>7C Four finger fun</item>
+        <item>7C Four finger progress</item>
         <item>Progress with four finger grip vol 5</item>
         <item>14,1,10,0,1,50,1</item>
         <item>7,8,8,7,4,9,9,4,5,9,9,5,9,6,6,9,8,8,7,9,9,7,8,9,9,8,9,9</item>
@@ -1219,19 +1219,19 @@
     </string-array>
 
     <string-array name="rockprodigy_benchmarks">
-        <item>Four finger fun</item>
+        <item>Four finger progress</item>
         <item>Progress with four finger grip vol 1</item>
         <item>12,1,10,0,1,50,1</item>
         <item>3,3,3,9,9,3,9,9,9,2,2,9,3,5,5,3,2,2,2,5,5,2,5,5</item>
         <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
 
-        <item>Four finger fun</item>
+        <item>Four finger progress</item>
         <item>Progress with four finger grip vol 2</item>
         <item>14,1,10,0,1,50,1</item>
         <item>7,2,2,7,5,7,7,5,3,4,4,3,2,4,4,2,5,4,4,5,7,7,7,4,4,7,4,4</item>
         <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
 
-        <item>Four finger fun</item>
+        <item>Four finger progress</item>
         <item>Progress with four finger grip vol 3</item>
         <item>12,1,10,0,1,50,1</item>
         <item>7,6,6,7,4,6,6,4,7,8,8,7,4,8,8,4,6,6,6,8,8,6,8,8</item>
@@ -1241,19 +1241,19 @@
 
 
     <string-array name="problemsolver_benchmarks">
-        <item>Four finger fun</item>
+        <item>Four finger progress</item>
         <item>Progress with four finger grip vol 1</item>
         <item>9,1,10,0,1,50,1</item>
         <item>1,1,1,2,2,1,2,2,1,5,5,1,2,5,5,2,5,5</item>
         <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
 
-        <item>Four finger fun</item>
+        <item>Four finger progress</item>
         <item>Progress with four finger grip vol 2</item>
         <item>9,1,10,0,1,50,1</item>
         <item>2,3,3,2,2,9,9,2,5,9,9,5,5,3,3,5,3,3</item>
         <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
 
-        <item>Four finger fun</item>
+        <item>Four finger progress</item>
         <item>Progress with four finger grip vol 3</item>
         <item>9,1,10,0,1,50,1</item>
         <item>2,7,7,2,5,7,7,5,3,7,7,3,9,7,7,9,7,7</item>
@@ -1292,11 +1292,82 @@
 
 <!-- Basic Grips and Grades test -->
     <string-array name="meto_wood_benchmarks">
-        <item></item>
-        <item></item>
-        <item>kkdk</item>
-        <item></item>
-        <item>ll</item>
+        <item>5C Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>3,6,7,3,2,150,300</item>
+        <item>1,1,1,2,1,7</item>
+        <item>1,1,1,1,1,1</item>
+
+        <item>6A Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,150,300</item>
+        <item>1,7,1,2,2,2,1,7,6,6</item>
+        <item>1,1,1,1,1,1,1,1,2,2</item>
+
+        <item>6A+ Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,140,300</item>
+        <item>1,7,1,2,2,2,1,7,6,6</item>
+        <item>1,1,1,1,1,1,1,1,3,3</item>
+
+        <item>6B Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,140,300</item>
+        <item>2,7,1,9,7,7,6,5,6,6</item>
+        <item>1,1,1,1,1,1,2,2,3,3</item>
+
+
+        <item>6B+ Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,130,300</item>
+        <item>2,7,2,9,7,7,6,5,5,6</item>
+        <item>1,1,1,1,1,1,2,2,3,3</item>
+
+        <item>6C Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,130,300</item>
+        <item>7,9,7,10,2,9,5,5,6,5</item>
+        <item>1,1,1,1,1,1,2,2,3,3</item>
+
+
+        <item>6C+ Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,120,300</item>
+        <item>7,9,7,10,2,9,6,7,5,5</item>
+        <item>1,1,1,1,1,1,2,2,3,3</item>
+
+
+        <item>7A Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,120,240</item>
+        <item>9,9,2,10,5,7,8,5,6,7</item>
+        <item>1,1,1,1,2,2,2,2,3,3</item>
+
+
+        <item>7A+ Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,110,240</item>
+        <item>9,9,2,10,5,7,8,5,5,7</item>
+        <item>1,1,1,1,2,2,3,3,3,3</item>
+
+        <item>7B Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,110,240</item>
+        <item>9,10,10,10,5,3,7,7,8,8</item>
+        <item>1,1,1,1,2,2,2,2,3,3</item>
+
+        <item>7B+ Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,100,240</item>
+        <item>9,10,10,10,5,3,7,7,5,3</item>
+        <item>1,1,1,1,2,2,3,3,3,3</item>
+
+        <item>7C Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>6,6,7,3,2,100,180</item>
+        <item>10,10,7,3,8,3,3,5,4,4,4,4</item>
+        <item>1,1,2,2,2,2,3,3,4,4,5,5</item>
+
     </string-array>
 
     <string-array name="meto_wood_deluxe_benchmarks">
@@ -1467,13 +1538,80 @@
 
     </string-array>
 
-    <!-- Four finger fun -->
+    <!-- Four finger progress -->
     <string-array name="drcc_benchmarks">
-        <item>no programs</item>
+        <item>5C Benchmark</item>
         <item>Grips &amp; Grades test</item>
-        <item>6,6,7,3,150,360</item>
-        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
-        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+        <item>3,6,7,3,2,150,300</item>
+        <item>2,2,2,4,4,4</item>
+        <item>1,1,1,1,1,1</item>
+
+        <item>6A Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,150,300</item>
+        <item>3,2,2,5,4,5,3,4,2,2</item>
+        <item>1,1,1,1,1,1,1,1,2,2</item>
+
+        <item>6A+ Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,140,300</item>
+        <item>2,5,4,5,3,4,2,2,2,2</item>
+        <item>1,1,1,1,1,1,2,2,3,3</item>
+
+        <item>6B Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,140,300</item>
+        <item>3,8,5,8,2,10,2,4,2,2</item>
+        <item>1,1,1,1,1,1,2,2,3,3</item>
+
+
+        <item>6B+ Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,130,300</item>
+        <item>3,10,5,8,2,10,4,4,2,4</item>
+        <item>1,1,1,1,1,1,2,2,3,3</item>
+
+
+        <item>6C Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,130,300</item>
+        <item>5,10,5,6,8,8,5,5,5,4</item>
+        <item>1,1,1,1,1,1,2,2,3,3</item>
+
+        <item>6C+ Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,120,300</item>
+        <item>6,10,8,6,8,8,5,8,5,5</item>
+        <item>1,1,1,1,1,1,2,2,3,3</item>
+
+
+        <item>7A Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,120,240</item>
+        <item>8,6,8,9,10,10,5,10,5,8</item>
+        <item>1,1,1,1,1,1,2,2,3,3</item>
+
+
+        <item>7A+ Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,110,240</item>
+        <item>10,10,8,9,10,9,4,9,10,5</item>
+        <item>1,1,1,1,1,1,2,2,3,3</item>
+
+
+        <item>7B Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,110,240</item>
+        <item>6,6,10,8,8,8,8,8,5,10</item>
+        <item>1,1,2,2,2,2,3,3,3,3</item>
+
+        <item>7B+ Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,100,240</item>
+        <item>9,9,10,8,8,6,8,8,8,10</item>
+        <item>1,1,2,2,2,2,3,3,3,3</item>
+
+
     </string-array>
 
 <!-- Progress four three and two finger workouts -->
@@ -1822,31 +1960,31 @@
     </string-array>
 
     <string-array name="ultimate_benchmarks">
-        <item>5C Four finger fun</item>
+        <item>5C Four finger progress</item>
         <item>Progress with four finger grip vol 1</item>
         <item>15,1,10,0,1,50,1</item>
         <item>5,4,4,5,7,4,4,7,9,4,4,9,4,4,5,6,6,5,7,6,6,7,9,6,6,9,6,4,4,6</item>
         <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
 
-        <item>6A Four finger fun</item>
+        <item>6A Four finger progress</item>
         <item>Progress with four finger grip vol 2</item>
         <item>15,1,10,0,1,50,1</item>
         <item>6,6,5,8,8,5,7,8,8,7,9,8,8,9,4,11,11,4,8,7,7,8,8,9,9,8,4,8,8,4</item>
         <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
 
-        <item>6C Four finger fun</item>
+        <item>6C Four finger progress</item>
         <item>Progress with four finger grip vol 3</item>
         <item>13,1,10,0,1,50,1</item>
         <item>6,11,11,6,6,8,8,6,11,8,8,11,8,8,5,10,10,5,7,10,10,7,9,10,10,9</item>
         <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
 
-        <item>7A+ Four finger fun</item>
+        <item>7A+ Four finger progress</item>
         <item>Progress with four finger grip vol 4</item>
         <item>13,1,10,0,1,50,1</item>
         <item>4,10,10,4,6,10,10,6,11,10,10,11,8,10,10,8,10,10,5,12,12,5,7,12,12,7</item>
         <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
 
-        <item>7C Four finger fun</item>
+        <item>7C Four finger progress</item>
         <item>Progress with four finger grip vol 5</item>
         <item>13,1,10,0,1,50,1</item>
         <item>9,12,12,9,4,12,12,4,6,12,12,6,11,12,12,11,8,12,12,8,10,12,12,10,12,12</item>
