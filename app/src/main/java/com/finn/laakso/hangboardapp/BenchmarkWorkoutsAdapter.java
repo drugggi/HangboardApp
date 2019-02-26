@@ -60,7 +60,12 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
         parceBenchmarkPrograms(selectedHangboard);
         benchmarkGradeImageResources = new int[benchmarkTimeControls.size()];
 
-        for (int i = 0; i < benchmarkDescriptions.size(); i++) {
+        for (int i = 0; i < benchmarkTitle.size(); i++) {
+            if (benchmarkTitle.get(i).length() < 3) {
+                benchmarkGradeImageResources[i] = getImageResources("Errr");
+                benchmarkTitle.set(i,"Error: title too short");
+                continue;
+            }
             benchmarkGradeImageResources[i] = getImageResources(benchmarkTitle.get(i).substring(0, 3));
             if (benchmarkGradeImageResources[i] != R.drawable.questiongrade ) {
 
@@ -324,6 +329,19 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
 
     }
 
+    private void addErrorTimeControlsAndHolds() {
+        TimeControls errorControls = new TimeControls();
+        errorControls.setTimeControls(new int[] {1,1,10,0,1,150,150});
+        benchmarkTimeControls.add(errorControls);
+        Hold leftHand = new Hold(1);
+        leftHand.setGripTypeAndSingleHold(80);
+        ArrayList holds = new ArrayList();
+        holds.add(leftHand);
+        holds.add(leftHand);
+        benchmarkWorkoutHolds.add(holds);
+
+    }
+
     private void parceBenchmarkPrograms(int selectedHangboardPosition) {
 
         hangboardNames = HangboardResources.getHangboardNames();
@@ -336,11 +354,21 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
         // currentHangboard = new Hangboard(res,HangboardResources.getHangboardName(0));
         // currentHangboard.setGripAmount;
 
+        if (allBenchmarks.length % 5 != 0){
+            benchmarkTitle.add("SIZE ERROR");
+            benchmarkDescriptions.add("size: " + allBenchmarks.length);
+            addErrorTimeControlsAndHolds();
+            return;
+        }
 
         for (int i = 0; i < allBenchmarks.length; i++) {
 
             //String title = allBenchmarks[i];
-            benchmarkTitle.add(allBenchmarks[i]);
+            if (allBenchmarks[i].length() < 3) {
+                benchmarkTitle.add("Error too short title");
+            } else {
+                benchmarkTitle.add(allBenchmarks[i]);
+            }
             i++;
 
             String desc = allBenchmarks[i];
@@ -423,12 +451,25 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
 
 
     public static int[] parceStringToInt(String arrayIntLine) {
-        String[] parcedCompletedHangs = arrayIntLine.split(",");
+
+        if (arrayIntLine.length() == 0) {
+            Log.e("parceStringToInt","lenght was 0 ");
+            return new int[] {1,1};
+        }
+
+        Log.d("trim test",arrayIntLine.trim());
+        String[] parcedCompletedHangs = arrayIntLine.replaceAll("\\s+","").split(",");
 
         int[] completed = new int[parcedCompletedHangs.length];
 
-        for (int i = 0; i < parcedCompletedHangs.length; i++) {
-            completed[i] = Integer.parseInt(parcedCompletedHangs[i]);
+        try {
+            for (int i = 0; i < parcedCompletedHangs.length; i++) {
+                completed[i] = Integer.parseInt(parcedCompletedHangs[i]);
+            }
+        } catch (NumberFormatException e) {
+            Log.e("parceStringtoInt","NumberFormatException");
+            e.printStackTrace();
+            return new int[] {1,1};
         }
 
         return completed;

@@ -1,5 +1,8 @@
 package com.finn.laakso.hangboardapp;
 
+import android.util.JsonReader;
+import android.util.Log;
+
 /**
  * Created by Laakso on 12.1.2018.
  * Class TimeControls tries to hide a lot of time control parameters that are confusing to follow
@@ -266,13 +269,30 @@ public class TimeControls {
 
     public void setTimeControlsFromString(String JSONString) {
 
-        String[] parcedTimeControls = JSONString.split(",");
+        if (JSONString.length() == 0) {
+            Log.e("meControlsFromString","JSONString length 0");
+            setTimeControls(new int[] {1,1,10,0,1,150,300});
+            return;
+        }
+
+        String[] parcedTimeControls = JSONString.replaceAll("\\s+","").split(",");
 
         int[] timeControlValues = new int[parcedTimeControls.length];
-
-        for (int i = 0; i < parcedTimeControls.length; i++) {
-            timeControlValues[i] = Integer.parseInt(parcedTimeControls[i]);
+        try {
+            for (int i = 0; i < parcedTimeControls.length; i++) {
+                timeControlValues[i] = Integer.parseInt(parcedTimeControls[i]);
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            setTimeControls(new int[] {1,1,10,0,1,150,300});
+            return;
         }
+/*
+
+        for (int i = 0; i < timeControlValues.length ; i++) {
+            Log.e("setTimeControlsString"," " + timeControlValues[i]);
+        }
+*/
 
         setTimeControls(timeControlValues );
 

@@ -1292,11 +1292,11 @@
 
 <!-- Basic Grips and Grades test -->
     <string-array name="meto_wood_benchmarks">
-        <item>no programs</item>
-        <item>Grips &amp; Grades test</item>
-        <item>6,6,7,3,150,360</item>
-        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
-        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+        <item></item>
+        <item></item>
+        <item>kkdk</item>
+        <item></item>
+        <item>ll</item>
     </string-array>
 
     <string-array name="meto_wood_deluxe_benchmarks">
