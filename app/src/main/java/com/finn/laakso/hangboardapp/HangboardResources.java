@@ -54,7 +54,15 @@ public final class  HangboardResources {
             _MM14F3 = 36, _MM14B3 = 40, _MM13F3 = 40, _MM13B3 = 50, _MM12F3 = 50, _MM12B3 = 60, _MM11F3 = 60, _MM11B3 = 70, _MM10F3 = 70, _MM10B3 = 80;
 
     // Sloper difficulties based on angle degrees
-    private static final int S20d = 3, S35d = 23, S45d = 100;
+    private static final int
+            S20 = 3, S20F3 = 12, S20B3 = 14,
+            S25 = 8, S25F3 = 25, S25B3 = 35,
+            S30 = 15, S30F3 = 50, S30B3 = 60,
+            S35 = 23, S35F3 = 75, S35B3 = 85,
+            S38 = 40, S38F3 = 95, S38B3 = 115,
+            S40 = 50,
+            S43 = 75,
+            S45 = 100;
 
         // finger representation four finger, front three, back three, front two, middle two, back two, index
         // middle, ring, index and little finger. S at the end means Single hold ( only one hold at the hangboard)
@@ -64,8 +72,8 @@ public final class  HangboardResources {
 
 private static final int[] gripValuesBM1000 = {
          1 , JUG , FF , 1 , JUG3F , F3 , 1 , 2 , B3 ,
-         2 , 23 , FF , 2 , 70 , F3 , 2 , 75 , B3 ,  // 35 degrees
-         3 , 3 , FF , 3 , 12 , F3 , 3 , 8 , B3 ,    // 20 degrees
+         2 , S35 , FF , 2 , S35F3 , F3 , 2 , S35B3 , B3 ,  // 35 degrees
+         3 , S20 , FF , 3 , S20F3 , F3 , 3 , S20B3 , B3 ,    // 20 degrees
          4 , MM15 , FF , 4 , MM15F3 , F3 ,4 , MM15B3 , B3 , // 15mm
          5 , _MM30F3 , F3 , 5 , _MM30B3 , B3 , 5 , MM30F2 , F2 , 5 , MM30M2 , M2 , // 30mm
          6 , MM40 , FF , 6 , MM40F3 , F3 , 6 , MM40B3 , B3 , 6 , MM40F2 , F2 , 6 , MM40M2 , M2 , 6 ,MM40B2 ,B2 ,
@@ -78,9 +86,9 @@ private static final int[] gripValuesBM1000 = {
 };
 
     private static final int[] gripValuesBM2000 = {
-            1, 100, FF, // 45 degrees
-            2, 23, FF, 2, 70, F3, 2, 75, B3, // 35 degrees
-            3, 3, FF, 3, 12, F3, 3, 8, B3,  // 20 degrees
+            1, S45, FF, // 45 degrees
+            2, S35, FF, 2, S35F3, F3, 2, S35F3, B3, // 35 degrees
+            3, S20, FF, 3, S20F3, F3, 3, S20B3, B3,  // 20 degrees
             4, _MM40F3, F3S, 4, _MM40B3, B3S, // 40mm
             5, _MM20F3, F3S, 5, _MM20B3, B3S, // 20mm
             6, MM35, FF, 6, MM35F3+1 , F3, 6, MM35B3+1, B3, // 33mm
@@ -145,8 +153,8 @@ private static final int[] gripValuesBM1000 = {
 
     private static final int[] gripValuesZlag = {
             1, JUG, FF, 1, 2, F3, 1, 2, B3, 1, 16, 40, 1, 14, 50, 1, 35, 60,
-            2, 13, FF, 2, 30, F3, 2, 35, B3,
-            3, 3, 11, 3, 8, 21, 3, 9, 31,
+            2, S30, FF, 2, S30F3, F3, 2, S30B3, B3, // 30 degrees
+            3, S20, FFS, 3, S20F3, F3S, 3, S20B3, B3S, // 20deg guess
             4, MM30, FF, 4, MM30F3, F3, 4, MM30B3, B3,
             5, _MM20F3+2, F3, 5, _MM20B3+2, B3, // 20mm +2 for no good reason
             6, MM30-1, 11, 6, 10, 21, 6, 11, 31,
@@ -336,9 +344,9 @@ private static final int[] gripValuesBM1000 = {
     };
 
     private static final int[] gripValuesEdge = {
-            1,30,FF, 1,45,F3, 1,51,B3,
-            2,18,FF, 2,28,F3, 2,32,B3,
-            3,8,FF, 3,18,F3, 3,23,B3,
+            1,S35,FF, 1,S35F3,F3, 1,S35B3,B3, // these are total guesses
+            2,S30,FF, 2,S30F3,F3, 2,S30B3,B3,
+            3,S25,FF, 3,S25F3,F3, 3,S25B3,B3,
             4,MM35,FF, 4,MM35F3,F3, 4,MM35B3,B3, 4,MM35F2,F2, 4,MM35M2,M2, 4,MM35B2,B2,
             5,MM25,FF, 5,MM25F3,F3, 5,MM25B3,B3, 5,MM25F2,F2, 5,MM25M2,M2, 5,MM25B2,B2,
             6,MM20,FF, 6,MM20F3,F3, 6,MM20B3,B3, 6,MM20F2,F2, 6,MM20M2,M2, 6,MM20B2,B2,
@@ -351,7 +359,7 @@ private static final int[] gripValuesBM1000 = {
     };
 
     private static final int[] gripValuesMatrix = {
-            1,12,FF, 1,33,F3, 1,39,B3,
+            1,S30,FF, 1,S30F3,F3, 1,S30B3,B3,
             2,MM40,FF, 2,MM40F3+2,F3, 2,MM40B3+3,B3, // flat edge
 
             3,MM10,FF, 3,MM10F3,F3, 3,MM10B3,B3,
