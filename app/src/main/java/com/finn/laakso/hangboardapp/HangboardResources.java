@@ -60,8 +60,8 @@ public final class  HangboardResources {
             S30 = 15, S30F3 = 50, S30B3 = 60,
             S35 = 23, S35F3 = 75, S35B3 = 85,
             S38 = 40, S38F3 = 95, S38B3 = 115,
-            S40 = 50,
-            S43 = 75,
+            S40 = 50, S40F3 = 120, S40B3 = 155,
+            S43 = 75, S43F3 = 150, S43B3 = 200,
             S45 = 100;
 
         // finger representation four finger, front three, back three, front two, middle two, back two, index
@@ -325,16 +325,16 @@ private static final int[] gripValuesBM1000 = {
     };
 
     private static final int[] gripValuesSolution = {
-            1,1,FF, 1,2,F3, 1,3,B3,
-            2,25,FF, 2,35,F3, 2,39,B3,
-            3,55,FF, 3,75,F3, 3,85,B3,
-            4,39,F2, 4,30,M2, 4,55,B2,
+            1,JUG,FF, 1,JUG3F,F3, 1,JUG3B,B3,
+            2,S38,FF, 2,S38F3,F3, 2,S38B3,B3,
+            3,S43,FF, 3,S43F3,F3, 3,S43B3,B3,
+            4,_MM25F2,F2, 4,_MM25M2,M2, 4,_MM25B2,B2,
             5,150,IN, 5,80,MI, 5,200,RI, 5,250,LI,
-            6,15,FF, 6,28,F3, 6,32,B3,
-            7,38,F2, 7,49,M2, 7,70,B2,
-            8,23,F2S, 8,18,M2S, 8,37,B2S,
+            6,23,FF, 6,48,F3, 6,63,B3, // 30 deg sloper crimp
+            7,_MM20F2,F2, 7,_MM20M2,M2, 7,_MM20B2,B2,
+            8,_MM35F2,F2S, 8,_MM35M2,M2S, 8,_MM35B2,B2S,
             9,MM28,FF, 9,MM28F3,F3, 9,MM28B3,B3,
-            10,21,F2, 10,16,M2, 10,33,B2,
+            10,_MM40F2,F2, 10,_MM40M2,M2, 10,_MM40B2,B2, // same as hold 8, assumed incline thus easier
             11,MM18,FF, 11,MM18F3,F3, 11,MM18B3,B3,
             12,MM7,FF, 12,MM7F3,F3, 12,MM7B3,B3,
             13,110,IN, 13,65,MI, 13,130,RI, 13,175,LI,

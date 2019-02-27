@@ -136,17 +136,17 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
       dbHandler.DELETEALL();
         Resources res = getResources();
         String[] benchmarkResources;
-       // int HBpos = HangboardResources.getHangboardPosition("Edge");
+       int HBpos = HangboardResources.getHangboardPosition("Solution");
         //Log.d("pos","" + HBpos);
 
        // benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(HBpos));
         //BenchmarkWorkoutsAdapter.TESTaddBenchmarksIntoDatabase(dbHandler,benchmarkResources,HBpos);
 
-        benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(8));
-        BenchmarkWorkoutsAdapter.TESTaddBenchmarksIntoDatabase(dbHandler,benchmarkResources,8);
+        benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(0));
+        BenchmarkWorkoutsAdapter.TESTaddBenchmarksIntoDatabase(dbHandler,benchmarkResources,0);
 
-        benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(13));
-        BenchmarkWorkoutsAdapter.TESTaddBenchmarksIntoDatabase(dbHandler,benchmarkResources,13);
+        benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(HBpos));
+        BenchmarkWorkoutsAdapter.TESTaddBenchmarksIntoDatabase(dbHandler,benchmarkResources,HBpos);
   /*      benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(0));
         BenchmarkWorkoutsAdapter.TESTaddBenchmarksIntoDatabase(dbHandler,benchmarkResources,0);
         benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(1));

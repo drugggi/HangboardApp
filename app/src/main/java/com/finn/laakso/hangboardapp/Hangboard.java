@@ -1,6 +1,7 @@
 package com.finn.laakso.hangboardapp;
 
 import android.content.res.Resources;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -766,6 +767,15 @@ public class Hangboard {
        // Log.d("size",""+gripTypeWorkoutList.size() );
 
 
+    }
+
+    public void TESTprintHoldList() {
+        // Log.e("missä","ollaan");
+        for (int i = 0 ; i  < workoutHoldList.size() ; i=i+2) {
+
+            String holdInfo = workoutHoldList.get(i).getHoldInfo(workoutHoldList.get(i+1)).replace("\n"," ");
+            Log.v("MMit",holdInfo);
+        }
     }
 
 }

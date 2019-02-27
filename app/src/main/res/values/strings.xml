@@ -1616,11 +1616,186 @@
 
 <!-- Progress four three and two finger workouts -->
     <string-array name="solution_benchmarks">
-        <item>no programs</item>
+        <item>5C Benchmark</item>
         <item>Grips &amp; Grades test</item>
-        <item>6,6,7,3,150,360</item>
+        <item>6,1,10,0,3,50,120</item>
+        <item>1,1,1,9,9,1,9,9,9,15,15,9</item>
         <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+
+
+        <item>6A Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>6,1,10,0,3,50,120</item>
+        <item>9,15,15,9,9,11,11,9,15,11,11,15</item>
         <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+
+        <item>6A+ Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>6,1,10,0,3,45,120</item>
+        <item>9,11,11,9,15,11,11,15,9,9,9,9</item>
+        <item>1,1,1,1,1,1,1,1,2,2,3,3</item>
+
+        <item>6B Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>7,1,10,0,3,45,100</item>
+        <item>11,11,9,6,6,9,9,15,15,9,9,9,10,10</item>
+        <item>1,1,1,1,1,1,2,2,2,2,3,3,5,5</item>
+
+
+        <item>6B+ Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>8,1,10,0,3,40,100</item>
+        <item>11,11,15,6,6,15,9,15,15,9,9,15,15,9,10,10</item>
+        <item>1,1,1,1,1,1,2,2,2,2,3,3,3,3,5,5</item>
+
+
+        <item>6C Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>8,1,10,0,3,40,100</item>
+        <item>11,14,14,11,15,11,11,15,9,11,11,9,10,4,4,10</item>
+        <item>1,1,1,1,2,2,2,2,3,3,3,3,5,5,5,5</item>
+
+
+        <item>6C+ Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>9,1,10,0,3,40,100</item>
+        <item>6,6,11,14,14,11,15,11,11,15,9,11,11,9,10,4,4,10</item>
+        <item>1,1,1,1,1,1,2,2,2,2,3,3,3,3,5,5,5,5</item>
+
+
+        <item>7A Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>10,1,10,0,2,40,80</item>
+        <item>6,14,14,6,11,2,2,11,11,11,15,11,11,15,10,10,8,4,4,8</item>
+        <item>1,1,1,1,1,1,1,1,2,2,3,3,3,3,4,4,5,5,5,5</item>
+
+        <item>7A+ Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>11,1,10,0,2,35,80</item>
+        <item>6,14,14,6,14,14,11,2,2,11,11,11,15,11,11,15,10,10,8,4,4,8</item>
+        <item>1,1,1,1,1,1,1,1,1,1,2,2,3,3,3,3,4,4,5,5,5,5</item>
+
+
+        <item>7B Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>11,1,10,0,3,35,80</item>
+        <item>6,2,2,6,14,2,2,14,11,6,6,11,9,6,6,9,10,4,4,10,4,4,</item>
+        <item>1,1,1,1,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5</item>
+
+        <item>7B+ Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>11,1,10,0,3,30,80</item>
+        <item>6,2,2,6,14,2,2,14,11,6,6,11,11,6,6,11,10,4,4,10,4,4,</item>
+        <item>1,1,1,1,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5</item>
+
+
+        <item>7C Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>10,1,10,0,3,30,60</item>
+        <item>14,12,12,14,14,3,3,14,2,2,6,6,6,14,14,6,6,6,4,4</item>
+        <item>1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,3,3,4,4</item>
+
+        <item>7C+ Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>13,1,10,0,2,30,60</item>
+        <item>14,3,3,14,12,12,3,3,6,6,6,14,14,6,6,11,11,6,7,7,7,7,4,4,5,5</item>
+        <item>1,1,1,1,1,1,1,1,2,2,2,2,2,2,3,3,3,3,4,4,5,5,6,6,8,8</item>
+
+
+
+
+        <item>5C Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>3,6,7,3,2,150,300</item>
+        <item>1,1,1,15,1,9</item>
+        <item>1,1,1,1,1,1</item>
+
+        <item>6A Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,150,300</item>
+        <item>1,15,1,9,9,9,9,15,1,11</item>
+        <item>1,1,1,1,1,1,1,1,1,1</item>
+
+        <item>6A+ Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,140,300</item>
+        <item>1,15,9,9,9,15,1,11,9,9</item>
+        <item>1,1,1,1,1,1,1,1,2,2</item>
+
+        <item>6B Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,140,300</item>
+        <item>9,11,15,11,1,6,9,9,9,9</item>
+        <item>1,1,1,1,1,1,2,2,3,3</item>
+
+        <item>6B+ Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,130,300</item>
+        <item>9,11,15,11,1,14,15,9,9,9</item>
+        <item>1,1,1,1,1,1,2,2,3,3</item>
+
+
+        <item>6C Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,130,300</item>
+        <item>11,11,9,6,9,15,9,15,10,10</item>
+        <item>1,1,1,1,2,2,3,3,5,5</item>
+
+
+        <item>6C+ Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,120,300</item>
+        <item>11,11,15,6,9,15,9,15,10,10</item>
+        <item>1,1,1,1,2,2,3,3,5,5</item>
+
+
+        <item>7A Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,120,240</item>
+        <item>9,14,11,6,15,11,9,11,10,8</item>
+        <item>1,1,1,1,2,2,3,3,5,5</item>
+
+
+        <item>7A+ Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,110,240</item>
+        <item>9,2,11,6,15,11,9,11,10,4</item>
+        <item>1,1,1,1,2,2,3,3,5,5</item>
+
+
+        <item>7B Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,110,240</item>
+        <item>11,14,6,6,11,11,11,15,4,4</item>
+        <item>1,1,1,1,2,2,3,3,5,5</item>
+
+        <item>7B+ Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,100,240</item>
+        <item>11,14,11,2,11,11,11,15,4,4</item>
+        <item>1,1,1,1,2,2,3,3,5,5</item>
+
+
+        <item>7C Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>6,6,7,3,2,100,240</item>
+        <item>14,14,6,2,15,6,11,11,4,8,4,4</item>
+        <item>1,1,1,1,2,2,3,3,4,4,5,5</item>
+
+
+        <item>7C+ Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>6,6,7,3,2,90,240</item>
+        <item>14,12,2,2,11,6,11,6,4,8,4,4</item>
+        <item>1,1,1,1,2,2,3,3,4,4,5,5</item>
+
+
+        <item>8A Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>12,6,7,3,1,90,1</item>
+        <item>14,3,12,3,12,12,3,3,6,6,6,14,6,11,6,14,7,7,7,7,4,4,5,5</item>
+        <item>1,1,1,1,1,1,1,1,2,2,2,2,3,3,3,3,4,4,5,5,6,6,8,8</item>
+
     </string-array>
 
     <string-array name="edge_benchmarks">

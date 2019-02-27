@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 everyBoard.setDifficultyLimits(1,100);
 
                 everyBoard.sortWorkoutHoldList();
-
+                everyBoard.TESTprintHoldList();
                 hangsAdapter.notifyDataSetChanged();
 
                 // This is for testing WorkoutHistoryActivity, with these we can simulate completed workouts
