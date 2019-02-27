@@ -57,6 +57,17 @@ public class BenchmarkActivity extends AppCompatActivity {
             hangboardPosition = HangboardResources.getHangboardPosition(hangboardName);
         }
 
+        String benchmarkInfo = "";
+        if (getIntent().hasExtra("com.finn.laakso.hangboardapp.HOLDS") &&
+        getIntent().hasExtra("com.finn.laakso.hangboardapp.TIMECONTROLS")) {
+            TimeControls tempControls =  new TimeControls();
+            tempControls.setTimeControls(getIntent().getIntArrayExtra("com.finn.laakso.hangboardapp.TIMECONTROLS") );
+
+            ArrayList<Hold> mainActivityWorkoutHolds = getIntent().getParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS");
+            benchmarkInfo = BenchmarkWorkoutsAdapter.getBenchmarkInfo(tempControls,mainActivityWorkoutHolds);
+        }
+
+
         hangboardNamesListView = findViewById(R.id.hangboardsListView);
         benchmarksListView = findViewById(R.id.benchmarksListView);
         benchmarkInfoTextView = findViewById(R.id.benchmarkInfoTextView);
@@ -64,7 +75,7 @@ public class BenchmarkActivity extends AppCompatActivity {
         randomizeGripsCheckBox = findViewById(R.id.randomizeGrips);
         animationTextView = findViewById(R.id.animationTextView);
 
-        benchmarkInfoTextView.setVisibility(View.INVISIBLE);
+//        benchmarkInfoTextView.setVisibility(View.INVISIBLE);
         animationTextView.setVisibility(View.INVISIBLE);
 
 
@@ -122,7 +133,7 @@ public class BenchmarkActivity extends AppCompatActivity {
         // registerForContextMenu(benchmarksListView);
 
         // String benchmarkInfo = workoutsAdapter.getBenchmarkInfoText(selectedBenchmark);
-        benchmarkInfoTextView.setText("");
+        benchmarkInfoTextView.setText(benchmarkInfo);
 
         benchmarksListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

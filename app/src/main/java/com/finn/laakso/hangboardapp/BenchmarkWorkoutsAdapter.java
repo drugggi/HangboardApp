@@ -45,6 +45,7 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
         }
     }
 
+
     public TimeControls getWorkoutTimeControls(int position) {
         if (position > 0 && position < benchmarkTimeControls.size()) {
             return benchmarkTimeControls.get(position);
@@ -278,6 +279,51 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
 
         return "\n" + totalTime + "\n" + TUT + "\n" + intensity +
                 "\n" + avgD + "\n" + power + "\n" + workload + "\n\n";
+
+    }
+
+    public static String getBenchmarkInfo(TimeControls tempControls, ArrayList<Hold> workoutHolds) {
+
+        int gripLaps = tempControls.getGripLaps();
+        int sets = tempControls.getRoutineLaps();
+        int hangs = tempControls.getHangLaps();
+
+        int[] tempCompleted = new int[gripLaps * sets];
+
+        for (int i = 0; i < tempCompleted.length; i++) {
+            tempCompleted[i] = hangs;
+        }
+
+        CalculateWorkoutDetails benchmarkDetails = new CalculateWorkoutDetails(tempControls,
+                workoutHolds, tempCompleted);
+
+        String benchmarkInfo = "";
+        String repeaters;
+        if (tempControls.isRepeaters()) {
+            repeaters = "Repeaters";
+        } else {
+            repeaters = "Single hangs";
+        }
+
+        String intensity = "0." + (int) (100 * benchmarkDetails.getIntensity());
+        String workoutPower = (int) benchmarkDetails.getWorkoutPower() + ".";
+        workoutPower += (int) (100 * (benchmarkDetails.getWorkoutPower() - (int) benchmarkDetails.getWorkoutPower()));
+
+        String workload = "" + (int) benchmarkDetails.getWorkload();
+
+        benchmarkInfo += repeaters + "\n";
+        benchmarkInfo += "Total time: " + tempControls.getTotalTime() / 60 + "min\n";
+        benchmarkInfo += "TUT: " + tempControls.getTimeUnderTension() + "s\n";
+        benchmarkInfo += "Intensity: " + intensity + "\n";
+        benchmarkInfo += "avg Difficulty: " + (int) benchmarkDetails.getAverageDifficutly() + "\n";
+        benchmarkInfo += "Power: " + workoutPower + "\n";
+        benchmarkInfo += "Workload: " + workload + "\n";
+        benchmarkInfo += "Time Controls: \n" + tempControls.getTimeControlsAsJSONGString();
+
+        return benchmarkInfo;
+
+
+
 
     }
 

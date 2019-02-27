@@ -395,11 +395,18 @@ public class Hangboard {
 
         int holdValue;
         for (int i = 0 ; i < allHangboardHolds.length ; i++ ) {
+            // Lets ignore one finger grip types
+            if (allHangboardHolds[i].getGripStyleInt() >= 7) {
+                // Log.e("IGNORED GRIPTYPE",allHangboardHolds[i].getGripStyle().toString() );
+                continue;
+            }
+
             holdValue =  allHangboardHolds[i].getHoldValue();
 
             if (holdValue >= min_value && holdValue <= max_value ) {
 
                 Hold.grip_type newGripType = allHangboardHolds[i].getGripStyle();
+
                 boolean isUnique = true;
                 for (int j = 0 ; j < differentGripTypes.size() ; j++) {
                     if (differentGripTypes.get(j) == newGripType) {

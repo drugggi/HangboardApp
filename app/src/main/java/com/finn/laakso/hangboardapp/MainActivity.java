@@ -133,6 +133,9 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent benchmarkIntent = new Intent(getApplicationContext(), BenchmarkActivity.class);
                 benchmarkIntent.putExtra("com.finn.laakso.hangboardapp.HANGBOARDNAME",everyBoard.getHangboardName() );
+                benchmarkIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
+                benchmarkIntent.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS",
+                        everyBoard.getCurrentWorkoutHoldList());
                 startActivityForResult(benchmarkIntent, REQUEST_COPY_BENCHMARK);
 
                 break;
