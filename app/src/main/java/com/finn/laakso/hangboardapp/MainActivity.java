@@ -132,7 +132,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_benchmark:
 
                 Intent benchmarkIntent = new Intent(getApplicationContext(), BenchmarkActivity.class);
+                benchmarkIntent.putExtra("com.finn.laakso.hangboardapp.HANGBOARDNAME",everyBoard.getHangboardName() );
                 startActivityForResult(benchmarkIntent, REQUEST_COPY_BENCHMARK);
+
                 break;
             case R.id.action_logbook:
                 // Toast.makeText(this,"Logbook",Toast.LENGTH_SHORT).show();

@@ -52,6 +52,11 @@ public class BenchmarkActivity extends AppCompatActivity {
             Toast.makeText(BenchmarkActivity.this, "Pre made workouts (beta test)", Toast.LENGTH_SHORT).show();
         }
 
+        if (getIntent().hasExtra("com.finn.laakso.hangboardapp.HANGBOARDNAME")) {
+            String hangboardName = getIntent().getStringExtra("com.finn.laakso.hangboardapp.HANGBOARDNAME");
+            hangboardPosition = HangboardResources.getHangboardPosition(hangboardName);
+        }
+
         hangboardNamesListView = findViewById(R.id.hangboardsListView);
         benchmarksListView = findViewById(R.id.benchmarksListView);
         benchmarkInfoTextView = findViewById(R.id.benchmarkInfoTextView);
