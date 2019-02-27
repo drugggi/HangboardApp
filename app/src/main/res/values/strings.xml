@@ -2127,11 +2127,84 @@
 
     <!-- Progress with four three and two finger grips -->
     <string-array name="soillboost_benchmarks">
-        <item>no programs</item>
+
+        <item>5C Benchmark</item>
         <item>Grips &amp; Grades test</item>
-        <item>6,6,7,3,150,360</item>
-        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
-        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+        <item>3,6,7,3,2,150,300</item>
+        <item>1,2,6,6,1,6</item>
+        <item>1,1,1,1,1,1</item>
+
+
+        <item>6A Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,150,300</item>
+        <item>6,9,6,3,3,9,9,9,1,4,</item>
+        <item>1,1,1,1,1,1,1,1,2,2</item>
+
+
+        <item>6A+ Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,140,300</item>
+        <item>6,3,3,9,9,9,1,4,1,4</item>
+        <item>1,1,1,1,1,1,2,2,3,3</item>
+
+
+        <item>6B Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,140,300</item>
+        <item>3,3,9,11,11,3,4,7,1,6</item>
+        <item>1,1,1,1,1,1,2,2,3,3</item>
+
+
+        <item>6B+ Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,130,300</item>
+        <item>6,14,9,11,11,3,4,7,4,6</item>
+        <item>1,1,1,1,1,1,2,2,3,3</item>
+
+
+        <item>6C Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,130,300</item>
+        <item>9,14,3,16,9,11,11,11,6,3</item>
+        <item>1,1,1,1,2,2,2,2,3,3</item>
+
+
+        <item>6C+ Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,120,300</item>
+        <item>9,16,3,16,11,11,9,3,7,3</item>
+        <item>1,1,1,1,2,2,3,3,3,3</item>
+
+
+        <item>7A Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,120,240</item>
+        <item>11,16,11,15,6,11,9,3,3,4</item>
+        <item>1,1,1,1,2,2,2,2,3,3</item>
+
+
+        <item>7A+ Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,110,240</item>
+        <item>14,16,14,15,3,3,6,14,11,6</item>
+        <item>1,1,1,1,2,2,3,3,3,3</item>
+
+
+        <item>7B Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,110,240</item>
+        <item>16,16,15,15,11,11,3,9,12,12</item>
+        <item>1,1,1,1,2,2,3,3,5,5</item>
+
+        <item>7B+ Benchmark</item>
+        <item>Grips &amp; Grades test</item>
+        <item>5,6,7,3,2,100,240</item>
+        <item>15,15,11,15,14,16,15,3,12,12</item>
+        <item>1,1,2,2,2,2,3,3,5,5</item>
+
+
+
     </string-array>
 
     <string-array name="ultimate_benchmarks">
