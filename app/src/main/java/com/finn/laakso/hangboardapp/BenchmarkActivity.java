@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -32,11 +33,11 @@ public class BenchmarkActivity extends AppCompatActivity {
     private TextView benchmarkInfoTextView;
     private TextView animationTextView;
 
-    private String[] hangboardNames;
 
-    //private ArrayList<String> benchmarkDescriptions;
-    //private ArrayList<TimeControls> benchmarkTimeControls;
-    //private ArrayList<ArrayList<Hold>> benchmarkWorkoutHolds;
+    TimeControls mainTimeControls;
+    ArrayList<Hold> mainWorkoutHolds;
+    String mainHangboard;
+    String benchmarkInfo;
 
     private int hangboardPosition = 0;
     private int selectedBenchmark = -1;
@@ -53,18 +54,19 @@ public class BenchmarkActivity extends AppCompatActivity {
         }
 
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.HANGBOARDNAME")) {
-            String hangboardName = getIntent().getStringExtra("com.finn.laakso.hangboardapp.HANGBOARDNAME");
-            hangboardPosition = HangboardResources.getHangboardPosition(hangboardName);
+            mainHangboard = getIntent().getStringExtra("com.finn.laakso.hangboardapp.HANGBOARDNAME");
+            hangboardPosition = HangboardResources.getHangboardPosition(mainHangboard);
+
         }
 
-        String benchmarkInfo = "";
+        mainTimeControls = new TimeControls();
+        benchmarkInfo = "";
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.HOLDS") &&
         getIntent().hasExtra("com.finn.laakso.hangboardapp.TIMECONTROLS")) {
-            TimeControls tempControls =  new TimeControls();
-            tempControls.setTimeControls(getIntent().getIntArrayExtra("com.finn.laakso.hangboardapp.TIMECONTROLS") );
-
-            ArrayList<Hold> mainActivityWorkoutHolds = getIntent().getParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS");
-            benchmarkInfo = BenchmarkWorkoutsAdapter.getBenchmarkInfo(tempControls,mainActivityWorkoutHolds);
+            mainTimeControls.setTimeControls(getIntent().getIntArrayExtra("com.finn.laakso.hangboardapp.TIMECONTROLS") );
+            mainWorkoutHolds = getIntent().getParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS");
+//            ArrayList<Hold> mainActivityWorkoutHolds = getIntent().getParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS");
+            benchmarkInfo = BenchmarkWorkoutsAdapter.getBenchmarkInfo(mainTimeControls,mainWorkoutHolds);
         }
 
 
@@ -97,28 +99,54 @@ public class BenchmarkActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 selectedBenchmark = -1;
-                if (i == hangboardPosition) {
+                /*if (i == hangboardPosition) {
                     return;
                 }
-
-                hangboardPosition = i;
+*/
                 // parceBenchmarkPrograms(hangboardPosition);
 
                 Resources res = getResources();
-                String[] benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(hangboardPosition));
+                String[] benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(i));
 
-                workoutsAdapter = new BenchmarkWorkoutsAdapter(BenchmarkActivity.this,hangboardPosition,benchmarkResources);
+                workoutsAdapter = new BenchmarkWorkoutsAdapter(BenchmarkActivity.this,i,benchmarkResources);
                 benchmarksListView.setAdapter(workoutsAdapter);
 
-                hangboardAdapter.setSelectedHangboard(hangboardPosition);
-                hangboardAdapter.notifyDataSetChanged();
+                hangboardAdapter.setSelectedHangboard(i);
+
+                if (i != hangboardPosition) {
+                    hangboardAdapter.notifyDataSetChanged();
+                }
 
 
-                if (benchmarkInfoTextView.getVisibility() == View.VISIBLE) {
+                // If user selects the same hangboard that was in mainActivity, lets show that
+                // workout's info in benchmarkInfoTextview
+                if (hangboardAdapter.getHangboardName(i).equals(mainHangboard) ) {
+
+                    if (benchmarkInfoTextView.getVisibility() == View.INVISIBLE) {
+                        popupTextViewAnimation();
+                        benchmarkInfoTextView.setVisibility(View.VISIBLE);
+                    }
+
+                    benchmarkInfoTextView.setText(benchmarkInfo);
+
+                    //Only show change if it came from same hangboard
+                    if (hangboardPosition == i) {
+                        String animationText = workoutsAdapter.getAnimationInfo(workoutsAdapter.getWorkoutTimeControls(i),
+                                workoutsAdapter.getWorkoutHolds(i), mainTimeControls, mainWorkoutHolds);
+                        animationTextView.setText(animationText);
+                        benchmarkDifferenceAnimation();
+                    }
+                }
+
+                // else we hide the textview
+                else if (benchmarkInfoTextView.getVisibility() == View.VISIBLE) {
+
                     hideTextViewAnimation();
                     benchmarkInfoTextView.setVisibility(View.INVISIBLE);
+                    animationTextView.setVisibility(View.INVISIBLE);
+
                 }
-                animationTextView.setVisibility(View.INVISIBLE);
+                hangboardPosition = i;
                 // benchmarksAdapter = new ArrayAdapter<String>(BenchmarkActivity.this,android.R.layout.simple_list_item_1,benchmarkDescriptions);
                 // benchmarksListView.setAdapter(benchmarksAdapter);
 
@@ -141,7 +169,7 @@ public class BenchmarkActivity extends AppCompatActivity {
 
                 // RunAnimation2();
                 // animationText needs to know former selected Benchmark position
-
+                //workoutsAdapter.setSelectedBenchmark(i);
                 if (selectedBenchmark == i) {
                     return;
                 }
@@ -153,8 +181,9 @@ public class BenchmarkActivity extends AppCompatActivity {
                     animationChangeText = workoutsAdapter.getAnimationInfoText(selectedBenchmark, i);
                    // animationTextView.setVisibility(View.VISIBLE);
                 } else {
-                    animationChangeText = "";
-                    popupTextViewAnimation();
+                    animationChangeText = workoutsAdapter.getAnimationInfo(mainTimeControls,mainWorkoutHolds
+                    ,workoutsAdapter.getWorkoutTimeControls(i),workoutsAdapter.getWorkoutHolds(i));
+                    // popupTextViewAnimation();
 
                 }
                 selectedBenchmark = i;
@@ -170,6 +199,7 @@ public class BenchmarkActivity extends AppCompatActivity {
                 // Animation animation = AnimationUtils.loadAnimation()
 
                 // changeBenchmarkInfoText();
+                // workoutsAdapter.notifyDataSetChanged();
 
 
             }

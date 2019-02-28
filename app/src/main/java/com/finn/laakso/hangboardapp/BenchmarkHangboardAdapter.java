@@ -14,7 +14,6 @@ import android.widget.TextView;
 public class BenchmarkHangboardAdapter extends BaseAdapter {
 
 
-    private LayoutInflater mInflator;
     private final Context mContext;
 
     private String[] hangboardNames;
@@ -37,11 +36,11 @@ public class BenchmarkHangboardAdapter extends BaseAdapter {
         hangboardNames = HangboardResources.getHangboardNames();
 
         this.mContext = context;
-        this.mInflator = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        this.mInflator = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     public String getHangboardName(int position) {
-        if (position > 0 && position < hangboardNames.length ) {
+        if (position >= 0 && position < hangboardNames.length ) {
             return hangboardNames[position];
         } else {
             return "Error: hangboard name";

@@ -2257,14 +2257,12 @@
         <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
     </string-array>
 
-
     <string-array name="noBenchmarks">
-        <item>no programs</item>
-        <item>Desc</item>
-        <item>6,6,7,3,150,360</item>
-        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
-        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
-
+        <item>no Workouts</item>
+        <item>This hangboard currently has no pre made workouts</item>
+        <item>1,1,10,0,1,150,300</item>
+        <item>1,1</item>
+        <item>8,8</item>
     </string-array>
 
     <string-array name="grades">
@@ -2280,6 +2278,7 @@
         <item>8A</item>
         <item>8B</item>
     </string-array>
+
 
     <string-array name="grip_types">
         <item>four fingers</item>

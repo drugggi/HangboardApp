@@ -2,6 +2,7 @@ package com.finn.laakso.hangboardapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +17,6 @@ import java.util.ArrayList;
 
 public class BenchmarkWorkoutsAdapter extends BaseAdapter {
 
-    //private LayoutInflater mInflator;
     private final Context mContext;
 
     private ArrayList<String> benchmarkTitle;
@@ -133,6 +133,7 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
         Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.fade_in500ms);
         convertView.startAnimation(animation);
 
+
 /*
         Random rng = new Random();
 
@@ -146,54 +147,96 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private int getImageResources(String grade) {
-        if (grade.equals("5A ")) {
-            return R.drawable.fivea;
-        } else if (grade.equals("5B ")) {
-            return R.drawable.fiveb;
-        } else if (grade.equals("5C ")) {
-            return R.drawable.fivec;
-        } else if (grade.equals("6A ")) {
-            return R.drawable.sixa;
-        } else if (grade.equals("6A+")) {
-            return R.drawable.sixaplus;
-        } else if (grade.equals("6B ")) {
-            return R.drawable.sixb;
-        } else if (grade.equals("6B+")) {
-            return R.drawable.sixbplus;
-        } else if (grade.equals("6C ")) {
-            return R.drawable.sixc;
-        } else if (grade.equals("6C+")) {
-            return R.drawable.sixcplus;
-        } else if (grade.equals("7A ")) {
-            return R.drawable.sevena;
-        } else if (grade.equals("7A+")) {
-            return R.drawable.sevenaplus;
-        } else if (grade.equals("7B ")) {
-            return R.drawable.sevenb;
-        } else if (grade.equals("7B+")) {
-            return R.drawable.sevenbplus;
-        } else if (grade.equals("7C ")) {
-            return R.drawable.sevenc;
-        } else if (grade.equals("7C+")) {
-            return R.drawable.sevencplus;
-        } else if (grade.equals("8A ")) {
-            return R.drawable.eighta;
-        } else if (grade.equals("8A+")) {
-            return R.drawable.eightaplus;
-        } else if (grade.equals("8B ")) {
-            return R.drawable.eightb;
-        } else if (grade.equals("8B+")) {
-            return R.drawable.eightbplus;
-        } else if (grade.equals("8C ")) {
-            return R.drawable.eightc;
-        } else {
-            return R.drawable.questiongrade;
+    public String getAnimationInfo(TimeControls prevTC, ArrayList<Hold> prevHolds,
+                                          TimeControls selectedTC, ArrayList<Hold> selectedHolds) {
+
+        int totalTimeChange = selectedTC.getTotalTime() - prevTC.getTotalTime();
+        int TUTChange = selectedTC.getTimeUnderTension() - prevTC.getTimeUnderTension();
+
+        int prevGripLaps = prevTC.getGripLaps();
+        int prevSets = prevTC.getRoutineLaps();
+        int prevHangs = prevTC.getHangLaps();
+
+        int[] prevTempCompleted = new int[prevGripLaps * prevSets];
+
+        for (int i = 0; i < prevTempCompleted.length; i++) {
+            prevTempCompleted[i] = prevHangs;
         }
+
+        int selectedGripLaps = selectedTC.getGripLaps();
+        int selectedSets = selectedTC.getRoutineLaps();
+        int selectedHangs = selectedTC.getHangLaps();
+
+        int[] selectedTempCompleted = new int[selectedGripLaps * selectedSets];
+
+        for (int i = 0; i < selectedTempCompleted.length; i++) {
+            selectedTempCompleted[i] = selectedHangs;
+        }
+
+        CalculateWorkoutDetails prevDetails = new CalculateWorkoutDetails(prevTC, prevHolds, prevTempCompleted);
+        CalculateWorkoutDetails selectedDetails = new CalculateWorkoutDetails(selectedTC,selectedHolds, selectedTempCompleted);
+
+        float intensityChange = (selectedDetails.getIntensity() - prevDetails.getIntensity());
+        int avgDChange = (int) (selectedDetails.getAverageDifficutly() - prevDetails.getAverageDifficutly());
+        float powerChange = (selectedDetails.getWorkoutPower() - prevDetails.getWorkoutPower());
+        int workloadChange = (int) (selectedDetails.getWorkload() - prevDetails.getWorkload());
+
+        String totalTime = "" + totalTimeChange + "s";
+        String TUT = "" + TUTChange + "s";
+        String intensity;
+        String avgD;
+        String power;
+        String workload;
+
+        if (intensityChange < 0) {
+            intensity = "" + String.format(java.util.Locale.US, "%.2f", intensityChange);
+        } else if (intensityChange > 0) {
+            intensity = "+" + String.format(java.util.Locale.US, "%.2f", intensityChange);
+        } else {
+            intensity = "";
+        }
+
+        if (avgDChange < 0) {
+            avgD = "" + avgDChange;
+        } else if (avgDChange > 0) {
+            avgD = "+" + avgDChange;
+        } else {
+            avgD = "";
+        }
+
+        if (totalTimeChange == 0) {
+            totalTime = "";
+        }
+        if (TUTChange == 0) {
+            TUT = "";
+        }
+
+        if (powerChange < 0) {
+            power = "" + String.format(java.util.Locale.US, "%.2f", powerChange);
+        } else if (powerChange > 0) {
+            power = "+" + String.format(java.util.Locale.US, "%.2f", powerChange);
+        } else {
+            power = "";
+        }
+
+        if (workloadChange > 0) {
+            workload = "+" + workloadChange;
+        } else if (workloadChange < 0) {
+            workload = "" + workloadChange;
+        } else {
+            workload = "";
+        }
+
+
+        return "\n" + totalTime + "\n" + TUT + "\n" + intensity +
+                "\n" + avgD + "\n" + power + "\n" + workload + "\n\n";
+
 
     }
 
     public String getAnimationInfoText(int previousPosition, int selectedPosition) {
+
+
         int totalTimeChange = benchmarkTimeControls.get(selectedPosition).getTotalTime() -
                 benchmarkTimeControls.get(previousPosition).getTotalTime();
         int TUTChange = benchmarkTimeControls.get(selectedPosition).getTimeUnderTension() -
@@ -333,6 +376,8 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
             return "ERROR";
         }
 
+        return getBenchmarkInfo(benchmarkTimeControls.get(selectedBenchmark),benchmarkWorkoutHolds.get(selectedBenchmark));
+        /*
         TimeControls tempControls = benchmarkTimeControls.get(selectedBenchmark);
 
         int gripLaps = tempControls.getGripLaps();
@@ -372,7 +417,7 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
         benchmarkInfo += "Time Controls: \n" + tempControls.getTimeControlsAsJSONGString();
 
         return benchmarkInfo;
-
+*/
     }
 
     private void addErrorTimeControlsAndHolds() {
@@ -520,6 +565,53 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
         return completed;
     }
 
+
+    private int getImageResources(String grade) {
+        if (grade.equals("5A ")) {
+            return R.drawable.fivea;
+        } else if (grade.equals("5B ")) {
+            return R.drawable.fiveb;
+        } else if (grade.equals("5C ")) {
+            return R.drawable.fivec;
+        } else if (grade.equals("6A ")) {
+            return R.drawable.sixa;
+        } else if (grade.equals("6A+")) {
+            return R.drawable.sixaplus;
+        } else if (grade.equals("6B ")) {
+            return R.drawable.sixb;
+        } else if (grade.equals("6B+")) {
+            return R.drawable.sixbplus;
+        } else if (grade.equals("6C ")) {
+            return R.drawable.sixc;
+        } else if (grade.equals("6C+")) {
+            return R.drawable.sixcplus;
+        } else if (grade.equals("7A ")) {
+            return R.drawable.sevena;
+        } else if (grade.equals("7A+")) {
+            return R.drawable.sevenaplus;
+        } else if (grade.equals("7B ")) {
+            return R.drawable.sevenb;
+        } else if (grade.equals("7B+")) {
+            return R.drawable.sevenbplus;
+        } else if (grade.equals("7C ")) {
+            return R.drawable.sevenc;
+        } else if (grade.equals("7C+")) {
+            return R.drawable.sevencplus;
+        } else if (grade.equals("8A ")) {
+            return R.drawable.eighta;
+        } else if (grade.equals("8A+")) {
+            return R.drawable.eightaplus;
+        } else if (grade.equals("8B ")) {
+            return R.drawable.eightb;
+        } else if (grade.equals("8B+")) {
+            return R.drawable.eightbplus;
+        } else if (grade.equals("8C ")) {
+            return R.drawable.eightc;
+        } else {
+            return R.drawable.questiongrade;
+        }
+
+    }
     public static void TESTaddBenchmarksIntoDatabase(WorkoutDBHandler dbHandler, String[] benchmarkResources, int testHangboardNumber) {
 
         long time = System.currentTimeMillis() - 1000*24*60*60*1000L;
@@ -610,4 +702,5 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
                     testBenchmarkDescriptions.get(i));
         }
     }
+
 }
