@@ -713,17 +713,20 @@ public class MainActivity extends AppCompatActivity {
                 HangboardResources.hangboardName newHangboard = HangboardResources.getHangboardName(hangboardPosition);
 
                 hangboard_descr_position = hangboardPosition;
+
                 viewPager.setCurrentItem(hangboardPosition);
                 timeControls.setTimeControls(timeSettings);
                 everyBoard.initializeHolds(getResources(), newHangboard);
                 everyBoard.setNewWorkoutHolds(newHolds);
 
                 hangsAdapter = new HangListAdapter(this, everyBoard.getCurrentWorkoutHoldList());
-                hangsAdapter.setSelectedHangNumber(0);
+                hangsAdapter.setSelectedHangNumber(1);
 
                 holdsListView.setAdapter(hangsAdapter);
+                //hangsAdapter.setSelectedHangNumber(1);
 
-                animateHandImagesToPosition(oldGripType,hangsAdapter.getSelectedHangNumber() );
+//                animateHandImagesToPosition(oldGripType,hangsAdapter.getSelectedHangNumber() );
+                animateHandImagesToPosition(oldGripType,0 );
 
                 repeatersBox.setVisibility(View.INVISIBLE);
                 durationSeekBar.setVisibility(View.INVISIBLE);

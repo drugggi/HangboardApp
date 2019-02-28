@@ -98,7 +98,10 @@ public class BenchmarkActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                selectedBenchmark = -1;
+                if (hangboardPosition == i && selectedBenchmark ==-1) {
+                    return;
+                }
+
                 /*if (i == hangboardPosition) {
                     return;
                 }
@@ -130,7 +133,7 @@ public class BenchmarkActivity extends AppCompatActivity {
                     benchmarkInfoTextView.setText(benchmarkInfo);
 
                     //Only show change if it came from same hangboard
-                    if (hangboardPosition == i) {
+                    if (hangboardPosition == i && selectedBenchmark != -1) {
                         String animationText = workoutsAdapter.getAnimationInfo(workoutsAdapter.getWorkoutTimeControls(i),
                                 workoutsAdapter.getWorkoutHolds(i), mainTimeControls, mainWorkoutHolds);
                         animationTextView.setText(animationText);
@@ -147,6 +150,7 @@ public class BenchmarkActivity extends AppCompatActivity {
 
                 }
                 hangboardPosition = i;
+                selectedBenchmark = -1;
                 // benchmarksAdapter = new ArrayAdapter<String>(BenchmarkActivity.this,android.R.layout.simple_list_item_1,benchmarkDescriptions);
                 // benchmarksListView.setAdapter(benchmarksAdapter);
 
