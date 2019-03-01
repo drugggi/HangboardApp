@@ -6,7 +6,6 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -20,6 +19,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Random;
 
+// BenchmarkActivity shows premade workouts from Strings.xml to user.User can see workout's parameters
+// and compare them to other workouts. User can select the workout that he/she wants to do
 public class BenchmarkActivity extends AppCompatActivity {
 
     private BenchmarkWorkoutsAdapter workoutsAdapter;
@@ -33,7 +34,8 @@ public class BenchmarkActivity extends AppCompatActivity {
     private TextView benchmarkInfoTextView;
     private TextView animationTextView;
 
-
+    // These variables comes from MainActivity. BenchmarkActivity provides a way to examine MainActivity's
+    // workout parameters
     TimeControls mainTimeControls;
     ArrayList<Hold> mainWorkoutHolds;
     String mainHangboard;
@@ -53,19 +55,18 @@ public class BenchmarkActivity extends AppCompatActivity {
             Toast.makeText(BenchmarkActivity.this, "Pre made workouts (beta test)", Toast.LENGTH_SHORT).show();
         }
 
+        // Workout variables that comes from MainActivity, these are showsn when correct hangboard
+        // is selected and no pre made workouts is selected.
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.HANGBOARDNAME")) {
             mainHangboard = getIntent().getStringExtra("com.finn.laakso.hangboardapp.HANGBOARDNAME");
             hangboardPosition = HangboardResources.getHangboardPosition(mainHangboard);
-
         }
-
         mainTimeControls = new TimeControls();
         benchmarkInfo = "";
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.HOLDS") &&
         getIntent().hasExtra("com.finn.laakso.hangboardapp.TIMECONTROLS")) {
             mainTimeControls.setTimeControls(getIntent().getIntArrayExtra("com.finn.laakso.hangboardapp.TIMECONTROLS") );
             mainWorkoutHolds = getIntent().getParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS");
-//            ArrayList<Hold> mainActivityWorkoutHolds = getIntent().getParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS");
             benchmarkInfo = BenchmarkWorkoutsAdapter.getBenchmarkInfo(mainTimeControls,mainWorkoutHolds);
         }
 
@@ -76,16 +77,12 @@ public class BenchmarkActivity extends AppCompatActivity {
         copyBenchmarkButton = findViewById(R.id.copyBenchmarkWorkout);
         randomizeGripsCheckBox = findViewById(R.id.randomizeGrips);
         animationTextView = findViewById(R.id.animationTextView);
-
-//        benchmarkInfoTextView.setVisibility(View.INVISIBLE);
         animationTextView.setVisibility(View.INVISIBLE);
-
-
-       //  parceBenchmarkPrograms(hangboardPosition);
 
         hangboardAdapter = new BenchmarkHangboardAdapter(this);
         hangboardNamesListView.setAdapter(hangboardAdapter);
 
+        // All the premade workouts in a huge string, parced in BenchmarkWorkoutsAdapter
         Resources res = getResources();
         String[] benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(hangboardPosition));
 
@@ -94,23 +91,19 @@ public class BenchmarkActivity extends AppCompatActivity {
 
         hangboardAdapter.setSelectedHangboard(hangboardPosition);
 
+        // When hangboard is selected, those hangboard's pre made workouts are shown
         hangboardNamesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                if (hangboardPosition == i && selectedBenchmark ==-1) {
+                // do nothing if already selected and no premade workouts selected
+                if (hangboardPosition == i && selectedBenchmark == -1) {
                     return;
                 }
 
-                /*if (i == hangboardPosition) {
-                    return;
-                }
-*/
-                // parceBenchmarkPrograms(hangboardPosition);
-
+                // retrieve, parce and show pre made workouts
                 Resources res = getResources();
                 String[] benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(i));
-
                 workoutsAdapter = new BenchmarkWorkoutsAdapter(BenchmarkActivity.this,i,benchmarkResources);
                 benchmarksListView.setAdapter(workoutsAdapter);
 
@@ -129,7 +122,6 @@ public class BenchmarkActivity extends AppCompatActivity {
                         popupTextViewAnimation();
                         benchmarkInfoTextView.setVisibility(View.VISIBLE);
                     }
-
                     benchmarkInfoTextView.setText(benchmarkInfo);
 
                     //Only show change if it came from same hangboard
@@ -143,7 +135,6 @@ public class BenchmarkActivity extends AppCompatActivity {
 
                 // else we hide the textview
                 else if (benchmarkInfoTextView.getVisibility() == View.VISIBLE) {
-
                     hideTextViewAnimation();
                     benchmarkInfoTextView.setVisibility(View.INVISIBLE);
                     animationTextView.setVisibility(View.INVISIBLE);
@@ -151,64 +142,50 @@ public class BenchmarkActivity extends AppCompatActivity {
                 }
                 hangboardPosition = i;
                 selectedBenchmark = -1;
-                // benchmarksAdapter = new ArrayAdapter<String>(BenchmarkActivity.this,android.R.layout.simple_list_item_1,benchmarkDescriptions);
-                // benchmarksListView.setAdapter(benchmarksAdapter);
 
             }
         });
-//        Resources res = getResources();
 
-        // String[] benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(hangboardPosition));
-
-        //workoutsAdapter = new BenchmarkWorkoutsAdapter(this,0,benchmarkResources);
-        //benchmarksListView.setAdapter(workoutsAdapter);
-        // registerForContextMenu(benchmarksListView);
-
-        // String benchmarkInfo = workoutsAdapter.getBenchmarkInfoText(selectedBenchmark);
+        // benchmarkInfoTextView shows all kind of interesting info from pre made workout
         benchmarkInfoTextView.setText(benchmarkInfo);
-
         benchmarksListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                // RunAnimation2();
-                // animationText needs to know former selected Benchmark position
-                //workoutsAdapter.setSelectedBenchmark(i);
                 if (selectedBenchmark == i) {
                     return;
                 }
 
+                // lets check if we are comparing two pre made workouts or workout that came from MainActivity
+                // or if textView was not visible, we are not comparing to anything
+                String animationChangeText="";
+                if (benchmarkInfoTextView.getVisibility() == View.VISIBLE) {
+                    if (selectedBenchmark != -1) {
+                       // animationChangeText = workoutsAdapter.getAnimationInfoText(selectedBenchmark, i);
+
+                        animationChangeText = workoutsAdapter.getAnimationInfo(workoutsAdapter.getWorkoutTimeControls(selectedBenchmark),
+                                workoutsAdapter.getWorkoutHolds(selectedBenchmark),
+                                workoutsAdapter.getWorkoutTimeControls(i), workoutsAdapter.getWorkoutHolds(i));
+
+                    } else {
+                        animationChangeText = workoutsAdapter.getAnimationInfo(mainTimeControls, mainWorkoutHolds
+                                , workoutsAdapter.getWorkoutTimeControls(i), workoutsAdapter.getWorkoutHolds(i));
+                    }
+                }
 
                 benchmarkInfoTextView.setVisibility(View.VISIBLE);
-                String animationChangeText;
-                if (selectedBenchmark != -1) {
-                    animationChangeText = workoutsAdapter.getAnimationInfoText(selectedBenchmark, i);
-                   // animationTextView.setVisibility(View.VISIBLE);
-                } else {
-                    animationChangeText = workoutsAdapter.getAnimationInfo(mainTimeControls,mainWorkoutHolds
-                    ,workoutsAdapter.getWorkoutTimeControls(i),workoutsAdapter.getWorkoutHolds(i));
-                    // popupTextViewAnimation();
-
-                }
                 selectedBenchmark = i;
 
                 String benchmarkInfo = workoutsAdapter.getBenchmarkInfoText(selectedBenchmark);
-
                 animationTextView.setText(animationChangeText);
 
-
                 benchmarkDifferenceAnimation();
-
                 benchmarkInfoTextView.setText(benchmarkInfo);
-                // Animation animation = AnimationUtils.loadAnimation()
-
-                // changeBenchmarkInfoText();
-                // workoutsAdapter.notifyDataSetChanged();
-
 
             }
         });
 
+        // Transfer workout info from BenchmarkWorkoutsAdapter to MainActivity
         copyBenchmarkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -217,19 +194,17 @@ public class BenchmarkActivity extends AppCompatActivity {
                     return;
                 }
 
-
-                int i = selectedBenchmark;
-
                 String benchmarkHangboard = hangboardAdapter.getHangboardName(hangboardPosition);
                 TimeControls benchmarkTimeControls = workoutsAdapter.getWorkoutTimeControls(selectedBenchmark);
                 ArrayList<Hold> benchmarkWorkoutHolds = workoutsAdapter.getWorkoutHolds(selectedBenchmark);
 
+                // When doing the same benchmark workout over and over again, it is nice that hold are
+                // not always in the same order
                 if (randomizeGripsCheckBox.isChecked() ) {
 
                     int index;
                     Random random = new Random();
                     int totalGrips = benchmarkWorkoutHolds.size()/2;
-                    // Log.d("totalGrips",": " + totalGrips);
 
                     ArrayList<Hold> randomizedHolds = new ArrayList<>();
 
@@ -242,12 +217,8 @@ public class BenchmarkActivity extends AppCompatActivity {
 
                         randomizedHolds.add( benchmarkWorkoutHolds.get(2*index) );
                         benchmarkWorkoutHolds.remove(2*index);
+                    }
 
-                    }
-                        // Log.d("RNGHOLD","SIZE: " + randomizedHolds.size() + "  BMSIZE " + benchmarkWorkoutHolds.size() ) ;
-                    for (int j = 0 ; j < randomizedHolds.size() ; j = j+2) {
-                       // Log.d("HOLDS",randomizedHolds.get(j).getHoldInfo( randomizedHolds.get(j+1) ).replace("\n"," ") );
-                    }
                     Intent resultCopyBenchmarkIntent = new Intent();
                     resultCopyBenchmarkIntent.putExtra("com.finn.laakso.hangboardapp.BOARDNAME", benchmarkHangboard);
                     resultCopyBenchmarkIntent.putExtra("com.finn.laakso.hangboardapp.SETTINGS", benchmarkTimeControls.getTimeControlsIntArray());
@@ -298,129 +269,6 @@ public class BenchmarkActivity extends AppCompatActivity {
         tv.clearAnimation();
         tv.startAnimation(a);
     }
-/*
-    private void changeBenchmarkInfoText() {
-
-        TimeControls tempControls = benchmarkTimeControls.get(selectedBenchmark);
-
-        int gripLaps = tempControls.getGripLaps();
-        int sets = tempControls.getRoutineLaps();
-        int hangs = tempControls.getHangLaps();
-
-        int[] tempCompleted = new int[gripLaps * sets];
-
-        for (int i = 0 ; i < tempCompleted.length ;  i++) {
-            tempCompleted[i] = hangs;
-        }
-
-        CalculateWorkoutDetails benchmarkDetails = new CalculateWorkoutDetails(tempControls,
-                benchmarkWorkoutHolds.get(selectedBenchmark),tempCompleted);
-
-        String benchmarkInfo = "";
-        String repeaters;
-        if (tempControls.isRepeaters() ) { repeaters = "Repeaters"; }
-        else {repeaters = "Single hangs"; }
-
-        String intensity = "0." + (int)(100 * benchmarkDetails.getIntensity());
-        String workoutPower = (int) benchmarkDetails.getWorkoutPower() + ".";
-        workoutPower += (int) (100 * (benchmarkDetails.getWorkoutPower() - (int) benchmarkDetails.getWorkoutPower() ) );
-
-        String workload = "" + (int) benchmarkDetails.getWorkload();
-
-        benchmarkInfo += repeaters + "\n";
-        benchmarkInfo += "Total time: " + tempControls.getTotalTime()/60 + "min\n";
-        benchmarkInfo += "TUT: " + tempControls.getTimeUnderTension() + "s\n";
-        benchmarkInfo += "Intensity: " + intensity +"\n";
-        benchmarkInfo += "avg Difficulty: " + (int)benchmarkDetails.getAverageDifficutly() + "\n";
-        benchmarkInfo += "Power: " + workoutPower + "\n";
-        benchmarkInfo += "Workload: " + workload + "\n";
-        benchmarkInfo += "Time Controls: \n" + tempControls.getTimeControlsAsJSONGString();
-
-        benchmarkInfoTextView.setText(benchmarkInfo );
-
-
-    }*/
-
-/*    private void parceBenchmarkPrograms(int selectedHangboardPosition) {
-
-        hangboardNames = HangboardResources.getHangboardNames();
-
-        benchmarkDescriptions = new ArrayList<>();
-        benchmarkTimeControls = new ArrayList<>();
-        benchmarkWorkoutHolds = new ArrayList<>();
-
-        Resources res = getResources();
-
-        String[] allBenchmarks = res.getStringArray(HangboardResources.getBenchmarkResources(selectedHangboardPosition));
-        // currentHangboard = new Hangboard(res,HangboardResources.getHangboardName(0));
-        // currentHangboard.setGripAmount;
-
-
-        for (int i = 0 ; i < allBenchmarks.length ; i++) {
-            benchmarkDescriptions.add(allBenchmarks[i]);
-
-            i++;
-            TimeControls tempControls = new TimeControls();
-            tempControls.setTimeControlsFromString(allBenchmarks[i]);
-            benchmarkTimeControls.add(tempControls);
-
-            i++;
-            ArrayList<Hold> tempWorkoutHolds = new ArrayList<>();
-            int[] tempHoldNumbers = parceStringToInt(allBenchmarks[i]);
-            i++;
-            int[] tempHoldGripTypes = parceStringToInt(allBenchmarks[i]);
-
-
-            if (tempControls.getGripLaps()*2 != tempHoldNumbers.length ||
-                    tempControls.getGripLaps()*2 != tempHoldGripTypes.length ) {
-
-                Log.e("ERR","timecontrols griplaps different size than needed workoutholds at: " + i);
-                Toast.makeText(this,"ERROr PARCE SIZES",Toast.LENGTH_LONG).show();
-               //Log.d("DESC",benchmarkDescriptions.get(i));
-                Log.d("time controls",tempControls.getTimeControlsAsJSONGString() );
-                Log.d("Hold numbers",": " + tempHoldNumbers.length);
-                Log.d("grip types",": " + tempHoldGripTypes.length);
-
-                StringBuilder griptypes = new StringBuilder();
-                for (int j = 0 ; j < tempHoldNumbers.length ; j++) {
-                    griptypes.append("1,");
-                }
-                Log.d("wanted grip types",griptypes.toString() );
-
-            }
-
-            Hold tempHold;
-            for (int j = 0 ; j < tempHoldNumbers.length ; j++ ) {
-
-                tempHold = new Hold(tempHoldNumbers[j] );
-                tempHold.setGripType(tempHoldGripTypes[j] );
-
-                int holdDifficulty = HangboardResources.getHoldDifficulty(tempHold,hangboardNames[selectedHangboardPosition] );
-                tempHold.setHoldValue(holdDifficulty);
-
-                tempWorkoutHolds.add(tempHold);
-            }
-
-            benchmarkWorkoutHolds.add(tempWorkoutHolds);
-
-          //   Log.d("benchmark","data line: " + i + " = " +allBenchmarks[i]);
-        }
-
-    }*/
-/*
-
-    public static int[] parceStringToInt(String arrayIntLine) {
-        String[] parcedCompletedHangs = arrayIntLine.split(",");
-
-        int[] completed = new int[parcedCompletedHangs.length];
-
-        for (int i = 0; i < parcedCompletedHangs.length; i++) {
-            completed[i] = Integer.parseInt(parcedCompletedHangs[i]);
-        }
-
-        return completed;
-    }
-*/
 
 
 }

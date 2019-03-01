@@ -11,17 +11,15 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+// BenchmarkHangboardAdapter manages the hangboard list in BenchmarkActivity
+// Little animations are shown here and there
 public class BenchmarkHangboardAdapter extends BaseAdapter {
 
-
     private final Context mContext;
-
     private String[] hangboardNames;
-
     private int selectedHangboard;
 
     static class HangboardViewHolder {
-
         TextView hangboardNameTextView;
         ImageView hangboardImageView;
         int position;
@@ -30,14 +28,12 @@ public class BenchmarkHangboardAdapter extends BaseAdapter {
 
 
     public BenchmarkHangboardAdapter(Context context) {
-
         selectedHangboard = 0;
-
         hangboardNames = HangboardResources.getHangboardNames();
 
         this.mContext = context;
-//        this.mInflator = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
+
 
     public String getHangboardName(int position) {
         if (position >= 0 && position < hangboardNames.length ) {
@@ -51,10 +47,8 @@ public class BenchmarkHangboardAdapter extends BaseAdapter {
         selectedHangboard = position;
     }
 
-    // this is the same as hangsCompleted.length
     @Override
     public int getCount() {
-        // return timeControls.getGripLaps()*timeControls.getRoutineLaps();
         return hangboardNames.length;
     }
 
@@ -93,6 +87,7 @@ public class BenchmarkHangboardAdapter extends BaseAdapter {
         }
 
         viewHolder.hangboardNameTextView.setText(hangboardNames[position] );
+        // When selected hangboard appears slowly in the background
         if (selectedHangboard == position) {
             viewHolder.hangboardImageView.setImageResource(HangboardResources.getHangboardImageResource(position));
             Animation animation = AnimationUtils.loadAnimation(mContext,R.anim.fade_in1000ms);
@@ -102,10 +97,6 @@ public class BenchmarkHangboardAdapter extends BaseAdapter {
             viewHolder.hangboardImageView.setImageResource(0);
         }
 
-       // Animation animation = AnimationUtils.loadAnimation(mContext,R.anim.fade_in1000ms);
-       // convertView.startAnimation(animation);
-
-        //viewHolder.hangboardImageView.setImageResource(HangboardResources.getHangboardImageResource(position));
         return convertView;
     }
 }

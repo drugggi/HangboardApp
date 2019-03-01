@@ -386,14 +386,14 @@ private static final int[] gripValuesBM1000 = {
             3,S21,FF, 3,S21F3,F3, 3,S21B3,B3,  // sloper worse than 2, diff 4
 
             4,MM40,FF, 4,MM40F3,F3, 4,MM40B3,B3, // small just diff 2
-            5,MM16,FF, 5,MM16F3,F3, 5,MM16B3,B3, // 12mm deep diff 9
+            5,MM15,FF, 5,MM15F3,F3, 5,MM15B3,B3, // 12mm deep diff 9
             6,MM30,FFS, 6,MM30F3,F3S, 6,MM30B3,B3S, // large crimp 28mm deep  5
 
             7,MM17,FF, 7,MM17F3,F3, 7,MM17B3,B3,     // above hold 7; small crimp, 10mm deep (diff 8)
             8,MM19,FF, 8,MM19F3,F3, 8,MM19B3,B3,     // above hold 8; small crimp, 15mm deep (diff 7)
 
             9, MM25,FFS, 9,MM25F3,F3S, 9,MM25B3,B3S,  // crimp 24mm deep (diff 7) 7
-            10,MM15,FF, 10,MM15F3,F3, 10,MM15B3,B3,     // slopping 4 finger crimp 22mm deep, around 20 degrees, 65mm wide (diff 8)
+            10,MM16,FF, 10,MM16F3,F3, 10,MM16B3,B3,     // slopping 4 finger crimp 22mm deep, around 20 degrees, 65mm wide (diff 8)
             11,MM18,FF, 11,MM18F3,F3, 11,MM18B3,B3,     // slopping 4 finger crimp 25mm deep around 5 degrees, 65mm wide (diff 6)
 
             12,MM20,FFS, 12,MM20F3,F3S, 12,MM20B3,B3S,   // crimp 20mm deep (diff 8) 10

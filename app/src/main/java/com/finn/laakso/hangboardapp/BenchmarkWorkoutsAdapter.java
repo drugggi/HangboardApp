@@ -2,7 +2,6 @@ package com.finn.laakso.hangboardapp;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +14,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+// BenchmarkWorkoutsAdapter manages the premade Workotus list in BenchmarkActivity. It also
+// gets them fro strings.xml and parce necessary information for textviews
 public class BenchmarkWorkoutsAdapter extends BaseAdapter {
 
     private final Context mContext;
 
+    // All the premade workouts for single hangboard are stored in these
     private ArrayList<String> benchmarkTitle;
     private ArrayList<String> benchmarkDescriptions;
     private ArrayList<TimeControls> benchmarkTimeControls;
@@ -26,11 +28,9 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
     private int[] benchmarkGradeImageResources;
 
     private String[] hangboardNames;
-
-    String[] allBenchmarks;
+    private String[] allBenchmarks;
 
     static class BenchmarkInfoViewHolder {
-
         TextView benchmarkTitleTextView;
         TextView benchmarkDescriptionTextView;
         ImageView benchmarkGradeImageView;
@@ -54,6 +54,7 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
         }
     }
 
+    // A lot of parcing to get from five lines of strings to workout's timecontrols and holds
     public BenchmarkWorkoutsAdapter(Context context, int selectedHangboard, String[] benchmarkResources) {
 
         hangboardNames = HangboardResources.getHangboardNames();
@@ -62,11 +63,13 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
         benchmarkGradeImageResources = new int[benchmarkTimeControls.size()];
 
         for (int i = 0; i < benchmarkTitle.size(); i++) {
+            // There has to be title at least 3 lenfth to include grade
             if (benchmarkTitle.get(i).length() < 3) {
                 benchmarkGradeImageResources[i] = getImageResources("Errr");
                 benchmarkTitle.set(i,"Error: title too short");
                 continue;
             }
+            // If the grade is found show it and shorten the title
             benchmarkGradeImageResources[i] = getImageResources(benchmarkTitle.get(i).substring(0, 3));
             if (benchmarkGradeImageResources[i] != R.drawable.questiongrade ) {
 
@@ -79,16 +82,11 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
             }
         }
 
-        // Log.d("Sizes", benchmarkWorkoutHolds.size() + " " + benchmarkDescriptions.size() + " ");
-
         this.mContext = context;
-        // LayoutInflater mInflator = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    // this is the same as hangsCompleted.length
     @Override
     public int getCount() {
-        // return timeControls.getGripLaps()*timeControls.getRoutineLaps();
         return benchmarkTimeControls.size();
     }
 
@@ -130,23 +128,14 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
         viewHolder.benchmarkTitleTextView.setText(benchmarkTitle.get(position));
         viewHolder.benchmarkGradeImageView.setImageResource(benchmarkGradeImageResources[position]);
 
+        // When scrolling the list, benchmarks are fade in smoothly
         Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.fade_in500ms);
         convertView.startAnimation(animation);
 
-
-/*
-        Random rng = new Random();
-
-        int imageResources = getImageResources(benchmarkDescriptions.get(position).substring(0,3));
-
-        if (rng.nextBoolean() ) {
-            viewHolder.benchmarkGradeImageView.setImageResource(R.drawable.fiveb);
-        } else {
-            viewHolder.benchmarkGradeImageView.setImageResource(imageResources);
-        }*/
         return convertView;
     }
 
+    // getAnimatinoInfo method compares two workouts, and return the parameters' difference in string
     public String getAnimationInfo(TimeControls prevTC, ArrayList<Hold> prevHolds,
                                           TimeControls selectedTC, ArrayList<Hold> selectedHolds) {
 
@@ -169,6 +158,7 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
 
         int[] selectedTempCompleted = new int[selectedGripLaps * selectedSets];
 
+        // We have to make completed matrix so we get avgD, power, workload and power parameters
         for (int i = 0; i < selectedTempCompleted.length; i++) {
             selectedTempCompleted[i] = selectedHangs;
         }
@@ -233,7 +223,9 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
 
 
     }
+/*
 
+    // getAnimationInfoText is same than getAnimationInfo except this compares two pre made workouts
     public String getAnimationInfoText(int previousPosition, int selectedPosition) {
 
 
@@ -324,7 +316,9 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
                 "\n" + avgD + "\n" + power + "\n" + workload + "\n\n";
 
     }
+*/
 
+    // getBenchmarkInfo method returns workout's info in string form that is easily shown in TextView
     public static String getBenchmarkInfo(TimeControls tempControls, ArrayList<Hold> workoutHolds) {
 
         int gripLaps = tempControls.getGripLaps();
@@ -375,51 +369,12 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
         if (selectedBenchmark < 0 || selectedBenchmark >= benchmarkTimeControls.size()) {
             return "ERROR";
         }
-
         return getBenchmarkInfo(benchmarkTimeControls.get(selectedBenchmark),benchmarkWorkoutHolds.get(selectedBenchmark));
-        /*
-        TimeControls tempControls = benchmarkTimeControls.get(selectedBenchmark);
 
-        int gripLaps = tempControls.getGripLaps();
-        int sets = tempControls.getRoutineLaps();
-        int hangs = tempControls.getHangLaps();
-
-        int[] tempCompleted = new int[gripLaps * sets];
-
-        for (int i = 0; i < tempCompleted.length; i++) {
-            tempCompleted[i] = hangs;
-        }
-
-        CalculateWorkoutDetails benchmarkDetails = new CalculateWorkoutDetails(tempControls,
-                benchmarkWorkoutHolds.get(selectedBenchmark), tempCompleted);
-
-        String benchmarkInfo = "";
-        String repeaters;
-        if (tempControls.isRepeaters()) {
-            repeaters = "Repeaters";
-        } else {
-            repeaters = "Single hangs";
-        }
-
-        String intensity = "0." + (int) (100 * benchmarkDetails.getIntensity());
-        String workoutPower = (int) benchmarkDetails.getWorkoutPower() + ".";
-        workoutPower += (int) (100 * (benchmarkDetails.getWorkoutPower() - (int) benchmarkDetails.getWorkoutPower()));
-
-        String workload = "" + (int) benchmarkDetails.getWorkload();
-
-        benchmarkInfo += repeaters + "\n";
-        benchmarkInfo += "Total time: " + tempControls.getTotalTime() / 60 + "min\n";
-        benchmarkInfo += "TUT: " + tempControls.getTimeUnderTension() + "s\n";
-        benchmarkInfo += "Intensity: " + intensity + "\n";
-        benchmarkInfo += "avg Difficulty: " + (int) benchmarkDetails.getAverageDifficutly() + "\n";
-        benchmarkInfo += "Power: " + workoutPower + "\n";
-        benchmarkInfo += "Workload: " + workload + "\n";
-        benchmarkInfo += "Time Controls: \n" + tempControls.getTimeControlsAsJSONGString();
-
-        return benchmarkInfo;
-*/
     }
 
+    // A lot of errar handlin is done so that even if pre made workotus are wronly typed in strings.xml
+    // Whole program does not crash
     private void addErrorTimeControlsAndHolds() {
         TimeControls errorControls = new TimeControls();
         errorControls.setTimeControls(new int[] {1,1,10,0,1,150,150});
@@ -433,6 +388,7 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
 
     }
 
+    // parceBenchmarkProgram parces strings to TimeControls and Holds and titles
     private void parceBenchmarkPrograms(int selectedHangboardPosition) {
 
         hangboardNames = HangboardResources.getHangboardNames();
@@ -441,9 +397,6 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
         benchmarkDescriptions = new ArrayList<>();
         benchmarkTimeControls = new ArrayList<>();
         benchmarkWorkoutHolds = new ArrayList<>();
-
-        // currentHangboard = new Hangboard(res,HangboardResources.getHangboardName(0));
-        // currentHangboard.setGripAmount;
 
         if (allBenchmarks.length % 5 != 0){
             benchmarkTitle.add("SIZE ERROR");
@@ -463,13 +416,13 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
             i++;
 
             String desc = allBenchmarks[i];
-            //benchmarkDescriptions.add(allBenchmarks[i]);
             i++;
 
             TimeControls tempControls = new TimeControls();
             tempControls.setTimeControlsFromString(allBenchmarks[i]);
             benchmarkTimeControls.add(tempControls);
 
+            // It is really useful to know if workout is repeaters of single hangs
             if (tempControls.isRepeaters() ) {
                 benchmarkDescriptions.add(desc+"  (repeaters)");
             } else {
@@ -515,32 +468,11 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
 
             benchmarkWorkoutHolds.add(tempWorkoutHolds);
 
-            //   Log.d("benchmark","data line: " + i + " = " +allBenchmarks[i]);
         }
 
-     /*   for (int i = 0 ; i <benchmarkDescriptions.size() ; i++) {
-            Log.d("DESC",benchmarkDescriptions.get(i) );
-            Log.d("TC",benchmarkTimeControls.get(i).getTimeControlsAsJSONGString() );
-
-            String holds = "";
-            String grips = "";
-            String diffis = "";
-            for (int j = 0 ; j < benchmarkWorkoutHolds.get(i).size() ; j=j+2) {
-
-                Log.d("HOLDS",benchmarkWorkoutHolds.get(i).get(j).getHoldInfo( benchmarkWorkoutHolds.get(i).get(j+1) ).replace("\n"," ") );
-
-             //   holds += benchmarkWorkoutHolds.get(i).get(j).getHoldNumber() + "";
-              //  grips += benchmarkWorkoutHolds.get(i).get(j).getGripStyleInt() + "";
-              //  diffis += benchmarkWorkoutHolds.get(i).get(j).getHoldValue() + "";
-
-            }
-            Log.d("HANGS",holds +  "   " +grips + "    " + diffis);
-
-        }
-*/
     }
 
-
+    // Time controls, griptypes and holds are stores as ints separated by ',' -> "6,6,7,3,3,150,360"
     public static int[] parceStringToInt(String arrayIntLine) {
 
         if (arrayIntLine.length() == 0) {
@@ -565,7 +497,7 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
         return completed;
     }
 
-
+    // For visuals
     private int getImageResources(String grade) {
         if (grade.equals("5A ")) {
             return R.drawable.fivea;
