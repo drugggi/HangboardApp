@@ -56,6 +56,7 @@ public final class  HangboardResources {
     // Sloper difficulties based on angle degrees
     private static final int
             S20 = 3, S20F3 = 12, S20B3 = 14,
+            S21 = 4, S21F3 = 16, S21B3 = 19,
             S25 = 8, S25F3 = 25, S25B3 = 35,
             S30 = 15, S30F3 = 50, S30B3 = 60,
             S35 = 23, S35F3 = 75, S35B3 = 85,
@@ -378,28 +379,32 @@ private static final int[] gripValuesBM1000 = {
             14,MM22,FFS, 14,MM22F3,F3S, 14,MM22B3,B3S,
     };
 
+    // comments are from email
     private static final int[] gripValuesCore = {
-            1,3,FF, 1,7,F3, 1,9,B3,
-            2,3,FF, 2,7,F3, 2,9,B3,
-            3,3,FFS, 3,7,F3S, 3,9,B3S,
+            1,JUG,FF, 1,JUG3F,F3, 1,JUG3B,B3,     // big Jug diff1
+            2,S20,FF, 2,S20F3,F3, 2,S20B3,B3,     // sloper diff 3
+            3,S21,FF, 3,S21F3,F3, 3,S21B3,B3,  // sloper worse than 2, diff 4
 
-            4,3,FF, 4,7,F3, 4,9,B3,
-            5,3,FF, 5,7,F3, 5,9,B3,
-            6,3,FFS, 6,7,F3S, 6,9,B3S,
+            4,MM40,FF, 4,MM40F3,F3, 4,MM40B3,B3, // small just diff 2
+            5,MM16,FF, 5,MM16F3,F3, 5,MM16B3,B3, // 12mm deep diff 9
+            6,MM30,FFS, 6,MM30F3,F3S, 6,MM30B3,B3S, // large crimp 28mm deep  5
 
-            7,3,FF, 7,7,F3, 7,9,B3,
-            8,3,FF, 8,7,F3, 8,9,B3,
-            9,3,FFS, 9,7,F3S, 9,9,B3S,
+            7,MM17,FF, 7,MM17F3,F3, 7,MM17B3,B3,     // above hold 7; small crimp, 10mm deep (diff 8)
+            8,MM19,FF, 8,MM19F3,F3, 8,MM19B3,B3,     // above hold 8; small crimp, 15mm deep (diff 7)
 
-            10,3,FF, 10,7,F3, 10,9,B3,
-            11,3,FF, 11,7,F3, 11,9,B3,
-            12,3,FFS, 12,7,F3S, 12,9,B3S,
+            9, MM25,FFS, 9,MM25F3,F3S, 9,MM25B3,B3S,  // crimp 24mm deep (diff 7) 7
+            10,MM15,FF, 10,MM15F3,F3, 10,MM15B3,B3,     // slopping 4 finger crimp 22mm deep, around 20 degrees, 65mm wide (diff 8)
+            11,MM18,FF, 11,MM18F3,F3, 11,MM18B3,B3,     // slopping 4 finger crimp 25mm deep around 5 degrees, 65mm wide (diff 6)
 
-            13,3,FF, 13,7,F3, 13,9,B3,
-            14,27,F2, 14,24,M2, 14,45,B2,
-            15,7,F3, 15,9,B3,
-            16,3,FFS, 16,7,F3S, 16,9,B3S,
-    };
+            12,MM20,FFS, 12,MM20F3,F3S, 12,MM20B3,B3S,   // crimp 20mm deep (diff 8) 10
+            13,MM10,FF, 13,MM10F3,F3, 13,MM10B3,B3,  //  small 3 finger slopper, 70mm wide, 35mm deep, about 35 degrees (diff 8)
+            14,_MM35F3,F3, 14,_MM35B3,B3,  // 3 finger pocket, 40mm deep, 65mm wide but the useable area is closer to 50mm as the edges cut in to your fingers further towards the edges. (diff 5)
+
+            15,_MM30F2,F2, 15,_MM30M2,M2, 15,_MM30B2,B2,   // 2 finger pocket, 25mm deep, 35mm wide (diff 8.5)
+            16,MM14,FFS, 16,MM14F3,F3S, 16,MM14B3,B3S, // small crimp, 15mm deep, just about 4 fingers, (diff 9)
+            17,MM13,FF, 17,MM13F3,F3, 17,MM13B3,B3,      //  small rounded 3 finger crimp, 18mm deep, 60mm wide (very hard) (diff 10)
+            18,_MM25F2,F2, 18,_MM25M2,M2, 18,_MM25B2,B2,   //  2 finger pocket, 20mm deep, 35mm wide (diff 9)
+             };
     
 private static final int[] gripValuesGrillto = {
         1,1,FF, 1,2,F3, 1,2,B3, 1,21,F2, 1,15,M2, 1,38,B2, 1,85,IN, 1,75,MI, 1,135,RI, 1,190,LI,
@@ -770,6 +775,36 @@ private static final int[] gripValuesSoillboost = {
     private static final int[] coreCoordinates = {
             1 , 9 , 1 , 273 , 1 ,
             2 , 81 , 17 , 201 , 17 ,
+            3 , 128 , 4 , 156 , 4 ,
+            4 , -12 ,33  , 293 , 33 ,
+            5 , 60 , 33 , 225 , 33 ,
+            6 , 142 , 33 , 142 , 33 ,
+            7 , 31 , 46 , 257 , 46 ,
+            8 , 75 , 48 , 213 , 48 ,
+
+            9 , 143 , 55 , 143 , 55 ,
+
+            10 , 31 , 61 , 257 , 61 ,
+            11 , 71 , 63 , 217 , 63 ,
+
+            12 , 143 , 77 , 143 , 77 ,
+
+            13 , -8 , 79 , 295 , 79 ,
+            14 , 34 , 87 , 252 , 87 ,
+
+            //13 , 3 , 106 , 283 , 106 ,
+            // 14 , 50 , 115 , 233 , 115 ,
+            15 , 83 , 100 , 203 , 100 ,
+
+            16 , 143 , 96 , 143 , 96 ,
+            17 , 3 , 106 , 283 , 106 ,
+            18 , 50 , 115 , 233 , 115 ,
+
+    };
+/* Old coordinates values
+    private static final int[] coreCoordinates = {
+            1 , 9 , 1 , 273 , 1 ,
+            2 , 81 , 17 , 201 , 17 ,
             3 , 142 , 4 , 142 , 4 ,
             4 , -12 ,33  , 293 , 33 ,
             5 , 60 , 33 , 225 , 33 ,
@@ -787,6 +822,7 @@ private static final int[] gripValuesSoillboost = {
 
 
     };
+    */
     private static final int[] soillboostCoordinates = {
  1 , 10 , 0 , 273 , 0 ,
  2 , 56 , 0 , 227 , 0 ,
