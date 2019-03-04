@@ -57,6 +57,7 @@ public final class  HangboardResources {
     private static final int
             S20 = 3, S20F3 = 12, S20B3 = 14,
             S21 = 4, S21F3 = 16, S21B3 = 19,
+            S22 = 5, S22F3 = 19, S22B3 = 23,
             S25 = 8, S25F3 = 25, S25B3 = 35,
             S30 = 15, S30F3 = 50, S30B3 = 60,
             S35 = 23, S35F3 = 75, S35B3 = 85,
@@ -382,17 +383,17 @@ private static final int[] gripValuesBM1000 = {
     // comments are from email
     private static final int[] gripValuesCore = {
             1,JUG,FF, 1,JUG3F,F3, 1,JUG3B,B3,     // big Jug diff1
-            2,S20,FF, 2,S20F3,F3, 2,S20B3,B3,     // sloper diff 3
-            3,S21,FF, 3,S21F3,F3, 3,S21B3,B3,  // sloper worse than 2, diff 4
+            2,S21,FF, 2,S21F3,F3, 2,S21B3,B3,     // sloper diff 3
+            3,S22,FF, 3,S22F3,F3, 3,S22B3,B3,  // sloper worse than 2, diff 4
 
             4,MM40,FF, 4,MM40F3,F3, 4,MM40B3,B3, // small just diff 2
             5,MM15,FF, 5,MM15F3,F3, 5,MM15B3,B3, // 12mm deep diff 9
-            6,MM30,FFS, 6,MM30F3,F3S, 6,MM30B3,B3S, // large crimp 28mm deep  5
+            6,MM30,FFS, 6,MM30F3,F3S, 6,MM30B3,B3S, 6,MM30F2,F2,6,MM30M2,M2,6,MM30B2,B2,// large crimp 28mm deep  5
 
             7,MM17,FF, 7,MM17F3,F3, 7,MM17B3,B3,     // above hold 7; small crimp, 10mm deep (diff 8)
             8,MM19,FF, 8,MM19F3,F3, 8,MM19B3,B3,     // above hold 8; small crimp, 15mm deep (diff 7)
 
-            9, MM25,FFS, 9,MM25F3,F3S, 9,MM25B3,B3S,  // crimp 24mm deep (diff 7) 7
+            9, MM25,FFS, 9,MM25F3,F3S, 9,MM25B3,B3S,9,MM25F2,F2,9,MM25M2,M2,9,MM25B2,B2,  // crimp 24mm deep (diff 7) 7
             10,MM16,FF, 10,MM16F3,F3, 10,MM16B3,B3,     // slopping 4 finger crimp 22mm deep, around 20 degrees, 65mm wide (diff 8)
             11,MM18,FF, 11,MM18F3,F3, 11,MM18B3,B3,     // slopping 4 finger crimp 25mm deep around 5 degrees, 65mm wide (diff 6)
 
