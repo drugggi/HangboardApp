@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -132,14 +133,13 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
 
         Toast.makeText(this,"DB HANDLER DELETEALL ENABLED",Toast.LENGTH_SHORT).show();
- /*     dbHandler.DELETEALL();
+      dbHandler.DELETEALL();
         Resources res = getResources();
         String[] benchmarkResources;
-       int HBpos = HangboardResources.getHangboardPosition("Solution");*/
+       int HBpos = HangboardResources.getHangboardPosition("Core");
         //Log.d("pos","" + HBpos);
-
-       // benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(HBpos));
-        //BenchmarkWorkoutsAdapter.TESTaddBenchmarksIntoDatabase(dbHandler,benchmarkResources,HBpos);
+         benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(HBpos));
+        BenchmarkWorkoutsAdapter.TESTaddBenchmarksIntoDatabase(dbHandler,benchmarkResources,HBpos);
 /*
         benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(0));
         BenchmarkWorkoutsAdapter.TESTaddBenchmarksIntoDatabase(dbHandler,benchmarkResources,0);
