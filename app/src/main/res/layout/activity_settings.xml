@@ -16,6 +16,18 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/slate"
+                android:fontFamily="sans-serif-medium"
+                android:padding="8dp"
+                android:text="General Settings"
+                android:textAlignment="center"
+                android:textColor="@color/colorAccentFotn"
+                android:textSize="24sp" />
+
             <Switch
                 android:id="@+id/helpSwitch"
                 android:layout_width="match_parent"
@@ -25,9 +37,22 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:text="show help/tutorial messages"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/slate"
+                android:fontFamily="sans-serif-medium"
+                android:padding="8dp"
+                android:text="Workout Settings"
+                android:textAlignment="center"
+                android:textColor="@color/colorAccentFotn"
+                android:textSize="24sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -39,9 +64,11 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="@string/workout_start_time" />
+                    android:text="@string/workout_start_time"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/startTimeEditText"
@@ -66,7 +93,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/workout_timer_size" />
+                    android:text="@string/workout_timer_size"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/timerSizeEditText"

@@ -19,6 +19,10 @@ import android.widget.Toast;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    public static final float DEFAULT_TIMER_SIZE = 1.0f;
+    public static final int DEFAULT_START_TIME = 30;
+    public static final boolean DEFAULT_SHOW_MESSAGES = true;
+
     private Button resetButton,okButton;
 
     private Switch helpSwitch;
@@ -38,7 +42,7 @@ public class SettingsActivity extends AppCompatActivity {
 
             actionBar.setLogo(R.drawable.gripgrading48x);
             actionBar.setDisplayUseLogoEnabled(true);
-            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.ceramic)));
+            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.slate)));
             // actionBar.setBackgroundDrawable();
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -50,8 +54,8 @@ public class SettingsActivity extends AppCompatActivity {
 
 
         boolean helpSwitchPosition = prefSettings.getBoolean("helpSwitch",true);
-        int startTime = prefSettings.getInt("workoutStartTime",30);
-        float timerSize = prefSettings.getFloat("workoutTimerSize",1.0f);
+        int startTime = prefSettings.getInt("workoutStartTime",DEFAULT_START_TIME);
+        float timerSize = prefSettings.getFloat("workoutTimerSize",DEFAULT_TIMER_SIZE);
 
         resetButton = findViewById(R.id.resetButton);
         okButton = findViewById(R.id.okButton);
@@ -86,12 +90,12 @@ public class SettingsActivity extends AppCompatActivity {
                         editor.apply();
                     }
                     else {
-                        startTimeEditText.setText("" + 30);
+                        startTimeEditText.setText("" + prefSettings.getInt("workoutStartTime",DEFAULT_START_TIME));
                         Toast.makeText(SettingsActivity.this,"Number out of bounds, changes reverted",Toast.LENGTH_SHORT).show();}
 
                 } catch (NumberFormatException nfe)
                 {
-                    startTimeEditText.setText("" + 30);
+                    startTimeEditText.setText("" + prefSettings.getInt("workoutStartTime",DEFAULT_START_TIME));
                     Toast.makeText(SettingsActivity.this,"Illegal number, changes reverted",Toast.LENGTH_SHORT).show();
                 }
 
@@ -113,12 +117,12 @@ public class SettingsActivity extends AppCompatActivity {
                         editor.apply();
                     }
                     else {
-                        timerSizeEditText.setText("" + 1.0f);
+                        timerSizeEditText.setText("" + prefSettings.getFloat("workoutTimerSize",DEFAULT_TIMER_SIZE));
                         Toast.makeText(SettingsActivity.this,"Number out of bounds, changes reverted",Toast.LENGTH_SHORT).show();}
 
                 } catch (NumberFormatException nfe)
                 {
-                    timerSizeEditText.setText("" + 1.0f);
+                    timerSizeEditText.setText("" + prefSettings.getFloat("workoutTimerSize",DEFAULT_TIMER_SIZE));
                     Toast.makeText(SettingsActivity.this,"Illegal number, changes reverted",Toast.LENGTH_SHORT).show();
                 }
 
@@ -132,8 +136,17 @@ public class SettingsActivity extends AppCompatActivity {
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                helpSwitch.setChecked(true);
-                startTimeEditText.setText(""+30);
+                helpSwitch.setChecked(DEFAULT_SHOW_MESSAGES);
+
+                SharedPreferences.Editor editor = prefSettings.edit();
+                editor.putInt("workoutStartTime",DEFAULT_START_TIME);
+                startTimeEditText.setText(""+DEFAULT_START_TIME);
+
+                //SharedPreferences.Editor editor = prefSettings.edit();
+                editor.putFloat("workoutTimerSize",DEFAULT_TIMER_SIZE);
+                timerSizeEditText.setText(""+DEFAULT_TIMER_SIZE);
+
+                editor.apply();
             }
         });
 

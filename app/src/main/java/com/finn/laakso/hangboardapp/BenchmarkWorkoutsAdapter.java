@@ -83,6 +83,7 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
         }
 
         this.mContext = context;
+        TESTisCustomHolds();
     }
 
     @Override
@@ -632,6 +633,16 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
                     testBenchmarkWorkoutHolds.get(i),
                     tempCompleted,
                     testBenchmarkDescriptions.get(i));
+        }
+    }
+
+    private void TESTisCustomHolds() {
+        for (int i = 0; i < benchmarkWorkoutHolds.size() ; i++) {
+            for (int j = 0 ; j < benchmarkWorkoutHolds.get(i).size() ; j++) {
+                if (benchmarkWorkoutHolds.get(i).get(j).getHoldValue() == 0) {
+                    Log.e("TEST for custom hold","ERROR CUSTOM HOLD FOUND"+i+ " " + j);
+                }
+            }
         }
     }
 

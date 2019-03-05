@@ -135,9 +135,9 @@ public class WorkoutActivity extends AppCompatActivity {
 
         total_s = 0;
         s = -1 * PreferenceManager.getDefaultSharedPreferences(WorkoutActivity.this)
-                .getInt("workoutStartTime",30);
+                .getInt("workoutStartTime",SettingsActivity.DEFAULT_START_TIME);
         resizeChronoTimer(PreferenceManager.getDefaultSharedPreferences(WorkoutActivity.this)
-                .getFloat("workoutTimerSize",1.0f));
+                .getFloat("workoutTimerSize",SettingsActivity.DEFAULT_TIMER_SIZE));
 
         // Holds that will be used in this workout program
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.HOLDS")) {
@@ -554,34 +554,25 @@ public class WorkoutActivity extends AppCompatActivity {
         else {
          //   DisplayMetrics metrics;
            // metrics = getApplicationContext().getResources().getDisplayMetrics();
-            float chronoTextSize = 1f; // = lapseTimeChrono.getTextSize() / metrics.density;
+            float chronoTextSize; // = lapseTimeChrono.getTextSize() / metrics.density;
 
             if (clicked_position == 1) {
                 chronoTextSize = 1.5f;
-                // lapseTimeChrono.setTextSize(chronoTextSize * 1.5f);
             } else if (clicked_position == 2) {
                 chronoTextSize = 1.25f;
             } else if (clicked_position == 3) {
                 chronoTextSize = 1.1f;
-                // lapseTimeChrono.setTextSize(chronoTextSize * 1.1f);
             } else if (clicked_position == 4) {
                 chronoTextSize = 0.9f;
-                //lapseTimeChrono.setTextSize(chronoTextSize * 0.9f);
             } else if (clicked_position == 5) {
                 chronoTextSize = 0.75f;
-                //lapseTimeChrono.setTextSize(chronoTextSize * 0.75f);
             } else {
                 chronoTextSize = 0.5f;
-                //lapseTimeChrono.setTextSize(chronoTextSize * 0.5f);
+
             }
 
             resizeChronoTimer(chronoTextSize);
 
-            // Lets not allow user to make ridiculously small or big text size.
-          /*  if (lapseTimeChrono.getTextSize() > 1500f || lapseTimeChrono.getTextSize() < 100f) {
-                Toast.makeText(WorkoutActivity.this, "Inappropriate text size", Toast.LENGTH_SHORT).show();
-                lapseTimeChrono.setTextSize(155f);
-            }*/
         }
         return true;
 
@@ -593,19 +584,6 @@ public class WorkoutActivity extends AppCompatActivity {
         float chronoTextSize = textSizeMultiplier * lapseTimeChrono.getTextSize() / metrics.density;
 
         lapseTimeChrono.setTextSize(chronoTextSize);
-        /*if (clicked_position == 1) {
-            lapseTimeChrono.setTextSize(chronoTextSize * 1.5f);
-        } else if (clicked_position == 2) {
-            lapseTimeChrono.setTextSize(chronoTextSize * 1.25f);
-        } else if (clicked_position == 3) {
-            lapseTimeChrono.setTextSize(chronoTextSize * 1.1f);
-        } else if (clicked_position == 4) {
-            lapseTimeChrono.setTextSize(chronoTextSize * 0.9f);
-        } else if (clicked_position == 5) {
-            lapseTimeChrono.setTextSize(chronoTextSize * 0.75f);
-        } else {
-            lapseTimeChrono.setTextSize(chronoTextSize * 0.5f);
-        }*/
 
         // Lets not allow user to make ridiculously small or big text size.
         if (lapseTimeChrono.getTextSize() > 1500f || lapseTimeChrono.getTextSize() < 50f) {
