@@ -9,9 +9,11 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -61,27 +63,20 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_workout_history);
 
-        // Random needed for generating random workout data
-       // rng = new Random();
-
         workoutDetailstButton = (Button) findViewById(R.id.workoutDetailsButton);
         showGraphsButton = (Button) findViewById(R.id.showGraphsButton);
 
         showHiddenWorkoutsCheckBox = (CheckBox) findViewById(R.id.showHiddenCheckBox);
         showHiddenWorkoutsCheckBox.setChecked(false);
 
-        // DBHandler to store workout from Intent.
-        dbHandler = new WorkoutDBHandler(getApplicationContext(),null,null,1);
-        
-        // Temporary workout info to generate test workouts
-
-        ArrayList<Hold> tempWorkoutHolds = new ArrayList<>();
-        TimeControls tempTimeControls = new TimeControls();
-        String tempHangboardName = "";
-        int[] tempCompleted = new int[5];
-
         //If phone orientation is changed, we don't need to get intents
         if (savedInstanceState == null) {
+
+            ArrayList<Hold> tempWorkoutHolds = new ArrayList<>();
+            TimeControls tempTimeControls = new TimeControls();
+            String tempHangboardName = "";
+            int[] tempCompleted = new int[5];
+
 
             // Holds that will be used in this workout program
             if (getIntent().hasExtra("com.finn.laakso.hangboardapp.HOLDS")) {
@@ -117,7 +112,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                 tempCompleted = getIntent().getExtras().getIntArray("com.finn.laakso.hangboardapp.COMPLETEDHANGS");
             }
 
-            String workoutDescription = "Temp desc";
+            String workoutDescription;
             if (getIntent().hasExtra("com.finn.laakso.hangboardapp.DESCRIPTION")) {
                 workoutDescription = getIntent().getExtras().getString("com.finn.laakso.hangboardapp.DESCRIPTION");
 
@@ -125,6 +120,8 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                 long time = System.currentTimeMillis();
 
                 // Lets add workout information to database straight from the Intent.
+                dbHandler = new WorkoutDBHandler(getApplicationContext(),null,null,1);
+
                 dbHandler.addHangboardWorkout(time, tempHangboardName, tempTimeControls, tempWorkoutHolds, tempCompleted, workoutDescription);
                 Toast.makeText(WorkoutHistoryActivity.this,"new workout saved",Toast.LENGTH_SHORT).show();
             }
@@ -132,184 +129,184 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         }
 
 
-        Toast.makeText(this,"DB HANDLER DELETEALL ENABLED",Toast.LENGTH_SHORT).show();
-      dbHandler.DELETEALL();
-        Resources res = getResources();
-        String[] benchmarkResources;
-       int HBpos = HangboardResources.getHangboardPosition("Core");
-        //Log.d("pos","" + HBpos);
-         benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(HBpos));
-        BenchmarkWorkoutsAdapter.TESTaddBenchmarksIntoDatabase(dbHandler,benchmarkResources,HBpos);
-/*
-        benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(0));
-        BenchmarkWorkoutsAdapter.TESTaddBenchmarksIntoDatabase(dbHandler,benchmarkResources,0);
-
-        benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(HBpos));
-        BenchmarkWorkoutsAdapter.TESTaddBenchmarksIntoDatabase(dbHandler,benchmarkResources,HBpos);*/
-  /*      benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(0));
-        BenchmarkWorkoutsAdapter.TESTaddBenchmarksIntoDatabase(dbHandler,benchmarkResources,0);
-        benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(1));
-         BenchmarkWorkoutsAdapter.TESTaddBenchmarksIntoDatabase(dbHandler,benchmarkResources,1);
-       benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(3));
-        BenchmarkWorkoutsAdapter.TESTaddBenchmarksIntoDatabase(dbHandler,benchmarkResources,3);
-       benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(4));
-        BenchmarkWorkoutsAdapter.TESTaddBenchmarksIntoDatabase(dbHandler,benchmarkResources,4);
-        benchmarkResources = res.getStringArray(HangboardResources.getBenchmarkResources(5));
-        BenchmarkWorkoutsAdapter.TESTaddBenchmarksIntoDatabase(dbHandler,benchmarkResources,5);
-*/
         // JSONFetcher myWorkoutHistory = new JSONFetcher(dbHandler);
         // myWorkoutHistory.execute();
 
         // Click listener for editing single workout
         //workoutDetailstButton.setText("show WO details");
-        workoutDetailstButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                Intent workoutDetailsIntent = new Intent(getApplicationContext(), WorkoutDetailsActivity.class);
+        new PopulateWorkoutsHistoryListview().execute();
 
-                // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
-                boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
+    }
 
-                if (positionGlobal == 0 || positionGlobal > dbHandler.lookUpWorkoutCount(includeHidden)) {
-                    Toast.makeText(WorkoutHistoryActivity.this,"no workout selected",Toast.LENGTH_LONG).show();
-                    return;
-                }
 
-                boolean isHidden = dbHandler.lookUpIsHidden(positionGlobal,includeHidden);
+    private class PopulateWorkoutsHistoryListview extends AsyncTask {
+        protected void onPreExecute() {
 
-                workoutDetailsIntent.putExtra("com.finn.laakso.hangboardapp.DBPOSITION",positionGlobal );
-                workoutDetailsIntent.putExtra("com.finn.laakso.hangboardapp.ISHIDDEN",isHidden );
+        }
 
-               // JSONFetcher myWorkoutHistory = new JSONFetcher(dbHandler);
-                //myWorkoutHistory.constructJSONObjects();
+        // We gather all the workouts details from the database in the background
+        @Override
+        protected Object doInBackground(Object[] objects) {
 
-                 startActivity(workoutDetailsIntent);
+            dbHandler = new WorkoutDBHandler(getApplicationContext(),null,null,1);
 
-            }
-        });
+            // boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
+            workoutAdapter = new WorkoutHistoryAdapter(WorkoutHistoryActivity.this,dbHandler,false);
 
-        boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
-        workoutAdapter = new WorkoutHistoryAdapter(this,dbHandler,includeHidden);
+            return null;
+        }
 
-        workoutHistoryListView = (ListView) findViewById(R.id.workoutHistoryListView);
-        workoutHistoryListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        workoutHistoryListView.setAdapter(workoutAdapter);
-        registerForContextMenu(workoutHistoryListView);
+        // When the details are gathered and calculated we draw the graphs
+        protected void onPostExecute(Object objects) {
 
-        workoutHistoryListView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
-            @Override
-            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-
-                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-                int position = info.position + 1;
-
-                if (v.getId() == R.id.workoutHistoryListView) {
+            showGraphsButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
                     boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
 
-                    // Show different context menu if all workout are shown (hidden too)
-                    if (showHiddenWorkoutsCheckBox.isChecked() && dbHandler.lookUpIsHidden(position,includeHidden) ) {
-
-                        menu.setHeaderTitle("Choose your edit");
-                        menu.add(Menu.NONE, 0, 0, "edit workout");
-                        menu.add(Menu.NONE, 1, 1, "hide/unhide workout");
-                        menu.add(Menu.NONE, 2,2,"edit date");
-                        menu.add(Menu.NONE,3,3,"edit hangboard name");
-                        menu.add(Menu.NONE,4,4,"copy workout");
-                        menu.add(Menu.NONE, 5, 5, "delete workout");
-                    }
-                    // Context menu when hidden workout are not shown
-                    else {           menu.setHeaderTitle("Choose your edit");
-                        menu.add(Menu.NONE, 0, 0, "edit workout");
-                        menu.add(Menu.NONE, 1, 1, "hide workout");
-                        menu.add(Menu.NONE, 2,2,"edit date");
-                        menu.add(Menu.NONE,3,3,"edit hangboard name");
-                        menu.add(Menu.NONE,4,4,"copy workout");
-                              // Can't delete unhidden workouts
-                        // menu.add(Menu.NONE, 4, 4, "delete workout");
-                    }
-
-                }
-
-            }
-        });
-
-        workoutHistoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                workoutAdapter.workoutClicked(position);
-                positionGlobal = position+1;
-                workoutAdapter.notifyDataSetChanged();
-            }
-        });
-
-        // Show hidden workout check box is meant to be a security wall for not deleting accidentally
-        // an importan workout and secondly user can hide warmups, failed workouts or test without
-        // them influencing statistics and graphs
-        showHiddenWorkoutsCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                positionGlobal = 0;
-                workoutAdapter = new WorkoutHistoryAdapter(WorkoutHistoryActivity.this,dbHandler,isChecked);
-
-                workoutHistoryListView = (ListView) findViewById(R.id.workoutHistoryListView);
-                workoutHistoryListView.setAdapter(workoutAdapter);
-
-            }
-        });
-
-        // The whole point of storing the workouts in database is to build beautifully useless graphs
-        // hopefully this will be one of the main attraction of this app
-        showGraphsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
-
-                if (dbHandler.lookUpWorkoutCount(includeHidden) == 0) {
-                    Toast.makeText(WorkoutHistoryActivity.this,"No workouts in list",Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Intent showDatabaseGraphs = new Intent(getApplicationContext(),WorkoutStatisticsActivity.class);
-
-                    boolean showHidden = showHiddenWorkoutsCheckBox.isChecked();
-                    showDatabaseGraphs.putExtra("com.finn.laakso.hangboardapp.SHOWHIDDEN",showHidden );
-
-                    if (workoutAdapter.getSelectedWorkoutsAmount() == 0 ||
-                            workoutAdapter.getSelectedWorkoutsAmount() == dbHandler.lookUpWorkoutCount(includeHidden)) {
-                    startActivity(showDatabaseGraphs);
+                    if (dbHandler.lookUpWorkoutCount(includeHidden) == 0) {
+                        Toast.makeText(WorkoutHistoryActivity.this,"No workouts in list",Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        showDatabaseGraphs.putExtra("com.finn.laakso.hangboardapp.SELECTEDWORKOUTS",workoutAdapter.getSelectedWorkouts() );
-                        startActivity(showDatabaseGraphs);
+                        Intent showDatabaseGraphs = new Intent(getApplicationContext(),WorkoutStatisticsActivity.class);
 
+                        boolean showHidden = showHiddenWorkoutsCheckBox.isChecked();
+                        showDatabaseGraphs.putExtra("com.finn.laakso.hangboardapp.SHOWHIDDEN",showHidden );
+
+                        if (workoutAdapter.getSelectedWorkoutsAmount() == 0 ||
+                                workoutAdapter.getSelectedWorkoutsAmount() == dbHandler.lookUpWorkoutCount(includeHidden)) {
+                            startActivity(showDatabaseGraphs);
+                        }
+                        else {
+                            showDatabaseGraphs.putExtra("com.finn.laakso.hangboardapp.SELECTEDWORKOUTS",workoutAdapter.getSelectedWorkouts() );
+                            startActivity(showDatabaseGraphs);
+
+                        }
                     }
                 }
-            }
-        });
+            });
 
-        // Listener for parsing and updating the date that user selects
-        dateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                // month = month + 1;
 
-                Calendar cal = Calendar.getInstance();
-                cal.set(Calendar.YEAR, year);
-                cal.set(Calendar.MONTH, month);
-                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-                Long timeInMillis = cal.getTimeInMillis();
+            workoutDetailstButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
-                dbHandler.updateDate(positionGlobal,timeInMillis,includeHidden);
+                    Intent workoutDetailsIntent = new Intent(getApplicationContext(), WorkoutDetailsActivity.class);
 
-                workoutAdapter.notifyDataSetChanged();
+                    // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
+                    boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
 
-            }
-        };
+                    if (positionGlobal == 0 || positionGlobal > dbHandler.lookUpWorkoutCount(includeHidden)) {
+                        Toast.makeText(WorkoutHistoryActivity.this,"no workout selected",Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    boolean isHidden = dbHandler.lookUpIsHidden(positionGlobal,includeHidden);
+
+                    workoutDetailsIntent.putExtra("com.finn.laakso.hangboardapp.DBPOSITION",positionGlobal );
+                    workoutDetailsIntent.putExtra("com.finn.laakso.hangboardapp.ISHIDDEN",isHidden );
+
+                    // JSONFetcher myWorkoutHistory = new JSONFetcher(dbHandler);
+                    //myWorkoutHistory.constructJSONObjects();
+
+                    startActivity(workoutDetailsIntent);
+                }
+            });
+
+
+
+            workoutHistoryListView = (ListView) findViewById(R.id.workoutHistoryListView);
+            workoutHistoryListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+            workoutHistoryListView.setAdapter(workoutAdapter);
+            registerForContextMenu(workoutHistoryListView);
+
+            workoutHistoryListView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+                @Override
+                public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+
+                    AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+                    int position = info.position + 1;
+
+                    if (v.getId() == R.id.workoutHistoryListView) {
+
+                        boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
+
+                        // Show different context menu if all workout are shown (hidden too)
+                        if (showHiddenWorkoutsCheckBox.isChecked() && dbHandler.lookUpIsHidden(position,includeHidden) ) {
+
+                            menu.setHeaderTitle("Choose your edit");
+                            menu.add(Menu.NONE, 0, 0, "edit workout");
+                            menu.add(Menu.NONE, 1, 1, "hide/unhide workout");
+                            menu.add(Menu.NONE, 2,2,"edit date");
+                            menu.add(Menu.NONE,3,3,"edit hangboard name");
+                            menu.add(Menu.NONE,4,4,"copy workout");
+                            menu.add(Menu.NONE, 5, 5, "delete workout");
+                        }
+                        // Context menu when hidden workout are not shown
+                        else {           menu.setHeaderTitle("Choose your edit");
+                            menu.add(Menu.NONE, 0, 0, "edit workout");
+                            menu.add(Menu.NONE, 1, 1, "hide workout");
+                            menu.add(Menu.NONE, 2,2,"edit date");
+                            menu.add(Menu.NONE,3,3,"edit hangboard name");
+                            menu.add(Menu.NONE,4,4,"copy workout");
+                            // Can't delete unhidden workouts
+                            // menu.add(Menu.NONE, 4, 4, "delete workout");
+                        }
+
+                    }
+
+                }
+            });
+
+            workoutHistoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    workoutAdapter.workoutClicked(position);
+                    positionGlobal = position+1;
+                    workoutAdapter.notifyDataSetChanged();
+                }
+            });
+
+
+            showHiddenWorkoutsCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                    positionGlobal = 0;
+                    workoutAdapter = new WorkoutHistoryAdapter(WorkoutHistoryActivity.this,dbHandler,isChecked);
+
+                    workoutHistoryListView = (ListView) findViewById(R.id.workoutHistoryListView);
+                    workoutHistoryListView.setAdapter(workoutAdapter);
+
+                }
+            });
+
+            dateSetListener = new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                    // month = month + 1;
+
+                    Calendar cal = Calendar.getInstance();
+                    cal.set(Calendar.YEAR, year);
+                    cal.set(Calendar.MONTH, month);
+                    cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                    Long timeInMillis = cal.getTimeInMillis();
+
+                    boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
+                    dbHandler.updateDate(positionGlobal,timeInMillis,includeHidden);
+
+                    workoutAdapter.notifyDataSetChanged();
+
+                }
+            };
+
+        }
+
+
 
     }
 
