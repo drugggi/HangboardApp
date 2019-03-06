@@ -360,6 +360,14 @@ public class WorkoutActivity extends AppCompatActivity {
 
                         if (s >= -1) {nowDoing = workoutPart.WORKOUT;}
 
+                        // Tip for editing unsuccessful hangs, only shown once at the start of workout
+                        if (s == -25 && PreferenceManager.getDefaultSharedPreferences(WorkoutActivity.this)
+                                        .getBoolean("helpSwitch",true) ) {
+                            Toast.makeText(WorkoutActivity.this,
+                                    "To edit unsuccessful hangs,long press left progressbar.", Toast.LENGTH_LONG).show();
+                        }
+
+
                         break;
                     case WORKOUT:
                         if( s == 0 ) {
@@ -459,14 +467,6 @@ public class WorkoutActivity extends AppCompatActivity {
 
                         restProgressBar.setProgress((s+timeControls.getRestTime())*100 / timeControls.getRestTime() );
 
-                        // show helpful not obvious tip only once at the start of workout
-                        if (s == -41 && current_lap == 1 && current_set == 1 &&
-                                PreferenceManager.getDefaultSharedPreferences(WorkoutActivity.this)
-                                        .getBoolean("helpSwitch",true) ) {
-                            Toast.makeText(WorkoutActivity.this,"To edit unsuccessful hangs," +
-                                    " long press left progressbar.", Toast.LENGTH_LONG).show();
-
-                             }
 
                         if (s == -1) {nowDoing = workoutPart.WORKOUT;}
 
