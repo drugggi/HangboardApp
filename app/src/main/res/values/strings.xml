@@ -123,80 +123,82 @@
         <item>4,4,4,2,2,4,4,4,4,2,2,4,11,11,10,10,11,11</item>
         <item>2,2,2,2,2,2,3,3,3,3,3,3,4,4,5,5,6,6</item>
 
-        <item>5B Benchmark</item>
+        <item>5C Benchmark</item>
         <item>Only four finger grip</item>
         <item>3,6,7,3,2,150,300</item>
         <item>6,6,3,3,3,6</item>
         <item>1,1,1,1,1,1</item>
 
-        <item>5C Benchmark</item>
+        <item>6A Benchmark</item>
         <item>Grips &amp; Grades test, intro to three finger grips</item>
         <item>5,6,7,3,2,150,300</item>
-        <item>6,10,6,6,3,10,8,8,8,8</item>
+        <item>6,10,6,3,3,10,8,8,8,8</item>
         <item>1,1,1,1,1,1,2,2,3,3</item>
 
-        <item>6A Benchmark</item>
+        <item>6A+ Benchmark</item>
         <item>Grips &amp; Grades test</item>
-        <item>5,6,7,3,2,150,300</item>
-        <item>6,10,3,10,8,8,5,8,5,8</item>
+        <item>5,6,7,3,2,140,300</item>
+        <item>6,10,3,10,8,8,10,8,8,8</item>
         <item>1,1,1,1,2,2,2,2,3,3</item>
+<!--
 
         <item>6A+ Benchmark</item>
         <item>Grips &amp; Grades test</item>
         <item>5,6,7,3,2,140,300</item>
         <item>6,10,3,10,5,8,5,8,8,6</item>
         <item>1,1,1,1,2,2,3,3,3,3</item>
+-->
 
         <item>6B Benchmark</item>
         <item>Intro to two middle grip</item>
         <item>5,6,7,3,2,140,300</item>
-        <item>10,10,3,2,5,5,5,6,7,7</item>
+        <item>10,10,6,4,5,8,8,6,7,7</item>
         <item>1,1,1,1,2,2,3,3,5,5</item>
 
         <item>6B+ Benchmark</item>
         <item>Grips &amp; Grades test</item>
         <item>5,6,7,3,2,130,300</item>
-        <item>10,10,3,2,5,5,5,5,7,7</item>
+        <item>10,10,6,2,5,6,5,8,7,7</item>
         <item>1,1,1,1,2,2,3,3,5,5</item>
 
         <item>6C Benchmark</item>
         <item>Five main grip types tested</item>
         <item>5,6,7,3,2,130,300</item>
-        <item>10,4,5,12,5,12,7,7,7,6</item>
+        <item>10,4,5,5,5,6,7,7,7,6</item>
         <item>1,1,2,2,3,3,4,4,5,5</item>
 
         <item>6C+ Benchmark</item>
         <item>Five main grip types tested</item>
         <item>5,6,7,3,2,120,300</item>
-        <item>10,4,5,12,5,12,7,6,7,6</item>
+        <item>10,2,5,12,5,5,7,7,7,6</item>
         <item>1,1,2,2,3,3,4,4,5,5</item>
 
         <item>7A Benchmark</item>
         <item>Five main grip types tested</item>
         <item>5,6,7,3,2,120,240</item>
-        <item>4,4,10,12,12,12,7,6,7,11</item>
+        <item>4,4,12,12,5,12,7,6,7,11</item>
         <item>1,1,2,2,3,3,4,4,5,5</item>
 
         <item>7A+ Benchmark</item>
         <item>Grips &amp; Grades test</item>
         <item>5,6,7,3,2,110,240</item>
-        <item>4,4,10,12,12,10,7,6,7,10</item>
+        <item>4,2,10,12,12,12,7,6,7,10</item>
         <item>1,1,2,2,3,3,4,4,5,5</item>
 
         <item>7B Benchmark</item>
         <item>Grips &amp; Grades test</item>
         <item>5,6,7,3,2,110,240</item>
-        <item>4,2,10,10,10,12,11,7,11,11</item>
+        <item>2,2,10,10,10,12,11,7,11,11</item>
         <item>1,1,2,2,3,3,4,4,5,5</item>
 
         <item>7B+ Benchmark</item>
         <item>Grips &amp; Grades test</item>
         <item>5,6,7,3,2,100,240</item>
-        <item>4,2,10,10,10,10,11,7,11,11</item>
+        <item>2,2,12,4,10,10,11,7,11,10</item>
         <item>1,1,2,2,3,3,4,4,5,5</item>
 
         <item>7C Benchmark</item>
-        <item>Grips &amp; Grades test. Six main grip types tested, intro to two back finger grip</item>
+        <item>Grips &amp; Grades test</item>
         <item>6,6,7,3,2,100,180</item>
         <item>2,2,10,4,10,4,11,11,5,5,7,7</item>
         <item>1,1,2,2,3,3,4,4,5,5,6,6</item>
@@ -204,7 +206,7 @@
         <item>7C+ Benchmark</item>
         <item>Grips &amp; Grades test</item>
         <item>6,6,7,3,2,90,180</item>
-        <item>2,2,10,4,10,4,11,11,5,10,7,7</item>
+        <item>2,2,4,4,10,4,11,11,5,10,7,7</item>
         <item>1,1,2,2,3,3,4,4,5,5,6,6</item>
 
         <item>8A Benchmark</item>
@@ -320,22 +322,16 @@
         <item>1,1,2,11,11,2,2,15,15,2,13,13,13,14,14,13,9,13,13,9,7,7,7,12,12,7</item>
         <item>1,1,2,2,2,2,3,3,3,3,4,4,5,5,5,5,6,6,6,6,7,7,8,8,8,8</item>
 
-        <item>5B Benchmark</item>
+        <item>5C Benchmark</item>
         <item>Only four finger Grips &amp; Grades tested</item>
         <item>3,6,7,3,3,150,300</item>
         <item>6,10,3,3,6,10</item>
         <item>1,1,1,1,1,1</item>
 
-        <item>5C Benchmark</item>
-        <item>Grips &amp; Grades test</item>
-        <item>4,6,7,3,2,150,300</item>
-        <item>6,6,3,3,6,3,10,6</item>
-        <item>1,1,1,1,1,1,1,1</item>
-
         <item>6A Benchmark</item>
         <item>Intro to three finger grip types</item>
         <item>5,6,7,3,2,150,300</item>
-        <item>10,11,6,15,3,15,10,6,4,6</item>
+        <item>6,6,6,15,3,15,10,6,4,6</item>
         <item>1,1,1,1,1,1,2,2,3,3</item>
 
         <item>6A+ Benchmark</item>
@@ -347,7 +343,7 @@
         <item>6B Benchmark</item>
         <item>Grips &amp; Grades test</item>
         <item>5,6,7,3,2,140,300</item>
-        <item>10,11,3,11,6,15,15,6,4,6</item>
+        <item>10,11,3,11,6,15,4,6,4,6</item>
         <item>1,1,1,1,1,1,2,2,3,3</item>
 
         <item>6B+ Benchmark</item>

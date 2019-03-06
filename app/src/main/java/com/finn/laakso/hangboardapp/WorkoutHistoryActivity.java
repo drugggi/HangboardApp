@@ -151,7 +151,6 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
             dbHandler = new WorkoutDBHandler(getApplicationContext(),null,null,1);
 
-            // boolean includeHidden = showHiddenWorkoutsCheckBox.isChecked();
             workoutAdapter = new WorkoutHistoryAdapter(WorkoutHistoryActivity.this,dbHandler,false);
 
             return null;
