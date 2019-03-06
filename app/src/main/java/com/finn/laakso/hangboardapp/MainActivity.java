@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId() ) {
+            /*
             case R.id.action_about:
                 Toast.makeText(this,"about and grip types sort",Toast.LENGTH_SHORT).show();
 
@@ -107,17 +108,16 @@ public class MainActivity extends AppCompatActivity {
                // everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.TWO_BACK);
 
 
-              /*  everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.INDEX_FINGER);
-                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.MIDDLE_FINGER);*/
+              *//*  everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.INDEX_FINGER);
+                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.MIDDLE_FINGER);*//*
                 everyBoard.setDifficultyLimits(25,60);
 
                 everyBoard.sortWorkoutHoldList();
-                everyBoard.TESTprintHoldList();
                 hangsAdapter.notifyDataSetChanged();
 
                 // This is for testing WorkoutHistoryActivity, with these we can simulate completed workouts
                 // by simply marking current workout as done without going through start workout
-/*                Intent workoutHistoryTestIntent = new Intent(getApplicationContext(), WorkoutHistoryActivity.class);
+*//*                Intent workoutHistoryTestIntent = new Intent(getApplicationContext(), WorkoutHistoryActivity.class);
 
                 // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
                 workoutHistoryTestIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );
@@ -126,9 +126,10 @@ public class MainActivity extends AppCompatActivity {
                 workoutHistoryTestIntent.putParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS", everyBoard.getCurrentWorkoutHoldList());
                 workoutHistoryTestIntent.putExtra("com.finn.laakso.hangboardapp.DESCRIPTION","selityselitys");
 
-                startActivity(workoutHistoryTestIntent);*/
+                startActivity(workoutHistoryTestIntent);*//*
 
                 break;
+                */
             case R.id.action_benchmark:
 
                 Intent benchmarkIntent = new Intent(getApplicationContext(), BenchmarkActivity.class);
@@ -140,19 +141,14 @@ public class MainActivity extends AppCompatActivity {
 
                 break;
             case R.id.action_logbook:
-                // Toast.makeText(this,"Logbook",Toast.LENGTH_SHORT).show();
 
                 Intent workoutHistoryIntent = new Intent(getApplicationContext(), WorkoutHistoryActivity.class);
-
                 startActivityForResult(workoutHistoryIntent, REQUEST_COPY_WORKOUT);
 
                 break;
             case R.id.action_settings:
-                //Toast.makeText(this,"Settings",Toast.LENGTH_SHORT).show();
 
                 Intent settingsIntent = new Intent(getApplicationContext(),SettingsActivity.class);
-
-                //settingsIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS", timeControls.getTimeControlsIntArray() );
                 startActivity(settingsIntent);
 
                 break;
@@ -749,7 +745,6 @@ public class MainActivity extends AppCompatActivity {
         // For some reason if phone orientation was changed when on child activity, it causes
         // imageView to be null. Not understanding this fully yet as of 20.2.2019
         if (imageView == null) {
-            Log.e("Image View null","return early from animate method");
             return;
         }
         if (leftFingerImage.getVisibility() == View.INVISIBLE || rightFingerImage.getVisibility() == View.INVISIBLE) {

@@ -270,7 +270,6 @@ public class TimeControls {
     public void setTimeControlsFromString(String JSONString) {
 
         if (JSONString.length() == 0) {
-            Log.e("meControlsFromString","JSONString length 0");
             setTimeControls(new int[] {1,1,10,0,1,150,300});
             return;
         }
@@ -287,12 +286,6 @@ public class TimeControls {
             setTimeControls(new int[] {1,1,10,0,1,150,300});
             return;
         }
-/*
-
-        for (int i = 0; i < timeControlValues.length ; i++) {
-            Log.e("setTimeControlsString"," " + timeControlValues[i]);
-        }
-*/
 
         setTimeControls(timeControlValues );
 

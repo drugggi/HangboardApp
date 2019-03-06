@@ -645,11 +645,7 @@ public class TimeControlsActivity extends AppCompatActivity {
     }
     // puts the saved preferences to TextView so that user can see what time controls are saved
     private void updatePreferenceTextView() {
-        //SharedPreferences test = PreferenceManager.getDefaultSharedPreferences(TimeControlsActivity.this);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(TimeControlsActivity.this);
-        // String statusString = prefs.getString("savePreferences","No preferences saved yet");
-
-        //boolean isRepeaters = prefs.getBoolean("isRepeaters", true);
 
         int grips = prefs.getInt("grips",6);
         int reps = prefs.getInt("repetitions",6);

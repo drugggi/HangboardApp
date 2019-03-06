@@ -397,7 +397,6 @@ public class Hangboard {
         for (int i = 0 ; i < allHangboardHolds.length ; i++ ) {
             // Lets ignore one finger grip types
             if (allHangboardHolds[i].getGripStyleInt() >= 7) {
-                // Log.e("IGNORED GRIPTYPE",allHangboardHolds[i].getGripStyle().toString() );
                 continue;
             }
 
@@ -518,14 +517,11 @@ public class Hangboard {
                     random_nro = getHoldNumberWithGripType(min_value, max_value, randomGripType);
                     // it's possible to get single hold for getholdnumberwithgriptype method
                     if (allHangboardHolds[random_nro].isSingleHold() ) {
-                       // Log.e("Single hold löyty", "täytyy ettiä uus paremmall tekniikalla: " + i +": " +allHangboardHolds[random_nro].getGripStyle());
                         random_nro = getHoldNumberWithValue(min_value, max_value);
                     }
-                        // 25% percent change we dont set the preferrec griptype
                     if (rng.nextInt(100) < 25) {
 
                             random_nro = getHoldNumberWithValue(min_value,max_value);
-                           // Log.e("25%","Mahkulla laitettiin ote: " + i + ": griptype" +allHangboardHolds[random_nro].getGripStyle() );
                         }
 
 
@@ -691,7 +687,6 @@ public class Hangboard {
                 float listHoldValue = 0.5f * (float) (workoutHoldList.get(j).getHoldValue() + workoutHoldList.get(j+1).getHoldValue() );
 
                 if (tempHoldValue < listHoldValue) {
-                   // Log.d("float values","temp: " + tempHoldValue + " < " + listHoldValue + "  :list");
                     workoutHoldList.add(j,tempHoldList[i]);
                     workoutHoldList.add(j+1,tempHoldList[i+1]);
                     placeFound = true;
@@ -720,21 +715,17 @@ public class Hangboard {
 
         clearWorkoutHoldList();
 
-// Log.d("tempholdlist size","" + tempHoldList.length );
         for (int i = 0 ; i < tempHoldList.length ; i= i +2) {
 
             // Trying to exclude hold compinations where one hold is too easy (JUG)
             if (tempHoldList[i].getHoldValue() <= tempHoldList[i+1].getHoldValue() / 3 ||
             tempHoldList[i+1].getHoldValue() <= tempHoldList[i].getHoldValue() / 3 ) {
 
-                // Log.d("Ignored holds" , "left/right value: "+ tempHoldList[i].getHoldValue() + "/" + tempHoldList[i+1].getHoldValue());
-               // Log.d("Ignored holds" , "left/right value/3: "+ tempHoldList[i].getHoldValue()/3 + "/" + tempHoldList[i+1].getHoldValue()/3);
                 continue;
             }
 
             int holdValue = (tempHoldList[i].getHoldValue() + tempHoldList[i+1].getHoldValue() ) / 2;
 
-            // Log.d("hodlValue","" + holdValue);
 
             if (holdValue >= lowerBound && holdValue <= upperBound) {
                 workoutHoldList.add(tempHoldList[i]);
@@ -771,18 +762,20 @@ public class Hangboard {
 
         }
        // workoutHoldList = gripTypeWorkoutList;
-       // Log.d("size",""+gripTypeWorkoutList.size() );
+
 
 
     }
+/*
 
     public void TESTprintHoldList() {
-        // Log.e("missä","ollaan");
+
         for (int i = 0 ; i  < workoutHoldList.size() ; i=i+2) {
 
             String holdInfo = workoutHoldList.get(i).getHoldInfo(workoutHoldList.get(i+1)).replace("\n"," ");
             Log.v("MMit",holdInfo);
         }
     }
+*/
 
 }

@@ -83,7 +83,7 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
         }
 
         this.mContext = context;
-        TESTisCustomHolds();
+     //   TESTisCustomHolds();
     }
 
     @Override
@@ -218,106 +218,11 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
             workload = "";
         }
 
-
-        return "\n" + totalTime + "\n" + TUT + "\n" + intensity +
-                "\n" + avgD + "\n" + power + "\n" + workload + "\n\n";
-
-
-    }
-/*
-
-    // getAnimationInfoText is same than getAnimationInfo except this compares two pre made workouts
-    public String getAnimationInfoText(int previousPosition, int selectedPosition) {
-
-
-        int totalTimeChange = benchmarkTimeControls.get(selectedPosition).getTotalTime() -
-                benchmarkTimeControls.get(previousPosition).getTotalTime();
-        int TUTChange = benchmarkTimeControls.get(selectedPosition).getTimeUnderTension() -
-                benchmarkTimeControls.get(previousPosition).getTimeUnderTension();
-
-        int prevGripLaps = benchmarkTimeControls.get(previousPosition).getGripLaps();
-        int prevSets = benchmarkTimeControls.get(previousPosition).getRoutineLaps();
-        int prevHangs = benchmarkTimeControls.get(previousPosition).getHangLaps();
-
-        int[] prevTempCompleted = new int[prevGripLaps * prevSets];
-
-        for (int i = 0; i < prevTempCompleted.length; i++) {
-            prevTempCompleted[i] = prevHangs;
-        }
-
-        int selectedGripLaps = benchmarkTimeControls.get(selectedPosition).getGripLaps();
-        int selectedSets = benchmarkTimeControls.get(selectedPosition).getRoutineLaps();
-        int selectedHangs = benchmarkTimeControls.get(selectedPosition).getHangLaps();
-
-        int[] selectedTempCompleted = new int[selectedGripLaps * selectedSets];
-
-        for (int i = 0; i < selectedTempCompleted.length; i++) {
-            selectedTempCompleted[i] = selectedHangs;
-        }
-
-        CalculateWorkoutDetails prevDetails = new CalculateWorkoutDetails(benchmarkTimeControls.get(previousPosition),
-                benchmarkWorkoutHolds.get(previousPosition), prevTempCompleted);
-
-        CalculateWorkoutDetails selectedDetails = new CalculateWorkoutDetails(benchmarkTimeControls.get(selectedPosition),
-                benchmarkWorkoutHolds.get(selectedPosition), selectedTempCompleted);
-
-        float intensityChange = (selectedDetails.getIntensity() - prevDetails.getIntensity());
-        int avgDChange = (int) (selectedDetails.getAverageDifficutly() - prevDetails.getAverageDifficutly());
-        float powerChange = (selectedDetails.getWorkoutPower() - prevDetails.getWorkoutPower());
-        int workloadChange = (int) (selectedDetails.getWorkload() - prevDetails.getWorkload());
-
-        String totalTime = "" + totalTimeChange + "s";
-        String TUT = "" + TUTChange + "s";
-        String intensity;
-        String avgD;
-        String power;
-        String workload;
-
-        if (intensityChange < 0) {
-            intensity = "" + String.format(java.util.Locale.US, "%.2f", intensityChange);
-        } else if (intensityChange > 0) {
-            intensity = "+" + String.format(java.util.Locale.US, "%.2f", intensityChange);
-        } else {
-            intensity = "";
-        }
-
-        if (avgDChange < 0) {
-            avgD = "" + avgDChange;
-        } else if (avgDChange > 0) {
-            avgD = "+" + avgDChange;
-        } else {
-            avgD = "";
-        }
-
-        if (totalTimeChange == 0) {
-            totalTime = "";
-        }
-        if (TUTChange == 0) {
-            TUT = "";
-        }
-
-        if (powerChange < 0) {
-            power = "" + String.format(java.util.Locale.US, "%.2f", powerChange);
-        } else if (powerChange > 0) {
-            power = "+" + String.format(java.util.Locale.US, "%.2f", powerChange);
-        } else {
-            power = "";
-        }
-
-        if (workloadChange > 0) {
-            workload = "+" + workloadChange;
-        } else if (workloadChange < 0) {
-            workload = "" + workloadChange;
-        } else {
-            workload = "";
-        }
-
-
         return "\n" + totalTime + "\n" + TUT + "\n" + intensity +
                 "\n" + avgD + "\n" + power + "\n" + workload + "\n\n";
 
     }
-*/
+
 
     // getBenchmarkInfo method returns workout's info in string form that is easily shown in TextView
     public static String getBenchmarkInfo(TimeControls tempControls, ArrayList<Hold> workoutHolds) {
@@ -359,9 +264,6 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
         benchmarkInfo += "Time Controls: \n" + tempControls.getTimeControlsAsJSONGString();
 
         return benchmarkInfo;
-
-
-
 
     }
 
@@ -436,24 +338,17 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
             i++;
             int[] tempHoldGripTypes = parceStringToInt(allBenchmarks[i]);
 
+/*
 
             if (tempControls.getGripLaps() * 2 != tempHoldNumbers.length ||
                     tempControls.getGripLaps() * 2 != tempHoldGripTypes.length) {
-
-                Log.e("ERR", "timecontrols griplaps different size than needed workoutholds at: " + i);
-                //  Toast.makeText(this,"ERROr PARCE SIZES",Toast.LENGTH_LONG).show();
-                //Log.d("DESC",benchmarkDescriptions.get(i));
-                Log.d("time controls", tempControls.getTimeControlsAsJSONGString());
-                Log.d("Hold numbers", ": " + tempHoldNumbers.length);
-                Log.d("grip types", ": " + tempHoldGripTypes.length);
 
                 StringBuilder griptypes = new StringBuilder();
                 for (int j = 0; j < tempHoldNumbers.length; j++) {
                     griptypes.append("1,");
                 }
-                Log.d("wanted grip types", griptypes.toString());
-
             }
+*/
 
             Hold tempHold;
             for (int j = 0; j < tempHoldNumbers.length; j++) {
@@ -477,7 +372,6 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
     public static int[] parceStringToInt(String arrayIntLine) {
 
         if (arrayIntLine.length() == 0) {
-            Log.e("parceStringToInt","lenght was 0 ");
             return new int[] {1,1};
         }
 
@@ -490,7 +384,6 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
                 completed[i] = Integer.parseInt(parcedCompletedHangs[i]);
             }
         } catch (NumberFormatException e) {
-            Log.e("parceStringtoInt","NumberFormatException");
             e.printStackTrace();
             return new int[] {1,1};
         }
@@ -545,6 +438,9 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
         }
 
     }
+
+ /*
+
     public static void TESTaddBenchmarksIntoDatabase(WorkoutDBHandler dbHandler, String[] benchmarkResources, int testHangboardNumber) {
 
         long time = System.currentTimeMillis() - 1000*24*60*60*1000L;
@@ -566,7 +462,7 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
             i++;
             i++;
             TimeControls tempControls = new TimeControls();
-            // Log.d("timecontrols",testAllBenchmarks[i]);
+
             tempControls.setTimeControlsFromString(testAllBenchmarks[i]);
             testBenchmarkTimeControls.add(tempControls);
 
@@ -576,24 +472,6 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
             i++;
             int[] tempHoldGripTypes = parceStringToInt(testAllBenchmarks[i]);
 
-
-            if (tempControls.getGripLaps() * 2 != tempHoldNumbers.length ||
-                    tempControls.getGripLaps() * 2 != tempHoldGripTypes.length) {
-
-                Log.e("ERR", "timecontrols griplaps different size than needed workoutholds at: " + i);
-                //  Toast.makeText(this,"ERROr PARCE SIZES",Toast.LENGTH_LONG).show();
-                //Log.d("DESC",benchmarkDescriptions.get(i));
-                Log.d("time controls", tempControls.getTimeControlsAsJSONGString());
-                Log.d("Hold numbers", ": " + tempHoldNumbers.length);
-                Log.d("grip types", ": " + tempHoldGripTypes.length);
-
-                StringBuilder griptypes = new StringBuilder();
-                for (int j = 0; j < tempHoldNumbers.length; j++) {
-                    griptypes.append("1,");
-                }
-                Log.d("wanted grip types", griptypes.toString());
-
-            }
 
             Hold tempHold;
             for (int j = 0; j < tempHoldNumbers.length; j++) {
@@ -634,7 +512,8 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
                     tempCompleted,
                     testBenchmarkDescriptions.get(i));
         }
-    }
+    }*/
+/*
 
     private void TESTisCustomHolds() {
         for (int i = 0; i < benchmarkWorkoutHolds.size() ; i++) {
@@ -645,5 +524,6 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
             }
         }
     }
+*/
 
 }

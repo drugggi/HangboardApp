@@ -945,11 +945,9 @@ private static final int[] gripValuesSoillboost = {
             tempHold.setHoldValue(holdResources[i]);
             i++;
             tempHold.setGripTypeAndSingleHold(holdResources[i] );
-            //Log.d("TempHold",tempHold.getHoldNumber() + " " + tempHold.getGripStyleInt() );
-            //Log.d("hold",hold.getHoldNumber() + " " + hold.getGripStyleInt() );
 
             if (tempHold.isEqual(hold)) {
-                // Log.d("hold found",tempHold.getHoldNumber()+ " " + tempHold.getGripStyle() + " " + tempHold.getHoldValue());
+
                 return  tempHold.getHoldValue();
             }
         }
@@ -1014,18 +1012,7 @@ private static final int[] gripValuesSoillboost = {
 
 
         }
-/*
 
-        public static int getHoldValueResources(hangboardName hangboard) {
-                int position = hangboard.ordinal();
-              //  Log.d("HoldValueResources","HANGBOARD: " +hangboard.toString() + "  pos: " + position);
-                if (position >= 0 && position < hold_resources.length) {
-                    return hold_resources[position];
-                }
-           // Log.e("ERR","ERROR getholdvalueresources");
-                return hold_resources[0];
-        }
-*/
 
         public static int[] getHoldCoordinates(hangboardName hangboard) {
 /*
@@ -1061,35 +1048,25 @@ private static final int[] gripValuesSoillboost = {
             return hangboardsGripValues[0];
         }
 
-        private static void TESTisArraysTheSame(int[] array1, int[] array2) {
-         if (array1.length != array2.length ) {
-             Log.e("SIZE","Arrays are not even the same size");
-            return;
-         }
 
-         boolean isSame = true;
-         for (int i = 0 ; i < array1.length ; i++ ) {
-             if (array1[i] != array2[i] ) {
-                 Log.e("VALUE DIFF","pos: " + i + "   array1: " + array1[i] + "  array2: " + array2[i]);
-                isSame = false;
+  /*      private static void TESTisArraysTheSame(int[] array1, int[] array2) {
+             if (array1.length != array2.length ) {
+                 Log.e("SIZE","Arrays are not even the same size");
+                return;
              }
-         }
 
-         if (isSame) {
-             Log.d("OK","arrays the same");
-         }
+             boolean isSame = true;
+             for (int i = 0 ; i < array1.length ; i++ ) {
+                 if (array1[i] != array2[i] ) {
+                     Log.e("VALUE DIFF","pos: " + i + "   array1: " + array1[i] + "  array2: " + array2[i]);
+                    isSame = false;
+                 }
+             }
 
-        }
-/*
+             if (isSame) {
+                 Log.d("OK","arrays the same");
+             }
 
-        public static int getHoldCoordinates(hangboardName hangboard) {
-                int position = hangboard.ordinal();
-              //  Log.d("HoldCoordinates","HANGBOARD: " +hangboard.toString() + "  pos: " + position);
-                if(position >= 0 && position < coordinate_resources.length) {
-                    return coordinate_resources[position];
-                }
-           // Log.e("ERR","ERROR getholdcoordinates");
-                return coordinate_resources[0];
         }
 */
 
@@ -1099,8 +1076,6 @@ private static final int[] gripValuesSoillboost = {
     }
 
         public static int getHangboardCount() {
-              //  Log.d("ALL SIZES","  " + image_resources.length + "   " + hangboardStrings.length + "   "
-               //         + hangboardName.values().length +  "  " + hold_resources.length  + "   " + coordinate_resources.length );
                 return image_resources.length;
         }
 
@@ -1109,10 +1084,8 @@ private static final int[] gripValuesSoillboost = {
 
 
                 if (position >= 0 && position < hangboardName.values().length ) {
-                   // Log.d("getHnagboardName","HANGBOARD: " +hangboardName.values()[position].toString() +  "   pos: " + position);
                     return hangboardName.values()[position];
                 }
-                //Log.e("ERR","ERROR getHangboardName");
                 return hangboardName.BM1000;
     }
 
@@ -1121,7 +1094,6 @@ private static final int[] gripValuesSoillboost = {
                 if (position >= 0 && position < image_resources.length) {
                     return image_resources[position];
                 }
-               // Log.e("ERR","ERROR gethangboardimageresources");
                 return R.drawable.lauta1011;
     }
 
@@ -1141,10 +1113,8 @@ private static final int[] gripValuesSoillboost = {
 
                 int position = HB.ordinal();
                 if (position >= 0 && position < hangboardStrings.length ) {
-                  //  Log.d("hangboardstringname","HANGBOARD: " + HB.toString() + "   stringname: " + hangboardStrings[position] + "  pos: " + position);
                     return hangboardStrings[position];
                 }
-               // Log.e("ERR","ERROR gethangboardstringname");
                 return hangboardStrings[0];
 
     }

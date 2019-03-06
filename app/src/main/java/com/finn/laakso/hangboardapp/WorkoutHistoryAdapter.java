@@ -54,10 +54,6 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
             selectedAmount++;
         }
 
-        // Log.d("Selected amount" ,  ": " + selectedAmount );
-/*        for (int i = 0 ; i < selectedWorkouts.length ; i++) {
-            Log.d("t or F" , i + ": " + selectedWorkouts[i] );
-        }*/
     }
 
     public int getSelectedWorkoutsAmount() {
@@ -77,7 +73,6 @@ public class WorkoutHistoryAdapter extends BaseAdapter {
 
         selectedWorkouts = new boolean[getCount()];
         selectedAmount = 0;
-        // Log.d("boolean","count: " + selectedWorkouts.length);
     }
 
     public boolean getShowHiddenStatus() {

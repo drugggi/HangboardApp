@@ -94,10 +94,10 @@ public class HangListAdapter extends BaseAdapter {
         Hold leftHandHold = workoutHolds.get(2*position);
         Hold rightHandHold = workoutHolds.get(2*position + 1);
 
-        String test = leftHandHold.getHoldInfo(rightHandHold);
+        String hangInfoText = leftHandHold.getHoldInfo(rightHandHold);
         String positionText = (position+1) + ".";
 
-        viewHolder.hangInfoTextView.setText(test);
+        viewHolder.hangInfoTextView.setText(hangInfoText);
         viewHolder.hangPositionTextView.setText(positionText);
 
         return convertView;
