@@ -5,7 +5,7 @@
     <string name="settings">Settings</string>
     <string name="workout_start_time">Time before workout starts (seconds)</string>
     <string name="workout_timer_size">Timer size multiplier (0.2&#8211;3.0)</string>
-    <string name="benchmark">Benchmark</string>
+    <string name="benchmark">Benchmarks</string>
     <string name="about">About</string>
     <string name="copy_workout">Copy workout</string>
     <string name="randomize_grips">Random grip order</string>
@@ -150,7 +150,7 @@
 -->
 
         <item>6B Benchmark</item>
-        <item>Intro to two middle grip</item>
+        <item>Grips &amp; Grades test, intro to two middle grip</item>
         <item>5,6,7,3,2,140,300</item>
         <item>10,10,6,4,5,8,8,6,7,7</item>
         <item>1,1,1,1,2,2,3,3,5,5</item>
@@ -162,19 +162,19 @@
         <item>1,1,1,1,2,2,3,3,5,5</item>
 
         <item>6C Benchmark</item>
-        <item>Five main grip types tested</item>
+        <item>Grips &amp; Grades test</item>
         <item>5,6,7,3,2,130,300</item>
         <item>10,4,5,5,5,6,7,7,7,6</item>
         <item>1,1,2,2,3,3,4,4,5,5</item>
 
         <item>6C+ Benchmark</item>
-        <item>Five main grip types tested</item>
+        <item>Grips &amp; Grades test</item>
         <item>5,6,7,3,2,120,300</item>
         <item>10,2,5,12,5,5,7,7,7,6</item>
         <item>1,1,2,2,3,3,4,4,5,5</item>
 
         <item>7A Benchmark</item>
-        <item>Five main grip types tested</item>
+        <item>Grips &amp; Grades test</item>
         <item>5,6,7,3,2,120,240</item>
         <item>4,4,12,12,5,12,7,6,7,11</item>
         <item>1,1,2,2,3,3,4,4,5,5</item>
@@ -216,7 +216,7 @@
         <item>1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,6,6,6,6</item>
 
         <item>6C Four finger progress</item>
-        <item>Master of four finger grip, every combination of four finger grip excluding Jug </item>
+        <item>Master of four finger grip, every combination of four finger grip excluding Jug</item>
         <item>20,1,10,0,1,40,1</item>
         <item>9,6,9,3,9,10,9,4,9,2,6,6,6,3,6,10,6,4,6,2,3,3,3,10,3,4,3,2,10,10,10,4,10,2,4,4,4,2,2,2</item>
         <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
@@ -269,7 +269,7 @@
         <item>1,1,1,1,1,1,2,2,2,2,3,3,3,3</item>
 
         <item>6C Benchmark</item>
-        <item>Intro to two finger pocket</item>
+        <item>Grips &amp; Grades test, intro to two finger pocket</item>
         <item>8,1,10,0,3,40,100</item>
         <item>11,2,2,11,2,2,11,5,5,11,4,11,11,4,8,8</item>
         <item>1,1,1,1,1,1,2,2,2,2,3,3,3,3,5,5</item>
@@ -281,7 +281,7 @@
         <item>1,1,1,1,1,1,2,2,2,2,3,3,3,3,5,5</item>
 
         <item>7A Benchmark</item>
-        <item>Intro to two front grip</item>
+        <item>Grips &amp; Grades test</item>
         <item>12,1,10,0,2,40,80</item>
         <item>2,2,10,1,1,10,15,11,11,15,3,11,11,3,5,11,11,5,8,8,8,9,9,8</item>
         <item>1,1,1,1,1,1,2,2,2,2,3,3,3,3,3,3,3,3,4,4,5,5,5,5</item>
@@ -293,7 +293,7 @@
         <item>1,1,1,1,1,1,2,2,2,2,3,3,3,3,3,3,3,3,4,4,5,5,5,5</item>
 
         <item>7B Benchmark</item>
-        <item>Intro to two back grip</item>
+        <item>Grips &amp; Grades test</item>
         <item>9,1,10,0,3,35,80</item>
         <item>2,2,11,11,11,15,15,11,8,9,9,8,8,13,13,8,8,8</item>
         <item>1,1,2,2,3,3,3,3,4,4,4,4,5,5,5,5,6,6</item>
@@ -311,25 +311,25 @@
         <item>1,1,1,1,2,2,2,2,3,3,4,4,5,5,6,6,6,6</item>
 
         <item>7C+ Benchmark</item>
-        <item>Intro to mono pocket</item>
+        <item>Grips &amp; Grades test, intro to mono pocket</item>
         <item>11,1,10,0,3,30,60</item>
         <item>2,1,1,2,11,2,2,11,11,11,8,13,13,8,13,13,8,9,9,8,7,7</item>
         <item>1,1,1,1,2,2,2,2,3,3,4,4,4,4,5,5,6,6,6,6,8,8</item>
 
         <item>8A Benchmark</item>
-        <item>Intro to index finger grip</item>
+        <item>Grips &amp; Grades test</item>
         <item>13,1,10,0,2,30,60</item>
         <item>1,1,2,11,11,2,2,15,15,2,13,13,13,14,14,13,9,13,13,9,7,7,7,12,12,7</item>
         <item>1,1,2,2,2,2,3,3,3,3,4,4,5,5,5,5,6,6,6,6,7,7,8,8,8,8</item>
 
         <item>5C Benchmark</item>
-        <item>Only four finger Grips &amp; Grades tested</item>
+        <item>Grips &amp; Grades test</item>
         <item>3,6,7,3,3,150,300</item>
         <item>6,10,3,3,6,10</item>
         <item>1,1,1,1,1,1</item>
 
         <item>6A Benchmark</item>
-        <item>Intro to three finger grip types</item>
+        <item>Grips &amp; Grades test</item>
         <item>5,6,7,3,2,150,300</item>
         <item>6,6,6,15,3,15,10,6,4,6</item>
         <item>1,1,1,1,1,1,2,2,3,3</item>
@@ -353,7 +353,7 @@
         <item>1,1,1,1,1,1,2,2,3,3</item>
 
         <item>6C Benchmark</item>
-        <item>Intro to two finger pocket</item>
+        <item>Grips &amp; Grades test, intro to two finger pocket</item>
         <item>5,6,7,3,2,130,300</item>
         <item>11,11,15,11,6,3,6,15,8,8</item>
         <item>1,1,1,1,2,2,3,3,5,5</item>
@@ -365,7 +365,7 @@
         <item>1,1,1,1,2,2,3,3,5,5</item>
 
         <item>7A Benchmark</item>
-        <item>Intro to two front grip type</item>
+        <item>Grips &amp; Grades test</item>
         <item>5,6,7,3,2,120,240</item>
         <item>6,2,6,15,4,11,8,8,8,9</item>
         <item>1,1,2,2,3,3,4,4,5,5</item>
@@ -389,7 +389,7 @@
         <item>1,1,2,2,3,3,4,4,5,5</item>
 
         <item>7C Benchmark</item>
-        <item>Intro to two back grip type</item>
+        <item>Grips &amp; Grades test</item>
         <item>6,6,7,3,2,100,180</item>
         <item>2,2,15,11,5,11,9,9,9,13,8,8</item>
         <item>1,1,2,2,3,3,4,4,5,5,6,6</item>
@@ -401,7 +401,7 @@
         <item>1,1,2,2,3,3,4,4,5,5,6,6</item>
 
         <item>8A Benchmark</item>
-        <item>Intro to Beastmaker\' infamous 45deg sloper</item>
+        <item>Intro to Beastmakers\' infamous 45deg sloper</item>
         <item>12,6,7,3,1,90,1</item>
         <item>11,11,2,1,15,1,11,2,5,11,11,15,11,11,9,13,14,8,13,13,8,9,7,7</item>
         <item>1,1,1,1,1,1,2,2,2,2,3,3,3,3,4,4,5,5,5,5,6,6,8,8</item>
@@ -473,13 +473,13 @@
 
     <string-array name="tension_benchmarks">
         <item>5C Benchmark</item>
-        <item>Four finger grip only</item>
+        <item>Grips &amp; Grades test</item>
         <item>4,1,10,0,3,50,120</item>
         <item>6,2,2,2,6,4,4,4</item>
         <item>1,1,1,1,1,1,1,1</item>
 
         <item>6A Benchmark</item>
-        <item>Intro to three finger grips</item>
+        <item>Grips &amp; Grades test</item>
         <item>7,1,10,0,3,50,120</item>
         <item>2,5,5,2,4,5,5,4,4,6,6,4,2,2</item>
         <item>1,1,1,1,1,1,1,1,2,2,2,2,3,3</item>
@@ -515,7 +515,7 @@
         <item>1,1,1,1,1,1,1,1,2,2,2,2,3,3,3,3</item>
 
         <item>7A Benchmark</item>
-        <item>Intro to two finger pockets</item>
+        <item>Grips &amp; Grades test</item>
         <item>12,1,10,0,2,40,80</item>
         <item>8,8,5,8,8,5,7,9,9,7,4,8,8,4,9,5,5,9,6,2,2,6,2,2</item>
         <item>1,1,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,4,4,4,4,5,5</item>
@@ -539,7 +539,7 @@
         <item>2,2,2,2,2,2,3,3,3,3,3,3,4,4,4,4,5,5</item>
 
         <item>7C Benchmark</item>
-        <item>Intro to two back grip</item>
+        <item>Grips &amp; Grades test</item>
         <item>9,1,10,0,3,30,80</item>
         <item>8,8,8,8,8,8,8,8,4,4,4,5,5,4,6,2,2,6</item>
         <item>2,2,2,2,3,3,3,3,4,4,5,5,5,5,6,6,6,6</item>
@@ -563,7 +563,7 @@
         <item>1,1,1,1,1,1,1,1</item>
 
         <item>6B Benchmark</item>
-        <item>warm up your three finger grip</item>
+        <item>Grips &amp; Grades test</item>
         <item>5,6,7,3,2,140,300</item>
         <item>4,4,4,2,4,4,2,6,2,6</item>
         <item>1,1,1,1,1,1,2,2,3,3</item>
@@ -599,7 +599,7 @@
         <item>1,1,1,1,2,2,3,3,3,3</item>
 
         <item>7B Benchmark</item>
-        <item>prepare your two middle grip</item>
+        <item>Grips &amp; Grades test</item>
         <item>5,6,7,3,2,110,240</item>
         <item>8,8,5,7,4,7,4,7,2,6</item>
         <item>1,1,2,2,2,2,3,3,5,5</item>
@@ -706,7 +706,7 @@
 
 
         <item>5C Benchmark</item>
-        <item>Grips &amp; Grades test,Four fingers only</item>
+        <item>Grips &amp; Grades test, four fingers only</item>
         <item>3,6,7,3,2,150,300</item>
         <item>1,8,2,4,4,1</item>
         <item>1,1,1,1,1,1</item>
@@ -822,29 +822,29 @@
         <item>1,1,1,1,1,1,1,1,2,2,2,2,3,3</item>
 
 
-        <item>7A Benchmark</item><item>Intro to two finger pocket</item>
+        <item>7A Benchmark</item><item>Grips &amp; Grades test</item>
         <item>12,1,10,0,2,40,80</item>
         <item>6,4,4,6,7,6,6,7,6,6,1,3,3,1,1,4,4,1,3,3,1,3,3,1</item>
         <item>1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,3,3,3,3</item>
 
-        <item>7A+ Benchmark</item><item>Intro to two finger pocket</item>
+        <item>7A+ Benchmark</item><item>Grips &amp; Grades test</item>
         <item>12,1,10,0,2,35,80</item>
         <item>5,4,4,5,7,6,6,7,6,6,1,3,3,1,1,4,4,1,4,4,1,3,3,1</item>
         <item>1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,3,3,3,3</item>
 
 
-        <item>7B Benchmark</item><item>Intro to two front grip</item>
+        <item>7B Benchmark</item><item>Grips &amp; Grades test</item>
         <item>9,1,10,0,3,35,80</item>
         <item>4,5,5,4,2,4,4,2,7,1,1,7,4,4,3,4,4,3</item>
         <item>1,1,1,1,1,1,1,1,2,2,2,2,2,2,3,3,3,3</item>
 
-        <item>7B+ Benchmark</item><item>Intro to two front grip</item>
+        <item>7B+ Benchmark</item><item>Grips &amp; Grades test</item>
         <item>9,1,10,0,3,30,80</item>
         <item>4,5,5,4,7,2,2,7,3,6,6,3,4,4,3,4,4,3</item>
         <item>1,1,1,1,1,1,1,1,2,2,2,2,2,2,3,3,3,3</item>
 
 
-        <item>7C Benchmark</item><item>Make sure middle finger is strong</item>
+        <item>7C Benchmark</item><item>Grips &amp; Grades test</item>
         <item>10,1,10,0,2,30,60</item>
         <item>2,7,7,2,6,5,5,6,5,5,7,7,3,6,6,3,4,7,7,4</item>
         <item>1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,3,3,3,3</item>
@@ -875,7 +875,7 @@
         <item>1,1,2,2,2,2,2,2,3,3,3,3,3,3</item>
 
 
-        <item>7A Benchmark</item><item>Intro to two finger pocket</item>
+        <item>7A Benchmark</item><item>Grips &amp; Grades test</item>
         <item>11,1,10,0,2,40,80</item>
         <item>2,2,5,5,6,6,2,2,5,5,6,6,6,6,1,1,7,7,4,4,1,1</item>
         <item>2,2,2,2,2,2,3,3,3,3,3,3,4,4,4,4,5,5,5,5,5,5</item>
@@ -928,7 +928,7 @@
         <item>1,1,1,1,1,1,1,1,2,2,2,2,3,3,3,3</item>
 
         <item>7A Benchmark</item>
-        <item>Intro to two finger pocket</item>
+        <item>Grips &amp; Grades test</item>
         <item>12,1,10,0,2,40,80</item>
         <item>12,2,2,12,2,15,15,2,15,12,12,15,4,15,15,4,7,7,5,7,7,5,9,9</item>
         <item>1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,3,3,3,3,5,5</item>
@@ -940,7 +940,7 @@
         <item>1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,3,3,3,3,3,3,5,5</item>
 
         <item>7B Benchmark</item>
-        <item>Intro to two front grip</item>
+        <item>Grips &amp; Grades test</item>
         <item>9,1,10,0,3,35,80</item>
         <item>12,12,12,12,5,15,15,5,7,15,15,7,9,9,9,14,14,9</item>
         <item>1,1,1,1,2,2,2,2,3,3,3,3,4,4,5,5,5,5</item>
@@ -958,7 +958,7 @@
         <item>1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,6,6,8,8</item>
 
         <item>8A Benchmark</item>
-        <item>Grips &amp; Grades test. Index and middle finger get to work</item>
+        <item>Grips &amp; Grades test</item>
         <item>11,1,10,0,3,30,60</item>
         <item>12,12,2,2,12,12,12,12,9,14,14,9,14,14,9,9,13,13,13,8,8,13</item>
         <item>1,1,2,2,2,2,3,3,4,4,4,4,5,5,6,6,7,7,8,8,8,8</item>
@@ -971,7 +971,7 @@
         <item>1,1,1,1,1,1</item>
 
         <item>6A Benchmark</item>
-        <item>Intro to three finger grips</item>
+        <item>Grips &amp; Grades test</item>
         <item>5,6,7,3,2,150,300</item>
         <item>1,4,4,4,4,6,1,4,1,6</item>
         <item>1,1,1,1,1,1,2,2,3,3</item>
@@ -1019,7 +1019,7 @@
         <item>1,1,1,1,2,2,2,2,3,3</item>
 
         <item>7B Benchmark</item>
-        <item>Intro to pockets</item>
+        <item>Grips &amp; Grades test</item>
         <item>5,6,7,3,2,110,240</item>
         <item>7,12,2,15,4,15,5,5,9,9</item>
         <item>1,1,1,1,2,2,3,3,5,5</item>
@@ -1037,7 +1037,7 @@
         <item>1,1,1,1,2,2,3,3,4,4,5,5</item>
 
         <item>7C+ Benchmark</item>
-        <item>Intro to two back grip</item>
+        <item>Grips &amp; Grades test</item>
         <item>6,6,7,3,2,90,180</item>
         <item>12,12,5,15,7,15,9,9,9,14,9,9</item>
         <item>1,1,2,2,3,3,4,4,5,5,6,6</item>
@@ -1189,13 +1189,13 @@
         <item>1,1,1,1,2,2,3,3,3,3</item>
 
         <item>7B Benchmark</item>
-        <item>Intro to pockets</item>
+        <item>Grips &amp; Grades test</item>
         <item>5,6,7,3,2,110,240</item>
         <item>11,11,10,10,8,17,4,6,12,12</item>
         <item>1,1,2,2,2,2,3,3,5,5</item>
 
         <item>7B+ Benchmark</item>
-        <item>Intro to pockets</item>
+        <item>Grips &amp; Grades test</item>
         <item>5,6,7,3,2,100,240</item>
         <item>11,11,6,10,8,17,4,6,12,12</item>
         <item>1,1,2,2,3,3,3,3,5,5</item>
@@ -1877,14 +1877,14 @@
         <item>1,1,1,1,1,1,1,1</item>
 
         <item>6A+ Benchmark</item>
-        <item>Intro to three front grip</item>
+        <item>Grips &amp; Grades test</item>
         <item>4,6,7,3,2,140,300</item>
         <item>4,6,4,3,5,5,4,4</item>
         <item>1,1,1,1,1,1,2,2</item>
 
 
         <item>6B Benchmark</item>
-        <item>Intro to three back grip</item>
+        <item>Grips &amp; Grades test</item>
         <item>5,6,7,3,2,140,300</item>
         <item>5,7,5,6,3,3,4,4,4,4</item>
         <item>1,1,1,1,1,1,2,2,3,3</item>
@@ -1928,14 +1928,14 @@
         <item>1,1,1,1,2,2,2,2,3,3</item>
 
         <item>7B+ Benchmark</item>
-        <item>Intro to two finger pocket</item>
+        <item>Grips &amp; Grades test</item>
         <item>5,6,7,3,2,100,240</item>
         <item>11,11,2,2,6,7,6,6,4,4</item>
         <item>1,1,1,1,2,2,3,3,5,5</item>
 
 
         <item>7C Benchmark</item>
-        <item>Intro to two front grip type</item>
+        <item>Grips &amp; Grades test</item>
         <item>6,6,7,3,2,100,180</item>
         <item>12,12,1,1,8,8,7,7,4,4,4,5</item>
         <item>1,1,1,1,2,2,3,3,4,4,5,5</item>
@@ -2399,7 +2399,7 @@
     <!-- really basic programs -->
     <string-array name="grill_benchmarks">
         <item>no programs</item>
-        <item>Desc</item>
+        <item>Currently no premade workouts</item>
         <item>6,6,7,3,150,360</item>
         <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
         <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
@@ -2408,7 +2408,7 @@
     <!-- really basic programs -->
     <string-array name="grillto_benchmarks">
         <item>no programs</item>
-        <item>Desc</item>
+        <item>Currently no premade workouts</item>
         <item>6,6,7,3,150,360</item>
         <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
         <item>1,1,1,1,1,1,1,1,1,1,1,1</item>

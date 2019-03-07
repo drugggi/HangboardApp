@@ -14,7 +14,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -564,7 +563,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
-                String randomizeText = "New " + everyBoard.getGrade(grade_descr_position) + " Workout";
+                String randomizeText = "New " + everyBoard.getGrade(grade_descr_position) + "\nWorkout";
                 newWorkoutButton.setText(randomizeText);
 
                 durationTextView.setText(durationText);

@@ -6,14 +6,12 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -71,7 +69,6 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
         //If phone orientation is changed, we don't need to get intents
         if (savedInstanceState == null) {
-
             ArrayList<Hold> tempWorkoutHolds = new ArrayList<>();
             TimeControls tempTimeControls = new TimeControls();
             String tempHangboardName = "";
@@ -123,13 +120,18 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
                 dbHandler = new WorkoutDBHandler(getApplicationContext(),null,null,1);
 
                 dbHandler.addHangboardWorkout(time, tempHangboardName, tempTimeControls, tempWorkoutHolds, tempCompleted, workoutDescription);
-                Toast.makeText(WorkoutHistoryActivity.this,"new workout saved",Toast.LENGTH_SHORT).show();
+
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+                if (prefs.getBoolean("helpSwitch",true)) {
+                    Toast.makeText(WorkoutHistoryActivity.this, "new workout saved", Toast.LENGTH_SHORT).show();
+                }
             }
 
         }
 
-
-        // JSONFetcher myWorkoutHistory = new JSONFetcher(dbHandler);
+        //dbHandler = new WorkoutDBHandler(getApplicationContext(),null,null,1);
+         //JSONFetcher myWorkoutHistory = new JSONFetcher(dbHandler);
+       // myWorkoutHistory.constructJSONObjects();
         // myWorkoutHistory.execute();
 
         // Click listener for editing single workout

@@ -23,7 +23,7 @@
                 android:background="@color/slate"
                 android:fontFamily="sans-serif-medium"
                 android:padding="8dp"
-                android:text="General Settings"
+                android:text="General settings"
                 android:textAlignment="center"
                 android:textColor="@color/colorAccentFotn"
                 android:textSize="24sp" />
@@ -36,7 +36,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="show help/tutorial messages"
+                android:text="show tips/confirmation messages"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -49,7 +49,7 @@
                 android:background="@color/slate"
                 android:fontFamily="sans-serif-medium"
                 android:padding="8dp"
-                android:text="Workout Settings"
+                android:text="Workout settings"
                 android:textAlignment="center"
                 android:textColor="@color/colorAccentFotn"
                 android:textSize="24sp" />
