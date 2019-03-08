@@ -664,6 +664,10 @@ public class MainActivity extends AppCompatActivity {
                     ArrayList<Hold> newHolds = data.getParcelableArrayListExtra("com.finn.laakso.hangboardapp.HOLDS");
                     String hbname = data.getStringExtra("com.finn.laakso.hangboardapp.BOARDNAME");
 
+                    if ( !HangboardResources.isThereHangboard(hbname) ) {
+                        Toast.makeText(MainActivity.this, "Could not find hangboard named: "+hbname, Toast.LENGTH_LONG).show();
+                    }
+
                     TimeControls temp = new TimeControls();
                     temp.setTimeControls(timeSettings);
 

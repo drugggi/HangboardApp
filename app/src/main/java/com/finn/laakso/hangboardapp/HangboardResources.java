@@ -3,8 +3,6 @@ package com.finn.laakso.hangboardapp;
 // HangboardResources manages Hangboard images, image resources, hold values and coordinates
 // name conversion between enums and strings etc.
 
-import android.util.Log;
-
 public final class  HangboardResources {
     // Some base difficulty values based on holds' depths (6mm - 40mm and jug)
     private static final int JUG = 1,JUG3F = 2, JUG3B= 2,
@@ -388,12 +386,12 @@ private static final int[] gripValuesBM1000 = {
 
             4,MM40,FF, 4,MM40F3,F3, 4,MM40B3,B3, // small just diff 2
             5,MM15,FF, 5,MM15F3,F3, 5,MM15B3,B3, // 12mm deep diff 9
-            6,MM30,FFS, 6,MM30F3,F3S, 6,MM30B3,B3S, 6,MM30F2,F2,6,MM30M2,M2,6,MM30B2,B2,// large crimp 28mm deep  5
+            6,MM30,FFS, 6,MM30F3,F3S, 6,MM30B3,B3S, 6,MM30F2,F2S,6,MM30M2,M2S,6,MM30B2,B2S,// large crimp 28mm deep  5
 
             7,MM17,FF, 7,MM17F3,F3, 7,MM17B3,B3,     // above hold 7; small crimp, 10mm deep (diff 8)
             8,MM19,FF, 8,MM19F3,F3, 8,MM19B3,B3,     // above hold 8; small crimp, 15mm deep (diff 7)
 
-            9, MM25,FFS, 9,MM25F3,F3S, 9,MM25B3,B3S,9,MM25F2,F2,9,MM25M2,M2,9,MM25B2,B2,  // crimp 24mm deep (diff 7) 7
+            9, MM25,FFS, 9,MM25F3,F3S, 9,MM25B3,B3S,9,MM25F2,F2S,9,MM25M2,M2S,9,MM25B2,B2S,  // crimp 24mm deep (diff 7) 7
             10,MM16,FF, 10,MM16F3,F3, 10,MM16B3,B3,     // slopping 4 finger crimp 22mm deep, around 20 degrees, 65mm wide (diff 8)
             11,MM18,FF, 11,MM18F3,F3, 11,MM18B3,B3,     // slopping 4 finger crimp 25mm deep around 5 degrees, 65mm wide (diff 6)
 
@@ -967,12 +965,7 @@ private static final int[] gripValuesSoillboost = {
         String[] hangboardNames = new String[hangboardStrings.length];
 
         System.arraycopy(hangboardStrings,0,hangboardNames,0,hangboardStrings.length);
-/*
-        for (int i = 0 ; i < hangboardNames.length ; i++) {
-            hangboardNames[i] = hangboardStrings[i];
-        }
 
-        */
         return hangboardNames;
     }
 
@@ -1015,15 +1008,6 @@ private static final int[] gripValuesSoillboost = {
 
 
         public static int[] getHoldCoordinates(hangboardName hangboard) {
-/*
-
-            int holdCoordinateResources = HangboardResources.getHoldCoordinates(hangboard);
-            int[] testHoldCoordinates = res.getIntArray(holdCoordinateResources);
-            if (hangboardsHoldCoordinates.length != coordinate_resources.length ) {
-                Log.e("SIZE","resource arrays not the same size");
-            }
-            TESTisArraysTheSame(hangboardsHoldCoordinates[hangboard.ordinal()], testHoldCoordinates);
-*/
 
             int position = hangboard.ordinal();
             if ( position >= 0 && position < hangboardsHoldCoordinates.length) {
@@ -1033,13 +1017,7 @@ private static final int[] gripValuesSoillboost = {
         }
 
         public static int[] getGripValues(hangboardName hangboard) {
-  /*          int gripValueResources = HangboardResources.getHoldValueResources(hangboard);
-            int[] testGripValues = res.getIntArray(gripValueResources);
-            if (hangboardsGripValues.length != hold_resources.length ) {
-                Log.e("SIZE","grip resource arrays not the same size");
-            }
-            TESTisArraysTheSame(hangboardsGripValues[hangboard.ordinal()], testGripValues);
-*/
+
             int position = hangboard.ordinal();
             if ( position >= 0 && position < hangboardsGripValues.length) {
                 return hangboardsGripValues[position];
@@ -1047,28 +1025,6 @@ private static final int[] gripValuesSoillboost = {
 
             return hangboardsGripValues[0];
         }
-
-
-  /*      private static void TESTisArraysTheSame(int[] array1, int[] array2) {
-             if (array1.length != array2.length ) {
-                 Log.e("SIZE","Arrays are not even the same size");
-                return;
-             }
-
-             boolean isSame = true;
-             for (int i = 0 ; i < array1.length ; i++ ) {
-                 if (array1[i] != array2[i] ) {
-                     Log.e("VALUE DIFF","pos: " + i + "   array1: " + array1[i] + "  array2: " + array2[i]);
-                    isSame = false;
-                 }
-             }
-
-             if (isSame) {
-                 Log.d("OK","arrays the same");
-             }
-
-        }
-*/
 
     public static hangboardName forInt(int id) {
         return hangboardName.values()[id-1];
@@ -1106,6 +1062,16 @@ private static final int[] gripValuesSoillboost = {
 
         }
         return 0;
+    }
+
+    public static boolean isThereHangboard(String hbName) {
+
+         for (String s : hangboardStrings) {
+             if (s.equals(hbName )) {
+                 return true;
+             }
+         }
+        return false;
     }
 
     // Converts hangboardName enum into describing name. Should be somewhere else
