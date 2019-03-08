@@ -1,24 +1,22 @@
-Grips & Grades hangboard application is finger training application for every climber who likes to hangboard or does not always have time to go to the climbing gym. Grips & Grades main focus is grade based hangboard workouts from 5A to 8B. Every hold and grip is graded from 1 (jug) upwards and the application pseudo randomly chooses hold combinations for a given grade. Main screen offers few premade workout structures (10,15,20,30,40,50,65)min and "Test progression", where the workout goes from the easiest hang to the hardest. The application also provides full customization of holds, grips and time controls. Workouts can be saved into database.
+Grips & Grades hangboard application is finger training application for every climber who likes to hangboard or does not always have time to go to the climbing gym. Grips & Grades main focus is grip variety and grade based hangboard workouts from 5A to 8B. Every hold and grip is graded from 1 (jug) upwards and the application pseudo randomly chooses hold combinations for a given grade. Main screen offers few premade time control settings and benchmark activity contains lots of premade workouts. The application also provides full customization of holds, grips and time controls. Workouts can be saved into database, where they can be analyzed and compared later with graphs and variables.
 
 Instructions:
 
-- Swipe hangboard image to choose your favourite hangboard.
+- Swipe hangboard image to choose your favorite hangboard.
 - Choose repeaters or single hangs and duration with the slider.
 - pick a grade and generate new workout based on that difficulty.
 - Click start workout to start your training.
 
 - Every hang can be customized by long pressing that hang or pressing new hang button.
-- Time controls are fully adjustable behind the settings button.
-- On top of settings menu, there is visual representation of the workout structure which
-changes every time a parameter is changed.
+- On top of time controls activity, there is visual representation of the workout structure which changes every time a parameter is changed.
 - In workout activity you can resize hangboard image by pinch zooming, resize timer by long pressing it. After unsuccessful hang you can mark it by long pressing red progress bar so you don't have to do it after the workout.
-- Every workout can be saved into workoutdatabase, including information of every successful/unsuccessful hangs
-- You can hide workouts in database, this is useful for warmup workouts, failed workouts, planning future workouts and it prevents accidentally deleting a workout.
+- After the workout (and when paused) workout progress button appears where you can edit hangs, add workout description and save it to database. Only use this method to edit hangs after you are done with the workout.
+- You can hide workouts in database, this is useful for warm up workouts, failed workouts, planning future workouts and it prevents accidentally deleting a workout.
 - Behind the graph button workouts can be compared. A vast amount of data is calculated and presented in graphical form.
+- Benchmarks activity contains lots of premade workouts. In line with "Grips & Grades" they test variety of grip types and both holds and time controls are squeezed as grade increases.
 
 Disclaimer:
 
-- Every hold and grip is graded. The higher the difficulty number the harder it is to hang that hold. From 1 (jug) to over 100.
 - grades are highly subjective
 - Many of the current difficulty numbers are guesses at best, and will be changed a lot in the future.
 - Some of the hangboards I haven't even had a privilege to test yet.
@@ -32,8 +30,9 @@ Thanks for downloading Grips & Grades training application
 About this project:
 I have had a lot of fun programming this application and hangboarding with this application. But I have gotten to the point where I am satisfied with how this application works on my phone and for my needs (climbing). Next logical step is to share this enjoyment with others, and for this I need suggestions, feedback, ideas, testers, etc. For example I would like the difficulty of holds and grips be based on some consensus and not wild guesses by me. And I would greatly appreciate if the grades are not taken seriously. They got nothing to do with grades outside nor indoors.
 
-Hangboarding is no substitute for proper training on climbing wall.
-
 Tips for using Grips & Grades:
-- Progression test (slider to far right) is a good way to get familiar with different grips and difficulties on a hangboard. This way you can quickly identify strong, weak or even dangerous grip types for you. You can also get a feel if the difficulties assigned to holds/grips are far off (some will be).
-- You can save your favourite time controls in settings. But even better you can construct whole workouts well in advance. Set hangboard/hangs/time controls as you would normally -> start -> pause -> workout progression -> describe it, for example "my favourite 6B Monday morning warmup" -> save workout to database. Hide is so that id does not ruin your graphs. Now you can later go there through logbook and longclick -> "redo workout" to copy that.  
+- Progression test (slider to far right) is a good way to get familiar with different grips and difficulties on a hangboard and identify strong, weak or even dangerous grip types for you.
+- You can save your favorite time controls, but even better you can construct whole workouts well in advance. Set hangboard/hangs/time controls as you would normally -> start -> pause -> workout progression -> describe it, for example "my favorite 6B Monday morning warm up" -> save workout to database. Hide is so that it does not ruin your graphs. Now you can later go there through logbook and long click -> "redo workout" to copy that.
+- You can quickly check current workout's variables (intensity, difficulty, workload and power) by clicking benchmarks icon.
+
+Hangboarding is no substitute for proper training on climbing wall.
