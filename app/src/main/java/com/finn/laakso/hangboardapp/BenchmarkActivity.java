@@ -88,7 +88,6 @@ public class BenchmarkActivity extends AppCompatActivity {
 
         workoutsAdapter = new BenchmarkWorkoutsAdapter(BenchmarkActivity.this,hangboardPosition,benchmarkResources);
         benchmarksListView.setAdapter(workoutsAdapter);
-
         hangboardAdapter.setSelectedHangboard(hangboardPosition);
 
         // When hangboard is selected, those hangboard's pre made workouts are shown

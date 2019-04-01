@@ -43,9 +43,7 @@ public class BenchmarkHangboardAdapter extends BaseAdapter {
         }
     }
 
-    public void setSelectedHangboard(int position) {
-        selectedHangboard = position;
-    }
+    public void setSelectedHangboard(int position) { selectedHangboard = position; }
 
     @Override
     public int getCount() {
