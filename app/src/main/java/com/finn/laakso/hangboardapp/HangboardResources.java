@@ -271,41 +271,43 @@ private static final int[] gripValuesBM1000 = {
     };
 
     private static final int[] gripValuesMetoProject = {
-            1 ,1 , FF, 1 , 2 , F3, 1 , 2 , B3,
-            2 ,1 , FF, 2 , 2 , F3, 2 , 2 , B3,
-            3 ,1 , FF, 3 , 2 , F3, 3 , 2 , B3,
-            4 ,1 , FF, 4 , 2 , F3, 4 , 2 , B3,
-            5 ,1 , FF, 5 , 2 , F3, 5 , 2 , B3,
+            1 ,JUG , FF, 1 , JUG3F, F3, 1 , JUG3B , B3,  // Jug
+            2 ,10 , FF, // 2 , 2 , F3, 2 , 2 , B3, // slopers
+            3 ,7 , FF, // 3 , 2 , F3, 3 , 2 , B3, // slopers
+            4, _MM35F3 , F3, 4 , _MM35B3 , B3,  // 1 1/2"
+                4, _MM35F2, F2, 4, _MM35M2, M2, 4 , _MM35B2, B2,
 
-            6, 30, F2, 6, 30, M2, 6 , 30, B2,
+            5 ,MM25 , FF, 5 , MM25F3 , F3, 5 , MM25B3 , B3,  // 1"
+                5, MM25F2, F2, 5, MM25M2, M2, 5 , MM25B2, B2,
+            6, _MM35F2, F2, 6, _MM35M2, M2, 6 , _MM35B2, B2,   // 1 1/2"
+            7 ,MM30 , FF, 7 , MM30F3 , F3, 7 , MM30B3 , B3,  // 1 1/4"
+                7, MM30F2, F2, 7, MM30M2, M2, 7 , MM30B2, B2,
 
-            7 ,1 , FF, 7 , 2 , F3, 7 , 2 , B3,
-            8 ,1 , FF, 8 , 2 , F3, 8 , 2 , B3,
-
-            9, 30, F2, 9, 30, M2, 9 , 30, B2,
-
-            10 ,1 , FF, 10 , 2 , F3, 10 , 2 , B3,
+            8 , _MM20F3 , F3, 8 , _MM20B3 , B3,  // 3/4"
+            9, _MM20F2, F2, 9, _MM20M2, M2, 9 , _MM20B2, B2, // 3/4"
+            10 ,MM13 , FF, 10 , MM13F3 , F3, 10 , MM13B3 , B3,   // 1/2"
     };
 
     private static final int[] gripValuesMetoSimulator = {
-            1 ,1 , FF, 1 , 2 , F3, 1 , 2 , B3,
-            2 ,1 , FF, 2 , 2 , F3, 2 , 2 , B3,
-            3 ,1 , FF, 3 , 2 , F3, 3 , 2 , B3,
-            4 ,1 , FFS, 4 , 2 , F3S, 4 , 2 , B3S,
+            1 ,JUG , FF, 1 , JUG3F , F3, 1 , JUG3B , B3,  // Jug
+            2 ,S25 , FF,   2 , S25F3 , F3, 2 , S25B3 , B3, // slope guessed
+            3 ,S22 , FF,    3 , 2 , S22F3, 3 , 2 , S22B3, // slope guessed
+            4 ,JUG , FFS, 4 , JUG3F , F3S, 4 , JUG3B , B3S,
 
-            5 , 2 , F3, 5 , 2 , B3,
-            6 ,1 , FF, 6 , 2 , F3, 6 , 2 , B3,
-            7, 30, F2, 7, 30, M2, 7 , 30, B2,
-            8 , 2 , F3, 8 , 2 , B3,
-            9 , 2 , F3S, 9 , 2 , B3S,
+            5 , _MM40F3 , F3, 5 , _MM40B3 , B3,       // 1 3/4"
+            6 ,MM35 , FF, 6 , MM35F3 , F3, 6 , MM35B3 , B3,  // 1 3/8"
+            7, _MM32F2, F2, 7, _MM32M2, M2, 7 , _MM32B2, B2,   // 1 1/4"
+            8 , _MM35F3 , F3, 8 , _MM35B3 , B3,             // 1 1/2"
+            9 , _MM40F3 , F3S, 9 , _MM40B3 , B3S,           // 1 3/4
 
-            10 ,1 , FF, 10 , 2 , F3, 10 , 2 , B3,
-            11, 30, F2, 11, 30, M2, 11 , 30, B2,
-            12 ,1 , FF, 12 , 2 , F3, 12 , 2 , B3,
+            10 ,MM25 , FF, 10 , MM25F3 , F3, 10 , MM25B3 , B3, // 1"
+            11, _MM35F2, F2, 11, _MM35M2, M2, 11 , _MM35B2, B2,    // 1 3/8"
+            12 ,MM28 , FF, 12 , MM28F3 , F3, 12 , MM28B3 , B3,   // 1 1/8"
+                 12 ,MM28F2 , F2, 12 , MM28M2 , M2, 12 , MM28B2 , B2,
 
-            13 ,1 , FF, 13 , 2 , F3, 13 , 2 , B3,
-            14, 30, F2, 14, 30, M2, 14 , 30, B2,
-            15 ,1 , FF, 15 , 2 , F3, 15 , 2 , B3,
+            13 ,MM16 , FF, 13 , MM16F3 , F3, 13 , MM16B3 , B3,   // 5/8"
+            14, _MM25F2, F2, 14, _MM25M2, M2, 14 , _MM25B2, B2,    // 7/8"
+            15 ,MM22 , FF, 15 , MM22F3 , F3, 15 , MM22B3 , B3,   // 7/8"
     };
 
     private static final int[] gripValuesMetowood = {
@@ -347,30 +349,31 @@ private static final int[] gripValuesBM1000 = {
 
     };
 
+    // these dimensions are all guesses from picture alone
     private static final int[] gripValuesKraxlboard = {
-            1 ,1 , FF, 1 , 2 , F3, 1 , 2 , B3,
-            2 ,1 , FF, 2 , 2 , F3, 2 , 2 , B3,
-            3 ,1 , FF, 3 , 2 , F3, 3 , 2 , B3,
-            4 ,1 , FFS, 4 , 2 , F3S, 4 , 2 , B3S,
+            1 ,JUG , FF, 1 , JUG3F , F3, 1 , JUG3B , B3,  // jug
+            2 ,S35 , FF, 2 , S35F3 , F3, 2 , S35B3 , B3,  // slope 35
+            3 ,S22 , FF, 3 , S22F3 , F3, 3 , S22B3 , B3,  // Slope 22,5
+            4 ,JUG+1 , FFS, 4 , JUG3F + 2 , F3S, 4 , JUG3B+3 , B3S,
 
-            5 ,1 , FF, 5 , 2 , F3, 5 , 2 , B3,
-            6 , 100 , IN, 6 , 100 , MI, 6, 100, RI , 6,100, LI,
-            7 , 2 , F3, 7 , 2 , B3,
-            8, 30, F2, 8, 30, M2, 8 , 30, B2,
-            9 ,1 , FF, 9 , 2 , F3, 9 , 2 , B3,
+            5 ,MM35 , FF, 5 , MM35F3 , F3, 5 , MM35B3 , B3,
+            6 , 85 , IN, 6 , 65 , MI, 6, 100, RI , 6,130, LI,
+            7 , _MM40F3 , F3, 7 , _MM40B3 , B3,
+            8, _MM35F2, F2, 8,_MM35M2, M2, 8 , _MM35B2, B2,
+            9 ,MM40, FFS, 9 , MM40F3 , F3, 9 , MM40B3 , B3,
 
-            10, 30, F2, 10, 30, M2, 10 , 30, B2,
-            11 , 2 , F3, 11 , 2 , B3, 11, 30, F2, 11, 30, M2, 11 , 30, B2,
-                11 , 100 , IN, 11 , 100 , MI, 11, 100, RI , 11 ,100, LI,
-            12 ,1 , FF, 12 , 2 , F3, 12 , 2 , B3,
-            13 , 100 , IN, 13 , 100 , MI, 13, 100, RI , 13,100, LI,
-            14 ,1 , FFS, 14 , 2 , F3S, 14 , 2 , B3S,
+            10, _MM15F2, F2, 10, _MM15M2, M2, 10 , _MM15B2, B2,
+            11 , _MM25F3 , F3, 11 , _MM25B3 , B3, 11, _MM25F2, F2, 11, _MM25M2, M2, 11 , _MM25B2, B2,
+                11 , 150 , IN, 11 , 110 , MI, 11, 200, RI , 11 ,250, LI,
+            12 ,MM20 , FF, 12 , MM20F3 , F3, 12 , MM20B3 , B3,
+            13 , 95 , IN, 13 , 69 , MI, 13, 115, RI , 13,150, LI,
+            14 ,MM15 , FFS, 14 , MM15F3 , F3S, 14 , MM15B3 , B3S,
 
-            15 ,1 , FF, 15 , 2 , F3, 15 , 2 , B3,
-            16 , 2 , F3, 16 , 2 , B3,
-                17 , 30 , F2, 17, 30, M2, 17 , 30, B2,
-            17 , 100 , IN, 17 , 100 , MI, 17, 100, RI , 17 ,100, LI,
-            18 ,1 , FFS, 18 , 2 , F3S, 18 , 2 , B3S,
+            15 ,MM28 , FF, 15 , MM28F3 , F3, 15 , MM28B3 , B3,
+            16 , _MM30F3 , F3, 16 , _MM30B3 , B3,
+                17 , _MM30F2 , F2, 17, _MM30M2, M2, 17 , _MM30B2, B2,
+            17 , 160 , IN, 17 , 120 , MI, 17, 250, RI , 17 ,300, LI,
+            18 ,MM30 , FFS, 18 , MM30F3 , F3S, 18 , MM30B3 , B3S,
     };
 
 
