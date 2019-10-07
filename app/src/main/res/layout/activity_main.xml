@@ -59,13 +59,13 @@
                 android:alpha="0.9"
                 android:contentDescription="@string/finger_image" />
 
-            <!--
+<!--
             <ImageView
                 android:id="@+id/templateFingerImageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha="0.9" />
-            -->
+-->
         </RelativeLayout>
 
 

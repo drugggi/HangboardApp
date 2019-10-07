@@ -737,35 +737,40 @@ private static final int[] gripValuesSoillboost = {
     };
 
     private static final int[] metoprojectCoordinates = {
-            1, 0, 0, 0, 0,
-            2, 0, 0, 0, 0,
-            3, 0, 0, 0, 0,
-            4, 0, 0, 0, 0,
-            5, 0, 0, 0, 0,
-            6, 0, 0, 0, 0,
-            7, 0, 0, 0, 0,
-            8, 0, 0, 0, 0,
-            9, 0, 0, 0, 0,
-            10, 0, 0, 0, 0,
+            1, -8, 4, 285, 4,
+            2, 58, 17, 225, 17,
+            3, 111, 14, 174, 14,
+            4, -8, 37, 285, 37,
+
+            5, 16, 64, 266, 64,
+            6, 62, 59, 219, 59,
+            7, 115, 60, 170, 60,
+
+            8, 23, 97, 259, 97,
+            9, 63, 94, 219, 94,
+            10, 115, 94, 170, 94,
 
     };
 
     private static final int[] metosimulatorCoordinates = {
-            1, 0, 0, 0, 0,
-            2, 0, 0, 0, 0,
-            3, 0, 0, 0, 0,
-            4, 0, 0, 0, 0,
-            5, 0, 0, 0, 0,
-            6, 0, 0, 0, 0,
-            7, 0, 0, 0, 0,
-            8, 0, 0, 0, 0,
-            9, 0, 0, 0, 0,
-            10, 0, 0, 0, 0,
-            11, 0, 0, 0, 0,
-            12, 0, 0, 0, 0,
-            13, 0, 0, 0, 0,
-            14, 0, 0, 0, 0,
-            15, 0, 0, 0, 0,
+            1, -16, 4, 298, 4,
+            2, 40, 21, 247, 21,
+            3, 97, 16, 189, 16,
+            4, 142, 2, 142, 2,
+
+            5, -16, 31, 298, 31,
+            6, 8, 49, 276, 49,
+            7, 47, 49, 239, 49,
+            8, 90, 43, 195, 43,
+            9, 143, 31, 143, 31,
+
+            10, 27, 75, 260, 75,
+            11, 67, 75, 219, 75,
+            12, 111, 75, 175, 75,
+
+            13, 43, 101, 246, 101,
+            14, 83, 101, 205, 101,
+            15, 121, 101, 166, 101,
 
     };
 
@@ -804,25 +809,29 @@ private static final int[] gripValuesSoillboost = {
     };
 
     private static final int[] kraxlboardCoordinates = {
-            1, 0, 0, 0, 0,
-            2, 0, 0, 0, 0,
-            3, 0, 0, 0, 0,
-            4, 0, 0, 0, 0,
-            5, 0, 0, 0, 0,
-            6, 0, 0, 0, 0,
-            7, 0, 0, 0, 0,
-            8, 0, 0, 0, 0,
-            9, 0, 0, 0, 0,
-            10, 0, 0, 0, 0,
-            11, 0, 0, 0, 0,
-            12, 0, 0, 0, 0,
-            13, 0, 0, 0, 0,
-            14, 0, 0, 0, 0,
-            15, 0, 0, 0, 0,
-            16, 0, 0, 0, 0,
-            17, 0, 0, 0, 0,
-            18, 0, 0, 0, 0,
-            19, 0, 0, 0, 0,
+            1, 7, 7, 278, 12,
+            2, 57, 15, 231, 19,
+            3, 98, 13, 187, 13,
+            4, 145, 11, 145, 11,
+
+            5, 9, 42, 277, 46,
+            6, 41, 41, 247, 45,
+            7, 67, 43, 221, 43,
+            8, 97, 41, 193, 41,
+            9, 132, 39, 158, 39,
+
+            10, 9, 70, 277, 73,
+            11, 41, 67, 245, 69,
+            12, 83, 63, 204, 63,
+            13, 113, 62, 175, 61,
+            14, 145, 61, 145, 61,
+
+            15, 31, 90, 256, 91,
+            16, 71, 86, 216, 87,
+            17, 99, 85, 189, 85,
+            18, 145, 83, 145, 83,
+
+            19, -15, 104, 295, 107,
 
     };
 
@@ -921,28 +930,7 @@ private static final int[] gripValuesSoillboost = {
             18 , 50 , 115 , 233 , 115 ,
 
     };
-/* Old coordinates values
-    private static final int[] coreCoordinates = {
-            1 , 9 , 1 , 273 , 1 ,
-            2 , 81 , 17 , 201 , 17 ,
-            3 , 142 , 4 , 142 , 4 ,
-            4 , -12 ,33  , 293 , 33 ,
-            5 , 60 , 33 , 225 , 33 ,
-            6 , 142 , 33 , 142 , 33 ,
-            7 , 31 , 61 , 257 , 61 ,
-            8 , 71 , 63 , 217 , 63 ,
-            9 , 143 , 55 , 143 , 55 ,
-            10 , -8 , 79 , 295 , 79 ,
-            11 , 34 , 87 , 252 , 87 ,
-            12 , 143 , 77 , 143 , 77 ,
-            13 , 3 , 106 , 283 , 106 ,
-            14 , 50 , 115 , 233 , 115 ,
-            15 , 83 , 100 , 203 , 100 ,
-            16 , 143 , 96 , 143 , 96 ,
 
-
-    };
-    */
     private static final int[] soillboostCoordinates = {
  1 , 10 , 0 , 273 , 0 ,
  2 , 56 , 0 , 227 , 0 ,
@@ -1098,6 +1086,7 @@ private static final int[] gripValuesSoillboost = {
     public enum hangboardName {BM1000, BM2000, TRANS, TENSION, TENSIONPRO, ZLAG, MOONHARD, MOONEASY, METO,
         ROCKPRODIGY, PROBLEMSOLVER, METO_CONTACT,  METO_PROJECT, METO_SIMULATOR, METO_WOOD, METO_WOOD_DELUXE,
         KRAXLBOARD, DRCC, SOLUTION, EDGE, MATRIX, CORE, SOILLBOOST, ULTIMATE, GRILL, GRILLTO}
+
 /*
 
             public static void TESTallHangboardResourcesMethods() {
@@ -1112,18 +1101,19 @@ private static final int[] gripValuesSoillboost = {
                     enumName = getHangboardName(i);
                     imageResource = getHangboardImageResource(i);
                     stringName = getHangboardStringName(enumName);
-                    holdResources = getHoldValueResources(enumName);
-                    coordResources = getHoldValueResources(enumName);
+                  //  holdResources = getHoldValueResources(enumName);
+                 //   coordResources = getHoldValueResources(enumName);
 
                     if (imageResource != getHangboardImageResource(stringName)) {
                         Log.e("ERROR","IMAGERESOURCE DIFFERENT");
                     }
                     Log.d("TESThangboardresources","i: " + i + " enum: " + enumName.toString() + " string: " + stringName
-                            + " imgRes: " + imageResource + " holdRes: " + holdResources + " coordRes: " + coordResources);
+                            + " imgRes: " + imageResource);
                 }
 
             }
 */
+
 
      private HangboardResources() {
 

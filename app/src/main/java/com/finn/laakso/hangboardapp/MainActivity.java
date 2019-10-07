@@ -177,12 +177,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         leftFingerImage = (ImageView) findViewById(R.id.leftFingerImageView);
         rightFingerImage = (ImageView) findViewById(R.id.rightFingerImageView);
-/*
 
+/*
         fingerTESTImage = (ImageView) findViewById(R.id.templateFingerImageView);
         fingerTESTImage.setVisibility(View.VISIBLE);
         fingerTESTImage.setImageResource(R.drawable.finger_template);
-*/
+        */
 
 
         if (savedInstanceState != null) {
@@ -391,15 +391,15 @@ public class MainActivity extends AppCompatActivity {
                 // REMEMBER RIGHT DEVICE NEXUS S AP/ 27, AND TO DIVIDE X AND Y BY 1.5
                 // you can compare coord values to values that device puts and figure out relation, its 1.5 on nexus s api 27
                 // REMEMBER ALSO PHONE ORIENTATION. FINGERIMAGE MUST BE DECLARET IN BOTH LANDSCAPE AND PORTRAIT MODE
- /*
+/*
                float y;
                 if (position % 2 != 0) {
                 y = fingerTESTImage.getY() + position*3; }
                 else {y = fingerTESTImage.getY() - position*3; }
                 fingerTESTImage.setY(y+5);
 
-                //rightFingerImage.setVisibility(View.INVISIBLE);
-                //leftFingerImage.setVisibility(View.INVISIBLE);
+               // rightFingerImage.setVisibility(View.INVISIBLE);
+               // leftFingerImage.setVisibility(View.INVISIBLE);
 
                 // Log.d("FINGER COORD","X:" + fingerTESTImage.getX() + "   Y:" + fingerTESTImage.getY() );
                 Log.e("FINGER COORD","X:" + fingerTESTImage.getX()/1.5 + "   Y:" + fingerTESTImage.getY()/1.5 );
