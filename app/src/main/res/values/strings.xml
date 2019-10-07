@@ -1288,6 +1288,22 @@
 
     </string-array>
 
+    <string-array name="meto_project_benchmarks">
+        <item>no programs</item>
+        <item>Currently no premade workouts</item>
+        <item>6,6,7,3,150,360</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+    </string-array>
+
+    <string-array name="meto_simulator_benchmarks">
+        <item>no programs</item>
+        <item>Currently no premade workouts</item>
+        <item>6,6,7,3,150,360</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+    </string-array>
+
 <!-- Basic Grips and Grades test -->
     <string-array name="meto_wood_benchmarks">
         <item>5C Benchmark</item>
@@ -1534,6 +1550,14 @@
         <item>12,12,8,12,13,13,9,12,13,13,10,10,10,14,14,10,14,14,6,6,6,10</item>
         <item>1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,6,6,6,6</item>
 
+    </string-array>
+
+    <string-array name="kraxlboard_benchmarks">
+        <item>no programs</item>
+        <item>Currently no premade workouts</item>
+        <item>6,6,7,3,150,360</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
     </string-array>
 
     <!-- Four finger progress -->
