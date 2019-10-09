@@ -93,30 +93,29 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId() ) {
-            /*
-            case R.id.action_about:
+      /*      case R.id.action_settings:
                 Toast.makeText(this,"about and grip types sort",Toast.LENGTH_SHORT).show();
 
                 everyBoard.clearWorkoutHoldList();
                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.FOUR_FINGER);
 
-                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.THREE_FRONT);
-                // everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.THREE_BACK);
+                //everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.THREE_FRONT);
+                //everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.THREE_BACK);
                // everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.TWO_FRONT);
-                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.TWO_MIDDLE);
+               // everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.TWO_MIDDLE);
                // everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.TWO_BACK);
 
 
-              *//*  everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.INDEX_FINGER);
-                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.MIDDLE_FINGER);*//*
-                everyBoard.setDifficultyLimits(25,60);
+                //everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.INDEX_FINGER);
+               // everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.MIDDLE_FINGER);
+                everyBoard.setDifficultyLimits(1,25);
 
                 everyBoard.sortWorkoutHoldList();
                 hangsAdapter.notifyDataSetChanged();
-
+                break;*/
                 // This is for testing WorkoutHistoryActivity, with these we can simulate completed workouts
                 // by simply marking current workout as done without going through start workout
-*//*                Intent workoutHistoryTestIntent = new Intent(getApplicationContext(), WorkoutHistoryActivity.class);
+/*                Intent workoutHistoryTestIntent = new Intent(getApplicationContext(), WorkoutHistoryActivity.class);
 
                 // Lets pass the necessary information to WorkoutActivity; time controls, hangboard image, and used holds with grip information
                 workoutHistoryTestIntent.putExtra("com.finn.laakso.hangboardapp.TIMECONTROLS",timeControls.getTimeControlsIntArray() );

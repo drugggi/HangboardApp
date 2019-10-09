@@ -291,7 +291,7 @@ private static final int[] gripValuesBM1000 = {
     private static final int[] gripValuesMetoSimulator = {
             1 ,JUG , FF, 1 , JUG3F , F3, 1 , JUG3B , B3,  // Jug
             2 ,S25 , FF,   2 , S25F3 , F3, 2 , S25B3 , B3, // slope guessed
-            3 ,S22 , FF,    3 , 2 , S22F3, 3 , 2 , S22B3, // slope guessed
+            3 ,S22 , FF,    3 , S22F3 , F3, 3 , S22B3 , B3, // slope guessed
             4 ,JUG , FFS, 4 , JUG3F , F3S, 4 , JUG3B , B3S,
 
             5 , _MM40F3 , F3, 5 , _MM40B3 , B3,       // 1 3/4"
