@@ -93,14 +93,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId() ) {
-      /*      case R.id.action_settings:
+            /*case R.id.action_settings:
                 Toast.makeText(this,"about and grip types sort",Toast.LENGTH_SHORT).show();
 
                 everyBoard.clearWorkoutHoldList();
-               everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.FOUR_FINGER);
+              // everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.FOUR_FINGER);
 
-                //everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.THREE_FRONT);
-                //everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.THREE_BACK);
+                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.THREE_FRONT);
+                everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.THREE_BACK);
                // everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.TWO_FRONT);
                // everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.TWO_MIDDLE);
                // everyBoard.addEveryGripTypeCompinationToWorkoutList(Hold.grip_type.TWO_BACK);

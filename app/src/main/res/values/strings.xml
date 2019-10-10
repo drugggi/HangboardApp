@@ -1262,11 +1262,48 @@
 
     <!-- Progress programs for four three and two finger grips -->
     <string-array name="meto_contact_benchmarks">
-        <item>no programs</item>
-        <item>Currently no premade workouts</item>
-        <item>6,6,7,3,150,360</item>
-        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
-        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+        <item>Four finger progress</item>
+                <item>Progress with four finger grip vol 1</item>
+                <item>15,1,10,0,1,50,1</item>
+                <item>1,1,7,7,7,2,2,7,9,9,7,11,11,7,2,2,5,5,5,11,11,5,9,12,12,9,3,3,11,11</item>
+                <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
+
+                <item>Four finger progress</item>
+                <item>Progress with four finger grip vol 2</item>
+                <item>14,1,10,0,1,50,1</item>
+                <item>11,19,19,11,3,12,12,3,19,19,12,12,11,4,4,11,11,16,16,11,12,16,16,12,4,4,16,16</item>
+                <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
+
+        <item>Three finger progress</item>
+        <item>Progress with three finger grip vol 1</item>
+        <item>16,1,10,0,1,50,1</item>
+        <item>7,9,9,7,7,7,5,5,9,9,5,5,7,9,9,7,5,12,12,5,9,9,11,11,8,9,9,8,7,13,13,7</item>
+        <item>2,2,2,2,3,3,3,3,2,2,2,2,3,3,3,3,2,2,2,2,3,3,3,3,2,2,2,2,3,3,3,3</item>
+
+        <item>Three finger progress</item>
+        <item>Progress with three finger grip vol 2</item>
+        <item>16,1,10,0,1,50,1</item>
+        <item>5,8,8,5,9,12,12,9,19,19,12,12,5,8,8,5,4,5,5,4,19,19,12,12,13,17,17,13,13,13,19,19</item>
+        <item>2,2,2,2,3,3,3,3,2,2,2,2,3,3,3,3,2,2,2,2,3,3,3,3,2,2,2,2,3,3,3,3</item>
+
+        <item>Three finger progress</item>
+        <item>Progress with three finger grip vol 3</item>
+        <item>16,1,10,0,1,50,1</item>
+        <item>4,13,13,4,7,4,4,7,17,17,4,4,8,8,12,12,16,4,4,16,19,16,16,19,8,8,12,12,19,16,16,19</item>
+        <item>2,2,2,2,3,3,3,3,2,2,2,2,3,3,3,3,2,2,2,2,3,3,3,3,2,2,2,2,3,3,3,3</item>
+
+                <item>Two middle finger progress</item>
+                <item>Progress with middle two finger grip</item>
+                <item>16,1,10,0,1,50,1</item>
+                <item>6,6,6,10,10,6,10,10,6,14,14,6,10,14,14,10,14,14,6,18,18,6,10,18,18,10,14,18,18,14,18,18</item>
+                <item>5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5</item>
+
+                <item>Two front finger progress</item>
+                <item>Progress with two front finger grip</item>
+                <item>16,1,10,0,1,50,1</item>
+                <item>6,6,6,10,10,6,10,10,6,14,14,6,10,14,14,10,14,14,6,18,18,6,10,18,18,10,14,18,18,14,18,18</item>
+        <item>4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4</item>
+
 
     </string-array>
 
