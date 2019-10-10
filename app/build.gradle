@@ -6,8 +6,8 @@ android {
         applicationId "com.finn.laakso.hangboardapp"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 7
-        versionName "3.0"
+        versionCode 9
+        versionName "3.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -28,4 +28,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+    implementation 'com.android.support:support-annotations:28.0.0'
 }
