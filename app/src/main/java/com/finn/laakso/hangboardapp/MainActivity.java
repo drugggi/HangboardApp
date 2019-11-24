@@ -150,6 +150,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(settingsIntent);
 
                 break;
+            case R.id.action_filter:
+                Toast.makeText(this,"Grade filter intent here",Toast.LENGTH_LONG).show();
+                break;
             default:
 
         }
