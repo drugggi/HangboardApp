@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.finn.laakso.hangboardapp">
 
-    <!-- android:largeHeap="true", Maybe helps outofmemoryerror crhashes on BenchmarkActivity -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,7 +10,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SettingsActivity"></activity>
+        <activity
+            android:name=".FilterActivity"
+            android:label="@string/title_activity_filter"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".SettingsActivity" />
         <activity android:name=".BenchmarkActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

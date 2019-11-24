@@ -140,7 +140,7 @@
         <item>5,6,7,3,2,140,300</item>
         <item>6,10,3,10,8,8,10,8,8,8</item>
         <item>1,1,1,1,2,2,2,2,3,3</item>
-<!--
+        <!--
 
         <item>6A+ Benchmark</item>
         <item>Grips &amp; Grades test</item>
@@ -791,60 +791,71 @@
 
     </string-array>
     <string-array name="moonhard_benchmarks">
-        <item>6A Benchmark</item><item>Grips &amp; Grades test</item>
+        <item>6A Benchmark</item>
+        <item>Grips &amp; Grades test</item>
         <item>6,1,10,0,3,50,120</item>
         <item>1,1,1,3,3,1,1,4,4,1,3,3,</item>
         <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
 
-        <item>6A+ Benchmark</item><item>Grips &amp; Grades test</item>
+        <item>6A+ Benchmark</item>
+        <item>Grips &amp; Grades test</item>
         <item>6,1,10,0,3,45,120</item>
         <item>1,3,3,1,1,4,4,1,4,3,3,4</item>
         <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
 
-        <item>6B Benchmark</item><item>Grips &amp; Grades test</item>
+        <item>6B Benchmark</item>
+        <item>Grips &amp; Grades test</item>
         <item>7,1,10,0,3,45,100</item>
         <item>1,7,7,1,3,4,4,3,1,6,6,1,4,4</item>
         <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
 
-        <item>6B+ Benchmark</item><item>Grips &amp; Grades test</item>
+        <item>6B+ Benchmark</item>
+        <item>Grips &amp; Grades test</item>
         <item>7,1,10,0,3,40,100</item>
         <item>3,7,7,3,3,4,4,3,1,6,6,1,4,4</item>
         <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
 
-        <item>6C Benchmark</item><item>Grips &amp; Grades test</item>
+        <item>6C Benchmark</item>
+        <item>Grips &amp; Grades test</item>
         <item>7,1,10,0,3,40,100</item>
         <item>3,7,7,3,7,7,3,6,6,3,1,1,1,1,</item>
         <item>1,1,1,1,1,1,1,1,1,1,2,2,3,3</item>
 
-        <item>6C+ Benchmark</item><item>Grips &amp; Grades test</item>
+        <item>6C+ Benchmark</item>
+        <item>Grips &amp; Grades test</item>
         <item>7,1,10,0,3,40,100</item>
         <item>7,7,3,6,6,3,6,6,1,3,3,1,1,1</item>
         <item>1,1,1,1,1,1,1,1,2,2,2,2,3,3</item>
 
 
-        <item>7A Benchmark</item><item>Grips &amp; Grades test</item>
+        <item>7A Benchmark</item>
+        <item>Grips &amp; Grades test</item>
         <item>12,1,10,0,2,40,80</item>
         <item>6,4,4,6,7,6,6,7,6,6,1,3,3,1,1,4,4,1,3,3,1,3,3,1</item>
         <item>1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,3,3,3,3</item>
 
-        <item>7A+ Benchmark</item><item>Grips &amp; Grades test</item>
+        <item>7A+ Benchmark</item>
+        <item>Grips &amp; Grades test</item>
         <item>12,1,10,0,2,35,80</item>
         <item>5,4,4,5,7,6,6,7,6,6,1,3,3,1,1,4,4,1,4,4,1,3,3,1</item>
         <item>1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,3,3,3,3</item>
 
 
-        <item>7B Benchmark</item><item>Grips &amp; Grades test</item>
+        <item>7B Benchmark</item>
+        <item>Grips &amp; Grades test</item>
         <item>9,1,10,0,3,35,80</item>
         <item>4,5,5,4,2,4,4,2,7,1,1,7,4,4,3,4,4,3</item>
         <item>1,1,1,1,1,1,1,1,2,2,2,2,2,2,3,3,3,3</item>
 
-        <item>7B+ Benchmark</item><item>Grips &amp; Grades test</item>
+        <item>7B+ Benchmark</item>
+        <item>Grips &amp; Grades test</item>
         <item>9,1,10,0,3,30,80</item>
         <item>4,5,5,4,7,2,2,7,3,6,6,3,4,4,3,4,4,3</item>
         <item>1,1,1,1,1,1,1,1,2,2,2,2,2,2,3,3,3,3</item>
 
 
-        <item>7C Benchmark</item><item>Grips &amp; Grades test</item>
+        <item>7C Benchmark</item>
+        <item>Grips &amp; Grades test</item>
         <item>10,1,10,0,2,30,60</item>
         <item>2,7,7,2,6,5,5,6,5,5,7,7,3,6,6,3,4,7,7,4</item>
         <item>1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,3,3,3,3</item>
@@ -853,29 +864,34 @@
     </string-array>
 
     <string-array name="mooneasy_benchmarks">
-        <item>5C Benchmark</item><item>Grips &amp; Grades test</item>
+        <item>5C Benchmark</item>
+        <item>Grips &amp; Grades test</item>
         <item>6,1,10,0,3,50,120</item>
         <item>1,6,6,1,3,4,4,3,2,1,1,2</item>
         <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
 
-        <item>6A Benchmark</item><item>Grips &amp; Grades test</item>
+        <item>6A Benchmark</item>
+        <item>Grips &amp; Grades test</item>
         <item>6,1,10,0,3,50,120</item>
         <item>2,2,4,5,5,4,1,4,4,1,1,1</item>
         <item>1,1,1,1,1,1,2,2,2,2,3,3</item>
 
-        <item>6B Benchmark</item><item>Grips &amp; Grades test</item>
+        <item>6B Benchmark</item>
+        <item>Grips &amp; Grades test</item>
         <item>7,1,10,0,3,45,100</item>
         <item>2,5,5,2,5,5,3,2,2,3,4,2,2,4</item>
         <item>1,1,1,1,1,1,2,2,2,2,3,3,3,3</item>
 
 
-        <item>6C Benchmark</item><item>Grips &amp; Grades test</item>
+        <item>6C Benchmark</item>
+        <item>Grips &amp; Grades test</item>
         <item>7,1,10,0,3,40,100</item>
         <item>5,5,4,5,5,4,2,2,3,5,5,3,3,3</item>
         <item>1,1,2,2,2,2,2,2,3,3,3,3,3,3</item>
 
 
-        <item>7A Benchmark</item><item>Grips &amp; Grades test</item>
+        <item>7A Benchmark</item>
+        <item>Grips &amp; Grades test</item>
         <item>11,1,10,0,2,40,80</item>
         <item>2,2,5,5,6,6,2,2,5,5,6,6,6,6,1,1,7,7,4,4,1,1</item>
         <item>2,2,2,2,2,2,3,3,3,3,3,3,4,4,4,4,5,5,5,5,5,5</item>
@@ -1050,7 +1066,6 @@
     </string-array>
 
 
-
     <string-array name="meto_benchmarks">
         <item>5C Benchmark</item>
         <item>Grips &amp; Grades test</item>
@@ -1213,7 +1228,6 @@
         <item>2,2,2,2,3,3,4,4,5,5,6,6</item>
 
 
-
     </string-array>
 
     <string-array name="rockprodigy_benchmarks">
@@ -1263,16 +1277,16 @@
     <!-- Progress programs for four three and two finger grips -->
     <string-array name="meto_contact_benchmarks">
         <item>Four finger progress</item>
-                <item>Progress with four finger grip vol 1</item>
-                <item>15,1,10,0,1,50,1</item>
-                <item>1,1,7,7,7,2,2,7,9,9,7,11,11,7,2,2,5,5,5,11,11,5,9,12,12,9,3,3,11,11</item>
-                <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
+        <item>Progress with four finger grip vol 1</item>
+        <item>15,1,10,0,1,50,1</item>
+        <item>1,1,7,7,7,2,2,7,9,9,7,11,11,7,2,2,5,5,5,11,11,5,9,12,12,9,3,3,11,11</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
 
-                <item>Four finger progress</item>
-                <item>Progress with four finger grip vol 2</item>
-                <item>14,1,10,0,1,50,1</item>
-                <item>11,19,19,11,3,12,12,3,19,19,12,12,11,4,4,11,11,16,16,11,12,16,16,12,4,4,16,16</item>
-                <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
+        <item>Four finger progress</item>
+        <item>Progress with four finger grip vol 2</item>
+        <item>14,1,10,0,1,50,1</item>
+        <item>11,19,19,11,3,12,12,3,19,19,12,12,11,4,4,11,11,16,16,11,12,16,16,12,4,4,16,16</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</item>
 
         <item>Three finger progress</item>
         <item>Progress with three finger grip vol 1</item>
@@ -1292,16 +1306,16 @@
         <item>4,13,13,4,7,4,4,7,17,17,4,4,8,8,12,12,16,4,4,16,19,16,16,19,8,8,12,12,19,16,16,19</item>
         <item>2,2,2,2,3,3,3,3,2,2,2,2,3,3,3,3,2,2,2,2,3,3,3,3,2,2,2,2,3,3,3,3</item>
 
-                <item>Two middle finger progress</item>
-                <item>Progress with middle two finger grip</item>
-                <item>16,1,10,0,1,50,1</item>
-                <item>6,6,6,10,10,6,10,10,6,14,14,6,10,14,14,10,14,14,6,18,18,6,10,18,18,10,14,18,18,14,18,18</item>
-                <item>5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5</item>
+        <item>Two middle finger progress</item>
+        <item>Progress with middle two finger grip</item>
+        <item>16,1,10,0,1,50,1</item>
+        <item>6,6,6,10,10,6,10,10,6,14,14,6,10,14,14,10,14,14,6,18,18,6,10,18,18,10,14,18,18,14,18,18</item>
+        <item>5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5</item>
 
-                <item>Two front finger progress</item>
-                <item>Progress with two front finger grip</item>
-                <item>16,1,10,0,1,50,1</item>
-                <item>6,6,6,10,10,6,10,10,6,14,14,6,10,14,14,10,14,14,6,18,18,6,10,18,18,10,14,18,18,14,18,18</item>
+        <item>Two front finger progress</item>
+        <item>Progress with two front finger grip</item>
+        <item>16,1,10,0,1,50,1</item>
+        <item>6,6,6,10,10,6,10,10,6,14,14,6,10,14,14,10,14,14,6,18,18,6,10,18,18,10,14,18,18,14,18,18</item>
         <item>4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4</item>
 
 
@@ -1500,7 +1514,6 @@
         <item>2,2,2,2,2,2,3,3,3,3,3,3,4,4,5,5,6,6</item>
 
 
-
         <item>5C Benchmark</item>
         <item>Grips &amp; Grades test</item>
         <item>3,6,7,3,2,150,300</item>
@@ -1575,7 +1588,7 @@
         <item>2,2,2,2,3,3,4,4,5,5,6,6</item>
     </string-array>
 
-<!-- Basic Grips and Grades test -->
+    <!-- Basic Grips and Grades test -->
     <string-array name="meto_wood_benchmarks">
         <item>5C Benchmark</item>
         <item>Grips &amp; Grades test</item>
@@ -1907,7 +1920,7 @@
 
     </string-array>
 
-<!-- Progress four three and two finger workouts -->
+    <!-- Progress four three and two finger workouts -->
     <string-array name="solution_benchmarks">
         <item>5C Benchmark</item>
         <item>Grips &amp; Grades test</item>
@@ -1993,8 +2006,6 @@
         <item>13,1,10,0,2,30,60</item>
         <item>14,3,3,14,12,12,3,3,6,6,6,14,14,6,6,11,11,6,7,7,7,7,4,4,5,5</item>
         <item>1,1,1,1,1,1,1,1,2,2,2,2,2,2,3,3,3,3,4,4,5,5,6,6,8,8</item>
-
-
 
 
         <item>5C Benchmark</item>
@@ -2323,7 +2334,6 @@
         <item>1,1,2,2,3,3,3,3,4,4,5,5,6,6,7,7,8,8</item>
 
 
-
         <item>5C Benchmark</item>
         <item>Grips &amp; Grades test</item>
         <item>3,6,7,3,2,150,300</item>
@@ -2486,9 +2496,6 @@
         <item>9,1,10,0,3,30,60</item>
         <item>13,13,11,5,5,11,8,5,5,8,18,18,18,6,6,18,15,15</item>
         <item>1,1,2,2,2,2,3,3,3,3,4,4,5,5,5,5,6,6</item>
-
-
-
 
 
         <item>5C Benchmark</item>
@@ -2656,7 +2663,6 @@
         <item>1,1,2,2,2,2,3,3,5,5</item>
 
 
-
     </string-array>
 
     <string-array name="ultimate_benchmarks">
@@ -2751,6 +2757,97 @@
     <string name="action_timecontrols">TimeControls</string>
     <string name="title_activity_workout_database_graphs">workoutDatabaseGraphs</string>
     <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_filter">FilterActivity</string>
+    <string name="large_text">
+        "Material is the metaphor.\n\n"
+
+        "A material metaphor is the unifying theory of a rationalized space and a system of motion."
+        "The material is grounded in tactile reality, inspired by the study of paper and ink, yet "
+        "technologically advanced and open to imagination and magic.\n"
+        "Surfaces and edges of the material provide visual cues that are grounded in reality. The "
+        "use of familiar tactile attributes helps users quickly understand affordances. Yet the "
+        "flexibility of the material creates new affordances that supercede those in the physical "
+        "world, without breaking the rules of physics.\n"
+        "The fundamentals of light, surface, and movement are key to conveying how objects move, "
+        "interact, and exist in space and in relation to each other. Realistic lighting shows "
+        "seams, divides space, and indicates moving parts.\n\n"
+
+        "Bold, graphic, intentional.\n\n"
+
+        "The foundational elements of print based design typography, grids, space, scale, color, "
+        "and use of imagery guide visual treatments. These elements do far more than please the "
+        "eye. They create hierarchy, meaning, and focus. Deliberate color choices, edge to edge "
+        "imagery, large scale typography, and intentional white space create a bold and graphic "
+        "interface that immerse the user in the experience.\n"
+        "An emphasis on user actions makes core functionality immediately apparent and provides "
+        "waypoints for the user.\n\n"
+
+        "Motion provides meaning.\n\n"
+
+        "Motion respects and reinforces the user as the prime mover. Primary user actions are "
+        "inflection points that initiate motion, transforming the whole design.\n"
+        "All action takes place in a single environment. Objects are presented to the user without "
+        "breaking the continuity of experience even as they transform and reorganize.\n"
+        "Motion is meaningful and appropriate, serving to focus attention and maintain continuity. "
+        "Feedback is subtle yet clear. Transitions are efﬁcient yet coherent.\n\n"
+
+        "3D world.\n\n"
+
+        "The material environment is a 3D space, which means all objects have x, y, and z "
+        "dimensions. The z-axis is perpendicularly aligned to the plane of the display, with the "
+        "positive z-axis extending towards the viewer. Every sheet of material occupies a single "
+        "position along the z-axis and has a standard 1dp thickness.\n"
+        "On the web, the z-axis is used for layering and not for perspective. The 3D world is "
+        "emulated by manipulating the y-axis.\n\n"
+
+        "Light and shadow.\n\n"
+
+        "Within the material environment, virtual lights illuminate the scene. Key lights create "
+        "directional shadows, while ambient light creates soft shadows from all angles.\n"
+        "Shadows in the material environment are cast by these two light sources. In Android "
+        "development, shadows occur when light sources are blocked by sheets of material at "
+        "various positions along the z-axis. On the web, shadows are depicted by manipulating the "
+        "y-axis only. The following example shows the card with a height of 6dp.\n\n"
+
+        "Resting elevation.\n\n"
+
+        "All material objects, regardless of size, have a resting elevation, or default elevation "
+        "that does not change. If an object changes elevation, it should return to its resting "
+        "elevation as soon as possible.\n\n"
+
+        "Component elevations.\n\n"
+
+        "The resting elevation for a component type is consistent across apps (e.g., FAB elevation "
+        "does not vary from 6dp in one app to 16dp in another app).\n"
+        "Components may have different resting elevations across platforms, depending on the depth "
+        "of the environment (e.g., TV has a greater depth than mobile or desktop).\n\n"
+
+        "Responsive elevation and dynamic elevation offsets.\n\n"
+
+        "Some component types have responsive elevation, meaning they change elevation in response "
+        "to user input (e.g., normal, focused, and pressed) or system events. These elevation "
+        "changes are consistently implemented using dynamic elevation offsets.\n"
+        "Dynamic elevation offsets are the goal elevation that a component moves towards, relative "
+        "to the component’s resting state. They ensure that elevation changes are consistent "
+        "across actions and component types. For example, all components that lift on press have "
+        "the same elevation change relative to their resting elevation.\n"
+        "Once the input event is completed or cancelled, the component will return to its resting "
+        "elevation.\n\n"
+
+        "Avoiding elevation interference.\n\n"
+
+        "Components with responsive elevations may encounter other components as they move between "
+        "their resting elevations and dynamic elevation offsets. Because material cannot pass "
+        "through other material, components avoid interfering with one another any number of ways, "
+        "whether on a per component basis or using the entire app layout.\n"
+        "On a component level, components can move or be removed before they cause interference. "
+        "For example, a floating action button (FAB) can disappear or move off screen before a "
+        "user picks up a card, or it can move if a snackbar appears.\n"
+        "On the layout level, design your app layout to minimize opportunities for interference. "
+        "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
+        "when a user tries to pick up one of cards.\n\n"
+    </string>
+    <string name="action_settings">Settings</string>
 
     <!-- Strings related to Settings -->
 

@@ -152,7 +152,10 @@ public class MainActivity extends AppCompatActivity {
 
                 break;
             case R.id.action_filter:
-                Toast.makeText(this,"Grade filter intent here",Toast.LENGTH_LONG).show();
+                Intent filterIntent = new Intent(getApplicationContext(), FilterActivity.class);
+                filterIntent.putExtra("com.finn.laakso.hangboardapp.HANGBOARDNAME",everyBoard.getHangboardName() );
+
+                startActivity(filterIntent);
                 break;
             default:
 
