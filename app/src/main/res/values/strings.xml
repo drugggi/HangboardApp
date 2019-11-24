@@ -2718,6 +2718,7 @@
     </string-array>
 
     <string-array name="grades">
+        <item>Custom</item>
         <item>5A</item>
         <item>5B</item>
         <item>5C</item>

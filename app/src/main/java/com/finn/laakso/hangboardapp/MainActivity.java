@@ -38,8 +38,9 @@ public class MainActivity extends AppCompatActivity {
 
     private ListView gradesListView;
     private ListView holdsListView;
-    private ArrayAdapter<String> gradeAdapter;
+    // private ArrayAdapter<String> gradeAdapter;
     private HangListAdapter hangsAdapter;
+    private GradeListAdapter gradeAdapter;
 
     // Maybe get rid of these in the future
     private int grade_descr_position;
@@ -209,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Lets use ArrayAdapter to list all the grades in to grades ListView
         gradesListView = (ListView) findViewById(R.id.gradeListView);
-        gradeAdapter = new ArrayAdapter<String>(this, R.layout.gradetextview, everyBoard.getGrades());
+        gradeAdapter = new GradeListAdapter(this);
         gradesListView.setAdapter(gradeAdapter);
 
         // HOLDSADAPTER IS ALLREADY USING R.LAYOUT.MYTESTVIEW. CONSIDER MAKING IT MUCH MORE SWEETER FOR EXAMPLE HOLD AND GRIPS LEFT AND DIFFICULTY RIGHT
@@ -298,9 +299,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // The harder the grade the darker the color
+                /*
                 Drawable selectColor = gradesListView.getSelector();
                 selectColor.setAlpha(90+position*15);
                 gradesListView.setSelector(selectColor);
+
+                 */
 
                 animateFingerImagesToInvisible();
 
