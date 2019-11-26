@@ -72,7 +72,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:max="50"
+                    android:max="20"
                     android:progress="5"
                     android:progressTint="@color/slate" />
             </LinearLayout>
@@ -115,7 +115,7 @@
                     android:layout_height="0dp"
                     android:layout_gravity="center"
                     android:layout_weight="3"
-                    android:max="50"
+                    android:max="20"
                     android:progress="5"
                     android:progressTint="#B38867" />
             </LinearLayout>
