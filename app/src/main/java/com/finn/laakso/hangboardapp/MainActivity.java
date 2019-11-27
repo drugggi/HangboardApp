@@ -444,13 +444,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                // when 0, grip is not selected and we can randomize all grips
                 if ( hangsAdapter.getSelectedHangNumber() == 0 ) {
-                     // everyBoard.randomizeGrips(grade_descr_position);
-                    everyBoard.randomizeNewWorkoutHolds(grade_descr_position,timeControls);
+                    // different method for creating workout holds if user has custom grade selected
+                    if (grade_descr_position == 0) {
+                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+                        everyBoard.newCustomWorkoutHolds(prefs);
+                    }
+                    else {
+                        everyBoard.randomizeNewWorkoutHolds(grade_descr_position, timeControls);
+                    }
 
                     //testAndCollectDataRandomizeNewWorkoutHolds(grade_descr_position,timeControls);
-
                     if (!repeatersBox.isChecked()) {
                         everyBoard.setHoldsForSingleHangs();
                     }
