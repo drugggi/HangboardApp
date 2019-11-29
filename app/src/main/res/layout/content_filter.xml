@@ -127,12 +127,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
             android:orientation="horizontal">
 
             <CheckBox
                 android:id="@+id/fourfingerCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Four finger">
 
             </CheckBox>
@@ -140,6 +144,7 @@
                 android:id="@+id/threefrontCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Three front">
 
             </CheckBox>
@@ -147,6 +152,7 @@
                 android:id="@+id/threebackCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Three back">
 
             </CheckBox>
@@ -156,12 +162,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
             android:orientation="horizontal">
 
             <CheckBox
                 android:id="@+id/twofrontCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Two front">
 
             </CheckBox>
@@ -170,6 +180,7 @@
                 android:id="@+id/twomiddleCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Two middle">
 
             </CheckBox>
@@ -178,21 +189,27 @@
                 android:id="@+id/twobackCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Two back">
 
             </CheckBox>
 
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
 
             <CheckBox
                 android:id="@+id/indexfingerCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Index finger">
 
             </CheckBox>
@@ -201,6 +218,7 @@
                 android:id="@+id/middlefingerCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Middle finger">
 
             </CheckBox>
@@ -209,6 +227,7 @@
                 android:id="@+id/ringfingerCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Ring finger">
 
             </CheckBox>
@@ -217,9 +236,45 @@
                 android:id="@+id/littlefingerCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Little finger">
 
             </CheckBox>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Switch
+                android:id="@+id/fillGripTypesSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="use every selected grip type if in search range"/>
+
+            <Switch
+                android:id="@+id/sortHoldsSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="sort workout holds from easiest to hardest" />
+
+            <Switch
+                android:id="@+id/tempSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="figure out something" />
 
 
         </LinearLayout>

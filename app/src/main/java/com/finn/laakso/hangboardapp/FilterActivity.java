@@ -14,6 +14,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.Toast;
 
 public class FilterActivity extends AppCompatActivity {
@@ -21,9 +22,9 @@ public class FilterActivity extends AppCompatActivity {
     public static final int DEFAULT_MIN_DIFFICULTY = 0;
     public static final int DEFAULT_MAX_DIFFICULTY = 20;
     public static final Boolean[] DEFAULT_GRIPTYPES_ALLOWED = {true, true, true, true, true, true, true, true, true, true};
+    public static final boolean DEFAULT_USE_EVERY_GRIP = true;
+    public static final boolean DEFAULT_SORT_HOLDS = false;
 
-    private Button resetButton;
-    private Button backButton;
 
     private EditText minDifficultyEditText;
     private EditText maxDifficultyEditText;
@@ -42,6 +43,12 @@ public class FilterActivity extends AppCompatActivity {
     private CheckBox ringfingerCheckBox;
     private CheckBox littlefingerCheckBox;
     private Boolean[] gripTypesAllowed;
+
+    private Switch fillSwitch;
+    private Switch sortSwitch;
+
+    private Button resetButton;
+    private Button backButton;
 
     private SharedPreferences filterSettings;
     @Override
@@ -63,14 +70,18 @@ public class FilterActivity extends AppCompatActivity {
         littlefingerCheckBox = (CheckBox) findViewById(R.id.littlefingerCheckBox);
         gripTypesAllowed = new Boolean[DEFAULT_GRIPTYPES_ALLOWED.length];
 
-       resetButton = (Button) findViewById(R.id.resetButton);
-       backButton = (Button) findViewById(R.id.backButton);
+        fillSwitch = (Switch) findViewById(R.id.fillGripTypesSwitch);
+        sortSwitch = (Switch) findViewById(R.id.sortHoldsSwitch);
+
 
        minDifficultyEditText = (EditText) findViewById(R.id.minDifficultyEditText);
        maxDifficultyEditText = (EditText) findViewById(R.id.maxDifficultyEditText);
 
        minDifficultySeekBar = (SeekBar) findViewById(R.id.minDifficultySeekBar);
        maxDifficultySeekBar = (SeekBar) findViewById(R.id.maxDifficultySeekBar);
+
+        resetButton = (Button) findViewById(R.id.resetButton);
+        backButton = (Button) findViewById(R.id.backButton);
 
        filterSettings = PreferenceManager.getDefaultSharedPreferences(this);
 /*
@@ -82,6 +93,28 @@ public class FilterActivity extends AppCompatActivity {
         editor.apply();
 
 */
+
+        fillSwitch.setChecked(filterSettings.getBoolean("fillGripTypesFilter",DEFAULT_USE_EVERY_GRIP));
+        sortSwitch.setChecked(filterSettings.getBoolean("sortWorkoutHoldsFilter",DEFAULT_SORT_HOLDS));
+
+        fillSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+                SharedPreferences.Editor editor = filterSettings.edit();
+                editor.putBoolean("fillGripTypesFilter",b );
+                editor.apply();
+            }
+        });
+
+        sortSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                SharedPreferences.Editor editor = filterSettings.edit();
+                editor.putBoolean("sortWorkoutHoldsFilter",b);
+                editor.apply();
+            }
+        });
 
         for (int i = 0 ; i < gripTypesAllowed.length ; i++) {
             gripTypesAllowed[i] = filterSettings.getBoolean("gripType_"+i+"_Filter",DEFAULT_GRIPTYPES_ALLOWED[i]);
