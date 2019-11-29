@@ -472,6 +472,9 @@ public class Hangboard {
             gripTypesAllowed[i] = prefs.getBoolean("gripType_"+i+"_Filter",FilterActivity.DEFAULT_GRIPTYPES_ALLOWED[i]);
         }
 
+        boolean useEveryGripType = prefs.getBoolean("fillGripTypesFilter",FilterActivity.DEFAULT_USE_EVERY_GRIP);
+        boolean sortWorkoutHolds = prefs.getBoolean("sortWorkoutHoldsFilter",FilterActivity.DEFAULT_SORT_HOLDS);
+
         // WANTEDGRIPTYPES FROM USER PREFERENCES!
         // Lets see how many different grip types we find within given grade range
         ArrayList<Hold.grip_type> gripTypesInRange = getGripTypesWithingGrade(min_value, max_value);
@@ -484,28 +487,34 @@ public class Hangboard {
                 gripTypesAfterFilter.add(gripTypesInRange.get(g));
             }
         }
-        for (Hold.grip_type g: gripTypesAfterFilter) {
-            Log.d("Grip types after"," " + g.ordinal() );
-        }
-
         Hold.grip_type randomGripType;
-        // Lets prefer four finger grip by setting one extra at random place
 
+        // If no holds are found, just use Four finger grip, error handling
         if (gripTypesAfterFilter.size() == 0) {
             gripTypesAfterFilter.add(Hold.grip_type.FOUR_FINGER);
         }
 
-
         int initialSize = gripTypesAfterFilter.size();
 
-        while (gripTypesAfterFilter.size() < holdsAmount) {
-            random_nro = rng.nextInt(initialSize );
-            randomGripType = gripTypesAfterFilter.get(random_nro);
+        // use every grip type guarantees that every grip that is withing search range is found
+        // in workout, otherwise it is random
+        if (useEveryGripType) {
+            while (gripTypesAfterFilter.size() < holdsAmount) {
+                random_nro = rng.nextInt(initialSize);
+                randomGripType = gripTypesAfterFilter.get(random_nro);
 
-            gripTypesAfterFilter.add(randomGripType);
-        }
-        for (Hold.grip_type g: gripTypesAfterFilter) {
-            Log.d("Grip types"," after filling " + g.ordinal() );
+                gripTypesAfterFilter.add(randomGripType);
+            }
+        } else {
+
+            gripTypesInRange = new ArrayList<>(gripTypesAfterFilter);
+            gripTypesAfterFilter.clear();
+            while (gripTypesAfterFilter.size() < holdsAmount) {
+                random_nro = rng.nextInt(initialSize);
+                randomGripType = gripTypesInRange.get(random_nro);
+
+                gripTypesAfterFilter.add(randomGripType);
+            }
         }
 
         int i = 0;
@@ -562,6 +571,10 @@ public class Hangboard {
             ++i;
         }
 
+        if (sortWorkoutHolds) {
+            //sortWorkoutHoldList();
+            Log.d("SORT!!","Do some sorrting ffs");
+        }
         randomizeHoldList();
 
     }
