@@ -7,6 +7,8 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Random;
 
 /**
@@ -540,12 +542,10 @@ public class Hangboard {
                 if (random_nro == random_nro_alt) {
                     isAlternate = false;
                     continue; }
-
             }
 
             else {
                 // Lets search for a hold that max hardness is half the remaining points for a give grade
-
 
                 random_nro = getHoldNumberWithGripType(min_value, max_value, randomGripType);
                 // it's possible to get single hold for getholdnumberwithgriptype method
@@ -564,17 +564,37 @@ public class Hangboard {
                 // Same hold for both hands ie. not alteranating hold
                 random_nro_alt = random_nro;
             }
-            workoutHoldList.add(allHangboardHolds[random_nro]);
-            workoutHoldList.add(allHangboardHolds[random_nro_alt]);
+            // find the right playce for new hold if sorting is selected in filter
+            if (sortWorkoutHolds && workoutHoldList.size() > 0) {
 
+                for (int j = 0 ; j < workoutHoldList.size() ; j = j + 2) {
+                    int holdValueCurrent =  allHangboardHolds[random_nro].getHoldValue() +
+                            allHangboardHolds[random_nro_alt].getHoldValue() ;
+                    int holdValueCompare = workoutHoldList.get(j).getHoldValue() +
+                            workoutHoldList.get(j+1).getHoldValue();
+                    // put hold here (j) if next hold value will be bigger
+                    if (holdValueCompare > holdValueCurrent) {
+                        workoutHoldList.add(j,allHangboardHolds[random_nro_alt]);
+                        workoutHoldList.add(j,allHangboardHolds[random_nro]);
+                        break;
+                    }
+                    // at last element we just add the hold at the end of list
+                    else if (j+2 >= workoutHoldList.size() ) {
+                         workoutHoldList.add(allHangboardHolds[random_nro]);
+                         workoutHoldList.add(allHangboardHolds[random_nro_alt]);
+                        break;
+                    }
+                }
+
+            } else {
+                workoutHoldList.add(allHangboardHolds[random_nro]);
+                workoutHoldList.add(allHangboardHolds[random_nro_alt]);
+            }
             isAlternate = rng.nextBoolean();
+
             ++i;
         }
 
-        if (sortWorkoutHolds) {
-            //sortWorkoutHoldList();
-            Log.d("SORT!!","Do some sorrting ffs");
-        }
         randomizeHoldList();
 
     }
@@ -835,9 +855,11 @@ public class Hangboard {
     public void sortWorkoutHoldList() {
         Hold[] tempHoldList = new Hold[workoutHoldList.size() ];
 
+        //Arrays.sort(workoutHoldList);
         for (int i = 0 ; i < workoutHoldList.size() ; i++ ) {
             tempHoldList[i] = workoutHoldList.get(i);
         }
+        Collections.sort(workoutHoldList);
 
         clearWorkoutHoldList();
 

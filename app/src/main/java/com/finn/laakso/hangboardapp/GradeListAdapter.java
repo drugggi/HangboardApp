@@ -12,7 +12,7 @@ public class GradeListAdapter extends BaseAdapter {
 
     private final Context mContext;
     private int selectGrade;
-    static private int[] grade_images = new int[] {R.drawable.filter_icon, R.drawable.fivea, R.drawable.fiveb,
+    static private int[] grade_images = new int[] {R.drawable.custom_grade_logo, R.drawable.fivea, R.drawable.fiveb,
     R.drawable.fivec, R.drawable.sixa, R.drawable.sixb, R.drawable.sixc, R.drawable.sevena,
     R.drawable.sevenb, R.drawable.sevenc, R.drawable.eighta, R.drawable.eightb};
 
