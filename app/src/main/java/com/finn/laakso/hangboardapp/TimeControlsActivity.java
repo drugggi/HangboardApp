@@ -144,7 +144,6 @@ public class TimeControlsActivity extends AppCompatActivity {
                 preferencesTextView.setText(preferenceText );
 
                 editor.apply();
-                // Toast.makeText(v.getContext(),"Preferences Saved",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -152,9 +151,9 @@ public class TimeControlsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(v.getContext());
-                String statusString = prefs.getString("save time controls","No time controls saved yet");
+                //String statusString = prefs.getString("save time controls","No time controls saved yet");
 
-                boolean isRepeaters = prefs.getBoolean("isRepeaters", true);
+                //boolean isRepeaters = prefs.getBoolean("isRepeaters", true);
 
                 int grips = prefs.getInt("grips",6);
                 int reps = prefs.getInt("repetitions",6);
@@ -168,10 +167,7 @@ public class TimeControlsActivity extends AppCompatActivity {
                 timeControls.setTimeControls(new int[]{grips, reps, timeON, timeOFF, sets, rest, longRest});
 
                 updateTimeControlsDisplay();
-
                 updateProgramDisplay();
-
-               // Toast.makeText(v.getContext(),statusString,Toast.LENGTH_LONG).show();
             }
         });
 
@@ -298,8 +294,6 @@ public class TimeControlsActivity extends AppCompatActivity {
                 timeONEditText.setText("" + (progress+1));
 
                 mTimeONTextView.setText((progress+1)+"on");
-                //timeControls.setTimeON(progress+1);
-                //updateProgramDisplay();
             }
 
             @Override
@@ -321,8 +315,6 @@ public class TimeControlsActivity extends AppCompatActivity {
                 timeOFFEditText.setText("" + (progress));
 
                 mTimeOFFTextView.setText(progress+ "off");
-
-                //updateProgramDisplay();
             }
 
             @Override
@@ -354,8 +346,6 @@ public class TimeControlsActivity extends AppCompatActivity {
                     longRestSeekBar.setEnabled(true);
                 }
 
-               // timeControls.setRoutineLaps(progress+1);
-              //  updateProgramDisplay();
             }
 
             @Override

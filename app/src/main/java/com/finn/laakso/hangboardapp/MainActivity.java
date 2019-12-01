@@ -302,12 +302,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // The harder the grade the darker the color
-                /*
                 Drawable selectColor = gradesListView.getSelector();
                 selectColor.setAlpha(90+position*15);
                 gradesListView.setSelector(selectColor);
-
-                 */
 
                 animateFingerImagesToInvisible();
 

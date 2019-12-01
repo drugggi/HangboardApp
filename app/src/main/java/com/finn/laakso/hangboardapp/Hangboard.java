@@ -546,22 +546,8 @@ public class Hangboard {
 
             else {
                 // Lets search for a hold that max hardness is half the remaining points for a give grade
+                random_nro = getHoldNumberWithGripTypeNotSingle(min_value, max_value, randomGripType);
 
-                random_nro = getHoldNumberWithGripType(min_value, max_value, randomGripType);
-                // it's possible to get single hold for getholdnumberwithgriptype method
-                Log.d("else statement",""+allHangboardHolds[random_nro].grip_style);
-/*
-                if (allHangboardHolds[random_nro].isSingleHold() ) {
-                    random_nro = getHoldNumberWithValue(min_value, max_value);
-                }
-                if (rng.nextInt(100) < 25) {
-
-                    random_nro = getHoldNumberWithValue(min_value,max_value);
-                }
-*/
-
-
-                // Same hold for both hands ie. not alteranating hold
                 random_nro_alt = random_nro;
             }
             // find the right playce for new hold if sorting is selected in filter
@@ -669,7 +655,7 @@ public class Hangboard {
             else {
                 // Lets search for a hold that max hardness is half the remaining points for a give grade
 
-                    random_nro = getHoldNumberWithGripTypeNotSingle(min_value, max_value, randomGripType);
+                    random_nro = getHoldNumberWithGripType(min_value, max_value, randomGripType);
                     // it's possible to get single hold for getholdnumberwithgriptype method
                     if (allHangboardHolds[random_nro].isSingleHold() ) {
                         random_nro = getHoldNumberWithValue(min_value, max_value);

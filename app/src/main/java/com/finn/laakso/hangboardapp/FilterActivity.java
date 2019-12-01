@@ -8,13 +8,17 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.SeekBar;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class FilterActivity extends AppCompatActivity {
@@ -200,7 +204,7 @@ public class FilterActivity extends AppCompatActivity {
                 gripTypesAllowed[9] = b;
             }
         });
-        int minDifficulty = filterSettings.getInt("minDifficultyFilter",DEFAULT_MIN_DIFFICULTY);
+        final int minDifficulty = filterSettings.getInt("minDifficultyFilter",DEFAULT_MIN_DIFFICULTY);
        int maxDifficulty = filterSettings.getInt("maxDifficultyFilter",DEFAULT_MAX_DIFFICULTY);
 
        minDifficultySeekBar.setProgress(minDifficulty/5);
@@ -211,7 +215,6 @@ public class FilterActivity extends AppCompatActivity {
        minDifficultySeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
            @Override
            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-               minDifficultyEditText.setText(""+i*5);
            }
 
            @Override
@@ -221,9 +224,19 @@ public class FilterActivity extends AppCompatActivity {
 
            @Override
            public void onStopTrackingTouch(SeekBar seekBar) {
-               SharedPreferences.Editor editor = filterSettings.edit();
-               editor.putInt("minDifficultyFilter",seekBar.getProgress()*5 );
-               editor.apply();
+               int progress = seekBar.getProgress();
+               int max = filterSettings.getInt("maxDifficultyFilter",DEFAULT_MAX_DIFFICULTY);
+               int min = filterSettings.getInt("minDifficultyFilter",DEFAULT_MIN_DIFFICULTY);
+
+               if (progress*5 < max) {
+                   minDifficultyEditText.setText("" + seekBar.getProgress() * 5);
+                   SharedPreferences.Editor editor = filterSettings.edit();
+                   editor.putInt("minDifficultyFilter", seekBar.getProgress() * 5);
+                   editor.apply();
+               } else {
+                   minDifficultySeekBar.setProgress(min/5);
+                   Toast.makeText(FilterActivity.this,"minimum value should be smaller than maximum value, changes reverted",Toast.LENGTH_SHORT).show();
+               }
 
            }
        });
@@ -231,7 +244,6 @@ public class FilterActivity extends AppCompatActivity {
        maxDifficultySeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
            @Override
            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-               maxDifficultyEditText.setText(""+i*5);
            }
 
            @Override
@@ -242,9 +254,19 @@ public class FilterActivity extends AppCompatActivity {
            @Override
            public void onStopTrackingTouch(SeekBar seekBar) {
 
-               SharedPreferences.Editor editor = filterSettings.edit();
-               editor.putInt("maxDifficultyFilter",seekBar.getProgress()*5 );
-               editor.apply();
+               int progress = seekBar.getProgress();
+               int max = filterSettings.getInt("maxDifficultyFilter",DEFAULT_MAX_DIFFICULTY);
+               int min = filterSettings.getInt("minDifficultyFilter",DEFAULT_MIN_DIFFICULTY);
+
+               if (progress*5 > min) {
+                   maxDifficultyEditText.setText("" + seekBar.getProgress() * 5);
+                   SharedPreferences.Editor editor = filterSettings.edit();
+                   editor.putInt("maxDifficultyFilter", seekBar.getProgress() * 5);
+                   editor.apply();
+               } else {
+                    maxDifficultySeekBar.setProgress(max/5);
+                   Toast.makeText(FilterActivity.this,"maximum value should be bigger than minimum value, changes reverted",Toast.LENGTH_SHORT).show();
+               }
            }
        });
 
@@ -267,6 +289,65 @@ public class FilterActivity extends AppCompatActivity {
            @Override
            public void onClick(View view) {
                Toast.makeText(FilterActivity.this,"reset to defaults",Toast.LENGTH_LONG).show();
+           }
+       });
+
+       minDifficultyEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+           @Override
+           public boolean onEditorAction(TextView textView, int actionID, KeyEvent keyEvent) {
+               int max = filterSettings.getInt("maxDifficultyFilter",DEFAULT_MAX_DIFFICULTY);
+               int min = filterSettings.getInt("minDifficultyFilter",DEFAULT_MIN_DIFFICULTY);
+               try {
+                   int i = Integer.parseInt(minDifficultyEditText.getText().toString());
+
+                   if (i >= 0 && i < 1000 && i < max) {
+                       SharedPreferences.Editor editor = filterSettings.edit();
+                       editor.putInt("minDifficultyFilter",i);
+                       editor.apply();
+                       minDifficultySeekBar.setProgress(i/5);
+                   }
+                   else if (i >= max) {
+                       minDifficultyEditText.setText(""+min);
+                       Toast.makeText(FilterActivity.this,"minimum value should be smaller that max value, changes reverted",Toast.LENGTH_SHORT).show();
+                   }
+                   else {
+                       minDifficultyEditText.setText(""+min);
+                       Toast.makeText(FilterActivity.this,"Number out of bounds, changes reverted",Toast.LENGTH_SHORT).show();
+                   }
+               } catch (NumberFormatException nfe) {
+                   minDifficultyEditText.setText(""+min);
+                   Toast.makeText(FilterActivity.this,"Illegal number, changes reverted" ,Toast.LENGTH_LONG).show();
+               }
+               return false;
+           }
+       });
+       maxDifficultyEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+           @Override
+           public boolean onEditorAction(TextView textView, int actionID, KeyEvent keyEvent) {
+               int max = filterSettings.getInt("maxDifficultyFilter",DEFAULT_MAX_DIFFICULTY);
+               int min = filterSettings.getInt("minDifficultyFilter",DEFAULT_MIN_DIFFICULTY);
+               try {
+                   int i = Integer.parseInt(maxDifficultyEditText.getText().toString() );
+
+                   if (i > 0 && i < 10000 && i > min) {
+                       SharedPreferences.Editor editor = filterSettings.edit();
+                       editor.putInt("maxDifficultyFilter",i);
+                       editor.apply();
+                       maxDifficultySeekBar.setProgress(i/5);
+                   }
+                   else if (i <= min) {
+                       maxDifficultyEditText.setText(""+max);
+                       Toast.makeText(FilterActivity.this,"maximum value should be bigger than minimum value, changes reverted",Toast.LENGTH_SHORT).show();
+                   }
+                   else {
+                       maxDifficultyEditText.setText(""+max);
+                       Toast.makeText(FilterActivity.this,"Number out of bounds, changes reverted",Toast.LENGTH_SHORT).show();
+                   }
+               } catch (NumberFormatException nfe) {
+                   maxDifficultyEditText.setText(""+max);
+                   Toast.makeText(FilterActivity.this,"Illegal number, changes reverted" ,Toast.LENGTH_LONG).show();
+               }
+               return false;
            }
        });
 /*
