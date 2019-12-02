@@ -16,6 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -29,6 +30,9 @@ public class FilterActivity extends AppCompatActivity {
     public static final boolean DEFAULT_USE_EVERY_GRIP = true;
     public static final boolean DEFAULT_SORT_HOLDS = false;
 
+    private String hangboardName;
+    private ImageView hangboardImageView;
+    private TextView holdsFoundTextView;
 
     private EditText minDifficultyEditText;
     private EditText maxDifficultyEditText;
@@ -61,6 +65,9 @@ public class FilterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_filter);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        hangboardImageView = (ImageView) findViewById(R.id.hangboardImageView);
+        holdsFoundTextView = (TextView) findViewById(R.id.holdsFoundTextView);
 
         fourfingerCheckBox = (CheckBox) findViewById(R.id.fourfingerCheckBox);
         threefrontCheckBox = (CheckBox) findViewById(R.id.threefrontCheckBox);
@@ -97,7 +104,11 @@ public class FilterActivity extends AppCompatActivity {
         editor.apply();
 
 */
-
+        if (getIntent().hasExtra("com.finn.laakso.hangboardapp.BOARDIMAGE")) {
+            int hangboardRes = getIntent().getIntExtra("com.finn.laakso.hangboardapp.BOARDIMAGE",0);
+            hangboardName = HangboardResources.getHangboardStringName(hangboardRes);
+            hangboardImageView.setImageResource(hangboardRes);
+        }
         fillSwitch.setChecked(filterSettings.getBoolean("fillGripTypesFilter",DEFAULT_USE_EVERY_GRIP));
         sortSwitch.setChecked(filterSettings.getBoolean("sortWorkoutHoldsFilter",DEFAULT_SORT_HOLDS));
 
@@ -359,5 +370,18 @@ public class FilterActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });*/
+        updateFilterDisplay();
+    }
+    private void updateFilterDisplay() {
+        int holdsFound = 0;
+        int holdFoundAlternate = 0;
+
+        int max = filterSettings.getInt("maxDifficultyFilter",DEFAULT_MAX_DIFFICULTY);
+        int min = filterSettings.getInt("minDifficultyFilter",DEFAULT_MIN_DIFFICULTY);
+
+
+        holdsFoundTextView.setText("Current hangboard: " + hangboardName + "\n" +
+        "Different Holds found ("+min + "-"+ max + "): " + holdsFound + "\n" +
+                "Holds found (alterante): " + holdFoundAlternate);
     }
 }

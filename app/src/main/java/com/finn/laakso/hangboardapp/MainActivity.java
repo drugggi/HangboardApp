@@ -153,7 +153,8 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.action_filter:
                 Intent filterIntent = new Intent(getApplicationContext(), FilterActivity.class);
-                filterIntent.putExtra("com.finn.laakso.hangboardapp.HANGBOARDNAME",everyBoard.getHangboardName() );
+                filterIntent.putExtra("com.finn.laakso.hangboardapp.BOARDIMAGE",
+                        HangboardResources.getHangboardImageResource(viewPager.getCurrentItem()));
 
                 startActivity(filterIntent);
                 break;

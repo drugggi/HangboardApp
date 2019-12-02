@@ -155,7 +155,6 @@ public class WorkoutActivity extends AppCompatActivity {
             boardimage.setImageResource(boardimageResource);
             pinchZoomBoardImage.setImageBitmap(BitmapFactory.decodeResource(getResources(),boardimageResource));
             pinchZoomBoardImage.setVisibility(View.VISIBLE);
-
             String hangboardName = HangboardResources.getHangboardStringName(boardimageResource);
             int hangboardPosition = HangboardResources.getHangboardPosition(hangboardName);
             HangboardResources.hangboardName workoutHB = HangboardResources.getHangboardName(hangboardPosition);
