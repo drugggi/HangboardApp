@@ -261,7 +261,7 @@
                 android:layout_weight="1"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:text="figure out something" />
+                android:text="random chance to pick alternate hold (percent)" />
 
 
         </LinearLayout>

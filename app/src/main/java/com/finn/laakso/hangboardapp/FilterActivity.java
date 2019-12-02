@@ -1,6 +1,7 @@
 package com.finn.laakso.hangboardapp;
 
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
@@ -22,6 +23,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class FilterActivity extends AppCompatActivity {
 
     public static final int DEFAULT_MIN_DIFFICULTY = 0;
@@ -30,6 +33,7 @@ public class FilterActivity extends AppCompatActivity {
     public static final boolean DEFAULT_USE_EVERY_GRIP = true;
     public static final boolean DEFAULT_SORT_HOLDS = false;
 
+    private Hangboard exampleBoard;
     private String hangboardName;
     private ImageView hangboardImageView;
     private TextView holdsFoundTextView;
@@ -104,10 +108,17 @@ public class FilterActivity extends AppCompatActivity {
         editor.apply();
 
 */
+
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.BOARDIMAGE")) {
             int hangboardRes = getIntent().getIntExtra("com.finn.laakso.hangboardapp.BOARDIMAGE",0);
             hangboardName = HangboardResources.getHangboardStringName(hangboardRes);
             hangboardImageView.setImageResource(hangboardRes);
+
+            // there has to be a better way to get new Hangboard(..)
+            int pos = HangboardResources.getHangboardPosition(hangboardName);
+            HangboardResources.hangboardName hb= HangboardResources.getHangboardName(pos);
+            Resources res = getResources();
+            exampleBoard = new Hangboard(res,hb);
         }
         fillSwitch.setChecked(filterSettings.getBoolean("fillGripTypesFilter",DEFAULT_USE_EVERY_GRIP));
         sortSwitch.setChecked(filterSettings.getBoolean("sortWorkoutHoldsFilter",DEFAULT_SORT_HOLDS));
@@ -244,6 +255,7 @@ public class FilterActivity extends AppCompatActivity {
                    SharedPreferences.Editor editor = filterSettings.edit();
                    editor.putInt("minDifficultyFilter", seekBar.getProgress() * 5);
                    editor.apply();
+                   updateFilterDisplay();
                } else {
                    minDifficultySeekBar.setProgress(min/5);
                    Toast.makeText(FilterActivity.this,"minimum value should be smaller than maximum value, changes reverted",Toast.LENGTH_SHORT).show();
@@ -274,6 +286,7 @@ public class FilterActivity extends AppCompatActivity {
                    SharedPreferences.Editor editor = filterSettings.edit();
                    editor.putInt("maxDifficultyFilter", seekBar.getProgress() * 5);
                    editor.apply();
+                   updateFilterDisplay();
                } else {
                     maxDifficultySeekBar.setProgress(max/5);
                    Toast.makeText(FilterActivity.this,"maximum value should be bigger than minimum value, changes reverted",Toast.LENGTH_SHORT).show();
@@ -316,6 +329,7 @@ public class FilterActivity extends AppCompatActivity {
                        editor.putInt("minDifficultyFilter",i);
                        editor.apply();
                        minDifficultySeekBar.setProgress(i/5);
+                       updateFilterDisplay();
                    }
                    else if (i >= max) {
                        minDifficultyEditText.setText(""+min);
@@ -345,6 +359,7 @@ public class FilterActivity extends AppCompatActivity {
                        editor.putInt("maxDifficultyFilter",i);
                        editor.apply();
                        maxDifficultySeekBar.setProgress(i/5);
+                       updateFilterDisplay();
                    }
                    else if (i <= min) {
                        maxDifficultyEditText.setText(""+max);
@@ -373,15 +388,15 @@ public class FilterActivity extends AppCompatActivity {
         updateFilterDisplay();
     }
     private void updateFilterDisplay() {
-        int holdsFound = 0;
-        int holdFoundAlternate = 0;
-
+        ArrayList<Hold> holdsFound;
+        ArrayList<Hold> holdsFoundAlternate;
         int max = filterSettings.getInt("maxDifficultyFilter",DEFAULT_MAX_DIFFICULTY);
         int min = filterSettings.getInt("minDifficultyFilter",DEFAULT_MIN_DIFFICULTY);
 
-
+        holdsFound = exampleBoard.getHoldsInRange(min,max,gripTypesAllowed);
+        holdsFoundAlternate = exampleBoard.getAlternateHoldsInRange(min,max,2,gripTypesAllowed);
         holdsFoundTextView.setText("Current hangboard: " + hangboardName + "\n" +
-        "Different Holds found ("+min + "-"+ max + "): " + holdsFound + "\n" +
-                "Holds found (alterante): " + holdFoundAlternate);
+        "Different Holds found ("+min + "-"+ max + "): " + holdsFound.size()/2 + "\n" +
+                "Holds found (alterante): " + holdsFoundAlternate.size()/2 );
     }
 }

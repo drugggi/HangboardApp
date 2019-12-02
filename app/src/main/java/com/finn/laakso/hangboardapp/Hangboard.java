@@ -803,6 +803,52 @@ public class Hangboard {
 
     }
 
+    public ArrayList<Hold> getHoldsInRange(int minDifficulty,int maxDifficulty, Boolean[] gripFilter) {
+
+        ArrayList<Hold> holdsInRange = new ArrayList<>();
+
+        for (int i = 0 ; i < allHangboardHolds.length ; i++) {
+            if (gripFilter[allHangboardHolds[i].getGripStyleInt()-1] == false) {
+                continue;
+            }
+            if (allHangboardHolds[i].getHoldValue() >= minDifficulty &&
+            allHangboardHolds[i].getHoldValue() <= maxDifficulty &&
+            allHangboardHolds[i].isSingleHold() == false) {
+                holdsInRange.add(allHangboardHolds[i]);
+                holdsInRange.add(allHangboardHolds[i]);
+            }
+        }
+        return holdsInRange;
+    }
+
+    public ArrayList<Hold> getAlternateHoldsInRange(int minDifficulty,int maxDifficulty, int alteringFactor, Boolean[] gripFilter) {
+        ArrayList<Hold> holdsInRange = new ArrayList<>();
+        int minAlter = minDifficulty / alteringFactor;
+        int maxAlter = maxDifficulty * alteringFactor;
+        for (int i = 0 ; i < allHangboardHolds.length ; i++) {
+            if (gripFilter[allHangboardHolds[i].getGripStyleInt()-1] == false) {
+                continue;
+            }
+            if (allHangboardHolds[i].getHoldValue() >= minAlter &&
+            allHangboardHolds[i].getHoldValue() <= maxAlter) {
+
+                for (int j = i + 1 ; j < allHangboardHolds.length ; j++) {
+                    if (allHangboardHolds[i].getGripStyle() != allHangboardHolds[j].getGripStyle()) {
+                        continue;
+                    }
+                    int holdValue = (allHangboardHolds[i].getHoldValue() +
+                            allHangboardHolds[j].getHoldValue() )/2;
+                    if (holdValue >= minDifficulty && holdValue <= maxDifficulty) {
+                        holdsInRange.add(allHangboardHolds[i] );
+                        holdsInRange.add(allHangboardHolds[j] );
+                    }
+
+                }
+            }
+        }
+        return holdsInRange;
+    }
+
     // Arbitrary grade values, what hold_values to search in a give grade
     // For example grade 6c consist of holds that are between 7 and 18 in difficulty
     private static int getMinValue(String grade) {
@@ -838,44 +884,6 @@ public class Hangboard {
         workoutHoldList.clear();
     }
 
-    public void sortWorkoutHoldList() {
-        Hold[] tempHoldList = new Hold[workoutHoldList.size() ];
-
-        //Arrays.sort(workoutHoldList);
-        for (int i = 0 ; i < workoutHoldList.size() ; i++ ) {
-            tempHoldList[i] = workoutHoldList.get(i);
-        }
-        Collections.sort(workoutHoldList);
-
-        clearWorkoutHoldList();
-
-        //Arrays.sort(tempHoldList);
-
-        boolean placeFound = false;
-        for (int i = 0; i < tempHoldList.length ; i = i + 2) {
-            float tempHoldValue = 0.5f * (float) (tempHoldList[i].getHoldValue() + tempHoldList[i+1].getHoldValue() );
-
-            for (int j = 0; j < workoutHoldList.size() ; j = j + 2) {
-                float listHoldValue = 0.5f * (float) (workoutHoldList.get(j).getHoldValue() + workoutHoldList.get(j+1).getHoldValue() );
-
-                if (tempHoldValue < listHoldValue) {
-                    workoutHoldList.add(j,tempHoldList[i]);
-                    workoutHoldList.add(j+1,tempHoldList[i+1]);
-                    placeFound = true;
-                    break;
-                }
-
-            }
-            if (placeFound) {
-                placeFound = false;
-                continue;
-            }
-            workoutHoldList.add(tempHoldList[i]);
-            workoutHoldList.add(tempHoldList[i+1]);
-        }
-
-
-    }
 
     public void setDifficultyLimits(int lowerBound, int upperBound) {
 
