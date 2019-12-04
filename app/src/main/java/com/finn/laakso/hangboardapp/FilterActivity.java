@@ -32,6 +32,7 @@ public class FilterActivity extends AppCompatActivity {
     public static final Boolean[] DEFAULT_GRIPTYPES_ALLOWED = {true, true, true, true, true, true, true, true, true, true};
     public static final boolean DEFAULT_USE_EVERY_GRIP = true;
     public static final boolean DEFAULT_SORT_HOLDS = false;
+    public static final int DEFAULT_ALTERNATE_FACTOR = 2;
 
     private Hangboard exampleBoard;
     private String hangboardName;
@@ -40,9 +41,11 @@ public class FilterActivity extends AppCompatActivity {
 
     private EditText minDifficultyEditText;
     private EditText maxDifficultyEditText;
+    private EditText alternateFactorEditText;
 
     private SeekBar minDifficultySeekBar;
     private SeekBar maxDifficultySeekBar;
+    private SeekBar alternateFactorSeekBar;
 
     private CheckBox fourfingerCheckBox;
     private CheckBox threefrontCheckBox;
@@ -91,9 +94,11 @@ public class FilterActivity extends AppCompatActivity {
 
        minDifficultyEditText = (EditText) findViewById(R.id.minDifficultyEditText);
        maxDifficultyEditText = (EditText) findViewById(R.id.maxDifficultyEditText);
+       alternateFactorEditText = (EditText) findViewById(R.id.alternateFactorEditText);
 
        minDifficultySeekBar = (SeekBar) findViewById(R.id.minDifficultySeekBar);
        maxDifficultySeekBar = (SeekBar) findViewById(R.id.maxDifficultySeekBar);
+       alternateFactorSeekBar = (SeekBar) findViewById(R.id.alternateFactorSeekBar);
 
         resetButton = (Button) findViewById(R.id.resetButton);
         backButton = (Button) findViewById(R.id.backButton);
@@ -226,13 +231,18 @@ public class FilterActivity extends AppCompatActivity {
                 gripTypesAllowed[9] = b;
             }
         });
-        final int minDifficulty = filterSettings.getInt("minDifficultyFilter",DEFAULT_MIN_DIFFICULTY);
+
+        int minDifficulty = filterSettings.getInt("minDifficultyFilter",DEFAULT_MIN_DIFFICULTY);
        int maxDifficulty = filterSettings.getInt("maxDifficultyFilter",DEFAULT_MAX_DIFFICULTY);
+       int alternateFactor = filterSettings.getInt("alternateFactorFilter",DEFAULT_ALTERNATE_FACTOR);
 
        minDifficultySeekBar.setProgress(minDifficulty/5);
        maxDifficultySeekBar.setProgress(maxDifficulty/5);
+        alternateFactorSeekBar.setProgress(alternateFactor);
        minDifficultyEditText.setText(""+minDifficulty);
        maxDifficultyEditText.setText(""+maxDifficulty);
+       alternateFactorEditText.setText(""+alternateFactor);
+
 
        minDifficultySeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
            @Override
@@ -282,7 +292,7 @@ public class FilterActivity extends AppCompatActivity {
                int min = filterSettings.getInt("minDifficultyFilter",DEFAULT_MIN_DIFFICULTY);
 
                if (progress*5 > min) {
-                   maxDifficultyEditText.setText("" + seekBar.getProgress() * 5);
+                   maxDifficultyEditText.setText("" + progress * 5);
                    SharedPreferences.Editor editor = filterSettings.edit();
                    editor.putInt("maxDifficultyFilter", seekBar.getProgress() * 5);
                    editor.apply();
@@ -292,6 +302,28 @@ public class FilterActivity extends AppCompatActivity {
                    Toast.makeText(FilterActivity.this,"maximum value should be bigger than minimum value, changes reverted",Toast.LENGTH_SHORT).show();
                }
            }
+       });
+
+       alternateFactorSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+           @Override
+           public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+           }
+
+           @Override
+           public void onStartTrackingTouch(SeekBar seekBar) {
+
+           }
+
+           @Override
+           public void onStopTrackingTouch(SeekBar seekBar) {
+               int progress = seekBar.getProgress();
+
+               alternateFactorEditText.setText(""+progress);
+               SharedPreferences.Editor editor = filterSettings.edit();
+               editor.putInt("alternateFactorFilter",progress);
+               editor.apply();
+               updateFilterDisplay();         }
        });
 
        backButton.setOnClickListener(new View.OnClickListener() {
@@ -376,6 +408,28 @@ public class FilterActivity extends AppCompatActivity {
                return false;
            }
        });
+       alternateFactorEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+           @Override
+           public boolean onEditorAction(TextView textView, int actionID, KeyEvent keyEvent) {
+               int alternateFactor = filterSettings.getInt("alternateFactorFilter",DEFAULT_ALTERNATE_FACTOR);
+
+               try {
+                   int i = Integer.parseInt(alternateFactorEditText.getText().toString() );
+
+                   if (i >= 0 && i <= 10) {
+                       SharedPreferences.Editor editor = filterSettings.edit();
+                       editor.putInt("alternateFactorFilter",i);
+                       editor.apply();
+                       alternateFactorSeekBar.setProgress(i);
+                       updateFilterDisplay();
+                   }
+               } catch (NumberFormatException e) {
+                   alternateFactorEditText.setText("" + alternateFactor);
+                   Toast.makeText(FilterActivity.this,"Illegal number, changes reverted" ,Toast.LENGTH_LONG).show();
+               }
+               return false;
+           }
+       });
 /*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -392,9 +446,10 @@ public class FilterActivity extends AppCompatActivity {
         ArrayList<Hold> holdsFoundAlternate;
         int max = filterSettings.getInt("maxDifficultyFilter",DEFAULT_MAX_DIFFICULTY);
         int min = filterSettings.getInt("minDifficultyFilter",DEFAULT_MIN_DIFFICULTY);
+        int alternateFactor = filterSettings.getInt("alternateFactorFilter",DEFAULT_ALTERNATE_FACTOR);
 
         holdsFound = exampleBoard.getHoldsInRange(min,max,gripTypesAllowed);
-        holdsFoundAlternate = exampleBoard.getAlternateHoldsInRange(min,max,2,gripTypesAllowed);
+        holdsFoundAlternate = exampleBoard.getAlternateHoldsInRange(min,max,alternateFactor,gripTypesAllowed);
         holdsFoundTextView.setText("Current hangboard: " + hangboardName + "\n" +
         "Different Holds found ("+min + "-"+ max + "): " + holdsFound.size()/2 + "\n" +
                 "Holds found (alterante): " + holdsFoundAlternate.size()/2 );

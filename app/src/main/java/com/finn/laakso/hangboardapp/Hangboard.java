@@ -823,8 +823,10 @@ public class Hangboard {
 
     public ArrayList<Hold> getAlternateHoldsInRange(int minDifficulty,int maxDifficulty, int alteringFactor, Boolean[] gripFilter) {
         ArrayList<Hold> holdsInRange = new ArrayList<>();
-        int minAlter = minDifficulty / alteringFactor;
-        int maxAlter = maxDifficulty * alteringFactor;
+        int minAlter = minDifficulty*2 / (alteringFactor+2);
+        int maxAlter = maxDifficulty*( 2 + alteringFactor) / 2;
+
+        Log.e("min/max altfac","min/max" + minDifficulty + "/" + maxDifficulty+ "  alt " + minAlter + "/" + maxAlter);
         for (int i = 0 ; i < allHangboardHolds.length ; i++) {
             if (gripFilter[allHangboardHolds[i].getGripStyleInt()-1] == false) {
                 continue;
