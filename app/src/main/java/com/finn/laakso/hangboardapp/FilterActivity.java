@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -62,6 +63,8 @@ public class FilterActivity extends AppCompatActivity {
     private Switch fillSwitch;
     private Switch sortSwitch;
 
+    private RadioGroup orderRadioGroup;
+    private RadioGroup byWhatRadiogroup;
     private Button resetButton;
     private Button backButton;
 
