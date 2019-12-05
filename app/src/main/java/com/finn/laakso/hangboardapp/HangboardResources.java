@@ -446,6 +446,51 @@ private static final int[] gripValuesBM1000 = {
             14,MM22,FFS, 14,MM22F3,F3S, 14,MM22B3,B3S,
     };
 
+    private static final int[] gripValuesStrongant = {
+            1, JUG , FF, 1 , JUG3F , F3 , 1 , JUG3B , B3,
+            2, 0 , FF, 2 , 0 , F3 , 2 , 0 , B3,
+            3, 0 , FF, 3 , 0 , F3 , 3 , 0 , B3,
+
+            4 , 0 , F3 , 4 , 0 , B3,
+
+            5, 0 , F2, 5 , 0 , M2 , 5 , 0 , B2,
+
+            6, 0 , FF, 6 , 0 , F3 , 6 , 0 , B3,
+            7, 0 , FF, 7 , 0 , F3 , 7 , 0 , B3,
+
+            8, 110 , IN, 8 , 100 , MI , 8 , 130 , RI, 8 , 150 , LI,
+            9 , 0 , F3 , 9 , 0 , B3,
+            1, 0 , FF, 1 , 0 , F3 , 1 , 0 , B3,
+
+            11, 0 , F2, 11 , 0 , M2 , 11 , 0 , B2,
+            12, 0 , F2, 12 , 0 , M2 , 12 , 0 , B2,
+            13, 110 , IN, 13 , 100 , MI , 13 , 130 , RI, 13 , 150 , LI,
+            14, 0 , F2, 14 , 0 , M2 , 14 , 0 , B2,
+
+            15, 0 , FFS, 15 , 0 , F3S , 15 , 0 , B3S,
+
+    };
+
+    private static final int[] gripValuesTarget10a = {
+            1, JUG , FF, 1 , JUG3F , F3 , 1 , JUG3B , B3,
+            2, 0 , FF, 2 , 0 , F3 , 2 , 0 , B3,
+            3, 0 , FF, 3 , 0 , F3 , 3 , 0 , B3,
+
+            4, 0 , FF , 4 , 0 , F3 , 4 , 0 , B3,
+            5 , 0 , F3 , 5 , 0 , B3,
+
+            6, 0 , FF, 6 , 0 , F3 , 6 , 0 , B3,
+            7 , 0 , F3 , 7 , 0 , B3,
+            8, 0 , F2, 8 , 0 , M2 , 8 , 0 , B2,
+            9, 0 , FFS, 9 , 0 , F3S , 9 , 0 , B3,
+
+            10, 0 , F2, 10 , 0 , M2 , 10 , 0 , B2,
+            11, 0 , F2, 11 , 0 , M2 , 11 , 0 , B2,
+            12, 0 , FF, 12 , 0 , F3 , 12 , 0 , B3,
+            13, 0 , F2, 13 , 0 , M2 , 13 , 0 , B2,
+
+    };
+
     // comments are from email
     private static final int[] gripValuesCore = {
             1,JUG,FF, 1,JUG3F,F3, 1,JUG3B,B3,     // big Jug diff1
@@ -904,6 +949,40 @@ private static final int[] gripValuesSoillboost = {
 
     };
 
+    private static final int[] strongantCoordinates = {
+            1 , 0 , 0 , 0 , 0,
+            2 , 0 , 0 , 0 , 0,
+            3 , 0 , 0 , 0 , 0,
+            4 , 0 , 0 , 0 , 0,
+            5 , 0 , 0 , 0 , 0,
+            6 , 0 , 0 , 0 , 0,
+            7 , 0 , 0 , 0 , 0,
+            8 , 0 , 0 , 0 , 0,
+            9 , 0 , 0 , 0 , 0,
+            10 , 0 , 0 , 0 , 0,
+            11 , 0 , 0 , 0 , 0,
+            12 , 0 , 0 , 0 , 0,
+            13 , 0 , 0 , 0 , 0,
+            14 , 0 , 0 , 0 , 0,
+            15 , 0 , 0 , 0 , 0,
+    };
+
+    private static final int[] target10aCoordinates = {
+            1 , 0 , 0 , 0 , 0,
+            2 , 0 , 0 , 0 , 0,
+            3 , 0 , 0 , 0 , 0,
+            4 , 0 , 0 , 0 , 0,
+            5 , 0 , 0 , 0 , 0,
+            6 , 0 , 0 , 0 , 0,
+            7 , 0 , 0 , 0 , 0,
+            8 , 0 , 0 , 0 , 0,
+            9 , 0 , 0 , 0 , 0,
+            10 , 0 , 0 , 0 , 0,
+            11 , 0 , 0 , 0 , 0,
+            12 , 0 , 0 , 0 , 0,
+            13 , 0 , 0 , 0 , 0,
+    };
+
     private static final int[] coreCoordinates = {
             1 , 9 , 1 , 273 , 1 ,
             2 , 81 , 17 , 201 , 17 ,
@@ -1009,7 +1088,8 @@ private static final int[] gripValuesSoillboost = {
             gripValuesTension,gripValuesTensionPro, gripValuesZlag, gripValuesMoonhard, gripValuesMooneasy, gripValuesMeto,
             gripValuesRockprodigy, gripValuesProblemsolver, gripValuesMetocontact, gripValuesMetoProject,
             gripValuesMetoSimulator, gripValuesMetowood, gripValuesMetoWoodDeluxe, gripValuesKraxlboard,
-            gripValuesDrcc, gripValuesSolution, gripValuesEdge, gripValuesMatrix ,gripValuesCore,
+            gripValuesDrcc, gripValuesSolution, gripValuesEdge, gripValuesMatrix ,
+            gripValuesStrongant, gripValuesTarget10a,gripValuesCore,
             gripValuesSoillboost, gripValuesUltimate, gripValuesGrill, gripValuesGrillto,
             
     };
@@ -1019,7 +1099,7 @@ private static final int[] gripValuesSoillboost = {
             rockprodigyCoordinates, problemsolverCoordinates,
             metocontactCoordinates, metoprojectCoordinates, metosimulatorCoordinates,
             metowoodCoordinates, metoWoodDeluxeCoordinates, kraxlboardCoordinates, drccCoordinates,
-            solutionCoordinates, edgeCoordinates, matrixCoordinates, coreCoordinates,
+            solutionCoordinates, edgeCoordinates, matrixCoordinates, strongantCoordinates, target10aCoordinates, coreCoordinates,
             soillboostCoordinates, ultimateCoordinates, grillCoordinates, grilltoCoordinates
     };
 
@@ -1029,7 +1109,8 @@ private static final int[] gripValuesSoillboost = {
             R.array.rockprodigy_benchmarks, R.array.problemsolver_benchmarks,
             R.array.meto_contact_benchmarks, R.array.meto_project_benchmarks, R.array.meto_simulator_benchmarks,
             R.array.meto_wood_benchmarks, R.array.meto_wood_deluxe_benchmarks, R.array.kraxlboard_benchmarks,
-            R.array.drcc_benchmarks, R.array.solution_benchmarks, R.array.edge_benchmarks, R.array.matrix_benchmarks, R.array.core_benchmarks, R.array.soillboost_benchmarks,
+            R.array.drcc_benchmarks, R.array.solution_benchmarks, R.array.edge_benchmarks, R.array.matrix_benchmarks,
+            R.array.strongant_benchmarks,R.array.target10a_benchmarks, R.array.core_benchmarks, R.array.soillboost_benchmarks,
             R.array.ultimate_benchmarks, R.array.grill_benchmarks, R.array.grillto_benchmarks
     };
 
@@ -1038,14 +1119,14 @@ private static final int[] gripValuesSoillboost = {
             R.drawable.rockprodigy, R.drawable.problemsolver, R.drawable.meto_contact, R.drawable.meto_project,
             R.drawable.meto_simulator, R.drawable.meto_wood, R.drawable.meto_wood_deluxe,
             R.drawable.kraxlboard, R.drawable.drcc,R.drawable.solution, R.drawable.edge, R.drawable.matrix,
-            R.drawable.core, R.drawable.soillboost, R.drawable.ultimate,
+            R.drawable.strongant,R.drawable.target10a, R.drawable.core, R.drawable.soillboost, R.drawable.ultimate,
             R.drawable.grill, R.drawable.grillto};
 
 
     private static String[] hangboardStrings = {"BM 1000", "BM 2000", "Transgression","Tension","Tension Pro",
             "Zlagboard","Moonboard hard","Moonboard easy","Metolius","Rock Prodigy","problemsolver","Meto. Contact",
             "Meto. Project", "Meto. Simulator",
-            "Meto. Wood", "Meto. Deluxe", "Kraxlboard", "DRCC","Solution","Edge","Matrix","Core",
+            "Meto. Wood", "Meto. Deluxe", "Kraxlboard", "DRCC","Solution","Edge","Matrix","Strong Ant III", "Target 10a","Core",
             "So iLL Boost","Ultimate", "Grill", "Grillto"};
 
     public static int getHoldDifficulty(Hold hold, String hbName) {
@@ -1088,7 +1169,7 @@ private static final int[] gripValuesSoillboost = {
     // All supported Hangboards
     public enum hangboardName {BM1000, BM2000, TRANS, TENSION, TENSIONPRO, ZLAG, MOONHARD, MOONEASY, METO,
         ROCKPRODIGY, PROBLEMSOLVER, METO_CONTACT,  METO_PROJECT, METO_SIMULATOR, METO_WOOD, METO_WOOD_DELUXE,
-        KRAXLBOARD, DRCC, SOLUTION, EDGE, MATRIX, CORE, SOILLBOOST, ULTIMATE, GRILL, GRILLTO}
+        KRAXLBOARD, DRCC, SOLUTION, EDGE, MATRIX,STRONGANT, TARGET10A, CORE, SOILLBOOST, ULTIMATE, GRILL, GRILLTO}
 
 /*
 

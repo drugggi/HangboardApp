@@ -2420,6 +2420,23 @@
         <item>1,1,2,2,2,2,3,3,3,3,4,4,5,5,6,6,7,7,8,8</item>
     </string-array>
 
+    <string-array name="target10a_benchmarks">
+        <item>no Workouts</item>
+        <item>This hangboard currently has no pre made workouts</item>
+        <item>1,1,10,0,1,150,300</item>
+        <item>1,1</item>
+        <item>8,8</item>
+    </string-array>
+
+    <string-array name="strongant_benchmarks">
+        <item>no Workouts</item>
+        <item>This hangboard currently has no pre made workouts</item>
+        <item>1,1,10,0,1,150,300</item>
+        <item>1,1</item>
+        <item>8,8</item>
+    </string-array>
+
+
     <string-array name="core_benchmarks">
 
         <item>5C Benchmark</item>
