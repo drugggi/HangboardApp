@@ -410,7 +410,45 @@ public class FilterActivity extends AppCompatActivity {
        resetButton.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               Toast.makeText(FilterActivity.this,"reset to defaults",Toast.LENGTH_LONG).show();
+               minDifficultyEditText.setText(""+DEFAULT_MIN_DIFFICULTY);
+               minDifficultySeekBar.setProgress(DEFAULT_MIN_DIFFICULTY/5);
+               maxDifficultyEditText.setText(""+DEFAULT_MAX_DIFFICULTY);
+               maxDifficultySeekBar.setProgress(DEFAULT_MAX_DIFFICULTY/5);
+               alternateFactorEditText.setText("" + DEFAULT_ALTERNATE_FACTOR);
+               alternateFactorSeekBar.setProgress(DEFAULT_ALTERNATE_FACTOR);
+
+               fourfingerCheckBox.setChecked(DEFAULT_GRIPTYPES_ALLOWED[0]);
+               threefrontCheckBox.setChecked(DEFAULT_GRIPTYPES_ALLOWED[1]);
+               threebackCheckBox.setChecked(DEFAULT_GRIPTYPES_ALLOWED[2]);
+               twofrontCheckBox.setChecked(DEFAULT_GRIPTYPES_ALLOWED[3]);
+               twomiddleCheckBox.setChecked(DEFAULT_GRIPTYPES_ALLOWED[4]);
+               twobackCheckBox.setChecked(DEFAULT_GRIPTYPES_ALLOWED[5]);
+               indexfingerCheckBox.setChecked(DEFAULT_GRIPTYPES_ALLOWED[6]);
+               middlefingerCheckBox.setChecked(DEFAULT_GRIPTYPES_ALLOWED[7]);
+               ringfingerCheckBox.setChecked(DEFAULT_GRIPTYPES_ALLOWED[8]);
+               littlefingerCheckBox.setChecked(DEFAULT_GRIPTYPES_ALLOWED[9]);
+
+               fillSwitch.setChecked(DEFAULT_USE_EVERY_GRIP);
+               sortSwitch.setChecked(DEFAULT_SORT_HOLDS);
+               SharedPreferences.Editor editor = filterSettings.edit();
+               editor.putInt("minDifficultyFilter",DEFAULT_MIN_DIFFICULTY);
+               editor.putInt("maxDifficultyFilter",DEFAULT_MAX_DIFFICULTY);
+               editor.putInt("alternateFactorFilter",DEFAULT_ALTERNATE_FACTOR);
+               for (int i = 0 ; i < DEFAULT_GRIPTYPES_ALLOWED.length ; i++) {
+                   editor.putBoolean("gripType_"+i+"_Filter",DEFAULT_GRIPTYPES_ALLOWED[i]);
+               }
+               editor.putBoolean("fillGripTypesFilter",DEFAULT_USE_EVERY_GRIP);
+               editor.putBoolean("sortWorkoutHoldsFilter",DEFAULT_SORT_HOLDS);
+               editor.putInt("sortOrderFilter",DEFAULT_SORT_ORDER);
+               editor.putInt("sortMethodFilter",DEFAULT_SORT_METHOD);
+
+               RadioButton temp = (RadioButton) findViewById(R.id.ascendingRadioButton);
+               temp.setChecked(true);
+               temp = (RadioButton) findViewById(R.id.difficultyRadioButton);
+               temp.setChecked(true);
+
+               editor.apply();
+               setRadioButtonsEnabled(DEFAULT_SORT_HOLDS);
            }
        });
 
