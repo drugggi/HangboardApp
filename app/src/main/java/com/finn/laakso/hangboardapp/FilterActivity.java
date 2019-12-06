@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -34,6 +35,11 @@ public class FilterActivity extends AppCompatActivity {
     public static final boolean DEFAULT_USE_EVERY_GRIP = true;
     public static final boolean DEFAULT_SORT_HOLDS = false;
     public static final int DEFAULT_ALTERNATE_FACTOR = 2;
+    public static final int DEFAULT_SORT_ORDER = 0;
+    public static final int DEFAULT_SORT_METHOD = 0;
+    private static final int ASCENDING = 0, DESCENDING = 1;
+    private static final int DIFFICULTY = 0, GRIPTYPE = 1, HOLDNUMBER = 2;
+
 
     private Hangboard exampleBoard;
     private String hangboardName;
@@ -103,6 +109,9 @@ public class FilterActivity extends AppCompatActivity {
        maxDifficultySeekBar = (SeekBar) findViewById(R.id.maxDifficultySeekBar);
        alternateFactorSeekBar = (SeekBar) findViewById(R.id.alternateFactorSeekBar);
 
+       orderRadioGroup = (RadioGroup) findViewById(R.id.orderRadioGroup);
+       byWhatRadiogroup = (RadioGroup) findViewById(R.id.byWhatRadioGroup);
+
         resetButton = (Button) findViewById(R.id.resetButton);
         backButton = (Button) findViewById(R.id.backButton);
 
@@ -129,8 +138,33 @@ public class FilterActivity extends AppCompatActivity {
             exampleBoard = new Hangboard(res,hb);
         }
         fillSwitch.setChecked(filterSettings.getBoolean("fillGripTypesFilter",DEFAULT_USE_EVERY_GRIP));
-        sortSwitch.setChecked(filterSettings.getBoolean("sortWorkoutHoldsFilter",DEFAULT_SORT_HOLDS));
+        boolean sorting = filterSettings.getBoolean("sortWorkoutHoldsFilter",DEFAULT_SORT_HOLDS);
+        sortSwitch.setChecked(sorting);
+        setRadioButtonsEnabled(sorting);
 
+        RadioButton temp = (RadioButton) findViewById(R.id.ascendingRadioButton);
+        switch (filterSettings.getInt("sortOrderFilter",DEFAULT_SORT_ORDER) ) {
+            case (ASCENDING):
+                temp = (RadioButton) findViewById(R.id.ascendingRadioButton);
+                break;
+            case (DESCENDING):
+                temp = (RadioButton) findViewById(R.id.descendingRadioButton);
+                break;
+        }
+
+        temp.setChecked(true);
+        switch (filterSettings.getInt("sortMethodFilter",DEFAULT_SORT_METHOD )) {
+            case (DIFFICULTY):
+                temp = (RadioButton) findViewById(R.id.difficultyRadioButton);
+                break;
+            case (GRIPTYPE):
+                temp = (RadioButton) findViewById(R.id.griptypeRadioButton);
+                break;
+            case (HOLDNUMBER):
+                temp = (RadioButton) findViewById(R.id.holdnumberRadioButton);
+                break;
+        }
+        temp.setChecked(true);
         fillSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -147,6 +181,7 @@ public class FilterActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = filterSettings.edit();
                 editor.putBoolean("sortWorkoutHoldsFilter",b);
                 editor.apply();
+                setRadioButtonsEnabled(b);
             }
         });
 
@@ -344,6 +379,34 @@ public class FilterActivity extends AppCompatActivity {
            }
        });
 
+       orderRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+           @Override
+           public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+               SharedPreferences.Editor editor = filterSettings.edit();
+
+               if (checkedId == R.id.ascendingRadioButton) {
+                   editor.putInt("sortOrderFilter",ASCENDING);
+               } else if (checkedId == R.id.descendingRadioButton) {
+                   editor.putInt("sortOrderFilter",DESCENDING);
+               }
+               editor.apply();
+           }
+       });
+       byWhatRadiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+           @Override
+           public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+               SharedPreferences.Editor editor = filterSettings.edit();
+
+               if (checkedId == R.id.difficultyRadioButton) {
+                    editor.putInt("sortMethodFilter",DIFFICULTY);
+               } else if (checkedId == R.id.griptypeRadioButton) {
+                   editor.putInt("sortMethodFilter",GRIPTYPE);
+               } else if (checkedId == R.id.holdnumberRadioButton) {
+                   editor.putInt("sortMethodFilter",HOLDNUMBER);
+               }
+               editor.apply();
+           }
+       });
        resetButton.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
@@ -456,5 +519,21 @@ public class FilterActivity extends AppCompatActivity {
         holdsFoundTextView.setText("Current hangboard: " + hangboardName + "\n" +
         "Different Holds found ("+min + "-"+ max + "): " + holdsFound.size()/2 + "\n" +
                 "Holds found (alterante): " + holdsFoundAlternate.size()/2 );
+    }
+    private void setRadioButtonsEnabled(boolean sortinEnabled) {
+        for (int i = 0; i < orderRadioGroup.getChildCount(); i++){
+            orderRadioGroup.getChildAt(i).setEnabled(sortinEnabled);
+        }
+        for (int i = 0; i < byWhatRadiogroup.getChildCount(); i++) {
+            byWhatRadiogroup.getChildAt(i).setEnabled(sortinEnabled);
+        }
+        float alpha = 0.5f;
+        if (sortinEnabled) {
+            alpha = 1f;
+        }
+        TextView temp = (TextView) findViewById(R.id.holdsinTextView);
+        temp.setAlpha(alpha);
+        temp = (TextView) findViewById(R.id.orderbyTextView);
+        temp.setAlpha(alpha);
     }
 }

@@ -133,7 +133,7 @@
                     android:layout_height="0dp"
                     android:layout_gravity="center"
                     android:layout_weight="3"
-                    android:max="8"
+                    android:max="6"
                     android:progress="1"
                     android:progressTint="#B38867" />
             </LinearLayout>
@@ -308,7 +308,7 @@
 
 
             <TextView
-                android:id="@+id/textView11"
+                android:id="@+id/holdsinTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -329,7 +329,8 @@
                     android:id="@+id/ascendingRadioButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ascending" />
+                    android:text="ascending"
+                    android:visibility="visible" />
 
                 <RadioButton
                     android:id="@+id/descendingRadioButton"
@@ -340,7 +341,7 @@
 
 
             <TextView
-                android:id="@+id/textView12"
+                android:id="@+id/orderbyTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
