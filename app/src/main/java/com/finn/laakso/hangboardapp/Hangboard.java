@@ -375,9 +375,89 @@ public class Hangboard {
 
     }
 
+    public void newCustomWorkoutHolds(SharedPreferences prefs) {
+        int minDiff = prefs.getInt("minDifficultyFilter",FilterActivity.DEFAULT_MIN_DIFFICULTY);
+        int maxDiff = prefs.getInt("maxDifficultyFilter", FilterActivity.DEFAULT_MAX_DIFFICULTY);
+        int altFactor = prefs.getInt("alternateFactorFilter", FilterActivity.DEFAULT_ALTERNATE_FACTOR);
+        Boolean[] gripTypes = new Boolean[FilterActivity.DEFAULT_GRIPTYPES_ALLOWED.length];
+        for (int i = 0 ; i < gripTypes.length ; i++) {
+            gripTypes[i] = prefs.getBoolean("gripType_"+i+"_Filter",FilterActivity.DEFAULT_GRIPTYPES_ALLOWED[i]);
+        }
+        boolean useEveryGripType = prefs.getBoolean("fillGripTypesFilter",FilterActivity.DEFAULT_USE_EVERY_GRIP);
+        boolean sorting = prefs.getBoolean("sortWorkoutHoldsFilter", FilterActivity.DEFAULT_SORT_HOLDS);
+        int sortOrder = prefs.getInt("sortOrderFilter",FilterActivity.DEFAULT_SORT_ORDER);
+        int sortMethod = prefs.getInt("sortMethodFilter", FilterActivity.DEFAULT_SORT_METHOD);
+
+        Log.d("All prefs", minDiff + "-" + maxDiff + " f:" + altFactor + " use:" + useEveryGripType +
+                " sort:" + sorting + " order:" + sortOrder + " method:" + sortMethod);
+
+        ArrayList<Hold> holdsInRange = getHoldsInRange(minDiff,maxDiff,gripTypes);
+        ArrayList<Hold> altHoldsInRange = getAlternateHoldsInRange(minDiff,maxDiff,altFactor,gripTypes);
+        if (holdsInRange.size() == 0 && altHoldsInRange.size() == 0) {return; }
+        else if (holdsInRange.size() == 0) {holdsInRange = altHoldsInRange; }
+        else if (altHoldsInRange.size() == 0) {altHoldsInRange = holdsInRange; }
+
+        Log.d("holds found","H: " + holdsInRange.size() + "  AH:" + altHoldsInRange.size());
+
+        Random rng = new Random();
+        int totalHolds = workoutHoldList.size() /2;
+        if (totalHolds == 0) {totalHolds = 6; }
+        workoutHoldList.clear();
+
+        // HOW TO MAKE SURE EVERY GRIP TYPE IS IN WORKOUTLIST
+        if (useEveryGripType) {
+            for (int i = 0; i < holdsInRange.size(); i++) {
+                boolean alreadyIn = false;
+                for (int j = 0; j < workoutHoldList.size(); j++) {
+                    if (holdsInRange.get(i).getGripStyle() == workoutHoldList.get(j).getGripStyle()) {
+                        alreadyIn = true;
+                        break;
+                    }
+                }
+                if (alreadyIn == false) {
+                    workoutHoldList.add(holdsInRange.get(i));
+                    workoutHoldList.add(holdsInRange.get(i + 1));
+                }
+            }
+            for (int i = 0; i < altHoldsInRange.size(); i++) {
+                boolean alreadyIn = false;
+                for (int j = 0; j < workoutHoldList.size(); j++) {
+                    if (altHoldsInRange.get(i).getGripStyle() == workoutHoldList.get(j).getGripStyle()) {
+                        alreadyIn = true;
+                        break;
+                    }
+                }
+                if (alreadyIn == false) {
+                    workoutHoldList.add(altHoldsInRange.get(i));
+                    workoutHoldList.add(altHoldsInRange.get(i + 1));
+                }
+            }
+            while (workoutHoldList.size() / 2 > totalHolds) {
+                workoutHoldList.remove(workoutHoldList.size()-1);
+                workoutHoldList.remove(workoutHoldList.size()-1);
+            }
+        }
+
+        for (int i = workoutHoldList.size()/2 ; i < totalHolds ; i++) {
+            if (rng.nextBoolean() ) {
+                int nro = rng.nextInt(holdsInRange.size()/2) * 2;
+                workoutHoldList.add(holdsInRange.get(nro));
+                workoutHoldList.add(holdsInRange.get(nro+1));
+            }
+            else {
+               int nro = rng.nextInt(altHoldsInRange.size() / 2) * 2;
+               workoutHoldList.add(altHoldsInRange.get(nro) );
+               workoutHoldList.add(altHoldsInRange.get(nro+1));
+            }
+        }
+        if (sorting) {
+            Log.d("SORT","workoutholdslist!");
+        }
+        randomizeHoldList();
+    }
     // newCustomWorkoutHolds will check user preferences for Hold's max and min difficulties, which
     // grip types to search and sorting info etc.
-    public void newCustomWorkoutHolds(SharedPreferences prefs) {
+    public void newCustomWorkoutHolds2(SharedPreferences prefs) {
 
         int holdsAmount = workoutHoldList.size()/2;
         if (holdsAmount == 0) {holdsAmount = 6; }
@@ -726,9 +806,7 @@ public class Hangboard {
         // doesn't favor one hold above the other (next)
 
         // When new board is set, lets make new hold list with grade 0 -> 5A
-        //randomizeGrips(0);
         randomizeHoldList();
-
     }
 
     public ArrayList<Hold> getHoldsInRange(int minDifficulty,int maxDifficulty, Boolean[] gripFilter) {

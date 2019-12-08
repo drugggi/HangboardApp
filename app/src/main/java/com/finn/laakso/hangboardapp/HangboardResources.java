@@ -4,7 +4,7 @@ package com.finn.laakso.hangboardapp;
 // name conversion between enums and strings etc.
 
 public final class  HangboardResources {
-    public static final String grades[] = {"Custom","5A","5B","5C", "6A", "6B", "6C", "7A", "7B", "7C",
+    public static final String[] grades = {"Custom","5A","5B","5C", "6A", "6B", "6C", "7A", "7B", "7C",
 "8A", "8B"};
 
     // Some base difficulty values based on holds' depths (6mm - 40mm and jug)
