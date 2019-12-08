@@ -33,14 +33,12 @@ public class Hangboard {
 
     // Grips constructor takes resources so that it can read all the information needed constructing
     // workout and hangs and grips
-    public Hangboard(Resources res, HangboardResources.hangboardName HB) {
+    public Hangboard(HangboardResources.hangboardName HB) {
 
-        grades = res.getStringArray(R.array.grades);
-
+        grades = HangboardResources.grades;
         workoutHoldList = new ArrayList<Hold>();
 
-        initializeHolds(res,HB);
-
+        initializeHolds(HB);
     }
 
     // Hold class knows the image resources for hand images
@@ -202,10 +200,6 @@ public class Hangboard {
 
     }
 
-    public String[] getGrades() {
-        return grades;
-    }
-
     // Sets the workoutHoldList to given amount and randomizes those holds
     public void setGripAmount(int amount, int grade_position) {
 
@@ -275,72 +269,6 @@ public class Hangboard {
             else {
                 i = i + 2; }
         }
-    }
-
-    // Method randomizeGrips randomizes holds and grips that are used in a workout
-    public void randomizeGrips(int grade_position) {
-
-        int holdsAmount = workoutHoldList.size()/2;
-        if (holdsAmount == 0) {holdsAmount = 6; }
-
-        workoutHoldList.clear();
-        // Random generator that is only used if we are using the same hold or alternating between holds
-        Random rn = new Random();
-        boolean isAlternate = rn.nextBoolean();
-
-        // these ints will be randomized and those represents holds in allHangboardHolds array
-        int random_nro;
-        int random_nro_alt;
-        int temp_hold_value;
-
-        int min_value=getMinValue(grades[grade_position]);
-        int max_value=getMaxValue(grades[grade_position]);
-        int value = 0;
-        int i=0;
-
-        while (i < holdsAmount ) {
-
-            if (isAlternate) {
-
-                // Lets search for a holds that max hardness is half the remaining points for a give grade
-                random_nro = getHoldNumberWithValue(min_value/2, (max_value*3)/2 );
-
-                temp_hold_value = allHangboardHolds[random_nro].getHoldValue();
-
-                min_value = 2*min_value-temp_hold_value;
-                if (min_value < 1 ) { min_value = 1; }
-                max_value = 2*max_value-temp_hold_value;
-                if (max_value < 2 ) { max_value = 2; }
-
-                // And then search for a hold that could be slightly harder than the first one
-                random_nro_alt = getHoldNumberWithGripType(min_value , max_value, allHangboardHolds[random_nro].grip_style);
-
-                min_value=getMinValue(grades[grade_position]);
-                max_value=getMaxValue(grades[grade_position]);
-
-                // Holds should not be the same, if it is lets just find one hold ie. jump to else statement
-                if (random_nro == random_nro_alt) {
-                    isAlternate = false;
-                    continue; }
-                workoutHoldList.add(allHangboardHolds[random_nro]);
-                workoutHoldList.add(allHangboardHolds[random_nro_alt]);
-
-            }
-
-            else {
-                // Lets search for a hold that max hardness is half the remaining points for a give grade
-                random_nro = getHoldNumberWithValue(min_value, max_value);
-
-                value = value + allHangboardHolds[random_nro].getHoldValue();
-                workoutHoldList.add(allHangboardHolds[random_nro]);
-                workoutHoldList.add(allHangboardHolds[random_nro]);
-
-            }
-            isAlternate = rn.nextBoolean();
-            ++i;
-        }
-
-        randomizeHoldList();
     }
 
     // RandomizeGrip method randomizes selected grip instead of all the grips
@@ -771,7 +699,7 @@ public class Hangboard {
     // initializeHolds method collects from resources all the possible grip types, hold numbers,
     // coordinates and difficulties that a Hangboard can have. Those will be stored in allHangboardHolds
     // and they are randomized so that when a hold is picked it will be random.
-    public void initializeHolds(Resources res, HangboardResources.hangboardName new_board) {
+    public void initializeHolds(HangboardResources.hangboardName new_board) {
 
         currentHangboard = new_board;
         int[] hold_values;
@@ -798,7 +726,7 @@ public class Hangboard {
         // doesn't favor one hold above the other (next)
 
         // When new board is set, lets make new hold list with grade 0 -> 5A
-        randomizeGrips(0);
+        //randomizeGrips(0);
         randomizeHoldList();
 
     }

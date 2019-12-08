@@ -134,8 +134,7 @@ public class FilterActivity extends AppCompatActivity {
             // there has to be a better way to get new Hangboard(..)
             int pos = HangboardResources.getHangboardPosition(hangboardName);
             HangboardResources.hangboardName hb= HangboardResources.getHangboardName(pos);
-            Resources res = getResources();
-            exampleBoard = new Hangboard(res,hb);
+           exampleBoard = new Hangboard(hb);
         }
         fillSwitch.setChecked(filterSettings.getBoolean("fillGripTypesFilter",DEFAULT_USE_EVERY_GRIP));
         boolean sorting = filterSettings.getBoolean("sortWorkoutHoldsFilter",DEFAULT_SORT_HOLDS);
@@ -526,6 +525,10 @@ public class FilterActivity extends AppCompatActivity {
                        editor.apply();
                        alternateFactorSeekBar.setProgress(i);
                        updateFilterDisplay();
+                   }
+                   else {
+                       alternateFactorEditText.setText(""+filterSettings.getInt("alternateFactorFilter",DEFAULT_ALTERNATE_FACTOR) );
+                       Toast.makeText(FilterActivity.this, "Number out of bounds, changes reverted", Toast.LENGTH_SHORT).show();
                    }
                } catch (NumberFormatException e) {
                    alternateFactorEditText.setText("" + alternateFactor);

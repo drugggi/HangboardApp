@@ -158,7 +158,7 @@ public class WorkoutActivity extends AppCompatActivity {
             String hangboardName = HangboardResources.getHangboardStringName(boardimageResource);
             int hangboardPosition = HangboardResources.getHangboardPosition(hangboardName);
             HangboardResources.hangboardName workoutHB = HangboardResources.getHangboardName(hangboardPosition);
-            workoutHangboard = new Hangboard(getResources() , workoutHB);
+            workoutHangboard = new Hangboard(workoutHB);
 
             workoutHangboard.setNewWorkoutHolds(workoutHolds);
         }

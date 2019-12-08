@@ -199,9 +199,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Hangboard class holds all the information about grades and holds and grips
         final Resources res = getResources();
-        everyBoard = new Hangboard(res, HangboardResources.getHangboardName(hangboard_descr_position));
-
-        // everyBoard.initializeHolds(res, HangboardResources.getHangboardName(hangboard_descr_position));
+        everyBoard = new Hangboard(HangboardResources.getHangboardName(hangboard_descr_position));
 
         timeControls = new TimeControls();
         if (savedInstanceState != null) {
@@ -223,6 +221,9 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             ArrayList<Hold> holds = savedInstanceState.getParcelableArrayList("mainactivity_hangboardholds");
             everyBoard.setNewWorkoutHolds(holds);
+        }
+        else {
+            everyBoard.randomizeNewWorkoutHolds(grade_descr_position,timeControls);
         }
         // holdsAdapter = new  ArrayAdapter<String>(this, R.layout.mytextview, everyBoard.getGrips());
 
@@ -274,9 +275,9 @@ public class MainActivity extends AppCompatActivity {
 
                     Hold.grip_type lastGripType = everyBoard.getLeftHandGripType(hangsAdapter.getSelectedHangNumber() - 1 );
 
-                    everyBoard.initializeHolds(res, HangboardResources.getHangboardName(hangboard_descr_position));
+                    everyBoard.initializeHolds(HangboardResources.getHangboardName(hangboard_descr_position));
 
-                    everyBoard.randomizeGrips(grade_descr_position);
+                    everyBoard.randomizeNewWorkoutHolds(grade_descr_position,timeControls);
 
                     String randomizeText = "New " + everyBoard.getGrade(grade_descr_position) + "\nWorkout";
                     newWorkoutButton.setText(randomizeText);
@@ -688,7 +689,7 @@ public class MainActivity extends AppCompatActivity {
                     hangboard_descr_position = hangboardPosition;
                     viewPager.setCurrentItem(hangboardPosition);
                     timeControls.setTimeControls(timeSettings);
-                    everyBoard.initializeHolds(getResources(), newHangboard);
+                    everyBoard.initializeHolds(newHangboard);
                     everyBoard.setNewWorkoutHolds(newHolds);
 
                     hangsAdapter = new HangListAdapter(this, everyBoard.getCurrentWorkoutHoldList());
@@ -726,7 +727,7 @@ public class MainActivity extends AppCompatActivity {
 
                 viewPager.setCurrentItem(hangboardPosition);
                 timeControls.setTimeControls(timeSettings);
-                everyBoard.initializeHolds(getResources(), newHangboard);
+                everyBoard.initializeHolds(newHangboard);
                 everyBoard.setNewWorkoutHolds(newHolds);
 
                 hangsAdapter = new HangListAdapter(this, everyBoard.getCurrentWorkoutHoldList());
