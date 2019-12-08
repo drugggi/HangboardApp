@@ -43,9 +43,15 @@ public class Hangboard {
 
     // Hold class knows the image resources for hand images
     public int getLeftFingerImage(int position) {
+        if (position < 0 || position >= workoutHoldList.size() / 2) {
+            return workoutHoldList.get(0).getGripImage(true);
+        }
         return workoutHoldList.get(position*2).getGripImage(true);
     }
     public int getRightFingerImage(int position) {
+        if (position < 0 || position >= workoutHoldList.size() / 2) {
+            return workoutHoldList.get(0).getGripImage(false);
+        }
         return workoutHoldList.get(position*2+1).getGripImage(false);
     }
 
@@ -53,6 +59,9 @@ public class Hangboard {
     // Coordinates getters for hand image positioning, it is possible to request hold number that
     // does not exist in hold_coordinates
     public int getCoordLefthandX(int position) {
+        if (position < 0 || position >= workoutHoldList.size() / 2 ) {
+            return 0;
+        }
         int holdNumber = workoutHoldList.get(position*2).getHoldNumber();
 
         if (holdNumber*5 <= hold_coordinates.length) {
@@ -61,6 +70,9 @@ public class Hangboard {
         return 0;
     }
     public int getCoordLefthandY(int position) {
+        if (position < 0 || position >= workoutHoldList.size() / 2 ) {
+            return 0;
+        }
         int holdNumber = workoutHoldList.get(position*2).getHoldNumber();
 
         if (holdNumber*5 <= hold_coordinates.length) {
@@ -69,6 +81,9 @@ public class Hangboard {
         return 0;
     }
     public int getCoordRighthandX(int position) {
+        if (position < 0 || position >= workoutHoldList.size() / 2 ) {
+            return 0;
+        }
         int holdNumber = workoutHoldList.get(position*2+1).getHoldNumber();
 
         if (holdNumber*5 <= hold_coordinates.length) {
@@ -77,6 +92,9 @@ public class Hangboard {
         return 0;
     }
     public int getCoordRighthandY(int position) {
+        if (position < 0 || position >= workoutHoldList.size() / 2 ) {
+            return 0;
+        }
         int holdNumber = workoutHoldList.get(position*2+1).getHoldNumber();
 
         if (holdNumber*5 <= hold_coordinates.length) {
@@ -274,6 +292,9 @@ public class Hangboard {
     // RandomizeGrip method randomizes selected grip instead of all the grips
     public void randomizeGrip(int grade_position, int hold_nro) {
 
+        if (hold_nro < 0 || hold_nro >= workoutHoldList.size() ) {
+            return;
+        }
         // Random generator that is only used if we are using the same hold or alternating between holds
         Random rn = new Random();
         boolean isAlternate = rn.nextBoolean();
@@ -404,7 +425,7 @@ public class Hangboard {
         if (totalHolds == 0) {totalHolds = 6; }
         workoutHoldList.clear();
 
-        // HOW TO MAKE SURE EVERY GRIP TYPE IS IN WORKOUTLIST
+        // make sure that every grip type is in workoutholds if userEveryGripType is set
         if (useEveryGripType) {
             for (int i = 0; i < holdsInRange.size(); i++) {
                 boolean alreadyIn = false;
@@ -438,22 +459,90 @@ public class Hangboard {
             }
         }
 
+        // fill workoutholdlist with random holds at random place that meets the filter requirements
         for (int i = workoutHoldList.size()/2 ; i < totalHolds ; i++) {
+            int rngPlace = 0;
+            if (workoutHoldList.size() != 0) {
+                rngPlace = rng.nextInt(workoutHoldList.size() / 2) * 2;
+            }
             if (rng.nextBoolean() ) {
                 int nro = rng.nextInt(holdsInRange.size()/2) * 2;
-                workoutHoldList.add(holdsInRange.get(nro));
-                workoutHoldList.add(holdsInRange.get(nro+1));
+                workoutHoldList.add(rngPlace, holdsInRange.get(nro));
+                workoutHoldList.add(rngPlace, holdsInRange.get(nro+1));
             }
             else {
                int nro = rng.nextInt(altHoldsInRange.size() / 2) * 2;
-               workoutHoldList.add(altHoldsInRange.get(nro) );
-               workoutHoldList.add(altHoldsInRange.get(nro+1));
+               workoutHoldList.add(rngPlace, altHoldsInRange.get(nro) );
+               workoutHoldList.add(rngPlace, altHoldsInRange.get(nro+1));
             }
         }
         if (sorting) {
+            sortWorkoutHoldList(sortOrder, sortMethod);
             Log.d("SORT","workoutholdslist!");
         }
         randomizeHoldList();
+    }
+
+    public void sortWorkoutHoldList(int sortOrder, int sortMethod) {
+
+        // nothing to sort if only one hang in the list (two holds)
+        if (workoutHoldList.size() < 4) {return; }
+        ArrayList<Hold> sortedWorkoutHolds = new ArrayList<>();
+        sortedWorkoutHolds.add(workoutHoldList.get(0) );
+        sortedWorkoutHolds.add(workoutHoldList.get(1) );
+
+       for (int i = 2 ; i < workoutHoldList.size() ; i = i+2) {
+           for (int j = 0 ; j < sortedWorkoutHolds.size() ; j= j+2) {
+               int value1 = 0;
+               int value2 = 0;
+               if (sortMethod == FilterActivity.DIFFICULTY) {
+                   value1 = workoutHoldList.get(i).getHoldValue() + workoutHoldList.get(i + 1).getHoldValue();
+                   value2 = sortedWorkoutHolds.get(j).getHoldValue() + sortedWorkoutHolds.get(j + 1).getHoldValue();
+               }
+               else if (sortMethod == FilterActivity.GRIPTYPE) {
+                   value1 = workoutHoldList.get(i).getGripStyleInt();
+                   value2 = sortedWorkoutHolds.get(j).getGripStyleInt();
+               }
+               else if (sortMethod == FilterActivity.HOLDNUMBER) {
+                   value1 = 100*workoutHoldList.get(i).getHoldNumber()+workoutHoldList.get(i+1).getHoldNumber();
+                   value2 = 100*sortedWorkoutHolds.get(j).getHoldNumber()+sortedWorkoutHolds.get(j+1).getHoldNumber();
+               }
+
+               if (sortOrder == FilterActivity.ASCENDING) {
+                   if (value1 <= value2) {
+                       sortedWorkoutHolds.add(j, workoutHoldList.get(i + 1));
+                       sortedWorkoutHolds.add(j, workoutHoldList.get(i));
+                       break;
+                   }
+               }
+               if (sortOrder == FilterActivity.DESCENDING) {
+                   if (value1 >= value2) {
+                       sortedWorkoutHolds.add(j, workoutHoldList.get(i + 1 ));
+                       sortedWorkoutHolds.add(j, workoutHoldList.get(i) );
+                       break;
+                   }
+               }
+               if (j+2 >= sortedWorkoutHolds.size() ) {
+                   sortedWorkoutHolds.add(workoutHoldList.get(i+1));
+                   sortedWorkoutHolds.add(workoutHoldList.get(i));
+                   break;
+               }
+
+           }
+
+       }
+        workoutHoldList.clear();
+       workoutHoldList.addAll(sortedWorkoutHolds);
+/*
+       for (int i = 0 ; i < workoutHoldList.size() ; i=i+2) {
+           Log.d("WHL",workoutHoldList.get(i).getHoldInfo(workoutHoldList.get(i+1)));
+       }
+        for (int i = 0 ; i < sortedWorkoutHolds.size() ; i=i+2) {
+            Log.d("sorted WHL",sortedWorkoutHolds.get(i).getHoldInfo(sortedWorkoutHolds.get(i+1)));
+        }
+*/
+
+
     }
     // newCustomWorkoutHolds will check user preferences for Hold's max and min difficulties, which
     // grip types to search and sorting info etc.

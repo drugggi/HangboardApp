@@ -37,8 +37,8 @@ public class FilterActivity extends AppCompatActivity {
     public static final int DEFAULT_ALTERNATE_FACTOR = 2;
     public static final int DEFAULT_SORT_ORDER = 0;
     public static final int DEFAULT_SORT_METHOD = 0;
-    private static final int ASCENDING = 0, DESCENDING = 1;
-    private static final int DIFFICULTY = 0, GRIPTYPE = 1, HOLDNUMBER = 2;
+    public static final int ASCENDING = 0, DESCENDING = 1;
+    public static final int DIFFICULTY = 0, GRIPTYPE = 1, HOLDNUMBER = 2;
 
 
     private Hangboard exampleBoard;

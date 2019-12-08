@@ -506,7 +506,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-
                 if (isChecked) {
                     timeControls.setHangLaps(2);
 
@@ -532,6 +531,9 @@ public class MainActivity extends AppCompatActivity {
                 String durationText = "Duration: " + timeControls.getTotalTime()/60 + "min";
 
                 durationTextView.setText(durationText);
+                hangsAdapter.setSelectedHangNumber(0);
+                String randomizeText = "New " + everyBoard.getGrade(grade_descr_position) + "\nWorkout";
+                newWorkoutButton.setText(randomizeText);
                 hangsAdapter.notifyDataSetChanged();
 
                 animateFingerImagesToInvisible();
