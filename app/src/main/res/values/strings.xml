@@ -790,6 +790,15 @@
         <item>1,1,1,1,1,1,2,2,2,2,3,3,3,3,4,4,5,5,5,5,6,6,8,8</item>
 
     </string-array>
+
+    <string-array name="tension_mk2_benchmarks">
+        <item>no programs</item>
+        <item>Currently no premade workouts</item>
+        <item>6,6,7,3,150,360</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+        <item>1,1,1,1,1,1,1,1,1,1,1,1</item>
+    </string-array>
+
     <string-array name="moonhard_benchmarks">
         <item>6A Benchmark</item>
         <item>Grips &amp; Grades test</item>
