@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,7 +23,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageView leftFingerImage;
     private ImageView rightFingerImage;
-    //private ImageView fingerTESTImage;
+    private ImageView fingerTESTImage;
 
     private ViewPager viewPager;
     private HangboardSwipeAdapter swipeAdapter;
@@ -185,11 +185,9 @@ public class MainActivity extends AppCompatActivity {
         leftFingerImage = (ImageView) findViewById(R.id.leftFingerImageView);
         rightFingerImage = (ImageView) findViewById(R.id.rightFingerImageView);
 
-/*
         fingerTESTImage = (ImageView) findViewById(R.id.templateFingerImageView);
         fingerTESTImage.setVisibility(View.VISIBLE);
         fingerTESTImage.setImageResource(R.drawable.finger_template);
-        */
 
 
         if (savedInstanceState != null) {
@@ -321,13 +319,12 @@ public class MainActivity extends AppCompatActivity {
                 hangsAdapter.notifyDataSetChanged();
 
                 // THIS IS ONLY FOR TESTING HAND IMAGES POSITION PURPOSES
-                /*float x;
+                float x;
                 if (position % 2 != 0) {
                     x = fingerTESTImage.getX() + position * 3; }
                 else { x = fingerTESTImage.getX() - position * 3; }
                 fingerTESTImage.setX(x+5);
                 Log.e("FINGER COORD","X:" + fingerTESTImage.getX()/1.5 + "   Y:" + fingerTESTImage.getY()/1.5 );
-                */
             }
         });
 
@@ -379,6 +376,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+/*
 
                 int lastPosition = hangsAdapter.getSelectedHangNumber() - 1;
 
@@ -392,6 +390,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 hangsAdapter.notifyDataSetChanged();
+*/
 
 
 
@@ -399,19 +398,17 @@ public class MainActivity extends AppCompatActivity {
                 // REMEMBER RIGHT DEVICE NEXUS S AP/ 27, AND TO DIVIDE X AND Y BY 1.5
                 // you can compare coord values to values that device puts and figure out relation, its 1.5 on nexus s api 27
                 // REMEMBER ALSO PHONE ORIENTATION. FINGERIMAGE MUST BE DECLARET IN BOTH LANDSCAPE AND PORTRAIT MODE
-/*
                float y;
                 if (position % 2 != 0) {
                 y = fingerTESTImage.getY() + position*3; }
                 else {y = fingerTESTImage.getY() - position*3; }
                 fingerTESTImage.setY(y+5);
 
-               // rightFingerImage.setVisibility(View.INVISIBLE);
-               // leftFingerImage.setVisibility(View.INVISIBLE);
+                rightFingerImage.setVisibility(View.INVISIBLE);
+                 leftFingerImage.setVisibility(View.INVISIBLE);
 
                 // Log.d("FINGER COORD","X:" + fingerTESTImage.getX() + "   Y:" + fingerTESTImage.getY() );
                 Log.e("FINGER COORD","X:" + fingerTESTImage.getX()/1.5 + "   Y:" + fingerTESTImage.getY()/1.5 );
-*/
 
 
             }

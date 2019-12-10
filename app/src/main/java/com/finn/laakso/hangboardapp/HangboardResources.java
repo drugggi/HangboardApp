@@ -684,14 +684,14 @@ private static final int[] gripValuesSoillboost = {
     };
 
     private static final int[] tensionMk2Coordinates = {
-            1, 0 ,0 , 0 ,0 ,
-            2, 0 ,0 , 0 ,0 ,
-            3, 0 ,0 , 0 ,0 ,
-            4, 0 ,0 , 0 ,0 ,
-            5, 0 ,0 , 0 ,0 ,
-            6, 0 ,0 , 0 ,0 ,
-            7, 0 ,0 , 0 ,0 ,
-            8, 0 ,0 , 0 ,0 ,
+            1, 40 ,5 , 245 ,5 ,
+            2, 9 ,31 , 217 ,31 ,
+            3, 66 ,33 , 273 ,31 ,
+            4, 13 ,65 , 213 ,66 ,
+            5, 71 ,66 , 269 ,66 ,
+            6, 141 ,65 , 141 ,65 ,
+            7, 13 ,99 , 213 ,99 ,
+            8, 71 ,99 , 268 ,99 ,
     };
 
     private static final int[] zlagCoordinates = {

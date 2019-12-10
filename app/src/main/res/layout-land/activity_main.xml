@@ -82,7 +82,6 @@
                     android:layout_height="wrap_content"
                     android:alpha="0.9"
                     android:contentDescription="@string/finger_image" />
-<!--
 
                 <ImageView
                     android:id="@+id/templateFingerImageView"
@@ -91,7 +90,6 @@
                     android:alpha="0.9"
                     android:visibility="visible"
                     app:srcCompat="@drawable/finger_template" />
--->
 
             </RelativeLayout>
 
