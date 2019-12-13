@@ -14,7 +14,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -57,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageView leftFingerImage;
     private ImageView rightFingerImage;
-    private ImageView fingerTESTImage;
+    // private ImageView fingerTESTImage;
 
     private ViewPager viewPager;
     private HangboardSwipeAdapter swipeAdapter;
@@ -184,11 +183,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         leftFingerImage = (ImageView) findViewById(R.id.leftFingerImageView);
         rightFingerImage = (ImageView) findViewById(R.id.rightFingerImageView);
+/*
 
         fingerTESTImage = (ImageView) findViewById(R.id.templateFingerImageView);
         fingerTESTImage.setVisibility(View.VISIBLE);
         fingerTESTImage.setImageResource(R.drawable.finger_template);
 
+*/
 
         if (savedInstanceState != null) {
             grade_descr_position = savedInstanceState.getInt("mainactivity_grade_desc_pos");
@@ -317,14 +318,14 @@ public class MainActivity extends AppCompatActivity {
                 newWorkoutButton.setText(randomizeText);
                 hangsAdapter.setSelectedHangNumber(0);
                 hangsAdapter.notifyDataSetChanged();
-
+/*
                 // THIS IS ONLY FOR TESTING HAND IMAGES POSITION PURPOSES
                 float x;
                 if (position % 2 != 0) {
                     x = fingerTESTImage.getX() + position * 3; }
                 else { x = fingerTESTImage.getX() - position * 3; }
                 fingerTESTImage.setX(x+5);
-                Log.e("FINGER COORD","X:" + fingerTESTImage.getX()/1.5 + "   Y:" + fingerTESTImage.getY()/1.5 );
+                Log.e("FINGER COORD","X:" + fingerTESTImage.getX()/1.5 + "   Y:" + fingerTESTImage.getY()/1.5 );*/
             }
         });
 
@@ -376,7 +377,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-/*
 
                 int lastPosition = hangsAdapter.getSelectedHangNumber() - 1;
 
@@ -390,8 +390,8 @@ public class MainActivity extends AppCompatActivity {
 
 
                 hangsAdapter.notifyDataSetChanged();
-*/
 
+/*
 
 
                 // THIS IS ONLY FOR TESTING HAND IMAGES POSITION
@@ -404,12 +404,13 @@ public class MainActivity extends AppCompatActivity {
                 else {y = fingerTESTImage.getY() - position*3; }
                 fingerTESTImage.setY(y+5);
 
-                rightFingerImage.setVisibility(View.INVISIBLE);
-                 leftFingerImage.setVisibility(View.INVISIBLE);
+                //rightFingerImage.setVisibility(View.INVISIBLE);
+                 //leftFingerImage.setVisibility(View.INVISIBLE);
 
                 // Log.d("FINGER COORD","X:" + fingerTESTImage.getX() + "   Y:" + fingerTESTImage.getY() );
                 Log.e("FINGER COORD","X:" + fingerTESTImage.getX()/1.5 + "   Y:" + fingerTESTImage.getY()/1.5 );
 
+*/
 
             }
         });
