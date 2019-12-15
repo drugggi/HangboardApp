@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -390,6 +391,8 @@ public class Hangboard {
 
         int newValue = (int) ((newValueBasedOnWorkload + newValueBasedOnPower) / 2);
 
+        if (newValue - value > 50) {newValue = value*value*value; }
+
         if (newValue < 1) {return 1; }
         else if (newValue > 500) {return 500; }
         else {return newValue; }
@@ -409,16 +412,11 @@ public class Hangboard {
         int sortOrder = prefs.getInt("sortOrderFilter",FilterActivity.DEFAULT_SORT_ORDER);
         int sortMethod = prefs.getInt("sortMethodFilter", FilterActivity.DEFAULT_SORT_METHOD);
 
-        Log.d("All prefs", minDiff + "-" + maxDiff + " f:" + altFactor + " use:" + useEveryGripType +
-                " sort:" + sorting + " order:" + sortOrder + " method:" + sortMethod);
-
         ArrayList<Hold> holdsInRange = getHoldsInRange(minDiff,maxDiff,gripTypes);
         ArrayList<Hold> altHoldsInRange = getAlternateHoldsInRange(minDiff,maxDiff,altFactor,gripTypes);
         if (holdsInRange.size() == 0 && altHoldsInRange.size() == 0) {return; }
         else if (holdsInRange.size() == 0) {holdsInRange = altHoldsInRange; }
         else if (altHoldsInRange.size() == 0) {altHoldsInRange = holdsInRange; }
-
-        Log.d("holds found","H: " + holdsInRange.size() + "  AH:" + altHoldsInRange.size());
 
         Random rng = new Random();
         int totalHolds = workoutHoldList.size() /2;
@@ -533,155 +531,144 @@ public class Hangboard {
        }
         workoutHoldList.clear();
        workoutHoldList.addAll(sortedWorkoutHolds);
+    }
+
+    public void randomizeNewWorkoutHolds(int grade_position, final TimeControls timeControls) {
+
+        Random rng = new Random();
+        int minDiff = getScaledHoldValue(getMinValue(grades[grade_position]),timeControls);
+        int maxDiff = getScaledHoldValue(getMaxValue(grades[grade_position]),timeControls);
+        Boolean[] gripTypes = new Boolean[] {true, true, true, true, true, true, true, true, true,true};
+        int altFactor = rng.nextInt(4);
+
+        Log.d("range",getMinValue(grades[grade_position]) + "/" + getMaxValue(grades[grade_position])+ "  Scaled: " +
+                minDiff + "/" + maxDiff + " alt:"+altFactor);
+
+        ArrayList<Hold> holdsInRange = getHoldsInRange(minDiff,maxDiff,gripTypes);
+        ArrayList<Hold> altHoldsInRange = getAlternateHoldsInRange(minDiff,maxDiff,altFactor,gripTypes);
+        if (holdsInRange.size() == 0 && altHoldsInRange.size() == 0) {return; }
+        else if (holdsInRange.size() == 0) {holdsInRange = altHoldsInRange; }
+        else if (altHoldsInRange.size() == 0) {altHoldsInRange = holdsInRange; }
+
+        int totalHolds = workoutHoldList.size() / 2;
+        if (totalHolds == 0) {totalHolds = 6; }
+        workoutHoldList.clear();
+
+        ArrayList<Hold> fourfinger = new ArrayList<>();
+        ArrayList<Hold> threefront = new ArrayList<>();
+        ArrayList<Hold> threeback = new ArrayList<>();
+        ArrayList<Hold> othergrips = new ArrayList<>();
+        for (int i = 0 ; i < holdsInRange.size() ; i = i+2 ) {
+            if (holdsInRange.get(i).getGripStyle() == Hold.grip_type.FOUR_FINGER) {
+                fourfinger.add(holdsInRange.get(i) );
+                fourfinger.add(holdsInRange.get(i+1) );
+            }
+            else if (holdsInRange.get(i).getGripStyle() == Hold.grip_type.THREE_FRONT) {
+                threefront.add(holdsInRange.get(i) );
+                threefront.add(holdsInRange.get(i+1) );
+            }
+            else if (holdsInRange.get(i).getGripStyle() == Hold.grip_type.THREE_BACK) {
+                threeback.add(holdsInRange.get(i) );
+                threeback.add(holdsInRange.get(i+1) );
+            }
+            else {
+                othergrips.add(holdsInRange.get(i) );
+                othergrips.add(holdsInRange.get(i+1) );
+            }
+        }
+        for (int i = 0 ; i < altHoldsInRange.size() ; i = i+2 ) {
+            if (altHoldsInRange.get(i).getGripStyle() == Hold.grip_type.FOUR_FINGER) {
+                fourfinger.add(altHoldsInRange.get(i) );
+                fourfinger.add(altHoldsInRange.get(i+1) );
+            }
+            else if (altHoldsInRange.get(i).getGripStyle() == Hold.grip_type.THREE_FRONT) {
+                threefront.add(altHoldsInRange.get(i) );
+                threefront.add(altHoldsInRange.get(i+1) );
+            }
+            else if (altHoldsInRange.get(i).getGripStyle() == Hold.grip_type.THREE_BACK) {
+                threeback.add(altHoldsInRange.get(i) );
+                threeback.add(altHoldsInRange.get(i+1) );
+            }
+            else {
+                othergrips.add(altHoldsInRange.get(i) );
+                othergrips.add(altHoldsInRange.get(i+1) );
+            }
+        }
+        Log.d("Holds found","FF:" + fourfinger.size() + "  3F:" + threefront.size() + "  3B:" +
+                threeback.size() + "   others:"+othergrips.size() );
+
+        for (int i = 0; i < totalHolds ; i++) {
+            int holdType = rng.nextInt(4);
+            int holdPlace = 0;
+            switch(holdType) {
+                case (0):
+                    if (fourfinger.size() != 0) {
+                        holdPlace = rng.nextInt(fourfinger.size()/2)*2;
+                        workoutHoldList.add(fourfinger.get(holdPlace) );
+                        workoutHoldList.add(fourfinger.get(holdPlace+1) );
+                        break;
+                    }
+                case (1):
+                    if (threefront.size() != 0) {
+                        holdPlace = rng.nextInt(threefront.size()/2)*2;
+                        workoutHoldList.add(threefront.get(holdPlace) );
+                        workoutHoldList.add(threefront.get(holdPlace+1) );
+                        break;
+                    }
+                case (2):
+                    if (threeback.size() != 0) {
+                        holdPlace = rng.nextInt(threeback.size()/2)*2;
+                        workoutHoldList.add(threeback.get(holdPlace) );
+                        workoutHoldList.add(threeback.get(holdPlace+1) );
+                        break;
+                    }
+                case (3):
+                    if (othergrips.size() != 0) {
+                        holdPlace = rng.nextInt(othergrips.size()/2)*2;
+                        workoutHoldList.add(othergrips.get(holdPlace) );
+                        workoutHoldList.add(othergrips.get(holdPlace+1) );
+                        break;
+                    }
+                default:
+                    if (holdsInRange.size() != 0) {
+                        holdPlace = rng.nextInt(holdsInRange.size() / 2) *2;
+                        workoutHoldList.add(holdsInRange.get(holdPlace) );
+                        workoutHoldList.add(holdsInRange.get(holdPlace+1) );
+                    }
+                    else if (altHoldsInRange.size() != 0) {
+                        holdPlace = rng.nextInt(altHoldsInRange.size() / 2) *2;
+                        workoutHoldList.add(altHoldsInRange.get(holdPlace) );
+                        workoutHoldList.add(altHoldsInRange.get(holdPlace+1) );
+                    }
+                    else {
+                        workoutHoldList.add(allHangboardHolds[0]);
+                        workoutHoldList.add(allHangboardHolds[0]);
+                    }
+            }
+        }
+
 /*
-       for (int i = 0 ; i < workoutHoldList.size() ; i=i+2) {
-           Log.d("WHL",workoutHoldList.get(i).getHoldInfo(workoutHoldList.get(i+1)));
-       }
-        for (int i = 0 ; i < sortedWorkoutHolds.size() ; i=i+2) {
-            Log.d("sorted WHL",sortedWorkoutHolds.get(i).getHoldInfo(sortedWorkoutHolds.get(i+1)));
+        for (int i = workoutHoldList.size()/2 ; i < totalHolds ; i++) {
+            int rngPlace = 0;
+            if (workoutHoldList.size() != 0) {
+                rngPlace = rng.nextInt(workoutHoldList.size() / 2) * 2;
+            }
+            if (rng.nextBoolean() ) {
+                int nro = rng.nextInt(holdsInRange.size()/2) * 2;
+                workoutHoldList.add(rngPlace, holdsInRange.get(nro));
+                workoutHoldList.add(rngPlace, holdsInRange.get(nro+1));
+            }
+            else {
+                int nro = rng.nextInt(altHoldsInRange.size() / 2) * 2;
+                workoutHoldList.add(rngPlace, altHoldsInRange.get(nro) );
+                workoutHoldList.add(rngPlace, altHoldsInRange.get(nro+1));
+            }
         }
 */
-
-
-    }
-    // newCustomWorkoutHolds will check user preferences for Hold's max and min difficulties, which
-    // grip types to search and sorting info etc.
-    public void newCustomWorkoutHolds2(SharedPreferences prefs) {
-
-        int holdsAmount = workoutHoldList.size()/2;
-        if (holdsAmount == 0) {holdsAmount = 6; }
-
-        workoutHoldList.clear();
-        // Random generator that is only used if we are using the same hold or alternating between holds
-        Random rng = new Random();
-        boolean isAlternate = rng.nextBoolean();
-
-        // these ints will be randomized and those represents holds in allHangboardHolds array
-        int random_nro;
-        int random_nro_alt;
-        int temp_hold_value;
-
-        // get min and max hold values from user preferences
-        int min_value = prefs.getInt("minDifficultyFilter",FilterActivity.DEFAULT_MIN_DIFFICULTY);
-        int max_value = prefs.getInt("maxDifficultyFilter",FilterActivity.DEFAULT_MAX_DIFFICULTY);
-
-        Boolean[] gripTypesAllowed = new Boolean[FilterActivity.DEFAULT_GRIPTYPES_ALLOWED.length];
-
-        for (int i = 0 ; i < gripTypesAllowed.length ; i++) {
-            gripTypesAllowed[i] = prefs.getBoolean("gripType_"+i+"_Filter",FilterActivity.DEFAULT_GRIPTYPES_ALLOWED[i]);
-        }
-
-        boolean useEveryGripType = prefs.getBoolean("fillGripTypesFilter",FilterActivity.DEFAULT_USE_EVERY_GRIP);
-        boolean sortWorkoutHolds = prefs.getBoolean("sortWorkoutHoldsFilter",FilterActivity.DEFAULT_SORT_HOLDS);
-
-        // WANTEDGRIPTYPES FROM USER PREFERENCES!
-        // Lets see how many different grip types we find within given grade range
-        ArrayList<Hold.grip_type> gripTypesInRange = getGripTypesWithingGrade(min_value, max_value);
-        ArrayList<Hold.grip_type> gripTypesAfterFilter = new ArrayList<>();
-
-        for (int g = 0 ; g < gripTypesInRange.size() ; g++) {
-            int gripTypeInt = gripTypesInRange.get(g).ordinal();
-            if (gripTypesAllowed[gripTypeInt]) {
-
-                gripTypesAfterFilter.add(gripTypesInRange.get(g));
-            }
-        }
-        Hold.grip_type randomGripType;
-
-        // If no holds are found, just use Four finger grip, error handling
-        if (gripTypesAfterFilter.size() == 0) {
-            gripTypesAfterFilter.add(Hold.grip_type.FOUR_FINGER);
-        }
-
-        int initialSize = gripTypesAfterFilter.size();
-
-        // use every grip type guarantees that every grip that is withing search range is found
-        // in workout, otherwise it is random
-        if (useEveryGripType) {
-            while (gripTypesAfterFilter.size() < holdsAmount) {
-                random_nro = rng.nextInt(initialSize);
-                randomGripType = gripTypesAfterFilter.get(random_nro);
-
-                gripTypesAfterFilter.add(randomGripType);
-            }
-        } else {
-
-            gripTypesInRange = new ArrayList<>(gripTypesAfterFilter);
-            gripTypesAfterFilter.clear();
-            while (gripTypesAfterFilter.size() < holdsAmount) {
-                random_nro = rng.nextInt(initialSize);
-                randomGripType = gripTypesInRange.get(random_nro);
-
-                gripTypesAfterFilter.add(randomGripType);
-            }
-        }
-
-        int i = 0;
-        while (i < holdsAmount ) {
-            randomGripType = gripTypesAfterFilter.get(i);
-
-            if (isAlternate) {
-
-                // Lets search for a holds that max hardness is half the remaining points for a give grade
-                random_nro = getHoldNumberWithGripType(min_value/2, (max_value*3)/2,randomGripType );
-                Log.d("Hold type",allHangboardHolds[random_nro].grip_style + " =? " + randomGripType );
-                temp_hold_value = allHangboardHolds[random_nro].getHoldValue();
-
-                int adjustedMinValue = 2*min_value-temp_hold_value;
-                if (adjustedMinValue < 1 ) { adjustedMinValue = 1; }
-                int adjustedMaxValue = 2*max_value-temp_hold_value;
-                if (adjustedMaxValue < 2 ) { adjustedMaxValue = 2; }
-
-                // And then search for a hold that could be slightly harder than the first one
-                random_nro_alt = getHoldNumberWithGripType(adjustedMinValue , adjustedMaxValue, allHangboardHolds[random_nro].grip_style);
-
-                // Holds should not be the same, if it is lets just find one hold ie. jump to else statement
-                if (random_nro == random_nro_alt) {
-                    isAlternate = false;
-                    continue; }
-            }
-
-            else {
-                // Lets search for a hold that max hardness is half the remaining points for a give grade
-                random_nro = getHoldNumberWithGripTypeNotSingle(min_value, max_value, randomGripType);
-
-                random_nro_alt = random_nro;
-            }
-            // find the right playce for new hold if sorting is selected in filter
-            if (sortWorkoutHolds && workoutHoldList.size() > 0) {
-
-                for (int j = 0 ; j < workoutHoldList.size() ; j = j + 2) {
-                    int holdValueCurrent =  allHangboardHolds[random_nro].getHoldValue() +
-                            allHangboardHolds[random_nro_alt].getHoldValue() ;
-                    int holdValueCompare = workoutHoldList.get(j).getHoldValue() +
-                            workoutHoldList.get(j+1).getHoldValue();
-                    // put hold here (j) if next hold value will be bigger
-                    if (holdValueCompare > holdValueCurrent) {
-                        workoutHoldList.add(j,allHangboardHolds[random_nro_alt]);
-                        workoutHoldList.add(j,allHangboardHolds[random_nro]);
-                        break;
-                    }
-                    // at last element we just add the hold at the end of list
-                    else if (j+2 >= workoutHoldList.size() ) {
-                         workoutHoldList.add(allHangboardHolds[random_nro]);
-                         workoutHoldList.add(allHangboardHolds[random_nro_alt]);
-                        break;
-                    }
-                }
-
-            } else {
-                workoutHoldList.add(allHangboardHolds[random_nro]);
-                workoutHoldList.add(allHangboardHolds[random_nro_alt]);
-            }
-            isAlternate = rng.nextBoolean();
-
-            ++i;
-        }
-
         randomizeHoldList();
 
     }
-    public void randomizeNewWorkoutHolds(int grade_position,final TimeControls timeControls) {
+    public void randomizeNewWorkoutHolds2(int grade_position,final TimeControls timeControls) {
         int holdsAmount = workoutHoldList.size()/2;
         if (holdsAmount == 0) {holdsAmount = 6; }
 
@@ -791,7 +778,6 @@ public class Hangboard {
             ++search_point;
             ++tuplakierros;
 
-
             if (search_point == allHangboardHolds.length) { search_point = 0; }
             if (tuplakierros > allHangboardHolds.length) {
                 // Max value should never be negative anymore, this was a temporary bug fix which allowed new bug
@@ -805,36 +791,6 @@ public class Hangboard {
         }
         return search_point;
     }
-
-    private int getHoldNumberWithGripTypeNotSingle(int min_value, int max_value, Hold.grip_type wanted_hold) {
-
-        Random rng = new Random();
-        int search_point = rng.nextInt(allHangboardHolds.length);
-        int tuplakierros = 0;
-
-        while ( allHangboardHolds[search_point].getHoldValue() < min_value ||
-                allHangboardHolds[search_point].getHoldValue() > max_value ||
-                allHangboardHolds[search_point].grip_style != wanted_hold ||
-                allHangboardHolds[search_point].isSingleHold() ) {
-
-            ++search_point;
-            ++tuplakierros;
-
-
-            if (search_point == allHangboardHolds.length) { search_point = 0; }
-            if (tuplakierros > allHangboardHolds.length) {
-                // Max value should never be negative anymore, this was a temporary bug fix which allowed new bug
-                if (min_value < 1 && max_value > 1000 || max_value <= 0) {
-
-                    return 0;
-                } else {
-                    return getHoldNumberWithGripType(min_value / 2, max_value * 2, wanted_hold);
-                }
-            }
-        }
-        return search_point;
-    }
-
 
     private int getHoldNumberWithValue(int min_value, int max_value) {
 
@@ -894,10 +850,11 @@ public class Hangboard {
         // The positions must be randomized so that GiveHoldWithValue method
         // doesn't favor one hold above the other (next)
 
-        // When new board is set, lets make new hold list with grade 0 -> 5A
         randomizeHoldList();
     }
 
+    // creates a Hold list with same holds within custom grade range, not including holds that are
+    // filtered away
     public ArrayList<Hold> getHoldsInRange(int minDifficulty,int maxDifficulty, Boolean[] gripFilter) {
 
         ArrayList<Hold> holdsInRange = new ArrayList<>();
@@ -916,12 +873,14 @@ public class Hangboard {
         return holdsInRange;
     }
 
+    // creates a Hold list with alternating holds withing custom grade range, not including holds
+    // that are filtered away
     public ArrayList<Hold> getAlternateHoldsInRange(int minDifficulty,int maxDifficulty, int alteringFactor, Boolean[] gripFilter) {
         ArrayList<Hold> holdsInRange = new ArrayList<>();
         int minAlter = minDifficulty*2 / (alteringFactor+2);
         int maxAlter = maxDifficulty*( 2 + alteringFactor) / 2;
 
-        Log.e("min/max altfac","min/max" + minDifficulty + "/" + maxDifficulty+ "  alt " + minAlter + "/" + maxAlter);
+        // Log.e("min/max altfac","min/max" + minDifficulty + "/" + maxDifficulty+ "  alt " + minAlter + "/" + maxAlter);
         for (int i = 0 ; i < allHangboardHolds.length ; i++) {
             if (gripFilter[allHangboardHolds[i].getGripStyleInt()-1] == false) {
                 continue;
