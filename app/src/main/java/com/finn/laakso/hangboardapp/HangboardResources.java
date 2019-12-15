@@ -61,6 +61,7 @@ public final class  HangboardResources {
             S22 = 5, S22F3 = 19, S22B3 = 23,
             S25 = 8, S25F3 = 25, S25B3 = 35,
             S30 = 15, S30F3 = 50, S30B3 = 60,
+            S32 = 18, S32F3 = 60, S32B3 = 70,
             S35 = 23, S35F3 = 75, S35B3 = 85,
             S38 = 40, S38F3 = 95, S38B3 = 115,
             S40 = 50, S40F3 = 120, S40B3 = 155,
@@ -490,21 +491,21 @@ private static final int[] gripValuesBM1000 = {
 
     private static final int[] gripValuesTarget10a = {
             1, JUG , FF, 1 , JUG3F , F3 , 1 , JUG3B , B3,
-            2, 0 , FF, 2 , 0 , F3 , 2 , 0 , B3,
-            3, 0 , FF, 3 , 0 , F3 , 3 , 0 , B3,
+            2, S32 , FF, 2 , S32F3 , F3 , 2 , S32B3 , B3,
+            3, S22 , FF, 3 , S22F3 , F3 , 3 , S22B3 , B3,
 
-            4, 0 , FF , 4 , 0 , F3 , 4 , 0 , B3,
-            5 , 0 , F3 , 5 , 0 , B3,
+            4, MM16 , FF , 4 , MM16F3 , F3 , 4 , MM16B3 , B3,
+            5 , _MM28F3 , F3 , 5 , _MM28B3 , B3,
 
-            6, 0 , FF, 6 , 0 , F3 , 6 , 0 , B3,
-            7 , 0 , F3 , 7 , 0 , B3,
-            8, 0 , F2, 8 , 0 , M2 , 8 , 0 , B2,
-            9, 0 , FFS, 9 , 0 , F3S , 9 , 0 , B3,
+            6, MM35 , FF, 6 , MM35F3 , F3 , 6 , MM35B3 , B3,
+            7 , _MM45F3 , F3 , 7 , _MM45B3 , B3,
+            8, _MM50F2 , F2, 8 , _MM50M2 , M2 , 8 , _MM50B2 , B2,
+            9, MM18 , FFS, 9 , MM18F3 , F3S , 9 , MM18F3 , B3, // 35mm on 20degree slope
 
-            10, 0 , F2, 10 , 0 , M2 , 10 , 0 , B2,
-            11, 0 , F2, 11 , 0 , M2 , 11 , 0 , B2,
-            12, 0 , FF, 12 , 0 , F3 , 12 , 0 , B3,
-            13, 0 , F2, 13 , 0 , M2 , 13 , 0 , B2,
+            10, _MM30F2 , F2, 10 , _MM30M2 , M2 , 10 , _MM30B2 , B2,
+            11, _MM25F2 , F2, 11 , _MM25M2 , M2 , 11 , _MM25B2 , B2,
+            12, MM20 , FF, 12 , MM20F3 , F3 , 12 , MM20B3 , B3,
+            13, _MM18F3 , F3, 13 , _MM18B3 , B3,
 
     };
 

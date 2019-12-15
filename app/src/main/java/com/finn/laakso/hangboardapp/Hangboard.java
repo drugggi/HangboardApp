@@ -555,6 +555,7 @@ public class Hangboard {
         workoutHoldList.clear();
 
         ArrayList<Hold> fourfinger = new ArrayList<>();
+
         ArrayList<Hold> threefront = new ArrayList<>();
         ArrayList<Hold> threeback = new ArrayList<>();
         ArrayList<Hold> othergrips = new ArrayList<>();
