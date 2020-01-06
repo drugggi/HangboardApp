@@ -466,26 +466,27 @@ private static final int[] gripValuesBM1000 = {
 
     private static final int[] gripValuesStrongant = {
             1, JUG , FF, 1 , JUG3F , F3 , 1 , JUG3B , B3,
-            2, 0 , FF, 2 , 0 , F3 , 2 , 0 , B3,
-            3, 0 , FF, 3 , 0 , F3 , 3 , 0 , B3,
+            2, S25 , FF, 2 , S25F3 , F3 , 2 , S25B3 , B3,
+            3, MM18 , FF, 3 , MM18F3 , F3 , 3 , MM18B3 , B3,
 
-            4 , 0 , F3 , 4 , 0 , B3,
+            4 , _MM30F3 , F3 , 4 , _MM30B3 , B3,
 
-            5, 0 , F2, 5 , 0 , M2 , 5 , 0 , B2,
+            5, _MM35F2 , F2, 5 , _MM35M2 , M2 , 5 , _MM35B2 , B2,
 
-            6, 0 , FF, 6 , 0 , F3 , 6 , 0 , B3,
-            7, 0 , FF, 7 , 0 , F3 , 7 , 0 , B3,
+            6, MM35 , FF, 6 , MM35F3 , F3 , 6 , MM35B3 , B3, 6, MM35F2, F2, 6 , MM35M2, M2, 6 , MM35B2, B2,
+            7, MM15 , FF, 7 , MM15F3 , F3 , 7 , MM15B3 , B3,
 
-            8, 110 , IN, 8 , 100 , MI , 8 , 130 , RI, 8 , 150 , LI,
-            9 , 0 , F3 , 9 , 0 , B3,
-            1, 0 , FF, 1 , 0 , F3 , 1 , 0 , B3,
+            // 8, 139, IN, 8, 69, MI, 8, 150, RI, 8, 195, LI, // BM2000 mono values 50mm
+            8, 149, IN, 8, 79, MI, 8, 170, RI, 8, 235, LI, // 40mm
+            9 , _MM20F3 , F3 , 9 , _MM20B3 , B3,
+            10, MM25 , FF, 10 , MM25F3 , F3 , 10 , _MM25B3 , B3,
 
-            11, 0 , F2, 11 , 0 , M2 , 11 , 0 , B2,
-            12, 0 , F2, 12 , 0 , M2 , 12 , 0 , B2,
-            13, 110 , IN, 13 , 100 , MI , 13 , 130 , RI, 13 , 150 , LI,
-            14, 0 , F2, 14 , 0 , M2 , 14 , 0 , B2,
+            11, _MM15F2 , F2, 11 , _MM15M2 , M2 , 11 , _MM25B2 , B2,
+            12, _MM25F2 , F2, 12 , _MM25M2 , M2 , 12 , _MM25B2 , B2,
+            13, 149 , IN, 13 , 79 , MI , 13 , 170 , RI, 13 , 235 , LI, // 40mm mono
+            14, _MM35F2 , F2, 14 , _MM35M2 , M2 , 14 , _MM35B2 , B2,
 
-            15, 0 , FFS, 15 , 0 , F3S , 15 , 0 , B3S,
+            15, MM15 , FFS, 15 , MM15F3 , F3S , 15 , MM15B3 , B3S,
 
     };
 
