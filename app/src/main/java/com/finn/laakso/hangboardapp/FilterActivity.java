@@ -117,15 +117,6 @@ public class FilterActivity extends AppCompatActivity {
         backButton = (Button) findViewById(R.id.backButton);
 
        filterSettings = PreferenceManager.getDefaultSharedPreferences(this);
-/*
-
-        SharedPreferences.Editor editor = filterSettings.edit();
-        for (int i = 0 ; i < gripTypesAllowed.length ; i++) {
-            editor.putBoolean("gripType_"+i+"_Filter",gripTypesAllowed[i]);
-        }
-        editor.apply();
-
-*/
 
         if (getIntent().hasExtra("com.finn.laakso.hangboardapp.BOARDIMAGE")) {
             int hangboardRes = getIntent().getIntExtra("com.finn.laakso.hangboardapp.BOARDIMAGE",0);
@@ -371,7 +362,6 @@ public class FilterActivity extends AppCompatActivity {
                SharedPreferences.Editor editor = filterSettings.edit();
                for (int i = 0 ; i < gripTypesAllowed.length ; i++) {
                    editor.putBoolean("gripType_"+i+"_Filter",gripTypesAllowed[i]);
-                   // Log.d("TEST"," " + gripTypesAllowed[i]);
                }
                editor.apply();
 
@@ -561,6 +551,7 @@ public class FilterActivity extends AppCompatActivity {
         holdsFoundTextView.setText("Current hangboard: " + hangboardName + "\n" +
         "Different Holds found ("+min + "-"+ max + "): " + holdsFound.size()/2 + "\n" +
                 "Holds found (alterante): " + holdsFoundAlternate.size()/2 );
+
     }
     private void setRadioButtonsEnabled(boolean sortinEnabled) {
         for (int i = 0; i < orderRadioGroup.getChildCount(); i++){

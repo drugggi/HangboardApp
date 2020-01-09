@@ -476,7 +476,6 @@ public class Hangboard {
         }
         if (sorting) {
             sortWorkoutHoldList(sortOrder, sortMethod);
-            Log.d("SORT","workoutholdslist!");
         }
         randomizeHoldList();
     }
@@ -941,7 +940,7 @@ public class Hangboard {
         workoutHoldList.clear();
     }
 
-
+/*
     public void setDifficultyLimits(int lowerBound, int upperBound) {
 
         Hold[] tempHoldList = new Hold[workoutHoldList.size() ];
@@ -1003,6 +1002,8 @@ public class Hangboard {
 
 
     }
+
+ */
 /*
 
     public void TESTprintHoldList() {

@@ -15,12 +15,12 @@ public final class  HangboardResources {
             MM35 = 3, MM35F3 = 8 , MM35B3 = 10, MM35F2 = 32, MM35M2 = 24, MM35B2 = 60,
             MM32 = 4, MM32F3 = 10, MM32B3 = 12, MM32F2 = 39, MM32M2 = 29, MM32B2 = 69,
             MM30 = 5, MM30F3 = 12, MM30B3 = 14, MM30F2 = 45, MM30M2 = 32, MM30B2 = 75,
-            MM28 = 6, MM28F3 = 13, MM28B3 = 15, MM28F2 = 50, MM28M2 = 35, MM28B2 = 80,
-            MM25= 7, MM25F3 = 14, MM25B3 = 16, MM25F2 = 58, MM25M2 = 41, MM25B2 = 86,
+            MM28 = 6, MM28F3 = 13, MM28B3 = 15, MM28F2 = 50, MM28M2 = 34, MM28B2 = 80,
+            MM25= 7, MM25F3 = 14, MM25B3 = 16, MM25F2 = 58, MM25M2 = 37, MM25B2 = 86,
             MM23 = 8, MM23F3 = 16, MM23B3 = 18,
-            MM22 = 9, MM22F3 = 18, MM22B3 = 20, MM22F2 = 65, MM22M2 = 55, MM22B2 = 95,
+            MM22 = 9, MM22F3 = 18, MM22B3 = 20, MM22F2 = 65, MM22M2 = 41, MM22B2 = 95,
             MM21 = 9, MM21F3 = 20, MM21B3 = 22,
-            MM20 = 10, MM20F3 = 22, MM20B3 = 24,MM20F2 = 75, MM20M2 = 65, MM20B2 = 115,
+            MM20 = 10, MM20F3 = 22, MM20B3 = 24,MM20F2 = 75, MM20M2 = 45, MM20B2 = 115,
             MM19 = 12, MM19F3 = 23, MM19B3 = 25,
             MM18 = 14, MM18F3 = 25, MM18B3 = 28,
             MM17 = 16, MM17F3 = 28, MM17B3 = 32,
@@ -84,7 +84,7 @@ private static final int[] gripValuesBM1000 = {
          7 , _MM45F2 , F2 , 7 , _MM45M2 , M2 , 7 , _MM45B2 , B2 , 7 , 100 ,IN , 7 ,80 ,MI , //45-50mm
          8 , _MM40F3 , F3 , 8 , _MM40B3 , B3 ,
          9 , MM50 , FFS , 9 , MM50F3 , F3S , 9 , MM50B3 , B3S , // 50mm
-         10 , MM20 , FF , 10 , MM20F3 , F3 , 10 , MM20B3 , B3 , 10 , 69 , F2 , 10 , 40 , M2 , // 15-20mm, 20mm really sloping edges
+         10 , MM20 , FF , 10 , MM20F3 , F3 , 10 , MM20B3 , B3 , 10 , MM20F2 , F2 ,10,MM20M2,M2, // 15-20mm, 20mm really sloping edges
          11 ,_MM20F2 ,F2 , 11 , _MM20M2 , M2 , 11 , _MM20B2 , B2 , // ~20mm
          12 , _MM20F3 , F3 , 12 , _MM20B3 , B3 , // 15-20mm
 };
@@ -109,7 +109,7 @@ private static final int[] gripValuesBM1000 = {
     };
 
     private static final int[] gripValuesTrans = {
-            1, 1, FF, 1, 2, F3, 1, 2, B3, 1, 27, F2, 1, 23, M2, 1, 45, B2, 1, 70, 70, 1, 60, 80, 1, 150, 90,
+            1, JUG, FF, 1, JUG3F, F3, 1, JUG3B, B3, 1, 27, F2, 1, 23, M2, 1, 45, B2, 1, 70, 70, 1, 60, 80, 1, 150, 90,
             2, MM18-6, FF, 2, MM18F3-10, F3, 2, MM18-10, B3, 2, 55, F2, 2, 39, M2, 2, 75, B2, 2, 150, 70, 2, 100, 80,
             3, MM14-12, FF, 3, MM14F3-20, F3, 3, MM14B3-22, B3, 3, 95, F2, 3, 75, M2, 3, 125, B2,
             4, MM12-10, FF, 4, MM12F3-30, F3, 4, MM12B3-30, B3, 4, 90, F2, 4, 70, M2, 4, 150, B2,
@@ -128,7 +128,7 @@ private static final int[] gripValuesBM1000 = {
             3, JUG, FFS, 3, JUG3F+1, F3S, 3, JUG3B+2, B3S, // JUG
             4, MM30, FF, 4, MM30F3, F3, 4, MM30B3, B3, 4, MM30F2, F2, 4 , MM30M2, M2, 4, MM30B2 , B2,
             5, MM25, FF, 5, MM25F3, F3, 5, MM25B3, B3, 5, MM25F2, F2, 5 , MM25M2, M2, 5, MM25B2, B2,
-            6, MM40, FFS, 6, MM40F3-1, F3S, 6, MM40B3-1, B3S, 6, 21, F2S, 6, 17, M2S, 6, 35, B2S,  // 50mm hold
+            6, MM50, FFS, 6, MM50F3, F3S, 6, MM50B3, B3S, 6, MM50F2, F2S, 6, MM50M2, M2S, 6, MM50B2, B2S,
             7, MM20, FF, 7, MM20F3, F3, 7, MM20B3, B3,
             8, MM15, FF, 8, MM15F3, F3, 8, MM15B3, B3,
             9, MM22, FFS, 9, MM22F3, F3S, 9, MM22B3, B3S,
@@ -156,17 +156,17 @@ private static final int[] gripValuesBM1000 = {
     };
 
     private static final int[] gripValuesTensionMk2 = {
-            1, JUG, FF, 1, JUG3F, F3, 1, JUG3B, B3, 1, 17, F2, 1, 14, M2, 1, 25, B2,
+            1, JUG, FF, 1, JUG3F, F3, 1, JUG3B, B3,// 1, 17, F2, 1, 14, M2, 1, 25, B2,
 
             2, MM10, FF, 2, MM10F3, F3, 2, MM10B3, B3,
             3, MM8, FF, 3, MM8F3, F3, 3, MM8B3, B3,
 
             4, MM30, FF, 4, MM30F3, F3, 4, MM30B3, B3, 4, MM30F2, F2, 4 , MM30M2, M2, 4, MM30B2 , B2,
             5, MM25, FF, 5, MM25F3, F3, 5, MM25B3, B3, 5, MM25F2, F2, 5 , MM25M2, M2, 5, MM25B2, B2,
-            6, MM50, FFS, 6, MM50F3, F3S, 6, MM50B3, B3S, 6, 21, F2S, 6, 17, M2S, 6, 35, B2S,  // 50mm hold
+            6, MM50, FFS, 6, MM50F3, F3S, 6, MM50B3, B3S, 6, MM50F2 , F2S, 6, MM50M2, M2S, 6, MM50B2, B2S,  // 50mm hold
 
-            7, MM20, FF, 7, MM20F3, F3, 7, MM20B3, B3,
-            8, MM15, FF, 8, MM15F3, F3, 8, MM15B3, B3,
+            7, MM20, FF, 7, MM20F3, F3, 7, MM20B3, B3, 7, MM20F2,F2, 7, MM20M2,M2, 7, MM20B2, B2,
+            8, MM15, FF, 8, MM15F3, F3, 8, MM15B3, B3, 8, MM20F2, F2, 8 , MM20M2, M2, 8, MM20B2, B2,
     };
 
     private static final int[] gripValuesZlag = {
@@ -479,7 +479,7 @@ private static final int[] gripValuesBM1000 = {
             // 8, 139, IN, 8, 69, MI, 8, 150, RI, 8, 195, LI, // BM2000 mono values 50mm
             8, 149, IN, 8, 79, MI, 8, 170, RI, 8, 235, LI, // 40mm
             9 , _MM20F3 , F3 , 9 , _MM20B3 , B3,
-            10, MM25 , FF, 10 , MM25F3 , F3 , 10 , _MM25B3 , B3,
+            10, MM25 , FF, 10 , MM25F3 , F3 , 10 , MM25B3 , B3,
 
             11, _MM15F2 , F2, 11 , _MM15M2 , M2 , 11 , _MM25B2 , B2,
             12, _MM25F2 , F2, 12 , _MM25M2 , M2 , 12 , _MM25B2 , B2,
@@ -496,16 +496,16 @@ private static final int[] gripValuesBM1000 = {
             3, S22 , FF, 3 , S22F3 , F3 , 3 , S22B3 , B3,
 
             4, MM16 , FF , 4 , MM16F3 , F3 , 4 , MM16B3 , B3,
-            5 , _MM28F3 , F3 , 5 , _MM28B3 , B3,
+            5 , _MM28F3 , F3 , 5 , _MM28B3 , B3, 5, MM28F2, F2, 5, MM28M2, M2, 5, MM28B2, B2,
 
-            6, MM35 , FF, 6 , MM35F3 , F3 , 6 , MM35B3 , B3,
-            7 , _MM45F3 , F3 , 7 , _MM45B3 , B3,
-            8, _MM50F2 , F2, 8 , _MM50M2 , M2 , 8 , _MM50B2 , B2,
+            6, MM35 , FF, 6 , MM35F3 , F3 , 6 , MM35B3 , B3, 6, MM35F2, F2, 6, MM35M2, M2, 6, MM35B2, B2,
+            7 , _MM45F3 , F3 , 7 , _MM45B3 , B3, 7, MM45F2, F2, 7, MM45M2, M2, 7, MM45B2, B2,
+            8, _MM50F2 , F2, 8 , _MM50M2 , M2 , 8 , _MM50B2 , B2, 8 , 100 ,IN , 8 ,80 ,MI ,
             9, MM18 , FFS, 9 , MM18F3 , F3S , 9 , MM18F3 , B3, // 35mm on 20degree slope
 
             10, _MM30F2 , F2, 10 , _MM30M2 , M2 , 10 , _MM30B2 , B2,
             11, _MM25F2 , F2, 11 , _MM25M2 , M2 , 11 , _MM25B2 , B2,
-            12, MM20 , FF, 12 , MM20F3 , F3 , 12 , MM20B3 , B3,
+            12, MM20 , FF, 12 , MM20F3 , F3 , 12 , MM20B3 , B3, 12, MM20F2, F2, 12, MM20M2, M2, 12 , MM20B2, B2,
             13, _MM18F3 , F3, 13 , _MM18B3 , B3,
 
     };

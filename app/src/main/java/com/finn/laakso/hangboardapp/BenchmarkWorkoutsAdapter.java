@@ -198,8 +198,14 @@ public class BenchmarkWorkoutsAdapter extends BaseAdapter {
         if (totalTimeChange == 0) {
             totalTime = "";
         }
+        else if (totalTimeChange >0) {
+            totalTime = "+" + totalTime;
+        }
         if (TUTChange == 0) {
             TUT = "";
+        }
+        else if (TUTChange > 0) {
+            TUT = "+" + TUT;
         }
 
         if (powerChange < 0) {
