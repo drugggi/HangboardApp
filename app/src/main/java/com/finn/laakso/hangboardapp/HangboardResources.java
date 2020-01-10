@@ -3,9 +3,69 @@ package com.finn.laakso.hangboardapp;
 // HangboardResources manages Hangboard images, image resources, hold values and coordinates
 // name conversion between enums and strings etc.
 
+import android.util.Log;
+
 public final class  HangboardResources {
     public static final String[] grades = {"Custom","5A","5B","5C", "6A", "6B", "6C", "7A", "7B", "7C",
 "8A", "8B"};
+
+    public static int getMinDifficulty(int grade,TimeControls timeControls) {
+        int workoutTimeCompensator = timeControls.getTotalTime()/(60*10) - 4;
+        float tut = (float)timeControls.getTimeUnderTension()/(float)timeControls.getTotalTime();
+        grade -= 1;
+        if (grade < 0 || grade > 10 ) { grade = 0; }
+        int tutPlace = workoutTimeCompensator+ (int) (tut*100)/5;
+        Log.d("values","comp: " + workoutTimeCompensator + "grade: " + grade + " tut: " + tut + " tutplace:" +tutPlace);
+        if (tutPlace < 0) {tutPlace = 0;}
+        if (tutPlace > 9) {tutPlace = 9;}
+        return minDifficulties[grade][tutPlace];
+    }
+    public static int getMaxDifficulty(int grade, TimeControls timeControls) {
+        float tut = (float)timeControls.getTimeUnderTension()/(float)timeControls.getTotalTime();
+        int tutPlace = (int) (tut*100)/5;
+        grade -= 1;
+        if (grade < 0 || grade > 10) {grade = 0; }
+
+        Log.d("values","grade: " + grade + " tut: " + tut + " tutplace:" +tutPlace);
+        if (tutPlace < 0) {tutPlace = 0; }
+        if (tutPlace > 9) {tutPlace = 9; }
+        return maxDifficulties[grade][tutPlace];
+    }
+    private static final int[][] minDifficulties = {
+            {1,1,1,1,1,1,1,1,1,1}, // 5A
+            {2,2,1,1,1,1,1,1,1,1},
+            {2,2,2,1,1,1,1,1,1,1},
+
+            {3,3,2,2,2,2,2,2,1,1},  // 6A
+            {8,7,6,5,4,4,3,3,2,1},
+            {17,15,13,11,9,8,7,6,4,3},
+
+            {27,23,20,17,14,12,11,10,9,8},
+            {35,32,28,24,20,18,16,15,14,13},
+            {50,45,40,35,30,28,26,24,22,20},
+
+            {60,50,45,40,35,30,28,26,25,24},
+            {80,70,60,50,45,43,40,38,36,35},  // 8B
+    };
+
+
+    private static final int[][] maxDifficulties = {
+            {3,3,3,2,2,2,2,1,1,1}, // 5A
+            {5,4,3,3,3,2,2,2,1,1},
+            {7,5,4,3,3,3,3,3,2,2},
+
+            {12,12,10,10,9,9,8,7,6,5},  // 6A
+            {20,18,16,15,14,13,12,10,9,8},
+            {30,25,23,21,20,18,15,13,12,11},
+
+            {50,40,33,27,24,22,20,18,17,16}, // 7A
+            {75,60,45,35,32,30,28,26,25,24},
+            {100,90,80,70,65,60,55,50,47,45},
+
+            {300,250,200,170,150,130,120,110,105,100},
+            {500,450,400,350,300,275,250,225,200,175},  // 8B
+
+    };
 
     // Some base difficulty values based on holds' depths (6mm - 40mm and jug)
     private static final int JUG = 1,JUG3F = 2, JUG3B= 2,

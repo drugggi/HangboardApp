@@ -537,12 +537,19 @@ public class Hangboard {
         Random rng = new Random();
         int minDiff = getScaledHoldValue(getMinValue(grades[grade_position]),timeControls);
         int maxDiff = getScaledHoldValue(getMaxValue(grades[grade_position]),timeControls);
+        float tut = (float)timeControls.getTimeUnderTension()/(float)timeControls.getTotalTime();
+        Log.d("old min max", "min/max: " + minDiff + "/" + maxDiff);
+        minDiff = HangboardResources.getMinDifficulty(grade_position,timeControls);
+        maxDiff = HangboardResources.getMaxDifficulty(grade_position,timeControls);
+        Log.d("new min max", "min/max: " + minDiff + "/" + maxDiff);
         Boolean[] gripTypes = new Boolean[] {true, true, true, true, true, true, true, true, true,true};
         int altFactor = rng.nextInt(4);
+/*
 
         Log.d("range",getMinValue(grades[grade_position]) + "/" + getMaxValue(grades[grade_position])+ "  Scaled: " +
                 minDiff + "/" + maxDiff + " alt:"+altFactor);
 
+*/
         ArrayList<Hold> holdsInRange = getHoldsInRange(minDiff,maxDiff,gripTypes);
         ArrayList<Hold> altHoldsInRange = getAlternateHoldsInRange(minDiff,maxDiff,altFactor,gripTypes);
         if (holdsInRange.size() == 0 && altHoldsInRange.size() == 0) {return; }
