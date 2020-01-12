@@ -399,6 +399,35 @@ public class Hangboard {
 
     }
 
+    public void newCustomWorkoutHold(SharedPreferences prefs, int position) {
+        int minDiff = prefs.getInt("minDifficultyFilter",FilterActivity.DEFAULT_MIN_DIFFICULTY);
+        int maxDiff = prefs.getInt("maxDifficultyFilter", FilterActivity.DEFAULT_MAX_DIFFICULTY);
+        int altFactor = prefs.getInt("alternateFactorFilter", FilterActivity.DEFAULT_ALTERNATE_FACTOR);
+        Boolean[] gripTypes = new Boolean[FilterActivity.DEFAULT_GRIPTYPES_ALLOWED.length];
+        for (int i = 0 ; i < gripTypes.length ; i++) {
+            gripTypes[i] = prefs.getBoolean("gripType_"+i+"_Filter",FilterActivity.DEFAULT_GRIPTYPES_ALLOWED[i]);
+        }
+        ArrayList<Hold> holdsInRange = getHoldsInRange(minDiff,maxDiff,gripTypes);
+        ArrayList<Hold> altHoldsInRange = getAlternateHoldsInRange(minDiff,maxDiff,altFactor,gripTypes);
+        if (holdsInRange.size() == 0 && altHoldsInRange.size() == 0) {return; }
+        else if (holdsInRange.size() == 0) {holdsInRange = altHoldsInRange; }
+        else if (altHoldsInRange.size() == 0) {altHoldsInRange = holdsInRange; }
+
+        Random rng = new Random();
+        int random_nro;
+
+        if (rng.nextBoolean() ) {
+
+            random_nro = rng.nextInt(holdsInRange.size() );
+            workoutHoldList.set(position*2, holdsInRange.get(random_nro) );
+            workoutHoldList.set(position*2 + 1,holdsInRange.get(random_nro+1) );
+        }
+        else {
+            random_nro = rng.nextInt(altHoldsInRange.size() );
+            workoutHoldList.set(position*2, altHoldsInRange.get(random_nro) );
+            workoutHoldList.set(position*2 +1, altHoldsInRange.get(random_nro+1) );
+        }
+    }
     public void newCustomWorkoutHolds(SharedPreferences prefs) {
         int minDiff = prefs.getInt("minDifficultyFilter",FilterActivity.DEFAULT_MIN_DIFFICULTY);
         int maxDiff = prefs.getInt("maxDifficultyFilter", FilterActivity.DEFAULT_MAX_DIFFICULTY);

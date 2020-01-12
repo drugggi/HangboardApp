@@ -462,8 +462,13 @@ public class MainActivity extends AppCompatActivity {
 
                     Hold.grip_type oldGripType = everyBoard.getLeftHandGripType(hangPosition);
 
-                    everyBoard.randomizeGrip(grade_descr_position,hangPosition);
-
+                    if (grade_descr_position == 0) {
+                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+                        everyBoard.newCustomWorkoutHold(prefs, hangPosition);
+                    }
+                    else {
+                        everyBoard.randomizeGrip(grade_descr_position, hangPosition);
+                    }
                     animateHandImagesToPosition(oldGripType,hangPosition);
 /*
                     ImageView imageView = (ImageView) findViewById(R.id.image_view);
