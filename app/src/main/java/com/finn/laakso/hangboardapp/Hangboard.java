@@ -570,8 +570,17 @@ public class Hangboard {
 
         ArrayList<Hold> holdsInRange = getHoldsInRange(minDiff,maxDiff,gripTypes);
         ArrayList<Hold> altHoldsInRange = getAlternateHoldsInRange(minDiff,maxDiff,altFactor,gripTypes);
-        if (holdsInRange.size() == 0 && altHoldsInRange.size() == 0) {return; }
-        else if (holdsInRange.size() == 0) {holdsInRange = altHoldsInRange; }
+        int forceBreak = 0;
+        while (holdsInRange.size() == 0 && altHoldsInRange.size() == 0) {
+            if (forceBreak > 5) {return; }
+
+            minDiff = minDiff/2;
+            maxDiff = maxDiff*2;
+            holdsInRange = getHoldsInRange(minDiff,maxDiff,gripTypes);
+            altHoldsInRange = getAlternateHoldsInRange(minDiff,maxDiff,altFactor,gripTypes);
+            forceBreak++;
+            }
+        if (holdsInRange.size() == 0) {holdsInRange = altHoldsInRange; }
         else if (altHoldsInRange.size() == 0) {altHoldsInRange = holdsInRange; }
 
         int random_nro;
@@ -608,8 +617,17 @@ public class Hangboard {
 */
         ArrayList<Hold> holdsInRange = getHoldsInRange(minDiff,maxDiff,gripTypes);
         ArrayList<Hold> altHoldsInRange = getAlternateHoldsInRange(minDiff,maxDiff,altFactor,gripTypes);
-        if (holdsInRange.size() == 0 && altHoldsInRange.size() == 0) {return; }
-        else if (holdsInRange.size() == 0) {holdsInRange = altHoldsInRange; }
+        int forceBreak = 0;
+        while (holdsInRange.size() == 0 && altHoldsInRange.size() == 0) {
+            if (forceBreak > 5) {return; }
+
+            minDiff = minDiff/2;
+            maxDiff = maxDiff*2;
+            holdsInRange = getHoldsInRange(minDiff,maxDiff,gripTypes);
+            altHoldsInRange = getAlternateHoldsInRange(minDiff,maxDiff,altFactor,gripTypes);
+            forceBreak++;
+        }
+        if (holdsInRange.size() == 0) {holdsInRange = altHoldsInRange; }
         else if (altHoldsInRange.size() == 0) {altHoldsInRange = holdsInRange; }
 
         int totalHolds = workoutHoldList.size() / 2;
