@@ -561,6 +561,33 @@ public class Hangboard {
        workoutHoldList.addAll(sortedWorkoutHolds);
     }
 
+    public void randomizeNewWorkoutHold(int grade_positino,int hangPosition, final TimeControls timeControls) {
+        Random rng = new Random();
+        int minDiff = HangboardResources.getMinDifficulty(grade_positino,timeControls);
+        int maxDiff = HangboardResources.getMaxDifficulty(grade_positino,timeControls);
+        Boolean[] gripTypes = new Boolean[] {true, true, true, true, true, true, true, true, true,true};
+        int altFactor = rng.nextInt(4);
+
+        ArrayList<Hold> holdsInRange = getHoldsInRange(minDiff,maxDiff,gripTypes);
+        ArrayList<Hold> altHoldsInRange = getAlternateHoldsInRange(minDiff,maxDiff,altFactor,gripTypes);
+        if (holdsInRange.size() == 0 && altHoldsInRange.size() == 0) {return; }
+        else if (holdsInRange.size() == 0) {holdsInRange = altHoldsInRange; }
+        else if (altHoldsInRange.size() == 0) {altHoldsInRange = holdsInRange; }
+
+        int random_nro;
+        if (rng.nextBoolean() ) {
+
+            random_nro = rng.nextInt(holdsInRange.size()/2 );
+            workoutHoldList.set(hangPosition*2, holdsInRange.get(random_nro*2) );
+            workoutHoldList.set(hangPosition*2 + 1,holdsInRange.get(random_nro*2+1) );
+        }
+        else {
+            random_nro = rng.nextInt(altHoldsInRange.size()/2 );
+            workoutHoldList.set(hangPosition*2, altHoldsInRange.get(random_nro*2) );
+            workoutHoldList.set(hangPosition*2 +1, altHoldsInRange.get(random_nro*2+1) );
+        }
+
+    }
     public void randomizeNewWorkoutHolds(int grade_position, final TimeControls timeControls) {
 
         Random rng = new Random();

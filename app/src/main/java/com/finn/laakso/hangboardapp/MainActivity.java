@@ -467,7 +467,7 @@ public class MainActivity extends AppCompatActivity {
                         everyBoard.newCustomWorkoutHold(prefs, hangPosition);
                     }
                     else {
-                        everyBoard.randomizeGrip(grade_descr_position, hangPosition);
+                        everyBoard.randomizeNewWorkoutHold(grade_descr_position, hangPosition,timeControls);
                     }
                     animateHandImagesToPosition(oldGripType,hangPosition);
 /*
