@@ -10,25 +10,24 @@ public final class  HangboardResources {
 "8A", "8B"};
 
     public static int getMinDifficulty(int grade,TimeControls timeControls) {
-        int workoutTimeCompensator = timeControls.getTotalTime()/(60*10) - 4;
-        float tut = (float)timeControls.getTimeUnderTension()/(float)timeControls.getTotalTime();
         grade -= 1;
         if (grade < 0 || grade > 10 ) { grade = 0; }
-        int tutPlace = workoutTimeCompensator+ (int) (tut*100)/5;
-        Log.d("values","comp: " + workoutTimeCompensator + "grade: " + grade + " tut: " + tut + " tutplace:" +tutPlace);
-        if (tutPlace < 0) {tutPlace = 0;}
-        if (tutPlace > 9) {tutPlace = 9;}
+        int tutPlace = getTutPlacement(timeControls);
         return minDifficulties[grade][tutPlace];
     }
-    public static int getMaxDifficulty(int grade, TimeControls timeControls) {
+    private static int getTutPlacement(TimeControls timeControls) {
+        int workoutTimeCompensator = timeControls.getTotalTime()/600-2;
+        if (timeControls.isRepeaters() ) { workoutTimeCompensator++;}
         float tut = (float)timeControls.getTimeUnderTension()/(float)timeControls.getTotalTime();
-        int tutPlace = (int) (tut*100)/5;
-        grade -= 1;
-        if (grade < 0 || grade > 10) {grade = 0; }
-
-        Log.d("values","grade: " + grade + " tut: " + tut + " tutplace:" +tutPlace);
+        int tutPlace = workoutTimeCompensator + (int) (tut*100)/5;
         if (tutPlace < 0) {tutPlace = 0; }
         if (tutPlace > 9) {tutPlace = 9; }
+        return tutPlace;
+    }
+    public static int getMaxDifficulty(int grade, TimeControls timeControls) {
+        grade -= 1;
+        if (grade < 0 || grade > 10 ) { grade = 0; }
+        int tutPlace = getTutPlacement(timeControls);
         return maxDifficulties[grade][tutPlace];
     }
     private static final int[][] minDifficulties = {
