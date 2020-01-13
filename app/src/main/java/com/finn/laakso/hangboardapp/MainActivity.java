@@ -749,7 +749,6 @@ public class MainActivity extends AppCompatActivity {
 
                 newWorkoutButton.setText("New " + HangboardResources.grades[grade_descr_position] + "\nHang to "+
                         hangsAdapter.getSelectedHangNumber()+".");
-                repeatersBox.setChecked(timeControls.isRepeaters() );
                 repeatersBox.setVisibility(View.INVISIBLE);
                 durationSeekBar.setVisibility(View.INVISIBLE);
             }
