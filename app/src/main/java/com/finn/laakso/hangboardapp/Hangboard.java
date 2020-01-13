@@ -413,7 +413,11 @@ public class Hangboard {
         }
         ArrayList<Hold> holdsInRange = getHoldsInRange(minDiff,maxDiff,gripTypes);
         ArrayList<Hold> altHoldsInRange = getAlternateHoldsInRange(minDiff,maxDiff,altFactor,gripTypes);
-        if (holdsInRange.size() == 0 && altHoldsInRange.size() == 0) {return; }
+        if (holdsInRange.size() == 0 && altHoldsInRange.size() == 0) {
+            workoutHoldList.set(position*2,allHangboardHolds[0]);
+            workoutHoldList.set(position*2+1,allHangboardHolds[0]);
+            return;
+        }
         else if (holdsInRange.size() == 0) {holdsInRange = altHoldsInRange; }
         else if (altHoldsInRange.size() == 0) {altHoldsInRange = holdsInRange; }
 

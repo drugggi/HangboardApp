@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
         fingerTESTImage.setImageResource(R.drawable.finger_template);
 
 */
-
+        grade_descr_position = 1;
         newWorkoutButton = (Button) findViewById(R.id.randomizeBtn);
         if (savedInstanceState != null) {
             grade_descr_position = savedInstanceState.getInt("mainactivity_grade_desc_pos");
@@ -224,7 +224,8 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            everyBoard.newCustomWorkoutHolds(prefs);
+            everyBoard.randomizeNewWorkoutHolds(grade_descr_position,timeControls);
+            // everyBoard.newCustomWorkoutHolds(prefs);
         }
         // holdsAdapter = new  ArrayAdapter<String>(this, R.layout.mytextview, everyBoard.getGrips());
 
@@ -278,8 +279,12 @@ public class MainActivity extends AppCompatActivity {
 
                     everyBoard.initializeHolds(HangboardResources.getHangboardName(hangboard_descr_position));
 
-                    everyBoard.randomizeNewWorkoutHolds(grade_descr_position,timeControls);
-
+                    if (grade_descr_position == 0) {
+                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+                        everyBoard.newCustomWorkoutHolds(prefs);
+                    } else {
+                        everyBoard.randomizeNewWorkoutHolds(grade_descr_position, timeControls);
+                    }
                     String randomizeText = "New " + HangboardResources.grades[grade_descr_position] + "\nWorkout";
                     newWorkoutButton.setText(randomizeText);
 
