@@ -5,7 +5,6 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -191,13 +190,15 @@ public class MainActivity extends AppCompatActivity {
 
 */
 
+        newWorkoutButton = (Button) findViewById(R.id.randomizeBtn);
         if (savedInstanceState != null) {
             grade_descr_position = savedInstanceState.getInt("mainactivity_grade_desc_pos");
+            String selectedGrade = "New " + HangboardResources.grades[grade_descr_position]+ "\nWorkout";
+            newWorkoutButton.setText(selectedGrade);
             hangboard_descr_position = savedInstanceState.getInt("mainactivity_hangboardposition");
         }
 
         // Hangboard class holds all the information about grades and holds and grips
-        final Resources res = getResources();
         everyBoard = new Hangboard(HangboardResources.getHangboardName(hangboard_descr_position));
 
         timeControls = new TimeControls();
@@ -436,7 +437,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // RnewWorkoutButton listener that randomizes hold or holds that user wants
-        newWorkoutButton = (Button) findViewById(R.id.randomizeBtn);
         newWorkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -524,7 +524,8 @@ public class MainActivity extends AppCompatActivity {
                     timeControls.setGripLaps((everyBoard.getCurrentHoldListSize()/2));
                 }
                 else {
-                    everyBoard.setGripAmount(timeControls,grade_descr_position);
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+                    everyBoard.setGripAmount(timeControls,grade_descr_position,prefs);
                 }
 
                 if (!isChecked) {
@@ -571,7 +572,8 @@ public class MainActivity extends AppCompatActivity {
                     //timeControls.setProgramBasedOnTime(20 + progress * 15);
                     durationText = "Duration: " + timeControls.getTotalTime()/60 + "min";
 
-                    everyBoard.setGripAmount(timeControls,grade_descr_position);
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+                    everyBoard.setGripAmount(timeControls,grade_descr_position,prefs);
 
 
                     if (!repeatersBox.isChecked() ) {
@@ -643,7 +645,7 @@ public class MainActivity extends AppCompatActivity {
                     // keep the old grips that user has maybe liked
                     if (i[0] != timeControls.getGripLaps()) {
                         timeControls.setTimeControls(i);
-                        everyBoard.setGripAmount(timeControls, grade_descr_position);
+                        everyBoard.setGripAmount(timeControls, grade_descr_position,prefs);
 
                         hangsAdapter.notifyDataSetChanged();
 

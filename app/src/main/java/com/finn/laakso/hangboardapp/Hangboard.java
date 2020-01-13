@@ -214,7 +214,7 @@ public class Hangboard {
     }
 
     // Sets the workoutHoldList to given amount and randomizes those holds
-    public void setGripAmount(TimeControls timeControls, int grade_position) {
+    public void setGripAmount(TimeControls timeControls, int grade_position, SharedPreferences prefs) {
 
         int amount = timeControls.getGripLaps();
         // No need to change if the size is the same than wanthed size (amount)
@@ -229,7 +229,11 @@ public class Hangboard {
             while (amount*2 > workoutHoldList.size() ){
                 workoutHoldList.add(new Hold(1));
                 workoutHoldList.add(new Hold(1));
-                randomizeNewWorkoutHold(grade_position, workoutHoldList.size()/2-1, timeControls);
+                if (grade_position != 0 ) {
+                    randomizeNewWorkoutHold(grade_position, workoutHoldList.size() / 2 - 1, timeControls);
+                } else {
+                    newCustomWorkoutHold(prefs,workoutHoldList.size() / 2 -1);
+                }
                 // randomizeGrip(grade_position, workoutHoldList.size()/2-1 );
 
             }
@@ -342,7 +346,7 @@ public class Hangboard {
 */
     // We use this method when we are randomizing grips, we actually don't want 100% random grips,
     // but pseudo random so that each grip type withing a grade is represented at least once.
-     private ArrayList<Hold.grip_type> getGripTypesWithinGrade(int min_value, int max_value) {
+ /*    private ArrayList<Hold.grip_type> getGripTypesWithinGrade(int min_value, int max_value) {
         ArrayList<Hold.grip_type> differentGripTypes = new ArrayList<>();
 
         int holdValue;
@@ -373,9 +377,9 @@ public class Hangboard {
 
         return differentGripTypes;
     }
-
+*/
     // getScaledHoldValue scales the base grade values depending how hard timeControls are
-    private static int getScaledHoldValue(int value,TimeControls timeControls) {
+ /*   private static int getScaledHoldValue(int value,TimeControls timeControls) {
         int TUT = timeControls.getTimeUnderTension();
         int WT = timeControls.getTotalTime();
         float intensity = (float) TUT / WT;
@@ -396,7 +400,7 @@ public class Hangboard {
         else {return newValue; }
 
     }
-
+*/
     public void newCustomWorkoutHold(SharedPreferences prefs, int position) {
         int minDiff = prefs.getInt("minDifficultyFilter",FilterActivity.DEFAULT_MIN_DIFFICULTY);
         int maxDiff = prefs.getInt("maxDifficultyFilter", FilterActivity.DEFAULT_MAX_DIFFICULTY);
@@ -415,13 +419,13 @@ public class Hangboard {
         int random_nro;
 
         if (rng.nextBoolean() ) {
-
-            random_nro = rng.nextInt(holdsInRange.size() );
+            // small trickery, random_nro must be even ,
+            random_nro = rng.nextInt(holdsInRange.size()/2 )*2;
             workoutHoldList.set(position*2, holdsInRange.get(random_nro) );
             workoutHoldList.set(position*2 + 1,holdsInRange.get(random_nro+1) );
         }
         else {
-            random_nro = rng.nextInt(altHoldsInRange.size() );
+            random_nro = rng.nextInt(altHoldsInRange.size()/2 )*2;
             workoutHoldList.set(position*2, altHoldsInRange.get(random_nro) );
             workoutHoldList.set(position*2 +1, altHoldsInRange.get(random_nro+1) );
         }
