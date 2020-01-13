@@ -279,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
 
                     everyBoard.randomizeNewWorkoutHolds(grade_descr_position,timeControls);
 
-                    String randomizeText = "New " + everyBoard.getGrade(grade_descr_position) + "\nWorkout";
+                    String randomizeText = "New " + HangboardResources.grades[grade_descr_position] + "\nWorkout";
                     newWorkoutButton.setText(randomizeText);
 
                     if (hangsAdapter.getSelectedHangNumber() != 0) {
@@ -315,7 +315,7 @@ public class MainActivity extends AppCompatActivity {
 
                 grade_descr_position = gradesListView.getPositionForView(view);
 
-                String randomizeText = "New "+ everyBoard.getGrade(grade_descr_position)+ "\nWorkout";
+                String randomizeText = "New "+ HangboardResources.grades[grade_descr_position]+ "\nWorkout";
                 newWorkoutButton.setText(randomizeText);
                 hangsAdapter.setSelectedHangNumber(0);
                 hangsAdapter.notifyDataSetChanged();
@@ -383,7 +383,7 @@ public class MainActivity extends AppCompatActivity {
 
                 hangsAdapter.setSelectedHangNumber(position+1);
 
-                String randomizeText = "New " + everyBoard.getGrade(grade_descr_position) + "\nHang to " + (position +1 ) + ".";
+                String randomizeText = "New " + HangboardResources.grades[grade_descr_position] + "\nHang to " + (position +1 ) + ".";
                 newWorkoutButton.setText(randomizeText);
 
                 Hold.grip_type lastGripType = everyBoard.getLeftHandGripType(lastPosition);
@@ -536,7 +536,7 @@ public class MainActivity extends AppCompatActivity {
 
                 durationTextView.setText(durationText);
                 hangsAdapter.setSelectedHangNumber(0);
-                String randomizeText = "New " + everyBoard.getGrade(grade_descr_position) + "\nWorkout";
+                String randomizeText = "New " + HangboardResources.grades[grade_descr_position] + "\nWorkout";
                 newWorkoutButton.setText(randomizeText);
                 hangsAdapter.notifyDataSetChanged();
 
@@ -582,7 +582,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
-                String randomizeText = "New " + everyBoard.getGrade(grade_descr_position) + "\nWorkout";
+                String randomizeText = "New " + HangboardResources.grades[grade_descr_position] + "\nWorkout";
                 newWorkoutButton.setText(randomizeText);
 
                 durationTextView.setText(durationText);
@@ -746,6 +746,9 @@ public class MainActivity extends AppCompatActivity {
 //                animateHandImagesToPosition(oldGripType,hangsAdapter.getSelectedHangNumber() );
                 animateHandImagesToPosition(oldGripType,0 );
 
+                newWorkoutButton.setText("New " + HangboardResources.grades[grade_descr_position] + "\nHang to "+
+                        hangsAdapter.getSelectedHangNumber()+".");
+                repeatersBox.setChecked(timeControls.isRepeaters() );
                 repeatersBox.setVisibility(View.INVISIBLE);
                 durationSeekBar.setVisibility(View.INVISIBLE);
             }

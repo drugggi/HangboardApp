@@ -15,7 +15,7 @@ import java.util.Random;
 
 public class Hangboard {
 
-    private String[] grades;
+   // private String[] grades;
     private HangboardResources.hangboardName currentHangboard;
     private int[] hold_coordinates;
 
@@ -30,7 +30,7 @@ public class Hangboard {
     // workout and hangs and grips
     public Hangboard(HangboardResources.hangboardName HB) {
 
-        grades = HangboardResources.grades;
+       // grades = HangboardResources.grades;
         workoutHoldList = new ArrayList<Hold>();
 
         initializeHolds(HB);
@@ -99,10 +99,12 @@ public class Hangboard {
     }
 
 
+/*
 
     public String getGrade(int position) {
         return grades[position];
     }
+*/
 
     public String getHangboardName() {
         return HangboardResources.getHangboardStringName(currentHangboard);
