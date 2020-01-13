@@ -1,23 +1,16 @@
 package com.finn.laakso.hangboardapp;
 
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -195,6 +188,7 @@ public class FilterActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 gripTypesAllowed[0] = b;
+                updateFilterDisplay();
             }
         });
 
@@ -202,6 +196,7 @@ public class FilterActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 gripTypesAllowed[1] = b;
+                updateFilterDisplay();
             }
         });
 
@@ -209,6 +204,7 @@ public class FilterActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 gripTypesAllowed[2] = b;
+                updateFilterDisplay();
             }
         });
 
@@ -216,6 +212,7 @@ public class FilterActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 gripTypesAllowed[3] = b;
+                updateFilterDisplay();
             }
         });
 
@@ -223,6 +220,7 @@ public class FilterActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 gripTypesAllowed[4] = b;
+                updateFilterDisplay();
             }
         });
 
@@ -230,6 +228,7 @@ public class FilterActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 gripTypesAllowed[5] = b;
+                updateFilterDisplay();
             }
         });
 
@@ -237,6 +236,7 @@ public class FilterActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 gripTypesAllowed[6] = b;
+                updateFilterDisplay();
             }
         });
 
@@ -244,6 +244,7 @@ public class FilterActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 gripTypesAllowed[7] = b;
+                updateFilterDisplay();
             }
         });
 
@@ -251,6 +252,7 @@ public class FilterActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 gripTypesAllowed[8] = b;
+                updateFilterDisplay();
             }
         });
 
@@ -258,6 +260,7 @@ public class FilterActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 gripTypesAllowed[9] = b;
+                updateFilterDisplay();
             }
         });
 
@@ -439,6 +442,7 @@ public class FilterActivity extends AppCompatActivity {
 
                editor.apply();
                setRadioButtonsEnabled(DEFAULT_SORT_HOLDS);
+               updateFilterDisplay();
            }
        });
 
@@ -548,6 +552,9 @@ public class FilterActivity extends AppCompatActivity {
 
         holdsFound = exampleBoard.getHoldsInRange(min,max,gripTypesAllowed);
         holdsFoundAlternate = exampleBoard.getAlternateHoldsInRange(min,max,alternateFactor,gripTypesAllowed);
+        if (holdsFound.size() == 0 && holdsFoundAlternate.size() == 0) {
+            Toast.makeText(FilterActivity.this,"Warning!\nzero Holds found with these filter settings, workouts will not be created",Toast.LENGTH_SHORT).show();
+        }
         holdsFoundTextView.setText("Current hangboard: " + hangboardName + "\n" +
         "Different Holds found ("+min + "-"+ max + "): " + holdsFound.size()/2 + "\n" +
                 "Holds found (alterante): " + holdsFoundAlternate.size()/2 );

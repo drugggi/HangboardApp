@@ -1,15 +1,9 @@
 package com.finn.laakso.hangboardapp;
 
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.preference.PreferenceManager;
-import android.util.Log;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Random;
 
 /**
@@ -946,7 +940,6 @@ public class Hangboard {
         int minAlter = minDifficulty*2 / (alteringFactor+2);
         int maxAlter = maxDifficulty*( 2 + alteringFactor) / 2;
 
-        // Log.e("min/max altfac","min/max" + minDifficulty + "/" + maxDifficulty+ "  alt " + minAlter + "/" + maxAlter);
         for (int i = 0 ; i < allHangboardHolds.length ; i++) {
             if (gripFilter[allHangboardHolds[i].getGripStyleInt()-1] == false) {
                 continue;

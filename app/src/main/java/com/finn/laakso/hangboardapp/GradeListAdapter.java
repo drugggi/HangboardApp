@@ -11,7 +11,6 @@ import android.widget.ImageView;
 public class GradeListAdapter extends BaseAdapter {
 
     private final Context mContext;
-    private int selectGrade;
     static private int[] grade_images = new int[] {R.drawable.custom_grade_logo, R.drawable.fivea, R.drawable.fiveb,
     R.drawable.fivec, R.drawable.sixa, R.drawable.sixb, R.drawable.sixc, R.drawable.sevena,
     R.drawable.sevenb, R.drawable.sevenc, R.drawable.eighta, R.drawable.eightb};
@@ -22,7 +21,6 @@ public class GradeListAdapter extends BaseAdapter {
     }
 
     public GradeListAdapter(Context context) {
-        selectGrade = 0;
         this.mContext = context;
     }
 
