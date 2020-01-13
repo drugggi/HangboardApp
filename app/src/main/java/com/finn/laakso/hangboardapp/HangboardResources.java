@@ -3,8 +3,6 @@ package com.finn.laakso.hangboardapp;
 // HangboardResources manages Hangboard images, image resources, hold values and coordinates
 // name conversion between enums and strings etc.
 
-import android.util.Log;
-
 public final class  HangboardResources {
     public static final String[] grades = {"Custom","5A","5B","5C", "6A", "6B", "6C", "7A", "7B", "7C",
 "8A", "8B"};
@@ -44,7 +42,7 @@ public final class  HangboardResources {
             {50,45,40,35,30,28,26,24,22,20},
 
             {60,50,45,40,35,30,28,26,25,24},
-            {80,70,60,50,45,43,40,38,36,35},  // 8B
+            {100,95,90,80,75,70,65,60,55,50},  // 8B
     };
 
 
