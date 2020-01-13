@@ -223,7 +223,8 @@ public class MainActivity extends AppCompatActivity {
             everyBoard.setNewWorkoutHolds(holds);
         }
         else {
-            everyBoard.randomizeNewWorkoutHolds(grade_descr_position,timeControls);
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            everyBoard.newCustomWorkoutHolds(prefs);
         }
         // holdsAdapter = new  ArrayAdapter<String>(this, R.layout.mytextview, everyBoard.getGrips());
 
