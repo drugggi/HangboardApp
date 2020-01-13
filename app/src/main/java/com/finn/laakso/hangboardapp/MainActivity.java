@@ -524,7 +524,7 @@ public class MainActivity extends AppCompatActivity {
                     timeControls.setGripLaps((everyBoard.getCurrentHoldListSize()/2));
                 }
                 else {
-                    everyBoard.setGripAmount(timeControls.getGripLaps(),grade_descr_position);
+                    everyBoard.setGripAmount(timeControls,grade_descr_position);
                 }
 
                 if (!isChecked) {
@@ -571,7 +571,7 @@ public class MainActivity extends AppCompatActivity {
                     //timeControls.setProgramBasedOnTime(20 + progress * 15);
                     durationText = "Duration: " + timeControls.getTotalTime()/60 + "min";
 
-                    everyBoard.setGripAmount(timeControls.getGripLaps(),grade_descr_position);
+                    everyBoard.setGripAmount(timeControls,grade_descr_position);
 
 
                     if (!repeatersBox.isChecked() ) {
@@ -643,7 +643,7 @@ public class MainActivity extends AppCompatActivity {
                     // keep the old grips that user has maybe liked
                     if (i[0] != timeControls.getGripLaps()) {
                         timeControls.setTimeControls(i);
-                        everyBoard.setGripAmount(timeControls.getGripLaps(), grade_descr_position);
+                        everyBoard.setGripAmount(timeControls, grade_descr_position);
 
                         hangsAdapter.notifyDataSetChanged();
 
